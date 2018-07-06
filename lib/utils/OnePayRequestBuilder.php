@@ -29,6 +29,7 @@ namespace Transbank;
             // an $options object
             $options = buildOptions($options);
         }
+
         $request = new TransactionCreateRequest("externalUniqueNumber - Will be an UUID",
                                           $shoppingCart.getTotal(),
                                           $shoppingCart.getItemQuantity(),
@@ -38,9 +39,7 @@ namespace Transbank;
                                           'WEB'); # Channel, can be 'web' or 'mobile' for now
         $request.setApiKey($options.getApiKey());
         $request.setAppKey($options.getAppKey());
-
-        //TODO: Sign
-        return OnePaySignUtil.getInstance().sign(request, options.getSharedSecret());
+        return OnePaySignUtil.getInstance().sign($request, $options.getSharedSecret());
     }
 
     public static function buildOptions($options)

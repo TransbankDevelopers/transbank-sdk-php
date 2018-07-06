@@ -33,28 +33,6 @@ namespace Transbank;
         $request = json_encode(OnePayRequestBuilder.getInstance().build($shoppingCart, $options));
         $response = json_decode($http.post('host', 'path', $request), true);
         return $response;
-
-        // public static TransactionCreateResponse create(@NonNull ShoppingCart cart, Options options) throws IOException, InvalidKeyException, NoSuchAlgorithmException {
-        //     TransactionCreateRequest request = OnepayRequestBuilder.getInstance().build(cart, options);
-        //     String jsonIn = JsonUtil.getInstance().jsonEncode(request);
-        //     String jsonOut = request(new URL(String.format("%s/%s", SERVICE_URI, SEND_TRANSACTION)), RequestMethod.POST, jsonIn);
-        //     TransactionCreateResponse response = JsonUtil.getInstance().jsonDecode(jsonOut, TransactionCreateResponse.class);
-        //     return response;
-        // }
-        # Crea un OnePayRequest con el cart y las opciones y los appkey apikey etc
-        # Crea un transaction request a la URL en base a un shopping cart
-        # Luego JSON.stringify el request (String jsonIn)
-        # Luego hace el POST (String jsonOut)
-
-        # luego parsea la respuesta (CreateTransactionResponse response = ...)
-
-        # y la retorna
-        
-        # Create an http request to the SERVICE_URI with the cart in it, 
-        # and afterwards return the response
-
-
-
     }
 
  }
