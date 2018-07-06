@@ -21,13 +21,13 @@ namespace Transbank;
         if (!is_string($description)) {
             throw new Exception("Description is not a string");
         }
-        $this->$description = $description;
+        $this->description = $description;
     }
     /**
      * Get Description for an instance of Item
      */
     public function getDescription() {
-        return $this->$description;
+        return $this->description;
     }
     /**
      * Set the quantity for an instance of Item
@@ -36,13 +36,13 @@ namespace Transbank;
         if (!is_integer($quantity)) {
             throw new Exception ("quantity must be an Integer");
         }
-        $this->$quantity = $quantity;
+        $this->quantity = $quantity;
     }
     /**
     * Get the quantity for an instance of Item
     */
     public function getQuantity() {
-        return $this->$quantity;
+        return $this->quantity;
     }
     /**
      * Set the quantity for an instance of Item
@@ -51,13 +51,13 @@ namespace Transbank;
         if (!is_integer($amount)) {
             throw new Exception ("amount must be an Integer");
         }
-        $this->$amount = $amount;
+        $this->amount = $amount;
     }
     /**
      * Get the quantity for an instance of Item
      */
     public function getAmount($amount) {
-        return $this->$amount;
+        return $this->amount;
     }
     
     /**
@@ -67,13 +67,13 @@ namespace Transbank;
         if (!is_string($additionalData)) {
             throw new Exception ("Additional Data must be a String");
         }
-        $this->$additionalData = $additionalData;
+        $this->additionalData = $additionalData;
     }
     /**
      * Get the additional data for an instance of Item
      */
     public function getAdditionalData($additionalData) {
-        return $this->$additionalData;
+        return $this->additionalData;
     }
     /**
      * 
@@ -83,14 +83,14 @@ namespace Transbank;
         if (!is_long($expire)) {
             throw new Exception ("expire must be a Long");
         }
-        $this->$expire = $expire;
+        $this->expire = $expire;
     }
     /**
      * 
      * Get expire for an instance of Item
      */
     public function getExpire($expire) {
-        return $this->$expire;
+        return $this->expire;
     }
 
  }
