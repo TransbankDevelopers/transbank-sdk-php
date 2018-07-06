@@ -43,7 +43,7 @@ namespace Transbank;
 
         $crypted = hash_hmac('sha256', $data, $secret);
 
-        $transactionCreateRequest->setSignature(base64_encode(crypted));
+        $transactionCreateRequest->setSignature(base64_encode($crypted));
         return $transactionCreateRequest;
     }
  }
