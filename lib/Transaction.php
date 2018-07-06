@@ -30,8 +30,8 @@ namespace Transbank;
         }
 
         $http = new HttpClient();
-        $request = json_encode(OnePayRequestBuilder.getInstance().build($shoppingCart, $options));
-        $response = json_decode($http.post('host', 'path', $request), true);
+        $request = json_encode(OnePayRequestBuilder::getInstance()->build($shoppingCart, $options));
+        $response = json_decode($http->post('host', 'path', $request), true);
         return $response;
 
         // public static TransactionCreateResponse create(@NonNull ShoppingCart cart, Options options) throws IOException, InvalidKeyException, NoSuchAlgorithmException {
