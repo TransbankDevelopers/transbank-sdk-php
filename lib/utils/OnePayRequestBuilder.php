@@ -31,8 +31,8 @@ namespace Transbank;
         }
 
         $request = new TransactionCreateRequest("externalUniqueNumber - Will be an UUID",
-                                          $shoppingCart.getTotal(),
-                                          $shoppingCart.getItemQuantity(),
+                                          $shoppingCart->getTotal(),
+                                          $shoppingCart->getItemQuantity(),
                                           "issuedAt",
                                           $shoppingCart->getItems(),
                                           OnePay::getCallBackUrl(),

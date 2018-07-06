@@ -31,19 +31,19 @@ namespace Transbank;
             throw new Exception('Parameter \'$transactionCreateRequest\' must be a TransactionCreateRequest');
         }
 
-        $externalUniqueNumberAsString = (string)$transactionCreateRequest.getExternalUniqueNumber();
-        $totalAsString = (string)$transactionCreateRequest.getTotal();
-        $itemsQuantityAsString = (string)$transactionCreateRequest.getItemsQuantity();
-        $issuedAtAsString = (string)$transactionCreateRequest.getIssuedAt();
+        $externalUniqueNumberAsString = (string)$transactionCreateRequest->getExternalUniqueNumber();
+        $totalAsString = (string)$transactionCreateRequest->getTotal();
+        $itemsQuantityAsString = (string)$transactionCreateRequest->getItemsQuantity();
+        $issuedAtAsString = (string)$transactionCreateRequest->getIssuedAt();
 
         $data = mb_strlen($externalUniqueNumberAsString) . $externalUniqueNumberAsString;
         $data = $data . mb_strlen($totalAsString) . $totalAsString;
         $data = $data . mb_strlen($issuedAtAsString) . $issuedAtAsString;
-        $data = $data . mb_strlen(Onepay.getCallbackUrl()) . Onepay.getCallbackUrl();
+        $data = $data . mb_strlen(Onepay::getCallbackUrl()) . Onepay::getCallbackUrl();
 
         $crypted = hash_hmac('sha256', $data, $secret);
 
-        $transactionCreateRequest.setSignature(base64_encode(crypted));
+        $transactionCreateRequest->setSignature(base64_encode(crypted));
         return $transactionCreateRequest;
     }
  }
