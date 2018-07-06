@@ -34,19 +34,19 @@ namespace Transbank;
                                           $shoppingCart.getTotal(),
                                           $shoppingCart.getItemQuantity(),
                                           "issuedAt",
-                                          $shoppingCart.getItems(),
-                                          OnePay.getCallBackUrl(),
+                                          $shoppingCart->getItems(),
+                                          OnePay::getCallBackUrl(),
                                           'WEB'); # Channel, can be 'web' or 'mobile' for now
-        $request.setApiKey($options.getApiKey());
-        $request.setAppKey($options.getAppKey());
-        return OnePaySignUtil.getInstance().sign($request, $options.getSharedSecret());
+        $request->setApiKey($options->getApiKey());
+        $request->setAppKey($options->getAppKey());
+        return OnePaySignUtil::getInstance()->sign($request, $options->getSharedSecret());
     }
 
     public static function buildOptions($options)
     {
         if (!$options)
         {
-            return Options.getDefaults();
+            return Options::getDefaults();
         }
 
         // Not implemented yet, will check if this is necessary
