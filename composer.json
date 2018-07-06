@@ -1,0 +1,19 @@
+{
+    "name": "transbank/onepay-php",
+    "description": "Transbank SDK for OnePay",
+    "keywords": ["payments", "transbank", "api", "sdk"],
+    "require": {
+        "php": ">=5.4.0",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*"
+      },
+      "require-dev": {
+        "phpunit/phpunit": "~4.0",
+        "satooshi/php-coveralls": "~0.6.1",
+        "squizlabs/php_codesniffer": "~2.0"
+      },
+      "autoload": {
+        "psr-4": { "Transbank\\" : "lib/" }
+      }
+}
