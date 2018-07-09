@@ -29,7 +29,7 @@ namespace Transbank;
 
     public function add($item)
     {
-        $newTotal = $this->total + $item.getAmount();
+        $newTotal = $this->total + $item->getAmount();
         if ($newTotal < 0) {
             throw new Exception("Total amount cannot be less than zero.");
         }
@@ -41,7 +41,7 @@ namespace Transbank;
 
     public function remove($item)
     {
-        $newTotal = $this->total + $item.getAmount();
+        $newTotal = $this->total + $item->getAmount();
         if ($newTotal < 0) {
             throw new Exception("Total amount cannot be less than zero.");
         }
