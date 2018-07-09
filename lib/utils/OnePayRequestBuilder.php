@@ -39,7 +39,7 @@ namespace Transbank;
                                           'WEB'); # Channel, can be 'web' or 'mobile' for now
         $request->setApiKey($options->getApiKey());
         $request->setAppKey($options->getAppKey());
-        return OnePaySignUtil::getInstance()->sign($request, $options->getSharedSecret());
+        return OnePaySignUtil::getInstance()->sign($request, $options.getSharedSecret());
     }
 
     public static function buildOptions($options)
