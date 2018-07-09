@@ -9,7 +9,7 @@ final class TransactionTest extends TestCase
 
     public function testItWorks()
     {
-        echo "Test is running!";
+        echo "Test is running!\n";
         
         $this->assertEquals(
             true,
@@ -43,7 +43,7 @@ final class TransactionTest extends TestCase
 
         $response = Transaction::create($shoppingCart);
 
-        echo "transaction created";
+        echo "transaction created\n";
         echo json_encode($response);
 
 

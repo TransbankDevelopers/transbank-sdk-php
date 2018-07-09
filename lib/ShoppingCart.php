@@ -40,14 +40,7 @@ namespace Transbank;
 
         $this->total = $newTotal;
         array_push($this->items, $item);
-        echo "ADD shopping cart\n";
-        echo var_dump($item);
-        echo var_dump($this->items);
-
-        foreach($this->items as &$item) {
-            echo $item->getDescription();
-        }
-        return $this;
+        return $this->items;
     }
 
     public function remove($item)

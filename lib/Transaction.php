@@ -22,11 +22,11 @@ namespace Transbank;
         }
 
         $http = new HttpClient();
-        echo json_encode($shoppingCart->getItems(), true);
-        echo json_encode(get_object_vars($shoppingCart), true);
 
-        $request = json_encode(OnePayRequestBuilder::getInstance()->build($shoppingCart, $options));
-        return json_decode($http->post(OnePay::getIntegrationTypeUrl("TEST"),"/ewallet-plugin-api-services/services/transactionservice" ,$request), true);
+        $request = json_encode(OnePayRequestBuilder::getInstance()->build($shoppingCart, $options), JSON_UNESCAPED_SLASHES);
+        $path = '/ewallet-plugin-api-services/services/transactionservice' . '/' . self::SEND_TRANSACTION;
+        $response = $http->post(OnePay::getIntegrationTypeUrl("TEST"), $path ,$request);
+        return json_decode($response, true);
     }
 
  }

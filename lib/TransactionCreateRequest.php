@@ -14,6 +14,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
     private $callbackUrl; # String not null
     private $channel; # String not null
     private $signature; # String
+    private $generateOttQrCode = true;
 
     function __construct($externalUniqueNumber, $total, $itemsQuantity, $issuedAt,
                         $items, $callbackUrl, $channel) 

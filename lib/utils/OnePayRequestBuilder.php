@@ -28,16 +28,20 @@ namespace Transbank;
             $options = self::buildOptions($options);
         }
 
-        echo json_encode($shoppingCart->getItems());
-        $request = new TransactionCreateRequest("externalUniqueNumber - Will be an UUID",
+        $issuedAt = time();
+        $request = new TransactionCreateRequest(
+                                          Uuid::v4(),
                                           $shoppingCart->getTotal(),
                                           $shoppingCart->getItemQuantity(),
-                                          "issuedAt",
+                                          $issuedAt,
                                           $shoppingCart->getItems(),
                                           OnePay::getCallBackUrl(),
                                           'WEB'); # Channel, can be 'web' or 'mobile' for now
         $request->setApiKey($options->getApiKey());
         $request->setAppKey($options->getAppKey());
+
+        echo "shared secret is", "\n";
+        var_dump($options->getSharedSecret());
         return OnePaySignUtil::getInstance()->sign($request, $options->getSharedSecret());
     }
 
