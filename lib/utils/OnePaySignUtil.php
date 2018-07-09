@@ -39,7 +39,7 @@ namespace Transbank;
         $data = mb_strlen($externalUniqueNumberAsString) . $externalUniqueNumberAsString;
         $data = $data . mb_strlen($totalAsString) . $totalAsString;
         $data = $data . mb_strlen($issuedAtAsString) . $issuedAtAsString;
-        $data = $data . mb_strlen(Onepay::getCallbackUrl()) . Onepay::getCallbackUrl();
+        $data = $data . mb_strlen(OnePay::getCallbackUrl()) . OnePay::getCallbackUrl();
 
         $crypted = hash_hmac('sha256', $data, $secret);
 
