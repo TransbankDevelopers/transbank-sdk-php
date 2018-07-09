@@ -49,7 +49,16 @@ namespace Transbank;
             return Options::getDefaults();
         }
 
-        // Not implemented yet, will check if this is necessary
+        if (!$options->getApiKey()) {
+            $options->setApiKey(OnePay::getApiKey());
+        }
+
+        if (!$options->getAppKey()) {
+            $options->setAppKey(OnePay::getAppKey());
+        }
+        if (!$options->getSharedSecret()) {
+            $options->setSharedSecret(OnePay::getSharedSecret());
+        }
         return $options;
 
     }
