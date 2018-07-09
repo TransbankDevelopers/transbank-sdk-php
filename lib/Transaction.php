@@ -12,8 +12,7 @@ namespace Transbank;
     const SEND_TRANSACTION = "sendtransaction";
 
     public static function create($shoppingCart, $options = null) {
-        $isShoppingCart = $shoppingCart instanceof ShoppingCart;
-        if(!$isShoppingCart) {
+        if(!$shoppingCart instanceof ShoppingCart) {
             throw new Exception("Shopping cart is null or empty");
         }
 
