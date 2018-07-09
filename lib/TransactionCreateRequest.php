@@ -15,7 +15,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
     private $channel; # String not null
     private $signature; # String
 
-    function __construct($externalUniqueNumber, $total, $itemsQuantity, 
+    function __construct($externalUniqueNumber, $total, $itemsQuantity, $issuedAt,
                         $items, $callbackUrl, $channel) 
     {
         if (!$externalUniqueNumber) { 
@@ -47,9 +47,10 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
         }
 
         $this->items = $items;
+        $this->issuedAt = $issuedAt;
 
-        if (!$url) { throw new \Exception('url cannot be null'); }
-        $this->callbackUrl = $url;
+        if (!$callbackUrl) { throw new \Exception('callbackUrl cannot be null'); }
+        $this->callbackUrl = $callbackUrl;
 
         if(!$channel) {
             throw new \Exception('channel cannot be null.');
@@ -106,7 +107,17 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
     {
         return $this->itemsQuantity;
     }
-    
+
+    public function getIssuedAt()
+    {
+        return $this->issuedAt;
+    }
+
+    public function setIssuedAt($issuedAt)
+    {
+        $this->issuedAt = $issuedAt;
+    }
+
     public function setItems($items)
     {
         if (!is_array($items)) {
@@ -148,4 +159,14 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
         return $this->channel;
     }
 
+
+    public function setSignature($signature)
+    {
+        $this->signature = $signature;
+    }
+
+    public function getSignature()
+    {
+        return $this->signature;
+    }
 }

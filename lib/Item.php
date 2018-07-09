@@ -17,6 +17,20 @@ namespace Transbank;
     /**
      * Set Description for an instance of Item
      */
+
+    public function __construct($description, $quantity, $amount,
+                                $additionalData, $expire)
+    {
+        
+        $this->setDescription($description);
+        $this->setQuantity($quantity);
+        $this->setAmount($amount);
+        $this->setAdditionalData($additionalData);
+        $this->setExpire($expire);
+    }
+
+
+
     public function setDescription($description) {
         if (!is_string($description)) {
             throw new \Exception("Description is not a string");
@@ -64,6 +78,9 @@ namespace Transbank;
      * Set the additional data for an instance of Item
      */
     public function setAdditionalData($additionalData) {
+        if (is_null($additionalData)) {
+            $additionalData = "";
+        }
         if (!is_string($additionalData)) {
             throw new \Exception ("Additional Data must be a String");
         }

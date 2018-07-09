@@ -23,13 +23,12 @@ namespace Transbank;
 
     public function build($shoppingCart, $options)
     {
-        if ($options) 
+        if (!$options) 
         {
-            // I'm not sure this is needed, the $options param is already
-            // an $options object
-            $options = buildOptions($options);
+            $options = self::buildOptions($options);
         }
 
+        echo json_encode($shoppingCart->getItems());
         $request = new TransactionCreateRequest("externalUniqueNumber - Will be an UUID",
                                           $shoppingCart->getTotal(),
                                           $shoppingCart->getItemQuantity(),
@@ -39,7 +38,7 @@ namespace Transbank;
                                           'WEB'); # Channel, can be 'web' or 'mobile' for now
         $request->setApiKey($options->getApiKey());
         $request->setAppKey($options->getAppKey());
-        return OnePaySignUtil::getInstance()->sign($request, $options.getSharedSecret());
+        return OnePaySignUtil::getInstance()->sign($request, $options->getSharedSecret());
     }
 
     public static function buildOptions($options)
