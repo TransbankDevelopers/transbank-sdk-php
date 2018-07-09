@@ -28,7 +28,7 @@ namespace Transbank;
     public function setApiKey($apiKey)
     {
         if (!is_string($apiKey)) {
-            throw new Exception ('$apiKey must be a string.');
+            throw new \Exception ('$apiKey must be a string.');
         }
         $this->apiKey = $apiKey;
         return $this;
@@ -42,7 +42,7 @@ namespace Transbank;
     public function setAppKey($appKey)
     {
         if (!is_string($appKey)) {
-            throw new Exception ('$appKey must be a string.');
+            throw new \Exception ('$appKey must be a string.');
         }
         $this->appKey = $appKey;
         return $this;
@@ -56,7 +56,7 @@ namespace Transbank;
     public function setSharedSecret($sharedSecret)
     {
         if (!is_string($sharedSecret)) {
-            throw new Exception ('$appKey must be a string.');
+            throw new \Exception ('$appKey must be a string.');
         }
         $this->sharedSecret = $sharedSecret;
         return $this;

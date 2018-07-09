@@ -24,11 +24,11 @@ namespace Transbank;
     {
         if (!$secret)
         {
-            throw new Exception('Parameter \'$secret\' must not be null');
+            throw new \Exception('Parameter \'$secret\' must not be null');
         }
         if(!$transactionCreateRequest instanceof TransactionCreateRequest)
         {
-            throw new Exception('Parameter \'$transactionCreateRequest\' must be a TransactionCreateRequest');
+            throw new \Exception('Parameter \'$transactionCreateRequest\' must be a TransactionCreateRequest');
         }
 
         $externalUniqueNumberAsString = (string)$transactionCreateRequest->getExternalUniqueNumber();

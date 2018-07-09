@@ -31,7 +31,7 @@ namespace Transbank;
     {
         $newTotal = $this->total + $item->getAmount();
         if ($newTotal < 0) {
-            throw new Exception("Total amount cannot be less than zero.");
+            throw new \Exception("Total amount cannot be less than zero.");
         }
 
         $this->total = $newTotal;
@@ -43,7 +43,7 @@ namespace Transbank;
     {
         $newTotal = $this->total + $item->getAmount();
         if ($newTotal < 0) {
-            throw new Exception("Total amount cannot be less than zero.");
+            throw new \Exception("Total amount cannot be less than zero.");
         }
         $itemkey = array_search($item, $this->items);
         array_splice($this->items, $itemkey, 1);

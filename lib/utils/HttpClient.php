@@ -2,6 +2,13 @@
 namespace Transbank;
 
 class HttpClient {
+
+    public function __construct() 
+    {
+        // noop
+    }
+
+
     function post($host, $path, $data_to_send, $options = array('headers' => 0, 'transport' => 'https', 'port' => 443, 'proxy' => null)) {
         $transport = '';
         $port = 80;

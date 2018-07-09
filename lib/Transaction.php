@@ -13,7 +13,7 @@ namespace Transbank;
 
     public static function create($shoppingCart, $options = null) {
         if(!$shoppingCart instanceof ShoppingCart) {
-            throw new Exception("Shopping cart is null or empty");
+            throw new \Exception("Shopping cart is null or empty");
         }
 
         $http = new HttpClient();

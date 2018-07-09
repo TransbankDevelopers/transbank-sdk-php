@@ -19,40 +19,40 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
                         $items, $callbackUrl, $channel) 
     {
         if (!$externalUniqueNumber) { 
-            throw new Exception('External unique number cannot be null.');
+            throw new \Exception('External unique number cannot be null.');
         }
         $this->externalUniqueNumber = $externalUniqueNumber;
 
         if (!$total) { 
-            throw new Exception('Total cannot be null.');
+            throw new \Exception('Total cannot be null.');
         }
         if ($total < 0) {
-            throw new Exception('Total cannot be less than zero.');
+            throw new \Exception('Total cannot be less than zero.');
         }
         $this->total = $total;
 
         if (!$itemsQuantity) { 
-            throw new Exception('Items quantity cannot be null.');
+            throw new \Exception('Items quantity cannot be null.');
         }
         if ($itemsQuantity < 0) {
-            throw new Exception('Items quantity cannot be less than zero.');
+            throw new \Exception('Items quantity cannot be less than zero.');
         }
         $this->itemsQuantity = $itemsQuantity;
 
         if (!is_array($items)) {
-            throw new Exception('Items must be an array.');
+            throw new \Exception('Items must be an array.');
         }
         if (empty($items)) {
-            throw new Exception('Items must not be empty.');
+            throw new \Exception('Items must not be empty.');
         }
 
         $this->items = $items;
 
-        if (!$url) { throw new Exception('url cannot be null'); }
+        if (!$url) { throw new \Exception('url cannot be null'); }
         $this->callbackUrl = $url;
 
         if(!$channel) {
-            throw new Exception('channel cannot be null.');
+            throw new \Exception('channel cannot be null.');
         }
         $this->channel = $channel;
     }
@@ -65,7 +65,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
     public function setExternalUniqueNumber($externalUniqueNumber)
     {
         if (!$externalUniqueNumber) { 
-            throw new Exception('External unique number cannot be null.');
+            throw new \Exception('External unique number cannot be null.');
         }
         $this->externalUniqueNumber = $externalUniqueNumber;
     }
@@ -78,10 +78,10 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
     public function setTotal($total)
     {
         if (!$total) { 
-            throw new Exception('Total cannot be null.');
+            throw new \Exception('Total cannot be null.');
         }
         if ($total < 0) {
-            throw new Exception('Total cannot be less than zero.');
+            throw new \Exception('Total cannot be less than zero.');
         }
         $this->total = $total;
     }
@@ -94,10 +94,10 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
     public function setItemsQuantity($itemsQuantity)
     {
         if (!$itemsQuantity) { 
-            throw new Exception('Items quantity cannot be null.');
+            throw new \Exception('Items quantity cannot be null.');
         }
         if ($itemsQuantity < 0) {
-            throw new Exception('Items quantity cannot be less than zero.');
+            throw new \Exception('Items quantity cannot be less than zero.');
         }
         $this->itemsQuantity = $itemsQuantity;
     }
@@ -110,10 +110,10 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
     public function setItems($items)
     {
         if (!is_array($items)) {
-            throw new Exception('Items must be an array.');
+            throw new \Exception('Items must be an array.');
         }
         if (empty($items)) {
-            throw new Exception('Items must not be empty.');
+            throw new \Exception('Items must not be empty.');
         }
 
         $this->items = $items;
@@ -126,7 +126,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
 
     public function setCallbackUrl($url)
     {
-        if (!$url) { throw new Exception('url cannot be null'); }
+        if (!$url) { throw new \Exception('url cannot be null'); }
         $this->callbackUrl = $url;
     }
 
@@ -138,7 +138,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
     public function setChannel($channel)
     {
         if(!$channel) {
-            throw new Exception('channel cannot be null.');
+            throw new \Exception('channel cannot be null.');
         }
         $this->channel = $channel;
     }
