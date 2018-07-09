@@ -32,8 +32,14 @@ final class TransactionTest extends TestCase
 
         $shoppingCart = new ShoppingCart();
 
-        $shoppingCart->add(new Item("Zapatos", 1, 15000, null, -1));
-        $shoppingCart->add(new Item("Pantalon", 1, 12500, null, -1));
+        $firstItem = new Item("Zapatos", 1, 15000, null, -1);
+        $secondItem = new Item("Pantalon", 1, 12500, null, -1);
+
+        $shoppingCart->add($firstItem);
+        $shoppingCart->add($secondItem);
+
+        $this->assertEquals('Zapatos', $firstItem->getDescription());
+        $this->assertEquals('Pantalon', $secondItem->getDescription());
 
         $response = Transaction::create($shoppingCart);
 

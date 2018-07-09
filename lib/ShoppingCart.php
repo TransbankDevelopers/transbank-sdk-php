@@ -7,10 +7,14 @@ namespace Transbank;
  * @package Transbank
  */
 
- class ShoppingCart
+ class ShoppingCart implements \JsonSerializable
  {
-
-    function __construct() 
+    public function jsonSerialize() 
+    {
+        return get_object_vars($this);
+    }
+    
+    public function __construct() 
     {
         $this->items = array();
         $this->total = 0;
@@ -36,7 +40,14 @@ namespace Transbank;
 
         $this->total = $newTotal;
         array_push($this->items, $item);
-        return $this->items;
+        echo "ADD shopping cart\n";
+        echo var_dump($item);
+        echo var_dump($this->items);
+
+        foreach($this->items as &$item) {
+            echo $item->getDescription();
+        }
+        return $this;
     }
 
     public function remove($item)

@@ -9,12 +9,12 @@ class HttpClient {
     }
 
 
-    function post($host, $path, $data_to_send, $options = array('headers' => 0, 'transport' => 'https', 'port' => 443, 'proxy' => null)) {
+    function post($url, $path, $data_to_send, $options = array('headers' => 0, 'transport' => 'https', 'port' => 443, 'proxy' => null)) {
         $transport = '';
         $port = 80;
         if (!empty($options['transport'])) $transport = $options['transport'];
         if (!empty($options['port'])) $port = $options['port'];
-        $remote = $transport . '://' . $host . ':' . $port . $path;
+        $remote = $url  . ':' . $path;
 
         $http_options = array(
             'method' => 'POST',
@@ -37,6 +37,9 @@ class HttpClient {
 
         $fp = fopen($remote, 'r', false, $context);
 
+        echo "data to send\n";
+        echo var_dump($data_to_send);
+        echo $data_to_send;
         $response_metadata = stream_get_meta_data($fp);
 
         if (1 != preg_match("/^HTTP\/[0-9\.]* ([0-9]{3}) ([^\r\n]*)/", $response_metadata['wrapper_data'][0], $matches)) {

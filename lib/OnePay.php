@@ -12,7 +12,7 @@ namespace Transbank;
 */
 class OnePay 
 {
-    public static $integrationType = "Test";
+
 
     public static $appKey;
     public static $callbackUrl;
@@ -21,6 +21,7 @@ class OnePay
     public static $scriptPath;
     public static $apiKey;
     public static $sharedSecret;
+    const INTEGRATION_TYPES = array("TEST" => "https://web2desa.test.transbank.cl", "LIVE" => "");
 
     /**
      * Return the API key used for requests
@@ -78,5 +79,11 @@ class OnePay
     public static function setSharedSecret($sharedSecret)
     {
         self::$sharedSecret = $sharedSecret;
+    }
+
+
+    public static function getIntegrationTypeUrl($type)
+    {
+        return self::INTEGRATION_TYPES[$type];
     }
 }

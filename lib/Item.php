@@ -7,7 +7,8 @@ namespace Transbank;
  * @package Transbank
  */
 
- class Item {
+ class Item implements \JsonSerializable
+ {
 
     private $description;
     private $quantity;
@@ -29,8 +30,11 @@ namespace Transbank;
         $this->setExpire($expire);
     }
 
-
-
+    public function jsonSerialize() 
+    {
+        return get_object_vars($this);
+    }
+    
     public function setDescription($description) {
         if (!is_string($description)) {
             throw new \Exception("Description is not a string");
