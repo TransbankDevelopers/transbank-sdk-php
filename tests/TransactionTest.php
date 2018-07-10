@@ -28,8 +28,32 @@ final class TransactionTest extends TestCase
         $this->assertEquals('Pantalon', $secondItem->getDescription());
 
         $response = Transaction::create($shoppingCart);
+        $this->assertEquals($response["responseCode"], "OK");
+        $this->assertEquals($response["description"], "OK");
+        $this->assertNotNull($response["result"]["qrCodeAsBase64"]);
+    }
+
+    public function testTransactionWorksWithOptions()
+    {
+        $shoppingCart = new ShoppingCart();
+        $options = new Options();
+        $options->setApiKey("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg")
+                ->setAppKey("04533c31-fe7e-43ed-bbc4-1c8ab1538afp")
+                ->setSharedSecret("P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");;
+     
+        $firstItem = new Item("Zapatos", 1, 15000, null, -1);
+        $secondItem = new Item("Pantalon", 1, 12500, null, -1);
+
+        $shoppingCart->add($firstItem);
+        $shoppingCart->add($secondItem);
+
+        $this->assertEquals('Zapatos', $firstItem->getDescription());
+        $this->assertEquals('Pantalon', $secondItem->getDescription());
+
+        $response = Transaction::create($shoppingCart);
 
         $this->assertEquals($response["responseCode"], "OK");
         $this->assertEquals($response["description"], "OK");
+        $this->assertNotNull($response["result"]["qrCodeAsBase64"]);
     }
 }
