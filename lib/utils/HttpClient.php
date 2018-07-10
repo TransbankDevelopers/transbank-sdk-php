@@ -9,8 +9,6 @@ class HttpClient {
         if (!empty($options['transport'])) $transport = $options['transport'];
         if (!empty($options['port'])) $port = $options['port'];
         $remote = "https://web2desa.test.transbank.cl/ewallet-plugin-api-services/services/transactionservice/sendtransaction";#$url  . ':' . $path;
-        echo "remote is $remote\n";
-        echo "remote should be https://web2desa.test.transbank.cl/ewallet-plugin-api-services/services/transactionservice/sendtransaction \n";
         $http_options = array(
             'method' => 'POST',
             'header' => "Content-type: application/json",
@@ -33,8 +31,6 @@ class HttpClient {
         $fp = fopen($remote, 'r', false, $context);
 
         $response_metadata = stream_get_meta_data($fp);
-
-        var_dump($data_to_send);
         if (1 != preg_match("/^HTTP\/[0-9\.]* ([0-9]{3}) ([^\r\n]*)/", $response_metadata['wrapper_data'][0], $matches)) {
             trigger_error('httpPost: invalid HTTP reply.');
             fclose($fp);

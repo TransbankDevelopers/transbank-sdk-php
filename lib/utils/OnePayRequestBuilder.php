@@ -29,8 +29,9 @@ namespace Transbank;
         }
 
         $issuedAt = time();
+        $externalUniqueNumber = Uuid::v4();
         $request = new TransactionCreateRequest(
-                                          Uuid::v4(),
+                                          $externalUniqueNumber,
                                           $shoppingCart->getTotal(),
                                           $shoppingCart->getItemQuantity(),
                                           $issuedAt,
@@ -40,8 +41,6 @@ namespace Transbank;
         $request->setApiKey($options->getApiKey());
         $request->setAppKey($options->getAppKey());
 
-        echo "shared secret is", "\n";
-        var_dump($options->getSharedSecret());
         return OnePaySignUtil::getInstance()->sign($request, $options->getSharedSecret());
     }
 
