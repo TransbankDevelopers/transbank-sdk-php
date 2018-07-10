@@ -8,6 +8,7 @@ namespace Transbank;
  * 
  */
 
+
  class Options implements \JsonSerializable{
 
     private $apiKey;
@@ -16,6 +17,7 @@ namespace Transbank;
 
     public function __construct($apiKey = null, $appKey = null, $sharedSecret = null)
     {
+
         $this->setApiKey($apiKey);
         $this->setAppKey($appKey);
         $this->setSharedSecret($sharedSecret);

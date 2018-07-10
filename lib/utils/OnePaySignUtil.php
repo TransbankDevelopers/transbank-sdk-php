@@ -42,6 +42,7 @@ namespace Transbank;
         $data .= mb_strlen($issuedAtAsString) . $issuedAtAsString;
         $data .= mb_strlen(OnePay::getCallbackUrl()) . OnePay::getCallbackUrl();
 
+
         $crypted = hash_hmac('sha256', $data, $secret, true);
 
         $transactionCreateRequest->setSignature(base64_encode($crypted));

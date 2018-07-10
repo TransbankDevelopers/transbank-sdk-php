@@ -20,7 +20,6 @@ namespace Transbank;
         if(!$shoppingCart instanceof ShoppingCart) {
             throw new \Exception("Shopping cart is null or empty");
         }
-
         $http = new HttpClient();
 
         $request = json_encode(OnePayRequestBuilder::getInstance()->build($shoppingCart, $options), JSON_UNESCAPED_SLASHES);
