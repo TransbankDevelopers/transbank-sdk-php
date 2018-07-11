@@ -6,15 +6,19 @@ use PHPUnit\Framework\TestCase;
 
 final class TransactionTest extends TestCase
 {
+    const EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST = "8934751b-aa9a-45be-b686-1f45b6c45b02";
+    const OCC_TO_COMMIT_TRANSACTION_TEST = "1807419329781765";
     protected function setup()
     {
         OnePay::setSharedSecret("P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
         OnePay::setApiKey("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg");
         OnePay::setAppKey("04533c31-fe7e-43ed-bbc4-1c8ab1538afp");
-        OnePay::setCallbackUrl("localhost");
+        OnePay::setCallbackUrl("http://localhost:8080/ewallet-endpoints");
+
+    
     }
 
-    public function testTransactionWorksWithoutOptions()
+    public function testTransactionCreationWorksWithoutOptions()
     {
         $shoppingCart = new ShoppingCart();
 
@@ -33,7 +37,7 @@ final class TransactionTest extends TestCase
         $this->assertNotNull($response["result"]["qrCodeAsBase64"]);
     }
 
-    public function testTransactionWorksWithOptions()
+    public function testTransactionCreationWorksWithOptions()
     {
         $shoppingCart = new ShoppingCart();
         $options = new Options();
@@ -56,4 +60,35 @@ final class TransactionTest extends TestCase
         $this->assertEquals($response["description"], "OK");
         $this->assertNotNull($response["result"]["qrCodeAsBase64"]);
     }
+
+    public function testTransactionCommitWorks()
+    {
+        // Setting comerce data
+        $options = new Options();
+        $options->setApiKey("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg")
+                ->setAppKey("04533c31-fe7e-43ed-bbc4-1c8ab1538afp")
+                ->setSharedSecret("P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
+
+        // commit transaction
+        echo "occ\n";
+        echo self::OCC_TO_COMMIT_TRANSACTION_TEST;
+        $response = Transaction::commit(
+                                        self::OCC_TO_COMMIT_TRANSACTION_TEST,
+                                        self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
+                                        $options
+                                       );
+
+        $this->assertEquals($response["responseCode"], "OK");
+        $this->assertNotNull($response["authorizationCode"]);
+        // assert null != response && response.getResponseCode().equalsIgnoreCase("ok")
+        //         && null != response.getResult() && null != response.getResult().getAuthorizationCode();
+        // log.debug(response.toString());
+
+
+
+
+    }
+
+
+
 }

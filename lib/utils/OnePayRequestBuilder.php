@@ -21,7 +21,7 @@ namespace Transbank;
         return static::$instance;
     }
 
-    public function build($shoppingCart, $options)
+    public function buildCreateRequest($shoppingCart, $options)
     {
         if (!$options) 
         {
@@ -38,9 +38,20 @@ namespace Transbank;
                                           $shoppingCart->getItems(),
                                           OnePay::getCallBackUrl(),
                                           'WEB'); # Channel, can be 'web' or 'mobile' for now
-        $request->setApiKey($options->getApiKey());
-        $request->setAppKey($options->getAppKey());
 
+        self::setKeys($request, $options);
+        return OnePaySignUtil::getInstance()->sign($request, $options->getSharedSecret());
+    }
+
+    public function buildCommitRequest($occ, $externalUniqueNumber, $options)
+    {
+        if (!$options) 
+        {
+            $options = self::buildOptions($options);
+        }
+        $issuedAt = time();
+        $request = new TransactionCommitRequest($occ, $externalUniqueNumber, $issuedAt);
+        self::setKeys($request, $options);
         return OnePaySignUtil::getInstance()->sign($request, $options->getSharedSecret());
     }
 
@@ -62,7 +73,12 @@ namespace Transbank;
             $options->setSharedSecret(OnePay::getSharedSecret());
         }
         return $options;
+    }
 
+    public static function setKeys($request, $options)
+    {
+        $request->setApiKey($options->getApiKey());
+        $request->setAppKey($options->getAppKey());
     }
 
 
