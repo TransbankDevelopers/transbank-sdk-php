@@ -7,7 +7,6 @@ require_once(dirname(__FILE__) . '/lib/OnePay.php');
 require_once(dirname(__FILE__) . '/lib/utils/HttpClient.php');
 require_once(dirname(__FILE__) . '/lib/utils/OnePayRequestBuilder.php');
 require_once(dirname(__FILE__) . '/lib/utils/OnePaySignUtil.php');
-require_once(dirname(__FILE__) . '/lib/utils/Uuid.php');
 
 // Constants
 require_once(dirname(__FILE__) . '/lib/constants/Constants.php');
