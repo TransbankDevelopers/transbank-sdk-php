@@ -29,7 +29,7 @@ namespace Transbank;
         }
 
         $issuedAt = time();
-        $externalUniqueNumber = Uuid::v4();
+        $externalUniqueNumber = (int)(microtime(true) * 1000);
         $request = new TransactionCreateRequest(
                                           $externalUniqueNumber,
                                           $shoppingCart->getTotal(),
