@@ -24,11 +24,11 @@ namespace Transbank;
     {
         if (!$secret)
         {
-            throw new Exception('Parameter \'$secret\' must not be null');
+            throw new \Exception('Parameter \'$secret\' must not be null');
         }
         if(!$transactionCreateRequest instanceof TransactionCreateRequest)
         {
-            throw new Exception('Parameter \'$transactionCreateRequest\' must be a TransactionCreateRequest');
+            throw new \Exception('Parameter \'$transactionCreateRequest\' must be a TransactionCreateRequest');
         }
 
         $externalUniqueNumberAsString = (string)$transactionCreateRequest->getExternalUniqueNumber();
@@ -37,11 +37,13 @@ namespace Transbank;
         $issuedAtAsString = (string)$transactionCreateRequest->getIssuedAt();
 
         $data = mb_strlen($externalUniqueNumberAsString) . $externalUniqueNumberAsString;
-        $data = $data . mb_strlen($totalAsString) . $totalAsString;
-        $data = $data . mb_strlen($issuedAtAsString) . $issuedAtAsString;
-        $data = $data . mb_strlen(OnePay::getCallbackUrl()) . OnePay::getCallbackUrl();
+        $data .= mb_strlen($totalAsString) . $totalAsString;
+        $data .= mb_strlen($itemsQuantityAsString) . $itemsQuantityAsString;
+        $data .= mb_strlen($issuedAtAsString) . $issuedAtAsString;
+        $data .= mb_strlen(OnePay::getCallbackUrl()) . OnePay::getCallbackUrl();
 
-        $crypted = hash_hmac('sha256', $data, $secret);
+
+        $crypted = hash_hmac('sha256', $data, $secret, true);
 
         $transactionCreateRequest->setSignature(base64_encode($crypted));
         return $transactionCreateRequest;

@@ -55,6 +55,8 @@ class ComposerStaticInit594d011adc9ab0daf2bb526e03f514e1
         'Transbank\\' => 
         array (
             0 => __DIR__ . '/../..' . '/lib',
+            1 => __DIR__ . '/../..' . '/lib/utils',
+            2 => __DIR__ . '/../..' . '/lib/constants',
         ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (

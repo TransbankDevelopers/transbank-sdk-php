@@ -7,10 +7,14 @@ namespace Transbank;
  * @package Transbank
  */
 
- class ShoppingCart
+ class ShoppingCart implements \JsonSerializable
  {
-
-    function __construct() 
+    public function jsonSerialize() 
+    {
+        return get_object_vars($this);
+    }
+    
+    public function __construct() 
     {
         $this->items = array();
         $this->total = 0;
@@ -31,7 +35,7 @@ namespace Transbank;
     {
         $newTotal = $this->total + $item->getAmount();
         if ($newTotal < 0) {
-            throw new Exception("Total amount cannot be less than zero.");
+            throw new \Exception("Total amount cannot be less than zero.");
         }
 
         $this->total = $newTotal;
@@ -43,7 +47,7 @@ namespace Transbank;
     {
         $newTotal = $this->total + $item->getAmount();
         if ($newTotal < 0) {
-            throw new Exception("Total amount cannot be less than zero.");
+            throw new \Exception("Total amount cannot be less than zero.");
         }
         $itemkey = array_search($item, $this->items);
         array_splice($this->items, $itemkey, 1);

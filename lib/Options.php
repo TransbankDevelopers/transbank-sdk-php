@@ -8,16 +8,24 @@ namespace Transbank;
  * 
  */
 
- class Options {
+
+ class Options implements \JsonSerializable{
 
     private $apiKey;
     private $appKey;
     private $sharedSecret;
 
-    public function __construct($apiKey, $appKey, $sharedSecret) {
+    public function __construct($apiKey = null, $appKey = null, $sharedSecret = null)
+    {
+
         $this->setApiKey($apiKey);
         $this->setAppKey($appKey);
         $this->setSharedSecret($sharedSecret);
+    }
+
+    public function jsonSerialize() 
+    {
+        return get_object_vars($this);
     }
 
     public function getApiKey()
@@ -27,9 +35,6 @@ namespace Transbank;
 
     public function setApiKey($apiKey)
     {
-        if (!is_string($apiKey)) {
-            throw new Exception ('$apiKey must be a string.');
-        }
         $this->apiKey = $apiKey;
         return $this;
     }
@@ -41,9 +46,6 @@ namespace Transbank;
 
     public function setAppKey($appKey)
     {
-        if (!is_string($appKey)) {
-            throw new Exception ('$appKey must be a string.');
-        }
         $this->appKey = $appKey;
         return $this;
     }
@@ -55,9 +57,6 @@ namespace Transbank;
 
     public function setSharedSecret($sharedSecret)
     {
-        if (!is_string($sharedSecret)) {
-            throw new Exception ('$appKey must be a string.');
-        }
         $this->sharedSecret = $sharedSecret;
         return $this;
     }
@@ -66,5 +65,4 @@ namespace Transbank;
     {
         return new Options(OnePay::getApiKey(), OnePay::getAppKey(), OnePay::getSharedSecret());
     }
-
  }
