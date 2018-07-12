@@ -31,7 +31,7 @@ namespace Transbank;
     
     public function getOcc()
     {
-        return $this->$occ;
+        return $this->occ;
     }
 
     public function setOcc($occ)

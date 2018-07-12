@@ -32,6 +32,7 @@ final class TransactionTest extends TestCase
         $this->assertEquals('Pantalon', $secondItem->getDescription());
 
         $response = Transaction::create($shoppingCart);
+
         $this->assertEquals($response["responseCode"], "OK");
         $this->assertEquals($response["description"], "OK");
         $this->assertNotNull($response["result"]["qrCodeAsBase64"]);
@@ -70,23 +71,13 @@ final class TransactionTest extends TestCase
                 ->setSharedSecret("P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
 
         // commit transaction
-        echo "occ\n";
-        echo self::OCC_TO_COMMIT_TRANSACTION_TEST;
         $response = Transaction::commit(
                                         self::OCC_TO_COMMIT_TRANSACTION_TEST,
                                         self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
                                         $options
                                        );
-
         $this->assertEquals($response["responseCode"], "OK");
-        $this->assertNotNull($response["authorizationCode"]);
-        // assert null != response && response.getResponseCode().equalsIgnoreCase("ok")
-        //         && null != response.getResult() && null != response.getResult().getAuthorizationCode();
-        // log.debug(response.toString());
-
-
-
-
+        $this->assertNotNull($response["result"]["authorizationCode"]);
     }
 
 

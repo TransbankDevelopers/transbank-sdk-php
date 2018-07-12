@@ -31,9 +31,10 @@ namespace Transbank;
 
     public static function commit($occ, $externalUniqueNumber, $options)
     {
-        $request = json_encode(OnePayRequestBuilder::getInstance()->buildCommitRequest($occ, $externalUniqueNumber, $options));
+        $http = new HttpClient();
+        $request = json_encode(OnePayRequestBuilder::getInstance()->buildCommitRequest($occ, $externalUniqueNumber, $options), JSON_UNESCAPED_SLASHES);
         $path = '/ewallet-plugin-api-services/services/transactionservice' . '/' . self::COMMIT_TRANSACTION;
-        $response = $http->post(OnePay::getIntegrationTypeUrl("TEST"), $path, $request);
+        $response = $http->post(OnePay::getCurrentIntegrationTypeUrl(), $path, $request);
         return json_decode($response, true);
     }
  }

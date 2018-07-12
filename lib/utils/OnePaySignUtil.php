@@ -70,7 +70,7 @@ namespace Transbank;
         $externalUniqueNumber = $transactionCommitRequest->getExternalUniqueNumber();
         $issuedAtAsString = (string)$transactionCommitRequest->getIssuedAt();
 
-        $data = mb_strlen($occ) + $occ;
+        $data = mb_strlen($occ) . $occ;
         $data .= mb_strlen($externalUniqueNumber) . $externalUniqueNumber;
         $data .= mb_strlen($issuedAtAsString) . $issuedAtAsString;
 
