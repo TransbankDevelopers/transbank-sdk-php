@@ -17,9 +17,19 @@ namespace Transbank;
         $this->generateOttQrCode = true;
     }
 
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
     public function setApiKey($apiKey) 
     {
         $this->apiKey = $apiKey;
+    }
+
+    public function getAppKey()
+    {
+        return $this->appKey;
     }
 
     public function setAppKey($appKey) 
