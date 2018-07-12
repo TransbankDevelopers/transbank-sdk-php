@@ -23,9 +23,11 @@ class OnePay
     public static $sharedSecret;
     const INTEGRATION_TYPES = array("TEST" => "https://web2desa.test.transbank.cl", "LIVE" => "");
 
+    private static $integrationType = "TEST";
     /**
      * Return the API key used for requests
      */
+    
     public static function getApiKey()
     {
         return self::$apiKey;
@@ -81,9 +83,35 @@ class OnePay
         self::$sharedSecret = $sharedSecret;
     }
 
+    public static function getCurrentIntegrationTypeUrl()
+    {
+        return self::INTEGRATION_TYPES[self::$integrationType];
+    }
 
     public static function getIntegrationTypeUrl($type)
     {
-        return self::INTEGRATION_TYPES[$type];
+        $url = self::INTEGRATION_TYPES[$type];
+        if (!$url) {
+            $integrationTypes = array_keys(self::INTEGRATION_TYPES);
+            $integrationTypesAsString = join($integrationTypes, ", ");
+            throw new \Exception('Invalid integration type, valid values are: ' . $integrationTypesAsString);
+        }
+        return $url;
+
+    }
+
+    public static function getIntegrationType()
+    {
+        return self::$integrationType;
+    }
+
+    public static function setIntegrationType($type)
+    {
+        if (!self::INTEGRATION_TYPES[$type]) {
+            $integrationTypes = array_keys(self::INTEGRATION_TYPES);
+            $integrationTypesAsString = join($integrationTypes, ", ");
+            throw new \Exception('Invalid integration type, valid values are: ' . $integrationTypesAsString);
+        }
+        self::$integrationType = self::INTEGRATION_TYPES[$type];
     }
 }

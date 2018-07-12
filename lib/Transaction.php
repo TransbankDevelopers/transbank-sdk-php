@@ -2,10 +2,11 @@
 namespace Transbank;
 /**
  *  Class Transaction
+ *  This class creates or commits a transaction (that is, a purchase);
+ * 
+ * package @transbank;
  * 
  */
-
- /** Esto debe tener Channel (cliente HTTP) para poder conectarse a servicios */
  class Transaction {
     const SEND_TRANSACTION = "sendtransaction";
     const COMMIT_TRANSACTION = "gettransactionnumber";
@@ -22,10 +23,18 @@ namespace Transbank;
         }
         $http = new HttpClient();
 
-        $request = json_encode(OnePayRequestBuilder::getInstance()->build($shoppingCart, $options), JSON_UNESCAPED_SLASHES);
+        $request = json_encode(OnePayRequestBuilder::getInstance()->buildCreateRequest($shoppingCart, $options), JSON_UNESCAPED_SLASHES);
         $path = '/ewallet-plugin-api-services/services/transactionservice' . '/' . self::SEND_TRANSACTION;
         $response = $http->post(OnePay::getIntegrationTypeUrl("TEST"), $path ,$request);
         return json_decode($response, true);
     }
 
+    public static function commit($occ, $externalUniqueNumber, $options)
+    {
+        $http = new HttpClient();
+        $request = json_encode(OnePayRequestBuilder::getInstance()->buildCommitRequest($occ, $externalUniqueNumber, $options), JSON_UNESCAPED_SLASHES);
+        $path = '/ewallet-plugin-api-services/services/transactionservice' . '/' . self::COMMIT_TRANSACTION;
+        $response = $http->post(OnePay::getCurrentIntegrationTypeUrl(), $path, $request);
+        return json_decode($response, true);
+    }
  }

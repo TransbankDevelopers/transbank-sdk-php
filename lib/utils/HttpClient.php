@@ -8,7 +8,7 @@ class HttpClient {
         $port = 80;
         if (!empty($options['transport'])) $transport = $options['transport'];
         if (!empty($options['port'])) $port = $options['port'];
-        $remote = "https://web2desa.test.transbank.cl/ewallet-plugin-api-services/services/transactionservice/sendtransaction";#$url  . ':' . $path;
+        $remote = $url  .  $path;
         $http_options = array(
             'method' => 'POST',
             'header' => "Content-type: application/json",
