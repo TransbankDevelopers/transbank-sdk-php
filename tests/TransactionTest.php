@@ -33,9 +33,9 @@ final class TransactionTest extends TestCase
 
         $response = Transaction::create($shoppingCart);
 
-        $this->assertEquals($response["responseCode"], "OK");
-        $this->assertEquals($response["description"], "OK");
-        $this->assertNotNull($response["result"]["qrCodeAsBase64"]);
+        $this->assertEquals($response->getResponseCode(), "OK");
+        $this->assertEquals($response->getDescription(), "OK");
+        $this->assertNotNull($response->getQrCodeAsBase64());
     }
 
     public function testTransactionCreationWorksWithOptions()
@@ -57,9 +57,9 @@ final class TransactionTest extends TestCase
 
         $response = Transaction::create($shoppingCart);
 
-        $this->assertEquals($response["responseCode"], "OK");
-        $this->assertEquals($response["description"], "OK");
-        $this->assertNotNull($response["result"]["qrCodeAsBase64"]);
+        $this->assertEquals($response->getResponseCode(), "OK");
+        $this->assertEquals($response->getDescription(), "OK");
+        $this->assertNotNull($response->getQrCodeAsBase64());
     }
 
     public function testTransactionCommitWorks()

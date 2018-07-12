@@ -33,6 +33,23 @@ class TransactionCreateResponse extends BaseResponse implements \JsonSerializabl
         return get_object_vars($this);
     }
 
+    public function fromJSON($json)
+    {
+        if(is_string($json)) {
+            $json = json_decode($json, true);
+        }
+        if (!is_array($json)) {
+            throw new \Exception('Given value must be an associative array or a string that can be converted to an associative array with json_decode()');
+        }
+        print_r($json);
+        return $this->setResponseCode($json['responseCode'])
+                    ->setDescription($json['description'])
+                    ->setOcc($json['result']['occ'])
+                    ->setOtt($json['result']['ott'])
+                    ->setExternalUniqueNumber($json['result']['externalUniqueNumber'])
+                    ->setQrCodeAsBase64($json['result']['qrCodeAsBase64']);
+    }
+
     public function getOcc() {
         return $this->occ;
     }
@@ -40,6 +57,7 @@ class TransactionCreateResponse extends BaseResponse implements \JsonSerializabl
     public function setOcc($occ)
     {
         $this->occ = $occ;
+        return $this;
     }
 
     public function getOtt()
@@ -50,6 +68,7 @@ class TransactionCreateResponse extends BaseResponse implements \JsonSerializabl
     public function setOtt($ott)
     {
         $this->ott = $ott;
+        return $this;
     }
 
     public function getExternalUniqueNumber()
@@ -60,6 +79,7 @@ class TransactionCreateResponse extends BaseResponse implements \JsonSerializabl
     public function setExternalUniqueNumber($externalUniqueNumber)
     {
         $this->externalUniqueNumber = $externalUniqueNumber;
+        return $this;
     }
 
     public function getQrCodeAsBase64()
@@ -70,6 +90,7 @@ class TransactionCreateResponse extends BaseResponse implements \JsonSerializabl
     public function setQrCodeAsBase64($qrCodeAsBase64)
     {
         $this->qrCodeAsBase64 = $qrCodeAsBase64;
+        return $this;
     }
 
 }

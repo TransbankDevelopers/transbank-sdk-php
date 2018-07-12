@@ -144,5 +144,21 @@ class TransactionCommitResponse extends BaseResponse implements \JsonSerializabl
         return $this;
     }
 
+    public function fromJSON($json)
+    {
+        if(is_string($json)) {
+            $json = json_decode($json, true);
+        }
+        if (!is_array($json)) {
+            throw new \Exception('Given value must be an associative array or a string that can be converted to an associative array with json_decode()');
+        }
+
+        var_dump($json);
+        $this->setOcc($json['occ'])
+             ->setAuthorizationCode($json);
+
+
+    }
+
 
 }

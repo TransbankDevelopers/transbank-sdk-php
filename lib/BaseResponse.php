@@ -24,6 +24,7 @@ namespace Transbank;
     public function setResponseCode($apiKey) 
     {
         $this->responseCode = $apiKey;
+        return $this;
     }
 
     public function getDescription()
@@ -34,5 +35,6 @@ namespace Transbank;
     public function setDescription($appKey) 
     {
         $this->description = $appKey;
+        return $this;
     }
  }

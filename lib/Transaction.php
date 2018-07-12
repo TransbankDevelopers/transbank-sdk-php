@@ -25,8 +25,8 @@ namespace Transbank;
 
         $request = json_encode(OnePayRequestBuilder::getInstance()->buildCreateRequest($shoppingCart, $options), JSON_UNESCAPED_SLASHES);
         $path = '/ewallet-plugin-api-services/services/transactionservice' . '/' . self::SEND_TRANSACTION;
-        $response = $http->post(OnePay::getIntegrationTypeUrl("TEST"), $path ,$request);
-        return json_decode($response, true);
+        $httpResponse = $http->post(OnePay::getIntegrationTypeUrl("TEST"), $path ,$request);
+        return (new TransactionCreateResponse())->fromJSON($httpResponse);
     }
 
     public static function commit($occ, $externalUniqueNumber, $options)
