@@ -32,7 +32,6 @@ final class TransactionTest extends TestCase
         $this->assertEquals('Pantalon', $secondItem->getDescription());
 
         $response = Transaction::create($shoppingCart);
-
         $this->assertEquals($response->getResponseCode(), "OK");
         $this->assertEquals($response->getDescription(), "OK");
         $this->assertNotNull($response->getQrCodeAsBase64());
@@ -57,6 +56,7 @@ final class TransactionTest extends TestCase
 
         $response = Transaction::create($shoppingCart);
 
+        $this->assertEquals($response instanceof TransactionCreateResponse, true);
         $this->assertEquals($response->getResponseCode(), "OK");
         $this->assertEquals($response->getDescription(), "OK");
         $this->assertNotNull($response->getQrCodeAsBase64());
@@ -75,9 +75,11 @@ final class TransactionTest extends TestCase
                                         self::OCC_TO_COMMIT_TRANSACTION_TEST,
                                         self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
                                         $options
-                                       );
-        $this->assertEquals($response["responseCode"], "OK");
-        $this->assertNotNull($response["result"]["authorizationCode"]);
+                                       );   
+
+      #  $this->assertEquals($response instanceof TransactionCommitResponse, true);
+        $this->assertEquals($response instanceof TransactionCommitResponse, true);
+
     }
 
 

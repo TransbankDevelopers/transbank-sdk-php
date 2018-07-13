@@ -15,17 +15,20 @@ class TransactionCreateResponse extends BaseResponse implements \JsonSerializabl
     private $ott;
     private $externalUniqueNumber;
     private $qrCodeAsBase64;
+    private $issuedAt;
 
     public function __construct($occ = null,
                                 $ott = null,
                                 $externalUniqueNumber = null,
-                                $qrCodeAsBase64 = null)
+                                $qrCodeAsBase64 = null,
+                                $issuedAt = null)
     {
 
         $this->occ = $occ;
         $this->ott = $ott;
         $this->externalUniqueNumber = $externalUniqueNumber;
         $this->qrCodeAsBase64 = $qrCodeAsBase64;
+        $this->issuedAt = $issuedAt;
     }
 
     public function jsonSerialize() 
@@ -41,13 +44,13 @@ class TransactionCreateResponse extends BaseResponse implements \JsonSerializabl
         if (!is_array($json)) {
             throw new \Exception('Given value must be an associative array or a string that can be converted to an associative array with json_decode()');
         }
-        print_r($json);
         return $this->setResponseCode($json['responseCode'])
                     ->setDescription($json['description'])
                     ->setOcc($json['result']['occ'])
                     ->setOtt($json['result']['ott'])
                     ->setExternalUniqueNumber($json['result']['externalUniqueNumber'])
-                    ->setQrCodeAsBase64($json['result']['qrCodeAsBase64']);
+                    ->setQrCodeAsBase64($json['result']['qrCodeAsBase64'])
+                    ->setIssuedAt($json['result']['issuedAt']);
     }
 
     public function getOcc() {
@@ -90,6 +93,17 @@ class TransactionCreateResponse extends BaseResponse implements \JsonSerializabl
     public function setQrCodeAsBase64($qrCodeAsBase64)
     {
         $this->qrCodeAsBase64 = $qrCodeAsBase64;
+        return $this;
+    }
+
+    public function getIssuedAt()
+    {
+        return $this->issuedAt;
+    }
+
+    public function setIssuedAt($issuedAt)
+    {
+        $this->issuedAt = $issuedAt;
         return $this;
     }
 

@@ -43,7 +43,10 @@ class TransactionCommitResponse extends BaseResponse implements \JsonSerializabl
         $this->installmentAmount = $installmentsAmount;
         $this->installmentsNumber = $installmentsNumber;
     }
-
+    public function jsonSerialize() 
+    {
+        return get_object_vars($this);
+    }
 
     public function getOcc()
     {
@@ -152,12 +155,17 @@ class TransactionCommitResponse extends BaseResponse implements \JsonSerializabl
         if (!is_array($json)) {
             throw new \Exception('Given value must be an associative array or a string that can be converted to an associative array with json_decode()');
         }
+        $responseResult = $json['result'];
 
-        var_dump($json);
-        $this->setOcc($json['occ'])
-             ->setAuthorizationCode($json);
-
-
+        return $this->setOcc($responseResult['occ'])
+                    ->setAuthorizationCode($responseResult['authorizationCode'])
+                    ->setSignature($responseResult['signature'])
+                    ->setTransactionDesc($responseResult['transactionDesc'])
+                    ->setBuyOrder($responseResult['buyOrder'])
+                    ->setIssuedAt($responseResult['issuedAt'])
+                    ->setAmount($responseResult['amount'])
+                    ->setInstallmentsAmount($responseResult['installmentsAmount'])
+                    ->setInstallmentsNumber($responseResult['installmentsNumber']);
     }
 
 

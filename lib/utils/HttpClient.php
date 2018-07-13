@@ -8,6 +8,7 @@ class HttpClient {
         $port = 80;
         if (!empty($options['transport'])) $transport = $options['transport'];
         if (!empty($options['port'])) $port = $options['port'];
+
         $remote = $url  .  $path;
         $http_options = array(
             'method' => 'POST',
