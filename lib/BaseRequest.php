@@ -25,6 +25,7 @@ namespace Transbank;
     public function setApiKey($apiKey) 
     {
         $this->apiKey = $apiKey;
+        return $this;
     }
 
     public function getAppKey()
@@ -35,5 +36,6 @@ namespace Transbank;
     public function setAppKey($appKey) 
     {
         $this->appKey = $appKey;
+        return $this;
     }
  }
