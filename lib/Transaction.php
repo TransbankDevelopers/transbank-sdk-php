@@ -25,7 +25,7 @@ namespace Transbank;
 
         $request = json_encode(OnePayRequestBuilder::getInstance()->buildCreateRequest($shoppingCart, $options), JSON_UNESCAPED_SLASHES);
         $path = '/ewallet-plugin-api-services/services/transactionservice' . '/' . self::SEND_TRANSACTION;
-        $response = $http->post(OnePay::getIntegrationTypeUrl("TEST"), $path ,$request);
+        $response = $http->post(OnePay::getCurrentIntegrationTypeUrl(), $path ,$request);
         return json_decode($response, true);
     }
 
