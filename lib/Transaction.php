@@ -10,6 +10,7 @@ namespace Transbank;
  class Transaction {
     const SEND_TRANSACTION = "sendtransaction";
     const COMMIT_TRANSACTION = "gettransactionnumber";
+    const TRANSACTION_BASE_PATH = '/ewallet-plugin-api-services/services/transactionservice/';
 
     public static function getServiceUrl()
     {
@@ -24,7 +25,7 @@ namespace Transbank;
         $http = new HttpClient();
 
         $request = json_encode(OnePayRequestBuilder::getInstance()->buildCreateRequest($shoppingCart, $options), JSON_UNESCAPED_SLASHES);
-        $path = '/ewallet-plugin-api-services/services/transactionservice' . '/' . self::SEND_TRANSACTION;
+        $path = self::TRANSACTION_BASE_PATH . self::SEND_TRANSACTION;
         $httpResponse = $http->post(OnePay::getCurrentIntegrationTypeUrl(), $path ,$request);
         return (new TransactionCreateResponse())->fromJSON($httpResponse);
     }
@@ -33,7 +34,7 @@ namespace Transbank;
     {
         $http = new HttpClient();
         $request = json_encode(OnePayRequestBuilder::getInstance()->buildCommitRequest($occ, $externalUniqueNumber, $options), JSON_UNESCAPED_SLASHES);
-        $path = '/ewallet-plugin-api-services/services/transactionservice' . '/' . self::COMMIT_TRANSACTION;
+        $path = self::TRANSACTION_BASE_PATH . self::COMMIT_TRANSACTION;
         $httpResponse = $http->post(OnePay::getCurrentIntegrationTypeUrl(), $path, $request);
         return (new TransactionCommitResponse())->fromJSON($httpResponse);
     }
