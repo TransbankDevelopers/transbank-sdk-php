@@ -5,7 +5,9 @@ all: build run
 run: build
 	docker-compose run --service-ports web
 
-test: docker-compose run -service-ports web sh -c './sdktest'
+test:
+	build
+	docker-compose run -service-ports web sh -c './sdktest'
 
 build: .built .bundled
 
