@@ -32,6 +32,7 @@ class ComposerStaticInit594d011adc9ab0daf2bb526e03f514e1
             'Symfony\\Component\\Stopwatch\\' => 28,
             'Symfony\\Component\\Filesystem\\' => 29,
             'Symfony\\Component\\EventDispatcher\\' => 34,
+            'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Component\\Config\\' => 25,
         ),
@@ -81,6 +82,10 @@ class ComposerStaticInit594d011adc9ab0daf2bb526e03f514e1
         'Symfony\\Component\\EventDispatcher\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/event-dispatcher',
+        ),
+        'Symfony\\Component\\Debug\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/debug',
         ),
         'Symfony\\Component\\Console\\' => 
         array (

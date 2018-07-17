@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\Filesystem;
 
-use Symfony\Component\Filesystem\Exception\InvalidArgumentException;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 
@@ -251,7 +250,7 @@ class Filesystem
                 $this->chgrp(new \FilesystemIterator($file), $group, true);
             }
             if (is_link($file) && function_exists('lchgrp')) {
-                if (true !== @lchgrp($file, $group)) {
+                if (true !== @lchgrp($file, $group) || (defined('HHVM_VERSION') && !posix_getgrnam($group))) {
                     throw new IOException(sprintf('Failed to chgrp file "%s".', $file), 0, null, $file);
                 }
             } else {
@@ -446,12 +445,8 @@ class Filesystem
      */
     public function makePathRelative($endPath, $startPath)
     {
-        if (!$this->isAbsolutePath($startPath)) {
-            throw new InvalidArgumentException(sprintf('The start path "%s" is not absolute.', $startPath));
-        }
-
-        if (!$this->isAbsolutePath($endPath)) {
-            throw new InvalidArgumentException(sprintf('The end path "%s" is not absolute.', $endPath));
+        if (!$this->isAbsolutePath($endPath) || !$this->isAbsolutePath($startPath)) {
+            @trigger_error(sprintf('Support for passing relative paths to %s() is deprecated since Symfony 3.4 and will be removed in 4.0.', __METHOD__), E_USER_DEPRECATED);
         }
 
         // Normalize separators on Windows
@@ -475,11 +470,11 @@ class Filesystem
         $startPathArr = explode('/', trim($startPath, '/'));
         $endPathArr = explode('/', trim($endPath, '/'));
 
-        $normalizePathArray = function ($pathSegments) {
+        $normalizePathArray = function ($pathSegments, $absolute) {
             $result = array();
 
             foreach ($pathSegments as $segment) {
-                if ('..' === $segment) {
+                if ('..' === $segment && ($absolute || count($result))) {
                     array_pop($result);
                 } elseif ('.' !== $segment) {
                     $result[] = $segment;
@@ -489,8 +484,8 @@ class Filesystem
             return $result;
         };
 
-        $startPathArr = $normalizePathArray($startPathArr);
-        $endPathArr = $normalizePathArray($endPathArr);
+        $startPathArr = $normalizePathArray($startPathArr, static::isAbsolutePath($startPath));
+        $endPathArr = $normalizePathArray($endPathArr, static::isAbsolutePath($endPath));
 
         // Find for which directory the common path stops
         $index = 0;
@@ -724,15 +719,24 @@ class Filesystem
         }
     }
 
-    private function toIterable($files): iterable
+    /**
+     * @param mixed $files
+     *
+     * @return array|\Traversable
+     */
+    private function toIterable($files)
     {
         return is_array($files) || $files instanceof \Traversable ? $files : array($files);
     }
 
     /**
      * Gets a 2-tuple of scheme (may be null) and hierarchical part of a filename (e.g. file:///tmp -> array(file, tmp)).
+     *
+     * @param string $filename The filename to be parsed
+     *
+     * @return array The filename scheme and hierarchical part
      */
-    private function getSchemeAndHierarchy(string $filename): array
+    private function getSchemeAndHierarchy($filename)
     {
         $components = explode('://', $filename, 2);
 

@@ -40,12 +40,4 @@ class FloatNode extends NumericNode
             throw $ex;
         }
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getValidPlaceholderTypes(): array
-    {
-        return array('float');
-    }
 }

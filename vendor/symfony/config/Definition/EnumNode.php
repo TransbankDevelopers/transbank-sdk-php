@@ -22,14 +22,14 @@ class EnumNode extends ScalarNode
 {
     private $values;
 
-    public function __construct(?string $name, NodeInterface $parent = null, array $values = array(), string $pathSeparator = BaseNode::DEFAULT_PATH_SEPARATOR)
+    public function __construct($name, NodeInterface $parent = null, array $values = array())
     {
         $values = array_unique($values);
         if (empty($values)) {
             throw new \InvalidArgumentException('$values must contain at least one element.');
         }
 
-        parent::__construct($name, $parent, $pathSeparator);
+        parent::__construct($name, $parent);
         $this->values = $values;
     }
 
@@ -54,13 +54,5 @@ class EnumNode extends ScalarNode
         }
 
         return $value;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function allowPlaceholders(): bool
-    {
-        return false;
     }
 }

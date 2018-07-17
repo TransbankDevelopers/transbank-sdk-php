@@ -1,0 +1,4 @@
+./vscode
+.built
+.bundled
+./vendor

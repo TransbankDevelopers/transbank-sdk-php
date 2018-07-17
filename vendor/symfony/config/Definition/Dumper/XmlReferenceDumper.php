@@ -41,7 +41,13 @@ class XmlReferenceDumper
         return $ref;
     }
 
-    private function writeNode(NodeInterface $node, int $depth = 0, bool $root = false, string $namespace = null)
+    /**
+     * @param NodeInterface $node
+     * @param int           $depth
+     * @param bool          $root      If the node is the root node
+     * @param string        $namespace The namespace of the node
+     */
+    private function writeNode(NodeInterface $node, $depth = 0, $root = false, $namespace = null)
     {
         $rootName = ($root ? 'config' : $node->getName());
         $rootNamespace = ($namespace ?: ($root ? 'http://example.org/schema/dic/'.$node->getName() : null));
@@ -253,8 +259,11 @@ class XmlReferenceDumper
 
     /**
      * Outputs a single config reference line.
+     *
+     * @param string $text
+     * @param int    $indent
      */
-    private function writeLine(string $text, int $indent = 0)
+    private function writeLine($text, $indent = 0)
     {
         $indent = strlen($text) + $indent;
         $format = '%'.$indent.'s';
@@ -266,8 +275,10 @@ class XmlReferenceDumper
      * Renders the string conversion of the value.
      *
      * @param mixed $value
+     *
+     * @return string
      */
-    private function writeValue($value): string
+    private function writeValue($value)
     {
         if ('%%%%not_defined%%%%' === $value) {
             return '';
