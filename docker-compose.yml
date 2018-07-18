@@ -10,5 +10,4 @@ services:
     volumes:
       - .:/sdk
     ports:
-      - "80:80"
       - "8000:8000"
