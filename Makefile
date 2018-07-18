@@ -15,7 +15,7 @@ build: .built .bundled
 	touch .built
 
 .bundled: composer.json composer.lock
-	docker-compose run web composer install
+	docker-compose run --rm web composer install
 	touch .bundled
 
 stop:
