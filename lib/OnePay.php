@@ -21,14 +21,28 @@ class OnePay
     public static $scriptPath;
     public static $apiKey;
     public static $sharedSecret;
-    const INTEGRATION_TYPES = array("TEST" => 'https://web2desa.test.transbank.cl',
-                                    "LIVE" => '',
-                                    "MOCK" => 'http://onepay.getsandbox.com');
-
     private static $integrationType = "MOCK";
     /**
      * Return the API key used for requests
      */
+
+    public static function integrationTypes($type = null) {
+
+        $types = array("TEST" => 'https://web2desa.test.transbank.cl',
+                        "LIVE" => '',
+                        "MOCK" => 'http://onepay.getsandbox.com');
+
+
+        if (!$type) {
+            return $types;
+        }
+        else if (!$types[$type]) {
+            throw new \Exception('Invalid type, valid types: ' . join(array_keys($types), ", "));
+        }
+        else {
+            return $types[$type];
+        }
+    }
     
     public static function getApiKey()
     {
@@ -87,14 +101,14 @@ class OnePay
 
     public static function getCurrentIntegrationTypeUrl()
     {
-        return self::INTEGRATION_TYPES[self::$integrationType];
+        return self::integrationTypes()[self::$integrationType];
     }
 
     public static function getIntegrationTypeUrl($type)
     {
-        $url = self::INTEGRATION_TYPES[$type];
+        $url = self::integrationTypes()[$type];
         if (!$url) {
-            $integrationTypes = array_keys(self::INTEGRATION_TYPES);
+            $integrationTypes = array_keys(self::integrationTypes());
             $integrationTypesAsString = join($integrationTypes, ", ");
             throw new \Exception('Invalid integration type, valid values are: ' . $integrationTypesAsString);
         }
@@ -109,11 +123,11 @@ class OnePay
 
     public static function setIntegrationType($type)
     {
-        if (!self::INTEGRATION_TYPES[$type]) {
-            $integrationTypes = array_keys(self::INTEGRATION_TYPES);
+        if (!self::integrationTypes()[$type]) {
+            $integrationTypes = array_keys(self::integrationTypes());
             $integrationTypesAsString = join($integrationTypes, ", ");
             throw new \Exception('Invalid integration type, valid values are: ' . $integrationTypesAsString);
         }
-        self::$integrationType = self::INTEGRATION_TYPES[$type];
+        self::$integrationType = self::integrationTypes()[$type];
     }
 }
