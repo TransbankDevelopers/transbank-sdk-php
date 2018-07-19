@@ -40,16 +40,82 @@ namespace Transbank;
         {
             throw new \Exception('Parameter \'$transactionCreateRequest\' must be a TransactionCreateRequest');
         }
-
-
     }
 
     private function signTransactionCreateRequest($transactionCreateRequest, $secret)
     {
-        $externalUniqueNumberAsString = (string)$transactionCreateRequest->getExternalUniqueNumber();
-        $totalAsString = (string)$transactionCreateRequest->getTotal();
-        $itemsQuantityAsString = (string)$transactionCreateRequest->getItemsQuantity();
-        $issuedAtAsString = (string)$transactionCreateRequest->getIssuedAt();
+        $signature = $this->buildSignature($transactionCreateRequest, $secret);
+        // Setters of TransactionCreateRequest return the modified object.
+        return $transactionCreateRequest->setSignature($signature);
+    }
+
+    private function signTransactionCommitRequest($transactionCommitRequest, $secret)
+    {
+        $signature = $this->buildSignatureTransactionCommit($transactionCommitRequest,
+                                                            $secret);
+        // TransactionCommitRequest setters return the object after execution.
+        return $transactionCommitRequest->setSignature($signature);
+    }
+
+
+    public function validate($signable, $secret)
+    {
+        if ($signable instanceof TransactionCommitRequest 
+            || $signable instanceof TransactionCreateResponse
+            || $signable instanceof TransactionCreateRequest) {
+            $signed = $this->buildSignature($signable, $secret);
+        }
+        else {
+            throw new SignException('Unknown type of signable.');
+        }
+
+        return $signable->getSignature() == $signed;
+    }
+    
+
+    private function buildSignature($signable, $secret)
+    {
+        if ($signable instanceof TransactionCommitRequest || $signable instanceof TransactionCreateResponse) {
+            // Both the TransactionCommitRequest and TransactionCreateResponse
+            // build their signatures the same way.
+            return $this->buildSignatureTransactionCommit($signable, $secret);
+        }
+        if ($signable instanceof TransactionCreateRequest) {
+            return $this->buildSignatureTransactionCreate($signable, $secret);
+        }
+        throw new SignException('Unknown type of signable.');
+    }
+
+    private function buildSignatureTransactionCommit($signable, $secret)
+    {
+        if (!$signable instanceof TransactionCommitRequest && !$signable instanceof TransactionCreateResponse) {
+            throw new SignException('Unknown type of signable.');
+        }
+
+        $occ = $signable->getOcc();
+        $externalUniqueNumber = $signable->getExternalUniqueNumber();
+        $issuedAtAsString = (string)$signable->getIssuedAt();
+
+        if (!$occ || !$externalUniqueNumber) {
+            throw new SignException('occ / externalUniqueNumber cannot be null.');
+        }
+
+        $data = mb_strlen($occ) . $occ;
+        $data .= mb_strlen($externalUniqueNumber) . $externalUniqueNumber;
+        $data .= mb_strlen($issuedAtAsString) . $issuedAtAsString;
+        return base64_encode(hash_hmac('sha256', $data, $secret, true));
+    }
+
+    private function buildSignatureTransactionCreate($signable, $secret)
+    {
+        if (!$signable instanceof TransactionCreateRequest) {
+            throw new SignException('Unknown type of signable.');
+        }
+
+        $externalUniqueNumberAsString = (string)$signable->getExternalUniqueNumber();
+        $totalAsString = (string)$signable->getTotal();
+        $itemsQuantityAsString = (string)$signable->getItemsQuantity();
+        $issuedAtAsString = (string)$signable->getIssuedAt();
 
         $data = mb_strlen($externalUniqueNumberAsString) . $externalUniqueNumberAsString;
         $data .= mb_strlen($totalAsString) . $totalAsString;
@@ -59,24 +125,7 @@ namespace Transbank;
 
 
         $crypted = hash_hmac('sha256', $data, $secret, true);
-
-        $transactionCreateRequest->setSignature(base64_encode($crypted));
-        return $transactionCreateRequest;
+        return base64_encode($crypted);
     }
 
-    private function signTransactionCommitRequest($transactionCommitRequest, $secret)
-    {
-        $occ = $transactionCommitRequest->getOcc();
-        $externalUniqueNumber = $transactionCommitRequest->getExternalUniqueNumber();
-        $issuedAtAsString = (string)$transactionCommitRequest->getIssuedAt();
-
-        $data = mb_strlen($occ) . $occ;
-        $data .= mb_strlen($externalUniqueNumber) . $externalUniqueNumber;
-        $data .= mb_strlen($issuedAtAsString) . $issuedAtAsString;
-
-        $crypted = hash_hmac('sha256', $data, $secret, true);
-
-        $transactionCommitRequest->setSignature(base64_encode($crypted));
-        return $transactionCommitRequest;
-    }
  }
