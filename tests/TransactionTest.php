@@ -3,6 +3,7 @@
 namespace Transbank;
 
 use PHPUnit\Framework\TestCase;
+require_once(__DIR__ . '/mocks/ShoppingCartMocks.php');
 
 final class TransactionTest extends TestCase
 {
@@ -14,23 +15,11 @@ final class TransactionTest extends TestCase
         OnePay::setApiKey("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg");
         OnePay::setAppKey("04533c31-fe7e-43ed-bbc4-1c8ab1538afp");
         OnePay::setCallbackUrl("http://localhost:8080/ewallet-endpoints");
-
-    
     }
 
     public function testTransactionCreationWorksWithoutOptions()
     {
-        $shoppingCart = new ShoppingCart();
-
-        $firstItem = new Item("Zapatos", 1, 15000, null, -1);
-        $secondItem = new Item("Pantalon", 1, 12500, null, -1);
-
-        $shoppingCart->add($firstItem);
-        $shoppingCart->add($secondItem);
-
-        $this->assertEquals('Zapatos', $firstItem->getDescription());
-        $this->assertEquals('Pantalon', $secondItem->getDescription());
-
+        $shoppingCart = ShoppingCartMocks::get();
         $response = Transaction::create($shoppingCart);
         $this->assertEquals($response->getResponseCode(), "OK");
         $this->assertEquals($response->getDescription(), "OK");

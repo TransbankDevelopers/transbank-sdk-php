@@ -45,31 +45,30 @@ namespace Transbank;
     private function signTransactionCreateRequest($transactionCreateRequest, $secret)
     {
         $signature = $this->buildSignature($transactionCreateRequest, $secret);
-        // Setters of TransactionCreateRequest return the modified object.
-        return $transactionCreateRequest->setSignature($signature);
+        $transactionCreateRequest->setSignature($signature);
+        return $transactionCreateRequest;
     }
 
     private function signTransactionCommitRequest($transactionCommitRequest, $secret)
     {
         $signature = $this->buildSignatureTransactionCommit($transactionCommitRequest,
                                                             $secret);
-        // TransactionCommitRequest setters return the object after execution.
-        return $transactionCommitRequest->setSignature($signature);
+        $transactionCommitRequest->setSignature($signature);
+        return $transactionCommitRequest;
     }
 
 
     public function validate($signable, $secret)
     {
-        if ($signable instanceof TransactionCommitRequest 
-            || $signable instanceof TransactionCreateResponse
-            || $signable instanceof TransactionCreateRequest) {
+        if ($signable instanceof TransactionCreateResponse) {
             $signed = $this->buildSignature($signable, $secret);
         }
         else {
-            throw new SignException('Unknown type of signable.');
+            throw new SignException('Given signable object is not validatable.');
         }
 
-        return $signable->getSignature() == $signed;
+       $signable->getSignature() == $signed;
+       return $signable;
     }
     
 
