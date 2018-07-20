@@ -25,6 +25,7 @@ namespace Transbank;
         $http = new HttpClient();
 
         $request = json_encode(OnePayRequestBuilder::getInstance()->buildCreateRequest($shoppingCart, $options), JSON_UNESCAPED_SLASHES);
+        
         $path = self::TRANSACTION_BASE_PATH . self::SEND_TRANSACTION;
         $httpResponse = $http->post(OnePay::getCurrentIntegrationTypeUrl(), $path ,$request);
         return (new TransactionCreateResponse())->fromJSON($httpResponse);

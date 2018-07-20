@@ -16,7 +16,7 @@ class TransactionCreateResponse extends BaseResponse implements \JsonSerializabl
     private $externalUniqueNumber;
     private $qrCodeAsBase64;
     private $issuedAt;
-
+    private $signature;
     public function __construct($occ = null,
                                 $ott = null,
                                 $externalUniqueNumber = null,
@@ -50,7 +50,8 @@ class TransactionCreateResponse extends BaseResponse implements \JsonSerializabl
                     ->setOtt($json['result']['ott'])
                     ->setExternalUniqueNumber($json['result']['externalUniqueNumber'])
                     ->setQrCodeAsBase64($json['result']['qrCodeAsBase64'])
-                    ->setIssuedAt($json['result']['issuedAt']);
+                    ->setIssuedAt($json['result']['issuedAt'])
+                    ->setSignature($json['result']['signature']);
     }
 
     public function getOcc() {
@@ -104,6 +105,16 @@ class TransactionCreateResponse extends BaseResponse implements \JsonSerializabl
     public function setIssuedAt($issuedAt)
     {
         $this->issuedAt = $issuedAt;
+        return $this;
+    }
+
+    public function getSignature()
+    {
+        return $this->signature;
+    }
+    public function setSignature($signature)
+    {
+        $this->signature = $signature;
         return $this;
     }
 
