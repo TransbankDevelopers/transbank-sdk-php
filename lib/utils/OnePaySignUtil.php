@@ -1,5 +1,7 @@
 <?php
 namespace Transbank;
+use Transbank\OnePay\Exceptions\SignException as SignException;
+
 /**
  * class OnePaySignUtil;
  * 
@@ -24,7 +26,7 @@ namespace Transbank;
     {
         if (!$secret)
         {
-            throw new \Exception('Parameter \'$secret\' must not be null');
+            throw new SignException('Parameter \'$secret\' must not be null');
         }
 
         if ($requestToSign instanceof TransactionCreateRequest) {
@@ -34,12 +36,7 @@ namespace Transbank;
         if ($requestToSign instanceof TransactionCommitRequest) {
             return self::getInstance()->signTransactionCommitRequest($requestToSign, $secret);
         }
-
-
-        if(!$transactionCreateRequest instanceof TransactionCreateRequest)
-        {
-            throw new \Exception('Parameter \'$transactionCreateRequest\' must be a TransactionCreateRequest');
-        }
+       throw new SignException('Parameter \'$requestToSign\' must be a TransactionCreateRequest or TransactionCommitRequest');
     }
 
     private function signTransactionCreateRequest($transactionCreateRequest, $secret)
@@ -51,7 +48,7 @@ namespace Transbank;
 
     private function signTransactionCommitRequest($transactionCommitRequest, $secret)
     {
-        $signature = $this->buildSignatureTransactionCommit($transactionCommitRequest,
+        $signature = $this->buildSignatureTransactionCommitRequestOrCreateResponse($transactionCommitRequest,
                                                             $secret);
         $transactionCommitRequest->setSignature($signature);
         return $transactionCommitRequest;
@@ -60,32 +57,39 @@ namespace Transbank;
 
     public function validate($signable, $secret)
     {
+
         if ($signable instanceof TransactionCreateResponse) {
+            $signed = $this->buildSignature($signable, $secret);
+        }
+        else if ($signable instanceof TransactionCommitResponse) {
             $signed = $this->buildSignature($signable, $secret);
         }
         else {
             throw new SignException('Given signable object is not validatable.');
         }
 
-       $signable->getSignature() == $signed;
-       return $signable;
+       return $signable->getSignature() == $signed;
     }
     
-
     private function buildSignature($signable, $secret)
     {
         if ($signable instanceof TransactionCommitRequest || $signable instanceof TransactionCreateResponse) {
             // Both the TransactionCommitRequest and TransactionCreateResponse
             // build their signatures the same way.
-            return $this->buildSignatureTransactionCommit($signable, $secret);
+            return $this->buildSignatureTransactionCommitRequestOrCreateResponse($signable, $secret);
         }
-        if ($signable instanceof TransactionCreateRequest) {
-            return $this->buildSignatureTransactionCreate($signable, $secret);
+        else if ($signable instanceof TransactionCreateRequest) {
+            return $this->buildSignatureTransactionCreateRequest($signable, $secret);
         }
-        throw new SignException('Unknown type of signable.');
+        else if ($signable instanceof TransactionCommitResponse) {
+            return $this->buildSignatureTransactionCommitResponse($signable, $secret);
+        }
+        else {
+            throw new SignException('Unknown type of signable.');
+        }
     }
 
-    private function buildSignatureTransactionCommit($signable, $secret)
+    private function buildSignatureTransactionCommitRequestOrCreateResponse($signable, $secret)
     {
         if (!$signable instanceof TransactionCommitRequest && !$signable instanceof TransactionCreateResponse) {
             throw new SignException('Unknown type of signable.');
@@ -105,7 +109,7 @@ namespace Transbank;
         return base64_encode(hash_hmac('sha256', $data, $secret, true));
     }
 
-    private function buildSignatureTransactionCreate($signable, $secret)
+    private function buildSignatureTransactionCreateRequest($signable, $secret)
     {
         if (!$signable instanceof TransactionCreateRequest) {
             throw new SignException('Unknown type of signable.');
@@ -126,5 +130,33 @@ namespace Transbank;
         $crypted = hash_hmac('sha256', $data, $secret, true);
         return base64_encode($crypted);
     }
+
+    private function buildSignatureTransactionCommitResponse($signable, $secret)
+    {
+        if(!$signable instanceof TransactionCommitResponse) {
+            throw new SignException('Unknown type of signable.');
+        }
+
+        $occ = $signable->getOcc();
+        $authorizationCode = $signable->getAuthorizationCode();
+        $issuedAtAsString = (string)$signable->getIssuedAt();
+        $amountAsString = (string)$signable->getAmount();
+        $installmentsAmountAsString = (string)$signable->getInstallmentsAmount();
+        $installmentsNumberAsString = (string)$signable->getInstallmentsNumber();
+        $buyOrder = (string)$signable->getBuyOrder();
+
+        $data = mb_strlen($occ) . $occ;
+        $data .= mb_strlen($authorizationCode) . $authorizationCode;
+        $data .= mb_strlen($issuedAtAsString) . $issuedAtAsString;
+        $data .= mb_strlen($amountAsString) . $amountAsString;
+        $data .= mb_strlen($installmentsAmountAsString) . $installmentsAmountAsString;
+        $data .= mb_strlen($installmentsNumberAsString) . $installmentsNumberAsString;
+        $data .= mb_strlen($buyOrder) . $buyOrder;
+
+        $crypted = hash_hmac('sha256', $data, $secret, true);
+        return base64_encode($crypted);
+    }
+
+
 
  }

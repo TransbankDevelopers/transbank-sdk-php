@@ -6,6 +6,10 @@ use PHPUnit\Framework\TestCase;
 
 require_once(__DIR__ . '/mocks/TransactionCreateRequestMocks.php');
 require_once(__DIR__ . '/mocks/TransactionCommitRequestMocks.php');
+require_once(__DIR__ . '/mocks/ShoppingCartMocks.php');
+require_once(__DIR__ . '/mocks/TransactionCreateResponseMocks.php');
+require_once(__DIR__ . '/mocks/TransactionCommitResponseMocks.php');
+
 final class OnePaySignUtilTest extends TestCase
 {
 
@@ -16,8 +20,14 @@ final class OnePaySignUtilTest extends TestCase
         OnePay::setAppKey("04533c31-fe7e-43ed-bbc4-1c8ab1538afp");
         OnePay::setCallbackUrl("http://localhost:8080/ewallet-endpoints");
         $this->secret = OnePay::getSharedSecret();
+
         $this->transactionCreateRequestTestObject = TransactionCreateRequestMocks::get();
+        $this->transactionCreateResponseTestObject = TransactionCreateResponseMocks::get();
+
         $this->transactionCommitRequestTestObject = TransactionCommitRequestMocks::get();
+        $this->transactionCommitResponseTestObject = TransactionCommitResponseMocks::get();
+
+        $this->shoppingCartTestObject = ShoppingCartMocks::get();
     }
 
 
@@ -68,34 +78,40 @@ final class OnePaySignUtilTest extends TestCase
         $this->assertEquals($originalSignature, $transactionCommitRequestTestObject->getSignature());
     }
 
-    
-    public function testSetsSignatureOnTransactionCreateRequest()
-    {
-
-        throw new \Exception('implement me pls');
-
-    }
-
-    public function testSetsSignatureOnTransactionCommitRequest()
-    {
-        throw new \Exception('implement me pls');
-
-
-    }
-
     public function testTryingToSignWhateverElseShouldRaiseSignException()
     {
-        throw new \Exception('implement me pls');
-
-
+        $this->setExpectedException(\Transbank\OnePay\Exceptions\SignException::class);
+        OnePaySignUtil::getInstance()->sign("a string", $this->secret);
     }
 
-    public function testValidatesSignatureOnTransactionCreateRequest()
+    public function testValidatesValidSignatureOnTransactionCreateResponse()
     {
-        throw new \Exception('implement me pls');
+        $transactionCreateResponse = $this->transactionCreateResponseTestObject;
+        $signatureIsValid = OnePaySignUtil::getInstance()->validate($transactionCreateResponse, $this->secret);
+        $this->assertTrue($signatureIsValid);
+    }
 
-
+    public function testValidatesInvalidSignatureOnTransactionCreateResponse()
+    {
+        $transactionCreateResponse = $this->transactionCreateResponseTestObject;
+        $transactionCreateResponse->setSignature('totally not a valid signature');
+        $signatureIsValid = OnePaySignUtil::getInstance()->validate($transactionCreateResponse, $this->secret);
+        $this->assertFalse($signatureIsValid);
     }
 
 
+    public function testValidatesValidSignatureOnTransactionCommitResponse()
+    {
+        $transactionCommitResponse = $this->transactionCommitResponseTestObject;
+        $signatureIsValid = OnePaySignUtil::getInstance()->validate($transactionCommitResponse, $this->secret);
+        $this->assertTrue($signatureIsValid);
+    }
+
+    public function testValidatesInvalidSignatureOnTransactionCommitResponse()
+    {
+        $transactionCommitResponse = $this->transactionCommitResponseTestObject;
+        $transactionCommitResponse->setSignature('totally not a valid signature.');
+        $signatureIsValid = OnePaySignUtil::getInstance()->validate($transactionCommitResponse, $this->secret);
+        $this->assertFalse($signatureIsValid);
+    }
 }
