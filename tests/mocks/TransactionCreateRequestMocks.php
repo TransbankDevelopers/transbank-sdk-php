@@ -16,11 +16,8 @@ class TransactionCreateRequestMocks {
         return self::$transactionCreateRequestMocks;
     }
 
-
     public static function get($indexOfMock = 0)
     {
         return self::transactionCreateRequestMocks()[$indexOfMock];
     }
-
-
 }

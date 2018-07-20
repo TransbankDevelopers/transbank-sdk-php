@@ -65,12 +65,6 @@ final class TransactionTest extends TestCase
                                         self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
                                         $options
                                        );   
-
-      #  $this->assertEquals($response instanceof TransactionCommitResponse, true);
         $this->assertEquals($response instanceof TransactionCommitResponse, true);
-
     }
-
-
-
 }

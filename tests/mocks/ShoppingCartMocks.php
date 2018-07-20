@@ -24,6 +24,4 @@ class ShoppingCartMocks {
         }
         return self::$shoppingCartMocks;
     }
-
-
 }

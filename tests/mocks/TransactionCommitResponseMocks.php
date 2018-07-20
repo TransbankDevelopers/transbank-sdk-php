@@ -28,14 +28,10 @@ class TransactionCommitResponseMocks {
             array_push(self::$transactionCommitResponseMocks, $transactionCommitResponse);
         }
         return self::$transactionCommitResponseMocks;
-
     }
 
     public function get($indexOfMock = 0)
     {
         return self::transactionCommitRequestMocks()[$indexOfMock];
     }
-
-
-
 }
