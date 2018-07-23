@@ -17,9 +17,6 @@ class Refund {
     public static function create($amount, $occ, $externalUniqueNumber,
                                   $authorizationCode, $options = null)
     {
-        if(!$options) {
-            $options = self::buildOptions($options);
-        }
 
         $request = OnePayRequestBuilder::getInstance()
                                        ->buildRefundRequest($amount, $occ, 
@@ -37,7 +34,6 @@ class Refund {
             throw new RefundCreateException("Could not obtain the service response");
         }
         $refundCreateResponse = (new RefundCreateResponse())->fromJSON($decodedResponse);
-
         if (strtolower($decodedResponse['responseCode']) != "ok") {
             $msg = $decodedResponse['responseCode'] . " : " . $decodedResponse['description'];
             throw new RefundCreateException($msg, -1);

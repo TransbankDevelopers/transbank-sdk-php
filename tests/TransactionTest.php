@@ -7,8 +7,8 @@ require_once(__DIR__ . '/mocks/ShoppingCartMocks.php');
 
 final class TransactionTest extends TestCase
 {
-    const EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST = "8934751b-aa9a-45be-b686-1f45b6c45b02";
-    const OCC_TO_COMMIT_TRANSACTION_TEST = "1807419329781765";
+    const EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST = "1532376544050";
+    const OCC_TO_COMMIT_TRANSACTION_TEST = "1807829988419927";
     protected function setup()
     {
         OnePay::setSharedSecret("P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");

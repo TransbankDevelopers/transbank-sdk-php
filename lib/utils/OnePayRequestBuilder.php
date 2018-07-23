@@ -23,11 +23,7 @@ namespace Transbank;
 
     public function buildCreateRequest($shoppingCart, $options = null)
     {
-        if (!$options) 
-        {
-            $options = self::buildOptions($options);
-        }
-
+        $options = self::buildOptions($options);
         $issuedAt = time();
         $externalUniqueNumber = (int)(microtime(true) * 1000);
         $request = new TransactionCreateRequest(
@@ -45,30 +41,26 @@ namespace Transbank;
 
     public function buildCommitRequest($occ, $externalUniqueNumber, $options = null)
     {
-        if (!$options) 
-        {
-            $options = self::buildOptions($options);
-        }
+        $options = self::buildOptions($options);
+
         $issuedAt = time();
         $request = new TransactionCommitRequest($occ, $externalUniqueNumber, $issuedAt);
         self::setKeys($request, $options);
         return OnePaySignUtil::getInstance()->sign($request, $options->getSharedSecret());
     }
 
-    public function buildRefundRequest($refundAmount, $occ, $authorizationCode,
-                                       $signature, $options = null)
+    public function buildRefundRequest($refundAmount, $occ,
+                                       $externalUniqueNumber,
+                                       $authorizationCode,
+                                       $options = null)
     {
-        if (!$options) 
-        {
-            $options = self::buildOptions($options);
-        }
+        $options = self::buildOptions($options);
         $issuedAt = time();
-        $externalUniqueNumber = (int)(microtime(true) * 1000);
-        $request = new RefundCreateRequest($refundAmount, $occ,
-                                           $externalUniqueNumber,
+        $request = new RefundCreateRequest($refundAmount,
+                                           $occ,
+                                           (string)$externalUniqueNumber,
                                            $authorizationCode,
-                                           $issuedAt,
-                                           $signature);
+                                           $issuedAt);
         self::setKeys($request, $options);
         return OnePaySignUtil::getInstance()->sign($request,
                                                    $options->getSharedSecret());
@@ -76,6 +68,7 @@ namespace Transbank;
 
     public static function buildOptions($options)
     {
+        
         if (!$options)
         {
             return Options::getDefaults();
@@ -96,8 +89,8 @@ namespace Transbank;
 
     public static function setKeys($request, $options)
     {
-        $request->setApiKey($options->getApiKey());
         $request->setAppKey($options->getAppKey());
+        $request->setApiKey($options->getApiKey());
     }
 
 

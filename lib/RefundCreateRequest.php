@@ -11,19 +11,19 @@ namespace Transbank;
  */
 class RefundCreateRequest extends BaseRequest implements \JsonSerializable {
 
-    private $refundAmount;
+    private $nullifyAmount;
     private $occ;
     private $externalUniqueNumber;
     private $authorizationCode;
     private $issuedAt;
     private $signature;
 
-    public function __construct($refundAmount = null, $occ = null,
+    public function __construct($nullifyAmount = null, $occ = null,
                                 $externalUniqueNumber = null,
                                 $authorizationCode = null,
                                 $issuedAt = null, $signature = null)
     {
-        $this->refundAmount = $refundAmount;
+        $this->nullifyAmount = $nullifyAmount;
         $this->occ = $occ;
         $this->externalUniqueNumber = $externalUniqueNumber;
         $this->authorizationCode = $authorizationCode;
@@ -36,13 +36,13 @@ class RefundCreateRequest extends BaseRequest implements \JsonSerializable {
         return get_object_vars($this);
     }
 
-    public function getRefundAmount()
+    public function getnullifyAmount()
     {
-        return $this->refundAmount;
+        return $this->nullifyAmount;
     }
-    public function setRefundAmount($refundAmount)
+    public function setnullifyAmount($nullifyAmount)
     {
-        $this->refundAmount = $refundAmount;
+        $this->nullifyAmount = $nullifyAmount;
         return $this;
     }
     public function getOcc()

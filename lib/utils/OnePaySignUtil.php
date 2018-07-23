@@ -177,7 +177,7 @@ use Transbank\OnePay\Exceptions\SignException as SignException;
         $externalUniqueNumber = $signable->getExternalUniqueNumber();
         $authorizationCode = $signable->getAuthorizationCode();
         $issuedAtAsString = (string)$signable->getIssuedAt();
-        $refundAmountAsString = (string)$signable->getRefundAmount();
+        $refundAmountAsString = (string)$signable->getNullifyAmount();
 
         $data = mb_strlen($occ) . $occ;
         $data .= mb_strlen($externalUniqueNumber) . $externalUniqueNumber;
