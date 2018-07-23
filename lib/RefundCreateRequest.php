@@ -2,33 +2,44 @@
 namespace Transbank;
 /**
  * 
- * class TransactionCommitRequest
- * Commits a request to actually execute.
- * If not done transaction will reverse itself after some time.
+ * class RefundCreateRequest
+ * Creates a request object to be sent to Transbank to attempt a refund
+ * 
+ * @package Transbank;
+ * 
  * 
  */
+class RefundCreateRequest extends BaseRequest implements \JsonSerializable {
 
- class TransactionCommitRequest extends BaseRequest implements \JsonSerializable 
- {
+    private $refundAmount;
     private $occ;
     private $externalUniqueNumber;
+    private $authorizationCode;
     private $issuedAt;
     private $signature;
 
-    public function __construct($occ = null, $externalUniqueNumber = null, $issuedAt = null)
+    public function __construct($refundAmount = null, $occ = null,
+                                $externalUniqueNumber = null,
+                                $authorizationCode = null,
+                                $issuedAt = null, $signature = null)
     {
-        // Can be initialized as object to be filled with params later,
-        // but cannot "unset" a property to null.
+        $this->refundAmount = $refundAmount;
         $this->occ = $occ;
         $this->externalUniqueNumber = $externalUniqueNumber;
+        $this->authorizationCode = $authorizationCode;
         $this->issuedAt = $issuedAt;
+        $this->signature = $signature;
     }
 
-    public function jsonSerialize() 
+    public function getRefundAmount()
     {
-        return get_object_vars($this);
+        return $this->refundAmount;
     }
-    
+    public function setRefundAmount($refundAmount)
+    {
+        $this->refundAmount = $refundAmount;
+        return $this;
+    }
     public function getOcc()
     {
         return $this->occ;
@@ -36,10 +47,6 @@ namespace Transbank;
 
     public function setOcc($occ)
     {
-        if (!$occ) {
-            throw new \Exception('Occ cannot be set to null.');
-        }
-        
         $this->occ = $occ;
         return $this;
     }
@@ -51,9 +58,6 @@ namespace Transbank;
 
     public function setExternalUniqueNumber($externalUniqueNumber)
     {
-        if(!$externalUniqueNumber) {
-            throw new \Exception('externalUniqueNumber cannot be null.');
-        }
         $this->externalUniqueNumber = $externalUniqueNumber;
         return $this;
     }
@@ -65,9 +69,6 @@ namespace Transbank;
 
     public function setIssuedAt($issuedAt)
     {
-        if(!$issuedAt) {
-            throw new \Exception('issuedAt cannot be null.');
-        }
         $this->issuedAt = $issuedAt;
         return $this;
     }
@@ -82,4 +83,4 @@ namespace Transbank;
         $this->signature = $signature;
         return $this;
     }
- }
+}
