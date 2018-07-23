@@ -31,6 +31,11 @@ class RefundCreateRequest extends BaseRequest implements \JsonSerializable {
         $this->signature = $signature;
     }
 
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
+
     public function getRefundAmount()
     {
         return $this->refundAmount;
@@ -59,6 +64,17 @@ class RefundCreateRequest extends BaseRequest implements \JsonSerializable {
     public function setExternalUniqueNumber($externalUniqueNumber)
     {
         $this->externalUniqueNumber = $externalUniqueNumber;
+        return $this;
+    }
+
+    public function getAuthorizationCode()
+    {
+        return $this->authorizationCode;
+    }
+
+    public function setAuthorizationCode($authorizationCode)
+    {
+        $this->authorizationCode = $authorizationCode;
         return $this;
     }
 

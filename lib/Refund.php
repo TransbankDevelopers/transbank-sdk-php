@@ -7,6 +7,8 @@ namespace Transbank;
  * 
  * 
  */
+use Transbank\OnePay\Exceptions\RefundCreateException as RefundCreateException;
+
 class Refund {
     const REFUND_TRANSACTION = "nullifytransaction";
     const TRANSACTION_BASE_PATH = '/ewallet-plugin-api-services/services/transactionservice/';
@@ -19,7 +21,7 @@ class Refund {
             $options = self::buildOptions($options);
         }
 
-        $request = OnePayRequestBuilder.getInstance()
+        $request = OnePayRequestBuilder::getInstance()
                                        ->buildRefundRequest($amount, $occ, 
                                                             $externalUniqueNumber,
                                                             $authorizationCode,
@@ -30,8 +32,16 @@ class Refund {
         $httpResponse = $http->post(OnePay::getCurrentIntegrationTypeUrl(),
                                     $path,
                                     $jsonRequest);
-        return (new RefundCreateResponse())->fromJSON($httpResponse);
+        $decodedResponse = json_decode($httpResponse, true);
+        if (!$decodedResponse || !$decodedResponse['responseCode']) {
+            throw new RefundCreateException("Could not obtain the service response");
+        }
+        $refundCreateResponse = (new RefundCreateResponse())->fromJSON($decodedResponse);
+
+        if (strtolower($decodedResponse['responseCode']) != "ok") {
+            $msg = $decodedResponse['responseCode'] . " : " . $decodedResponse['description'];
+            throw new RefundCreateException($msg, -1);
+        }
+        return $refundCreateResponse;
     }
-
-
 }

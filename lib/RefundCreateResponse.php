@@ -13,7 +13,9 @@ class RefundCreateResponse extends BaseResponse implements \JsonSerializable {
     private $issuedAt;
     private $signature;
 
-    public function __construct($occ, $externalUniqueNumber, $reverseCode, $issuedAt, $signature)
+    public function __construct($occ = null, $externalUniqueNumber = null,
+                                $reverseCode = null, $issuedAt = null,
+                                $signature = null)
     {
         $this->occ = $occ;
         $this->externalUniqueNumber = $externalUniqueNumber;
