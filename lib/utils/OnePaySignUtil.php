@@ -36,22 +36,31 @@ use Transbank\OnePay\Exceptions\SignException as SignException;
         if ($requestToSign instanceof TransactionCommitRequest) {
             return self::getInstance()->signTransactionCommitRequest($requestToSign, $secret);
         }
+
+        if ($requestToSign instanceof RefundCreateRequest) {
+            return self::getInstance()->signRefundCreateRequest($requestToSign, $secret);
+        }
        throw new SignException('Parameter \'$requestToSign\' must be a TransactionCreateRequest or TransactionCommitRequest');
     }
 
     private function signTransactionCreateRequest($transactionCreateRequest, $secret)
     {
         $signature = $this->buildSignature($transactionCreateRequest, $secret);
-        $transactionCreateRequest->setSignature($signature);
-        return $transactionCreateRequest;
+        return $transactionCreateRequest->setSignature($signature);
     }
 
     private function signTransactionCommitRequest($transactionCommitRequest, $secret)
     {
         $signature = $this->buildSignatureTransactionCommitRequestOrCreateResponse($transactionCommitRequest,
                                                             $secret);
-        $transactionCommitRequest->setSignature($signature);
-        return $transactionCommitRequest;
+        return $transactionCommitRequest->setSignature($signature);
+    }
+
+    private function signRefundCreateRequest($refundCreateRequest, $secret)
+    {
+        $signature = $this->buildSignatureRefundCreateRequest($refundCreateRequest,
+                                                              $secret);
+        return $refundCreateRequest->setSignature($signature);
     }
 
 
@@ -92,7 +101,7 @@ use Transbank\OnePay\Exceptions\SignException as SignException;
     private function buildSignatureTransactionCommitRequestOrCreateResponse($signable, $secret)
     {
         if (!$signable instanceof TransactionCommitRequest && !$signable instanceof TransactionCreateResponse) {
-            throw new SignException('Unknown type of signable.');
+            throw new SignException('Invalid type of signable. Type must be TransactionCommitRequest or TransactionCreateResponse');
         }
 
         $occ = $signable->getOcc();
@@ -112,7 +121,7 @@ use Transbank\OnePay\Exceptions\SignException as SignException;
     private function buildSignatureTransactionCreateRequest($signable, $secret)
     {
         if (!$signable instanceof TransactionCreateRequest) {
-            throw new SignException('Unknown type of signable.');
+            throw new SignException('Invalid signable. Accepted type: TransactionCreateRequest');
         }
 
         $externalUniqueNumberAsString = (string)$signable->getExternalUniqueNumber();
@@ -134,8 +143,8 @@ use Transbank\OnePay\Exceptions\SignException as SignException;
     private function buildSignatureTransactionCommitResponse($signable, $secret)
     {
         if(!$signable instanceof TransactionCommitResponse) {
-            throw new SignException('Unknown type of signable.');
-        }
+            throw new SignException('Invalid signable. Accepted type: TransactionCommitResponse');
+        } 
 
         $occ = $signable->getOcc();
         $authorizationCode = $signable->getAuthorizationCode();
@@ -153,6 +162,29 @@ use Transbank\OnePay\Exceptions\SignException as SignException;
         $data .= mb_strlen($installmentsNumberAsString) . $installmentsNumberAsString;
         $data .= mb_strlen($buyOrder) . $buyOrder;
 
+        $crypted = hash_hmac('sha256', $data, $secret, true);
+        return base64_encode($crypted);
+    }
+
+    private function buildSignatureRefundCreateRequest($signable, $secret)
+    {
+        if (!$signable instanceof RefundCreateRequest)
+        {
+            throw new SignException('Invalid type of signable. Type must be RefundCreateRequest');
+        }
+
+        $occ = $signable->getOcc();
+        $externalUniqueNumber = $signable->getExternalUniqueNumber();
+        $authorizationCode = $signable->getAuthorizationCode();
+        $issuedAtAsString = (string)$signable->getIssuedAt();
+        $refundAmountAsString = (string)$signable->getNullifyAmount();
+
+        $data = mb_strlen($occ) . $occ;
+        $data .= mb_strlen($externalUniqueNumber) . $externalUniqueNumber;
+        $data .= mb_strlen($authorizationCode) . $authorizationCode;
+        $data .= mb_strlen($issuedAtAsString) . $issuedAtAsString;
+        $data .= mb_strlen($refundAmountAsString) . $refundAmountAsString;
+        
         $crypted = hash_hmac('sha256', $data, $secret, true);
         return base64_encode($crypted);
     }
