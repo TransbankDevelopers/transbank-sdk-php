@@ -29,11 +29,9 @@ final class TransactionTest extends TestCase
     public function testTransactionCreationWorksWithOptions()
     {
         $shoppingCart = new ShoppingCart();
-        $options = new Options();
-        $options->setApiKey("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg")
-                ->setAppKey("04533c31-fe7e-43ed-bbc4-1c8ab1538afp")
-                ->setSharedSecret("P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");;
-     
+        $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
+                               "04533c31-fe7e-43ed-bbc4-1c8ab1538afp",
+                               "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
         $firstItem = new Item("Zapatos", 1, 15000, null, -1);
         $secondItem = new Item("Pantalon", 1, 12500, null, -1);
 
@@ -53,11 +51,10 @@ final class TransactionTest extends TestCase
 
     public function testTransactionCommitWorks()
     {
-        // Setting comerce data
-        $options = new Options();
-        $options->setApiKey("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg")
-                ->setAppKey("04533c31-fe7e-43ed-bbc4-1c8ab1538afp")
-                ->setSharedSecret("P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
+        // Setting commerce data
+        $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
+                               "04533c31-fe7e-43ed-bbc4-1c8ab1538afp",
+                               "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
 
         // commit transaction
         $response = Transaction::commit(
