@@ -4,6 +4,10 @@ namespace Transbank;
 
 use PHPUnit\Framework\TestCase;
 require_once(__DIR__ . '/mocks/ShoppingCartMocks.php');
+require_once(__DIR__ . '/mocks/TransactionCreateResponseMocks.php');
+use Transbank\OnePay\Exceptions\TransactionCreateException;
+use Transbank\OnePay\Exceptions\TransactionCommitException;
+use Transbank\OnePay\Exceptions\SignException;
 
 final class TransactionTest extends TestCase
 {
@@ -15,6 +19,108 @@ final class TransactionTest extends TestCase
         OnePay::setApiKey("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg");
         OnePay::setAppKey("04533c31-fe7e-43ed-bbc4-1c8ab1538afp");
         OnePay::setCallbackUrl("http://localhost:8080/ewallet-endpoints");
+    }
+
+    public function testTransactionRaisesWhenResponseIsNull() {
+
+        // Create a mock http client that will return Null
+        $httpClientStub = $this->getMock(HttpClient::class, array('post'));
+        $httpClientStub->expects($this->any())->method('post')->willReturn(null);
+
+        // Alter the private static property of Transaction 'httpClient'
+        // to be the httpClientStub
+        $reflectedClass = new \ReflectionClass(Transaction::class);
+        $reflectedHttpClient = $reflectedClass->getProperty('httpClient');
+        $reflectedHttpClient->setAccessible(true);
+        $reflectedHttpClient->setValue($httpClientStub);
+
+        // Execute the transaction expecting it to raise TransactionCreateException
+        // because the mock will make the HttpClient return Null
+        $shoppingCart = ShoppingCartMocks::get();
+
+        // This should raise a TransactionCreateException
+        try {
+            $this->setExpectedException(TransactionCreateException::class, 'Could not obtain a response from the service');
+            $response = Transaction::create($shoppingCart);
+        }
+        finally {
+            // Reset the HttpClient static property to its original state
+            $reflectedHttpClient->setValue(null);
+            $reflectedHttpClient->setAccessible(false);
+        }
+    }
+
+    public function testTransactionRaisesWhenResponseIsNotOk()
+    {
+
+        $mockResponse = json_encode(array('responseCode' => 'INVALID_PARAMS',
+                                          'description' => 'Parametros invalidos',
+                                          'result' => null));
+
+        // Create a mock http client that will return Null
+        $httpClientStub = $this->getMock(HttpClient::class, array('post'));
+        $httpClientStub->expects($this->any())->method('post')->willReturn($mockResponse);
+
+        // Alter the private static property of Transaction 'httpClient'
+        // to be the httpClientStub
+        $reflectedClass = new \ReflectionClass(Transaction::class);
+        $reflectedHttpClient = $reflectedClass->getProperty('httpClient');
+        $reflectedHttpClient->setAccessible(true);
+        $reflectedHttpClient->setValue($httpClientStub);
+
+        // Execute the transaction expecting it to raise TransactionCreateException
+        // because the mock will make the HttpClient return Null
+        $shoppingCart = ShoppingCartMocks::get();
+
+        // This should raise a TransactionCreateException
+        try {
+            $this->setExpectedException(TransactionCreateException::class, 'INVALID_PARAMS : Parametros invalidos');
+            $response = Transaction::create($shoppingCart);
+        }
+        finally {
+            $reflectedHttpClient->setValue(null);
+            $reflectedHttpClient->setAccessible(false);
+        }
+    }
+
+    public function testTransactionRaisesWhenSignatureIsInvalid()
+    {
+        $mockResponse =  '{
+            "responseCode": "OK",
+            "description": "OK",
+            "result": {
+                "occ": "1807216892091979",
+                "ott": 51435450,
+                "signature": "FAKE SIGNATURE",
+                "externalUniqueNumber": "1532103675510",
+                "issuedAt": 1532103850,
+                "qrCodeAsBase64": "iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAADqElEQVR42u3dQW7DMBAEQf3/08kLcgggame41UBugSGLLB8Wlvn8SPqzxy2QAJEAkQCRAJEAkQCRAJEAkQCRBIgEiASIBIgEiASIBIgEiASIBIgkQCRAJEAkQKQtQJ7nqfj77/W3/P+29QIEEEAAAQQQQAABBBBAAAEEEEAAefeGj43uXrqeGzbApvUCBBDrBQgg1gsQQAABBBBAAAEEEEDefYMtY9vTG34KVPt6AQIIIIAAAggggAACCCCAAAIIIIAA8uX1pL0OIIAAAggggAACCCCAAAIIIIAAAgggjUDSxrZTrwMIIIAAAggggAACCCCAAAIIIIAAshNI+/W0bwyP3AICiPUCBBDrBQgg1gsQQAABBBBAAHH8Qe//O/4AEEAAAcSGBwQQQAABBBBAAAEEkLuBbGvboZ9Xr6VbAIgAAQQQQAABBBBAAAEEEEAWAUkb97WPSacgn36/icABAQQQQAABBBBAAAEEEEAAAQSQTUCmNtKtxwe0jKONeQEBBBBAAAEEEEAAAQQQQAABBJA7xrxp48d24FMbO/FRWUAAAQQQQAABBBBAAAEEEEAAAQSQOSAtX2JMO7ag/XqcDwIIIIAAAggggAACCCCAAAIIIIBkPnKbNlZtOV4h7T7fMBYGBBBAAAEEEEAAAQQQQAABBBBANgFpH1e2f1Ccvs6WL5cCAggggAACCCCAAAIIIIAAAggggLy7YdIWtGX8e3qMPDWmXjvmBQQQQAABBBBAAAEEEEAAAQQQQD4G0n4cQMsPwbWPYQEBBBBAAAEEEEAAAQQQQAABBBBAMse8UzeqZew59YHT8ogxIIAAAggggAACCCCAAAIIIIAAAoiSF3RqzNvygQAIIIAAAggggAACCCCAAAIIIIAAMrugaV8aPL2gLWNVPxwHCCCAAAIIIIAAAggggAACCCCA3A2kZWybNg5tHzs37R9AAAEEEEAAAQQQQAABBBBAAAEEkPOPiKZtmLQxb/s4HRBAAAEEEEAAAQQQQAABBBBAAAEEkC+vJ25TlP8wHSCAAAIIIIAAAggggAACCCCAAAIIIAkL136Y6dT7AgQQQAABBBBAAAEEEEAAAQQQQACZXdBbx5i3bsimMTgggAACCCCAAAIIIIAAAggggAACSP9GuvUwzZb7CQgggAACCCCAAAIIIIAAAggggAAiCRAJEAkQCRAJEAkQCRAJEAkQCRBJgEiASIBIgEiASIBIgEiASIBIAkQCRAJEAkQCRErpF7hX1b0GLrAmAAAAAElFTkSuQmCC"
+            }
+        }';
+        // Create a mock http client that will return Null
+        $httpClientStub = $this->getMock(HttpClient::class, array('post'));
+        $httpClientStub->expects($this->any())->method('post')->willReturn($mockResponse);
+
+        // Alter the private static property of Transaction 'httpClient'
+        // to be the httpClientStub
+        $reflectedClass = new \ReflectionClass(Transaction::class);
+        $reflectedHttpClient = $reflectedClass->getProperty('httpClient');
+        $reflectedHttpClient->setAccessible(true);
+        $reflectedHttpClient->setValue($httpClientStub);
+
+        // Execute the transaction expecting it to raise TransactionCreateException
+        // because the mock will make the HttpClient return Null
+        $shoppingCart = ShoppingCartMocks::get();
+
+        // This should raise a SignException
+        try {
+            $this->setExpectedException(SignException::class, 'The response signature is not valid');
+            $response = Transaction::create($shoppingCart);
+        }
+        finally {
+            $reflectedHttpClient->setValue(null);
+            $reflectedHttpClient->setAccessible(false);
+        }
     }
 
     public function testTransactionCreationWorksWithoutOptions()
@@ -49,6 +155,8 @@ final class TransactionTest extends TestCase
         $this->assertNotNull($response->getQrCodeAsBase64());
     }
 
+
+
     public function testTransactionCommitWorks()
     {
         // Setting commerce data
@@ -63,5 +171,138 @@ final class TransactionTest extends TestCase
                                         $options
                                        );   
         $this->assertEquals($response instanceof TransactionCommitResponse, true);
+        $this->assertEquals($response->getResponseCode(), 'OK');
+        $this->assertEquals($response->getDescription(), 'OK');
+
+    }
+
+    public function testTransactionCommitRaisesWhenResponseIsNull()
+    {
+        // Create a mock http client that will return Null
+        $httpClientStub = $this->getMock(HttpClient::class, array('post'));
+        $httpClientStub->expects($this->any())->method('post')->willReturn(null);
+
+        // Alter the private static property of Transaction 'httpClient'
+        // to be the httpClientStub
+        $reflectedClass = new \ReflectionClass(Transaction::class);
+        $reflectedHttpClient = $reflectedClass->getProperty('httpClient');
+        $reflectedHttpClient->setAccessible(true);
+        $reflectedHttpClient->setValue($httpClientStub);
+
+        // Setting commerce data
+        $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
+                               "04533c31-fe7e-43ed-bbc4-1c8ab1538afp",
+                               "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
+
+        // commit transaction
+
+        // This should raise a TransactionCommitException
+        try {
+            $this->setExpectedException(TransactionCommitException::class, 'Could not obtain a response from the service');
+            $response = Transaction::commit(
+                self::OCC_TO_COMMIT_TRANSACTION_TEST,
+                self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
+                $options
+               );   
+        }
+        finally {
+            // Reset the HttpClient static property to its original state
+            $reflectedHttpClient->setValue(null);
+            $reflectedHttpClient->setAccessible(false);
+        }
+
+    }
+
+
+    public function testTransactionCommitRaisesWhenResponseIsNotOk()
+    {
+        $mockResponse = json_encode(array('responseCode' => 'INVALID_PARAMS',
+                                          'description' => 'Parametros invalidos',
+                                          'result' => null));
+        // Create a mock http client that will return Null
+        $httpClientStub = $this->getMock(HttpClient::class, array('post'));
+        $httpClientStub->expects($this->any())->method('post')->willReturn($mockResponse);
+
+        // Alter the private static property of Transaction 'httpClient'
+        // to be the httpClientStub
+        $reflectedClass = new \ReflectionClass(Transaction::class);
+        $reflectedHttpClient = $reflectedClass->getProperty('httpClient');
+        $reflectedHttpClient->setAccessible(true);
+        $reflectedHttpClient->setValue($httpClientStub);
+
+        // Setting commerce data
+        $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
+                               "04533c31-fe7e-43ed-bbc4-1c8ab1538afp",
+                               "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
+
+        // commit transaction
+
+        // This should raise a TransactionCommitException
+        try {
+            $this->setExpectedException(TransactionCommitException::class, 'INVALID_PARAMS : Parametros invalidos');
+            $response = Transaction::commit(
+                self::OCC_TO_COMMIT_TRANSACTION_TEST,
+                self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
+                $options
+               );   
+        }
+        finally {
+            // Reset the HttpClient static property to its original state
+            $reflectedHttpClient->setValue(null);
+            $reflectedHttpClient->setAccessible(false);
+        }
+
+    }
+
+    public function testTransactionCommitRaisesWhenResponseSignatureIsNotValid()
+    {
+        $mockResponse = '{
+            "responseCode": "OK",
+            "description": "OK",
+            "result": {
+                "occ": "1807419329781765",
+                "authorizationCode": "906637",
+                "issuedAt": 1530822491,
+                "signature": "INVALID SIGNATURE",
+                "amount": 2490,
+                "transactionDesc": "Venta Normal: Sin cuotas",
+                "installmentsAmount": 2490,
+                "installmentsNumber": 1,
+                "buyOrder": "20180705161636514"
+            }
+        }';
+
+        // Create a mock http client that will return Null
+        $httpClientStub = $this->getMock(HttpClient::class, array('post'));
+        $httpClientStub->expects($this->any())->method('post')->willReturn($mockResponse);
+
+        // Alter the private static property of Transaction 'httpClient'
+        // to be the httpClientStub
+        $reflectedClass = new \ReflectionClass(Transaction::class);
+        $reflectedHttpClient = $reflectedClass->getProperty('httpClient');
+        $reflectedHttpClient->setAccessible(true);
+        $reflectedHttpClient->setValue($httpClientStub);
+
+        // Setting commerce data
+        $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
+                               "04533c31-fe7e-43ed-bbc4-1c8ab1538afp",
+                               "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
+
+        // commit transaction
+
+        // This should raise a SignException
+        try {
+            $this->setExpectedException(SignException::class, 'The response signature is not valid');
+            $response = Transaction::commit(
+                self::OCC_TO_COMMIT_TRANSACTION_TEST,
+                self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
+                $options
+               );   
+        }
+        finally {
+            // Reset the HttpClient static property to its original state
+            $reflectedHttpClient->setValue(null);
+            $reflectedHttpClient->setAccessible(false);
+        }
     }
 }

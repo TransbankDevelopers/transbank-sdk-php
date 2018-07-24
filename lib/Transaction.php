@@ -7,14 +7,27 @@ namespace Transbank;
  * package @transbank;
  * 
  */
+use Transbank\OnePay\Exceptions\TransactionCreateException;
+use Transbank\OnePay\Exceptions\TransactionCommitException;
+use Transbank\OnePay\Exceptions\SignException;
+
  class Transaction {
     const SEND_TRANSACTION = "sendtransaction";
     const COMMIT_TRANSACTION = "gettransactionnumber";
     const TRANSACTION_BASE_PATH = '/ewallet-plugin-api-services/services/transactionservice/';
 
+    private static $httpClient = null;
     public static function getServiceUrl()
     {
         return OnePay::getIntegrationTypeUrl("TEST") . "/ewallet-plugin-api-services/services/transactionservice";
+    }
+
+    private static function getHttpClient()
+    {
+        if(!isset(self::$httpClient) || self::$httpClient == null) {
+            self::$httpClient = new HttpClient();
+        }
+        return self::$httpClient;
     }
 
     public static function create($shoppingCart, $options = null)
@@ -22,36 +35,53 @@ namespace Transbank;
         if(!$shoppingCart instanceof ShoppingCart) {
             throw new \Exception("Shopping cart is null or empty");
         }
-        $http = new HttpClient();
+        $http = self::getHttpClient();
         $options = OnePayRequestBuilder::getInstance()->buildOptions($options);
         $request = json_encode(OnePayRequestBuilder::getInstance()->buildCreateRequest($shoppingCart, $options), JSON_UNESCAPED_SLASHES);
         $path = self::TRANSACTION_BASE_PATH . self::SEND_TRANSACTION;
         $httpResponse = json_decode($http->post(OnePay::getCurrentIntegrationTypeUrl(), $path ,$request), true);
 
         if (!$httpResponse) {
-            throw new TransactionCreateException(-1, 'Could not obtain a response from the service');
+            throw new TransactionCreateException('Could not obtain a response from the service', -1);
         }
         if($httpResponse['responseCode'] != "OK") {
-            throw new TransactionCreateException(-1, $httpResponse['responseCode'] . " : " . $httpResponse['description']);
+            throw new TransactionCreateException($httpResponse['responseCode'] . " : " . $httpResponse['description'], -1);
         }
 
-        $transactionCreateResponse =  (new TransactionCreateResponse())
-                                      ->fromJSON($httpResponse);
+        $transactionCreateResponse =  new TransactionCreateResponse();
+        $transactionCreateResponse = $transactionCreateResponse->fromJSON($httpResponse);
+
+        
         $signatureIsValid = OnePaySignUtil::getInstance()
                             ->validate($transactionCreateResponse,
                                         $options->getSharedSecret());
         if (!$signatureIsValid) {
-            throw new SignatureException(-1, "The response signature is not valid");
+            throw new SignException('The response signature is not valid.', -1);
         }
         return $transactionCreateResponse;
     }
 
     public static function commit($occ, $externalUniqueNumber, $options)
     {
-        $http = new HttpClient();
+        $http = self::getHttpClient();
         $request = json_encode(OnePayRequestBuilder::getInstance()->buildCommitRequest($occ, $externalUniqueNumber, $options), JSON_UNESCAPED_SLASHES);
         $path = self::TRANSACTION_BASE_PATH . self::COMMIT_TRANSACTION;
-        $httpResponse = $http->post(OnePay::getCurrentIntegrationTypeUrl(), $path, $request);
-        return (new TransactionCommitResponse())->fromJSON($httpResponse);
+        $httpResponse = json_decode($http->post(OnePay::getCurrentIntegrationTypeUrl(), $path, $request), true);
+
+        if (!$httpResponse) {
+            throw new TransactionCommitException('Could not obtain a response from the service', -1);
+        }
+        if($httpResponse['responseCode'] != "OK") {
+            throw new TransactionCommitException($httpResponse['responseCode'] . " : " . $httpResponse['description'], -1);
+        }
+
+        $transactionCommitResponse = new TransactionCommitResponse($httpResponse);
+        $signatureIsValid = OnePaySignUtil::getInstance()
+                                          ->validate($transactionCommitResponse,
+                                                     $options->getSharedSecret());
+        if (!$signatureIsValid) {
+            throw new SignException('The response signature is not valid', -1);
+        }
+        return $transactionCommitResponse;
     }
  }
