@@ -41,6 +41,7 @@ namespace Transbank;
         }
         
         $this->occ = $occ;
+        return $this;
     }
 
     public function getExternalUniqueNumber()
@@ -54,6 +55,7 @@ namespace Transbank;
             throw new \Exception('externalUniqueNumber cannot be null.');
         }
         $this->externalUniqueNumber = $externalUniqueNumber;
+        return $this;
     }
 
     public function getIssuedAt()
@@ -67,6 +69,7 @@ namespace Transbank;
             throw new \Exception('issuedAt cannot be null.');
         }
         $this->issuedAt = $issuedAt;
+        return $this;
     }
 
     public function getSignature()
@@ -77,5 +80,6 @@ namespace Transbank;
     public function setSignature($signature)
     {
         $this->signature = $signature;
+        return $this;
     }
  }

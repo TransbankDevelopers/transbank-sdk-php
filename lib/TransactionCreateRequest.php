@@ -86,6 +86,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
             throw new \Exception('Total cannot be less than zero.');
         }
         $this->total = $total;
+        return $this;
     }
 
     public function getTotal()
@@ -102,6 +103,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
             throw new \Exception('Items quantity cannot be less than zero.');
         }
         $this->itemsQuantity = $itemsQuantity;
+        return $this;
     }
 
     public function getItemsQuantity()
@@ -117,6 +119,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
     public function setIssuedAt($issuedAt)
     {
         $this->issuedAt = $issuedAt;
+        return $this;
     }
 
     public function setItems($items)
@@ -129,6 +132,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
         }
 
         $this->items = $items;
+        return $this;
     }
 
     public function getItems()
@@ -140,6 +144,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
     {
         if (!$url) { throw new \Exception('url cannot be null'); }
         $this->callbackUrl = $url;
+        return $this;
     }
 
     public function getCallbackUrl() 
@@ -153,6 +158,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
             throw new \Exception('channel cannot be null.');
         }
         $this->channel = $channel;
+        return $this;
     }
 
     public function getChannel($channel) 
@@ -164,6 +170,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
     public function setSignature($signature)
     {
         $this->signature = $signature;
+        return $this;
     }
 
     public function getSignature()

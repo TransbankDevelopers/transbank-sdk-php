@@ -128,6 +128,6 @@ class OnePay
             $integrationTypesAsString = join($integrationTypes, ", ");
             throw new \Exception('Invalid integration type, valid values are: ' . $integrationTypesAsString);
         }
-        self::$integrationType = self::integrationTypes()[$type];
+        self::$integrationType = $type;
     }
 }
