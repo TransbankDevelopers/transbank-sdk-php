@@ -48,9 +48,7 @@ use Transbank\OnePay\Exceptions\SignException;
             throw new TransactionCreateException($httpResponse['responseCode'] . " : " . $httpResponse['description'], -1);
         }
 
-        $transactionCreateResponse =  new TransactionCreateResponse();
-        $transactionCreateResponse = $transactionCreateResponse->fromJSON($httpResponse);
-
+        $transactionCreateResponse =  new TransactionCreateResponse($httpResponse);
         
         $signatureIsValid = OnePaySignUtil::getInstance()
                             ->validate($transactionCreateResponse,

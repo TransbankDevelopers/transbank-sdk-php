@@ -20,8 +20,7 @@ class TransactionCreateResponseMocks {
                 }
             }';
 
-            $transactionCreateResponse = (new TransactionCreateResponse())
-                                            ->fromJSON($validResponseJson);
+            $transactionCreateResponse = new TransactionCreateResponse($validResponseJson);
             array_push(self::$transactionCreateResponseMocks, $transactionCreateResponse);
         }
         return self::$transactionCreateResponseMocks;

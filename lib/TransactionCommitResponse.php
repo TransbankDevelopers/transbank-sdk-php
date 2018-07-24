@@ -23,7 +23,7 @@ class TransactionCommitResponse extends BaseResponse implements \JsonSerializabl
 
     public function __construct($json)
     {
-        return $this->fromJSON($json);
+        $this->fromJSON($json);
     }
     public function jsonSerialize() 
     {
