@@ -33,7 +33,7 @@ class Refund {
         if (!$decodedResponse || !$decodedResponse['responseCode']) {
             throw new RefundCreateException("Could not obtain the service response");
         }
-        $refundCreateResponse = (new RefundCreateResponse())->fromJSON($decodedResponse);
+        $refundCreateResponse = new RefundCreateResponse($decodedResponse);
         if (strtolower($decodedResponse['responseCode']) != "ok") {
             $msg = $decodedResponse['responseCode'] . " : " . $decodedResponse['description'];
             throw new RefundCreateException($msg, -1);

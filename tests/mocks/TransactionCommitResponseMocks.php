@@ -23,8 +23,8 @@ class TransactionCommitResponseMocks {
                     "buyOrder": "20180705161636514"
                 }
             }';
-            $transactionCommitResponse = (new TransactionCommitResponse())
-                                            ->fromJSON($validResponseJson);
+            $transactionCommitResponse = new TransactionCommitResponse($validResponseJson);
+                                           
             array_push(self::$transactionCommitResponseMocks, $transactionCommitResponse);
         }
         return self::$transactionCommitResponseMocks;

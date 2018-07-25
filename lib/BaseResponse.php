@@ -21,9 +21,9 @@ namespace Transbank;
         return $this->responseCode;
     }
 
-    public function setResponseCode($apiKey) 
+    public function setResponseCode($responseCode) 
     {
-        $this->responseCode = $apiKey;
+        $this->responseCode = $responseCode;
         return $this;
     }
 

@@ -17,18 +17,10 @@ class TransactionCreateResponse extends BaseResponse implements \JsonSerializabl
     private $qrCodeAsBase64;
     private $issuedAt;
     private $signature;
-    public function __construct($occ = null,
-                                $ott = null,
-                                $externalUniqueNumber = null,
-                                $qrCodeAsBase64 = null,
-                                $issuedAt = null)
+    public function __construct($json)
     {
 
-        $this->occ = $occ;
-        $this->ott = $ott;
-        $this->externalUniqueNumber = $externalUniqueNumber;
-        $this->qrCodeAsBase64 = $qrCodeAsBase64;
-        $this->issuedAt = $issuedAt;
+        $this->fromJSON($json);
     }
 
     public function jsonSerialize() 

@@ -21,27 +21,9 @@ class TransactionCommitResponse extends BaseResponse implements \JsonSerializabl
     private $installmentsAmount;
     private $installmentsNumber;
 
-    public function __construct(
-                                $occ = null,
-                                $authorizationCode = null,
-                                $signature = null,
-                                $transactionDesc = null,
-                                $buyOrder = null,
-                                $issuedAt = null,
-                                $amount = null,
-                                $installmentsAmount = null,
-                                $installmentsNumber = null
-                                )
+    public function __construct($json)
     {
-        $this->occ = $occ;
-        $this->authorizationCode = $authorizationCode;
-        $this->signature = $signature;
-        $this->transactionDesc = $transactionDesc;
-        $this->buyOrder = $buyOrder;
-        $this->issuedAt = $issuedAt;
-        $this->amount = $amount;
-        $this->installmentAmount = $installmentsAmount;
-        $this->installmentsNumber = $installmentsNumber;
+        $this->fromJSON($json);
     }
     public function jsonSerialize() 
     {
@@ -157,7 +139,9 @@ class TransactionCommitResponse extends BaseResponse implements \JsonSerializabl
         }
         $responseResult = $json['result'];
 
-        return $this->setOcc($responseResult['occ'])
+        return $this->setResponseCode($json['responseCode'])
+                    ->setDescription($json['description'])
+                    ->setOcc($responseResult['occ'])
                     ->setAuthorizationCode($responseResult['authorizationCode'])
                     ->setSignature($responseResult['signature'])
                     ->setTransactionDesc($responseResult['transactionDesc'])
