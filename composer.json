@@ -1,5 +1,5 @@
 {
-    "name": "transbank/onepay-php",
+    "name": "transbank-onepay-sdk-php",
     "description": "Transbank SDK for OnePay",
     "keywords": ["payments", "transbank", "api", "sdk"],
     "require": {
