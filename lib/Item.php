@@ -20,7 +20,7 @@ namespace Transbank;
      */
 
     public function __construct($description, $quantity, $amount,
-                                $additionalData, $expire)
+                                $additionalData = null, $expire = 0)
     {
         
         $this->setDescription($description);
