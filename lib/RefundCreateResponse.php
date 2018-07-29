@@ -86,13 +86,14 @@ class RefundCreateResponse extends BaseResponse implements \JsonSerializable {
             throw new \Exception('Given value must be an associative array or a string that can be converted to an associative array with json_decode()');
         }
 
-        return $this->setResponseCode($json['responseCode'])
-                    ->setDescription($json['description'])
-                    ->setOcc($json['result']['occ'])
-                    ->setExternalUniqueNumber($json['result']['externalUniqueNumber'])
-                    ->setReverseCode($json['result']['reverseCode'])
-                    ->setIssuedAt($json['result']['issuedAt'])
-                    ->setSignature($json['result']['signature']);
+        $this->setResponseCode($json['responseCode']);
+        $this->setDescription($json['description']);
+        $this->setOcc($json['result']['occ']);
+        $this->setExternalUniqueNumber($json['result']['externalUniqueNumber']);
+        $this->setReverseCode($json['result']['reverseCode']);
+        $this->setIssuedAt($json['result']['issuedAt']);
+        $this->setSignature($json['result']['signature']);
+        return $this;
     }
 
 
