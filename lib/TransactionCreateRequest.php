@@ -17,7 +17,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
     private $generateOttQrCode = true;
 
     function __construct($externalUniqueNumber, $total, $itemsQuantity, $issuedAt,
-                        $items, $callbackUrl, $channel) 
+                        $items, $callbackUrl = null, $channel = 'WEB') 
     {
         if (!$externalUniqueNumber) { 
             throw new \Exception('External unique number cannot be null.');

@@ -14,8 +14,8 @@ class OnePay
 {
 
 
-    public static $appKey;
-    public static $callbackUrl;
+    public static $appKey = "04533c31-fe7e-43ed-bbc4-1c8ab1538afp";
+    public static $callbackUrl = "http://nourlcallbackneededhere";
 
     public static $serverBasePath;
     public static $scriptPath;
