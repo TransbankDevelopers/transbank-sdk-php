@@ -57,52 +57,48 @@ class OnePay
         self::$apiKey = $apiKey;
     }
     /**
-     * Return the app key used for requests
+     * Return the app key used for requests. Identifies where requests come from
+     * on Transbank's side. SDK users have no use for this.
      */
     public static function getAppKey()
     {
         return self::$appKey;
     }
     /**
-     * Set the app key used for requests
-     */
-    public static function setAppKey($appKey)
-    {
-        self::$appKey = $appKey;
-    }
-    /**
-     * Return the callback url
+     * Get the callback URL. Not necessary nor used by integrators, but must be
+     * kept for legacy reasons
      */
     public static function getCallbackUrl()
     {
         return self::$callbackUrl;
     }
     /**
-     * Set the callback url
-     */
-    public static function setCallbackUrl($callbackUrl)
-    {
-        self::$callbackUrl = $callbackUrl;
-    }
-    /**
-     * Return the callback url
+     * get the SharedSecret
      */
     public static function getSharedSecret()
     {
         return self::$sharedSecret;
     }
     /**
-     * Set the callback url
+     * Set the SharedSecret
      */
     public static function setSharedSecret($sharedSecret)
     {
         self::$sharedSecret = $sharedSecret;
     }
 
+    /**
+     * Get the url of the current intengration endpoint
+     */
+
     public static function getCurrentIntegrationTypeUrl()
     {
         return self::integrationTypes()[self::$integrationType];
     }
+    /**
+     * 
+     * Get the integration URL of $type
+     */
 
     public static function getIntegrationTypeUrl($type)
     {
@@ -116,10 +112,17 @@ class OnePay
 
     }
 
+    /**
+     * Get the current integration type (eg. MOCK, TEST, LIVE)
+     */
+
     public static function getIntegrationType()
     {
         return self::$integrationType;
     }
+    /**
+     * Set the integration type
+     */
 
     public static function setIntegrationType($type)
     {

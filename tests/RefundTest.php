@@ -10,8 +10,6 @@ final class RefundTest extends TestCase
     {
         OnePay::setSharedSecret("P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
         OnePay::setApiKey("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg");
-        OnePay::setAppKey("04533c31-fe7e-43ed-bbc4-1c8ab1538afp");
-
         $this->externalUniqueNumber = "1532376544050";
         $this->occ = "1807829988419927";
         $this->authorizationCode = "497490";
