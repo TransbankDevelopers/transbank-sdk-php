@@ -114,4 +114,42 @@ namespace Transbank;
         return $this->expire;
     }
 
+    /**
+     * Takes a associative array (or JSON string)
+     * with the following shape:
+     * $item = ("description" => "MANDATORY - A string",
+     *          "amount" => "MANDATORY - A number",
+     *          "quantity" => "MANDATORY - A number",
+     *          "additionalData" => "OPTIONAL - A string",
+     *          "expire" => "OPTIONAL - A number")
+     *  and creates a new instance of Item
+     */
+    public static function fromJSON($item)
+    {
+        if(is_string($item)) {
+            $item = json_decode($item, true);
+        }
+        if (!is_array($item)) {
+            throw new \Exception('Item must be a JSON string or an associative array that is transformable to an associative array using json_decode');
+        }
+        $itemObject = new Item();
+        /**
+         * Define default values for the optional key/value pairs
+         */
+        $optionalValues = array("expire" => 0, "additionalData" => null);
+
+        /**
+         * Have the optional parameters, additionalData & expire have default
+         * values even if they are not included in the $item associative array.
+         */
+        array_merge($optionalValues, $item);
+
+        $itemObject->setDescription($item["description"]);
+        $itemObject->setAmount($item["amount"]);
+        $itemObject->setQuantity($item["quantity"]);
+        $itemObject->setExpire($item["expire"]);
+        $itemObject->setAdditionalData($item["additionalData"]);
+        return $itemObject;
+    }
+
  }
