@@ -93,7 +93,7 @@ namespace Transbank;
     /**
      * Get the additional data for an instance of Item
      */
-    public function getAdditionalData($additionalData) {
+    public function getAdditionalData() {
         return $this->additionalData;
     }
     /**
@@ -110,7 +110,7 @@ namespace Transbank;
      * 
      * Get expire for an instance of Item
      */
-    public function getExpire($expire) {
+    public function getExpire() {
         return $this->expire;
     }
 
@@ -132,23 +132,24 @@ namespace Transbank;
         if (!is_array($item)) {
             throw new \Exception('Item must be a JSON string or an associative array that is transformable to an associative array using json_decode');
         }
-        $itemObject = new Item();
         /**
-         * Define default values for the optional key/value pairs
+         * Define default values
          */
-        $optionalValues = array("expire" => 0, "additionalData" => null);
+        $defaultValues = array("amount" => null,
+                                "description" => null,
+                                "quantity" => null,
+                                "expire" => 0,
+                                "additionalData" => null);
 
         /**
-         * Have the optional parameters, additionalData & expire have default
-         * values even if they are not included in the $item associative array.
+         * Have the default values for all keys, event if they are not included
+         * in the $item associative array originally.
          */
-        array_merge($optionalValues, $item);
+        $item = array_merge($defaultValues, $item);
 
-        $itemObject->setDescription($item["description"]);
-        $itemObject->setAmount($item["amount"]);
-        $itemObject->setQuantity($item["quantity"]);
-        $itemObject->setExpire($item["expire"]);
-        $itemObject->setAdditionalData($item["additionalData"]);
+        $itemObject = new Item($item["description"], $item["quantity"],
+                               $item["amount"], $item["additionalData"],
+                               $item["expire"]);
         return $itemObject;
     }
 
