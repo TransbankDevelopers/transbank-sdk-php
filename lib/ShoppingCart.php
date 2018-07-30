@@ -58,4 +58,41 @@ namespace Transbank;
     {
         return sizeof($this->items);
     }
+
+    /**
+     * Creates a ShoppingCart from an associative array (or json_decode-able string)
+     * with the following shape
+     * 
+     * $cart = array(
+     *  "items" => [
+     *     ["amount"=> "MANDATORY - A number",
+     *      "quantity" => "MANDATORY - A number",
+     *      "description" => "MANDATORY - A string",
+     *      "additionalData" => "OPTIONAL - A string",
+     *      "expire" => "OPTIONAL - A number"],
+     *     ...plus whichever number of Item shaped associative arrays you want
+     *     to include
+     *  ]
+     * );
+     * 
+     */
+    public static function fromJSON($cart)
+    {
+        if(!isset($cart['items']))
+        {
+            throw new \Exception('Shopping Cart cannot have no items');
+        }
+        if(!$cart['items'])
+        {
+            throw new \Exception('Shopping Cart cannot have no items');
+        }
+
+        $shoppingCartObject = new ShoppingCart();
+        foreach($cart['items'] as $cartItem) {
+
+            $item = Item::fromJSON($cartItem);
+            $shoppingCartObject->add($item);
+        }
+        return $shoppingCartObject;
+    }
  }
