@@ -9,6 +9,9 @@ namespace Transbank;
 
  class ShoppingCart implements \JsonSerializable
  {
+    private $items;
+    private $total;
+    
     public function jsonSerialize() 
     {
         return get_object_vars($this);
@@ -28,35 +31,62 @@ namespace Transbank;
 
     public function getItems()
     {
-        return $this->items;
+        /**
+         * Returns a copy of $this->items so it cannot be modified from the
+         * outside
+         */
+        if(empty($this->items)) {
+            return array();
+        }
+        $newItems = [];
+
+        foreach($this->items as $item) {
+            $newItem = clone $item;
+            array_push($newItems, $newItem);
+        }
+        return  $newItems;
     }
 
     public function add($item)
     {
-        $newTotal = $this->total + $item->getAmount();
+        $newTotal = $this->total + $item->getAmount() * $item->getQuantity();
         if ($newTotal < 0) {
             throw new \Exception("Total amount cannot be less than zero.");
         }
-
-        $this->total = $newTotal;
         array_push($this->items, $item);
-        return $this->items;
+        $this->total = $newTotal;
+        return true;
     }
 
     public function remove($item)
     {
-        $newTotal = $this->total + $item->getAmount();
+        $newTotal = $this->total - $item->getAmount() * $item->getQuantity();
+        $itemKey = array_search($item, $this->items);
+        if($itemKey === false) {
+            throw new \Exception('Item not found.');
+        }
+
         if ($newTotal < 0) {
             throw new \Exception("Total amount cannot be less than zero.");
         }
-        $itemkey = array_search($item, $this->items);
-        array_splice($this->items, $itemkey, 1);
-        return $this->items;
+        array_splice($this->items, $itemKey, 1);
+        $this->total = $newTotal;
+        return true;
+    }
+
+    public function removeAll()
+    {
+        $this->total = 0;
+        $this->items = array();
     }
 
     public function getItemQuantity()
     {
-        return sizeof($this->items);
+        $quantity = 0;
+        foreach ($this->items as $item) {
+            $quantity += $item->getQuantity();
+        }
+        return $quantity;
     }
 
     /**
@@ -78,13 +108,26 @@ namespace Transbank;
      */
     public static function fromJSON($cart)
     {
+        if(is_string($cart)) {
+            $cart = json_decode($cart, true);
+        }
+        if (!is_array($cart)) {
+            throw new \Exception('Shopping Cart must be a JSON string or an associative array that is transformable to an associative array using json_decode');
+        }
+
         if(!isset($cart['items']))
         {
-            throw new \Exception('Shopping Cart cannot have no items');
+            throw new \Exception('Shopping Cart must have an "items" key (even if null/empty)');
         }
+
         if(!$cart['items'])
         {
-            throw new \Exception('Shopping Cart cannot have no items');
+            return new ShoppingCart();
+        }
+
+        if(empty($cart['items']))
+        {
+            return new ShoppingCart();
         }
 
         $shoppingCartObject = new ShoppingCart();

@@ -54,6 +54,9 @@ namespace Transbank;
         if (!is_integer($quantity)) {
             throw new \Exception ("quantity must be an Integer");
         }
+        if ($quantity < 0) {
+            throw new \Exception ("quantity cannot be less than zero");
+        }
         $this->quantity = $quantity;
     }
     /**
@@ -68,6 +71,9 @@ namespace Transbank;
     public function setAmount($amount) {
         if (!is_integer($amount)) {
             throw new \Exception ("amount must be an Integer");
+        }
+        if ($amount < 0) {
+            throw new \Exception ("amount cannot be less than zero");
         }
         $this->amount = $amount;
     }
