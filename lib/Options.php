@@ -15,10 +15,10 @@ namespace Transbank;
     private $appKey;
     private $sharedSecret;
 
-    public function __construct($apiKey = null, $appKey = null, $sharedSecret = null)
+    public function __construct($apiKey = null, $sharedSecret = null)
     {
         $this->setApiKey($apiKey);
-        $this->setAppKey($appKey);
+        $this->setAppKey(OnePay::getAppKey());
         $this->setSharedSecret($sharedSecret);
     }
 
@@ -62,6 +62,6 @@ namespace Transbank;
 
     public static function getDefaults()
     {
-        return new Options(OnePay::getApiKey(), OnePay::getAppKey(), OnePay::getSharedSecret());
+        return new Options(OnePay::getApiKey(), OnePay::getSharedSecret());
     }
  }

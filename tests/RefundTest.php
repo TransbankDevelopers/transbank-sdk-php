@@ -18,9 +18,8 @@ final class RefundTest extends TestCase
     public function testRefundWorks()
     {
         $apiKey = OnePay::getApiKey();
-        $appKey = OnePay::getAppKey();
         $sharedSecret = OnePay::getSharedSecret();
-        $options = new Options($apiKey, $appKey, $sharedSecret);
+        $options = new Options($apiKey, $sharedSecret);
 
         $httpResponse = Refund::create(27500, $this->occ,
                                        $this->externalUniqueNumber,
@@ -32,9 +31,8 @@ final class RefundTest extends TestCase
     public function testRefundRaisesExceptionWhenInvalid()
     {
         $apiKey = OnePay::getApiKey();
-        $appKey = OnePay::getAppKey();
         $sharedSecret = OnePay::getSharedSecret();
-        $options = new Options($apiKey, $appKey, $sharedSecret);
+        $options = new Options($apiKey,$sharedSecret);
 
         // It should raise an exception when failing
         $this->setExpectedException(\Transbank\OnePay\Exceptions\RefundCreateException::class);
