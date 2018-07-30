@@ -151,5 +151,4 @@ namespace Transbank;
                         $item["amount"], $item["additionalData"],
                         $item["expire"]);
     }
-
  }

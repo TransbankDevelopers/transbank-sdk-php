@@ -15,7 +15,7 @@ final class RefundTest extends TestCase
         $this->authorizationCode = "497490";
     }
 
-    public function testRefundWorks()
+    public function testRefundWithOptionsWorks()
     {
         $apiKey = OnePay::getApiKey();
         $sharedSecret = OnePay::getSharedSecret();
@@ -24,6 +24,18 @@ final class RefundTest extends TestCase
         $httpResponse = Refund::create(27500, $this->occ,
                                        $this->externalUniqueNumber,
                                        $this->authorizationCode, $options);
+        $this->assertEquals($httpResponse->getResponseCode(), 'OK');
+        $this->assertEquals($httpResponse->getDescription(), 'OK');
+    }
+
+    public function testRefundWithoutOptionsWorks()
+    {
+        $apiKey = OnePay::getApiKey();
+        $sharedSecret = OnePay::getSharedSecret();
+
+        $httpResponse = Refund::create(27500, $this->occ,
+                                       $this->externalUniqueNumber,
+                                       $this->authorizationCode);
         $this->assertEquals($httpResponse->getResponseCode(), 'OK');
         $this->assertEquals($httpResponse->getDescription(), 'OK');
     }
