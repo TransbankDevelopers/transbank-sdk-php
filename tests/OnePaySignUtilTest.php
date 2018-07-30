@@ -17,8 +17,6 @@ final class OnePaySignUtilTest extends TestCase
     {
         OnePay::setSharedSecret("P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
         OnePay::setApiKey("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg");
-        OnePay::setAppKey("04533c31-fe7e-43ed-bbc4-1c8ab1538afp");
-        OnePay::setCallbackUrl("http://localhost:8080/ewallet-endpoints");
         $this->secret = OnePay::getSharedSecret();
 
         $this->transactionCreateRequestTestObject = TransactionCreateRequestMocks::get();

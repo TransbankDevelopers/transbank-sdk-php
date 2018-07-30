@@ -36,14 +36,16 @@ class TransactionCreateResponse extends BaseResponse implements \JsonSerializabl
         if (!is_array($json)) {
             throw new \Exception('Given value must be an associative array or a string that can be converted to an associative array with json_decode()');
         }
-        return $this->setResponseCode($json['responseCode'])
-                    ->setDescription($json['description'])
-                    ->setOcc($json['result']['occ'])
-                    ->setOtt($json['result']['ott'])
-                    ->setExternalUniqueNumber($json['result']['externalUniqueNumber'])
-                    ->setQrCodeAsBase64($json['result']['qrCodeAsBase64'])
-                    ->setIssuedAt($json['result']['issuedAt'])
-                    ->setSignature($json['result']['signature']);
+        $this->setResponseCode($json['responseCode']);
+        $this->setDescription($json['description']);
+        $this->setOcc($json['result']['occ']);
+        $this->setOtt($json['result']['ott']);
+        $this->setExternalUniqueNumber($json['result']['externalUniqueNumber']);
+        $this->setQrCodeAsBase64($json['result']['qrCodeAsBase64']);
+        $this->setIssuedAt($json['result']['issuedAt']);
+        $this->setSignature($json['result']['signature']);
+
+        return $this;
     }
 
     public function getOcc() {

@@ -139,17 +139,18 @@ class TransactionCommitResponse extends BaseResponse implements \JsonSerializabl
         }
         $responseResult = $json['result'];
 
-        return $this->setResponseCode($json['responseCode'])
-                    ->setDescription($json['description'])
-                    ->setOcc($responseResult['occ'])
-                    ->setAuthorizationCode($responseResult['authorizationCode'])
-                    ->setSignature($responseResult['signature'])
-                    ->setTransactionDesc($responseResult['transactionDesc'])
-                    ->setBuyOrder($responseResult['buyOrder'])
-                    ->setIssuedAt($responseResult['issuedAt'])
-                    ->setAmount($responseResult['amount'])
-                    ->setInstallmentsAmount($responseResult['installmentsAmount'])
-                    ->setInstallmentsNumber($responseResult['installmentsNumber']);
+        $this->setResponseCode($json['responseCode']);
+        $this->setDescription($json['description']);
+        $this->setOcc($responseResult['occ']);
+        $this->setAuthorizationCode($responseResult['authorizationCode']);
+        $this->setSignature($responseResult['signature']);
+        $this->setTransactionDesc($responseResult['transactionDesc']);
+        $this->setBuyOrder($responseResult['buyOrder']);
+        $this->setIssuedAt($responseResult['issuedAt']);
+        $this->setAmount($responseResult['amount']);
+        $this->setInstallmentsAmount($responseResult['installmentsAmount']);
+        $this->setInstallmentsNumber($responseResult['installmentsNumber']);
+        return $this;
     }
 
 
