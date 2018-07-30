@@ -147,10 +147,9 @@ namespace Transbank;
          */
         $item = array_merge($defaultValues, $item);
 
-        $itemObject = new Item($item["description"], $item["quantity"],
-                               $item["amount"], $item["additionalData"],
-                               $item["expire"]);
-        return $itemObject;
+        return new Item($item["description"], $item["quantity"],
+                        $item["amount"], $item["additionalData"],
+                        $item["expire"]);
     }
 
  }
