@@ -1,5 +1,5 @@
 <?php
-namespace Transbank;
+namespace Transbank\OnePay;
 require_once(__DIR__ . '/ShoppingCartMocks.php');
 
 class TransactionCreateRequestMocks {

@@ -1,5 +1,5 @@
 <?php
-namespace Transbank;
+namespace Transbank\OnePay;
 
 use PHPUnit\Framework\TestCase;
 
@@ -8,8 +8,8 @@ final class RefundTest extends TestCase
 
     protected function setup()
     {
-        OnePay::setSharedSecret("P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
-        OnePay::setApiKey("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg");
+        OnePayBase::setSharedSecret("P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
+        OnePayBase::setApiKey("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg");
         $this->externalUniqueNumber = "1532376544050";
         $this->occ = "1807829988419927";
         $this->authorizationCode = "497490";
@@ -17,8 +17,8 @@ final class RefundTest extends TestCase
 
     public function testRefundWithOptionsWorks()
     {
-        $apiKey = OnePay::getApiKey();
-        $sharedSecret = OnePay::getSharedSecret();
+        $apiKey = OnePayBase::getApiKey();
+        $sharedSecret = OnePayBase::getSharedSecret();
         $options = new Options($apiKey, $sharedSecret);
 
         $httpResponse = Refund::create(27500, $this->occ,
@@ -30,8 +30,8 @@ final class RefundTest extends TestCase
 
     public function testRefundWithoutOptionsWorks()
     {
-        $apiKey = OnePay::getApiKey();
-        $sharedSecret = OnePay::getSharedSecret();
+        $apiKey = OnePayBase::getApiKey();
+        $sharedSecret = OnePayBase::getSharedSecret();
 
         $httpResponse = Refund::create(27500, $this->occ,
                                        $this->externalUniqueNumber,
@@ -42,8 +42,8 @@ final class RefundTest extends TestCase
     
     public function testRefundRaisesExceptionWhenInvalid()
     {
-        $apiKey = OnePay::getApiKey();
-        $sharedSecret = OnePay::getSharedSecret();
+        $apiKey = OnePayBase::getApiKey();
+        $sharedSecret = OnePayBase::getSharedSecret();
         $options = new Options($apiKey,$sharedSecret);
 
         // It should raise an exception when failing

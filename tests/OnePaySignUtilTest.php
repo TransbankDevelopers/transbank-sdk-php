@@ -1,6 +1,6 @@
 <?php
 
-namespace Transbank;
+namespace Transbank\OnePay;
 
 use PHPUnit\Framework\TestCase;
 
@@ -15,9 +15,9 @@ final class OnePaySignUtilTest extends TestCase
 
     protected function setup()
     {
-        OnePay::setSharedSecret("P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
-        OnePay::setApiKey("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg");
-        $this->secret = OnePay::getSharedSecret();
+        OnePayBase::setSharedSecret("P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
+        OnePayBase::setApiKey("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg");
+        $this->secret = OnePayBase::getSharedSecret();
 
         $this->transactionCreateRequestTestObject = TransactionCreateRequestMocks::get();
         $this->transactionCreateResponseTestObject = TransactionCreateResponseMocks::get();

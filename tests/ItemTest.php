@@ -1,6 +1,6 @@
 <?php
 
-namespace Transbank;
+namespace Transbank\OnePay;
 
 use PHPUnit\Framework\TestCase;
 

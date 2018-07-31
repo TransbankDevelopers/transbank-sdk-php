@@ -1,5 +1,5 @@
 <?php
-namespace Transbank;
+namespace Transbank\OnePay;
 /** 
  * @class BaseRequest
  * Basic request class that includes commonly used members

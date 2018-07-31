@@ -1,5 +1,5 @@
 <?php
-namespace Transbank;
+namespace Transbank\OnePay;
 /** 
  *  @class TransactionRequest
  *  Creates an object to be used when making a transaction request to onepay

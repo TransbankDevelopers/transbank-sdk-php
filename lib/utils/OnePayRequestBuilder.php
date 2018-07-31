@@ -1,5 +1,5 @@
 <?php
-namespace Transbank;
+namespace Transbank\OnePay;
 /**
  * @class TransactionCreateRequest
  *  Creates a request object to be used when connecting to OnePay
@@ -32,7 +32,7 @@ namespace Transbank;
                                           $shoppingCart->getItemQuantity(),
                                           $issuedAt,
                                           $shoppingCart->getItems(),
-                                          OnePay::getCallBackUrl(),
+                                          OnePayBase::getCallBackUrl(),
                                           'WEB'); # Channel, can be 'web' or 'mobile' for now
 
         self::setKeys($request, $options);
@@ -75,14 +75,14 @@ namespace Transbank;
         }
 
         if (!$options->getApiKey()) {
-            $options->setApiKey(OnePay::getApiKey());
+            $options->setApiKey(OnePayBase::getApiKey());
         }
 
         if (!$options->getAppKey()) {
-            $options->setAppKey(OnePay::getAppKey());
+            $options->setAppKey(OnePayBase::getAppKey());
         }
         if (!$options->getSharedSecret()) {
-            $options->setSharedSecret(OnePay::getSharedSecret());
+            $options->setSharedSecret(OnePayBase::getSharedSecret());
         }
         return $options;
     }
