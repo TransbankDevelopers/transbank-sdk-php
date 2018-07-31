@@ -62,6 +62,7 @@ use Transbank\OnePay\Exceptions\SignException;
     public static function commit($occ, $externalUniqueNumber, $options = null)
     {
         $http = self::getHttpClient();
+        $options = OnePayRequestBuilder::getInstance()->buildOptions($options);
         $request = json_encode(OnePayRequestBuilder::getInstance()->buildCommitRequest($occ, $externalUniqueNumber, $options), JSON_UNESCAPED_SLASHES);
         $path = self::TRANSACTION_BASE_PATH . self::COMMIT_TRANSACTION;
         $httpResponse = json_decode($http->post(OnePayBase::getCurrentIntegrationTypeUrl(), $path, $request), true);
