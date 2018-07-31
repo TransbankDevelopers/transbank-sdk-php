@@ -116,7 +116,7 @@ class OnePay
      * Get the current integration type (eg. MOCK, TEST, LIVE)
      */
 
-    public static function getIntegrationType()
+    public static function getCurrentIntegrationType()
     {
         return self::$integrationType;
     }
@@ -124,7 +124,7 @@ class OnePay
      * Set the integration type
      */
 
-    public static function setIntegrationType($type)
+    public static function setCurrentIntegrationType($type)
     {
         if (!self::integrationTypes()[$type]) {
             $integrationTypes = array_keys(self::integrationTypes());
