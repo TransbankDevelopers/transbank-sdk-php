@@ -1,5 +1,5 @@
 <?php
-namespace Transbank\OnePay;
+namespace Transbank\Onepay;
 /** 
  * class Refund
  * Model object for Refunds
@@ -7,7 +7,7 @@ namespace Transbank\OnePay;
  * 
  * 
  */
-use Transbank\OnePay\Exceptions\RefundCreateException as RefundCreateException;
+use Transbank\Onepay\Exceptions\RefundCreateException as RefundCreateException;
 
 class Refund {
     const REFUND_TRANSACTION = "nullifytransaction";
@@ -18,7 +18,7 @@ class Refund {
                                   $authorizationCode, $options = null)
     {
 
-        $request = OnePayRequestBuilder::getInstance()
+        $request = OnepayRequestBuilder::getInstance()
                                        ->buildRefundRequest($amount, $occ, 
                                                             $externalUniqueNumber,
                                                             $authorizationCode,
@@ -26,7 +26,7 @@ class Refund {
         $jsonRequest = json_encode($request, JSON_UNESCAPED_SLASHES);
         $http = new HttpClient();
         $path = self::TRANSACTION_BASE_PATH . self::REFUND_TRANSACTION;
-        $httpResponse = $http->post(OnePayBase::getCurrentIntegrationTypeUrl(),
+        $httpResponse = $http->post(OnepayBase::getCurrentIntegrationTypeUrl(),
                                     $path,
                                     $jsonRequest);
         $decodedResponse = json_decode($httpResponse, true);

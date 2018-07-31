@@ -1,5 +1,5 @@
 <?php
-namespace Transbank\OnePay;
+namespace Transbank\Onepay;
 /**
  * class RefundCreateResponse
  * Model object for the response to a Refund creation attempt.

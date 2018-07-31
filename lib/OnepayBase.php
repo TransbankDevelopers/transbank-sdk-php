@@ -1,11 +1,11 @@
 <?php
-namespace Transbank\OnePay;
+namespace Transbank\Onepay;
 /**
- * Class OnePayBase
- * Base class for Transbank\OnePay
+ * Class OnepayBase
+ * Base class for Transbank\Onepay
  * @package Transbank
 */
-class OnePayBase
+class OnepayBase
 {
 
 
@@ -22,7 +22,7 @@ class OnePayBase
 
         $types = array("TEST" => 'https://web2desa.test.transbank.cl',
                         "LIVE" => '',
-                        "MOCK" => 'http://onepay.getsandbox.com');
+                        "MOCK" => 'http://Onepay.getsandbox.com');
 
 
         if (!$type) {
@@ -36,13 +36,13 @@ class OnePayBase
         }
     }
     /**
-     * Get your OnePay API key
-     * If self::$apiKey evaluates to false, it will return getenv("ONEPAY_API_KEY")
+     * Get your Onepay API key
+     * If self::$apiKey evaluates to false, it will return getenv("Onepay_API_KEY")
      */
     public static function getApiKey()
     {
         if(!self::$apiKey) {
-            return getenv("ONEPAY_API_KEY");
+            return getenv("Onepay_API_KEY");
         }
         return self::$apiKey;
     }
@@ -72,12 +72,12 @@ class OnePayBase
     }
     /**
      * Get the SharedSecret
-     * If self::$sharedSecret evaluates to false, it will return getenv("ONEPAY_SHARED_SECRET")
+     * If self::$sharedSecret evaluates to false, it will return getenv("Onepay_SHARED_SECRET")
      */
     public static function getSharedSecret()
     {
         if(!self::$sharedSecret) {
-            return getenv("ONEPAY_SHARED_SECRET");
+            return getenv("Onepay_SHARED_SECRET");
         }
         return self::$sharedSecret;
     }

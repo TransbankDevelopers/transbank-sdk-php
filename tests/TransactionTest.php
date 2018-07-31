@@ -1,13 +1,13 @@
 <?php
 
-namespace Transbank\OnePay;
+namespace Transbank\Onepay;
 
 use PHPUnit\Framework\TestCase;
 require_once(__DIR__ . '/mocks/ShoppingCartMocks.php');
 require_once(__DIR__ . '/mocks/TransactionCreateResponseMocks.php');
-use Transbank\OnePay\Exceptions\TransactionCreateException;
-use Transbank\OnePay\Exceptions\TransactionCommitException;
-use Transbank\OnePay\Exceptions\SignException;
+use Transbank\Onepay\Exceptions\TransactionCreateException;
+use Transbank\Onepay\Exceptions\TransactionCommitException;
+use Transbank\Onepay\Exceptions\SignException;
 
 final class TransactionTest extends TestCase
 {
@@ -15,9 +15,9 @@ final class TransactionTest extends TestCase
     const OCC_TO_COMMIT_TRANSACTION_TEST = "1807829988419927";
     protected function setup()
     {
-        OnePayBase::setSharedSecret("P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
-        OnePayBase::setApiKey("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg");
-        OnePayBase::setCurrentIntegrationType("MOCK");
+        OnepayBase::setSharedSecret("P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
+        OnepayBase::setApiKey("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg");
+        OnepayBase::setCurrentIntegrationType("MOCK");
     }
 
     public function testTransactionRaisesWhenResponseIsNull() {
@@ -126,23 +126,23 @@ final class TransactionTest extends TestCase
     public function testTransactionCreationWorksTakingKeysFromGetenv()
     {
 
-        $originalApiKey = OnePayBase::getApiKey();
-        $originalSharedSecret = OnePayBase::getSharedSecret();
-        OnePayBase::setApiKey(null);
-        OnePayBase::setSharedSecret(null);
+        $originalApiKey = OnepayBase::getApiKey();
+        $originalSharedSecret = OnepayBase::getSharedSecret();
+        OnepayBase::setApiKey(null);
+        OnepayBase::setSharedSecret(null);
         // Can't use getters, they will return something from getenv!
         // and we need to check if they are actually null in the static variable
-        $onePayBaseReflection = new \ReflectionClass(OnePayBase::class);
-        $nullApiKey = $onePayBaseReflection->getStaticPropertyValue('apiKey');
-        $nullSharedSecret = $onePayBaseReflection->getStaticPropertyValue('sharedSecret');
+        $OnepayBaseReflection = new \ReflectionClass(OnepayBase::class);
+        $nullApiKey = $OnepayBaseReflection->getStaticPropertyValue('apiKey');
+        $nullSharedSecret = $OnepayBaseReflection->getStaticPropertyValue('sharedSecret');
         $this->assertNull($nullApiKey);
         $this->assertNull($nullSharedSecret);
 
-        putenv('ONEPAY_API_KEY=' . $originalApiKey);
-        putenv('ONEPAY_SHARED_SECRET=' . $originalSharedSecret);
+        putenv('Onepay_API_KEY=' . $originalApiKey);
+        putenv('Onepay_SHARED_SECRET=' . $originalSharedSecret);
 
-        $this->assertEquals(OnePayBase::getApiKey(), getenv('ONEPAY_API_KEY'));
-        $this->assertEquals(OnePayBase::getSharedSecret(), getenv('ONEPAY_SHARED_SECRET'));
+        $this->assertEquals(OnepayBase::getApiKey(), getenv('Onepay_API_KEY'));
+        $this->assertEquals(OnepayBase::getSharedSecret(), getenv('Onepay_SHARED_SECRET'));
 
         $shoppingCart = ShoppingCartMocks::get();
         $response = Transaction::create($shoppingCart);

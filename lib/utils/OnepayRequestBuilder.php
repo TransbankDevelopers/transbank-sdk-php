@@ -1,13 +1,13 @@
 <?php
-namespace Transbank\OnePay;
+namespace Transbank\Onepay;
 /**
  * @class TransactionCreateRequest
- *  Creates a request object to be used when connecting to OnePay
+ *  Creates a request object to be used when connecting to Onepay
  * 
  * @package Transbank
  */
 
- class OnePayRequestBuilder {
+ class OnepayRequestBuilder {
     // Make this be a singleton class
     protected static $instance = null;
     protected function __construct() { }
@@ -32,11 +32,11 @@ namespace Transbank\OnePay;
                                           $shoppingCart->getItemQuantity(),
                                           $issuedAt,
                                           $shoppingCart->getItems(),
-                                          OnePayBase::getCallBackUrl(),
+                                          OnepayBase::getCallBackUrl(),
                                           'WEB'); # Channel, can be 'web' or 'mobile' for now
 
         self::setKeys($request, $options);
-        return OnePaySignUtil::getInstance()->sign($request, $options->getSharedSecret());
+        return OnepaySignUtil::getInstance()->sign($request, $options->getSharedSecret());
     }
 
     public function buildCommitRequest($occ, $externalUniqueNumber, $options = null)
@@ -46,7 +46,7 @@ namespace Transbank\OnePay;
         $issuedAt = time();
         $request = new TransactionCommitRequest($occ, $externalUniqueNumber, $issuedAt);
         self::setKeys($request, $options);
-        return OnePaySignUtil::getInstance()->sign($request, $options->getSharedSecret());
+        return OnepaySignUtil::getInstance()->sign($request, $options->getSharedSecret());
     }
 
     public function buildRefundRequest($refundAmount, $occ,
@@ -62,7 +62,7 @@ namespace Transbank\OnePay;
                                            $authorizationCode,
                                            $issuedAt);
         self::setKeys($request, $options);
-        return OnePaySignUtil::getInstance()->sign($request,
+        return OnepaySignUtil::getInstance()->sign($request,
                                                    $options->getSharedSecret());
     }
 
@@ -75,14 +75,14 @@ namespace Transbank\OnePay;
         }
 
         if (!$options->getApiKey()) {
-            $options->setApiKey(OnePayBase::getApiKey());
+            $options->setApiKey(OnepayBase::getApiKey());
         }
 
         if (!$options->getAppKey()) {
-            $options->setAppKey(OnePayBase::getAppKey());
+            $options->setAppKey(OnepayBase::getAppKey());
         }
         if (!$options->getSharedSecret()) {
-            $options->setSharedSecret(OnePayBase::getSharedSecret());
+            $options->setSharedSecret(OnepayBase::getSharedSecret());
         }
         return $options;
     }

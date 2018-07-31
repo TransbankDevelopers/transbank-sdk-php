@@ -38,14 +38,14 @@ Luego, para usar el SDK en tu código:
 # Crear una transacción
 ```php
 use Transbank;
-use Transbank\OnePay;
+use Transbank\Onepay;
 use Transbank\ShoppingCart;
 use Transbank\Item;
 use Transbank\Transaction;
 use Transbank\Refund;
 
-OnePayBase::setApiKey('tu-api-key');
-OnePayBase::setSharedSecret('tu-shared-secret');
+OnepayBase::setApiKey('tu-api-key');
+OnepayBase::setSharedSecret('tu-shared-secret');
 $objeto1 = ["amount" => 15000, "quantity" => 1, "description" => 'Zapatos deportivos'];
 $objeto2 = ["amount" => 5000, "quantity" => 3, "description" => 'Calcetines'];
 
@@ -64,11 +64,11 @@ $transaction = Transaction::create($carro);
     responseCode: Resultado de la creación de la Transacción
     description: Descripción del responseCode
     occ: Número orden de compra comercio
-    ott: Versión corta de "occ", usada en la app de OnePay (el usuario puede ingresar el OTT en vez de scanear el QR)
+    ott: Versión corta de "occ", usada en la app de Onepay (el usuario puede ingresar el OTT en vez de scanear el QR)
     signature: Firma para verificación de datos
     externalUniqueNumber: Valor usado por el comercio para identificar la transacción
     issuedAt: Momento de creación en UNIX time de la transacción
-    qrCodeAsBase64: Código QR en base64. Sirve para que el usuario de OnePay pueda scanearlo con la app para   realizar el pago
+    qrCodeAsBase64: Código QR en base64. Sirve para que el usuario de Onepay pueda scanearlo con la app para   realizar el pago
 
 # Adicionalmente, implementa JsonSerializable, por lo tanto:
 
@@ -207,13 +207,13 @@ El SDK incluye distintos ambientes (ej: TEST, LIVE), el cual se establece con:
 
 ```php
 $type = "LIVE";
-OnePayBase::setCurrentIntegrationType($type);
+OnepayBase::setCurrentIntegrationType($type);
 ```
 
 Los tipos de ambiente se pueden obtener con:
 
 ```php
-OnePayBase::integrationTypes();
+OnepayBase::integrationTypes();
 ```
 lo cual devuelve:
 ```php
@@ -222,15 +222,15 @@ lo cual devuelve:
 
 También puedes obtener la URL de un ambiente directamente:
 ```php
-OnePayBase::getIntegrationTypeUrl("LIVE");
+OnepayBase::getIntegrationTypeUrl("LIVE");
 # Retorna "https://live.url.com"
 ```
 
 O la del ambiente actual
 ```php
-OnePayBase::getCurrentIntegrationType();
+OnepayBase::getCurrentIntegrationType();
 # Retorna "LIVE" (o "TEST", o cual sea el ambiente actual)
-OnePayBase::getCurrentIntegrationTypeUrl();
+OnepayBase::getCurrentIntegrationTypeUrl();
 # Retorna "https://live.url.com", o la URL que corresponda al ambiente actual
 ```
 
