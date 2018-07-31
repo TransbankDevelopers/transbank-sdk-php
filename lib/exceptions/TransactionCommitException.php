@@ -1,5 +1,5 @@
 <?php
-namespace Transbank\OnePay\Exceptions;
+namespace Transbank\Onepay\Exceptions;
 /**
  * class TransactionCommitException
  * Raised when there is an error when commiting the transaction

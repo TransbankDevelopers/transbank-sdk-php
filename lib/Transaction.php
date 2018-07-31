@@ -1,5 +1,5 @@
 <?php
-namespace Transbank\OnePay;
+namespace Transbank\Onepay;
 /**
  *  Class Transaction
  *  This class creates or commits a transaction (that is, a purchase);
@@ -7,9 +7,9 @@ namespace Transbank\OnePay;
  * package @transbank;
  * 
  */
-use Transbank\OnePay\Exceptions\TransactionCreateException;
-use Transbank\OnePay\Exceptions\TransactionCommitException;
-use Transbank\OnePay\Exceptions\SignException;
+use Transbank\Onepay\Exceptions\TransactionCreateException;
+use Transbank\Onepay\Exceptions\TransactionCommitException;
+use Transbank\Onepay\Exceptions\SignException;
 
  class Transaction {
     const SEND_TRANSACTION = "sendtransaction";
@@ -19,7 +19,7 @@ use Transbank\OnePay\Exceptions\SignException;
     private static $httpClient = null;
     public static function getServiceUrl()
     {
-        return OnePayBase::getIntegrationTypeUrl("TEST") . "/ewallet-plugin-api-services/services/transactionservice";
+        return OnepayBase::getIntegrationTypeUrl("TEST") . "/ewallet-plugin-api-services/services/transactionservice";
     }
 
     private static function getHttpClient()
@@ -36,10 +36,10 @@ use Transbank\OnePay\Exceptions\SignException;
             throw new \Exception("Shopping cart is null or empty");
         }
         $http = self::getHttpClient();
-        $options = OnePayRequestBuilder::getInstance()->buildOptions($options);
-        $request = json_encode(OnePayRequestBuilder::getInstance()->buildCreateRequest($shoppingCart, $options), JSON_UNESCAPED_SLASHES);
+        $options = OnepayRequestBuilder::getInstance()->buildOptions($options);
+        $request = json_encode(OnepayRequestBuilder::getInstance()->buildCreateRequest($shoppingCart, $options), JSON_UNESCAPED_SLASHES);
         $path = self::TRANSACTION_BASE_PATH . self::SEND_TRANSACTION;
-        $httpResponse = json_decode($http->post(OnePayBase::getCurrentIntegrationTypeUrl(), $path ,$request), true);
+        $httpResponse = json_decode($http->post(OnepayBase::getCurrentIntegrationTypeUrl(), $path ,$request), true);
 
         if (!$httpResponse) {
             throw new TransactionCreateException('Could not obtain a response from the service', -1);
@@ -50,7 +50,7 @@ use Transbank\OnePay\Exceptions\SignException;
 
         $transactionCreateResponse =  new TransactionCreateResponse($httpResponse);
         
-        $signatureIsValid = OnePaySignUtil::getInstance()
+        $signatureIsValid = OnepaySignUtil::getInstance()
                             ->validate($transactionCreateResponse,
                                         $options->getSharedSecret());
         if (!$signatureIsValid) {
@@ -62,10 +62,10 @@ use Transbank\OnePay\Exceptions\SignException;
     public static function commit($occ, $externalUniqueNumber, $options = null)
     {
         $http = self::getHttpClient();
-        $options = OnePayRequestBuilder::getInstance()->buildOptions($options);
-        $request = json_encode(OnePayRequestBuilder::getInstance()->buildCommitRequest($occ, $externalUniqueNumber, $options), JSON_UNESCAPED_SLASHES);
+        $options = OnepayRequestBuilder::getInstance()->buildOptions($options);
+        $request = json_encode(OnepayRequestBuilder::getInstance()->buildCommitRequest($occ, $externalUniqueNumber, $options), JSON_UNESCAPED_SLASHES);
         $path = self::TRANSACTION_BASE_PATH . self::COMMIT_TRANSACTION;
-        $httpResponse = json_decode($http->post(OnePayBase::getCurrentIntegrationTypeUrl(), $path, $request), true);
+        $httpResponse = json_decode($http->post(OnepayBase::getCurrentIntegrationTypeUrl(), $path, $request), true);
 
         if (!$httpResponse) {
             throw new TransactionCommitException('Could not obtain a response from the service', -1);
@@ -75,7 +75,7 @@ use Transbank\OnePay\Exceptions\SignException;
         }
 
         $transactionCommitResponse = new TransactionCommitResponse($httpResponse);
-        $signatureIsValid = OnePaySignUtil::getInstance()
+        $signatureIsValid = OnepaySignUtil::getInstance()
                                           ->validate($transactionCommitResponse,
                                                      $options->getSharedSecret());
         if (!$signatureIsValid) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Transbank\OnePay;
+namespace Transbank\Onepay;
 
 class TransactionCreateResponseMocks {
     public static $transactionCreateResponseMocks = array();

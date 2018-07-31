@@ -1,11 +1,11 @@
 <?php
-namespace Transbank\OnePay;
+namespace Transbank\Onepay;
 /**
- * Class OnePayBase
- * Base class for Transbank\OnePay
+ * Class OnepayBase
+ * Base class for Transbank\Onepay
  * @package Transbank
 */
-class OnePayBase
+class OnepayBase
 {
 
 
@@ -36,7 +36,7 @@ class OnePayBase
         }
     }
     /**
-     * Get your OnePay API key
+     * Get your Onepay API key
      * If self::$apiKey evaluates to false, it will return getenv("ONEPAY_API_KEY")
      */
     public static function getApiKey()

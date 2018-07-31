@@ -1,14 +1,14 @@
 <?php
-namespace Transbank\OnePay;
-use Transbank\OnePay\Exceptions\SignException as SignException;
+namespace Transbank\Onepay;
+use Transbank\Onepay\Exceptions\SignException as SignException;
 
 /**
- * class OnePaySignUtil;
+ * class OnepaySignUtil;
  * 
  * @package Transbank;
  */
 
- class OnePaySignUtil {
+ class OnepaySignUtil {
     // Make this be a singleton class
     protected static $instance = null;
     protected function __construct() { }
@@ -133,7 +133,7 @@ use Transbank\OnePay\Exceptions\SignException as SignException;
         $data .= mb_strlen($totalAsString) . $totalAsString;
         $data .= mb_strlen($itemsQuantityAsString) . $itemsQuantityAsString;
         $data .= mb_strlen($issuedAtAsString) . $issuedAtAsString;
-        $data .= mb_strlen(OnePayBase::getCallbackUrl()) . OnePayBase::getCallbackUrl();
+        $data .= mb_strlen(OnepayBase::getCallbackUrl()) . OnepayBase::getCallbackUrl();
 
 
         $crypted = hash_hmac('sha256', $data, $secret, true);

@@ -1,5 +1,5 @@
 <?php
-namespace Transbank\OnePay;
+namespace Transbank\Onepay;
 
 class ShoppingCartMocks {
     public static $shoppingCartMocks = array();

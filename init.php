@@ -1,12 +1,12 @@
 <?php
 
-// OnePay Singleton
-require_once(dirname(__FILE__) . '/lib/OnePay.php');
+// Onepay Singleton
+require_once(dirname(__FILE__) . '/lib/Onepay.php');
 
 // Utilities
 require_once(dirname(__FILE__) . '/lib/utils/HttpClient.php');
-require_once(dirname(__FILE__) . '/lib/utils/OnePayRequestBuilder.php');
-require_once(dirname(__FILE__) . '/lib/utils/OnePaySignUtil.php');
+require_once(dirname(__FILE__) . '/lib/utils/OnepayRequestBuilder.php');
+require_once(dirname(__FILE__) . '/lib/utils/OnepaySignUtil.php');
 
 // Constants
 require_once(dirname(__FILE__) . '/lib/constants/Constants.php');
