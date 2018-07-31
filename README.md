@@ -12,31 +12,31 @@ automaticamente, pero si usas el SDK de manera directa requerirás también:
 
 Para usar el SDK en tu proyecto puedes usar Composer, por añadiendo el repositorio a tu composer.json: 
 
-```
+```json
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/continuum/transbank-onepay-sdk-php"
+            "url": "https://github.com/continuum/transbank-sdk-php"
         }
     ]
 ```
 
 y luego requiriendo el SDK como dependencia:
-```
+```json
     "require": {
-        "transbank-onepay-sdk-php": "dev-master"
+        "transbank-sdk": "dev-master"
     }
 ```
 
 O, si no deseas usar Composer, puedes descargar el código del SDK desde el repositorio y requerirlo directamente:
-```
+```php
 require_once('/directorio/del/sdk/init.php');
 ```
 
 Luego, para usar el SDK en tu código:
 
 # Crear una transacción
-```
+```php
 use Transbank;
 use Transbank\OnePay;
 use Transbank\ShoppingCart;
@@ -92,7 +92,7 @@ json_encode($transaction);
 ```
 
 # Confirmar una transacción
-```
+```php
 # $occ y $externalUniqueNumber vienen dados en la respuesta de Transaction::create
 $occ = 'valorocc';
 $externalUniqueNumber = 'valorExternalUniqueNumber';
@@ -137,7 +137,7 @@ json_encode($commitResponse);
 ```
 
 # Anular una transacción
-```
+```php
 # $amount y $occ son obtenibles a partir de la respuesta a Transaction::commit
 
 # Monto de la compra
@@ -183,7 +183,7 @@ json_encode($refund);
 
 # Opciones
 En caso de que lo requieras, puedes poner api key y shared secret alternativos en un request en particular:
-```
+```php
 use Transbank\Options;
 
 $options = new Options('otro-api-key', 'otro-shared-secret');
@@ -205,29 +205,29 @@ $refund = Refund::create($amount, $occ, $externalUniqueNumber,
 El SDK incluye distintos ambientes (ej: TEST, LIVE), el cual se establece con:
 
 
-```
+```php
 $type = "LIVE";
 OnePay::setCurrentIntegrationType($type);
 ```
 
 Los tipos de ambiente se pueden obtener con:
 
-```
+```php
 OnePay::integrationTypes();
 ```
 lo cual devuelve:
-```
+```php
 ["TEST" => "https://test.url.com", "LIVE" => "https://live.url.com"]
 ```
 
 También puedes obtener la URL de un ambiente directamente:
-```
+```php
 OnePay::getIntegrationTypeUrl("LIVE");
 # Retorna "https://live.url.com"
 ```
 
 O la del ambiente actual
-```
+```php
 OnePay::getCurrentIntegrationType();
 # Retorna "LIVE" (o "TEST", o cual sea el ambiente actual)
 OnePay::getCurrentIntegrationTypeUrl();
