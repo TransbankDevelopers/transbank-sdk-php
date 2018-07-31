@@ -17,6 +17,7 @@ final class TransactionTest extends TestCase
     {
         OnePayBase::setSharedSecret("P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
         OnePayBase::setApiKey("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg");
+        OnePayBase::setCurrentIntegrationType("MOCK");
     }
 
     public function testTransactionRaisesWhenResponseIsNull() {
