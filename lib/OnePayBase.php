@@ -16,10 +16,7 @@ class OnePayBase
     public static $scriptPath;
     public static $apiKey;
     public static $sharedSecret;
-    private static $integrationType = "MOCK";
-    /**
-     * Return the API key used for requests
-     */
+    private static $integrationType = "TEST";
 
     public static function integrationTypes($type = null) {
 
