@@ -22,7 +22,7 @@ class OnepayBase
 
         $types = array("TEST" => 'https://web2desa.test.transbank.cl',
                         "LIVE" => '',
-                        "MOCK" => 'http://Onepay.getsandbox.com');
+                        "MOCK" => 'http://onepay.getsandbox.com');
 
 
         if (!$type) {
