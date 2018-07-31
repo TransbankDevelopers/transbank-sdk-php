@@ -16,7 +16,7 @@ Para usar el SDK en tu proyecto puedes usar Composer, por añadiendo el reposito
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/continuum/transbank-sdk-php"
+            "url": "https://github.com/TransbankDevelopers/transbank-sdk-php"
         }
     ]
 ```
