@@ -4,6 +4,8 @@ Requisitos:
 
 - PHP 5.5+
 
+En caso de instalar con Composer las siguientes dependencias deberían instalarse
+automaticamente, pero si usas el SDK de manera directa requerirás también: 
 - ext-curl
 - ext-json
 - ext-mbstring
@@ -62,7 +64,7 @@ $transaction = Transaction::create($carro);
     responseCode: Resultado de la creación de la Transacción
     description: Descripción del responseCode
     occ: Número orden de compra comercio
-    ott: Versión corta de OTT, usada en la app de OnePay (se puede ingresar el OTT en vez de scanear el QR)
+    ott: Versión corta de "occ", usada en la app de OnePay (el usuario puede ingresar el OTT en vez de scanear el QR)
     signature: Firma para verificación de datos
     externalUniqueNumber: Valor usado por el comercio para identificar la transacción
     issuedAt: Momento de creación en UNIX time de la transacción
@@ -136,13 +138,16 @@ json_encode($commitResponse);
 
 # Anular una transacción
 ```
-# Todos estos valores son obtenibles desde una respuesta a Transaction::commit
+# $amount y $occ son obtenibles a partir de la respuesta a Transaction::commit
 
 # Monto de la compra
 $amount = $commitResponse->getAmount();
 
 # Valor de occ
 $occ = $commitResponse->getOcc();
+
+# $externalUniqueNumber se obtiene al crear una transacción (Transaction::create)
+# y también se utiliza como parámetro al confirmar una transacción (Transaction::commit)
 
 # Valor externalUniqueNumber
 $externalUniqueNumber = $commitResponse->getExternalUniqueNumber();
