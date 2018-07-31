@@ -202,6 +202,19 @@ final class TransactionTest extends TestCase
 
     }
 
+    public function testTransactionCommitWorksWithoutOptions()
+    {
+        // commit transaction
+        $response = Transaction::commit(
+                                        self::OCC_TO_COMMIT_TRANSACTION_TEST,
+                                        self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST
+                                       );   
+        $this->assertEquals($response instanceof TransactionCommitResponse, true);
+        $this->assertEquals($response->getResponseCode(), 'OK');
+        $this->assertEquals($response->getDescription(), 'OK');
+
+    }
+
     public function testTransactionCommitRaisesWhenResponseIsNull()
     {
         // Create a mock http client that will return Null
