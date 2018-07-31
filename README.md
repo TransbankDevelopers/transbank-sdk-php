@@ -44,8 +44,8 @@ use Transbank\Item;
 use Transbank\Transaction;
 use Transbank\Refund;
 
-OnePay::setApiKey('tu-api-key');
-OnePay::setSharedSecret('tu-shared-secret');
+OnePayBase::setApiKey('tu-api-key');
+OnePayBase::setSharedSecret('tu-shared-secret');
 $objeto1 = ["amount" => 15000, "quantity" => 1, "description" => 'Zapatos deportivos'];
 $objeto2 = ["amount" => 5000, "quantity" => 3, "description" => 'Calcetines'];
 
@@ -207,13 +207,13 @@ El SDK incluye distintos ambientes (ej: TEST, LIVE), el cual se establece con:
 
 ```php
 $type = "LIVE";
-OnePay::setCurrentIntegrationType($type);
+OnePayBase::setCurrentIntegrationType($type);
 ```
 
 Los tipos de ambiente se pueden obtener con:
 
 ```php
-OnePay::integrationTypes();
+OnePayBase::integrationTypes();
 ```
 lo cual devuelve:
 ```php
@@ -222,15 +222,15 @@ lo cual devuelve:
 
 También puedes obtener la URL de un ambiente directamente:
 ```php
-OnePay::getIntegrationTypeUrl("LIVE");
+OnePayBase::getIntegrationTypeUrl("LIVE");
 # Retorna "https://live.url.com"
 ```
 
 O la del ambiente actual
 ```php
-OnePay::getCurrentIntegrationType();
+OnePayBase::getCurrentIntegrationType();
 # Retorna "LIVE" (o "TEST", o cual sea el ambiente actual)
-OnePay::getCurrentIntegrationTypeUrl();
+OnePayBase::getCurrentIntegrationTypeUrl();
 # Retorna "https://live.url.com", o la URL que corresponda al ambiente actual
 ```
 

@@ -1,5 +1,5 @@
 <?php
-namespace Transbank;
+namespace Transbank\OnePay;
 /** 
  * @class BaseResponse
  * Basic response class that includes commonly used members

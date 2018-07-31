@@ -1,5 +1,5 @@
 <?php
-namespace Transbank;
+namespace Transbank\OnePay;
 /** 
  * class Refund
  * Model object for Refunds
@@ -26,7 +26,7 @@ class Refund {
         $jsonRequest = json_encode($request, JSON_UNESCAPED_SLASHES);
         $http = new HttpClient();
         $path = self::TRANSACTION_BASE_PATH . self::REFUND_TRANSACTION;
-        $httpResponse = $http->post(OnePay::getCurrentIntegrationTypeUrl(),
+        $httpResponse = $http->post(OnePayBase::getCurrentIntegrationTypeUrl(),
                                     $path,
                                     $jsonRequest);
         $decodedResponse = json_decode($httpResponse, true);

@@ -1,16 +1,11 @@
 <?php
-namespace Transbank;
-
-
-/** aqui deberia cargar todo los utils y la api en general */
-
-
+namespace Transbank\OnePay;
 /**
- * Class OnePay
- *
+ * Class OnePayBase
+ * Base class for Transbank\OnePay
  * @package Transbank
 */
-class OnePay 
+class OnePayBase
 {
 
 

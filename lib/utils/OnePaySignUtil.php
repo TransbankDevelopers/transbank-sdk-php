@@ -1,5 +1,5 @@
 <?php
-namespace Transbank;
+namespace Transbank\OnePay;
 use Transbank\OnePay\Exceptions\SignException as SignException;
 
 /**
@@ -133,7 +133,7 @@ use Transbank\OnePay\Exceptions\SignException as SignException;
         $data .= mb_strlen($totalAsString) . $totalAsString;
         $data .= mb_strlen($itemsQuantityAsString) . $itemsQuantityAsString;
         $data .= mb_strlen($issuedAtAsString) . $issuedAtAsString;
-        $data .= mb_strlen(OnePay::getCallbackUrl()) . OnePay::getCallbackUrl();
+        $data .= mb_strlen(OnePayBase::getCallbackUrl()) . OnePayBase::getCallbackUrl();
 
 
         $crypted = hash_hmac('sha256', $data, $secret, true);
