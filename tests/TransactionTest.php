@@ -138,11 +138,11 @@ final class TransactionTest extends TestCase
         $this->assertNull($nullApiKey);
         $this->assertNull($nullSharedSecret);
 
-        putenv('Onepay_API_KEY=' . $originalApiKey);
-        putenv('Onepay_SHARED_SECRET=' . $originalSharedSecret);
+        putenv('ONEPAY_API_KEY=' . $originalApiKey);
+        putenv('ONEPAY_SHARED_SECRET=' . $originalSharedSecret);
 
-        $this->assertEquals(OnepayBase::getApiKey(), getenv('Onepay_API_KEY'));
-        $this->assertEquals(OnepayBase::getSharedSecret(), getenv('Onepay_SHARED_SECRET'));
+        $this->assertEquals(OnepayBase::getApiKey(), getenv('ONEPAY_API_KEY'));
+        $this->assertEquals(OnepayBase::getSharedSecret(), getenv('ONEPAY_SHARED_SECRET'));
 
         $shoppingCart = ShoppingCartMocks::get();
         $response = Transaction::create($shoppingCart);
