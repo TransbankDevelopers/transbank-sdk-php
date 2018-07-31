@@ -37,12 +37,12 @@ Luego, para usar el SDK en tu código:
 
 # Crear una transacción
 ```php
-use Transbank;
-use Transbank\Onepay;
-use Transbank\ShoppingCart;
-use Transbank\Item;
-use Transbank\Transaction;
-use Transbank\Refund;
+use Transbank\Onepay\OnepayBase;
+use Transbank\Onepay\ShoppingCart;
+use Transbank\Onepay\Item;
+use Transbank\Onepay\Transaction;
+use Transbank\Onepay\Refund;
+
 
 OnepayBase::setApiKey('tu-api-key');
 OnepayBase::setSharedSecret('tu-shared-secret');
@@ -184,7 +184,7 @@ json_encode($refund);
 # Opciones
 En caso de que lo requieras, puedes poner api key y shared secret alternativos en un request en particular:
 ```php
-use Transbank\Options;
+use Transbank\Onepay\Options;
 
 $options = new Options('otro-api-key', 'otro-shared-secret');
 
@@ -202,7 +202,16 @@ $refund = Refund::create($amount, $occ, $externalUniqueNumber,
 ```
 
 # Ambientes
-El SDK incluye distintos ambientes (ej: TEST, LIVE), el cual se establece con:
+El SDK incluye distintos ambientes (ej: TEST, LIVE, MOCK)
+
+- LIVE: Producción.
+
+- TEST: Servidor de pruebas de Transbank.
+
+- MOCK: Servidor de pruebas que retorna respuestas predefinidas.
+
+
+el cual se establece con:
 
 
 ```php
@@ -217,7 +226,7 @@ OnepayBase::integrationTypes();
 ```
 lo cual devuelve:
 ```php
-["TEST" => "https://test.url.com", "LIVE" => "https://live.url.com"]
+["TEST" => "https://test.url.com", "LIVE" => "https://live.url.com", "MOCK" => "https://mock.url.com"]
 ```
 
 También puedes obtener la URL de un ambiente directamente:
