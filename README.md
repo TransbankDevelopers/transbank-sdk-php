@@ -207,7 +207,7 @@ El SDK incluye distintos ambientes (ej: TEST, LIVE), el cual se establece con:
 
 ```
 $type = "LIVE";
-OnePay::setIntegrationType($type);
+OnePay::setCurrentIntegrationType($type);
 ```
 
 Los tipos de ambiente se pueden obtener con:
@@ -222,9 +222,16 @@ lo cual devuelve:
 
 También puedes obtener la URL de un ambiente directamente:
 ```
-getIntegrationTypeUrl("LIVE");
+OnePay::getIntegrationTypeUrl("LIVE");
 # Retorna "https://live.url.com"
 ```
 
+O la del ambiente actual
+```
+OnePay::getCurrentIntegrationType();
+# Retorna "LIVE" (o "TEST", o cual sea el ambiente actual)
+OnePay::getCurrentIntegrationTypeUrl();
+# Retorna "https://live.url.com", o la URL que corresponda al ambiente actual
+```
 
 
