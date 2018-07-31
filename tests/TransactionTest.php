@@ -121,6 +121,35 @@ final class TransactionTest extends TestCase
         }
     }
 
+
+    public function testTransactionCreationWorksTakingKeysFromGetenv()
+    {
+
+        $originalApiKey = OnePayBase::getApiKey();
+        $originalSharedSecret = OnePayBase::getSharedSecret();
+        OnePayBase::setApiKey(null);
+        OnePayBase::setSharedSecret(null);
+        // Can't use getters, they will return something from getenv!
+        // and we need to check if they are actually null in the static variable
+        $onePayBaseReflection = new \ReflectionClass(OnePayBase::class);
+        $nullApiKey = $onePayBaseReflection->getStaticPropertyValue('apiKey');
+        $nullSharedSecret = $onePayBaseReflection->getStaticPropertyValue('sharedSecret');
+        $this->assertNull($nullApiKey);
+        $this->assertNull($nullSharedSecret);
+
+        putenv('ONEPAY_API_KEY=' . $originalApiKey);
+        putenv('ONEPAY_SHARED_SECRET=' . $originalSharedSecret);
+
+        $this->assertEquals(OnePayBase::getApiKey(), getenv('ONEPAY_API_KEY'));
+        $this->assertEquals(OnePayBase::getSharedSecret(), getenv('ONEPAY_SHARED_SECRET'));
+
+        $shoppingCart = ShoppingCartMocks::get();
+        $response = Transaction::create($shoppingCart);
+        $this->assertEquals($response->getResponseCode(), "OK");
+        $this->assertEquals($response->getDescription(), "OK");
+        $this->assertNotNull($response->getQrCodeAsBase64());
+    }
+
     public function testTransactionCreationWorksWithoutOptions()
     {
         $shoppingCart = ShoppingCartMocks::get();
