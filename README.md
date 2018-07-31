@@ -195,3 +195,31 @@ json_encode($commitTransaction);
 $refund = Refund::create($amount, $occ, $externalUniqueNumber,
                          $authorizationCode, $options);
 ```
+
+# Ambientes
+El SDK incluye distintos ambientes (ej: TEST, LIVE), el cual se establece con:
+
+
+```
+$type = "LIVE";
+OnePay::setIntegrationType($type);
+```
+
+Los tipos de ambiente se pueden obtener con:
+
+```
+OnePay::integrationTypes();
+```
+lo cual devuelve:
+```
+["TEST" => "https://test.url.com", "LIVE" => "https://live.url.com"]
+```
+
+También puedes obtener la URL de un ambiente directamente:
+```
+getIntegrationTypeUrl("LIVE");
+# Retorna "https://live.url.com"
+```
+
+
+
