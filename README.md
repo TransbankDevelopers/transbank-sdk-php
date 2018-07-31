@@ -1,4 +1,4 @@
-# Transbank OnePay SDK
+# Transbank SDK
 
 Requisitos:
 
