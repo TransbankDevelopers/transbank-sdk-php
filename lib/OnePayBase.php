@@ -38,9 +38,15 @@ class OnePayBase
             return $types[$type];
         }
     }
-    
+    /**
+     * Get your OnePay API key
+     * If self::$apiKey evaluates to false, it will return getenv("ONEPAY_API_KEY")
+     */
     public static function getApiKey()
     {
+        if(!self::$apiKey) {
+            return getenv("ONEPAY_API_KEY");
+        }
         return self::$apiKey;
     }
 
@@ -68,10 +74,14 @@ class OnePayBase
         return self::$callbackUrl;
     }
     /**
-     * get the SharedSecret
+     * Get the SharedSecret
+     * If self::$sharedSecret evaluates to false, it will return getenv("ONEPAY_SHARED_SECRET")
      */
     public static function getSharedSecret()
     {
+        if(!self::$sharedSecret) {
+            return getenv("ONEPAY_SHARED_SECRET");
+        }
         return self::$sharedSecret;
     }
     /**
