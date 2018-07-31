@@ -26,7 +26,7 @@ y luego requiriendo el SDK como dependencia:
     }
 ```
 
-O, si no deseas usar Composer, puedes descargar el código del SDK y requerirlo directamente:
+O, si no deseas usar Composer, puedes descargar el código del SDK desde el repositorio y requerirlo directamente:
 ```
 require_once('/directorio/del/sdk/init.php');
 ```
@@ -44,20 +44,47 @@ use Transbank\Refund;
 
 OnePay::setApiKey('tu-api-key');
 OnePay::setSharedSecret('tu-shared-secret');
-$objeto1 = ("amount" => 100, "quantity": 2, "description" => 'descripción del item');
-$objeto2 = ("amount" => 200, "quantity": 3, "description" => 'otro objeto distinto');
+$objeto1 = ["amount" => 15000, "quantity" => 1, "description" => 'Zapatos deportivos'];
+$objeto2 = ["amount" => 5000, "quantity" => 3, "description" => 'Calcetines'];
 
 $losObjetos = ["items" => [$objeto1, $objeto2]];
 
 $carro = ShoppingCart::fromJSON($losObjetos)
 
 # description, quantity, amount;
-$tercerObjeto = new Item('descripcion del objeto 3', 5, 100); 
+$tercerObjeto = new Item('Pelota de futbol', 1, 20000); 
 $carro->add($tercerObjeto);
 
 $transaction = Transaction::create($carro);
 
+# Retorna un objeto TransactionCreateResponse con getters (getNombreAtributo) y setters(setNombreAtributo) para:
+
+    responseCode: Resultado de la creación de la Transacción
+    description: Descripción del responseCode
+    occ: Número orden de compra comercio
+    ott: Versión corta de OTT, usada en la app de OnePay (se puede ingresar el OTT en vez de scanear el QR)
+    signature: Firma para verificación de datos
+    externalUniqueNumber: Valor usado por el comercio para identificar la transacción
+    issuedAt: Momento de creación en UNIX time de la transacción
+    qrCodeAsBase64: Código QR en base64. Sirve para que el usuario de OnePay pueda scanearlo con la app para   realizar el pago
+
+# Adicionalmente, implementa JsonSerializable, por lo tanto:
+
 json_encode($transaction);
+
+# Retorna un JSON con la siguiente forma:
+
+{
+    "responseCode": "OK",
+    "description": "OK",
+    "occ": "1807216892091979",
+    "ott": 51435450,
+    "signature": "i1xFsNiky1VrEoXWUWXqGh9R4yg1/rfZhczEChhwHEU=",
+    "externalUniqueNumber": "1532103675510",
+    "issuedAt": 1532103850,
+    "qrCodeAsBase64": "string-gigante-en-base64"
+}
+
 
 
 ```
@@ -69,6 +96,41 @@ $occ = 'valorocc';
 $externalUniqueNumber = 'valorExternalUniqueNumber';
 
 $commitResponse = Transaction::commit($occ, $externalUniqueNumber)
+
+# Retorn un objeto TransactionCommitResponse con getters (getNombreAtributo) y setters (setNombreAtributo) para:
+
+responseCode: Resultado de la creación de la Transacción
+description: Descripción del responseCode
+occ: Número orden de compra comercio
+authorizationCode: Código de autorización. Usado si se desea anular la transacción
+issuedAt: Momento de creación en UNIX time de la transacción
+signature: Firma para verificación de datos
+amount: Monto de la compra
+transactionDesc: Tipo de venta
+InstallmentsAmount: Valor de la cuota
+InstallmentsNumber: Cantidad de cuotas
+buyOrder: Orden de compra
+
+# Adicionalmente, implementa JsonSerializable, por lo tanto:
+
+json_encode($commitResponse);
+
+# Retorna un JSON con la siguiente forma:
+
+{
+    "responseCode": "OK",
+    "description": "OK",
+    "occ": "1807419329781765",
+    "authorizationCode": "906637",
+    "issuedAt": 1530822491,
+    "signature": "oM1mqjNfH/mv2TxR5Qf4VN0hr6eNCLsjfjJShdr9Vg0=",
+    "amount": 2490,
+    "transactionDesc": "Venta Normal: Sin cuotas",
+    "installmentsAmount": 2490,
+    "installmentsNumber": 1,
+    "buyOrder": "20180705161636514"
+}
+
 
 ```
 
@@ -91,6 +153,27 @@ $authorizationCode = $commitResponse->getAuthorizationCode();
 $refund = Refund::create($amount, $occ, $externalUniqueNumber,
                          $authorizationCode)
 
+# Retorna un objeto RefundCreateResponse con los siguientes atributos:
+
+occ: Orden de compra comercio
+externalUniqueNumber: Número utilizado por el comercio para identificar la transacción
+reverseCode: Código de la reversa
+issuedAt: Momento de emision en tiempo UNIX
+signature: Firma para validar los datos
+
+# Adicionalmente, implementa JsonSerializble, por lo tanto:
+json_encode($refund);
+
+# Retorna un JSON de forma:
+{
+    "occ": "1807419329781765",
+    "externalUniqueNumber": "1532103675510",
+    "reverseCode": "623245",
+    "issuedAt": 1530822491,
+    "signature": "i1xFsNiky1VrEoXWUWXqGh9R4yg1/rfZhczEChhwHEU="
+}
+
+
 ```
 
 # Opciones
@@ -112,4 +195,3 @@ json_encode($commitTransaction);
 $refund = Refund::create($amount, $occ, $externalUniqueNumber,
                          $authorizationCode, $options);
 ```
-
