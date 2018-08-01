@@ -16,5 +16,6 @@
       "autoload": {
         "psr-4": { "Transbank\\Onepay\\" : ["lib/", "lib/utils"],
                    "Transbank\\Onepay\\Exceptions\\": ["lib/exceptions"] }
-      }
+      },
+      "license": "BSD-3-Clause"
 }
