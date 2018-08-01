@@ -28,7 +28,7 @@ y luego requiriendo el SDK como dependencia:
     }
 ```
 
-O, si no deseas usar Composer, puedes descargar el código del SDK desde el repositorio y requerirlo directamente:
+O, si no deseas usar Composer, puedes descargar el código del release "1.0.0-pre" SDK [desde el repositorio](https://github.com/TransbankDevelopers/transbank-sdk-php/releases) y requerirlo directamente:
 ```php
 require_once('/directorio/del/sdk/init.php');
 ```
