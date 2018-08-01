@@ -10,21 +10,10 @@ automaticamente, pero si usas el SDK de manera directa requerirás también:
 - ext-json
 - ext-mbstring
 
-Para usar el SDK en tu proyecto puedes usar Composer, por añadiendo el repositorio a tu composer.json: 
-
-```json
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/TransbankDevelopers/transbank-sdk-php"
-        }
-    ]
-```
-
-y luego requiriendo el SDK como dependencia:
+Para usar el SDK en tu proyecto puedes usar Composer, añadiendo el SDK como dependencia a tu proyecto:
 ```json
     "require": {
-        "transbank-sdk": "dev-master#1.0.0-pre"
+        "transbank-sdk": "1.0.0"
     }
 ```
 
