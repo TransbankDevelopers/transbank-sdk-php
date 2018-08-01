@@ -24,11 +24,11 @@ Para usar el SDK en tu proyecto puedes usar Composer, por añadiendo el reposito
 y luego requiriendo el SDK como dependencia:
 ```json
     "require": {
-        "transbank-sdk": "dev-master"
+        "transbank-sdk": "dev-master#1.0.0-pre"
     }
 ```
 
-O, si no deseas usar Composer, puedes descargar el código del SDK desde el repositorio y requerirlo directamente:
+O, si no deseas usar Composer, puedes descargar el código del release "1.0.0-pre" SDK [desde el repositorio](https://github.com/TransbankDevelopers/transbank-sdk-php/releases) y requerirlo directamente:
 ```php
 require_once('/directorio/del/sdk/init.php');
 ```
