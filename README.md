@@ -24,7 +24,7 @@ Para usar el SDK en tu proyecto puedes usar Composer, por añadiendo el reposito
 y luego requiriendo el SDK como dependencia:
 ```json
     "require": {
-        "transbank-sdk": "dev-master"
+        "transbank-sdk": "dev-master#1.0.0-pre"
     }
 ```
 
