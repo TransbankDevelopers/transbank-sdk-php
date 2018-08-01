@@ -13,7 +13,7 @@ automaticamente, pero si usas el SDK de manera directa requerirás también:
 Para usar el SDK en tu proyecto puedes usar Composer, añadiendo el SDK como dependencia a tu proyecto:
 ```json
     "require": {
-        "transbank-sdk": "1.0.0"
+        "transbank-sdk": "1.0.1"
     }
 ```
 
