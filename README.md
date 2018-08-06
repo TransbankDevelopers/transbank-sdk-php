@@ -1,14 +1,24 @@
-# Transbank SDK
+[![Build Status](https://semaphoreci.com/api/v1/continuum/transbank-sdk-php/branches/master/badge.svg)](https://semaphoreci.com/continuum/transbank-sdk-php)
 
-Requisitos:
+# Transbank PHP SDK
+
+SDK Oficial de Transbank
+
+## Requisitos:
 
 - PHP 5.5+
 
+
+## Dependencias
 En caso de instalar con Composer las siguientes dependencias deberían instalarse
 automaticamente, pero si usas el SDK de manera directa requerirás también: 
 - ext-curl
 - ext-json
 - ext-mbstring
+
+# Instalación
+
+### Instalar con Composer
 
 Para usar el SDK en tu proyecto puedes usar Composer, añadiendo el SDK como dependencia a tu proyecto:
 ```json
@@ -17,35 +27,103 @@ Para usar el SDK en tu proyecto puedes usar Composer, añadiendo el SDK como dep
     }
 ```
 
+También puedes instalarlo desde la consola:
+```bash
+composer require transbank/transbank-sdk
+```
+
 O, si no deseas usar Composer, puedes descargar el código desde este repositorio y requerirlo directamente:
 ```php
 require_once('/directorio/del/sdk/init.php');
 ```
 
-Luego, para usar el SDK en tu código:
+# Primeros pasos
 
-# Crear una transacción
+### Onepay
+
+#### Configuración de API_KEY y SHARED_SECRET
+
+Existen varias formas de configurar esta información, la cual identifica a cada comercio:
+
+##### 1. Por variable de entorno
+```bash
+export ONEPAY_SHARED_SECRET = "valor de tu shared secret"
+export ONEPAY_API_KEY = "valor de tu api key"
+```
+
+##### 2. Configurando tu API_KEY y SHARED_SECRET al inicializar tu proyecto
+Para esto es necesario importar `Transbank\Onepay\OnepayBase;`
 ```php
 use Transbank\Onepay\OnepayBase;
+
+OnepayBase::setSharedSecret('valor de tu shared secret');
+OnepayBase::setApiKey('valor de tu api key');
+```
+
+##### 3. Pasando el API_KEY y SHARED_SECRET a cada petición
+Para esto es necesario importar Transbank\Onepay\Options;
+```php
+use Transbank\Onepay\Options;
+
+$options = new Options('otro-api-key', 'otro-shared-secret');
+
+# Al crear transacción
+$transaction = Transaction::create($carro, $options);
+
+# Al confirmar transacción
+$commitTransaction = Transaction::commit($occ, $externalUniqueNumber, $options)
+
+# Al anular
+$refund = Refund::create($amount, $occ, $externalUniqueNumber,
+                         $authorizationCode, $options);
+```
+
+##### Ambientes TEST y LIVE
+Por defecto el tipo de integración del SDK es siempre `TEST`.
+Se puede obtener la información de los distintos ambientes disponibles utilizando
+`Transbank\Onepay\OnepayBase`
+```php
+use Transbank\Onepay\OnepayBase;
+OnepayBase::integrationTypes();
+```
+lo cual devuelve:
+```php
+["TEST" => "https://test.url.com", "LIVE" => "https://live.url.com"]
+```
+
+Puedes establecer el SDK para usar los servicios del ambiente `LIVE` (Producción), de la siguiente forma:
+
+```php
+$type = "LIVE";
+OnepayBase::setCurrentIntegrationType($type);
+```
+
+##### Crear una nueva transacción
+Para iniciar un proceso de pago mediante la aplicación móvil de Onepay, primero es necesario crear la transacción en Transbank. Para esto se debe crear en primera instancia un objeto `Transbank\Onepay\ShoppingCart`, el cual se debe llenar con  `Transbank\Onepay\Item`
+```php
 use Transbank\Onepay\ShoppingCart;
 use Transbank\Onepay\Item;
 use Transbank\Onepay\Transaction;
-use Transbank\Onepay\Refund;
 
+$carro = new ShoppingCart();
 
-OnepayBase::setApiKey('tu-api-key');
-OnepayBase::setSharedSecret('tu-shared-secret');
+# description, quantity, amount;
+$objeto = new Item('Pelota de futbol', 1, 20000); 
+$carro->add(objeto);
+```
+Otra manera de crear un carro es con un arreglo asociativo (o JSON que con `json_decode` sea un arreglo asociativo)
+```php
 $objeto1 = ["amount" => 15000, "quantity" => 1, "description" => 'Zapatos deportivos'];
 $objeto2 = ["amount" => 5000, "quantity" => 3, "description" => 'Calcetines'];
 
 $losObjetos = ["items" => [$objeto1, $objeto2]];
 
-$carro = ShoppingCart::fromJSON($losObjetos)
+# Crea un nuevo ShoppingCart con los 2 objetos includos en $losObjetos
+$segundoCarro = ShoppingCart::fromJSON($losObjetos);
+```
 
-# description, quantity, amount;
-$tercerObjeto = new Item('Pelota de futbol', 1, 20000); 
-$carro->add($tercerObjeto);
-
+Teniendo un carro, se puede crear una `Transaction`
+```php
 $transaction = Transaction::create($carro);
 
 # Retorna un objeto TransactionCreateResponse con getters (getNombreAtributo) y setters(setNombreAtributo) para:
@@ -75,12 +153,14 @@ json_encode($transaction);
     "issuedAt": 1532103850,
     "qrCodeAsBase64": "string-gigante-en-base64"
 }
-
-
-
 ```
 
-# Confirmar una transacción
+En caso de que falle el `create` de una `Transaction` se devuelve un objeto de tipo `TransactionCreateException`, donde la propiedad `message`contiene la razón del fallo.
+
+
+Posteriormente, se debe presentar al usuario el código QR y el número OTT para que pueda proceder al pago mediante la aplicación móvil.
+##### Confirmar una transacción
+Una vez que el usuario realizó el pago mediante la aplicación, dispones de 30 segundos para realizar la confirmación de la transacción, de lo contrario, se realizará automáticamente la reversa de la transacción.
 ```php
 # $occ y $externalUniqueNumber vienen dados en la respuesta de Transaction::create
 $occ = 'valorocc';
@@ -88,7 +168,7 @@ $externalUniqueNumber = 'valorExternalUniqueNumber';
 
 $commitResponse = Transaction::commit($occ, $externalUniqueNumber)
 
-# Retorn un objeto TransactionCommitResponse con getters (getNombreAtributo) y setters (setNombreAtributo) para:
+# Retorna un objeto TransactionCommitResponse con getters (getNombreAtributo) y setters (setNombreAtributo) para:
 
 responseCode: Resultado de la creación de la Transacción
 description: Descripción del responseCode
@@ -121,11 +201,13 @@ json_encode($commitResponse);
     "installmentsNumber": 1,
     "buyOrder": "20180705161636514"
 }
-
-
 ```
 
-# Anular una transacción
+En caso de que falle el `commit` de una `Transaction` se devuelve un objeto de tipo `TransactionCommitException`, donde la propiedad `message`contiene la razón del fallo.
+
+
+##### Anular una transacción
+Cuando una transacción fue confirmada correctamente, se dispone de un plazo de 30 días para realizar la anulación de esta.
 ```php
 # $amount y $occ son obtenibles a partir de la respuesta a Transaction::commit
 
@@ -166,70 +248,5 @@ json_encode($refund);
     "issuedAt": 1530822491,
     "signature": "i1xFsNiky1VrEoXWUWXqGh9R4yg1/rfZhczEChhwHEU="
 }
-
-
 ```
-
-# Opciones
-En caso de que lo requieras, puedes poner api key y shared secret alternativos en un request en particular:
-```php
-use Transbank\Onepay\Options;
-
-$options = new Options('otro-api-key', 'otro-shared-secret');
-
-# Al crear transacción
-$transaction = Transaction::create($carro, $options);
-json_encode($transaction);
-
-# Al confirmar transacción
-$commitTransaction = Transaction::commit($occ, $externalUniqueNumber, $options)
-json_encode($commitTransaction);
-
-# Al anular
-$refund = Refund::create($amount, $occ, $externalUniqueNumber,
-                         $authorizationCode, $options);
-```
-
-# Ambientes
-El SDK incluye distintos ambientes (ej: TEST, LIVE, MOCK)
-
-- LIVE: Producción.
-
-- TEST: Servidor de pruebas de Transbank.
-
-- MOCK: Servidor de pruebas que retorna respuestas predefinidas.
-
-
-el cual se establece con:
-
-
-```php
-$type = "LIVE";
-OnepayBase::setCurrentIntegrationType($type);
-```
-
-Los tipos de ambiente se pueden obtener con:
-
-```php
-OnepayBase::integrationTypes();
-```
-lo cual devuelve:
-```php
-["TEST" => "https://test.url.com", "LIVE" => "https://live.url.com", "MOCK" => "https://mock.url.com"]
-```
-
-También puedes obtener la URL de un ambiente directamente:
-```php
-OnepayBase::getIntegrationTypeUrl("LIVE");
-# Retorna "https://live.url.com"
-```
-
-O la del ambiente actual
-```php
-OnepayBase::getCurrentIntegrationType();
-# Retorna "LIVE" (o "TEST", o cual sea el ambiente actual)
-OnepayBase::getCurrentIntegrationTypeUrl();
-# Retorna "https://live.url.com", o la URL que corresponda al ambiente actual
-```
-
-
+En caso de que falle el `create` de un `Refund` se devuelve un objeto de tipo `RefundCreateException` donde la propiedad `message` contiene la razón del fallo.
