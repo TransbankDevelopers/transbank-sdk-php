@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: goncafa
- * Date: 16-08-18
- * Time: 13:51
- */
 
 namespace Transbank\Onepay;
 
