@@ -42,7 +42,7 @@ namespace Transbank\Onepay;
                                           $shoppingCart->getItems(),
                                           OnepayBase::getCallBackUrl(),
                                           $channel,
-                                            OnepayBase::getAppScheme()); # Channel, can be 'web' or 'mobile' for now
+                                            OnepayBase::getAppScheme()); # Channel, can be 'WEB', 'MOBILE' or 'APP'
 
         self::setKeys($request, $options);
         return OnepaySignUtil::getInstance()->sign($request, $options->getSharedSecret());
