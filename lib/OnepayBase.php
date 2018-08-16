@@ -7,16 +7,17 @@ namespace Transbank\Onepay;
 */
 class OnepayBase
 {
-
+    const DEFAULT_CALLBACK = "http://no.callback.has/been.set";
 
     public static $appKey = "04533c31-fe7e-43ed-bbc4-1c8ab1538afp";
-    public static $callbackUrl = "http://nourlcallbackneededhere";
+    public static $callbackUrl = null;
 
     public static $serverBasePath;
     public static $scriptPath;
     public static $apiKey;
     public static $sharedSecret;
     private static $integrationType = "TEST";
+    private static $appScheme = null;
 
     public static function integrationTypes($type = null) {
 
@@ -62,12 +63,24 @@ class OnepayBase
     {
         return self::$appKey;
     }
+
+    /**
+     * @param mixed $callbackUrl
+     * @throws \Exception
+     */
+    public static function setCallbackUrl($callbackUrl)
+    {
+        self::$callbackUrl = $callbackUrl;
+    }
     /**
      * Get the callback URL. Not necessary nor used by integrators, but must be
      * kept for legacy reasons
      */
     public static function getCallbackUrl()
     {
+        if(!self::$callbackUrl) {
+            return getenv("ONEPAY_CALLBACK_URL");
+        }
         return self::$callbackUrl;
     }
     /**
@@ -98,7 +111,7 @@ class OnepayBase
         return self::integrationTypes()[self::$integrationType];
     }
     /**
-     * 
+     *
      * Get the integration URL of $type
      */
 
@@ -135,4 +148,29 @@ class OnepayBase
         }
         self::$integrationType = $type;
     }
+
+    /**
+     * @return mixed
+     */
+    public static function getAppScheme()
+    {
+        if(!self::$appScheme) {
+            return getenv("ONEPAY_APP_SCHEME");
+        }
+
+        return self::$appScheme;
+    }
+
+    /**
+     * @param mixed $appScheme
+     */
+    public static function setAppScheme($appScheme)
+    {
+        self::$appScheme = $appScheme;
+    }
+
+    public static function DEFAULT_CHANNEL() {
+        return ChannelEnum::WEB();
+    }
+
 }

@@ -341,4 +341,107 @@ final class TransactionTest extends TestCase
             $reflectedHttpClient->setAccessible(false);
         }
     }
+
+    public function testTransactionFailsWhenChannelMobileAndCallbackUrlNull() {
+
+        OnepayBase::setCallbackUrl(null);
+        // Create a mock http client that will return Null
+        $httpClientStub = $this->getMock(HttpClient::class, array('post'));
+        $httpClientStub->expects($this->any())->method('post')->willReturn(null);
+
+        // Alter the private static property of Transaction 'httpClient'
+        // to be the httpClientStub
+        $reflectedClass = new \ReflectionClass(Transaction::class);
+        $reflectedHttpClient = $reflectedClass->getProperty('httpClient');
+        $reflectedHttpClient->setAccessible(true);
+        $reflectedHttpClient->setValue($httpClientStub);
+
+        // Execute the transaction expecting it to raise TransactionCreateException
+        // because the mock will make the HttpClient return Null
+        $shoppingCart = ShoppingCartMocks::get();
+
+        // This should raise a TransactionCreateException
+        try {
+            $this->setExpectedException(TransactionCreateException::class, 'You need to set a valid callback if you want to use the MOBILE channel');
+            $response = Transaction::create($shoppingCart, null, ChannelEnum::MOBILE());
+        }
+        finally {
+            // Reset the HttpClient static property to its original state
+            $reflectedHttpClient->setValue(null);
+            $reflectedHttpClient->setAccessible(false);
+        }
+    }
+
+    public function testTransactionWhenChannelMobileAndCallbackUrlNotNull() {
+
+        OnepayBase::setCallbackUrl("http://some.callback.url");
+        $shoppingCart = new ShoppingCart();
+        $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
+            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
+        $firstItem = new Item("Zapatos", 1, 15000, null, -1);
+        $secondItem = new Item("Pantalon", 1, 12500, null, -1);
+
+        $shoppingCart->add($firstItem);
+        $shoppingCart->add($secondItem);
+
+        $this->assertEquals('Zapatos', $firstItem->getDescription());
+        $this->assertEquals('Pantalon', $secondItem->getDescription());
+
+        $response = Transaction::create($shoppingCart, null, ChannelEnum::MOBILE());
+
+        $this->assertEquals($response instanceof TransactionCreateResponse, true);
+        $this->assertEquals($response->getResponseCode(), "OK");
+        $this->assertEquals($response->getDescription(), "OK");
+        $this->assertNotNull($response->getQrCodeAsBase64());
+    }
+
+    public function testTransactionFailsWhenChannelAPPAndAppSchemeNull() {
+        // Create a mock http client that will return Null
+        $httpClientStub = $this->getMock(HttpClient::class, array('post'));
+        $httpClientStub->expects($this->any())->method('post')->willReturn(null);
+
+        // Alter the private static property of Transaction 'httpClient'
+        // to be the httpClientStub
+        $reflectedClass = new \ReflectionClass(Transaction::class);
+        $reflectedHttpClient = $reflectedClass->getProperty('httpClient');
+        $reflectedHttpClient->setAccessible(true);
+        $reflectedHttpClient->setValue($httpClientStub);
+
+        // Execute the transaction expecting it to raise TransactionCreateException
+        // because the mock will make the HttpClient return Null
+        $shoppingCart = ShoppingCartMocks::get();
+
+        // This should raise a TransactionCreateException
+        try {
+            $this->setExpectedException(TransactionCreateException::class, 'You need to set an appScheme if you want to use the APP channel');
+            $response = Transaction::create($shoppingCart, null, ChannelEnum::APP());
+        }
+        finally {
+            // Reset the HttpClient static property to its original state
+            $reflectedHttpClient->setValue(null);
+            $reflectedHttpClient->setAccessible(false);
+        }
+    }
+
+    public function testTransactionWhenChannelAPPAndAppSchemeNotNull() {
+        OnepayBase::setAppScheme('somescheme');
+        $shoppingCart = new ShoppingCart();
+        $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
+            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
+        $firstItem = new Item("Zapatos", 1, 15000, null, -1);
+        $secondItem = new Item("Pantalon", 1, 12500, null, -1);
+
+        $shoppingCart->add($firstItem);
+        $shoppingCart->add($secondItem);
+
+        $this->assertEquals('Zapatos', $firstItem->getDescription());
+        $this->assertEquals('Pantalon', $secondItem->getDescription());
+
+        $response = Transaction::create($shoppingCart, null, ChannelEnum::APP());
+
+        $this->assertEquals($response instanceof TransactionCreateResponse, true);
+        $this->assertEquals($response->getResponseCode(), "OK");
+        $this->assertEquals($response->getDescription(), "OK");
+        $this->assertNotNull($response->getQrCodeAsBase64());
+    }
 }

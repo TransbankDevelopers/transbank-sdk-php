@@ -13,11 +13,12 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
     private $items; # Array not null
     private $callbackUrl; # String not null
     private $channel; # String not null
+    private $appScheme;
     private $signature; # String
     private $generateOttQrCode = true;
 
     function __construct($externalUniqueNumber, $total, $itemsQuantity, $issuedAt,
-                        $items, $callbackUrl = null, $channel = 'WEB') 
+                        $items, $callbackUrl = null, $channel = 'WEB', $appScheme = null)
     {
         if (!$externalUniqueNumber) { 
             throw new \Exception('External unique number cannot be null.');
@@ -57,6 +58,11 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
             throw new \Exception('channel cannot be null.');
         }
         $this->channel = $channel;
+
+        if (null == $appScheme) {
+            $appScheme = '';
+        }
+        $this->appScheme = $appScheme;
     }
 
     public function jsonSerialize() 
@@ -164,6 +170,24 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
     public function getChannel($channel) 
     {
         return $this->channel;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getAppScheme()
+    {
+        return $this->appScheme;
+    }
+
+    /**
+     * @param null|string $appScheme
+     * @return TransactionCreateRequest
+     */
+    public function setAppScheme($appScheme)
+    {
+        $this->appScheme = $appScheme;
+        return $this;
     }
 
 

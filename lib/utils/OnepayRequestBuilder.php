@@ -21,8 +21,16 @@ namespace Transbank\Onepay;
         return static::$instance;
     }
 
-    public function buildCreateRequest($shoppingCart, $options = null)
+    public function buildCreateRequest($shoppingCart, $channel, $options = null)
     {
+        if (null == OnepayBase::getCallBackUrl()) {
+            OnepayBase::setCallbackUrl(OnepayBase::DEFAULT_CALLBACK);
+        }
+
+        if (null == $channel) {
+            $channel = OnepayBase::DEFAULT_CHANNEL();
+        }
+
         $options = self::buildOptions($options);
         $issuedAt = time();
         $externalUniqueNumber = (int)(microtime(true) * 1000);
@@ -33,7 +41,8 @@ namespace Transbank\Onepay;
                                           $issuedAt,
                                           $shoppingCart->getItems(),
                                           OnepayBase::getCallBackUrl(),
-                                          'WEB'); # Channel, can be 'web' or 'mobile' for now
+                                          $channel,
+                                            OnepayBase::getAppScheme()); # Channel, can be 'WEB', 'MOBILE' or 'APP'
 
         self::setKeys($request, $options);
         return OnepaySignUtil::getInstance()->sign($request, $options->getSharedSecret());

@@ -30,14 +30,30 @@ use Transbank\Onepay\Exceptions\SignException;
         return self::$httpClient;
     }
 
-    public static function create($shoppingCart, $options = null)
+     /**
+      * @param $shoppingCart
+      * @param null $options
+      * @param ChannelEnum|null $channel
+      * @return TransactionCreateResponse
+      * @throws SignException
+      * @throws TransactionCreateException
+      * @throws \Exception
+      */
+     public static function create($shoppingCart, $options = null, $channel = null)
     {
+        if (null != $channel && $channel == ChannelEnum::APP() && null == OnepayBase::getAppScheme())
+            throw new TransactionCreateException('You need to set an appScheme if you want to use the APP channel');
+
+        if (null != $channel && $channel == ChannelEnum::MOBILE() && null == OnepayBase::getCallbackUrl())
+            throw new TransactionCreateException('You need to set a valid callback if you want to use the MOBILE channel');
+
         if(!$shoppingCart instanceof ShoppingCart) {
             throw new \Exception("Shopping cart is null or empty");
         }
         $http = self::getHttpClient();
         $options = OnepayRequestBuilder::getInstance()->buildOptions($options);
-        $request = json_encode(OnepayRequestBuilder::getInstance()->buildCreateRequest($shoppingCart, $options), JSON_UNESCAPED_SLASHES);
+        $request = json_encode(OnepayRequestBuilder::getInstance()->buildCreateRequest($shoppingCart, $channel, $options), JSON_UNESCAPED_SLASHES);
+        echo $request;
         $path = self::TRANSACTION_BASE_PATH . self::SEND_TRANSACTION;
         $httpResponse = json_decode($http->post(OnepayBase::getCurrentIntegrationTypeUrl(), $path ,$request), true);
 

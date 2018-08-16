@@ -24,7 +24,7 @@ automaticamente, pero si usas el SDK de manera directa requerirás también:
 Para usar el SDK en tu proyecto puedes usar Composer, añadiendo el SDK como dependencia a tu proyecto:
 ```json
     "require": {
-        "transbank/transbank-sdk": "1.0.1"
+        "transbank/transbank-sdk": "1.1.0"
     }
 ```
 
@@ -50,6 +50,8 @@ Existen varias formas de configurar esta información, la cual identifica a cada
 ```bash
 export ONEPAY_SHARED_SECRET = "valor de tu shared secret"
 export ONEPAY_API_KEY = "valor de tu api key"
+export ONEPAY_CALLBACK_URL = "valor de tu callback url"
+export ONEPAY_APP_SCHEME = "valor de tu app scheme"
 ```
 
 ##### 2. Configurando tu API_KEY y SHARED_SECRET al inicializar tu proyecto
@@ -59,6 +61,8 @@ use Transbank\Onepay\OnepayBase;
 
 OnepayBase::setSharedSecret('valor de tu shared secret');
 OnepayBase::setApiKey('valor de tu api key');
+OnepayBase::setCallbackUrl('valor de tu callback url');
+OnepayBase::setAppScheme('valor de tu app scheme');
 ```
 
 ##### 3. Pasando el API_KEY y SHARED_SECRET a cada petición
@@ -69,7 +73,7 @@ use Transbank\Onepay\Options;
 $options = new Options('otro-api-key', 'otro-shared-secret');
 
 # Al crear transacción
-$transaction = Transaction::create($carro, $options);
+$transaction = Transaction::create($carro, $options, $channel);
 
 # Al confirmar transacción
 $commitTransaction = Transaction::commit($occ, $externalUniqueNumber, $options)
@@ -125,7 +129,7 @@ $segundoCarro = ShoppingCart::fromJSON($losObjetos);
 
 Teniendo un carro, se puede crear una `Transaction`
 ```php
-$transaction = Transaction::create($carro);
+$transaction = Transaction::create($carro, null, $channel);
 
 # Retorna un objeto TransactionCreateResponse con getters (getNombreAtributo) y setters(setNombreAtributo) para:
 
@@ -156,8 +160,13 @@ json_encode($transaction);
 }
 ```
 
-En caso de que falle el `create` de una `Transaction` se devuelve un objeto de tipo `TransactionCreateException`, donde la propiedad `message`contiene la razón del fallo.
+En caso de que falle el `create` de una `Transaction` se devuelve un objeto de tipo `TransactionCreateException`, donde 
+la propiedad `message`contiene la razón del fallo.
 
+El parametro `$channel` puede ser `WEB`, `MOBILE` o `APP` dependiendo si quien esta realizando el pago esta usando un 
+browser en versión Desktop, Móvil o esta utilizando alguna aplicación móvil nativa.
+
+En caso que `$channel` sea `APP` es obligatorio que este previamente configurado el `appScheme`:
 
 Posteriormente, se debe presentar al usuario el código QR y el número OTT para que pueda proceder al pago mediante la aplicación móvil.
 ##### Confirmar una transacción
