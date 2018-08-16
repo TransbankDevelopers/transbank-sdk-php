@@ -78,6 +78,9 @@ class OnepayBase
      */
     public static function getCallbackUrl()
     {
+        if(!self::$callbackUrl) {
+            return getenv("ONEPAY_CALLBACK_URL");
+        }
         return self::$callbackUrl;
     }
     /**
@@ -151,6 +154,10 @@ class OnepayBase
      */
     public static function getAppScheme()
     {
+        if(!self::$appScheme) {
+            return getenv("ONEPAY_APP_SCHEME");
+        }
+
         return self::$appScheme;
     }
 
