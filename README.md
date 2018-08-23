@@ -129,7 +129,7 @@ $segundoCarro = ShoppingCart::fromJSON($losObjetos);
 
 Teniendo un carro, se puede crear una `Transaction`
 ```php
-$transaction = Transaction::create($carro, null, $channel);
+$transaction = Transaction::create($carro, null, ChannelEnum::WEB());
 
 # Retorna un objeto TransactionCreateResponse con getters (getNombreAtributo) y setters(setNombreAtributo) para:
 
@@ -163,10 +163,23 @@ json_encode($transaction);
 En caso de que falle el `create` de una `Transaction` se devuelve un objeto de tipo `TransactionCreateException`, donde 
 la propiedad `message`contiene la razón del fallo.
 
-El parametro `$channel` puede ser `WEB`, `MOBILE` o `APP` dependiendo si quien esta realizando el pago esta usando un 
-browser en versión Desktop, Móvil o esta utilizando alguna aplicación móvil nativa.
+El tercer parámetro en el ejemplo corresponde al `$channel` y puede ser puede ser `ChannelEnum::WEB()`, 
+`ChannelEnum::MOBILE()` o `ChannelEnum::APP()` dependiendo si quien está realizando el pago está usando un browser en 
+versión Desktop, Móvil o está utilizando alguna aplicación móvil nativa.
 
-En caso que `$channel` sea `APP` es obligatorio que este previamente configurado el `appScheme`:
+En caso que `$channel` sea `ChannelEnum::MOBILE()` es obligatorio que esté previamente configurado el `$callbackUrl` o de 
+lo contrario la aplicación móvil no podrá re-direccionar a este cuando el pago se complete con éxito y como consecuencia 
+no podrás confirmar la transacción.
+
+```php
+OnepayBase::setCallbackUrl('http://www.somecallback.com/example');
+```
+
+En caso que `$channel` sea `ChannelEnum::APP()` es obligatorio que esté previamente configurado el `$appScheme`:
+
+```php
+OnepayBase::setAppScheme('mi-app://mi-app/onepay-result');
+```
 
 Posteriormente, se debe presentar al usuario el código QR y el número OTT para que pueda proceder al pago mediante la aplicación móvil.
 ##### Confirmar una transacción
