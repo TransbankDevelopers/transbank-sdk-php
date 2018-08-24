@@ -41,7 +41,6 @@ use Transbank\Onepay\Exceptions\SignException;
       */
      public static function create($shoppingCart, $channel = null, $options = null)
     {
-        echo '$channel instanceof Options : ' . ($channel instanceof Options);
         if ($channel instanceof Options) {
             $options = $channel;
             $channel = null;
