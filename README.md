@@ -163,7 +163,7 @@ json_encode($transaction);
 En caso de que falle el `create` de una `Transaction` se devuelve un objeto de tipo `TransactionCreateException`, donde 
 la propiedad `message`contiene la razón del fallo.
 
-El segundo parámetro en el ejemplo corresponde al `$channel` y puede ser puede ser `ChannelEnum::WEB()`, 
+El segundo parámetro en el ejemplo corresponde al `$channel` y puede ser `ChannelEnum::WEB()`, 
 `ChannelEnum::MOBILE()` o `ChannelEnum::APP()` dependiendo si quien está realizando el pago está usando un browser en 
 versión Desktop, Móvil o está utilizando alguna aplicación móvil nativa.
 
