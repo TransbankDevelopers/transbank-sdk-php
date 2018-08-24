@@ -73,7 +73,7 @@ use Transbank\Onepay\Options;
 $options = new Options('otro-api-key', 'otro-shared-secret');
 
 # Al crear transacción
-$transaction = Transaction::create($carro, $options, $channel);
+$transaction = Transaction::create($carro, ChannelEnum::WEB(), $options);
 
 # Al confirmar transacción
 $commitTransaction = Transaction::commit($occ, $externalUniqueNumber, $options)
@@ -129,7 +129,7 @@ $segundoCarro = ShoppingCart::fromJSON($losObjetos);
 
 Teniendo un carro, se puede crear una `Transaction`
 ```php
-$transaction = Transaction::create($carro, null, ChannelEnum::WEB());
+$transaction = Transaction::create($carro, ChannelEnum::WEB());
 
 # Retorna un objeto TransactionCreateResponse con getters (getNombreAtributo) y setters(setNombreAtributo) para:
 
@@ -163,7 +163,7 @@ json_encode($transaction);
 En caso de que falle el `create` de una `Transaction` se devuelve un objeto de tipo `TransactionCreateException`, donde 
 la propiedad `message`contiene la razón del fallo.
 
-El tercer parámetro en el ejemplo corresponde al `$channel` y puede ser puede ser `ChannelEnum::WEB()`, 
+El segundo parámetro en el ejemplo corresponde al `$channel` y puede ser `ChannelEnum::WEB()`, 
 `ChannelEnum::MOBILE()` o `ChannelEnum::APP()` dependiendo si quien está realizando el pago está usando un browser en 
 versión Desktop, Móvil o está utilizando alguna aplicación móvil nativa.
 

@@ -39,8 +39,13 @@ use Transbank\Onepay\Exceptions\SignException;
       * @throws TransactionCreateException
       * @throws \Exception
       */
-     public static function create($shoppingCart, $options = null, $channel = null)
+     public static function create($shoppingCart, $channel = null, $options = null)
     {
+        if ($channel instanceof Options) {
+            $options = $channel;
+            $channel = null;
+        }
+
         if (null != $channel && $channel == ChannelEnum::APP() && null == OnepayBase::getAppScheme())
             throw new TransactionCreateException('You need to set an appScheme if you want to use the APP channel');
 

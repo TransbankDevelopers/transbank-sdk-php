@@ -174,7 +174,7 @@ final class TransactionTest extends TestCase
         $this->assertEquals('Zapatos', $firstItem->getDescription());
         $this->assertEquals('Pantalon', $secondItem->getDescription());
 
-        $response = Transaction::create($shoppingCart);
+        $response = Transaction::create($shoppingCart, $options);
 
         $this->assertEquals($response instanceof TransactionCreateResponse, true);
         $this->assertEquals($response->getResponseCode(), "OK");
@@ -363,7 +363,7 @@ final class TransactionTest extends TestCase
         // This should raise a TransactionCreateException
         try {
             $this->setExpectedException(TransactionCreateException::class, 'You need to set a valid callback if you want to use the MOBILE channel');
-            $response = Transaction::create($shoppingCart, null, ChannelEnum::MOBILE());
+            $response = Transaction::create($shoppingCart, ChannelEnum::MOBILE());
         }
         finally {
             // Reset the HttpClient static property to its original state
@@ -387,7 +387,7 @@ final class TransactionTest extends TestCase
         $this->assertEquals('Zapatos', $firstItem->getDescription());
         $this->assertEquals('Pantalon', $secondItem->getDescription());
 
-        $response = Transaction::create($shoppingCart, null, ChannelEnum::MOBILE());
+        $response = Transaction::create($shoppingCart, ChannelEnum::MOBILE());
 
         $this->assertEquals($response instanceof TransactionCreateResponse, true);
         $this->assertEquals($response->getResponseCode(), "OK");
@@ -414,7 +414,7 @@ final class TransactionTest extends TestCase
         // This should raise a TransactionCreateException
         try {
             $this->setExpectedException(TransactionCreateException::class, 'You need to set an appScheme if you want to use the APP channel');
-            $response = Transaction::create($shoppingCart, null, ChannelEnum::APP());
+            $response = Transaction::create($shoppingCart, ChannelEnum::APP());
         }
         finally {
             // Reset the HttpClient static property to its original state
@@ -437,7 +437,7 @@ final class TransactionTest extends TestCase
         $this->assertEquals('Zapatos', $firstItem->getDescription());
         $this->assertEquals('Pantalon', $secondItem->getDescription());
 
-        $response = Transaction::create($shoppingCart, null, ChannelEnum::APP());
+        $response = Transaction::create($shoppingCart, ChannelEnum::APP());
 
         $this->assertEquals($response instanceof TransactionCreateResponse, true);
         $this->assertEquals($response->getResponseCode(), "OK");
