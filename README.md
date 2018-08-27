@@ -273,3 +273,39 @@ json_encode($refund);
 }
 ```
 En caso de que falle el `create` de un `Refund` se devuelve un objeto de tipo `RefundCreateException` donde la propiedad `message` contiene la razón del fallo.
+
+## Desarrollo
+### Requerimientos
+- Docker
+- Make
+- Plugin de editorconfig para tu editor favorito.
+
+### Standares
+
+- Para los commits respetamos las siguientes normas: https://chris.beams.io/posts/git-commit/
+- Usamos ingles, para los mensajes de commit.
+- Se pueden usar tokens como WIP, en el subject de un commit, separando el token con `:`, por ejemplo:
+`WIP: This is a useful commit message`
+- Para los nombres de ramas también usamos ingles.
+- Se asume, que una rama de feature no mezclada, es un feature no terminado.
+- El nombre de las ramas va en minúsculas.
+- Las palabras se separan con `-`.
+- Las ramas comienzan con alguno de los short lead tokens definidos, por ejemplo: `feat/tokens-configuration`
+
+#### Short lead tokens
+##### Commits
+- WIP = Trabajo en progreso.
+##### Ramas
+- feat = Nuevos features
+- chore = Tareas, que no son visibles al usuario.
+- bug = Resolución de bugs.
+
+### Todas las mezclas a master se hacen mediante Pull Request.
+
+### Test
+Para ejecutar los test localmente debes usar el siguiente comando en una terminal.
+```bash
+make test
+```
+
+### Deploy de una nueva version.
