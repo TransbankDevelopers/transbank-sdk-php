@@ -16,8 +16,13 @@ build: .built .bundled
 
 .bundled: composer.json composer.lock
 	docker-compose run --rm web composer install
+	docker-compose run --service-ports web composer update
 	touch .bundled
 
 logs:
 	docker-compose logs
-	
+
+clean:
+	docker-compose rm
+	rm .built
+	rm .bundled
