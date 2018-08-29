@@ -122,7 +122,6 @@ final class TransactionTest extends TestCase
         }
     }
 
-
     public function testTransactionCreationWorksTakingKeysFromGetenv()
     {
 
@@ -181,8 +180,6 @@ final class TransactionTest extends TestCase
         $this->assertEquals($response->getDescription(), "OK");
         $this->assertNotNull($response->getQrCodeAsBase64());
     }
-
-
 
     public function testTransactionCommitWorks()
     {
@@ -250,7 +247,6 @@ final class TransactionTest extends TestCase
         }
 
     }
-
 
     public function testTransactionCommitRaisesWhenResponseIsNotOk()
     {
@@ -443,5 +439,50 @@ final class TransactionTest extends TestCase
         $this->assertEquals($response->getResponseCode(), "OK");
         $this->assertEquals($response->getDescription(), "OK");
         $this->assertNotNull($response->getQrCodeAsBase64());
+    }
+
+    public function testTransactionWhenExternalUniqueNumberNull() {
+        OnepayBase::setAppScheme('somescheme');
+        $shoppingCart = new ShoppingCart();
+        $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
+            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
+        $firstItem = new Item("Zapatos", 1, 15000, null, -1);
+        $secondItem = new Item("Pantalon", 1, 12500, null, -1);
+
+        $shoppingCart->add($firstItem);
+        $shoppingCart->add($secondItem);
+
+        $this->assertEquals('Zapatos', $firstItem->getDescription());
+        $this->assertEquals('Pantalon', $secondItem->getDescription());
+
+        $response = Transaction::create($shoppingCart, ChannelEnum::APP(), null);
+
+        $this->assertEquals($response instanceof TransactionCreateResponse, true);
+        $this->assertEquals($response->getResponseCode(), "OK");
+        $this->assertEquals($response->getDescription(), "OK");
+        $this->assertNotNull($response->getQrCodeAsBase64());
+    }
+
+    public function testTransactionWhenExternalUniqueNumberPresent() {
+        OnepayBase::setAppScheme('somescheme');
+        $shoppingCart = new ShoppingCart();
+        $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
+            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
+        $firstItem = new Item("Zapatos", 1, 15000, null, -1);
+        $secondItem = new Item("Pantalon", 1, 12500, null, -1);
+
+        $shoppingCart->add($firstItem);
+        $shoppingCart->add($secondItem);
+
+        $this->assertEquals('Zapatos', $firstItem->getDescription());
+        $this->assertEquals('Pantalon', $secondItem->getDescription());
+
+        $response = Transaction::create($shoppingCart, ChannelEnum::APP(), "ABC123");
+
+        $this->assertEquals(true, $response instanceof TransactionCreateResponse);
+        $this->assertEquals("OK", $response->getResponseCode());
+        $this->assertEquals("OK", $response->getDescription());
+        $this->assertNotNull($response->getQrCodeAsBase64());
+        $this->assertEquals("f506a955-800c-4185-8818-4ef9fca97aae", $response->getExternalUniqueNumber());
     }
 }

@@ -24,7 +24,7 @@ automaticamente, pero si usas el SDK de manera directa requerirás también:
 Para usar el SDK en tu proyecto puedes usar Composer, añadiendo el SDK como dependencia a tu proyecto:
 ```json
     "require": {
-        "transbank/transbank-sdk": "1.1.1"
+        "transbank/transbank-sdk": "1.2.0"
     }
 ```
 
@@ -48,10 +48,10 @@ Existen varias formas de configurar esta información, la cual identifica a cada
 
 ##### 1. Por variable de entorno
 ```bash
-export ONEPAY_SHARED_SECRET = "valor de tu shared secret"
-export ONEPAY_API_KEY = "valor de tu api key"
-export ONEPAY_CALLBACK_URL = "valor de tu callback url"
-export ONEPAY_APP_SCHEME = "valor de tu app scheme"
+export ONEPAY_SHARED_SECRET="valor de tu shared secret"
+export ONEPAY_API_KEY="valor de tu api key"
+export ONEPAY_CALLBACK_URL="valor de tu callback url"
+export ONEPAY_APP_SCHEME="valor de tu app scheme"
 ```
 
 ##### 2. Configurando tu API_KEY y SHARED_SECRET al inicializar tu proyecto
@@ -181,6 +181,19 @@ En caso que `$channel` sea `ChannelEnum::APP()` es obligatorio que esté previam
 OnepayBase::setAppScheme('mi-app://mi-app/onepay-result');
 ```
 
+Como comercio, también puedes querer especificar un identificador propio de transacción. Este parámetro se conoce como 
+`ExternalUniqueNumber` y puede ser especificado al momento de crear la transacción. La única condición es que 
+**debes asegurar que este identificador sea único para toda tu organización**, de lo contrario la 
+transacción será **rechazada**.
+
+```php
+
+$externalUniqueNumber = "My Unique Number - 123";
+$response = Transaction::create($shoppingCart, $channel, $externalUniqueNumber;
+```
+Si el `ExternalUniqueNumber` no es especificado, entonces el SDK se encarga de generar un UUID, que puedes rescatar 
+desde la respuesta de `Transaction::create($shoppingCart, ChannelEnum::APP());` por ejemplo.
+
 Posteriormente, se debe presentar al usuario el código QR y el número OTT para que pueda proceder al pago mediante la aplicación móvil.
 ##### Confirmar una transacción
 Una vez que el usuario realizó el pago mediante la aplicación, dispones de 30 segundos para realizar la confirmación de la transacción, de lo contrario, se realizará automáticamente la reversa de la transacción.
@@ -308,4 +321,5 @@ Para ejecutar los test localmente debes usar el siguiente comando en una termina
 make test
 ```
 
-### Deploy de una nueva version.
+### Deploy de una nueva versión.
+Para generar una nueva versión en Packagist, basta con crear un nuevo release en github.
