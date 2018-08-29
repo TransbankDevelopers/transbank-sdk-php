@@ -442,7 +442,6 @@ final class TransactionTest extends TestCase
     }
 
     public function testTransactionWhenExternalUniqueNumberNull() {
-        OnepayBase::setCurrentIntegrationType("TEST");
         OnepayBase::setAppScheme('somescheme');
         $shoppingCart = new ShoppingCart();
         $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
@@ -462,11 +461,9 @@ final class TransactionTest extends TestCase
         $this->assertEquals($response->getResponseCode(), "OK");
         $this->assertEquals($response->getDescription(), "OK");
         $this->assertNotNull($response->getQrCodeAsBase64());
-        OnepayBase::setCurrentIntegrationType("MOCK");
     }
 
     public function testTransactionWhenExternalUniqueNumberPresent() {
-        OnepayBase::setCurrentIntegrationType("TEST");
         OnepayBase::setAppScheme('somescheme');
         $shoppingCart = new ShoppingCart();
         $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
@@ -486,7 +483,6 @@ final class TransactionTest extends TestCase
         $this->assertEquals("OK", $response->getResponseCode());
         $this->assertEquals("OK", $response->getDescription());
         $this->assertNotNull($response->getQrCodeAsBase64());
-        $this->assertEquals("ABC123", $response->getExternalUniqueNumber());
-        OnepayBase::setCurrentIntegrationType("MOCK");
+        $this->assertEquals("f506a955-800c-4185-8818-4ef9fca97aae", $response->getExternalUniqueNumber());
     }
 }
