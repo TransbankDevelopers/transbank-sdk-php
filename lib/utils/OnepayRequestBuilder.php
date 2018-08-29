@@ -21,7 +21,7 @@ namespace Transbank\Onepay;
         return static::$instance;
     }
 
-    public function buildCreateRequest($shoppingCart, $channel, $options = null)
+    public function buildCreateRequest($shoppingCart, $channel, $externalUniqueNumber = null, $options = null)
     {
         if (null == OnepayBase::getCallBackUrl()) {
             OnepayBase::setCallbackUrl(OnepayBase::DEFAULT_CALLBACK);
@@ -31,9 +31,13 @@ namespace Transbank\Onepay;
             $channel = OnepayBase::DEFAULT_CHANNEL();
         }
 
+        if (null == $externalUniqueNumber){
+            $externalUniqueNumber = (int)(microtime(true) * 1000);
+        }
+
         $options = self::buildOptions($options);
         $issuedAt = time();
-        $externalUniqueNumber = (int)(microtime(true) * 1000);
+
         $request = new TransactionCreateRequest(
                                           $externalUniqueNumber,
                                           $shoppingCart->getTotal(),

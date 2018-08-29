@@ -32,18 +32,24 @@ use Transbank\Onepay\Exceptions\SignException;
 
      /**
       * @param $shoppingCart
-      * @param null $options
       * @param ChannelEnum|null $channel
+      * @param null $externalUniqueNumber
+      * @param null $options
       * @return TransactionCreateResponse
       * @throws SignException
       * @throws TransactionCreateException
       * @throws \Exception
       */
-     public static function create($shoppingCart, $channel = null, $options = null)
+     public static function create($shoppingCart, $channel = null, $externalUniqueNumber = null, $options = null)
     {
         if ($channel instanceof Options) {
             $options = $channel;
             $channel = null;
+        }
+
+        if ($externalUniqueNumber instanceof Options){
+            $options = $externalUniqueNumber;
+            $externalUniqueNumber = null;
         }
 
         if (null != $channel && $channel == ChannelEnum::APP() && null == OnepayBase::getAppScheme())
@@ -57,7 +63,7 @@ use Transbank\Onepay\Exceptions\SignException;
         }
         $http = self::getHttpClient();
         $options = OnepayRequestBuilder::getInstance()->buildOptions($options);
-        $request = json_encode(OnepayRequestBuilder::getInstance()->buildCreateRequest($shoppingCart, $channel, $options), JSON_UNESCAPED_SLASHES);
+        $request = json_encode(OnepayRequestBuilder::getInstance()->buildCreateRequest($shoppingCart, $channel, $externalUniqueNumber, $options), JSON_UNESCAPED_SLASHES);
         echo $request;
         $path = self::TRANSACTION_BASE_PATH . self::SEND_TRANSACTION;
         $httpResponse = json_decode($http->post(OnepayBase::getCurrentIntegrationTypeUrl(), $path ,$request), true);
