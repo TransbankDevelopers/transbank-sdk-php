@@ -309,3 +309,4 @@ make test
 ```
 
 ### Deploy de una nueva version.
+Para generar una nueva version en Composer, basta con crear un nuevo release en github.
