@@ -321,5 +321,5 @@ Para ejecutar los test localmente debes usar el siguiente comando en una termina
 make test
 ```
 
-### Deploy de una nueva version.
-Para generar una nueva version en Composer, basta con crear un nuevo release en github.
+### Deploy de una nueva versión.
+Para generar una nueva versión en Packagist, basta con crear un nuevo release en github.
