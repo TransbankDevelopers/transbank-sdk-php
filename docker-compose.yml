@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: sh -c './sdktest'
+    command: sh -c './sdktest.sh'
     volumes:
       - .:/sdk
     ports:

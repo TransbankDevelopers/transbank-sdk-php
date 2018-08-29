@@ -3,10 +3,10 @@ SHELL := /bin/bash
 all: build run
 
 run: build
-	docker-compose run --service-ports web
+	docker-compose run web
 
 test: build
-	  docker-compose run --service-ports web sh -c './sdktest'
+	  docker-compose run web
 
 build: .built .bundled
 
@@ -16,7 +16,7 @@ build: .built .bundled
 
 .bundled: composer.json composer.lock
 	docker-compose run --rm web composer install
-	docker-compose run --service-ports web composer update
+	docker-compose run web composer update
 	touch .bundled
 
 logs:
