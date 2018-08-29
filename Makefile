@@ -3,10 +3,10 @@ SHELL := /bin/bash
 all: build run
 
 run: build
-	docker-compose run web
+	docker-compose run --rm web
 
 test: build
-	  docker-compose run web
+	docker-compose run --rm web
 
 build: .built .bundled
 
