@@ -48,10 +48,10 @@ Existen varias formas de configurar esta información, la cual identifica a cada
 
 ##### 1. Por variable de entorno
 ```bash
-export ONEPAY_SHARED_SECRET = "valor de tu shared secret"
-export ONEPAY_API_KEY = "valor de tu api key"
-export ONEPAY_CALLBACK_URL = "valor de tu callback url"
-export ONEPAY_APP_SCHEME = "valor de tu app scheme"
+export ONEPAY_SHARED_SECRET="valor de tu shared secret"
+export ONEPAY_API_KEY="valor de tu api key"
+export ONEPAY_CALLBACK_URL="valor de tu callback url"
+export ONEPAY_APP_SCHEME="valor de tu app scheme"
 ```
 
 ##### 2. Configurando tu API_KEY y SHARED_SECRET al inicializar tu proyecto
