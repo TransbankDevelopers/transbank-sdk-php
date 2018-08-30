@@ -24,7 +24,7 @@ automaticamente, pero si usas el SDK de manera directa requerirás también:
 Para usar el SDK en tu proyecto puedes usar Composer, añadiendo el SDK como dependencia a tu proyecto:
 ```json
     "require": {
-        "transbank/transbank-sdk": "1.2.0"
+        "transbank/transbank-sdk": "1.2.2"
     }
 ```
 
@@ -322,4 +322,13 @@ make test
 ```
 
 ### Deploy de una nueva versión.
-Para generar una nueva versión en Packagist, basta con crear un nuevo release en github.
+Para generar una nueva versión, se debe crear un PR (con un título "Prepare release X.Y.Z" con los valores que correspondan para X, Y y Z). Se debe seguir el estándar semver para determinar si se incrementa el valor de X (si hay cambios no retrocompatibles), Y (para mejoras retrocompatibles) o Z (si sólo hubo correcciones a bugs).
+
+En ese PR deben incluirse los siguientes cambios:
+
+Modificar el archivo CHANGELOG.md para incluir una nueva entrada (al comienzo) para X.Y.Z que explique en español los cambios de cara al usuario del SDK.
+Modificar este README.md para que los ejemplos usen la nueva versión X.Y.Z
+
+Luego de obtener aprobación del pull request, debe mezclarse a master e inmediatamente generar un release en GitHub con el tag vX.Y.Z. En la descripción del release debes poner lo mismo que agregaste al changelog.
+
+Con eso Travis CI generará automáticamente una nueva versión de la librería y la publicará en Packagist.
