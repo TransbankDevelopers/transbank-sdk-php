@@ -9,7 +9,9 @@ class OnepayBase
 {
     const DEFAULT_CALLBACK = "http://no.callback.has/been.set";
 
-    public static $appKey = "04533c31-fe7e-43ed-bbc4-1c8ab1538afp";
+    public static $appKeys = array("TEST" => '1a0c0639-bd2f-4846-8d26-81f43187e797',
+                                   "LIVE" => '2B571C49-C1B6-4AD1-9806-592AC68023B7',
+                                   "MOCK" => '04533c31-fe7e-43ed-bbc4-1c8ab1538afp');
     public static $callbackUrl = null;
 
     public static $serverBasePath;
@@ -21,9 +23,9 @@ class OnepayBase
 
     public static function integrationTypes($type = null) {
 
-        $types = array("TEST" => 'https://web2desa.test.transbank.cl',
-                        "LIVE" => '',
-                        "MOCK" => 'http://onepay.getsandbox.com');
+        $types = array("TEST" => 'https://onepay.ionix.cl',
+                       "LIVE" => 'https://www.onepay.cl',
+                       "MOCK" => 'http://onepay.getsandbox.com');
 
 
         if (!$type) {
@@ -54,14 +56,6 @@ class OnepayBase
     public static function setApiKey($apiKey)
     {
         self::$apiKey = $apiKey;
-    }
-    /**
-     * Return the app key used for requests. Identifies where requests come from
-     * on Transbank's side. SDK users have no use for this.
-     */
-    public static function getAppKey()
-    {
-        return self::$appKey;
     }
 
     /**
@@ -103,13 +97,25 @@ class OnepayBase
     }
 
     /**
-     * Get the url of the current intengration endpoint
+     * Get the url of the current integration endpoint
      */
 
     public static function getCurrentIntegrationTypeUrl()
     {
         return self::integrationTypes()[self::$integrationType];
     }
+
+    /**
+     * Get the appKey of the current integration endpoint
+     */
+
+    public static function getCurrentIntegrationTypeAppKey()
+    {
+        return self::$appKeys[self::$integrationType];
+    }
+
+
+
     /**
      *
      * Get the integration URL of $type

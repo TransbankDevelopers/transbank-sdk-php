@@ -92,7 +92,7 @@ namespace Transbank\Onepay;
         }
 
         if (!$options->getAppKey()) {
-            $options->setAppKey(OnepayBase::getAppKey());
+            $options->setAppKey(OnepayBase::getCurrentIntegrationTypeAppKey());
         }
         if (!$options->getSharedSecret()) {
             $options->setSharedSecret(OnepayBase::getSharedSecret());
