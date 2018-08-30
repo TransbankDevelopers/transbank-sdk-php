@@ -64,7 +64,6 @@ use Transbank\Onepay\Exceptions\SignException;
         $http = self::getHttpClient();
         $options = OnepayRequestBuilder::getInstance()->buildOptions($options);
         $request = json_encode(OnepayRequestBuilder::getInstance()->buildCreateRequest($shoppingCart, $channel, $externalUniqueNumber, $options), JSON_UNESCAPED_SLASHES);
-        echo $request;
         $path = self::TRANSACTION_BASE_PATH . self::SEND_TRANSACTION;
         $httpResponse = json_decode($http->post(OnepayBase::getCurrentIntegrationTypeUrl(), $path ,$request), true);
 
