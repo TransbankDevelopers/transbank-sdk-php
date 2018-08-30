@@ -18,8 +18,11 @@ namespace Transbank\Onepay;
     public function __construct($apiKey = null, $sharedSecret = null)
     {
         $this->setApiKey($apiKey);
-        $this->setAppKey(OnepayBase::getAppKey());
         $this->setSharedSecret($sharedSecret);
+        // If app key is null then OnepayRequestBuilder will use
+        // OnepayBase::getCurrentIntegrationTypeAppKey() which
+        // is a pretty good default:
+        $this->setAppKey(null);
     }
 
     public function jsonSerialize() 
