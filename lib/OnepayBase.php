@@ -168,6 +168,18 @@ class OnepayBase
     }
 
     /**
+     * Sets the credentials published by Transbank to play on the TEST
+     * environment.
+     */
+    public static function setIntegrationApiKeyAndSharedSecret() {
+        if (null == getenv("ONEPAY_API_KEY"))
+            self::setApiKey('dKVhq1WGt_XapIYirTXNyUKoWTDFfxaEV63-O5jcsdw');
+
+        if (null == getenv("ONEPAY_SHARED_SECRET"))
+            self::setSharedSecret('?XW#WOLG##FBAGEAYSNQ5APD#JF@$AYZ');
+    }
+
+    /**
      * @param mixed $appScheme
      */
     public static function setAppScheme($appScheme)
@@ -180,3 +192,5 @@ class OnepayBase
     }
 
 }
+
+OnepayBase::setIntegrationApiKeyAndSharedSecret();
