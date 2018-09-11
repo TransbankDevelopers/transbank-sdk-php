@@ -83,6 +83,9 @@ $refund = Refund::create($amount, $occ, $externalUniqueNumber,
                          $authorizationCode, $options);
 ```
 
+> **TIP:** En caso que no configures ningún API_KEY o SHARED_SECRET se usarán por defecto las credenciales
+del ambiente de integración, por lo tanto no es necesario que se configuren para realizar tus pruebas.
+
 ##### Ambientes TEST y LIVE
 Por defecto el tipo de integración del SDK es siempre `TEST`.
 Se puede obtener la información de los distintos ambientes disponibles utilizando
