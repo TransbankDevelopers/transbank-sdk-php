@@ -6,7 +6,7 @@ y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.ht
 
 ## [1.3.0] - 2018-09-10
 ### Added
-- Congiración de las credenciales de integración por defecto. Ya no será necesario que
+- Configuración de las credenciales de integración por defecto. Ya no será necesario que
 configures API_KEY o SHARED_SECRET si quieres trabajar en ambiente TEST.
 
 ## [1.2.2] - 2018-08-30
