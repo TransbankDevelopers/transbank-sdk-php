@@ -4,6 +4,13 @@ Todos los cambios notables a este proyecto serán docuemntados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+
+## [1.3.1] - 2018-09-11
+### Fixed
+- `OnepayRequestBuilder::buildOptions` no setea el appKey correcto en caso que se entregue como base
+un `options` nulo. Se corrige este error seteando en el constructor de `options` el appKey
+correcto en vez de dejarlo null.
+
 ## [1.3.0] - 2018-09-10
 ### Added
 - Configuración de las credenciales de integración por defecto. Ya no será necesario que
