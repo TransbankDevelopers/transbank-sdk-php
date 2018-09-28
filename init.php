@@ -1,6 +1,7 @@
 <?php
 
 // Onepay Singleton
+require_once(dirname(__FILE__) . '/lib/ChannelEnum.php');
 require_once(dirname(__FILE__) . '/lib/OnepayBase.php');
 
 // Utilities
@@ -27,9 +28,10 @@ require_once(dirname(__FILE__) . '/lib/RefundCreateRequest.php');
 require_once(dirname(__FILE__) . '/lib/RefundCreateResponse.php');
 
 // Exceptions
+require_once(dirname(__FILE__) . '/lib/exceptions/TransbankException.php');
 require_once(dirname(__FILE__) . '/lib/exceptions/AmountException.php');
 require_once(dirname(__FILE__) . '/lib/exceptions/RefundCreateException.php');
 require_once(dirname(__FILE__) . '/lib/exceptions/SignException.php');
 require_once(dirname(__FILE__) . '/lib/exceptions/TransactionCommitException.php');
 require_once(dirname(__FILE__) . '/lib/exceptions/TransactionCreateException.php');
-require_once(dirname(__FILE__) . '/lib/exceptions/TransbankException.php');
+
