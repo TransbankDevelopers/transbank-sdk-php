@@ -117,7 +117,7 @@ $carro = new ShoppingCart();
 
 # description, quantity, amount;
 $objeto = new Item('Pelota de futbol', 1, 20000); 
-$carro->add(objeto);
+$carro->add($objeto);
 ```
 Otra manera de crear un carro es con un arreglo asociativo (o JSON que con `json_decode` sea un arreglo asociativo)
 ```php
