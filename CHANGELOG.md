@@ -4,6 +4,10 @@ Todos los cambios notables a este proyecto serán docuemntados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.3.2] - 2018-10-03
+### Fixed
+- Se corrige el orden de clases cargadas en el archivo init.php para ser usado sin problemas
+cuando no se usa composer.
 
 ## [1.3.1] - 2018-09-11
 ### Fixed
