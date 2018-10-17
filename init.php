@@ -1,6 +1,7 @@
 <?php
 
 // Onepay Singleton
+require_once(dirname(__FILE__) . '/lib/ChannelEnum.php');
 require_once(dirname(__FILE__) . '/lib/onepay/OnepayBase.php');
 
 // Utilities
