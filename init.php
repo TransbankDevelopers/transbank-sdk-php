@@ -28,12 +28,12 @@ require_once(dirname(__FILE__) . '/lib/onepay/RefundCreateRequest.php');
 require_once(dirname(__FILE__) . '/lib/onepay/RefundCreateResponse.php');
 
 // Exceptions
+require_once(dirname(__FILE__) . '/lib/onepay/exceptions/TransbankException.php');
 require_once(dirname(__FILE__) . '/lib/onepay/exceptions/AmountException.php');
 require_once(dirname(__FILE__) . '/lib/onepay/exceptions/RefundCreateException.php');
 require_once(dirname(__FILE__) . '/lib/onepay/exceptions/SignException.php');
 require_once(dirname(__FILE__) . '/lib/onepay/exceptions/TransactionCommitException.php');
 require_once(dirname(__FILE__) . '/lib/onepay/exceptions/TransactionCreateException.php');
-require_once(dirname(__FILE__) . '/lib/onepay/exceptions/TransbankException.php');
 
 // WEBPAY
 require_once(dirname(__FILE__) . '/lib/webpay/configuration.php');
@@ -57,6 +57,10 @@ require_once(dirname(__FILE__) . '/lib/webpay/acknowledgeTransactionResponse.php
 require_once(dirname(__FILE__) . '/lib/webpay/initTransaction.php');
 require_once(dirname(__FILE__) . '/lib/webpay/wsInitTransactionInput.php');
 require_once(dirname(__FILE__) . '/lib/webpay/wpmDetailInput.php');
+require_once(dirname(__FILE__) . '/lib/webpay/nullificationInput.php');
+require_once(dirname(__FILE__) . '/lib/webpay/nullificationOutput.php');
+require_once(dirname(__FILE__) . '/lib/webpay/nullify.php');
+require_once(dirname(__FILE__) . '/lib/webpay/nullifyResponse.php');
 
 // SOAP
 require_once(dirname(__FILE__) . '/lib/webpay/soap/soapvalidation.php');

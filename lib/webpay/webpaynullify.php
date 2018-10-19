@@ -2,61 +2,6 @@
 namespace Transbank\Webpay;
 
 /**
-* @category   Plugins/SDK
-* @author     Allware Ltda. (http://www.allware.cl)
-* @copyright  2018 Transbank S.A. (http://www.transbank.cl)
-* @date       May 2018
-* @license    GNU LGPL
-* @version    2.0.4
-* @link       http://transbankdevelopers.cl/
- *
- * This software was created for easy integration of ecommerce
- * portals with Transbank Webpay solution.
- *
- * Required:
- *  - PHP v5.6
- *  - PHP SOAP library
- *  - Ecommerce vX.X
- *
- * See documentation and how to install at link site
- *
- */
-class nullify {
-
-    var $nullificationInput;
-
-}
-
-class nullificationInput {
-
-    var $commerceId; //long
-    var $buyOrder; //string
-    var $authorizedAmount; //decimal
-    var $authorizationCode; //string
-    var $nullifyAmount; //decimal
-
-}
-
-/*class baseBean{
-}*/
-
-class nullifyResponse {
-
-    var $return; //nullificationOutput
-
-}
-
-class nullificationOutput {
-
-    var $authorizationCode; //string
-    var $authorizationDate; //dateTime
-    var $balance; //decimal
-    var $nullifiedAmount; //decimal
-    var $token; //string
-
-}
-
-/**
  * TRANSACCIÓN ANULACIÓN:
  * Este método permite a todo comercio habilitado anular una transacción que fue generada en
  * plataforma Webpay 3G. El método contempla anular total o parcialmente una transacción.
@@ -106,16 +51,15 @@ class WebpayNullify {
         "315" => "Error del autorizador",
     );
 
-    private static $classmap = array('nullify' => 'nullify'
-        , 'nullificationInput' => 'nullificationInput'
-        //, 'baseBean' => 'baseBean'
-        , 'nullifyResponse' => 'nullifyResponse'
-        , 'nullificationOutput' => 'nullificationOutput'
-        , 'capture' => 'capture'
-        , 'captureInput' => 'captureInput'
-        , 'captureResponse' => 'captureResponse'
-        , 'captureOutput' => 'captureOutput'
-        , 'nullifyResponse' => 'nullifyResponse'
+    private static $classmap = array('nullify' => 'Transbank\Webpay\nullify'
+        , 'nullificationInput' => 'Transbank\Webpay\nullificationInput'
+        , 'nullifyResponse' => 'Transbank\Webpay\nullifyResponse'
+        , 'nullificationOutput' => 'Transbank\Webpay\nullificationOutput'
+        , 'capture' => 'Transbank\Webpay\capture'
+        , 'captureInput' => 'Transbank\Webpay\captureInput'
+        , 'captureResponse' => 'Transbank\Webpay\captureResponse'
+        , 'captureOutput' => 'Transbank\Webpay\captureOutput'
+        , 'nullifyResponse' => 'Transbank\Webpay\nullifyResponse'
     );
 
     function __construct($config) {
@@ -151,7 +95,7 @@ class WebpayNullify {
 
         try {
 
-            error_reporting(0);
+            // error_reporting(0);
 
             $nullificationInput = new nullificationInput();
 
@@ -192,7 +136,7 @@ class WebpayNullify {
                 $error["error"] = "No se pudo completar la conexión con Webpay";
             }
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
 
             $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
 
@@ -206,5 +150,3 @@ class WebpayNullify {
     }
 
 }
-
-?>

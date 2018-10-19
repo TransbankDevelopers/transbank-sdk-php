@@ -244,7 +244,7 @@ class WebpayOneClick {
 
         try {
 
-            error_reporting(0);
+            // error_reporting(0);
             $error = array();
 
             $oneClickInscriptionInput = new oneClickInscriptionInput();
