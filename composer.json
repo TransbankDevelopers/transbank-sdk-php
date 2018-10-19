@@ -3,10 +3,14 @@
     "description": "Transbank SDK",
     "keywords": ["payments", "transbank", "api", "sdk"],
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.5.0",
         "ext-curl": "*",
         "ext-json": "*",
-        "ext-mbstring": "*"
+        "ext-mbstring": "*",
+        "ext-soap": "*",
+        "ext-dom": "*",
+        "ext-mcrypt": "*",
+        "ext-openssl": "*"
       },
       "require-dev": {
         "phpunit/phpunit": "~4.0",

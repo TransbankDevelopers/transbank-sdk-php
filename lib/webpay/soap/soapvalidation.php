@@ -2,7 +2,7 @@
 namespace Transbank\Webpay;
 
 /**
- * soap-validation.php 
+ * soapvalidation.php
  * 
  * Copyright (c) 2012, OrangePeople Software Ltda <soporte@orangepeople.cl>. 
  * All rights reserved. 
@@ -60,14 +60,14 @@ class SoapValidation {
     public $errorMessage = NULL;
 
     function __construct($xmlSoap, $certServerPath) {
-        $doc = new DOMDocument("1.0");
+        $doc = new \DOMDocument("1.0");
         $doc->loadXML($xmlSoap);
         $this->soapDoc = $doc;
         $this->envelope = $doc->documentElement;
         $this->soapNS = $this->envelope->namespaceURI;
         $this->soapPFX = $this->envelope->prefix;
 
-        $this->SOAPXPath = new DOMXPath($doc);
+        $this->SOAPXPath = new \DOMXPath($doc);
         $this->SOAPXPath->registerNamespace('wssoap', $this->soapNS);
         $this->SOAPXPath->registerNamespace('wswsu', self::WSUNS);
 
@@ -118,7 +118,7 @@ class SoapValidation {
         $retVal = $objXMLSecDSig->validateReference();
 
         if (!$retVal) {
-            throw new Exception("Validation Failed");
+            throw new \Exception("Validation Failed");
         }
 
         $key = NULL;
@@ -131,7 +131,7 @@ class SoapValidation {
                 $objKey->loadKey($x509cert, FALSE, TRUE);
                 break;
 
-                throw new Exception("Error loading key to handle Signature");
+                throw new \Exception("Error loading key to handle Signature");
             }
         } while (0);
 
@@ -173,5 +173,3 @@ class SoapValidation {
     }
 
 }
-
-?>

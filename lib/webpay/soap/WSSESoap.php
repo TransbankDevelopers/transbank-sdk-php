@@ -2,7 +2,7 @@
 namespace Transbank\Webpay;
 
 /**
- * soap-wsse.php 
+ * WSSESoap.php
  * 
  * Copyright (c) 2010, Robert Richards <rrichards@ctindustries.net>. 
  * All rights reserved. 
@@ -97,7 +97,7 @@ class WSSESoap {
         $this->envelope = $doc->documentElement;
         $this->soapNS = $this->envelope->namespaceURI;
         $this->soapPFX = $this->envelope->prefix;
-        $this->SOAPXPath = new DOMXPath($doc);
+        $this->SOAPXPath = new \DOMXPath($doc);
         $this->SOAPXPath->registerNamespace('wssoap', $this->soapNS);
         $this->SOAPXPath->registerNamespace('wswsse', WSSESoap::WSSENS);
         $this->locateSecurityHeader($bMustUnderstand, $setActor);
@@ -121,7 +121,7 @@ class WSSESoap {
 
     public function addUserToken($userName, $password = NULL, $passwordDigest = FALSE) {
         if ($passwordDigest && empty($password)) {
-            throw new Exception("Cannot calculate the digest without a password");
+            throw new \Exception("Cannot calculate the digest without a password");
         }
 
         $security = $this->locateSecurityHeader();
@@ -171,8 +171,8 @@ class WSSESoap {
     }
 
     public function attachTokentoSig($token) {
-        if (!($token instanceof DOMElement)) {
-            throw new Exception('Invalid parameter: BinarySecurityToken element expected');
+        if (!($token instanceof \DOMElement)) {
+            throw new \Exception('Invalid parameter: BinarySecurityToken element expected');
         }
         $objXMLSecDSig = new XMLSecurityDSig();
         if ($objDSig = $objXMLSecDSig->locateSignature($this->soapDoc)) {
@@ -193,7 +193,7 @@ class WSSESoap {
             $reference->setAttribute("ValueType", 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3');
             $tokenRef->appendChild($reference);
         } else {
-            throw new Exception('Unable to locate digital signature');
+            throw new \Exception('Unable to locate digital signature');
         }
     }
 
@@ -227,7 +227,7 @@ class WSSESoap {
 
             $tokenRef->appendChild($x509Data);
         } else {
-            throw new Exception('Unable to locate digital signature');
+            throw new \Exception('Unable to locate digital signature');
         }
     }
 
@@ -296,7 +296,7 @@ class WSSESoap {
                     foreach ($arkeyid AS $hexchar) {
                         $data .= chr(hexdec($hexchar));
                     }
-                    $dataNode = new DOMText(base64_encode($data));
+                    $dataNode = new \DOMText(base64_encode($data));
                     $reference->appendChild($dataNode);
                 }
             }
@@ -360,7 +360,7 @@ class WSSESoap {
                     foreach ($arkeyid AS $hexchar) {
                         $data .= chr(hexdec($hexchar));
                     }
-                    $dataNode = new DOMText(base64_encode($data));
+                    $dataNode = new \DOMText(base64_encode($data));
                     $reference->appendChild($dataNode);
                     return TRUE;
                 }
@@ -430,7 +430,7 @@ class WSSESoap {
 
         $enc = new XMLSecEnc();
 
-        $xpath = new DOMXPath($this->envelope->ownerDocument);
+        $xpath = new \DOMXPath($this->envelope->ownerDocument);
         if ($encryptSignature == FALSE) {
             $nodes = $xpath->query('//*[local-name()="Body"]');
         } else {
@@ -469,7 +469,7 @@ class WSSESoap {
 
         $objenc = new XMLSecEnc();
 
-        $xpath = new DOMXPath($doc);
+        $xpath = new \DOMXPath($doc);
         $envns = $doc->documentElement->namespaceURI;
         $xpath->registerNamespace("soapns", $envns);
         $xpath->registerNamespace("soapenc", "http://www.w3.org/2001/04/xmlenc#");
@@ -481,7 +481,7 @@ class WSSESoap {
             $objenc = new XMLSecEnc();
             $objenc->setNode($node);
             if (!$objKey = $objenc->locateKey()) {
-                throw new Exception("Unable to locate algorithm for this Encrypted Key");
+                throw new \Exception("Unable to locate algorithm for this Encrypted Key");
             }
             $objKey->isEncrypted = TRUE;
             $objKey->encryptedCtx = $objenc;

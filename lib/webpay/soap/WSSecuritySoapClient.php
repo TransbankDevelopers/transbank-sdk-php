@@ -1,10 +1,8 @@
 <?php
 namespace Transbank\Webpay;
 
-//require_once('xmlseclibs.php');
-//require_once('soap-wsse.php');
 
-class WSSecuritySoapClient extends SoapClient {
+class WSSecuritySoapClient extends \SoapClient {
     
     private $useSSL = false;
     private $privateKey = "";
@@ -16,7 +14,6 @@ class WSSecuritySoapClient extends SoapClient {
         $this->useSSL = $locationparts['scheme'] == "https" ? true : false;
         $this->privateKey = $privateKey;
         $this->publicCert = $publicCert;
-
         return parent::__construct($wsdl, $options);
     }
 
@@ -34,7 +31,7 @@ class WSSecuritySoapClient extends SoapClient {
             if (isset($locationparts['query']))
                 $location .= '?' . $locationparts['query'];
         }
-        $doc = new DOMDocument('1.0');
+        $doc = new \DOMDocument('1.0');
 
         $doc->loadXML($request);
         $objWSSE = new WSSESoap($doc);
@@ -53,12 +50,10 @@ class WSSecuritySoapClient extends SoapClient {
         $objKey->generateSessionKey();
         $retVal = parent::__doRequest($objWSSE->saveXML(), $location, $saction, $version);
 
-        $doc = new DOMDocument();
+        $doc = new \DOMDocument();
         $doc->loadXML($retVal);
         
         return $doc->saveXML();
     }
 
 }
-
-?>

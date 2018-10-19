@@ -1,7 +1,7 @@
 <?php
 
 // Onepay Singleton
-require_once(dirname(__FILE__) . '/lib/ChannelEnum.php');
+require_once(dirname(__FILE__) . '/lib/onepay/ChannelEnum.php');
 require_once(dirname(__FILE__) . '/lib/onepay/OnepayBase.php');
 
 // Utilities
@@ -38,15 +38,30 @@ require_once(dirname(__FILE__) . '/lib/onepay/exceptions/TransbankException.php'
 // WEBPAY
 require_once(dirname(__FILE__) . '/lib/webpay/configuration.php');
 require_once(dirname(__FILE__) . '/lib/webpay/webpay.php');
-require_once(dirname(__FILE__) . '/lib/webpay/webpay-capture.php');
-require_once(dirname(__FILE__) . '/lib/webpay/webpay-complete.php');
-require_once(dirname(__FILE__) . '/lib/webpay/webpay-mall-normal.php');
-require_once(dirname(__FILE__) . '/lib/webpay/webpay-normal.php');
-require_once(dirname(__FILE__) . '/lib/webpay/webpay-nullify.php');
-require_once(dirname(__FILE__) . '/lib/webpay/webpay-oneclick.php');
+require_once(dirname(__FILE__) . '/lib/webpay/webpaycapture.php');
+require_once(dirname(__FILE__) . '/lib/webpay/webpaycomplete.php');
+require_once(dirname(__FILE__) . '/lib/webpay/webpaymallnormal.php');
+require_once(dirname(__FILE__) . '/lib/webpay/webpaynormal.php');
+require_once(dirname(__FILE__) . '/lib/webpay/webpaynullify.php');
+require_once(dirname(__FILE__) . '/lib/webpay/webpayoneclick.php');
+require_once(dirname(__FILE__) . '/lib/webpay/initTransactionResponse.php');
+require_once(dirname(__FILE__) . '/lib/webpay/wsInitTransactionOutput.php');
+require_once(dirname(__FILE__) . '/lib/webpay/getTransactionResult.php');
+require_once(dirname(__FILE__) . '/lib/webpay/getTransactionResultResponse.php');
+require_once(dirname(__FILE__) . '/lib/webpay/transactionResultOutput.php');
+require_once(dirname(__FILE__) . '/lib/webpay/cardDetail.php');
+require_once(dirname(__FILE__) . '/lib/webpay/wsTransactionDetailOutput.php');
+require_once(dirname(__FILE__) . '/lib/webpay/wsTransactionDetail.php');
+require_once(dirname(__FILE__) . '/lib/webpay/acknowledgeTransaction.php');
+require_once(dirname(__FILE__) . '/lib/webpay/acknowledgeTransactionResponse.php');
+require_once(dirname(__FILE__) . '/lib/webpay/initTransaction.php');
+require_once(dirname(__FILE__) . '/lib/webpay/wsInitTransactionInput.php');
+require_once(dirname(__FILE__) . '/lib/webpay/wpmDetailInput.php');
 
 // SOAP
-require_once(dirname(__FILE__) . '/lib/webpay/soap/soap-validation.php');
-require_once(dirname(__FILE__) . '/lib/webpay/soap/soap-wsse.php');
-require_once(dirname(__FILE__) . '/lib/webpay/soap/soapclient.php');
-require_once(dirname(__FILE__) . '/lib/webpay/soap/xmlseclibs.php');
+require_once(dirname(__FILE__) . '/lib/webpay/soap/soapvalidation.php');
+require_once(dirname(__FILE__) . '/lib/webpay/soap/WSSESoap.php');
+require_once(dirname(__FILE__) . '/lib/webpay/soap/WSSecuritySoapClient.php');
+require_once(dirname(__FILE__) . '/lib/webpay/soap/XMLSecurityKey.php');
+require_once(dirname(__FILE__) . '/lib/webpay/soap/XMLSecurityDSig.php');
+require_once(dirname(__FILE__) . '/lib/webpay/soap/XMLSecEnc.php');
