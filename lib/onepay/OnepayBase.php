@@ -25,7 +25,7 @@ class OnepayBase
 
         $types = array("TEST" => 'https://onepay.ionix.cl',
                        "LIVE" => 'https://www.onepay.cl',
-                       "MOCK" => 'http://onepay.getsandbox.com');
+                       "MOCK" => 'https://transbank-onepay-ewallet-mock.herokuapp.com');
 
 
         if (!$type) {

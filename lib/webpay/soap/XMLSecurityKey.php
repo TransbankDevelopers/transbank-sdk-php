@@ -395,7 +395,6 @@ class XMLSecurityKey {
             $this->key = $key;
         }
         if ($isCert) {
-            echo $this->key ."\n";
             $this->key = openssl_x509_read($this->key);
             openssl_x509_export($this->key, $str_cert);
             $this->x509Certificate = $str_cert;

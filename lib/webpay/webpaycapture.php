@@ -2,13 +2,13 @@
 namespace Transbank\Webpay;
 
 /**
-* @category   Plugins/SDK
-* @author     Allware Ltda. (http://www.allware.cl)
-* @copyright  2018 Transbank S.A. (http://www.transbank.cl)
-* @date       May 2018
-* @license    GNU LGPL
-* @version    2.0.4
-* @link       http://transbankdevelopers.cl/
+ * @category   Plugins/SDK
+ * @author     Allware Ltda. (http://www.allware.cl)
+ * @copyright  2018 Transbank S.A. (http://www.transbank.cl)
+ * @date       May 2018
+ * @license    GNU LGPL
+ * @version    2.0.4
+ * @link       http://transbankdevelopers.cl/
  *
  * This software was created for easy integration of ecommerce
  * portals with Transbank Webpay solution.
@@ -102,7 +102,17 @@ class WebpayCapture {
         "315" => "Error del autorizador",
     );
 
-    private static $classmap = array('nullify' => 'nullify', 'nullificationInput' => 'nullificationInput', 'baseBean' => 'baseBean', 'nullifyResponse' => 'nullifyResponse', 'nullificationOutput' => 'nullificationOutput', 'capture' => 'capture', 'captureInput' => 'captureInput', 'captureResponse' => 'captureResponse', 'captureOutput' => 'captureOutput');
+    private static $classmap = array(
+        'nullify' => 'Transbank\Webpay\nullify',
+        'nullificationInput' => 'Transbank\Webpay\nullificationInput',
+        'baseBean' => 'Transbank\Webpay\baseBean',
+        'nullifyResponse' => 'Transbank\Webpay\nullifyResponse',
+        'nullificationOutput' => 'Transbank\Webpay\nullificationOutput',
+        'capture' => 'Transbank\Webpay\capture',
+        'captureInput' => 'Transbank\Webpay\captureInput',
+        'captureResponse' => 'Transbank\Webpay\captureResponse',
+        'captureOutput' => 'Transbank\Webpay\captureOutput'
+    );
 
     function __construct($config) {
 
@@ -155,7 +165,7 @@ class WebpayCapture {
             $CaptureInput->commerceId = floatval($this->config->getCommerceCode());
 
             $captureResponse = $this->_capture(
-                    array("captureInput" => $CaptureInput)
+                array("captureInput" => $CaptureInput)
             );
 
             /** Validación de firma del requerimiento de respuesta enviado por Webpay */
@@ -173,7 +183,7 @@ class WebpayCapture {
                 $error["error"] = "Error validando conexión a Webpay";
                 $error["error"] = "No se pudo completar la conexión con Webpay";
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
 
             $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
 
@@ -186,5 +196,3 @@ class WebpayCapture {
     }
 
 }
-
-?>

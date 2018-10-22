@@ -158,7 +158,21 @@ class WebPayMallNormal {
         "-8" => "Rubro no autorizado",
     );
 
-    private static $classmap = array('getTransactionResult' => 'getTransactionResult', 'getTransactionResultResponse' => 'getTransactionResultResponse', 'transactionResultOutput' => 'transactionResultOutput', 'cardDetail' => 'cardDetail', 'wsTransactionMallDetailOutput' => 'wsTransactionMallDetailOutput', 'wsTransactionMallDetail' => 'wsTransactionMallDetail', 'acknowledgeTransaction' => 'acknowledgeTransaction', 'acknowledgeMallTransactionResponse' => 'acknowledgeMallTransactionResponse', 'initTransactionMall' => 'initTransactionMall', 'wsInitTransactionMallInput' => 'wsInitTransactionMallInput', 'wpmDetailMallInput' => 'wpmDetailMallInput', 'initTransactionMallResponse' => 'initTransactionMallResponse', 'wsInitTransactionMallOutput' => 'wsInitTransactionMallOutput');
+    private static $classmap = array(
+        'getTransactionResult' => 'Transbank\Webpay\getTransactionResult',
+        'getTransactionResultResponse' => 'Transbank\Webpay\getTransactionResultResponse',
+        'transactionResultOutput' => 'Transbank\Webpay\transactionResultOutput',
+        'cardDetail' => 'Transbank\Webpay\cardDetail',
+        'wsTransactionMallDetailOutput' => 'Transbank\Webpay\wsTransactionMallDetailOutput',
+        'wsTransactionMallDetail' => 'Transbank\Webpay\wsTransactionMallDetail',
+        'acknowledgeTransaction' => 'Transbank\Webpay\acknowledgeTransaction',
+        'acknowledgeMallTransactionResponse' => 'Transbank\Webpay\acknowledgeMallTransactionResponse',
+        'initTransactionMall' => 'Transbank\Webpay\initTransactionMall',
+        'wsInitTransactionMallInput' => 'Transbank\Webpay\wsInitTransactionMallInput',
+        'wpmDetailMallInput' => 'Transbank\Webpay\wpmDetailMallInput',
+        'initTransactionMallResponse' => 'Transbank\Webpay\initTransactionMallResponse',
+        'wsInitTransactionMallOutput' => 'Transbank\Webpay\wsInitTransactionMallOutput'
+    );
 
     function __construct($config) {
 
@@ -314,7 +328,7 @@ class WebPayMallNormal {
                     $error["detail"] = "No se pudo completar la conexi&oacute;n con Webpay";
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
 
             $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
 
