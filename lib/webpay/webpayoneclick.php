@@ -149,28 +149,28 @@ class WebpayOneClick {
               "-99" => "limites Oneclick, máxima cantidad de pagos diarios excedido",
     );
 
-    private static $classmap = array('removeUser' => 'removeUser'
-        , 'oneClickRemoveUserInput' => 'oneClickRemoveUserInput'
-        , 'baseBean' => 'baseBean'
-        , 'removeUserResponse' => 'removeUserResponse'
-        , 'initInscription' => 'initInscription'
-        , 'oneClickInscriptionInput' => 'oneClickInscriptionInput'
-        , 'initInscriptionResponse' => 'initInscriptionResponse'
-        , 'oneClickInscriptionOutput' => 'oneClickInscriptionOutput'
-        , 'finishInscription' => 'finishInscription'
-        , 'oneClickFinishInscriptionInput' => 'oneClickFinishInscriptionInput'
-        , 'finishInscriptionResponse' => 'finishInscriptionResponse'
-        , 'oneClickFinishInscriptionOutput' => 'oneClickFinishInscriptionOutput'
-        , 'codeReverseOneClick' => 'codeReverseOneClick'
-        , 'oneClickReverseInput' => 'oneClickReverseInput'
-        , 'codeReverseOneClickResponse' => 'codeReverseOneClickResponse'
-        , 'oneClickReverseOutput' => 'oneClickReverseOutput'
-        , 'authorize' => 'authorize'
-        , 'oneClickPayInput' => 'oneClickPayInput'
-        , 'authorizeResponse' => 'authorizeResponse'
-        , 'oneClickPayOutput' => 'oneClickPayOutput'
-        , 'reverse' => 'reverse'
-        , 'reverseResponse' => 'reverseResponse'
+    private static $classmap = array('removeUser' => 'Transbank\Webpay\removeUser'
+        , 'oneClickRemoveUserInput' => 'Transbank\Webpay\oneClickRemoveUserInput'
+        , 'baseBean' => 'Transbank\Webpay\baseBean'
+        , 'removeUserResponse' => 'Transbank\Webpay\removeUserResponse'
+        , 'initInscription' => 'Transbank\Webpay\initInscription'
+        , 'oneClickInscriptionInput' => 'Transbank\Webpay\oneClickInscriptionInput'
+        , 'initInscriptionResponse' => 'Transbank\Webpay\initInscriptionResponse'
+        , 'oneClickInscriptionOutput' => 'Transbank\Webpay\oneClickInscriptionOutput'
+        , 'finishInscription' => 'Transbank\Webpay\finishInscription'
+        , 'oneClickFinishInscriptionInput' => 'Transbank\Webpay\oneClickFinishInscriptionInput'
+        , 'finishInscriptionResponse' => 'Transbank\Webpay\finishInscriptionResponse'
+        , 'oneClickFinishInscriptionOutput' => 'Transbank\Webpay\oneClickFinishInscriptionOutput'
+        , 'codeReverseOneClick' => 'Transbank\Webpay\codeReverseOneClick'
+        , 'oneClickReverseInput' => 'Transbank\Webpay\oneClickReverseInput'
+        , 'codeReverseOneClickResponse' => 'Transbank\Webpay\codeReverseOneClickResponse'
+        , 'oneClickReverseOutput' => 'Transbank\Webpay\oneClickReverseOutput'
+        , 'authorize' => 'Transbank\Webpay\authorize'
+        , 'oneClickPayInput' => 'Transbank\Webpay\oneClickPayInput'
+        , 'authorizeResponse' => 'Transbank\Webpay\authorizeResponse'
+        , 'oneClickPayOutput' => 'Transbank\Webpay\oneClickPayOutput'
+        , 'reverse' => 'Transbank\Webpay\reverse'
+        , 'reverseResponse' => 'Transbank\Webpay\reverseResponse'
     );
 
     function __construct($config) {
@@ -464,4 +464,3 @@ class WebpayOneClick {
     }
 
 }
-?>

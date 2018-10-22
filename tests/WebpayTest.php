@@ -20,11 +20,6 @@ final class WebpayTest extends TestCase
 
     public function testWebpayNormal()
     {
-        echo "\n";
-        echo '========================== WEBPAY NORMAL ============================';
-        echo "\n";
-        echo "\n";
-
         $transaction = (new Webpay(Configuration::forTestingWebpayPlusNormal()))->getNormalTransaction();
 
         $amount = 1000;
@@ -36,23 +31,12 @@ final class WebpayTest extends TestCase
         $init_result = $transaction->initTransaction(
             $amount, $buy_order, $session_id, $return_url, $final_url);
 
-        foreach ($init_result as $k => $v) {
-            echo $k . ' = [' . $v . '],' . "\n";
-        }
-
-        echo "\n";
-        echo "\n";
-        echo '===========================================================================';
-        echo "\n";
+        $this->assertNotNull($init_result->token, '$init_result->token Can not be null');
+        $this->assertNotNull($init_result->url, '$init_result->url Can not be null');
     }
 
     public function testWebpayMall()
     {
-        echo "\n";
-        echo '========================== WEBPAY MALL ============================';
-        echo "\n";
-        echo "\n";
-
         $transaction = (new Webpay(Configuration::forTestingWebpayPlusMall()))->getMallNormalTransaction();
 
         $amount = 1000;
@@ -78,55 +62,25 @@ final class WebpayTest extends TestCase
         $init_result = $transaction->initTransaction(
             $buy_order, $session_id, $return_url, $final_url, $transactions);
 
-        foreach ($init_result as $k => $v) {
-            echo $k . ' = [' . $v . '],' . "\n";
-        }
-
-        echo "\n";
-        echo "\n";
-        echo '===========================================================================';
-        echo "\n";
+        $this->assertNotNull($init_result->token, '$init_result->token Can not be null');
+        $this->assertNotNull($init_result->url, '$init_result->url Can not be null');
     }
 
-    public function testWebpayCapture()
+    public function testWebpayOneclick()
     {
-        echo "\n";
-        echo '========================== WEBPAY MALL ============================';
-        echo "\n";
-        echo "\n";
+        $transaction = (new Webpay(Configuration::forTestingWebpayOneClickNormal()))->getOneClickTransaction();
 
-        $transaction = (new Webpay(Configuration::forTestingWebpayPlusMall()))->getMallNormalTransaction();
-
-        $amount = 1000;
-        $session_id = 'mi-id-de-sesion1234';
-        $buy_order = strval(rand(100000, 999999999));
         $return_url = 'https://callback/resultado/de/transaccion';
-        $final_url = 'https://callback/final/post/comprobante/webpay';
 
-        $transactions = array();
-        $transactions[] = array(
-            "storeCode" => 597044444402,
-            "amount" => $amount,
-            "buyOrder" => strval(rand(100000, 999999999)),
-            "sessionId" => $session_id
-        );
-        $transactions[] = array(
-            "storeCode" => 597044444403,
-            "amount" => $amount,
-            "buyOrder" => strval(rand(100000, 999999999)),
-            "sessionId" => $session_id
-        );
+        /** Nombre de usuario o cliente en el sistema del comercio */
+        $username = "username";
 
-        $init_result = $transaction->initTransaction(
-            $buy_order, $session_id, $return_url, $final_url, $transactions);
+        /** Dirección de correo electrónico registrada por el comercio */
+        $email = "username@allware.cl";
 
-        foreach ($init_result as $k => $v) {
-            echo $k . ' = [' . $v . '],' . "\n";
-        }
+        $init_result = $transaction->initInscription($username, $email, $return_url);
 
-        echo "\n";
-        echo "\n";
-        echo '===========================================================================';
-        echo "\n";
+        $this->assertNotNull($init_result->token, '$init_result->token Can not be null');
+        $this->assertNotNull($init_result->urlWebpay, '$init_result->urlWebpay Can not be null');
     }
 }
