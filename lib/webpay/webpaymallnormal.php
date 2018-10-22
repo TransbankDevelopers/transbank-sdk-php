@@ -223,8 +223,6 @@ class WebPayMallNormal {
     function initTransaction($buyOrder, $sessionId, $urlReturn, $urlFinal, $stores) {
 
         try {
-
-            // error_reporting(0);
             $error = array();
 
             $wsInitTransactionInput = new wsInitTransactionInput();

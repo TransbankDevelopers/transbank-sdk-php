@@ -149,9 +149,6 @@ class WebPayNormal
     {
 
         try {
-
-            // error_reporting(0);
-
             $error = array();
 
             $wsInitTransactionInput = new wsInitTransactionInput();

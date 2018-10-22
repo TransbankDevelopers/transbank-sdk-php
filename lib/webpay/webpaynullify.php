@@ -94,9 +94,6 @@ class WebpayNullify {
     function nullify($authorizationCode, $authorizedAmount, $buyOrder, $nullifyAmount, $commercecode) {
 
         try {
-
-            // error_reporting(0);
-
             $nullificationInput = new nullificationInput();
 
             /** Código de autorización de la transacción que se requiere anular. Para el caso que se esté anulando una transacción de captura en línea,

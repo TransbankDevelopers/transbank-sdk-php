@@ -243,8 +243,6 @@ class WebpayOneClick {
     public function initInscription($username, $email, $urlReturn) {
 
         try {
-
-            // error_reporting(0);
             $error = array();
 
             $oneClickInscriptionInput = new oneClickInscriptionInput();
