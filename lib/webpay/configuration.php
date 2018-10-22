@@ -20,6 +20,8 @@ class Configuration {
     private $webpay_cert;
     private $store_codes;
 
+    private $commerce_mail;
+
     function __construct() {
     }
 
@@ -72,6 +74,14 @@ class Configuration {
 
     public function getStoreCodes() {
         return $this->store_codes;
+    }
+
+    public function setCommerceMail($commerce_mail) {
+        $this->commerce_mail = $commerce_mail;
+    }
+
+    public function getCommerceMail() {
+        return $this->commerce_mail;
     }
 
     public function getEnvironmentDefault() {
@@ -318,6 +328,69 @@ class Configuration {
             "XE4/CA2Yzlv/+n9JVsvFBTAyIvYfG3mqr8KdkL238sc=\n" .
             "-----END CERTIFICATE-----\n"
         );
+        $configuration->setWebpayCert(Webpay::defaultCert());
+        return $configuration;
+    }
+
+    public static function forTestingPatPassByWebpayNormal($commerceMail) {
+        $configuration = new Configuration();
+
+        $configuration->setCommerceCode(597020000548);
+        $configuration->setPublicCert(
+            "-----BEGIN CERTIFICATE-----\n" .
+            "MIIDujCCAqICCQDHWKiW6dFYqjANBgkqhkiG9w0BAQsFADCBnjELMAkGA1UEBhMC\n" .
+            "Q0wxETAPBgNVBAgMCFNhbnRpYWdvMRIwEAYDVQQKDAlUcmFuc2JhbmsxETAPBgNV\n" .
+            "BAcMCFNhbnRpYWdvMRUwEwYDVQQDDAw1OTcwMjAwMDA1NDgxFzAVBgNVBAsMDkNh\n" .
+            "bmFsZXNSZW1vdG9zMSUwIwYJKoZIhvcNAQkBFhZpbnRlZ3JhZG9yZXNAdmFyaW9z\n" .
+            "LmNsMB4XDTE2MDYyODIwMDQ0N1oXDTI0MDYyNjIwMDQ0N1owgZ4xCzAJBgNVBAYT\n" .
+            "AkNMMREwDwYDVQQIDAhTYW50aWFnbzESMBAGA1UECgwJVHJhbnNiYW5rMREwDwYD\n" .
+            "VQQHDAhTYW50aWFnbzEVMBMGA1UEAwwMNTk3MDIwMDAwNTQ4MRcwFQYDVQQLDA5D\n" .
+            "YW5hbGVzUmVtb3RvczElMCMGCSqGSIb3DQEJARYWaW50ZWdyYWRvcmVzQHZhcmlv\n" .
+            "cy5jbDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANLeHJx5wK/9OSmM\n" .
+            "JPts4mClAMZPxNC4aRvCksiafSpdRtPSPMQYUpxdt16RJuoK4Cpsc2xrY/LfLvT+\n" .
+            "eLDcTa3LNLWsFdKh387Eut4QCddueC3mQLk1aVl1JxJeA1iPT6uuzllKL1Dy/5kM\n" .
+            "3GQSUobKQus19Lp31kZ6A3jbcdO2o/8atD117ajhCYcmOhMkbDvV1j1SiJuWZ1Qg\n" .
+            "YPZra2WZMMEThE5Q+uZnghOoGAulhaweRVL40u9gpwNGcpxY/1W+GJoujreTN39D\n" .
+            "ZhhvatJMHjkHzcr/nv0KAeylRy66THXCju9A/iLTyuMHVJTn202SWFlGiuhf89i5\n" .
+            "BdADw9ECAwEAATANBgkqhkiG9w0BAQsFAAOCAQEARz2BbG8QGKqjUYorkCe+eaE5\n" .
+            "WnZN5q8/ihisJtsa9yXO7DUe8912094Wd/ZqwYQ1eBr0vEdwQ1Mit2lkBOkyNqR3\n" .
+            "af3/8znCxiTqvJdo4r3sp6nZV2m6zjicQwJ3aWFP8mqeTsyG3rMZBin0QaDoYCM+\n" .
+            "5qVZhQBycggsPMPnZ3fvBIslWCd6JBPYZ4agXNLdAsTmxYxjpuyOM+qTN9hdYdzb\n" .
+            "jaJ/IVa8NZrrSZU6BxooybSHNJ5+x0dc9Q/6A7txTnjTj8Iy9gfjokXRgpADpFq9\n" .
+            "mnf2hxewHnOGRcfAHBgS6vrpuAJ7/yIMewcMtu09ukFY7/d23CDPGVisDdDJwA==\n" .
+            "-----END CERTIFICATE-----"
+        );
+
+        $configuration->setPrivateKey(
+            "-----BEGIN RSA PRIVATE KEY-----\n" .
+            "MIIEpQIBAAKCAQEA0t4cnHnAr/05KYwk+2ziYKUAxk/E0LhpG8KSyJp9Kl1G09I8\n" .
+            "xBhSnF23XpEm6grgKmxzbGtj8t8u9P54sNxNrcs0tawV0qHfzsS63hAJ1254LeZA\n" .
+            "uTVpWXUnEl4DWI9Pq67OWUovUPL/mQzcZBJShspC6zX0unfWRnoDeNtx07aj/xq0\n" .
+            "PXXtqOEJhyY6EyRsO9XWPVKIm5ZnVCBg9mtrZZkwwROETlD65meCE6gYC6WFrB5F\n" .
+            "UvjS72CnA0ZynFj/Vb4Ymi6Ot5M3f0NmGG9q0kweOQfNyv+e/QoB7KVHLrpMdcKO\n" .
+            "70D+ItPK4wdUlOfbTZJYWUaK6F/z2LkF0APD0QIDAQABAoIBAFrSRZpzqjViqHMn\n" .
+            "pGoSLLKZfurrQobvVn4ZYOU7/Pr5L99d5sRDAZnNl4QImq0lQAWlrlUdL/BUhkIJ\n" .
+            "NGxghqh7JFm3I7MT+3RwMVghqkt6jhKe4HOk+JoKJmj3yxMirprwcHnuxNBlyQbf\n" .
+            "jjEf3yGlDguGssB5ivXR6ZrtUWpwsK9OBiRctSeceFE4r68ldDKRFVLNURkK1AEd\n" .
+            "lCbhWp1a8W5CKvPjj6Rpq9r1kmTJA1h9NSkLum4f7aewvFhG6bHWEcjA6EWieipj\n" .
+            "2zk74/1HBDpujHJSUzTcXbiIsOVtY2Qh+74CMzHUUS41dGQNk/l/qUk7tRljwjFm\n" .
+            "PerH1FECgYEA6IKDDTbaLNsK4BefqlXZvCXbm0irxCb3XvvcsTqcDyZG0KWOCoXw\n" .
+            "B24xrsMfbheR0L6x4JUS6RM4bvTEhK4gJzDDeFhfPj2Kuav9nl1oEOZaJ5rxLlz7\n" .
+            "90g/f6kqjW3qlBVSFtz/jVrAk+lju9piHudwerjLA7TXLLm0tJZf7N0CgYEA6Cvc\n" .
+            "HzDhxdNYVakWsTBKI/uOUwt7cbHUr7OfoQA5dTxqHvFKBjrY3rgcI3/4vU3cEwRm\n" .
+            "a4X6RRSljyKAel54h4eJndP9+dB3VrOOkvuHXOLEVwwzfdaO+4FRQXR+0i9T46RK\n" .
+            "7FJy6XLfhPwZozebXbSTg/WZJ5UczVmxBYzquYUCgYEAu1t/0wQiZwbTCqS+qnmn\n" .
+            "jK9M+SJkFxn3N/joa3/5BVQouDTP8rbfJn2rV1IwX3xqqbUgjQJTTLGKRg7C1M+j\n" .
+            "ZTEsMiu0A+l/ggKPyi8mjoewmj2Gn3+aIjd7w5lDitfJsS5FCdtnqjY4/HeTQGrH\n" .
+            "qnOA9cM3BHOS+J1keii6f5kCgYEAofbO9bdtGUuJySBPY0azwgxgSlCtSjBrljLx\n" .
+            "vihg7Qc7ZOCg6l2tIxo/DwjcZntldqLQLFxnrj9sC8Fe7X7wCGQmPcNA30BtsD9M\n" .
+            "y/7KfKL5o1wwo63FS3D4VXhGbKx1kk3vspMF9ROdGLGh1Poa2bD6Y8k2kaV1VVAn\n" .
+            "rR6UNN0CgYEAgWw0NRz9X3V5K0WfrXnqBEvDiJ9MnsO3Y0SmV+zbTVYQ2zf2iYT+\n" .
+            "Wp4Tpjfc2k8s1dU33YnsrLaecB3gEFeEHJdN9qOPkk/yElVrcCKfFEUmPu7wvHZI\n" .
+            "yCLqC4NXGoXossGlQ2XPCSYacEQ5JJTtv+sBufhJZTwuqEBSGS7PurA=\n" .
+            "-----END RSA PRIVATE KEY-----"
+        );
+        $configuration->setCommerceMail($commerceMail);
         $configuration->setWebpayCert(Webpay::defaultCert());
         return $configuration;
     }
