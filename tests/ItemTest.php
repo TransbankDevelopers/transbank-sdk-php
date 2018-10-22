@@ -155,14 +155,6 @@ final class ItemTest extends TestCase
         $item = Item::fromJSON($aJSONStringWithoutDescription);
     }
 
-    public function testThrowsIfAmountIsLessThanZero()
-    {
-        $aJSONStringContainingAnItem = '{"amount": -2000, "quantity": 5, "description": "something valuable"}';
-        $this->setExpectedException(\Exception::class, "amount cannot be less than zero");
-        $item = Item::fromJSON($aJSONStringContainingAnItem);
-    }
-
-
     public function testThrowsIfQuantityIsLessThanZero()
     {
         $aJSONStringContainingAnItem = '{"amount": 2000, "quantity": -5, "description": "something valuable"}';
