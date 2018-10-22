@@ -60,7 +60,33 @@ final class ShoppingCartTest extends TestCase
         $this->assertEquals($cart->getItemQuantity(), 150);
         $this->assertEquals($cart->getTotal(), 55000);
         $this->assertEquals($cart->getItems(), array($firstItem, $secondItem, $thirdItem, $aNewItem, $fifthItem));
+    }
 
+    public function testCanAddItemsToAShoppingCartWithItemNegativeValue()
+    {
+        $cart = new ShoppingCart();
+
+        $firstItem = Item::fromJSON('{"amount": 200, "quantity": 1, "description": "something"}');
+        $secondItem = Item::fromJSON('{"amount": -10, "quantity": 1, "description": "discount"}');
+
+        $cart->add($firstItem);
+        $cart->add($secondItem);
+
+        $this->assertEquals($cart->getItems(), array($firstItem, $secondItem));
+        $this->assertEquals($cart->getItemQuantity(), 2);
+        $this->assertEquals($cart->getTotal(), 190);
+    }
+
+    public function testCanAddItemsToAShoppingCartWithNegativeValueGreaterThanTotalAmount()
+    {
+        $cart = new ShoppingCart();
+
+        $firstItem = Item::fromJSON('{"amount": 200, "quantity": 1, "description": "something"}');
+        $secondItem = Item::fromJSON('{"amount": -201, "quantity": 1, "description": "discount"}');
+
+        $cart->add($firstItem);
+        $this->setExpectedException(\Exception::class, "Total amount cannot be less than zero.");
+        $cart->add($secondItem);
     }
 
     public function testCanRemoveItemsFromAShoppingCart()
@@ -107,7 +133,7 @@ final class ShoppingCartTest extends TestCase
         $this->assertEquals($cart->getItemQuantity(), 10);
         $this->assertEquals($cart->getTotal(), 1000);
         $this->assertEquals($cart->getItems(), array($firstItem));
- 
+
         $cart->remove($cart->getItems()[0]);
         $this->assertEquals($cart->getItemQuantity(), 0);
         $this->assertEquals($cart->getTotal(), 0);
@@ -177,7 +203,7 @@ final class ShoppingCartTest extends TestCase
     {
         $cart = ShoppingCart::fromJSON($this->cartString);
         $this->assertEquals($cart->getItemQuantity(), 60);
-        
+
         $firstItem = $cart->getItems()[0];
         $this->assertEquals($firstItem->getAmount(), 100);
 
