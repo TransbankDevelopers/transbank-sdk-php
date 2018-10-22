@@ -1,9 +1,9 @@
 <?php
 namespace Transbank\Onepay;
 /**
- * 
+ *
  * Class Item
- * 
+ *
  * @package Transbank
  */
 
@@ -22,7 +22,7 @@ namespace Transbank\Onepay;
     public function __construct($description, $quantity, $amount,
                                 $additionalData = null, $expire = 0)
     {
-        
+
         $this->setDescription($description);
         $this->setQuantity($quantity);
         $this->setAmount($amount);
@@ -30,11 +30,11 @@ namespace Transbank\Onepay;
         $this->setExpire($expire);
     }
 
-    public function jsonSerialize() 
+    public function jsonSerialize()
     {
         return get_object_vars($this);
     }
-    
+
     public function setDescription($description) {
         if (!is_string($description)) {
             throw new \Exception("Description is not a string");
@@ -72,9 +72,6 @@ namespace Transbank\Onepay;
         if (!is_integer($amount)) {
             throw new \Exception ("amount must be an Integer");
         }
-        if ($amount < 0) {
-            throw new \Exception ("amount cannot be less than zero");
-        }
         $this->amount = $amount;
     }
     /**
@@ -83,7 +80,7 @@ namespace Transbank\Onepay;
     public function getAmount() {
         return $this->amount;
     }
-    
+
     /**
      * Set the additional data for an instance of Item
      */
@@ -103,7 +100,7 @@ namespace Transbank\Onepay;
         return $this->additionalData;
     }
     /**
-     * 
+     *
      * Set expire for an instance of Item
      */
     public function setExpire($expire) {
@@ -113,7 +110,7 @@ namespace Transbank\Onepay;
         $this->expire = $expire;
     }
     /**
-     * 
+     *
      * Get expire for an instance of Item
      */
     public function getExpire() {
