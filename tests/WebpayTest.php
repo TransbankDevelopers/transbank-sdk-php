@@ -8,17 +8,10 @@
 
 namespace Transbank\Webpay;
 
-use Transbank\Webpay\Configuration;
-
 use PHPUnit\Framework\TestCase;
 
 final class WebpayTest extends TestCase
 {
-    public function setup()
-    {
-        $configuration = new Configuration();
-    }
-
     public function testWebpayNormal()
     {
         echo 'EJECUTANDO';
