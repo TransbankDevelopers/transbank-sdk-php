@@ -14,7 +14,6 @@ final class WebpayTest extends TestCase
 {
     public function testWebpayNormal()
     {
-        echo 'EJECUTANDO';
         $transaction = (new Webpay(Configuration::forTestingWebpayPlusNormal()))->getNormalTransaction();
 
         $amount = 1000;
