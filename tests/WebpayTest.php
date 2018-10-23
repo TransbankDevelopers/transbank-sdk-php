@@ -8,8 +8,6 @@
 
 namespace Transbank\Webpay;
 
-require_once ('/sdk/init.php');
-
 use PHPUnit\Framework\TestCase;
 
 final class WebpayTest extends TestCase
