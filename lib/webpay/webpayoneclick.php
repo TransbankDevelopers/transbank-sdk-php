@@ -109,6 +109,8 @@ class WebpayOneClick {
     private static $WSDL_URL_NORMAL = array(
         "INTEGRACION" => "https://webpay3gint.transbank.cl/webpayserver/wswebpay/OneClickPaymentService?wsdl",
         "CERTIFICACION" => "https://webpay3gint.transbank.cl/webpayserver/wswebpay/OneClickPaymentService?wsdl",
+        "TEST" => "https://webpay3gint.transbank.cl/webpayserver/wswebpay/OneClickPaymentService?wsdl",
+        "LIVE" => "https://webpay3g.transbank.cl/webpayserver/wswebpay/OneClickPaymentService?wsdl",
         "PRODUCCION" => "https://webpay3g.transbank.cl/webpayserver/wswebpay/OneClickPaymentService?wsdl",
     );
 
