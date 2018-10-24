@@ -1,26 +1,6 @@
 <?php
 namespace Transbank\Webpay;
 
-/**
-* @category   Plugins/SDK
-* @author     Allware Ltda. (http://www.allware.cl)
-* @copyright  2018 Transbank S.A. (http://www.transbank.cl)
-* @date       May 2018
-* @license    GNU LGPL
-* @version    2.0.4
-* @link       http://transbankdevelopers.cl/
- * This software was created for easy integration of ecommerce
- * portals with Transbank Webpay solution.
- *
- * Required:
- *  - PHP v5.6
- *  - PHP SOAP library
- *  - Ecommerce vX.X
- *
- * See documentation and how to install at link site
- *
- */
-
 class transactionMallNormalResultOutput{
 
     var $accountingDate; //string
@@ -110,27 +90,6 @@ class wsInitTransactionMallOutput{
  * del comercio, selecciona productos o servicios, y el  ingreso asociado a los datos de la tarjeta de
  * crédito o débito lo realiza  una única vez  en forma segura en Webpay  para el conjunto de pagos.
  * Cada pago tendrá su propio resultado, autorizado o rechazado.
- *
- *  Respuestas WebPay:
- *
- *  TSY: Autenticación exitosa
- *  TSN: autenticación fallida.
- *  TO: Tiempo máximo excedido para autenticación.
- *  ABO: Autenticación abortada por tarjetahabiente.
- *  U3: Error interno en la autenticación.
- *  Puede ser vacío si la transacción no se autentico.
- *
- *  Codigos Resultado
- *
- *  0 Transacción aprobada.
- *  -1 Rechazo de transacción.
- *  -2 Transacción debe reintentarse.
- *  -3 Error en transacción.
- *  -4 Rechazo de transacción.
- *  -5 Rechazo por error de tasa.
- *  -6 Excede cupo máximo mensual.
- *  -7 Excede límite diario por transacción.
- * -8 Rubro no autorizado.
  */
 
 class WebPayMallNormal {
@@ -219,7 +178,7 @@ class WebPayMallNormal {
     /**
      * Permite inicializar una transacción en Webpay. Como respuesta a la invocación
      * se genera un token que representa en forma única una transacción
-     * */
+     */
     function initTransaction($buyOrder, $sessionId, $urlReturn, $urlFinal, $stores) {
 
         try {
@@ -287,17 +246,7 @@ class WebPayMallNormal {
     /**
      * Permite obtener el resultado de la transacción una vez que
      * Webpay ha resuelto su autorización financiera.
-     *
-     * Respuesta VCI:
-     *
-     * TSY: Autenticación exitosa
-     * TSN: autenticación fallida.
-     * TO : Tiempo máximo excedido para autenticación
-     * ABO: Autenticación abortada por tarjetahabiente
-     * U3 : Error interno en la autenticación
-     * Puede ser vacío si la transacción no se autentico
-     *
-     * */
+     */
     function getTransactionResult($token) {
 
         try {

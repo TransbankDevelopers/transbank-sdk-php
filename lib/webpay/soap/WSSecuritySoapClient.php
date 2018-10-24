@@ -1,7 +1,6 @@
 <?php
 namespace Transbank\Webpay;
 
-
 class WSSecuritySoapClient extends \SoapClient {
     
     private $useSSL = false;

@@ -1,27 +1,6 @@
 <?php
 namespace Transbank\Webpay;
 
-/**
-* @category   Plugins/SDK
-* @author     Allware Ltda. (http://www.allware.cl)
-* @copyright  2018 Transbank S.A. (http://www.transbank.cl)
-* @date       May 2018
-* @license    GNU LGPL
-* @version    2.0.4
-* @link       http://transbankdevelopers.cl/
- *
- * This software was created for easy integration of ecommerce
- * portals with Transbank Webpay solution.
- *
- * Required:
- *  - PHP v5.6
- *  - PHP SOAP library
- *  - Ecommerce vX.X
- *
- * See documentation and how to install at link site
- *
- */
-
 class acknowledgeCompleteTransaction {
 
     var $tokenInput; //string

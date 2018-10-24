@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: goncafa
- * Date: 13-09-18
- * Time: 17:00
- */
-
 namespace Transbank\Webpay;
 
 use PHPUnit\Framework\TestCase;
