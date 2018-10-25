@@ -6,10 +6,9 @@ y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.ht
 
 ## [1.4.0] - 2018-10-25
 ### Added
-- Se incorpora antiguo sdk libwebpay para soporte Webpay SOAP en PHP 5.5 o superior
-**(No soporta PHP 7)**
+- Incorpora soporte Webpay SOAP en PHP 5.x (No soporta PHP 7 aún)
 ### Changed
-- El carro de compras ahora soporta agregar items con valores negativos. Util en caso
+- El carro de compras soporta agregar items con valores negativos. Útil en caso
 de necesitar incluir descuentos.
 
 ## [1.3.2] - 2018-10-03
