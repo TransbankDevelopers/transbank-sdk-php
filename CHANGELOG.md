@@ -4,6 +4,13 @@ Todos los cambios notables a este proyecto serán docuemntados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2018-10-25
+### Added
+- Incorpora soporte Webpay SOAP en PHP 5.x (No soporta PHP 7 aún)
+### Changed
+- El carro de compras soporta agregar items con valores negativos. Útil en caso
+de necesitar incluir descuentos.
+
 ## [1.3.2] - 2018-10-03
 ### Fixed
 - Se corrige el orden de clases cargadas en el archivo init.php para ser usado sin problemas
