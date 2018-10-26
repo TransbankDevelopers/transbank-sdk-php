@@ -3,7 +3,8 @@
     "description": "Transbank SDK",
     "keywords": ["payments", "transbank", "api", "sdk"],
     "require": {
-        "php": ">=5.5.0"
+        "php": ">=5.5.0",
+        "robrichards/xmlseclibs": "^3.0"
       },
       "require-dev": {
         "phpunit/phpunit": "~4.0",
