@@ -6,10 +6,7 @@
         "php": ">=5.5.0",
         "ext-curl": "*",
         "ext-json": "*",
-        "ext-mbstring": "*",
-        "ext-soap": "*",
-        "ext-dom": "*",
-        "ext-openssl": "*"
+        "ext-mbstring": "*"
       },
       "require-dev": {
         "phpunit/phpunit": "~4.0",
