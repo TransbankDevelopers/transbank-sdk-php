@@ -277,7 +277,7 @@ class XMLSecurityKey {
                         break;
                     }
                 }
-                throw new Exception('Certificate "type" (private/public) must be passed via parameters');
+                throw new \Exception('Certificate "type" (private/public) must be passed via parameters');
                 return;
             case (XMLSecurityKey::RSA_OAEP_MGF1P):
                 $this->cryptParams['library'] = 'openssl';
@@ -290,7 +290,7 @@ class XMLSecurityKey {
                         break;
                     }
                 }
-                throw new Exception('Certificate "type" (private/public) must be passed via parameters');
+                throw new \Exception('Certificate "type" (private/public) must be passed via parameters');
                 return;
             case (XMLSecurityKey::RSA_SHA1):
                 $this->cryptParams['library'] = 'openssl';
@@ -302,7 +302,7 @@ class XMLSecurityKey {
                         break;
                     }
                 }
-                throw new Exception('Certificate "type" (private/public) must be passed via parameters');
+                throw new \Exception('Certificate "type" (private/public) must be passed via parameters');
                 break;
             case (XMLSecurityKey::RSA_SHA256):
                 $this->cryptParams['library'] = 'openssl';
@@ -315,7 +315,7 @@ class XMLSecurityKey {
                         break;
                     }
                 }
-                throw new Exception('Certificate "type" (private/public) must be passed via parameters');
+                throw new \Exception('Certificate "type" (private/public) must be passed via parameters');
                 break;
             case (XMLSecurityKey::DSA_SHA1):
                 $this->cryptParams['library'] = 'openssl';
@@ -327,10 +327,10 @@ class XMLSecurityKey {
                         break;
                     }
                 }
-                throw new Exception('Certificate "type" (private/public) must be passed via parameters');
+                throw new \Exception('Certificate "type" (private/public) must be passed via parameters');
                 break;
             default:
-                throw new Exception('Invalid Key Type');
+                throw new \Exception('Invalid Key Type');
                 return;
         }
         $this->type = $type;
