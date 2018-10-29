@@ -1,8 +1,6 @@
 <?php
 namespace Transbank\Webpay;
 
-use RobRichards\XMLSecLibs\XMLSecurityKey;
-
 class WSSecuritySoapClient extends \SoapClient {
     
     private $useSSL = false;
@@ -49,7 +47,6 @@ class WSSecuritySoapClient extends \SoapClient {
         $objWSSE->addIssuerSerial($this->publicCert);
         $objKey = new XMLSecurityKey(XMLSecurityKey::AES256_CBC);
         $objKey->generateSessionKey();
-        echo $objWSSE->saveXML();
         $retVal = parent::__doRequest($objWSSE->saveXML(), $location, $saction, $version);
 
         $doc = new \DOMDocument();

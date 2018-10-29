@@ -1,8 +1,6 @@
 <?php
 namespace Transbank\Webpay;
 
-use RobRichards\XMLSecLibs\XMLSecurityKey;
-
 class XMLSecEnc {
 
     const template = "<xenc:EncryptedData xmlns:xenc='http://www.w3.org/2001/04/xmlenc#'>

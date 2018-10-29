@@ -1,8 +1,6 @@
 <?php
 namespace Transbank\Webpay;
 
-use RobRichards\XMLSecLibs\XMLSecurityKey;
-
 function sortAndAddAttrs($element, $arAtts) {
     $newAtts = array();
     foreach ($arAtts AS $attnode) {
