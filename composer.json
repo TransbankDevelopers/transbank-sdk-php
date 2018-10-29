@@ -4,6 +4,9 @@
     "keywords": ["payments", "transbank", "api", "sdk"],
     "require": {
         "php": ">=5.5.0",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
         "robrichards/xmlseclibs": "^3.0"
       },
       "require-dev": {
