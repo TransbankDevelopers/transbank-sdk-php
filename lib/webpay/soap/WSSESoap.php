@@ -99,17 +99,7 @@ function canonical($tree, $element, $withcomments) {
     }
 }
 
-/*
- * @author OrangePeople Software Ltda <soporte@orangepeople.cl>
- * helper function
- * Modification by Hermann Alexander Arriagada Méndez
- * for IssuerSerial
- */
-
 function getIssuerName($X509Cert) {
-    /* $handler = fopen($X509Cert, "r");
-      $cert = fread($handler, 8192);
-      fclose($handler); */
     $cert = $X509Cert;
     $cert_as_array = openssl_x509_parse($cert);
     $name = $cert_as_array['name'];
@@ -118,17 +108,7 @@ function getIssuerName($X509Cert) {
     return $name;
 }
 
-/*
- * @author OrangePeople Software Ltda <soporte@orangepeople.cl>
- * helper function
- * Modification by Hermann Alexander Arriagada Méndez
- * for IssuerSerial
- */
-
 function getSerialNumber($X509Cert) {
-    /* $handler = fopen($X509Cert, "r");
-      $cert = fread($handler, 8192);
-      fclose($handler); */
     $cert = $X509Cert;
     $cert_as_array = openssl_x509_parse($cert);
     $serialNumber = $cert_as_array['serialNumber'];
