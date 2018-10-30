@@ -66,4 +66,6 @@ require_once(dirname(__FILE__) . '/lib/webpay/nullifyResponse.php');
 require_once(dirname(__FILE__) . '/lib/webpay/soap/soapvalidation.php');
 require_once(dirname(__FILE__) . '/lib/webpay/soap/WSSESoap.php');
 require_once(dirname(__FILE__) . '/lib/webpay/soap/WSSecuritySoapClient.php');
+require_once(dirname(__FILE__) . '/lib/webpay/soap/XMLSecurityKey.php');
+require_once(dirname(__FILE__) . '/lib/webpay/soap/XMLSecurityDSig.php');
 require_once(dirname(__FILE__) . '/lib/webpay/soap/XMLSecEnc.php');
