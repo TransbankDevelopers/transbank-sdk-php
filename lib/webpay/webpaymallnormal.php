@@ -203,8 +203,8 @@ class WebPayMallNormal {
 
                 $wsTransactionDetail = new wsTransactionDetail();
                 $wsTransactionDetail->commerceCode = $value["storeCode"];
-                $wsTransactionDetail->buyOrder = floatval($value["buyOrder"]);
-                $wsTransactionDetail->amount = $value["amount"];
+                $wsTransactionDetail->buyOrder = floatval($value["amount"]);
+                $wsTransactionDetail->amount = $value["buyOrder"];
 
                 $detailArray[$cont] = $wsTransactionDetail;
                 $cont++;
