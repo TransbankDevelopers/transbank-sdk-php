@@ -1,5 +1,5 @@
-FROM nyanpass/php5.5
-RUN apt-get update && apt-get install -y zip unzip libxml2-dev libmcrypt-dev php-soap
+FROM php:7.2-apache-stretch
+RUN apt-get update && apt-get install -y zip unzip libxml2-dev
 RUN mkdir -p /sdk
 WORKDIR /sdk
 COPY . /sdk
@@ -10,4 +10,3 @@ RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 RUN php -r "unlink('composer-setup.php');"
 RUN php -r "unlink('composer-setup.sig');"
 RUN docker-php-ext-install soap
-RUN docker-php-ext-install mcrypt

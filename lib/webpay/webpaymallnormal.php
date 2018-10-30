@@ -234,7 +234,7 @@ class WebPayMallNormal {
                 $error["error"] = "Error validando conexi&oacute;n a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
                 $error["detail"] = "No se pudo completar la conexi&oacute;n con Webpay";
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
 
             $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
 
