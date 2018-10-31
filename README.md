@@ -15,6 +15,7 @@ automaticamente, pero si usas el SDK de manera directa requerirás también:
 - ext-curl
 - ext-json
 - ext-mbstring
+- ext-soap
 
 # Instalación
 
