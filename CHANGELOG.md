@@ -4,6 +4,12 @@ Todos los cambios notables a este proyecto serán docuemntados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.4.2] - 2018-10-31
+### Added
+- Soporte PHP 7+ para Webpay.
+### Fixed
+- Se estaba seteando buy order como monto y monto como buy order en webpay mall normal. 
+
 ## [1.4.1] - 2018-10-27
 ### Fixed
 - Se corrige carga de extensiones en Onepay, no requiere tener extensiones que usa
