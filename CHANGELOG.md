@@ -8,7 +8,7 @@ y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.ht
 ### Added
 - Soporte PHP 7+ para Webpay.
 ### Fixed
-- Se estaba seteando buy order como monto y monto como buy order en webpay mall normal. 
+- Se estaba usando buy order como monto y monto como buy order en webpay mall normal. 
 
 ## [1.4.1] - 2018-10-27
 ### Fixed
