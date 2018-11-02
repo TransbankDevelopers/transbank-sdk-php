@@ -18,3 +18,5 @@ RUN php -r "copy('https://composer.github.io/installer.sig', 'composer-setup.sig
 RUN pecl install xdebug &&\
     docker-php-ext-enable xdebug &&\
     docker-php-ext-install soap
+
+RUN composer install
