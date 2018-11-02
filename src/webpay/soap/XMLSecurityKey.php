@@ -1,5 +1,5 @@
 <?php
-namespace Transbank\Webpay;
+namespace Transbank\Webpay\Soap;
 
 use DOMElement;
 use Exception;

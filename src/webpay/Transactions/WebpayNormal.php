@@ -4,11 +4,6 @@ namespace Transbank\Webpay\Transactions;
 
 use Exception;
 use Transbank\Helpers\Fluent;
-use Transbank\Webpay\SoapClassMaps\AcknowledgeTransaction;
-use Transbank\Webpay\SoapClassMaps\GetTransactionResult;
-use Transbank\Webpay\SoapClassMaps\WsInitTransactionInput;
-use Transbank\Webpay\SoapClassMaps\WsTransactionDetail;
-use Transbank\Webpay\SoapValidation;
 
 /**
  * TRANSACCIÓN DE AUTORIZACIÓN NORMAL:
@@ -50,7 +45,7 @@ class WebpayNormal extends Transaction
      *
      * @var string
      */
-    protected $resultCodesName = 'PlusMallNormal';
+    protected $resultCodesName = 'plusnormal';
 
     /**
      * Initializes the transaction
@@ -66,9 +61,7 @@ class WebpayNormal extends Transaction
     {
 
         try {
-            $error = [];
-
-            $wsInitTransactionInput = new Fluent([
+            $transaction = new Fluent([
                 'wSTransactionType' => "TR_NORMAL_WS",
                 'sessionId' => $sessionId,
                 'buyOrder' => $buyOrder,
@@ -82,28 +75,16 @@ class WebpayNormal extends Transaction
             ]);
 
             // Perform the Initialization of the Transaction
-            $initTransactionResponse = $this->performInitTransaction($wsInitTransactionInput);
+            $response = $this->performInitTransaction($transaction);
 
-            // Validates Webpay Response
-            if ($this->validate()) {
-
-                return $initTransactionResponse->return;
-
-            } else {
-
-                $error["error"] = "Error validando conexi&oacute;n a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
-                $error["detail"] = "No se pudo completar la conexi&oacute;n con Webpay";
-            }
+            // If the validation is successful, return the results
+            return $this->validate()
+                ? $response->return
+                : $this->returnValidationErrorArray();
 
         } catch (Exception $e) {
-
-            $error["error"] = "Error conectando a Webpay (Verificar que la información del certificado sea correcta)";
-
-            $replaceArray = array('<!--' => '', '-->' => '');
-            $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
+            return $this->returnConnectionErrorArray($e->getMessage());
         }
-
-        return $error;
     }
 
     /**
@@ -122,41 +103,31 @@ class WebpayNormal extends Transaction
             ]);
 
             // Perform the Transaction result
-            $getTransactionResultResponse = $this->performGetTransactionResult($getTransactionResult);
+            $response = $this->performGetTransactionResult($getTransactionResult);
 
             // If Validation passes and the Transaction is Acknowledged...
             if ($this->validate() && $this->acknowledgeTransaction($token)) {
 
                 // Extract the results from the response
-                $transactionResultOutput = $getTransactionResultResponse->return;
+                $response = $response->return;
 
                 // And the result code too, forced as an integer
-                $resultCode = intval($transactionResultOutput->detailOutput->responseCode);
+                $resultCode = intval($response->detailOutput->responseCode);
 
                 // Return the results if the transaction was a success, otherwise
-                // get the reason why the transaction failed.
-                if (($transactionResultOutput->VCI === 'TSY' || $transactionResultOutput->VCI === '')
-                    && $resultCode === 0) {
-
-                    return $transactionResultOutput;
-
-                } else {
-                    return $this->getReason($resultCode);
-                }
+                // return the reason why the transaction failed through the
+                // results codes
+                return ($response->VCI === 'TSY' || $response->VCI === '') && $resultCode === 0
+                    ? $response
+                    : $this->getReason($resultCode);
 
             } else {
-                $error["error"] = "Error validando conexi&oacute;n a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
-                $error["detail"] = "No se pudo completar la conexi&oacute;n con Webpay";
+                return $this->returnValidationErrorArray();
             }
-        } catch (\Exception $e) {
-
-            $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
-
-            $replaceArray = array('<!--' => '', '-->' => '');
-            $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
+        } catch (Exception $e) {
+            return $this->returnConnectionErrorArray($e->getMessage());
         }
 
-        return $error;
     }
 
 }

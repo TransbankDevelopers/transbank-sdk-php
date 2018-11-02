@@ -6,9 +6,11 @@ use Exception;
 use Transbank\Helpers\Fluent;
 
 /**
- * TRANSACCIÓN ANULACIÓN:
- * Este método permite a todo comercio habilitado anular una transacción que fue generada en
- * plataforma Webpay 3G. El método contempla anular total o parcialmente una transacción.
+ * Class WebpayNullify
+ *
+ * This class allows the commerce to nullify a Transaction, totally or parcially.
+ *
+ * @package Transbank\Webpay\Transactions
  */
 class WebpayNullify extends Transaction
 {
@@ -19,8 +21,8 @@ class WebpayNullify extends Transaction
      * @var array
      */
     protected static $WSDL_URL_NORMAL = [
-        'integration'   => 'https://webpay3gint.transbank.cl/WSWebpayTransaction/cxf/WSCommerceIntegrationService?wsdl',
-        'production'    => 'https://webpay3g.transbank.cl/WSWebpayTransaction/cxf/WSCommerceIntegrationService?wsdl',
+        'integration' => 'https://webpay3gint.transbank.cl/WSWebpayTransaction/cxf/WSCommerceIntegrationService?wsdl',
+        'production' => 'https://webpay3g.transbank.cl/WSWebpayTransaction/cxf/WSCommerceIntegrationService?wsdl',
     ];
 
     /**
@@ -28,7 +30,7 @@ class WebpayNullify extends Transaction
      *
      * @var string
      */
-    protected $resultCodesName = 'PlusCapture';
+    protected $resultCodesName = 'pluscapture';
 
     /**
      * Class Map to require
@@ -36,9 +38,6 @@ class WebpayNullify extends Transaction
      * @var string
      */
     protected $classMapName = 'nullify';
-
-
-    /** Método que permite anular una transacción de pago Webpay */
 
     /**
      * Nulls a Transaction in Webpay
@@ -54,7 +53,7 @@ class WebpayNullify extends Transaction
     {
 
         try {
-            $nullificationInput = new Fluent([
+            $transaction = new Fluent([
                 // Transaction Code or Capture Authorization Code
                 'authorizationCode' => $authorizationCode,
                 // Authorized Transaction amount to null (substract), or full Capture Amount
@@ -65,26 +64,16 @@ class WebpayNullify extends Transaction
             ]);
 
 
-            $nullifyResponse = $this->performNullify($nullificationInput);
+            $response = $this->performNullify($transaction);
 
-            // Return the result if the validation passes
-            if ($this->validate()) {
-                return $nullifyResponse->return;
-            } else {
-
-                $error['error'] = "No se pudo completar la conexión con Webpay";
-            }
+            // If the validation is successful, return the results
+            return $this->validate()
+                ? $response->return
+                : $this->returnValidationErrorArray();
 
         } catch (Exception $e) {
-
-            $error["error"] = "Error conectando a Webpay (Verifica que la información del certificado sea correcta)";
-
-            $replaceArray = ['<!--' => '', '-->' => ''];
-            $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
-
+            return $this->returnConnectionErrorArray($e->getMessage());
         }
-
-        return $error;
 
     }
 

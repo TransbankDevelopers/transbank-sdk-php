@@ -46,7 +46,7 @@ class WebpayCompleteTransaction extends Transaction
 
         try {
 
-            $wsCompleteInitTransactionInput = new Fluent([
+            $transaction = new Fluent([
                 // Type of transactions. For this, it has to always be 'TR_COMLETA_WS'.
                 'transactionType' => 'TR_COMPLETA_WS',
                 'sessionId' => $sessionId,
@@ -66,26 +66,17 @@ class WebpayCompleteTransaction extends Transaction
 
 
             // Perform the transaction
-            $initCompleteTransactionResponse = $this->performInitCompleteTransaction(
-                $wsCompleteInitTransactionInput
-            );
+            $response = $this->performInitCompleteTransaction($transaction);
 
-            // Return the results if the validation is true
-            if ($this->validate()) {
-                return $initCompleteTransactionResponse->return;
-            } else {
-                $error["error"] = "Error validando conexión a Webpay (Verifica que la informaciónn del certificado sea correcta)";
-                $error["detail"] = "No se pudo completar la conexión con Webpay";
-            }
+            // If the validation is successful, return the results
+            return $this->validate()
+                ? $response->return
+                : $this->returnValidationErrorArray();
+
         } catch (Exception $e) {
-
-            $error["error"] = "Error conectando a Webpay (Verificar que la información del certificado sea correcta)";
-
-            $replaceArray = array('<!--' => '', '-->' => '');
-            $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
+            return $this->returnConnectionErrorArray($e->getMessage());
         }
 
-        return $error;
     }
 
     /**
@@ -98,7 +89,6 @@ class WebpayCompleteTransaction extends Transaction
      */
     public function queryShare($token, $buyOrder, $shareNumber)
     {
-
         try {
 
             $queryShare = new Fluent([
@@ -108,28 +98,17 @@ class WebpayCompleteTransaction extends Transaction
             ]);
 
             // Perform the Query Share transaction
-            $queryShareResponse = $this->performQueryShare($queryShare);
+            $response = $this->performQueryShare($queryShare);
 
-            // Return the results if the validation passes
-            if ($this->validate()) {
 
-                return $queryShareResponse->return;
+            // If the validation is successful, return the results
+            return $this->validate()
+                ? $response->return
+                : $this->returnValidationErrorArray();
 
-            } else {
-
-                $error["error"] = "Error validando conexi&oacute;n a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
-                $error["detail"] = "No se pudo completar la conexi&oacute;n con Webpay";
-
-            }
         } catch (Exception $e) {
-
-            $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
-
-            $replaceArray = array('<!--' => '', '-->' => '');
-            $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
+            return $this->returnConnectionErrorArray($e->getMessage());
         }
-
-        return $error;
     }
 
     /**
@@ -144,7 +123,6 @@ class WebpayCompleteTransaction extends Transaction
      */
     public function authorize($token, $buyOrder, $gracePeriod, $idQueryShare, $deferredPeriodIndex)
     {
-
         try {
 
             $authorize = new Fluent([
@@ -159,37 +137,22 @@ class WebpayCompleteTransaction extends Transaction
                 ])
             ]);
 
-            // I think this is for getting a installment by the given offset.
+            // Get a installment by the given offset.
             if ($deferredPeriodIndex !== 0) {
                 $authorize->paymentTypeList->queryShareInput->deferredPeriodIndex = $deferredPeriodIndex;
             }
 
             // Perform the authorization
-            $authorizeResponse = $this->performAuthorize($authorize);
+            $response = $this->performAuthorize($authorize);
 
+            // If the validation is successful, return the results
+            return $this->validate()
+                ? $response->return
+                : $this->returnValidationErrorArray();
 
-            // Return the results if validation passes
-            if ($this->validate()) {
-
-                // Before returning the results, acknowledge the transaction
-                if ($this->acknowledgeCompleteTransaction($token)) {
-                    return $authorizeResponse->return;
-                }
-
-                $error["error"] = "Error validando conexi&oacute;n a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
-                $error["detail"] = "No se pudo completar la conexi&oacute;n con Webpay";
-
-            }
         } catch (Exception $e) {
-
-            $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
-
-            $replaceArray = array('<!--' => '', '-->' => '');
-            $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
+            return $this->returnConnectionErrorArray($e->getMessage());
         }
-
-        /** @var array $error */
-        return $error;
     }
 
     /**
@@ -215,23 +178,23 @@ class WebpayCompleteTransaction extends Transaction
     /**
      * Performs the acknowledge to Webpay, which means to accept the transaction result
      *
-     * @param $acknowledge
+     * @param $transaction
      * @return mixed
      */
-    protected function performAcknowledge($acknowledge)
+    protected function performAcknowledge($transaction)
     {
-        return $this->soapClient->acknowledgeCompleteTransaction($acknowledge);
+        return $this->soapClient->acknowledgeCompleteTransaction($transaction);
     }
 
     /**
      * Authorizes the transaction, with or without installments ("cuotas").
      *
-     * @param $authorize
+     * @param $transaction
      * @return mixed
      */
-    protected function performAuthorize($authorize)
+    protected function performAuthorize($transaction)
     {
-        return $this->soapClient->authorize($authorize);
+        return $this->soapClient->authorize($transaction);
     }
 
     /**
@@ -248,13 +211,13 @@ class WebpayCompleteTransaction extends Transaction
     /**
      * Initializes a transaction in Webpay, returning the token transaction
      *
-     * @param $initCompleteTransaction
+     * @param $transaction
      * @return mixed
      */
-    protected function performInitCompleteTransaction($initCompleteTransaction)
+    protected function performInitCompleteTransaction($transaction)
     {
         return $this->soapClient->initCompleteTransaction([
-            'wsCompleteInitTransactionInput' => $initCompleteTransaction
+            'wsCompleteInitTransactionInput' => $transaction
         ]);
     }
 

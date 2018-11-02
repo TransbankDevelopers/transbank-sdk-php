@@ -72,4 +72,4 @@ return array_fill_keys(array_flip([
     'removeUserResponse',
     'reverse',
     'reverseResponse',
-]), 'Transbank\Webpay\SoapClassMapper');
+]), 'Transbank\Helpers\Fluent');

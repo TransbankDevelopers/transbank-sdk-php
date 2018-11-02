@@ -2,14 +2,12 @@
 
 namespace Transbank\Webpay\Transactions;
 
-use Transbank\Helpers\Helpers;
 use Transbank\Webpay\Configuration;
-use Transbank\Webpay\SoapValidation;
-use Transbank\Webpay\WSSecuritySoapClient;
+use Transbank\Webpay\Soap\WSSecuritySoapClient;
+use Transbank\Webpay\Soap\SoapValidation;
 
 abstract class Transaction
 {
-
     /**
      * URL for the environment
      *
@@ -20,7 +18,7 @@ abstract class Transaction
     /**
      * Code translations for the int returned
      *
-     * @var array
+     * @var null|array
      */
     protected $resultCodes;
 
@@ -48,12 +46,12 @@ abstract class Transaction
     /**
      * Soap Client
      *
-     * @var \Transbank\Webpay\WSSecuritySoapClient
+     * @var \Transbank\Webpay\Soap\WSSecuritySoapClient
      */
     protected $soapClient;
 
     /**
-     * Configuration holder for the transactions
+     * Configuration holder for the SOAP Client
      *
      * @var Configuration
      */
@@ -72,11 +70,10 @@ abstract class Transaction
         $this->initializeClassMap();
 
         $this->initializeSoapClient();
-
     }
 
     /**
-     * Creates a new instance of the Soap Client using the configuration
+     * Creates a new instance of the Soap Client using the Configuration as base
      *
      * @throws \Exception
      */
@@ -124,7 +121,7 @@ abstract class Transaction
     }
 
     /**
-     * Gets the correct URL service for the selected Environment
+     * Gets the correct URL services for the selected Environment
      *
      * @return string
      */
@@ -132,9 +129,9 @@ abstract class Transaction
     {
         // If the environment is explicitly set as "LIVE" or "PRODUCCION" (yeah,
         // all uppercase), the transaction will default to integration URLs.
-        // This allows to securely fall back to testing (as it should).
-        $isProduction = in_array(
-            $this->config->getEnvironmentDefault(),
+        // This allows to securely fallback to testing (as it should).
+        $isProduction = $this->config->getEnvironment() && in_array(
+            $this->config->getEnvironment(),
             ['LIVE', 'PRODUCCION']
         );
 
@@ -160,7 +157,6 @@ abstract class Transaction
      */
     protected function getReason($code)
     {
-
         // Initialize the result codes to translate
         $this->initializeResultCodes();
 
@@ -180,10 +176,41 @@ abstract class Transaction
      */
     protected function validate()
     {
-        $xmlResponse = $this->soapClient->__getLastResponse();
-        $soapValidation = new SoapValidation($xmlResponse, $this->config->getWebpayCert());
+        $soapValidation = new SoapValidation(
+            $this->soapClient->__getLastResponse(),
+            $this->config->getWebpayCert()
+        );
 
-        return !!$soapValidation->getValidationResult();
+        return $soapValidation->getValidationResult();
+    }
+
+    /**
+     * Returns a Validation Error array
+     *
+     * @return array
+     */
+    protected function returnValidationErrorArray()
+    {
+        // For some reason, 'error' and 'detail' are swapped, but we will leave it alone.
+        return [
+            'error' => 'No se pudo validar la conexión con Webpay. Verifica que el certificado sea correcto.',
+            'detail' => 'No se pudo completar la conexión con Webpay.',
+        ];
+    }
+
+    /**
+     * Returns a Connection Error array
+     *
+     * @param string $message
+     * @return array
+     */
+    protected function returnConnectionErrorArray($message)
+    {
+        $replaceArray = ['<!--' => '', '-->' => ''];
+        return [
+            'error' => 'No se pudo validar la conexión con Webpay. Verifica que el certificado sea correcto.',
+            'detail' => str_replace(array_keys($replaceArray), array_values($replaceArray), $message),
+        ];
     }
 
 }

@@ -31,7 +31,7 @@ class WebpayMallNormal extends Transaction
      *
      * @var string
      */
-    protected $resultCodesName = 'PlusMallNormal';
+    protected $resultCodesName = 'plusnormal';
 
     /**
      * Class Map to require
@@ -54,9 +54,8 @@ class WebpayMallNormal extends Transaction
     public function initTransaction($buyOrder, $sessionId, $urlReturn, $urlFinal, array $stores)
     {
         try {
-            $error = [];
 
-            $wsInitTransactionInput = new Fluent([
+            $transaction = new Fluent([
                 'wSTransactionType' => 'TR_MALL_WS',
                 'commerceId' => $this->config->getCommerceCode(),
                 'sessionId' => $sessionId,
@@ -68,7 +67,7 @@ class WebpayMallNormal extends Transaction
             $transactionDetails = [];
 
             // Add every store to the Transaction input
-            foreach (array_values($stores) as $value) {
+            foreach ($stores as $value) {
                 $transactionDetails[] = new Fluent([
                     'commerceCode' => $value['storeCode'],
                     'buyOrder' => floatval($value['buyOrder']),
@@ -77,29 +76,19 @@ class WebpayMallNormal extends Transaction
             }
 
             // Add the array to the Transaction Input
-            $wsInitTransactionInput->transactionDetails = $transactionDetails;
+            $transaction->transactionDetails = $transactionDetails;
 
             // Perform the Transaction
-            $initTransactionResponse = $this->performInitTransaction($wsInitTransactionInput);
+            $response = $this->performInitTransaction($transaction);
 
-            // Return the Response if the validation passes
-            if ($this->validate()) {
-                return $initTransactionResponse->return;
+            // If the validation is successful, return the results
+            return $this->validate()
+                ? $response->return
+                : $this->returnValidationErrorArray();
 
-            } else {
-
-                $error["error"] = "Error validando conexi&oacute;n a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
-                $error["detail"] = "No se pudo completar la conexi&oacute;n con Webpay";
-            }
         } catch (Exception $e) {
-
-            $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
-
-            $replaceArray = array('<!--' => '', '-->' => '');
-            $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
+            return $this->returnConnectionErrorArray($e->getMessage());
         }
-
-        return $error;
     }
 
     /**
@@ -113,32 +102,24 @@ class WebpayMallNormal extends Transaction
 
         try {
 
-            $getTransactionResult = new Fluent([
+            $transaction = new Fluent([
                 'tokenInput' => $token,
             ]);
 
             // Perform the transaction
-            $getTransactionResultResponse = $this->performGetTransactionResult($getTransactionResult);
+            $response = $this->performGetTransactionResult($transaction);
 
             if ($this->validate()) {
 
                 // Acknowledge the Transaction before returning the results
                 if ($this->acknowledgeTransaction($token)) {
-
-                    return $getTransactionResultResponse->return;
-
-                } else {
-
-                    $error['error'] = 'Error validando conexión a Webpay (Verifica que la información del certificado sea correcta)';
-                    $error['detail'] = 'No se pudo completar la conexiónn con Webpay';
+                    return $response->return;
                 }
+
+                return $this->returnValidationErrorArray();
             }
         } catch (Exception $e) {
-
-            $error['error'] = 'Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)';
-
-            $replaceArray = ['<!--' => '', '-->' => ''];
-            $error['detail'] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
+            return $this->returnConnectionErrorArray($e->getMessage());
         }
     }
 

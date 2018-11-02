@@ -22,9 +22,6 @@
   },
   "autoload": {
     "psr-4": {
-      "Transbank\\Helpers\\": [
-        "src/Helpers"
-      ],
       "Transbank\\Onepay\\": [
         "src/Onepay",
         "src/Onepay/utils"
@@ -32,10 +29,8 @@
       "Transbank\\Onepay\\Exceptions\\": [
         "src/Onepay/exceptions"
       ],
-      "Transbank\\Webpay\\": [
-        "src/Webpay",
-        "src/Webpay/soap"
-      ]
+      "Transbank\\Webpay\\": "src/Webpay",
+      "Transbank\\Helpers\\": "src/Helpers"
     }
   },
   "license": "BSD-3-Clause"

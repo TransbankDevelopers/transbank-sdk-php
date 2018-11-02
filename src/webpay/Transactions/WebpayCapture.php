@@ -29,7 +29,7 @@ class WebpayCapture extends Transaction
      *
      * @var string
      */
-    protected $resultCodesName = 'PlusCapture';
+    protected $resultCodesName = 'pluscapture';
 
     /**
      * Class Map to require
@@ -61,38 +61,25 @@ class WebpayCapture extends Transaction
             ]);
 
             // Perform the capture with the data
-            $captureResponse = $this->performCapture($captureInput);
+            $response = $this->performCapture($captureInput);
 
             // If the validation is successful, return the results
-            if ($this->validate()) {
-                return $captureResponse->return;
-            } else {
-                $error['error'] = 'No se pudo completar la conexión con Webpay';
-            }
+            return $this->validate()
+                ? $response->return
+                : $this->returnValidationErrorArray();
+
         } catch (Exception $e) {
-
-            $replaceArray = [
-                '<!--' => '',
-                '-->' => ''
-            ];
-
-            $error = [
-                'error' => 'Error al conectar con Webpay. Verifica que la información del certificado sea correcta.',
-                'detail' => str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage())
-            ];
-
+            return $this->returnConnectionErrorArray($e->getMessage());
         }
-
-        return $error;
     }
 
     /**
      * Performs the Webpay Capture operation
      *
-     * @param Fluent $capture
+     * @param $capture
      * @return object
      */
-    protected function performCapture(Fluent $capture)
+    protected function performCapture($capture)
     {
         return $this->soapClient->capture([
             'captureInput' => $capture

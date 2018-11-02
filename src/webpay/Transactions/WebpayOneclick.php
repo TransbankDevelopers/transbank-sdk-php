@@ -30,7 +30,7 @@ class WebpayOneclick extends Transaction
      *
      * @var string
      */
-    protected $resultCodesName = 'OneclickNormal';
+    protected $resultCodesName = 'oneclicknormal';
 
     /**
      * Registers the User into Webpay Oneclick systems
@@ -44,8 +44,6 @@ class WebpayOneclick extends Transaction
     {
 
         try {
-            $error = [];
-
             $oneClickInscriptionInput = new Fluent([
                 'username' => $username,
                 'email' => $email,
@@ -55,24 +53,13 @@ class WebpayOneclick extends Transaction
             $initInscriptionResponse = $this->performInitInscription($oneClickInscriptionInput);
 
             // Validate the Response, return the results if it passes
-            if ($this->validate()) {
+            return $this->validate()
+                ? $initInscriptionResponse->return
+                : $this->returnValidationErrorArray();
 
-                return $initInscriptionResponse->return;
-
-            } else {
-
-                $error["error"] = "Error validando conexi&oacute;n a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
-                $error["detail"] = "No se pudo completar la conexi&oacute;n con Webpay";
-            }
         } catch (Exception $e) {
-
-            $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
-
-            $replaceArray = array('<!--' => '', '-->' => '');
-            $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
+            return $this->returnConnectionErrorArray($e->getMessage());
         }
-
-        return $error;
     }
 
     /**
@@ -93,21 +80,13 @@ class WebpayOneclick extends Transaction
             $response = $this->performFinishInscription($inscription);
 
             // Return the response if the validation passes
-            if ($this->validate()) {
+            // Validate the Response, return the results if it passes
+            return $this->validate()
+                ? $response->return
+                : $this->returnValidationErrorArray();
 
-                return $response->return;
-
-            } else {
-
-                $error["error"] = "Error validando conexi&oacute;n a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
-                $error["detail"] = "No se pudo completar la conexi&oacute;n con Webpay";
-            }
         } catch (Exception $e) {
-
-            $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
-
-            $replaceArray = array('<!--' => '', '-->' => '');
-            $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
+            return $this->returnConnectionErrorArray($e->getMessage());
         }
     }
 
@@ -125,29 +104,22 @@ class WebpayOneclick extends Transaction
 
         try {
 
-            $oneClickPayInput = new Fluent([
+            $oneclickPayInput = new Fluent([
                 'buyOrder' => $buyOrder,
                 'tbkUser' => $tbkUser,
                 'username' => $username,
                 'amount' => $amount,
             ]);
 
-            $oneClickauthorizeResponse = $this->performAuthorize($oneClickPayInput);
+            $response = $this->performAuthorize($oneclickPayInput);
 
-            // Return the Response if the validation passes
-            if ($this->validate()) {
-                return $oneClickauthorizeResponse->return;
-            } else {
+            return $this->validate()
+                ? $response->return
+                : $this->returnValidationErrorArray();
 
-                $error["error"] = "Error validando conexi&oacute;n a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
-                $error["detail"] = "No se pudo completar la conexi&oacute;n con Webpay";
-            }
         } catch (Exception $e) {
 
-            $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
-
-            $replaceArray = array('<!--' => '', '-->' => '');
-            $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
+            return $this->returnConnectionErrorArray($e->getMessage());
 
         }
     }
@@ -160,7 +132,6 @@ class WebpayOneclick extends Transaction
      */
     public function reverseTransaction($buyOrder)
     {
-
         try {
 
             $reversible = new Fluent([
@@ -170,22 +141,12 @@ class WebpayOneclick extends Transaction
             $response = $this->performCodeReverseOneClick($reversible);
 
             // Return the Response if the validation passes
-            if ($this->validate()) {
-                return $response->return;
-
-            } else {
-
-                $error["error"] = "Error validando conexi&oacute;n a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
-                $error["detail"] = "No se pudo completar la conexi&oacute;n con Webpay";
-            }
+            return $this->validate()
+                ? $response->return
+                : $this->returnValidationErrorArray();
 
         } catch (Exception $e) {
-
-            $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
-
-            $replaceArray = array('<!--' => '', '-->' => '');
-            $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
-
+            return $this->returnConnectionErrorArray($e->getMessage());
         }
     }
 
@@ -198,7 +159,6 @@ class WebpayOneclick extends Transaction
      */
     public function removeUser($tbkUser, $username)
     {
-
         try {
 
             $user = new Fluent([
@@ -209,28 +169,15 @@ class WebpayOneclick extends Transaction
             $response = $this->performRemoveUser($user);
 
             // Return the Response if the validation passes
-            if ($this->validate()) {
+            return $this->validate()
+                ? $response->return
+                : $this->returnValidationErrorArray();
 
-                return $response->return;
-
-            } else {
-
-                $error["error"] = "Error validando conexi&oacute;n a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
-                $error["detail"] = "No se pudo completar la conexi&oacute;n con Webpay";
-
-            }
 
         } catch (Exception $e) {
-
-            $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
-
-            $replaceArray = array('<!--' => '', '-->' => '');
-            $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
-
+            return $this->returnConnectionErrorArray($e->getMessage());
         }
     }
-
-
 
     /**
      * Removes a User from Webpay systems
@@ -253,9 +200,8 @@ class WebpayOneclick extends Transaction
      */
     protected function performInitInscription($inscription)
     {
-
         return $this->soapClient->initInscription([
-            "arg0" => $inscription
+            'arg0' => $inscription
         ]);
     }
 
@@ -281,7 +227,7 @@ class WebpayOneclick extends Transaction
     protected function performAuthorize($authorize)
     {
         return $this->soapClient->authorize([
-            "arg0" => $authorize
+            'arg0' => $authorize
         ]);
     }
 
@@ -294,7 +240,7 @@ class WebpayOneclick extends Transaction
     protected function performCodeReverseOneClick($code)
     {
         return $this->soapClient->codeReverseOneClick([
-            "arg0" => $code
+            'arg0' => $code
         ]);
     }
 }

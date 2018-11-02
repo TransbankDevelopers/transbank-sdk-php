@@ -1,5 +1,5 @@
 <?php
-namespace Transbank\Webpay;
+namespace Transbank\Webpay\Soap;
 
 function sortAndAddAttrs($element, $arAtts) {
     $newAtts = array();

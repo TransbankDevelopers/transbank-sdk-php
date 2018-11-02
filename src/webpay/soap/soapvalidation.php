@@ -1,5 +1,5 @@
 <?php
-namespace Transbank\Webpay;
+namespace Transbank\Webpay\Soap;
 
 class SoapValidation {
 
