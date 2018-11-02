@@ -1,5 +1,4 @@
 <phpunit bootstrap="tests/autoload.php" colors="true">
-    <!-- TODO: change bootstrap from an init to a require -->
     <testsuites>
         <testsuite name="Transbank Onepay SDK Test Suite">
             <directory suffix="Test.php">tests</directory>
