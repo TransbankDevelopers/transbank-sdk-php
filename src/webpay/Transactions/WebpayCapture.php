@@ -32,13 +32,6 @@ class WebpayCapture extends Transaction
     protected $resultCodesName = 'pluscapture';
 
     /**
-     * Class Map to require
-     *
-     * @var string
-     */
-    protected $classMapName = 'capture';
-
-    /**
      * Captures the transaction
      *
      * @param string $authorizationCode

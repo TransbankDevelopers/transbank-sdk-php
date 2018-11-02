@@ -3,7 +3,7 @@
 namespace Transbank\Webpay;
 
 use Transbank\Webpay\Transactions\WebpayCapture;
-use Transbank\Webpay\Transactions\WebpayCompleteTransaction;
+use Transbank\Webpay\Transactions\WebpayComplete;
 use Transbank\Webpay\Transactions\WebpayMallNormal;
 use Transbank\Webpay\Transactions\WebpayNormal;
 use Transbank\Webpay\Transactions\WebpayNullify;
@@ -79,7 +79,7 @@ class Webpay
     /** @var WebpayOneclick */
     public $webpayOneClick;
 
-    /** @var WebpayCompleteTransaction */
+    /** @var WebpayComplete */
     public $webpayCompleteTransaction;
 
     /**
@@ -165,13 +165,13 @@ class Webpay
     /**
      * Starts a Webpay Complete Transaction
      *
-     * @return WebpayCompleteTransaction
+     * @return WebpayComplete
      * @throws \Exception
      */
     public function getCompleteTransaction()
     {
         if ($this->webpayCompleteTransaction === null) {
-            $this->webpayCompleteTransaction = new WebpayCompleteTransaction($this->configuration);
+            $this->webpayCompleteTransaction = new WebpayComplete($this->configuration);
         }
         return $this->webpayCompleteTransaction;
     }

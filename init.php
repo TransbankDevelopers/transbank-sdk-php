@@ -40,11 +40,6 @@ require_once(dirname(__FILE__) . '/src/Webpay/Configuration.php');
 require_once(dirname(__FILE__) . '/src/Webpay/IntegrationConfiguration.php');
 require_once(dirname(__FILE__) . '/src/Webpay/Webpay.php');
 
-require_once(dirname(__FILE__) . '/src/Webpay/ClassMaps/classmaps.php');
-require_once(dirname(__FILE__) . '/src/Webpay/ResultCodes/oneclicknormal.php');
-require_once(dirname(__FILE__) . '/src/Webpay/ResultCodes/pluscapture.php');
-require_once(dirname(__FILE__) . '/src/Webpay/ResultCodes/plusnormal.php');
-
 require_once(dirname(__FILE__) . '/src/Webpay/Soap/SoapValidation.php');
 require_once(dirname(__FILE__) . '/src/Webpay/Soap/WSSecuritySoapClient.php');
 require_once(dirname(__FILE__) . '/src/Webpay/Soap/WSSESoap.php');

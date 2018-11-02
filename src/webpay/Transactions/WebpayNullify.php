@@ -33,13 +33,6 @@ class WebpayNullify extends Transaction
     protected $resultCodesName = 'pluscapture';
 
     /**
-     * Class Map to require
-     *
-     * @var string
-     */
-    protected $classMapName = 'nullify';
-
-    /**
      * Nulls a Transaction in Webpay
      *
      * @param string $authorizationCode

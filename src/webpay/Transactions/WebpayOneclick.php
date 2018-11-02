@@ -19,13 +19,6 @@ class WebpayOneclick extends Transaction
     ];
 
     /**
-     * Class Map to require
-     *
-     * @var string
-     */
-    protected $classMapName = 'oneclick';
-
-    /**
      * Filename to include into the Result Codes array
      *
      * @var string

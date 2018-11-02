@@ -34,13 +34,6 @@ class WebpayNormal extends Transaction
     ];
 
     /**
-     * Class Map to require
-     *
-     * @var string
-     */
-    protected $classMapName = 'normal';
-
-    /**
      * Filename to include into the Result Codes array
      *
      * @var string

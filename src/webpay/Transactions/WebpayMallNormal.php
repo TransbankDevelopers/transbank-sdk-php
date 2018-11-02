@@ -34,14 +34,6 @@ class WebpayMallNormal extends Transaction
     protected $resultCodesName = 'plusnormal';
 
     /**
-     * Class Map to require
-     *
-     * @var string
-     */
-    protected $classMapName = 'mall';
-
-
-    /**
      * Initializes and creates an Transaction in Webpay
      *
      * @param $buyOrder

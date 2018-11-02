@@ -4,7 +4,7 @@ namespace Transbank\Webpay\Transactions;
 use Exception;
 use Transbank\Helpers\Fluent;
 
-class WebpayCompleteTransaction extends Transaction
+class WebpayComplete extends Transaction
 {
     /**
      * URL for the environment
@@ -15,20 +15,6 @@ class WebpayCompleteTransaction extends Transaction
         'integration'   => 'https://webpay3gint.transbank.cl/WSWebpayTransaction/cxf/WSCompleteWebpayService?wsdl',
         'production'    => 'https://webpay3g.transbank.cl/WSWebpayTransaction/cxf/WSCompleteWebpayService?wsdl',
     ];
-
-    /**
-     * Filename to include into the Result Codes array
-     *
-     * @var string
-     */
-    protected $resultCodesName = '';
-
-    /**
-     * Class Map to require
-     *
-     * @var string
-     */
-    protected $classMapName = 'complete';
 
     /**
      * Initializes a transaction Webpay

@@ -37,13 +37,6 @@ abstract class Transaction
     protected $classMap;
 
     /**
-     * Class Map to require
-     *
-     * @var string
-     */
-    protected $classMapName;
-
-    /**
      * Soap Client
      *
      * @var \Transbank\Webpay\Soap\WSSecuritySoapClient
@@ -115,9 +108,7 @@ abstract class Transaction
      */
     protected function initializeClassMap()
     {
-        if ($this->classMapName) {
-            $this->classMap = include __DIR__ . "/../ClassMaps/classmaps.php";
-        }
+        $this->classMap = include __DIR__ . '/../ClassMaps/classmaps.php';
     }
 
     /**
