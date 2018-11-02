@@ -9,7 +9,6 @@ $classLoader->addPsr4("Transbank\\Onepay\\", __DIR__ .'/../src/Onepay/utils', tr
 $classLoader->addPsr4("Transbank\\Onepay\\Exceptions\\", __DIR__ .'/../src/Onepay/exceptions', true);
 
 $classLoader->addPsr4("Transbank\\Webpay\\", __DIR__ .'/../src/Webpay', true);
-$classLoader->addPsr4("Transbank\\Webpay\\", __DIR__ .'/../src/Webpay/Soap', true);
 
 $classLoader->addPsr4("Transbank\\Helpers\\", __DIR__ .'/../src/Helpers', true);
 
