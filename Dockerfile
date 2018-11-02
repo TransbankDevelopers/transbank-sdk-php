@@ -14,4 +14,6 @@ RUN php -r "copy('https://composer.github.io/installer.sig', 'composer-setup.sig
     php -r "unlink('composer-setup.php');" &&\
     php -r "unlink('composer-setup.sig');"
 
-RUN docker-php-ext-install soap
+RUN pecl install xdebug &&\
+    docker-php-ext-enable xdebug &&\
+    docker-php-ext-install soap
