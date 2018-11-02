@@ -11,15 +11,20 @@
     "php": ">=5.5.0",
     "ext-curl": "*",
     "ext-json": "*",
-    "ext-mbstring": "*"
+    "ext-mbstring": "*",
+    "ext-dom": "*",
+    "ext-soap": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "~4.0",
+    "phpunit/phpunit": "4.8.36",
     "satooshi/php-coveralls": "~0.6.1",
     "squizlabs/php_codesniffer": "~2.0"
   },
   "autoload": {
     "psr-4": {
+      "Transbank\\Helpers\\": [
+        "src/Helpers"
+      ],
       "Transbank\\Onepay\\": [
         "src/Onepay",
         "src/Onepay/utils"

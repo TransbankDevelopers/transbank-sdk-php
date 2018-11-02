@@ -30,7 +30,7 @@ class TransactionCommitResponseMocks {
         return self::$transactionCommitResponseMocks;
     }
 
-    public function get($indexOfMock = 0)
+    public static function get($indexOfMock = 0)
     {
         return self::transactionCommitRequestMocks()[$indexOfMock];
     }

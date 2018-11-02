@@ -1,14 +1,50 @@
 <?php
+
 namespace Transbank\Webpay;
 
-class WSSecuritySoapClient extends \SoapClient {
-    
+use SoapClient;
+
+/**
+ * Class WSSecuritySoapClient
+ * @package Transbank\Webpay
+ *
+ * @method capture(array $capture)
+ *
+ * @method acknowledgeCompleteTransaction($acknowledge)
+ * @method authorize($acknowledge)
+ * @method queryShare($queryShare)
+ * @method initCompleteTransaction(array $initCompleteTransaction)
+ *
+ * @method getTransactionResult($transaction)
+ * @method acknowledgeTransaction($transaction)
+ * @method initTransaction(array $transaction)
+ *
+ * @method nullify(array $transaction)
+ *
+ * @method removeUser(array $user)
+ * @method initInscription(array $inscription)
+ * @method finishInscription(array $inscription)
+ * @method codeReverseOneClick(array $code)
+ * @method reverse($reverse)
+ */
+class WSSecuritySoapClient extends SoapClient
+{
+
     private $useSSL = false;
     private $privateKey = "";
     private $publicCert = "";
 
-    function __construct($wsdl, $privateKey, $publicCert, $options) {
-        
+    /**
+     * WSSecuritySoapClient constructor.
+     *
+     * @param $wsdl
+     * @param $privateKey
+     * @param $publicCert
+     * @param $options
+     */
+    public function __construct($wsdl, $privateKey, $publicCert, $options)
+    {
+
         $locationparts = parse_url($wsdl);
         $this->useSSL = $locationparts['scheme'] == "https" ? true : false;
         $this->privateKey = $privateKey;
@@ -16,8 +52,20 @@ class WSSecuritySoapClient extends \SoapClient {
         return parent::__construct($wsdl, $options);
     }
 
-    function __doRequest($request, $location, $saction, $version, $one_way = 0) {
-        
+    /**
+     * Performs a SOAP request
+     *
+     * @param string $request
+     * @param string $location
+     * @param string $saction
+     * @param int $version
+     * @param int $one_way
+     * @return string
+     * @throws \Exception
+     */
+    function __doRequest($request, $location, $saction, $version, $one_way = 0)
+    {
+
         if ($this->useSSL) {
             $locationparts = parse_url($location);
             $location = 'https://';
@@ -51,7 +99,7 @@ class WSSecuritySoapClient extends \SoapClient {
 
         $doc = new \DOMDocument();
         $doc->loadXML($retVal);
-        
+
         return $doc->saveXML();
     }
 

@@ -2,3 +2,5 @@
 .idea
 .built
 .bundled
+composer.lock
+composer.phar

@@ -1,7 +1,16 @@
 <?php
+
 namespace Transbank\Webpay;
 
-class Webpay {
+use Transbank\Webpay\Transactions\WebpayCapture;
+use Transbank\Webpay\Transactions\WebpayCompleteTransaction;
+use Transbank\Webpay\Transactions\WebpayMallNormal;
+use Transbank\Webpay\Transactions\WebpayNormal;
+use Transbank\Webpay\Transactions\WebpayNullify;
+use Transbank\Webpay\Transactions\WebpayOneclick;
+
+class Webpay
+{
 
     const INTEGRACION = "INTEGRACION";
     const CERTIFICACION = "INTEGRACION";
@@ -9,7 +18,8 @@ class Webpay {
     const PRODUCCION = "PRODUCCION";
     const LIVE = "PRODUCCION";
 
-    public static function defaultCert($environment = null) {
+    public static function defaultCert($environment = null)
+    {
         if (null != $environment) {
             if ($environment == Webpay::PRODUCCION) {
                 return "-----BEGIN CERTIFICATE-----\n" .
@@ -80,49 +90,116 @@ class Webpay {
             "-----END CERTIFICATE-----\n";
     }
 
-    var $configuration, $webpayNormal, $webpayMallNormal, $webpayNullify, $webpayCapture, $webpayOneClick, $webpayCompleteTransaction;
+    /** @var Configuration */
+    public $configuration;
 
-    function __construct($params) {
+    /** @var WebpayNormal */
+    public $webpayNormal;
 
+    /** @var WebpayMallNormal */
+    public $webpayMallNormal;
+
+    /** @var WebpayNullify */
+    public $webpayNullify;
+
+    /** @var WebpayCapture */
+    public $webpayCapture;
+
+    /** @var WebpayOneclick */
+    public $webpayOneClick;
+
+    /** @var WebpayCompleteTransaction */
+    public $webpayCompleteTransaction;
+
+
+    /**
+     * Webpay constructor.
+     *
+     * @param Configuration $params
+     */
+    function __construct(Configuration $params)
+    {
         $this->configuration = $params;
     }
 
-    public function getNormalTransaction() {
+    /**
+     * Starts a Webpay Plus Normal Transaction
+     *
+     * @return WebpayNormal
+     * @throws \Exception
+     */
+    public function getNormalTransaction()
+    {
         if ($this->webpayNormal == null) {
-            $this->webpayNormal = new WebPayNormal($this->configuration);
+            $this->webpayNormal = new WebpayNormal($this->configuration);
         }
         return $this->webpayNormal;
     }
 
-    public function getMallNormalTransaction() {
+    /**
+     * Starts a Webpay Plus Mall Transaction
+     *
+     * @return WebpayMallNormal
+     * @throws \Exception
+     */
+    public function getMallNormalTransaction()
+    {
         if ($this->webpayMallNormal == null) {
-            $this->webpayMallNormal = new WebPayMallNormal($this->configuration);
+            $this->webpayMallNormal = new WebpayMallNormal($this->configuration);
         }
         return $this->webpayMallNormal;
     }
 
-    public function getNullifyTransaction() {
+    /**
+     * Starts a Webpay Nullify Transaction
+     *
+     * @return WebpayNullify
+     * @throws \Exception
+     */
+    public function getNullifyTransaction()
+    {
         if ($this->webpayNullify == null) {
             $this->webpayNullify = new WebpayNullify($this->configuration);
         }
         return $this->webpayNullify;
     }
 
-    public function getCaptureTransaction() {
+    /**
+     * Starts a Webpay Plus Capture (Deferred) Transaction
+     *
+     * @return WebpayCapture
+     * @throws \Exception
+     */
+    public function getCaptureTransaction()
+    {
         if ($this->webpayCapture == null) {
             $this->webpayCapture = new WebpayCapture($this->configuration);
         }
         return $this->webpayCapture;
     }
 
-    public function getOneClickTransaction() {
+    /**
+     * Starts a Webpay Oneclick Normal Transaction
+     *
+     * @return WebpayOneclick
+     * @throws \Exception
+     */
+    public function getOneClickTransaction()
+    {
         if ($this->webpayOneClick == null) {
-            $this->webpayOneClick = new WebpayOneClick($this->configuration);
+            $this->webpayOneClick = new WebpayOneclick($this->configuration);
         }
         return $this->webpayOneClick;
     }
 
-    public function getCompleteTransaction() {
+    /**
+     * Starts a Webpay Complete Transaction
+     *
+     * @return WebpayCompleteTransaction
+     * @throws \Exception
+     */
+    public function getCompleteTransaction()
+    {
         if ($this->webpayCompleteTransaction == null) {
             $this->webpayCompleteTransaction = new WebpayCompleteTransaction($this->configuration);
         }
