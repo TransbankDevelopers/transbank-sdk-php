@@ -62,3 +62,6 @@ require_once(dirname(__FILE__) . '/src/Webpay/Transactions/WebpayMallNormal.php'
 require_once(dirname(__FILE__) . '/src/Webpay/Transactions/WebpayNormal.php');
 require_once(dirname(__FILE__) . '/src/Webpay/Transactions/WebpayNullify.php');
 require_once(dirname(__FILE__) . '/src/Webpay/Transactions/WebpayOneclick.php');
+
+// Helpers for all Transbank SDK files
+require_once(dirname(__FILE__) . '/src/Helpers/Fluent.php');
