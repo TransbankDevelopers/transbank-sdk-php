@@ -57,7 +57,7 @@ require_once(dirname(__FILE__) . '/src/Webpay/Transactions/Concerns/InitializesT
 require_once(dirname(__FILE__) . '/src/Webpay/Transactions/Concerns/PerformsGetTransactionResults.php');
 require_once(dirname(__FILE__) . '/src/Webpay/Transactions/Transaction.php');
 require_once(dirname(__FILE__) . '/src/Webpay/Transactions/WebpayCapture.php');
-require_once(dirname(__FILE__) . '/src/Webpay/Transactions/WebpayCompleteTransaction.php');
+require_once(dirname(__FILE__) . '/src/Webpay/Transactions/WebpayComplete.php');
 require_once(dirname(__FILE__) . '/src/Webpay/Transactions/WebpayMallNormal.php');
 require_once(dirname(__FILE__) . '/src/Webpay/Transactions/WebpayNormal.php');
 require_once(dirname(__FILE__) . '/src/Webpay/Transactions/WebpayNullify.php');
