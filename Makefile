@@ -15,7 +15,6 @@ build: .built .bundled
 	touch .built
 
 .bundled: composer.json
-	docker-compose run --rm web composer install
 	touch .bundled
 
 logs:

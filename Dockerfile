@@ -4,8 +4,9 @@ RUN apt-get update &&\
     apt-get install -y zip unzip libxml2-dev
 
 RUN mkdir -p /sdk
-WORKDIR /sdk
 COPY . /sdk
+
+WORKDIR /sdk
 
 RUN php -r "copy('https://composer.github.io/installer.sig', 'composer-setup.sig');" &&\
     php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&\
@@ -17,3 +18,5 @@ RUN php -r "copy('https://composer.github.io/installer.sig', 'composer-setup.sig
 RUN pecl install xdebug &&\
     docker-php-ext-enable xdebug &&\
     docker-php-ext-install soap
+
+RUN composer install

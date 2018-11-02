@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./vendor/bin/phpunit
+./vendor/bin/phpunit --configuration ./phpunit.xml
