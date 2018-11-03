@@ -2,8 +2,6 @@
 
 include_once __DIR__.'/../vendor/autoload.php';
 
-echo __DIR__;
-
 $classLoader = new \Composer\Autoload\ClassLoader();
 
 $classLoader->addPsr4("Transbank\\Onepay\\", [

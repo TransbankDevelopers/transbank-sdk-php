@@ -6,8 +6,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: sh -c './sdktest.sh'
-    volumes:
-      - .:/sdk
+    command: ./vendor/bin/phpunit --configuration ./phpunit.xml
     ports:
       - "8000:8000"
