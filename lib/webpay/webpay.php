@@ -13,44 +13,26 @@ class Webpay {
         if (null != $environment) {
             if ($environment == Webpay::PRODUCCION) {
                 return "-----BEGIN CERTIFICATE-----\n" .
-                    "MIIG2TCCBcGgAwIBAgIQB2pxSISZbltfSuf1zZEL0TANBgkqhkiG9w0BAQsFADBw\n" .
-                    "MQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3\n" .
-                    "d3cuZGlnaWNlcnQuY29tMS8wLQYDVQQDEyZEaWdpQ2VydCBTSEEyIEhpZ2ggQXNz\n" .
-                    "dXJhbmNlIFNlcnZlciBDQTAeFw0xODA4MDMwMDAwMDBaFw0yMDEwMDgxMjAwMDBa\n" .
-                    "MGYxCzAJBgNVBAYTAkNMMREwDwYDVQQHEwhTYW50aWFnbzEXMBUGA1UEChMOVFJB\n" .
-                    "TlNCQU5LIFMuQS4xEjAQBgNVBAsTCVNlZ3VyaWRhZDEXMBUGA1UEAwwOKi50cmFu\n" .
-                    "c2JhbmsuY2wwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvMmn+SSoP\n" .
-                    "Y3kg4xefyawsRsD3AdS7J0o6NQFTakVepLsLeP0Q8jXyoHO0hOI73HP6ExQSkyqH\n" .
-                    "wXVviQjxCiwRJSTVUwSZ83iOIzfY/+P5FjQTD88EgWxzAAle8bFtRvq/RPMfOTPg\n" .
-                    "F8LQpOBF0JWojbBnJnnMr936KYe2pz3i15100lQb/Q1g5vGtksJfWUHqdCPRSAzB\n" .
-                    "tIQm5zOFCZQXBzQQFuGgh1qA6JuflAJObYeTbP0m6xLZPrB0BtCfin4Y5ElRx33j\n" .
-                    "nxokFvrlyn0mHNkrKFfYvYgLt4LXo+Fr5Jb74SpL7MYUGOxrdamtMybdY6NblIrQ\n" .
-                    "YrTyjcN9ytAlAgMBAAGjggN3MIIDczAfBgNVHSMEGDAWgBRRaP+QrwIHdTzM2WVk\n" .
-                    "YqISuFlyOzAdBgNVHQ4EFgQUzC/DndMX66wDwTyUUSos058Y8wwwJwYDVR0RBCAw\n" .
-                    "HoIOKi50cmFuc2JhbmsuY2yCDHRyYW5zYmFuay5jbDAOBgNVHQ8BAf8EBAMCBaAw\n" .
-                    "HQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMHUGA1UdHwRuMGwwNKAyoDCG\n" .
-                    "Lmh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9zaGEyLWhhLXNlcnZlci1nNi5jcmww\n" .
-                    "NKAyoDCGLmh0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNvbS9zaGEyLWhhLXNlcnZlci1n\n" .
-                    "Ni5jcmwwTAYDVR0gBEUwQzA3BglghkgBhv1sAQEwKjAoBggrBgEFBQcCARYcaHR0\n" .
-                    "cHM6Ly93d3cuZGlnaWNlcnQuY29tL0NQUzAIBgZngQwBAgIwgYMGCCsGAQUFBwEB\n" .
-                    "BHcwdTAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tME0GCCsG\n" .
-                    "AQUFBzAChkFodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRTSEEy\n" .
-                    "SGlnaEFzc3VyYW5jZVNlcnZlckNBLmNydDAMBgNVHRMBAf8EAjAAMIIBfgYKKwYB\n" .
-                    "BAHWeQIEAgSCAW4EggFqAWgAdQC72d+8H4pxtZOUI5eqkntHOFeVCqtS6BqQlmQ2\n" .
-                    "jh7RhQAAAWUBzO3HAAAEAwBGMEQCIEMQFiHzSzPGKyr7eHSVoVY80hsFeIvVf3Fe\n" .
-                    "a8qv+0tLAiBncjRBFOS0qBgvMnk8MgJ4hJyXX1YOyxJRspP4Y58ADwB3AId1v+dZ\n" .
-                    "fPiMQ5lfvfNu/1aNR1Y2/0q1YMG06v9eoIMPAAABZQHM7ooAAAQDAEgwRgIhAILr\n" .
-                    "1WEB5yatR7P3HCf7MrJ63L3fH90QbSNfxVA1ovjOAiEA85Xta6mlacAY22AbKlt3\n" .
-                    "W19sE3FjEuBrVxUgjJ0+TrIAdgBvU3asMfAxGdiZAKRRFf93FRwR2QLBACkGjbII\n" .
-                    "mjfZEwAAAWUBzO+DAAAEAwBHMEUCIFY9taJ7ZRCXlw0r7/q2jCppMLxcj21D1r0j\n" .
-                    "hgEQDXn0AiEA0XPlBStsg+J7GYL3DQFG55UVm3AIVOrN6UapP+9hERowDQYJKoZI\n" .
-                    "hvcNAQELBQADggEBAA5HqaP0855FpuBYo5FN/xe/AZ0ofzzh1QvdI5IxDx/CLMN0\n" .
-                    "mpvrXVi+mxefb71NioDI5xYRXpg5gVOTNx3c65pfnrNXxx7F5bcYoH1KyEaVr0lV\n" .
-                    "6PFfCK3p4lpYPDMon20K83lzSUc/sVuvidAQgAtHPYTFTc1xHPVer/XFq3m8RXyu\n" .
-                    "44GKMvCCSPGrLaclWU5UI4jwrNkR2iiE2IQCNxzxImxthU6jQEabCUtL3K5s9kvq\n" .
-                    "1PtoneUkS0gdKhAWe9CyoVRqP71yX1R2RbGqSUDNH3QJgibJmqHOTNBrD01mKYxK\n" .
-                    "3jRv7Rl4ETKXtdXyHd4PDyXCfRZZjqUS7kHSWEQ=\n" .
-                    "-----END CERTIFICATE-----\n";
+                "MIIDizCCAnOgAwIBAgIJAIXzFTyfjyBkMA0GCSqGSIb3DQEBCwUAMFwxCzAJBgNV\n" .
+                "BAYTAkNMMQswCQYDVQQIDAJSTTERMA8GA1UEBwwIU2FudGlhZ28xEjAQBgNVBAoM\n" .
+                "CXRyYW5zYmFuazEMMAoGA1UECwwDUFJEMQswCQYDVQQDDAIxMDAeFw0xODAzMjkx\n" .
+                "NjA4MjhaFw0yMzAzMjgxNjA4MjhaMFwxCzAJBgNVBAYTAkNMMQswCQYDVQQIDAJS\n" .
+                "TTERMA8GA1UEBwwIU2FudGlhZ28xEjAQBgNVBAoMCXRyYW5zYmFuazEMMAoGA1UE\n" .
+                "CwwDUFJEMQswCQYDVQQDDAIxMDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC\n" .
+                "ggEBAKRqDk/pv8GeWnEaTVhfw55fThmqbFZOHEc/Un7oVWP+ExjD0kZ/aAwMJZ3d\n" .
+                "9hpbBExftjoyJ0AYKJXA2CyLGxRp30LapBa2lMehzdP6tC5nrCYbDFz8r8ZyN/ie\n" .
+                "4lBQ8GjfONq34cLQfM+tOxyazgDYRnZVD9tvOcqI5bFwFKqpn/yMr9Eya7gTo/OP\n" .
+                "wyz69sAF8MKr0YN941n6C1Cdrzp6cRftdj83nlI75Ue//rMYih/uQYiht4XWFjAA\n" .
+                "usoOG/IVVCCHhVQGE/Rp22dAF8JzWYZWCe+ICOKjEzEZPjDBqPoh9O+0eGTFVwn2\n" .
+                "qZf2iSLDKBOiha1wwzpTiiJV368CAwEAAaNQME4wHQYDVR0OBBYEFDfN1Tlj7wbn\n" .
+                "JIemBNO1XrUOikQpMB8GA1UdIwQYMBaAFDfN1Tlj7wbnJIemBNO1XrUOikQpMAwG\n" .
+                "A1UdEwQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBACzXPSHet7aZrQvMUN03jOqq\n" .
+                "w37brCWZ+L/+pbdOugVRAQRb2W+Z6gyrJ2BuUuiZLCXpjvXACSpwcSB3JesWs9KE\n" .
+                "YO8E8ofF7a6ORvi2Mw0vpBbwJLqnci1gVlAj3X8r/VbX2rGbvRy+BJAF769xr43X\n" .
+                "dtns0JIWwKud0xC3iRPMnewo/75HIblbN3guePfouoR2VgfBmeU72UR8O+OpjwbF\n" .
+                "vpidobGqTGvZtxRV5axer69WY0rAXRhTSfkvyGTXERCJ3vdsF/v9iNKHhERUnpV6\n" .
+                "KDrfvgD9uqWH12/89hfsfVN6iRH9UOE+SKoR/jHtvLMhVHpa80HVK1qdlfqUTZo=\n" .
+                "-----END CERTIFICATE-----";
             }
         }
 
