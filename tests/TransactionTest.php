@@ -485,4 +485,10 @@ final class TransactionTest extends TestCase
         $this->assertNotNull($response->getQrCodeAsBase64());
         $this->assertEquals("f506a955-800c-4185-8818-4ef9fca97aae", $response->getExternalUniqueNumber());
     }
+
+    public function testTransactionIncludesWidthHeight()
+    {
+
+    }
+
 }

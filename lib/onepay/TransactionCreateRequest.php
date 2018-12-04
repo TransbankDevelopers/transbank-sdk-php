@@ -16,9 +16,12 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
     private $appScheme;
     private $signature; # String
     private $generateOttQrCode = true;
+    private $widthHeight;
+    private $commerceLogoUrl;
 
     function __construct($externalUniqueNumber, $total, $itemsQuantity, $issuedAt,
-                        $items, $callbackUrl = null, $channel = 'WEB', $appScheme = null)
+                         $items, $callbackUrl = null, $channel = 'WEB',
+                         $appScheme = null, $widthHeight, $commerceLogoUrl)
     {
         if (!$externalUniqueNumber) { 
             throw new \Exception('External unique number cannot be null.');
@@ -63,6 +66,8 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
             $appScheme = '';
         }
         $this->appScheme = $appScheme;
+        $this->widthHeight = $widthHeight;
+        $this->commerceLogoUrl = $commerceLogoUrl;
     }
 
     public function jsonSerialize() 
@@ -200,5 +205,27 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
     public function getSignature()
     {
         return $this->signature;
+    }
+
+    public function setWidthHeight($widthHeight)
+    {
+        $this->widthHeight = $widthHeight;
+        return $this;
+    }
+
+    public function getWidthHeight()
+    {
+        return $this->widthHeight;
+    }
+
+    public function setCommerceLogoUrl($commerceLogoUrl)
+    {
+        $this->commerceLogoUrl = $commerceLogoUrl;
+        return $this;
+    }
+
+    public function getCommerceLogoUrl()
+    {
+        return $this->commerceLogoUrl;
     }
 }
