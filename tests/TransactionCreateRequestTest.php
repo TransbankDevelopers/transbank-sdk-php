@@ -10,6 +10,7 @@ class TransactionCreateRequestTest extends TestCase
     public $optionsWithSharedSecret;
     public $builder;
     public $emptyOptions;
+    public $optionsWithDefaultValues;
     public $optionsWithQrWidthHeight;
     public $optionsWithCommerceLogoUrl;
     public $optionsWithQrWidthHeightAndCommerceLogoUrl;
