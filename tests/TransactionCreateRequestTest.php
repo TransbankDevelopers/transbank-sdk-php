@@ -82,4 +82,32 @@ class TransactionCreateRequestTest extends TestCase
         $this->assertEquals("http://fakeaddr.cl/imagen.jpg", $transactionCreateRequest->getCommerceLogoUrl());
     }
 
+    public function testTransactionCreateRequestShouldRaiseIfWidthHeightIsAttemptedToBeSetAsNull()
+    {
+        $transactionCreateRequest = $this->builder->buildCreateRequest($this->shoppingCart, 'WEB', '1231245', $this->optionsWithQrWidthHeightAndCommerceLogoUrl);
+        $this->setExpectedException(\Exception::class, 'WidthHeight cannot be null.');
+        $transactionCreateRequest->setWidthHeight(null);
+    }
+
+    public function testTransactionCreateRequestHasNoWidthHeightWhenCreatedWithNullWidthHeight()
+    {
+        $externalUniqueNumber = 'somevalue';
+        $total = $this->shoppingCart->getTotal();
+        $itemsQuantity = $this->shoppingCart->getItemQuantity();
+        $issuedAt = time();
+        $items = $this->shoppingCart->getItems();
+        $callbackUrl = "http://url.com";
+        $channel = 'WEB';
+        $appScheme = null;
+        $widthHeight = null;
+        $commerceLogoUrl = "http://logo.url";
+
+        $tcr = new TransactionCreateRequest($externalUniqueNumber, $total, $itemsQuantity,
+            $issuedAt,$items, $callbackUrl, $channel, $appScheme,
+            $widthHeight, $commerceLogoUrl);
+        // WidthHeight should not exist, so it is not serialized nor sent to TBK
+        $widthHeightExists = array_key_exists('widthHeight', get_object_vars($tcr));
+        $this->assertEquals($widthHeightExists, false);
+    }
+
 }
