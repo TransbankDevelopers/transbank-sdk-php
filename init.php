@@ -39,9 +39,9 @@ require_once(dirname(__FILE__) . '/lib/onepay/exceptions/TransactionCreateExcept
 require_once(dirname(__FILE__) . '/lib/webpay/Configuration.php');
 require_once(dirname(__FILE__) . '/lib/webpay/Webpay.php');
 require_once(dirname(__FILE__) . '/lib/webpay/WebpayCapture.php');
-require_once(dirname(__FILE__) . '/lib/webpay/WebpayComplete.php');
-require_once(dirname(__FILE__) . '/lib/webpay/WebpayMallNormal.php');
-require_once(dirname(__FILE__) . '/lib/webpay/WebpayNormal.php');
+require_once(dirname(__FILE__) . '/lib/webpay/WebpayCompleteTransaction.php');
+require_once(dirname(__FILE__) . '/lib/webpay/WebPayMallNormal.php');
+require_once(dirname(__FILE__) . '/lib/webpay/WebPayNormal.php');
 require_once(dirname(__FILE__) . '/lib/webpay/WebpayNullify.php');
 require_once(dirname(__FILE__) . '/lib/webpay/WebpayOneClick.php');
 require_once(dirname(__FILE__) . '/lib/webpay/initTransactionResponse.php');
