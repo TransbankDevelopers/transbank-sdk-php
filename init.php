@@ -36,14 +36,14 @@ require_once(dirname(__FILE__) . '/lib/onepay/exceptions/TransactionCommitExcept
 require_once(dirname(__FILE__) . '/lib/onepay/exceptions/TransactionCreateException.php');
 
 // WEBPAY
-require_once(dirname(__FILE__) . '/lib/webpay/configuration.php');
-require_once(dirname(__FILE__) . '/lib/webpay/webpay.php');
-require_once(dirname(__FILE__) . '/lib/webpay/webpaycapture.php');
-require_once(dirname(__FILE__) . '/lib/webpay/webpaycomplete.php');
-require_once(dirname(__FILE__) . '/lib/webpay/webpaymallnormal.php');
-require_once(dirname(__FILE__) . '/lib/webpay/webpaynormal.php');
-require_once(dirname(__FILE__) . '/lib/webpay/webpaynullify.php');
-require_once(dirname(__FILE__) . '/lib/webpay/webpayoneclick.php');
+require_once(dirname(__FILE__) . '/lib/webpay/Configuration.php');
+require_once(dirname(__FILE__) . '/lib/webpay/Webpay.php');
+require_once(dirname(__FILE__) . '/lib/webpay/WebpayCapture.php');
+require_once(dirname(__FILE__) . '/lib/webpay/WebpayComplete.php');
+require_once(dirname(__FILE__) . '/lib/webpay/WebpayMallNormal.php');
+require_once(dirname(__FILE__) . '/lib/webpay/WebpayNormal.php');
+require_once(dirname(__FILE__) . '/lib/webpay/WebpayNullify.php');
+require_once(dirname(__FILE__) . '/lib/webpay/WebpayOneClick.php');
 require_once(dirname(__FILE__) . '/lib/webpay/initTransactionResponse.php');
 require_once(dirname(__FILE__) . '/lib/webpay/wsInitTransactionOutput.php');
 require_once(dirname(__FILE__) . '/lib/webpay/getTransactionResult.php');
@@ -63,7 +63,7 @@ require_once(dirname(__FILE__) . '/lib/webpay/nullify.php');
 require_once(dirname(__FILE__) . '/lib/webpay/nullifyResponse.php');
 
 // SOAP
-require_once(dirname(__FILE__) . '/lib/webpay/soap/soapvalidation.php');
+require_once(dirname(__FILE__) . '/lib/webpay/soap/SoapValidation.php');
 require_once(dirname(__FILE__) . '/lib/webpay/soap/WSSESoap.php');
 require_once(dirname(__FILE__) . '/lib/webpay/soap/WSSecuritySoapClient.php');
 require_once(dirname(__FILE__) . '/lib/webpay/soap/XMLSecurityKey.php');

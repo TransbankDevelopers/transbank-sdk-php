@@ -1,9 +1,7 @@
 <?php
 namespace Transbank\Webpay;
 
-class transactionResultOutput
-{
-
+class transactionResultOutput {
     var $accountingDate; //string
     var $buyOrder; //string
     var $cardDetail; //cardDetail
@@ -12,5 +10,4 @@ class transactionResultOutput
     var $transactionDate; //dateTime
     var $urlRedirection; //string
     var $VCI; //string
-
 }

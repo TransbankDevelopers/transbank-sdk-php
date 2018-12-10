@@ -1,9 +1,7 @@
 <?php
 namespace Transbank\Webpay;
 
-class wsInitTransactionInput
-{
-
+class wsInitTransactionInput {
     var $wSTransactionType; //wsTransactionType
     var $commerceId; //string
     var $buyOrder; //string
@@ -12,5 +10,4 @@ class wsInitTransactionInput
     var $finalURL; //anyURI
     var $transactionDetails; //wsTransactionDetail
     var $wPMDetail; //wpmDetailInput
-
 }
