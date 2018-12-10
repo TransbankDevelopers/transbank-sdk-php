@@ -1,5 +1,4 @@
 <?php
-
 namespace Transbank\Webpay;
 
 /**
@@ -9,8 +8,7 @@ namespace Transbank\Webpay;
  * ingresa al sitio del comercio, selecciona productos o servicio, y el ingreso asociado a los datos de la
  * tarjeta de crédito o débito lo realiza en forma segura en Webpay.
  */
-class WebPayNormal
-{
+class WebPayNormal {
 
     var $soapClient;
     var $config;

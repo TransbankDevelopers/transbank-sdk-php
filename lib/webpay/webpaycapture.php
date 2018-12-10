@@ -2,33 +2,25 @@
 namespace Transbank\Webpay;
 
 class capture {
-
     var $captureInput; //captureInput
-
 }
 
 class captureInput {
-
     var $commerceId; //long
     var $buyOrder; //string
     var $authorizationCode; //string
     var $captureAmount; //decimal
-
 }
 
 class captureResponse {
-
     var $return; //captureOutput
-
 }
 
 class captureOutput {
-
     var $authorizationCode; //string
     var $authorizationDate; //dateTime
     var $capturedAmount; //decimal
     var $token; //string
-
 }
 
 /**

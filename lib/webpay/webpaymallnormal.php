@@ -1,8 +1,7 @@
 <?php
 namespace Transbank\Webpay;
 
-class transactionMallNormalResultOutput{
-
+class transactionMallNormalResultOutput {
     var $accountingDate; //string
     var $buyOrder; //string
     var $cardDetail; //cardDetail
@@ -13,41 +12,37 @@ class transactionMallNormalResultOutput{
     var $VCI; //string
 }
 
-class cardDetailMallNormal{
-
+class cardDetailMallNormal {
     var $cardNumber;//string
     var $cardExpirationDate;//string
 }
 
-class wsTransactionMallDetailOutput{
-
+class wsTransactionMallDetailOutput {
     var $authorizationCode; //string
     var $paymentTypeCode; //string
     var $responseCode; //int
 }
 
-class wsTransactionMallDetail{
-
+class wsTransactionMallDetail {
     var $sharesAmount;//decimal
     var $sharesNumber;//int
     var $amount;//decimal
     var $commerceCode;//string
     var $buyOrder;//string
 }
-class acknowledgeTransactionMallNormal{
 
+class acknowledgeTransactionMallNormal {
     var $tokenInput;//string
 }
 
-class acknowledgeMallTransactionResponse{
+class acknowledgeMallTransactionResponse {
 }
 
-class initTransactionMall{
+class initTransactionMall {
     var $wsInitTransactionInput;//wsInitTransactionInput
 }
 
 class wsInitTransactionMallInput{
-
     var $wSTransactionType;//wsTransactionType
     var $commerceId;//string
     var $buyOrder;//string
@@ -58,8 +53,7 @@ class wsInitTransactionMallInput{
     var $wPMDetail;//wpmDetailMallInput
 }
 
-class wpmDetailMallInput{
-
+class wpmDetailMallInput {
     var $serviceId;//string
     var $cardHolderId;//string
     var $cardHolderName;//string
@@ -72,13 +66,11 @@ class wpmDetailMallInput{
     var $ufFlag;//boolean
 }
 
-class initTransactionMallResponse{
-
+class initTransactionMallResponse {
     var $return;//wsInitTransactionOutput
 }
 
 class wsInitTransactionMallOutput{
-
     var $token;//string
     var $url;//string
 }

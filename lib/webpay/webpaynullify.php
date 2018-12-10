@@ -125,11 +125,8 @@ class WebpayNullify {
 
             $replaceArray = array('<!--' => '', '-->' => '');
             $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
-
         }
 
         return $error;
-
     }
-
 }
