@@ -364,17 +364,15 @@ class WebpayCompleteTransaction {
      * */
     function acknowledgeCompleteTransaction($token) {
 
-            $acknowledgeTransaction = new acknowledgeCompleteTransaction();
-            $acknowledgeTransaction->tokenInput = $token;
-            $acknowledgeTransactionResponse = $this->_acknowledgeCompleteTransaction($acknowledgeTransaction);
+        $acknowledgeTransaction = new acknowledgeCompleteTransaction();
+        $acknowledgeTransaction->tokenInput = $token;
+        $acknowledgeTransactionResponse = $this->_acknowledgeCompleteTransaction($acknowledgeTransaction);
 
-            $xmlResponse = $this->soapClient->__getLastResponse();
-            $soapValidation = new SoapValidation($xmlResponse, $this->config->getWebpayCert());
-            $validationResult = $soapValidation->getValidationResult();
-            return $validationResult === TRUE;
-
+        $xmlResponse = $this->soapClient->__getLastResponse();
+        $soapValidation = new SoapValidation($xmlResponse, $this->config->getWebpayCert());
+        $validationResult = $soapValidation->getValidationResult();
+        return $validationResult === TRUE;
     }
-
 }
 
 ?>
