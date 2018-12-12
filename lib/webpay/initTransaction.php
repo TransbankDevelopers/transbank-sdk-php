@@ -1,9 +1,6 @@
 <?php
 namespace Transbank\Webpay;
 
-class initTransaction
-{
-
+class initTransaction {
     var $wsInitTransactionInput; //wsInitTransactionInput
-
 }

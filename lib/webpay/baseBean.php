@@ -1,7 +1,5 @@
 <?php
 namespace Transbank\Webpay;
 
-class baseBean
-{
-
+class baseBean {
 }

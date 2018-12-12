@@ -1,103 +1,104 @@
 <?php
 namespace Transbank\Webpay;
 
-class removeUser{
-var $arg0;//oneClickRemoveUserInput
+class removeUser {
+    var $arg0;//oneClickRemoveUserInput
 }
 
-class oneClickRemoveUserInput{
-var $tbkUser;//string
-var $username;//string
+class oneClickRemoveUserInput {
+    var $tbkUser;//string
+    var $username;//string
 }
 
-class removeUserResponse{
-var $return;//boolean
+class removeUserResponse {
+    var $return;//boolean
 }
 
-class initInscription{
-var $arg0;//oneClickInscriptionInput
+class initInscription {
+    var $arg0;//oneClickInscriptionInput
 }
 
-class oneClickInscriptionInput{
-var $email;//string
-var $responseURL;//string
-var $username;//string
+class oneClickInscriptionInput {
+    var $email;//string
+    var $responseURL;//string
+    var $username;//string
 }
 
-class initInscriptionResponse{
-var $return;//oneClickInscriptionOutput
+class initInscriptionResponse {
+    var $return;//oneClickInscriptionOutput
 }
 
-class oneClickInscriptionOutput{
-var $token;//string
-var $urlWebpay;//string
+class oneClickInscriptionOutput {
+    var $token;//string
+    var $urlWebpay;//string
 }
 
-class finishInscription{
-var $arg0;//oneClickFinishInscriptionInput
+class finishInscription {
+    var $arg0;//oneClickFinishInscriptionInput
 }
 
-class oneClickFinishInscriptionInput{
-var $token;//string
+class oneClickFinishInscriptionInput {
+    var $token;//string
 }
 
-class finishInscriptionResponse{
-var $return;//oneClickFinishInscriptionOutput
+class finishInscriptionResponse {
+    var $return;//oneClickFinishInscriptionOutput
 }
 
-class oneClickFinishInscriptionOutput{
-var $authCode;//string
-var $creditCardType;//creditCardType
-var $last4CardDigits;//string
-var $responseCode;//int
-var $tbkUser;//string
+class oneClickFinishInscriptionOutput {
+    var $authCode;//string
+    var $creditCardType;//creditCardType
+    var $last4CardDigits;//string
+    var $responseCode;//int
+    var $tbkUser;//string
 }
 
-class codeReverseOneClick{
-var $arg0;//oneClickReverseInput
+class codeReverseOneClick {
+    var $arg0;//oneClickReverseInput
 }
 
-class oneClickReverseInput{
-var $buyorder;//long
+class oneClickReverseInput {
+    var $buyorder;//long
 }
 
-class codeReverseOneClickResponse{
-var $return;//oneClickReverseOutput
+class codeReverseOneClickResponse {
+    var $return;//oneClickReverseOutput
 }
 
-class oneClickReverseOutput{
-var $reverseCode;//long
-var $reversed;//boolean
+class oneClickReverseOutput {
+    var $reverseCode;//long
+    var $reversed;//boolean
 }
 
-class authorize{
-var $arg0;//oneClickPayInput
+class authorize {
+    var $arg0;//oneClickPayInput
 }
 
-class oneClickPayInput{
-var $amount;//decimal
-var $buyOrder;//long
-var $tbkUser;//string
-var $username;//string
+class oneClickPayInput {
+    var $amount;//decimal
+    var $buyOrder;//long
+    var $tbkUser;//string
+    var $username;//string
 }
 
-class authorizeResponse{
-var $return;//oneClickPayOutput
+class authorizeResponse {
+    var $return;//oneClickPayOutput
 }
-class oneClickPayOutput{
-var $authorizationCode;//string
-var $creditCardType;//creditCardType
-var $last4CardDigits;//string
-var $responseCode;//int
-var $transactionId;//long
+
+class oneClickPayOutput {
+    var $authorizationCode;//string
+    var $creditCardType;//creditCardType
+    var $last4CardDigits;//string
+    var $responseCode;//int
+    var $transactionId;//long
 }
 
 class reverse{
-var $arg0;//oneClickReverseInput
+    var $arg0;//oneClickReverseInput
 }
 
 class reverseResponse{
-var $return;//boolean
+    var $return;//boolean
 }
 
 class WebpayOneClick {
@@ -116,18 +117,18 @@ class WebpayOneClick {
 
     /** Descripción de codigos de resultado */
     private static $RESULT_CODES = array(
-             "0" => "Transacción aprobada",
-              "-1" => "Rechazo de transacción",
-              "-2" => "Rechazo de transacción",
-              "-3" => "Rechazo de transacción",
-              "-4" => "Rechazo de transacción",
-              "-5" => "Rechazo de transacción",
-              "-6" => "Rechazo de transacción",
-              "-7" => "Rechazo de transacción",
-              "-8" => "Rechazo de transacción",
-              "-97" => "limites Oneclick, máximo monto diario de pago excedido",
-              "-98" => "limites Oneclick, máximo monto de pago excedido",
-              "-99" => "limites Oneclick, máxima cantidad de pagos diarios excedido",
+        "0" => "Transacción aprobada",
+        "-1" => "Rechazo de transacción",
+        "-2" => "Rechazo de transacción",
+        "-3" => "Rechazo de transacción",
+        "-4" => "Rechazo de transacción",
+        "-5" => "Rechazo de transacción",
+        "-6" => "Rechazo de transacción",
+        "-7" => "Rechazo de transacción",
+        "-8" => "Rechazo de transacción",
+        "-97" => "limites Oneclick, máximo monto diario de pago excedido",
+        "-98" => "limites Oneclick, máximo monto de pago excedido",
+        "-99" => "limites Oneclick, máxima cantidad de pagos diarios excedido"
     );
 
     private static $classmap = array('removeUser' => 'Transbank\Webpay\removeUser'
