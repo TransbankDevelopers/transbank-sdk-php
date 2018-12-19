@@ -15,15 +15,15 @@ namespace Transbank\Onepay;
     private $appKey;
     private $sharedSecret;
      /**
-      * @var string $commerceLogoUrl URL for the merchant's logo,
-      *     used by the front end JS SDK.
-      */
-     private $commerceLogoUrl;
-     /**
       * @var integer $qrWidthHeight A number used as width and height for the
       *     QR displayed by the front end JS SDK.
       */
      private $qrWidthHeight;
+     /**
+      * @var string $commerceLogoUrl URL for the merchant's logo,
+      *     used by the front end JS SDK.
+      */
+     private $commerceLogoUrl;
 
      // Supported PHP versions do not allow setting the result of functions
      // as default values as of this writing (Dec 4th, 2018), so we use these
