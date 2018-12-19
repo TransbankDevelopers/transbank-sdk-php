@@ -213,7 +213,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
 
     public function setWidthHeight($widthHeight)
     {
-        if (!$widthHeight == null) {
+        if ($widthHeight != null) {
             $this->widthHeight = $widthHeight;
             return $this;
         } else {
@@ -223,7 +223,10 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
 
     public function getWidthHeight()
     {
-        return $this->widthHeight;
+        if (isset($this->widthHeight))
+            return $this->widthHeight;
+
+        return null;
     }
 
     public function setCommerceLogoUrl($commerceLogoUrl)
