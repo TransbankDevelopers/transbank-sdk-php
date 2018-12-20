@@ -1,7 +1,7 @@
 {
   "name": "transbank/transbank-sdk",
   "description": "Transbank SDK",
-  "version": "1.4.4",
+  "version": "1.5.0",
   "keywords": ["payments", "transbank", "api", "sdk"],
   "require": {
       "php": ">=5.5.0",
