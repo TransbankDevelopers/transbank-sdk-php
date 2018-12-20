@@ -2,151 +2,112 @@
 namespace Transbank\Webpay;
 
 class acknowledgeCompleteTransaction {
-
     var $tokenInput; //string
-
 }
 
 class acknowledgeCompleteTransactionResponse {
-
 }
 
 class authorizeCompleteTransaction {
-
     var $token; //string
     var $paymentTypeList; //wsCompletePaymentTypeInput
-
 }
 
 class wsCompletePaymentTypeInput {
-
     var $commerceCode; //string
     var $buyOrder; //string
     var $queryShareInput; //wsCompleteQueryShareInput
     var $gracePeriod; //boolean
-
 }
 
 class wsCompleteQueryShareInput {
-
     var $idQueryShare; //long
     var $deferredPeriodIndex; //int
-
 }
 
 class authorizeComplete {
-
     var $return; //wsCompleteAuthorizeOutput
-
 }
 
 class wsCompleteAuthorizeOutput {
-
     var $accountingDate; //string
     var $buyOrder; //string
     var $detailsOutput; //wsTransactionCompleteDetailOutput
     var $sessionId; //string
     var $transactionDate; //dateTime
-
 }
 
 class wsTransactionCompleteDetailOutput {
-
     var $authorizationCode; //string
     var $paymentTypeCode; //string
     var $responseCode; //int
-
 }
 
 class wsTransactionCompleteDetail {
-
     var $sharesAmount; //decimal
     var $sharesNumber; //int
     var $amount; //decimal
     var $commerceCode; //string
     var $buyOrder; //string
-
 }
 
 class queryShare {
-
     var $token; //string
     var $buyOrder; //string
     var $shareNumber; //int
-
 }
 
 class queryShareResponse {
-
     var $return; //wsCompleteQuerySharesOutput
-
 }
 
 class wsCompleteQuerySharesOutput {
-
     var $buyOrder; //string
     var $deferredPeriods; //completeDeferredPeriod
     var $queryId; //long
     var $shareAmount; //decimal
     var $token; //string
-
 }
 
 class completeDeferredPeriod {
-
     var $amount; //decimal
     var $period; //int
-
 }
 
 class initCompleteTransaction {
-
     var $wsCompleteInitTransactionInput; //wsCompleteInitTransactionInput
-
 }
 
 class wsCompleteInitTransactionInput {
-
     var $transactionType; //wsCompleteTransactionType
     var $commerceId; //string
     var $buyOrder; //string
     var $sessionId; //string
     var $cardDetail; //completeCardDetail
     var $transactionDetails; //wsCompleteTransactionDetail
-
 }
 
 class completeCardDetail {
-
     var $cvv; //int
-
 }
 
 class cardDetailComplete {
-
     var $cardNumber; //string
     var $cardExpirationDate; //string
-
 }
 
 class wsCompleteTransactionDetail {
-
     var $amount; //decimal
     var $commerceCode; //string
     var $buyOrder; //string
-
 }
 
 class initCompleteTransactionResponse {
-
     var $return; //wsCompleteInitTransactionOutput
-
 }
 
 class wsCompleteInitTransactionOutput {
-
     var $token; //string
-
 }
 
 class WebpayCompleteTransaction {
@@ -403,17 +364,15 @@ class WebpayCompleteTransaction {
      * */
     function acknowledgeCompleteTransaction($token) {
 
-            $acknowledgeTransaction = new acknowledgeCompleteTransaction();
-            $acknowledgeTransaction->tokenInput = $token;
-            $acknowledgeTransactionResponse = $this->_acknowledgeCompleteTransaction($acknowledgeTransaction);
+        $acknowledgeTransaction = new acknowledgeCompleteTransaction();
+        $acknowledgeTransaction->tokenInput = $token;
+        $acknowledgeTransactionResponse = $this->_acknowledgeCompleteTransaction($acknowledgeTransaction);
 
-            $xmlResponse = $this->soapClient->__getLastResponse();
-            $soapValidation = new SoapValidation($xmlResponse, $this->config->getWebpayCert());
-            $validationResult = $soapValidation->getValidationResult();
-            return $validationResult === TRUE;
-
+        $xmlResponse = $this->soapClient->__getLastResponse();
+        $soapValidation = new SoapValidation($xmlResponse, $this->config->getWebpayCert());
+        $validationResult = $soapValidation->getValidationResult();
+        return $validationResult === TRUE;
     }
-
 }
 
 ?>

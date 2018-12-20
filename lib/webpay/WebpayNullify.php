@@ -1,42 +1,12 @@
 <?php
 namespace Transbank\Webpay;
 
-class capture {
-
-    var $captureInput; //captureInput
-
-}
-
-class captureInput {
-
-    var $commerceId; //long
-    var $buyOrder; //string
-    var $authorizationCode; //string
-    var $captureAmount; //decimal
-
-}
-
-class captureResponse {
-
-    var $return; //captureOutput
-
-}
-
-class captureOutput {
-
-    var $authorizationCode; //string
-    var $authorizationDate; //dateTime
-    var $capturedAmount; //decimal
-    var $token; //string
-
-}
-
 /**
- * TRANSACCIÓN CAPTURA:
- * Este método permite a todo comercio habilitado realizar capturas de una transacción autorizada
- * sin  captura  en  plataforma  Webpay  3G.
+ * TRANSACCIÓN ANULACIÓN:
+ * Este método permite a todo comercio habilitado anular una transacción que fue generada en
+ * plataforma Webpay 3G. El método contempla anular total o parcialmente una transacción.
  */
-class WebpayCapture {
+class WebpayNullify {
 
     var $soapClient;
     var $config;
@@ -54,11 +24,11 @@ class WebpayCapture {
     private static $RESULT_CODES = array(
         "304" => "Validación de campos de entrada nulos",
         "245" => "Código de comercio no existe",
-        "22" => "El comercio no se encuentra activo",
+        "22"  =>  "El comercio no se encuentra activo",
         "316" => "El comercio indicado no corresponde al certificado o no es hijo del comercio MALL en caso de transacciones MALL",
         "308" => "Operación no permitida",
         "274" => "Transacción no encontrada",
-        "16" => "La transacción no permite anulación",
+        "16"  =>  "La transacción no permite anulación",
         "292" => "La transacción no está autorizada",
         "284" => "Periodo de anulación excedido",
         "310" => "Transacción anulada previamente",
@@ -67,16 +37,15 @@ class WebpayCapture {
         "315" => "Error del autorizador",
     );
 
-    private static $classmap = array(
-        'nullify' => 'Transbank\Webpay\nullify',
-        'nullificationInput' => 'Transbank\Webpay\nullificationInput',
-        'baseBean' => 'Transbank\Webpay\baseBean',
-        'nullifyResponse' => 'Transbank\Webpay\nullifyResponse',
-        'nullificationOutput' => 'Transbank\Webpay\nullificationOutput',
-        'capture' => 'Transbank\Webpay\capture',
-        'captureInput' => 'Transbank\Webpay\captureInput',
-        'captureResponse' => 'Transbank\Webpay\captureResponse',
-        'captureOutput' => 'Transbank\Webpay\captureOutput'
+    private static $classmap = array('nullify' => 'Transbank\Webpay\nullify'
+        , 'nullificationInput' => 'Transbank\Webpay\nullificationInput'
+        , 'nullifyResponse' => 'Transbank\Webpay\nullifyResponse'
+        , 'nullificationOutput' => 'Transbank\Webpay\nullificationOutput'
+        , 'capture' => 'Transbank\Webpay\capture'
+        , 'captureInput' => 'Transbank\Webpay\captureInput'
+        , 'captureResponse' => 'Transbank\Webpay\captureResponse'
+        , 'captureOutput' => 'Transbank\Webpay\captureOutput'
+        , 'nullifyResponse' => 'Transbank\Webpay\nullifyResponse'
     );
 
     function __construct($config) {
@@ -86,7 +55,7 @@ class WebpayCapture {
         $publicCert = $this->config->getPublicCert();
 
         $modo = $this->config->getEnvironmentDefault();
-        $url = WebPayCapture::$WSDL_URL_NORMAL[$modo];
+        $url = WebpayNullify::$WSDL_URL_NORMAL[$modo];
 
         $this->soapClient = new WSSecuritySoapClient($url, $privateKey, $publicCert, array(
             "classmap" => self::$classmap,
@@ -95,43 +64,45 @@ class WebpayCapture {
         ));
     }
 
-    function _capture($capture) {
+    /** Método que permite anular una transacción de pago Webpay */
+    function _nullify($nullify) {
 
-        $captureResponse = $this->soapClient->capture($capture);
-
-        return $captureResponse;
+        $nullifyResponse = $this->soapClient->nullify($nullify);
+        return $nullifyResponse;
     }
 
     /** Descripción según codigo de resultado Webpay (Ver Codigo Resultados) */
     function _getReason($code) {
-        return WebPayCapture::$RESULT_CODES[$code];
+        return WebpayNullify::$RESULT_CODES[$code];
     }
 
-    /**
-     * Permite solicitar a Webpay la captura diferida de una transacción
-     * con autorización y sin captura simultánea.
-     * */
-    function capture($authorizationCode, $captureAmount, $buyOrder) {
+    /** Método que permite anular una transacción de pago Webpay */
+    function nullify($authorizationCode, $authorizedAmount, $buyOrder, $nullifyAmount, $commercecode) {
 
         try {
+            $nullificationInput = new nullificationInput();
 
-            $CaptureInput = new CaptureInput();
+            /** Código de autorización de la transacción que se requiere anular. Para el caso que se esté anulando una transacción de captura en línea,
+             *  este código corresponde al código de autorización de la captura */
+            $nullificationInput->authorizationCode = $authorizationCode; // string
 
-            /** Código de autorización de la transacción que se requiere capturar */
-            $CaptureInput->authorizationCode = $authorizationCode; // string
+            /** Monto autorizado de la transacción que se requiere anular.
+             * Para el caso que se esté anulando una transacción de captura en línea,
+             * este monto corresponde al monto de la captura */
+            $nullificationInput->authorizedAmount = $authorizedAmount; // decimal
 
-            /** Orden de compra de la transacción que se requiere capturar */
-            $CaptureInput->buyOrder = $buyOrder; // string
+            $nullificationInput->buyOrder = $buyOrder; // string
 
-            /** Monto que se desea capturar */
-            $CaptureInput->captureAmount = $captureAmount; // decimal
+            if ($commercecode == null){
+                $nullificationInput->commerceId = floatval($this->config->getCommerceCode());
+            } else {
+                $nullificationInput->commerceId = floatval($commercecode);
+            }
 
-            /** Código de comercio o tienda mall que realizó la transacción */
-            $CaptureInput->commerceId = floatval($this->config->getCommerceCode());
+            $nullificationInput->nullifyAmount = $nullifyAmount;
 
-            $captureResponse = $this->_capture(
-                array("captureInput" => $CaptureInput)
-            );
+            $nullifyResponse = $this->_nullify(
+                    array("nullificationInput" => $nullificationInput));
 
             /** Validación de firma del requerimiento de respuesta enviado por Webpay */
             $xmlResponse = $this->soapClient->__getLastResponse();
@@ -141,23 +112,21 @@ class WebpayCapture {
             /** Valida conexion a Webpay */
             if ($validationResult === TRUE) {
 
-                $wsCaptureOutput = $captureResponse->return;
-                return $wsCaptureOutput;
-
+                $nullificationOutput = $nullifyResponse->return;
+                return $nullificationOutput;
             } else {
                 $error["error"] = "Error validando conexión a Webpay";
                 $error["error"] = "No se pudo completar la conexión con Webpay";
             }
+
         } catch (\Exception $e) {
 
             $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
 
             $replaceArray = array('<!--' => '', '-->' => '');
             $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
-
         }
 
         return $error;
     }
-
 }

@@ -1,9 +1,7 @@
 <?php
 namespace Transbank\Webpay;
 
-class wpmDetailInput
-{
-
+class wpmDetailInput {
     var $serviceId; //string
     var $cardHolderId; //string
     var $cardHolderName; //string
@@ -14,5 +12,4 @@ class wpmDetailInput
     var $expirationDate; //dateTime
     var $commerceMail; //string
     var $ufFlag; //boolean
-
 }
