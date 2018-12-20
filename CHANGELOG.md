@@ -4,6 +4,12 @@ Todos los cambios notables a este proyecto serán docuemntados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2018-12-20
+### Added
+- Se agrega soporte para poder configurar `$commerceLogoUrl` y `$qrWidthHeight`. El primero entrega soporte para que el 
+app de onepay pueda mostrar el logo de comercio, mientras que el segundo entrega la posibilidad de pedir que la imagen 
+QR venga en un tamaño especifico (útil para la modalidad de QR directo.)
+
 ## [1.4.4] - 2018-12-12
 ### Fixed
 - Se corrige un problema con los nombres de archivos de varias clases que provocaba errores principalmente en Linux. Esto corrige además el problema reportado con Larabel.
