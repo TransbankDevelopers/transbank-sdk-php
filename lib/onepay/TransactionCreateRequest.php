@@ -1,6 +1,6 @@
 <?php
 namespace Transbank\Onepay;
-/** 
+/**
  *  @class TransactionRequest
  *  Creates an object to be used when making a transaction request to Onepay
  * @package Transbank;
@@ -16,16 +16,18 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
     private $appScheme;
     private $signature; # String
     private $generateOttQrCode = true;
+    private $commerceLogoUrl;
 
     function __construct($externalUniqueNumber, $total, $itemsQuantity, $issuedAt,
-                        $items, $callbackUrl = null, $channel = 'WEB', $appScheme = null)
+                         $items, $callbackUrl = null, $channel = 'WEB',
+                         $appScheme = null, $widthHeight, $commerceLogoUrl)
     {
-        if (!$externalUniqueNumber) { 
+        if (!$externalUniqueNumber) {
             throw new \Exception('External unique number cannot be null.');
         }
         $this->externalUniqueNumber = $externalUniqueNumber;
 
-        if (!$total) { 
+        if (!$total) {
             throw new \Exception('Total cannot be null.');
         }
         if ($total < 0) {
@@ -33,7 +35,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
         }
         $this->total = $total;
 
-        if (!$itemsQuantity) { 
+        if (!$itemsQuantity) {
             throw new \Exception('Items quantity cannot be null.');
         }
         if ($itemsQuantity < 0) {
@@ -63,16 +65,23 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
             $appScheme = '';
         }
         $this->appScheme = $appScheme;
+
+        // Do not set the property, since sending null will make Transbank's
+        // API respond with an generic error message "Error inesperado"
+        if (!$widthHeight == null) {
+            $this->widthHeight = $widthHeight;
+        }
+        $this->commerceLogoUrl = $commerceLogoUrl;
     }
 
-    public function jsonSerialize() 
+    public function jsonSerialize()
     {
         return get_object_vars($this);
     }
 
     public function setExternalUniqueNumber($externalUniqueNumber)
     {
-        if (!$externalUniqueNumber) { 
+        if (!$externalUniqueNumber) {
             throw new \Exception('External unique number cannot be null.');
         }
         $this->externalUniqueNumber = $externalUniqueNumber;
@@ -85,7 +94,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
 
     public function setTotal($total)
     {
-        if (!$total) { 
+        if (!$total) {
             throw new \Exception('Total cannot be null.');
         }
         if ($total < 0) {
@@ -102,7 +111,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
 
     public function setItemsQuantity($itemsQuantity)
     {
-        if (!$itemsQuantity) { 
+        if (!$itemsQuantity) {
             throw new \Exception('Items quantity cannot be null.');
         }
         if ($itemsQuantity < 0) {
@@ -153,7 +162,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
         return $this;
     }
 
-    public function getCallbackUrl() 
+    public function getCallbackUrl()
     {
         return $this->callbackUrl;
     }
@@ -167,7 +176,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
         return $this;
     }
 
-    public function getChannel($channel) 
+    public function getChannel($channel)
     {
         return $this->channel;
     }
@@ -200,5 +209,34 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
     public function getSignature()
     {
         return $this->signature;
+    }
+
+    public function setWidthHeight($widthHeight)
+    {
+        if ($widthHeight != null) {
+            $this->widthHeight = $widthHeight;
+            return $this;
+        } else {
+            throw new \Exception('WidthHeight cannot be null.');
+        }
+    }
+
+    public function getWidthHeight()
+    {
+        if (isset($this->widthHeight))
+            return $this->widthHeight;
+
+        return null;
+    }
+
+    public function setCommerceLogoUrl($commerceLogoUrl)
+    {
+        $this->commerceLogoUrl = $commerceLogoUrl;
+        return $this;
+    }
+
+    public function getCommerceLogoUrl()
+    {
+        return $this->commerceLogoUrl;
     }
 }

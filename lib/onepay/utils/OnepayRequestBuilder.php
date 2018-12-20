@@ -13,7 +13,11 @@ namespace Transbank\Onepay;
     protected function __construct() { }
     protected function __clone() { }
 
-    public static function getInstance()
+
+     /**
+      * @return OnepayRequestBuilder singleton;
+      */
+     public static function getInstance()
     {
         if (!isset(static::$instance)) {
             static::$instance = new static;
@@ -45,8 +49,10 @@ namespace Transbank\Onepay;
                                           $issuedAt,
                                           $shoppingCart->getItems(),
                                           OnepayBase::getCallBackUrl(),
-                                          $channel,
-                                            OnepayBase::getAppScheme()); # Channel, can be 'WEB', 'MOBILE' or 'APP'
+                                          $channel, # Channel, can be 'WEB', 'MOBILE' or 'APP'
+                                          OnepayBase::getAppScheme(),
+                                          $options->getQrWidthHeight(),
+                                          $options->getCommerceLogoUrl());
 
         self::setKeys($request, $options);
         return OnepaySignUtil::getInstance()->sign($request, $options->getSharedSecret());
@@ -79,7 +85,8 @@ namespace Transbank\Onepay;
                                                    $options->getSharedSecret());
     }
 
-    public static function buildOptions($options)
+
+     public static function buildOptions($options)
     {
         
         if (!$options)

@@ -20,6 +20,50 @@ class OnepayBase
     public static $sharedSecret;
     private static $integrationType = "TEST";
     private static $appScheme = null;
+    /**
+     * @var integer|null $qrWidthHeight an integer used as the width & height of the
+     *      QR code rendered by the Onepay front end JS SDK.
+     */
+    private static $qrWidthHeight = null;
+    /**
+     * @var string|null $commerceLogoUrl URL for the merchant's logo, used by the
+     *      Onepay front end JS SDK.
+     */
+    private static $commerceLogoUrl = null;
+
+
+    /**
+     * @return int|null
+     */
+    public static function getQrWidthHeight()
+    {
+        return self::$qrWidthHeight;
+    }
+
+    /**
+     * @param int|null $qrWidthHeight
+     */
+    public static function setQrWidthHeight($qrWidthHeight)
+    {
+        self::$qrWidthHeight = $qrWidthHeight;
+    }
+
+    /**
+     * @return string|null
+     */
+    public static function getCommerceLogoUrl()
+    {
+        return self::$commerceLogoUrl;
+    }
+
+    /**
+     * @param string|null $commerceLogoUrl
+     */
+    public static function setCommerceLogoUrl($commerceLogoUrl)
+    {
+        self::$commerceLogoUrl = $commerceLogoUrl;
+    }
+
 
     public static function integrationTypes($type = null) {
 
