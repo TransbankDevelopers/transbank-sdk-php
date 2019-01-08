@@ -24,7 +24,7 @@ automaticamente, pero si usas el SDK de manera directa requerirás también:
 Para usar el SDK en tu proyecto puedes usar Composer, añadiendo el SDK como dependencia a tu proyecto:
 ```json
     "require": {
-        "transbank/transbank-sdk": "1.5.0"
+        "transbank/transbank-sdk": "1.5.1"
     }
 ```
 
@@ -93,8 +93,10 @@ Para generar una nueva versión, se debe crear un PR (con un título "Prepare re
 
 En ese PR deben incluirse los siguientes cambios:
 
-Modificar el archivo CHANGELOG.md para incluir una nueva entrada (al comienzo) para X.Y.Z que explique en español los cambios de cara al usuario del SDK.
-Modificar este README.md para que los ejemplos usen la nueva versión X.Y.Z
+Modificar el archivo `CHANGELOG.md` para incluir una nueva entrada (al comienzo) para X.Y.Z que explique en español los cambios de cara al usuario del SDK.
+Modificar el archivo `composer.json` para que la propiedad `"version"` apunte a la nueva versión X.Y.Z
+Modificar este `README.md` para que los ejemplos usen la nueva versión X.Y.Z
+
 
 Luego de obtener aprobación del pull request, debe mezclarse a master e inmediatamente generar un release en GitHub con el tag vX.Y.Z. En la descripción del release debes poner lo mismo que agregaste al changelog.
 
