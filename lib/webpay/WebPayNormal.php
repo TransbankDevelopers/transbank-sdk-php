@@ -184,7 +184,7 @@ class WebPayNormal {
 
                     /** Validación de transacción aprobada */
                     $resultCode = $transactionResultOutput->detailOutput->responseCode;
-                    if (($transactionResultOutput->VCI == "TSY" || $transactionResultOutput->VCI == "") && $resultCode == 0) {
+                    if ($resultCode == 0) {
                         return $transactionResultOutput;
                     } else {
                         $transactionResultOutput->detailOutput->responseDescription = $this->_getReason($resultCode);
