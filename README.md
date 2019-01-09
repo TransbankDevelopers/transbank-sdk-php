@@ -98,6 +98,6 @@ Modificar el archivo `composer.json` para que la propiedad `"version"` apunte a 
 Modificar este `README.md` para que los ejemplos usen la nueva versión X.Y.Z
 
 
-Luego de obtener aprobación del pull request, debe mezclarse a master e inmediatamente generar un release en GitHub con el tag vX.Y.Z. En la descripción del release debes poner lo mismo que agregaste al changelog.
+Luego de obtener aprobación del pull request, debe mezclarse a master e inmediatamente generar un release en GitHub con el tag X.Y.Z. En la descripción del release debes poner lo mismo que agregaste al changelog.
 
 Con eso Travis CI generará automáticamente una nueva versión de la librería y la publicará en Packagist.
