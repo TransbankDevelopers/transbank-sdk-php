@@ -2,3 +2,4 @@
 .idea
 .built
 .bundled
+.DS_Store
