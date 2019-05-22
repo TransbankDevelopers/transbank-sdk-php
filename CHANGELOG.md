@@ -4,6 +4,10 @@ Todos los cambios notables a este proyecto serán docuemntados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.5.2] - 2019-05-22
+### Fixed
+- Se corrige asignación de certificado de Webpay cuando no es asignado en la configuración, se asigna automáticamente en base al entorno.
+
 ## [1.5.1] - 2019-01-08
 ### Changed
 - Se elimina la condición de `VCI == "TSY" || VCI == ""` para evaluar la respuesta de `getTransactionResult` debido a que
