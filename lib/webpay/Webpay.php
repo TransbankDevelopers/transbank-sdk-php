@@ -67,6 +67,11 @@ class Webpay {
     function __construct($params) {
 
         $this->configuration = $params;
+
+        if (empty($this->configuration->getWebpayCert()))
+            $this->configuration->setWebpayCert(Webpay::defaultCert(
+                $this->configuration->getEnvironment())
+            );
     }
 
     public function getNormalTransaction() {
