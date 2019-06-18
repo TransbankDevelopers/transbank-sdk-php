@@ -1,5 +1,5 @@
 <?php
-namespace Transbank\Onepay;
+namespace Transbank\Utils;
 
 class HttpClient {
 
