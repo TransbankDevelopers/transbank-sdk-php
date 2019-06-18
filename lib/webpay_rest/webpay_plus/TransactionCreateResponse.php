@@ -17,34 +17,37 @@ class TransactionCreateResponse
      * @var string|null $token
      */
     public $token;
+
     /**
-     * @var string|null $token
+     * @var string|null $url
      */
     public $url;
 
     /**
      * TransactionCreateResponse constructor.
      *
-     * @param string|array An associative array (or string json_decode able to one
-     * that includes a 'token' key and an 'url key
+     * @param array $json an associative array with keys 'token', 'url'
+     *   + token (string, required) - the token returned from a successful call
+     *   to 'create'
+     *   + url (string, required) - the url returned from a successful call to
+     *   'create'
      *
-     * @throws Exception When the value is not a string or an associative array,
-     * or cannot be converted to one
      */
     public function __construct($json)
     {
         $this->fromJSON($json);
     }
 
+    /**
+     * @param array $json an associative array with keys 'token', 'url'
+     *   + token (string, required) - the token returned from a successful call
+     *   to 'create'
+     *   + url (string, required) - the url returned from a successful call to
+     *   'create'
+     * @return $this
+     */
     public function fromJSON($json)
     {
-        if (is_string($json)) {
-            $json = json_decode($json, true);
-        }
-        if (!is_array($json)) {
-            throw new Exception('Given value must be an associative array or a string that can be converted to an associative array with json_decode()');
-        }
-
         $this->setToken($json["token"]);
         $this->setUrl($json["url"]);
         return $this;

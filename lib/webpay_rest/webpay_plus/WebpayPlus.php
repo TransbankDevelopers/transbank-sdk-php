@@ -6,7 +6,7 @@ namespace Transbank\Webpay;
 
 use Transbank\Onepay\Exceptions\TransactionCreateException;
 use Transbank\Utils\HttpClient;
-use Transbank\Webpay\Plus\TransactionCreateResponse;
+use Transbank\Webpay\WebpayPlus\TransactionCreateResponse;
 
 /**
  * Class WebPayPlus
@@ -15,9 +15,21 @@ use Transbank\Webpay\Plus\TransactionCreateResponse;
  */
 class WebpayPlus
 {
-    const BASE_URL = 'https://servidorwebpay.cl/';
+    /**
+     * BASE URL of Transbank's Webpay service
+     */
+    const BASE_URL = 'https://webpay3gint.transbank.cl/';
+    /**
+     * Path used for the 'create' endpoint
+     */
     const CREATE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transaction';
-    private static $configuration = null;
+    /**
+     * @var $options Options|null
+     */
+    private static $options = null;
+    /**
+     * @var $httpClient HttpClient|null
+     */
     private static $httpClient = null;
 
     /**
@@ -25,28 +37,29 @@ class WebpayPlus
      * @param string $sessionId
      * @param integer $amount
      * @param string $returnUrl
-     * @param \Transbank\Webpay\Plus\Configuration|null $configuration
+     * @param Options|null $options
      *
      * @return TransactionCreateResponse
-     * @throws
+     * @throws TransactionCreateException
+     **
      */
     public static function create(
         $buyOrder,
         $sessionId,
         $amount,
         $returnUrl,
-        $configuration = null
+        $options = null
     ) {
-        if ($configuration == null) {
-            $configuration = self::getConfiguration();
+        if ($options == null) {
+            $options = self::getOptions();
         }
 
         $headers = [
-            "Tbk-Api-Key-Id" => $configuration->getCommerceCode(),
-            "Tbk-Api-Key-Secret" => $configuration->getSharedSecret()
+            "Tbk-Api-Key-Id" => $options->getCommerceCode(),
+            "Tbk-Api-Key-Secret" => $options->getApiKey()
         ];
 
-        $data_to_send = [
+        $payload = [
             "buy_order" => $buyOrder,
             "session_id" => $sessionId,
             "amount" => $amount,
@@ -58,27 +71,29 @@ class WebpayPlus
 
         $httpResponse = $http->post(self::BASE_URL,
             self::CREATE_TRANSACTION_ENDPOINT,
-            $data_to_send,
+            $payload,
             ['headers' => $headers]);
+
         if (!$httpResponse) {
             throw new TransactionCreateException('Could not obtain a response from the service', -1);
         }
 
-        $transactionCreateResponse = new TransactionCreateResponse($httpResponse);
+        $json = json_decode($httpResponse, true);
+        $transactionCreateResponse = new TransactionCreateResponse($json);
 
         return $transactionCreateResponse;
     }
 
 
     /**
-     * @return Plus\Configuration|null
+     * @return Options|null
      */
-    private static function getConfiguration()
+    private static function getOptions()
     {
-        if (!isset(self::$configuration) || self::$configuration == null) {
-            self::$configuration = \Transbank\Webpay\Plus\Configuration::defaultConfig();
+        if (!isset(self::$options) || self::$options == null) {
+            self::$options = Options::defaultConfig();
         }
-        return self::$configuration;
+        return self::$options;
     }
 
     /**
