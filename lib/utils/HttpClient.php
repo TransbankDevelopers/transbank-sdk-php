@@ -10,9 +10,17 @@ class HttpClient {
         if (!empty($options['port'])) $port = $options['port'];
 
         $remote = $url  .  $path;
+
+
+        $basicHeaders = ["Content-Type" => 'application/json'];
+
+        $optionsHeaders = $options['headers'] ? $options['headers'] : [];
+
+        $headers = array_merge($basicHeaders, $optionsHeaders);
+
         $http_options = array(
             'method' => 'POST',
-            'header' => "Content-type: application/json",
+            'headers' => $this->toHeaderString($headers),
             'content' => $data_to_send
         );
 
@@ -28,6 +36,19 @@ class HttpClient {
             'http' => $http_options,
             'ssl' => $ssl_options
         ));
+
+        echo "OPTIONS";
+        var_dump($http_options);
+        echo "\n";
+        echo "CONTEXT";
+        var_dump($context);
+        echo "\n";
+        echo "REMOTE";
+        var_dump($remote);
+
+        echo "SSL";
+        var_dump($ssl_options);
+
 
         $fp = fopen($remote, 'r', false, $context);
 
@@ -63,4 +84,23 @@ class HttpClient {
 
         return $response_body;
     }
+
+    public function toHeaderString($associativeArray)
+    {
+
+        $keys = array_keys($associativeArray);
+        $values = array_values($associativeArray);
+
+
+        $func = function($key, $value)
+        {
+            return $key . ": " . $value;
+        };
+
+
+        $stringsArray = array_map($func, $keys, $values);
+        return join("; ", $stringsArray) . ';';
+    }
+
+
 }

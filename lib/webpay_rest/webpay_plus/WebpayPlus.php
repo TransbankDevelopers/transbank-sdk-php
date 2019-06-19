@@ -22,7 +22,7 @@ class WebpayPlus
     /**
      * Path used for the 'create' endpoint
      */
-    const CREATE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transaction';
+    const CREATE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions';
     /**
      * @var $options Options|null
      */
@@ -55,16 +55,17 @@ class WebpayPlus
         }
 
         $headers = [
-            "Tbk-Api-Key-Id" => $options->getCommerceCode(),
-            "Tbk-Api-Key-Secret" => $options->getApiKey()
+            "X-Tbk-Api-Key-Id" => $options->getCommerceCode(),
+            "X-Tbk-Api-Key-Secret" => $options->getApiKey()
         ];
 
-        $payload = [
+        $payload = json_encode([
             "buy_order" => $buyOrder,
             "session_id" => $sessionId,
             "amount" => $amount,
             "return_url" => $returnUrl
-        ];
+        ]);
+
 
         $http = self::getHttpClient();
 
@@ -72,7 +73,8 @@ class WebpayPlus
         $httpResponse = $http->post(self::BASE_URL,
             self::CREATE_TRANSACTION_ENDPOINT,
             $payload,
-            ['headers' => $headers]);
+            ['headers' => $headers]
+        );
 
         if (!$httpResponse) {
             throw new TransactionCreateException('Could not obtain a response from the service', -1);
