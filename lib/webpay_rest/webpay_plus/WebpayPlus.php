@@ -55,8 +55,8 @@ class WebpayPlus
         }
 
         $headers = [
-            "X-Tbk-Api-Key-Id" => $options->getCommerceCode(),
-            "X-Tbk-Api-Key-Secret" => $options->getApiKey()
+            "Tbk-Api-Key-Id" => $options->getCommerceCode(),
+            "Tbk-Api-Key-Secret" => $options->getApiKey()
         ];
 
         $payload = json_encode([

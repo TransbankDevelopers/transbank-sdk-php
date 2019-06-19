@@ -3,7 +3,7 @@ namespace Transbank\Utils;
 
 class HttpClient {
 
-    function post($url, $path, $data_to_send, $options = array('headers' => 0, 'transport' => 'https', 'port' => 443, 'proxy' => null)) {
+ /*   function post($url, $path, $data_to_send, $options = array('headers' => 0, 'transport' => 'https', 'port' => 443, 'proxy' => null)) {
         $transport = '';
         $port = 80;
         if (!empty($options['transport'])) $transport = $options['transport'];
@@ -12,7 +12,7 @@ class HttpClient {
         $remote = $url  .  $path;
 
 
-        $basicHeaders = ["Content-Type" => 'application/json'];
+        $basicHeaders = ["Content-Type" => 'application/json', 'transport' => 'https', 'port' => 443, 'proxy' => null];
 
         $optionsHeaders = $options['headers'] ? $options['headers'] : [];
 
@@ -83,7 +83,46 @@ class HttpClient {
         fclose($fp);
 
         return $response_body;
+    }*/
+
+
+    function post($url, $path, $data_to_send, $options = array('headers' => 0, 'transport' => 'https', 'port' => 443, 'proxy' => null)) {
+
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $url . $path,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => json_encode($data_to_send),
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/json",
+                "Tbk-Api-Key-Id: " . $options['Tbk-Api-Key-Id'],
+                "Tbk-Api-Key-Secret: " . $options['Tbk-Api-Key-Secret'],
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+        } else {
+            return $response;
+        }
+
+
     }
+
+
+
 
     public function toHeaderString($associativeArray)
     {
@@ -94,7 +133,7 @@ class HttpClient {
 
         $func = function($key, $value)
         {
-            return $key . ": " . $value;
+            return "'" . $key . ": " . $value . "'";
         };
 
 
