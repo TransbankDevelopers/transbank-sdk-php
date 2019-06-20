@@ -117,8 +117,6 @@ class HttpClient {
         } else {
             return $response;
         }
-
-
     }
 
 
