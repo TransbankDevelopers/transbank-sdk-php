@@ -4,14 +4,15 @@
 namespace Transbank\Webpay;
 
 
-use Transbank\Onepay\Exceptions\TransactionCreateException;
+use Transbank\Webpay\Exceptions\TransactionCreateException;
 use Transbank\Utils\HttpClient;
 use Transbank\Webpay\WebpayPlus\TransactionCreateResponse;
 
 /**
- * Class WebPayPlus
+ * Class WebpayPlus
  *
  * @package Transbank\Webpay
+ *
  */
 class WebpayPlus
 {
@@ -80,7 +81,13 @@ class WebpayPlus
             throw new TransactionCreateException('Could not obtain a response from the service', -1);
         }
 
+        $responseJson = json_decode($httpResponse, true);
+        if (!$responseJson["token"] || !$responseJson['url']) {
+            throw new TransactionCreateException($responseJson['error_message']);
+        }
+
         $json = json_decode($httpResponse, true);
+
         $transactionCreateResponse = new TransactionCreateResponse($json);
 
         return $transactionCreateResponse;
