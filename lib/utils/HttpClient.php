@@ -7,6 +7,12 @@ class HttpClient {
 
 
         $curl = curl_init();
+        $optionsHeaders = $options["headers"] ? $options["headers"] : [];
+
+        $basicHeader = ["Content-Type" => "application/json"];
+        $headers = $this->toHeaderStrings(
+            array_merge($basicHeader, $optionsHeaders)
+        );
 
         curl_setopt_array($curl, array(
             CURLOPT_URL => $url . $path,
@@ -17,11 +23,7 @@ class HttpClient {
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
             CURLOPT_POSTFIELDS => $data_to_send,
-            CURLOPT_HTTPHEADER => array(
-                "Content-Type: application/json",
-                "Tbk-Api-Key-Id: " . $options['headers']['Tbk-Api-Key-Id'],
-                "Tbk-Api-Key-Secret: " . $options['headers']['Tbk-Api-Key-Secret'],
-            ),
+            CURLOPT_HTTPHEADER => $headers,
         ));
 
         $response = curl_exec($curl);
@@ -31,10 +33,25 @@ class HttpClient {
         curl_close($curl);
 
         if ($err) {
-            echo "cURL Error #:" . $err;
+            return $err;
         } else {
             return $response;
         }
     }
+
+    public function toHeaderStrings($associativeArray)
+    {
+
+        $keys = array_keys($associativeArray);
+        $values = array_values($associativeArray);
+
+
+        $func = function($key, $value)
+        {
+            return  $key . ": " . $value;
+        };
+        return array_map($func, $keys, $values);
+    }
+
 
 }

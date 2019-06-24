@@ -95,7 +95,7 @@ class WebpayPlus
 
 
     /**
-     * @return Options|null
+     * @return Options
      */
     private static function getOptions()
     {
@@ -106,7 +106,7 @@ class WebpayPlus
     }
 
     /**
-     * @return HttpClient|null
+     * @return HttpClient
      */
     private static function getHttpClient()
     {
