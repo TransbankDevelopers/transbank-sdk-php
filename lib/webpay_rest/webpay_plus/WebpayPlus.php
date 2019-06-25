@@ -4,9 +4,7 @@
 namespace Transbank\Webpay;
 
 
-use Transbank\Webpay\Exceptions\TransactionCreateException;
 use Transbank\Utils\HttpClient;
-use Transbank\Webpay\WebpayPlus\TransactionCreateResponse;
 
 /**
  * Class WebpayPlus
@@ -16,99 +14,76 @@ use Transbank\Webpay\WebpayPlus\TransactionCreateResponse;
  */
 class WebpayPlus
 {
+
     /**
-     * BASE URL of Transbank's Webpay service
+     * @var array $INTEGRATION_TYPES contains key-value pairs of
+     * integration_type => url_of_that_integration
      */
-    const BASE_URL = 'https://webpay3gint.transbank.cl/';
-    /**
-     * Path used for the 'create' endpoint
-     */
-    const CREATE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions';
-    /**
-     * @var $options Options|null
-     */
-    private static $options = null;
+    public static $INTEGRATION_TYPES = [
+        "LIVE" => "https://webpay3g.transbank.cl/",
+        "TEST" => "https://webpay3gint.transbank.cl/",
+        "MOCK" => ""
+    ];
     /**
      * @var $httpClient HttpClient|null
      */
-    private static $httpClient = null;
+    public static $httpClient = null;
+    private static $apiKey = Options::DEFAULT_API_KEY;
+    private static $commerceCode = Options::DEFAULT_COMMERCE_CODE;
+    private static $integrationType = Options::DEFAULT_INTEGRATION_TYPE;
 
     /**
-     * @param string $buyOrder
-     * @param string $sessionId
-     * @param integer $amount
-     * @param string $returnUrl
-     * @param Options|null $options
-     *
-     * @return TransactionCreateResponse
-     * @throws TransactionCreateException
-     **
+     * @return string
      */
-    public static function create(
-        $buyOrder,
-        $sessionId,
-        $amount,
-        $returnUrl,
-        $options = null
-    ) {
-        if ($options == null) {
-            $options = self::getOptions();
-        }
-
-        $headers = [
-            "Tbk-Api-Key-Id" => $options->getCommerceCode(),
-            "Tbk-Api-Key-Secret" => $options->getApiKey()
-        ];
-
-        $payload = json_encode([
-            "buy_order" => $buyOrder,
-            "session_id" => $sessionId,
-            "amount" => $amount,
-            "return_url" => $returnUrl
-        ]);
-
-
-        $http = self::getHttpClient();
-
-
-        $httpResponse = $http->post(self::BASE_URL,
-            self::CREATE_TRANSACTION_ENDPOINT,
-            $payload,
-            ['headers' => $headers]
-        );
-
-        if (!$httpResponse) {
-            throw new TransactionCreateException('Could not obtain a response from the service', -1);
-        }
-
-        $responseJson = json_decode($httpResponse, true);
-        if (!$responseJson["token"] || !$responseJson['url']) {
-            throw new TransactionCreateException($responseJson['error_message']);
-        }
-
-        $json = json_decode($httpResponse, true);
-
-        $transactionCreateResponse = new TransactionCreateResponse($json);
-
-        return $transactionCreateResponse;
+    public static function getApiKey()
+    {
+        return self::$apiKey;
     }
 
+    /**
+     * @param string $apiKey
+     */
+    public static function setApiKey($apiKey)
+    {
+        self::$apiKey = $apiKey;
+    }
 
     /**
-     * @return Options
+     * @return string
      */
-    private static function getOptions()
+    public static function getCommerceCode()
     {
-        if (!isset(self::$options) || self::$options == null) {
-            self::$options = Options::defaultConfig();
-        }
-        return self::$options;
+        return self::$commerceCode;
+    }
+
+    /**
+     * @param string $commerceCode
+     */
+    public static function setCommerceCode($commerceCode)
+    {
+        self::$commerceCode = $commerceCode;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getIntegrationType()
+    {
+        return self::$integrationType;
+    }
+
+    /**
+     * @param string $integrationType
+     */
+    public static function setIntegrationType($integrationType)
+    {
+        self::$integrationType = $integrationType;
     }
 
     /**
      * @return HttpClient
      */
-    private static function getHttpClient()
+    public static function getHttpClient()
     {
         if (!isset(self::$httpClient) || self::$httpClient == null) {
             self::$httpClient = new HttpClient();
@@ -116,5 +91,12 @@ class WebpayPlus
         return self::$httpClient;
     }
 
+    public static function getIntegrationTypeUrl($integrationType = null)
+    {
+        if ($integrationType == null) {
+            return self::$INTEGRATION_TYPES[self::$integrationType];
+        }
 
+        return self::$INTEGRATION_TYPES[$integrationType];
+    }
 }

@@ -19,10 +19,10 @@ class WebpayPlusTest extends \PHPUnit_Framework_TestCase
     public function testCreateATransactionWithoutOptions()
     {
 
-        $transactionResult = WebpayPlus::create($this->buyOrder,
-                                                $this->sessionId,
-                                                $this->amount,
-                                                $this->returnUrl);
+        $transactionResult = WebpayPlus\Transaction::create($this->buyOrder,
+            $this->sessionId,
+            $this->amount,
+            $this->returnUrl);
 
         $this->assertNotNull($transactionResult->getToken());
         $this->assertNotNull($transactionResult->getUrl());
@@ -31,11 +31,11 @@ class WebpayPlusTest extends \PHPUnit_Framework_TestCase
     public function testCreateATransactionWithOptions()
     {
         $options = new Options('579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C', '597055555532');
-        $transactionResult = WebpayPlus::create($this->buyOrder,
-                                                $this->sessionId,
-                                                $this->amount,
-                                                $this->returnUrl,
-                                                $options);
+        $transactionResult = WebpayPlus\Transaction::create($this->buyOrder,
+            $this->sessionId,
+            $this->amount,
+            $this->returnUrl,
+            $options);
 
         $this->assertNotNull($transactionResult->getToken());
         $this->assertNotNull($transactionResult->getUrl());
@@ -48,11 +48,11 @@ class WebpayPlusTest extends \PHPUnit_Framework_TestCase
                  'fakeCommerceCode');
 
         $this->setExpectedException(\Exception::class, 'Not Authorized');
-        WebpayPlus::create($this->buyOrder,
-                           $this->sessionId,
-                           $this->amount,
-                           $this->returnUrl,
-                           $options);
+        WebpayPlus\Transaction::create($this->buyOrder,
+            $this->sessionId,
+            $this->amount,
+            $this->returnUrl,
+            $options);
     }
 
 }
