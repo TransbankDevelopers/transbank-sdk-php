@@ -17,6 +17,8 @@ class Transaction
 
     const COMMIT_TRANSACTION_ENDPPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions';
 
+    const REFUND_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$/refund';
+
 
     /**
      * @param string $buyOrder
@@ -112,8 +114,6 @@ class Transaction
 
         $responseJson = json_decode($httpResponse, true);
 
-        #dd($responseJson);
-
         if (array_key_exists("error_message", $responseJson)) {
             throw new TransactionCommitException($responseJson['error_message']);
         }
@@ -121,5 +121,13 @@ class Transaction
         $transactionCommitResponse = new TransactionCommitResponse($responseJson);
 
         return $transactionCommitResponse;
-}
+    }
+
+    public static function refund($token, $amount, $options)
+    {
+
+        $url = str_replace('$TOKEN$', $token, self::REFUND_TRANSACTION_ENDPOINT);
+
+
+    }
 }
