@@ -82,7 +82,7 @@ class Transaction
         return $transactionCreateResponse;
     }
 
-    public function commit($token, $options = null)
+    public static function commit($token, $options = null)
     {
         if ($options == null) {
             $commerceCode = WebpayPlus::getCommerceCode();
