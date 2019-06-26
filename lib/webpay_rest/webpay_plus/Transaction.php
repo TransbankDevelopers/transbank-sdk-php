@@ -2,9 +2,9 @@
 
 namespace Transbank\Webpay\WebpayPlus;
 
+use Transbank\Webpay\Exceptions\TransactionCommitException;
 use Transbank\Webpay\Exceptions\TransactionCreateException;
 use Transbank\Webpay\Options;
-use Transbank\Webpay\Webpay;
 use Transbank\Webpay\WebpayPlus;
 
 class Transaction
@@ -14,6 +14,8 @@ class Transaction
      * Path used for the 'create' endpoint
      */
     const CREATE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions';
+
+    const COMMIT_TRANSACTION_ENDPPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions';
 
 
     /**
@@ -78,5 +80,45 @@ class Transaction
         $transactionCreateResponse = new TransactionCreateResponse($json);
 
         return $transactionCreateResponse;
+    }
+
+    public function commit($token, $options = null)
+    {
+        if ($options == null) {
+            $commerceCode = WebpayPlus::getCommerceCode();
+            $apiKey = WebpayPlus::getApiKey();
+            $baseUrl = WebpayPlus::getIntegrationTypeUrl();
+        } else {
+            $commerceCode = $options->getCommerceCode();
+            $apiKey = $options->getApiKey();
+            $baseUrl = WebpayPlus::getIntegrationTypeUrl($options->getIntegrationType());
+        }
+
+        $headers = [
+            "Tbk-Api-Key-Id" => $commerceCode,
+            "Tbk-Api-Key-Secret" => $apiKey
+        ];
+
+        $http = WebpayPlus::getHttpClient();
+        $httpResponse = $http->put($baseUrl,
+            self::COMMIT_TRANSACTION_ENDPPOINT . "/" . $token,
+            [],
+            ['headers' => $headers]
+        );
+
+        if (!$httpResponse) {
+            throw new TransactionCommitException('Could not obtain a response from the service', -1);
+        }
+
+        $responseJson = json_decode($httpResponse, true);
+        if (!$responseJson["token"] || !$responseJson['url']) {
+            throw new TransactionCreateException($responseJson['error_message']);
+        }
+
+        $json = json_decode($httpResponse, true);
+
+        $transactionCommitResponse = new \TransactionCommitResponse($json);
+
+        return $transactionCommitResponse;
     }
 }

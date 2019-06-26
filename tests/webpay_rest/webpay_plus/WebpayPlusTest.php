@@ -3,6 +3,8 @@
 namespace Transbank\Webpay;
 
 
+use Transbank\Webpay\WebpayPlus\Transaction;
+
 class WebpayPlusTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -45,7 +47,7 @@ class WebpayPlusTest extends \PHPUnit_Framework_TestCase
     {
 
         $options = new Options('fakeApiKey',
-                 'fakeCommerceCode');
+            'fakeCommerceCode');
 
         $this->setExpectedException(\Exception::class, 'Not Authorized');
         WebpayPlus\Transaction::create($this->buyOrder,
@@ -53,6 +55,13 @@ class WebpayPlusTest extends \PHPUnit_Framework_TestCase
             $this->amount,
             $this->returnUrl,
             $options);
+    }
+
+
+    public function testCommitTransaction()
+    {
+        $token = "e710639af8e28b072ce6418758cd012eecfea280246f4fe31851f003f25327ef";
+        WebpayPlus\Transaction::commit($token);
     }
 
 }
