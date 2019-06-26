@@ -111,14 +111,15 @@ class Transaction
         }
 
         $responseJson = json_decode($httpResponse, true);
-        if (!$responseJson["token"] || !$responseJson['url']) {
-            throw new TransactionCreateException($responseJson['error_message']);
+
+        #dd($responseJson);
+
+        if (array_key_exists("error_message", $responseJson)) {
+            throw new TransactionCommitException($responseJson['error_message']);
         }
 
-        $json = json_decode($httpResponse, true);
-
-        $transactionCommitResponse = new \TransactionCommitResponse($json);
+        $transactionCommitResponse = new TransactionCommitResponse($responseJson);
 
         return $transactionCommitResponse;
-    }
+}
 }

@@ -1,5 +1,8 @@
 <?php
 
+namespace Transbank\Webpay\WebpayPlus;
+
+
 class TransactionCommitResponse
 {
     /**
@@ -67,21 +70,21 @@ class TransactionCommitResponse
      **/
 
     public function __construct($json) {
-        $this->vci = $json["vci"];
-        $this->amount = $json["amount"];
-        $this->status = $json["status"];
-        $this->buyOrder = $json["buy_order"];
-        $this->sessionId = $json["session_id"];
-        $this->cardNumber = $json["card_detail"]["card_number"];
-        $this->accountingDate = $json["accounting_date"];
-        $this->transactionDate = $json["transaction_date"];
-        $this->authorizationCode = $json["authorization_code"];
-        $this->paymentTypeCode = $json["payment_type_code"];
-        $this->responseCode = $json["response_code"];
-        $this->installmentsAmount = $json["installments_amount"];
+        $this->vci = isset($json["vci"]) ? $json["vci"] : null;
+        $this->amount = isset($json["amount"]) ? $json["amount"] : null;
+        $this->status = isset($json["status"]) ? $json["status"] : null;
+        $this->buyOrder = isset($json["buy_order"]) ? $json["buy_order"] : null;
+        $this->sessionId = isset($json["session_id"]) ?$json["session_id"] : null;
+        $this->cardNumber = isset($json["card_detail"]) ? (isset($json["card_detail"]["card_number"]) ? $json["card_detail"] : null) : null;
+        $this->accountingDate = isset($json["accounting_date"]) ? $json["accounting_date"] : null;
+        $this->transactionDate = isset($json["transaction_date"]) ? $json["transaction_date"] : null;
+        $this->authorizationCode = isset($json["authorization_code"]) ? $json["authorization_code"] : null;
+        $this->paymentTypeCode = isset($json["payment_type_code"]) ? $json["payment_type_code"] : null;
+        $this->responseCode = isset($json["response_code"]) ? $json["response_code"] : null;
+        $this->installmentsAmount = isset($json["installments_amount"]) ? $json["installments_amount"] : null;
 
-        $this->installmentsNumber = $json["installmentsNumber"];
-        $this->balance = $json["balance"];
+        $this->installmentsNumber = isset($json["installmentsNumber"]) ? $json["installmentsNumber"] : null;
+        $this->balance = isset($json["balance"]) ? $json["balance"] : null;
     }
 
     /**
