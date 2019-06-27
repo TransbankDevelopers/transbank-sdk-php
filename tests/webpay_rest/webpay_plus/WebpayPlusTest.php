@@ -57,11 +57,4 @@ class WebpayPlusTest extends \PHPUnit_Framework_TestCase
             $options);
     }
 
-
-    public function testCommitTransaction()
-    {
-        $token = "e710639af8e28b072ce6418758cd012eecfea280246f4fe31851f003f25327ef";
-        WebpayPlus\Transaction::commit($token);
-    }
-
 }

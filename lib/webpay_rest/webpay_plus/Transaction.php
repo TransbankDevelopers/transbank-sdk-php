@@ -155,13 +155,13 @@ class Transaction
         );
 
         if (!$httpResponse) {
-            throw new TransactionCommitException('Could not obtain a response from the service', -1);
+            throw new TransactionRefundException('Could not obtain a response from the service', -1);
         }
 
         $responseJson = json_decode($httpResponse, true);
 
         if (array_key_exists("error_message", $responseJson)) {
-            throw new TransactionCommitException($responseJson['error_message']);
+            throw new TransactionRefundException($responseJson['error_message']);
         }
 
         $transactionRefundResponse = new TransactionRefundResponse($responseJson);
