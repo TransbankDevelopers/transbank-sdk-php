@@ -15,9 +15,11 @@ class Transaction
      */
     const CREATE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions';
 
-    const COMMIT_TRANSACTION_ENDPPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions';
+    const COMMIT_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions';
 
     const REFUND_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$/refund';
+
+    const GET_TRANSACTION_STATUS_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$';
 
 
     /**
@@ -103,7 +105,7 @@ class Transaction
 
         $http = WebpayPlus::getHttpClient();
         $httpResponse = $http->put($baseUrl,
-            self::COMMIT_TRANSACTION_ENDPPOINT . "/" . $token,
+            self::COMMIT_TRANSACTION_ENDPOINT . "/" . $token,
             [],
             ['headers' => $headers]
         );
@@ -167,5 +169,32 @@ class Transaction
         $transactionRefundResponse = new TransactionRefundResponse($responseJson);
 
         return $transactionRefundResponse;
+    }
+
+    public static function getStatus($token, $options = null)
+    {
+        $url = str_replace('$TOKEN$', $token, self::GET_TRANSACTION_STATUS_ENDPOINT);
+        if ($options == null) {
+            $commerceCode = WebpayPlus::getCommerceCode();
+            $apiKey = WebpayPlus::getApiKey();
+            $baseUrl = WebpayPlus::getIntegrationTypeUrl();
+        } else {
+            $commerceCode = $options->getCommerceCode();
+            $apiKey = $options->getApiKey();
+            $baseUrl = WebpayPlus::getIntegrationTypeUrl($options->getIntegrationType());
+        }
+
+        $headers = [
+            "Tbk-Api-Key-Id" => $commerceCode,
+            "Tbk-Api-Key-Secret" => $apiKey
+        ];
+
+        $http = WebpayPlus::getHttpClient();
+        $httpResponse = $http->post($baseUrl,
+            $url,
+            [],
+            ['headers' => $headers]);
+
+        return $httpResponse;
     }
 }
