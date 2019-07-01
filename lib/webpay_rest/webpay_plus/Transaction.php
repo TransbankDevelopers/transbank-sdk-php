@@ -190,9 +190,8 @@ class Transaction
         ];
 
         $http = WebpayPlus::getHttpClient();
-        $httpResponse = $http->post($baseUrl,
+        $httpResponse = $http->get($baseUrl,
             $url,
-            [],
             ['headers' => $headers]);
 
         return $httpResponse;
