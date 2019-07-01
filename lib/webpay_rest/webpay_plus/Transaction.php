@@ -194,6 +194,19 @@ class Transaction
             $url,
             ['headers' => $headers]);
 
-        return $httpResponse;
+
+        if (!$httpResponse) {
+            throw new TransactionStatusException('Could not obtain a response from the service', -1);
+        }
+
+        $responseJson = json_decode($httpResponse, true);
+
+        if (array_key_exists("error_message", $responseJson)) {
+            throw new TransactionStatusException($responseJson['error_message']);
+        }
+
+        $transactionStatusResponse = new TransactionStatusResponse($responseJson);
+
+        return $transactionStatusResponse;
     }
 }
