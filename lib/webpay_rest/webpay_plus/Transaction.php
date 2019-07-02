@@ -294,7 +294,7 @@ class Transaction
         $http = WebpayPlus::getHttpClient();
 
         $httpResponse = $http->post($baseUrl,
-            \Transbank\Webpay\WebpayPlus\Mall\Transaction::CREATE_TRANSACTION_ENDPOINT,
+            self::CREATE_TRANSACTION_ENDPOINT,
             $payload,
             ['headers' => $headers]
         );
