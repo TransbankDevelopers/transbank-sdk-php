@@ -353,4 +353,42 @@ class Transaction
         return $transactionRefundResponse;
     }
 
+    public static function getMallStatus($token, $options = null)
+    {
+        $url = str_replace('$TOKEN$', $token, self::GET_TRANSACTION_STATUS_ENDPOINT);
+        if ($options == null) {
+            $commerceCode = WebpayPlus::getCommerceCode();
+            $apiKey = WebpayPlus::getApiKey();
+            $baseUrl = WebpayPlus::getIntegrationTypeUrl();
+        } else {
+            $commerceCode = $options->getCommerceCode();
+            $apiKey = $options->getApiKey();
+            $baseUrl = WebpayPlus::getIntegrationTypeUrl($options->getIntegrationType());
+        }
+
+        $headers = [
+            "Tbk-Api-Key-Id" => $commerceCode,
+            "Tbk-Api-Key-Secret" => $apiKey
+        ];
+
+        $http = WebpayPlus::getHttpClient();
+        $httpResponse = $http->get($baseUrl,
+            $url,
+            ['headers' => $headers]);
+
+
+        if (!$httpResponse) {
+            throw new TransactionStatusException('Could not obtain a response from the service', -1);
+        }
+
+        $responseJson = json_decode($httpResponse, true);
+
+        if (array_key_exists("error_message", $responseJson)) {
+            throw new TransactionStatusException($responseJson['error_message']);
+        }
+
+        $transactionMallStatusResponse = new TransactionMallStatusResponse($responseJson);
+
+        return $transactionMallStatusResponse;
+    }
 }
