@@ -211,56 +211,6 @@ class Transaction
         return $transactionStatusResponse;
     }
 
-    public static function refundMall($token, $buyOrder, $commerceCode, $amount, $options = null)
-    {
-        if ($options == null) {
-            $commerceCode = WebpayPlus::getCommerceCode();
-            $apiKey = WebpayPlus::getApiKey();
-            $baseUrl = WebpayPlus::getIntegrationTypeUrl();
-        } else {
-            $commerceCode = $options->getCommerceCode();
-            $apiKey = $options->getApiKey();
-            $baseUrl = WebpayPlus::getIntegrationTypeUrl($options->getIntegrationType());
-        }
-
-        $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
-        ];
-
-        $payload = json_encode(
-            [
-                "token" => $token,
-                "buy_order" => $buyOrder,
-                "commerce_code" => $commerceCode
-            ]);
-
-        $http = WebpayPlus::getHttpClient();
-
-        $url = str_replace('$TOKEN$', $token,
-            self::REFUND_TRANSACTION_ENDPOINT);
-
-        $httpResponse = $http->post($baseUrl,
-            $url,
-            $payload,
-            ['headers' => $headers]
-        );
-
-        if (!$httpResponse) {
-            throw new TransactionRefundException('Could not obtain a response from the service', -1);
-        }
-
-        $responseJson = json_decode($httpResponse, true);
-
-        if (array_key_exists("error_message", $responseJson)) {
-            throw new TransactionRefundException($responseJson['error_message']);
-        }
-
-        $transactionRefundResponse = new TransactionRefundResponse($responseJson);
-
-        return $transactionRefundResponse;
-    }
-
     public static function createMall(
         $buyOrder,
         $sessionId,
@@ -351,6 +301,56 @@ class Transaction
         $transactionCommitMallResponse = new TransactionCommitMallResponse($responseJson);
 
         return $transactionCommitMallResponse;
+    }
+
+    public static function refundMall($token, $buyOrder, $childCommerceCode, $amount, $options = null)
+    {
+        if ($options == null) {
+            $commerceCode = WebpayPlus::getCommerceCode();
+            $apiKey = WebpayPlus::getApiKey();
+            $baseUrl = WebpayPlus::getIntegrationTypeUrl();
+        } else {
+            $commerceCode = $options->getCommerceCode();
+            $apiKey = $options->getApiKey();
+            $baseUrl = WebpayPlus::getIntegrationTypeUrl($options->getIntegrationType());
+        }
+
+        $headers = [
+            "Tbk-Api-Key-Id" => $commerceCode,
+            "Tbk-Api-Key-Secret" => $apiKey
+        ];
+
+        $payload = json_encode(
+            [
+                "buy_order" => $buyOrder,
+                "commerce_code" => $childCommerceCode,
+                "amount" => $amount
+            ]);
+
+        $http = WebpayPlus::getHttpClient();
+
+        $url = str_replace('$TOKEN$', $token,
+            self::REFUND_TRANSACTION_ENDPOINT);
+
+        $httpResponse = $http->post($baseUrl,
+            $url,
+            $payload,
+            ['headers' => $headers]
+        );
+
+        if (!$httpResponse) {
+            throw new TransactionRefundException('Could not obtain a response from the service', -1);
+        }
+
+        $responseJson = json_decode($httpResponse, true);
+
+        if (array_key_exists("error_message", $responseJson)) {
+            throw new TransactionRefundException($responseJson['error_message']);
+        }
+
+        $transactionRefundResponse = new TransactionRefundResponse($responseJson);
+
+        return $transactionRefundResponse;
     }
 
 }
