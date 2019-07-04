@@ -4,6 +4,7 @@ namespace Transbank\Webpay\WebpayPlus;
 
 use Transbank\Webpay\Exceptions\TransactionCommitException;
 use Transbank\Webpay\Exceptions\TransactionCreateException;
+use Transbank\Webpay\Exceptions\TransactionRefundException;
 use Transbank\Webpay\Exceptions\TransactionStatusException;
 use Transbank\Webpay\Options;
 use Transbank\Webpay\WebpayPlus;
