@@ -2,6 +2,7 @@
 
 namespace Transbank\Webpay\WebpayPlus;
 
+use Transbank\Webpay\Exceptions\TransactionCaptureException;
 use Transbank\Webpay\Exceptions\TransactionCommitException;
 use Transbank\Webpay\Exceptions\TransactionCreateException;
 use Transbank\Webpay\Exceptions\TransactionRefundException;
@@ -23,6 +24,7 @@ class Transaction
 
     const GET_TRANSACTION_STATUS_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$';
 
+    const CAPTURE_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$/capture';
 
     /**
      * @param string $buyOrder
@@ -391,6 +393,52 @@ class Transaction
         $transactionMallStatusResponse = new TransactionMallStatusResponse($responseJson);
 
         return $transactionMallStatusResponse;
+    }
+
+    public function capture($token, $buyOrder, $authorizationCode, $captureAmount, $options)
+    {
+        $url = str_replace('$TOKEN$', $token, self::CAPTURE_ENDPOINT);
+        if ($options == null) {
+            $commerceCode = WebpayPlus::getCommerceCode();
+            $apiKey = WebpayPlus::getApiKey();
+            $baseUrl = WebpayPlus::getIntegrationTypeUrl();
+        } else {
+            $commerceCode = $options->getCommerceCode();
+            $apiKey = $options->getApiKey();
+            $baseUrl = WebpayPlus::getIntegrationTypeUrl($options->getIntegrationType());
+        }
+
+        $headers = [
+            "Tbk-Api-Key-Id" => $commerceCode,
+            "Tbk-Api-Key-Secret" => $apiKey
+        ];
+
+        $payload = [
+            "buy_order" => $buyOrder,
+            "authorization_code" => $authorizationCode,
+            "capture_amount" => $captureAmount
+        ];
+
+        $http = WebpayPlus::getHttpClient();
+        $httpResponse = $http->put($baseUrl,
+            $url,
+            $payload,
+            ['headers' => $headers]);
+
+        if (!$httpResponse) {
+            throw new TransactionCaptureException('Could not obtain a response from the service', -1);
+        }
+
+        $responseJson = json_decode($httpResponse, true);
+
+
+        if (array_key_exists("error_message", $responseJson)) {
+            throw new TransactionCaptureException($responseJson['error_message']);
+        }
+
+        $transactionCaptureResponse = new TransactionCaptureResponse($responseJson);
+
+        return $transactionCaptureResponse;
     }
 
 }
