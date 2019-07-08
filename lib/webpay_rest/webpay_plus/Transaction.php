@@ -146,10 +146,10 @@ class Transaction
             "Tbk-Api-Key-Secret" => $apiKey
         ];
 
-        $payload = [
+        $payload = json_encode([
             "token" => $token,
             "amount" => $amount
-        ];
+        ]);
 
         $url = str_replace('$TOKEN$', $token, self::REFUND_TRANSACTION_ENDPOINT);
 
