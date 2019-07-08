@@ -395,7 +395,7 @@ class Transaction
         return $transactionMallStatusResponse;
     }
 
-    public static function capture($token, $buyOrder, $authorizationCode, $captureAmount, $options)
+    public static function capture($token, $buyOrder, $authorizationCode, $captureAmount, $options = null)
     {
         $url = str_replace('$TOKEN$', $token, self::CAPTURE_ENDPOINT);
         if ($options == null) {
