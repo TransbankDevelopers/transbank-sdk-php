@@ -147,7 +147,6 @@ class Transaction
         ];
 
         $payload = json_encode([
-            "token" => $token,
             "amount" => $amount
         ]);
 
