@@ -413,11 +413,11 @@ class Transaction
             "Tbk-Api-Key-Secret" => $apiKey
         ];
 
-        $payload = [
+        $payload = json_encode([
             "buy_order" => $buyOrder,
             "authorization_code" => $authorizationCode,
             "capture_amount" => $captureAmount
-        ];
+        ]);
 
         $http = WebpayPlus::getHttpClient();
         $httpResponse = $http->put($baseUrl,
