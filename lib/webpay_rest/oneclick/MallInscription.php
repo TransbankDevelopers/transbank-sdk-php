@@ -4,6 +4,9 @@
 namespace Transbank\Webpay\Oneclick;
 
 
+use Transbank\Webpay\Exceptions\InscriptionFinishException;
+use Transbank\Webpay\Exceptions\InscriptionFinishResponse;
+use Transbank\Webpay\Exceptions\InscriptionStartException;
 use Transbank\Webpay\Exceptions\TransactionCreateException;
 use Transbank\Webpay\Oneclick;
 use Transbank\Webpay\WebpayPlus\TransactionCreateResponse;
@@ -42,12 +45,12 @@ class MallInscription
         );
 
         if (!$httpResponse) {
-            throw new TransactionCreateException('Could not obtain a response from the service', -1);
+            throw new InscriptionStartException('Could not obtain a response from the service', -1);
         }
 
         $responseJson = json_decode($httpResponse, true);
         if (isset($responseJson['error_message'])) {
-            throw new TransactionCreateException($responseJson['error_message']);
+            throw new InscriptionStartException($responseJson['error_message']);
         }
         $json = json_decode($httpResponse, true);
 
@@ -59,6 +62,42 @@ class MallInscription
 
     public static function finish($token, $options = null)
     {
+        if ($options == null) {
+            $commerceCode = Oneclick::getCommerceCode();
+            $apiKey = Oneclick::getApiKey();
+            $baseUrl = Oneclick::getIntegrationTypeUrl();
+        } else {
+            $commerceCode = $options->getCommerceCode();
+            $apiKey = $options->getApiKey();
+            $baseUrl = WebpayPlus::getIntegrationTypeUrl($options->getIntegrationType());
+        }
 
+        $http = Oneclick::getHttpClient();
+        $headers = [
+            "Tbk-Api-Key-Id" => $commerceCode,
+            "Tbk-Api-Key-Secret" => $apiKey
+        ];
+
+        $url = str_replace('$TOKEN$', $token, self::INSCRIPTION_FINISH_ENDPOINT);
+
+        $httpResponse = $http->post($baseUrl,
+            $url,
+            [],
+            ['headers' => $headers]
+        );
+
+        if (!$httpResponse) {
+            throw new InscriptionFinishException('Could not obtain a response from the service', -1);
+        }
+
+        $responseJson = json_decode($httpResponse, true);
+        if (isset($responseJson['error_message'])) {
+            throw new InscriptionFinishException($responseJson['error_message']);
+        }
+        $json = json_decode($httpResponse, true);
+
+        $inscriptionFinishResponse = new InscriptionFinishResponse($json);
+
+        return $inscriptionFinishResponse;
     }
 }
