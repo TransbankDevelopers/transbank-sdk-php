@@ -46,7 +46,7 @@ class Inscription
         }
 
         $responseJson = json_decode($httpResponse, true);
-        if (!$responseJson["token"] || !$responseJson['url']) {
+        if (isset($responseJson['error_message'])) {
             throw new TransactionCreateException($responseJson['error_message']);
         }
         $json = json_decode($httpResponse, true);
