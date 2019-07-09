@@ -23,7 +23,7 @@ class Oneclick
      */
     public static $httpClient = null;
     private static $apiKey = Options::DEFAULT_API_KEY;
-    private static $commerceCode = Options::DEFAULT_COMMERCE_CODE;
+    private static $commerceCode = Options::DEFAULT_ONECLICK_COMMERCE_CODE;
     private static $integrationType = Options::DEFAULT_INTEGRATION_TYPE;
 
     /**
