@@ -8,7 +8,7 @@ use Transbank\Webpay\Exceptions\TransactionCreateException;
 use Transbank\Webpay\Oneclick;
 use Transbank\Webpay\WebpayPlus\TransactionCreateResponse;
 
-class Inscription
+class MallInscription
 {
 
     const INSCRIPTION_START_ENDPOINT = '/rswebpaytransaction/api/oneclick/v1.0/inscriptions';

@@ -4,7 +4,7 @@
 namespace Transbank\Webpay\Oneclick;
 
 
-class Transaction
+class MallTransaction
 {
 
     const AUTHORIZE_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/oneclick/v1.0/transaction';
