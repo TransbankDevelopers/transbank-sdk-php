@@ -26,6 +26,7 @@ class Options
     const DEFAULT_MALL_CHILD_COMMERCE_CODE_1 = '597055555536';
     const DEFAULT_MALL_CHILD_COMMERCE_CODE_2 = '597055555537';
     const DEFAULT_DEFERRED_COMMERCE_CODE = '597055555540';
+    const DEFAULT_ONECLICK_COMMERCE_CODE = '59705555538';
 
     /**
      * @var string $apiKey Your api key, given by Transbank.Sent as a header when
