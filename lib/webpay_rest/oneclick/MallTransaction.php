@@ -15,7 +15,7 @@ class MallTransaction
     const TRANSACTION_STATUS_ENDPONT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/$BUYORDER$';
     const TRANSACTION_REFUND_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/$BUYORDER$/refund';
 
-    public static function authorize($userName, $tbkUser, $buyOrder, $details,
+    public static function authorize($userName, $tbkUser, $parentBuyOrder, $details,
                                      $options = null)
     {
 
@@ -38,7 +38,7 @@ class MallTransaction
         $payload = json_encode([
             "username" => $userName,
             "tbk_user" => $tbkUser,
-            "buy_order" => $buyOrder,
+            "buy_order" => $parentBuyOrder,
             "details" => $details]);
 
         $httpResponse = $http->post($baseUrl,
