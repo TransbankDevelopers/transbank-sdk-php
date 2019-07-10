@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Transbank\Webpay\Exceptions;
+namespace Transbank\Webpay\Oneclick;
 
-class InscriptionFinishResponse extends TransbankException
+class InscriptionFinishResponse
 {
 
     public $responseCode;

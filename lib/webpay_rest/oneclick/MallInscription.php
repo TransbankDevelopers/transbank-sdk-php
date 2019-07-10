@@ -5,11 +5,8 @@ namespace Transbank\Webpay\Oneclick;
 
 
 use Transbank\Webpay\Exceptions\InscriptionFinishException;
-use Transbank\Webpay\Exceptions\InscriptionFinishResponse;
 use Transbank\Webpay\Exceptions\InscriptionStartException;
-use Transbank\Webpay\Exceptions\TransactionCreateException;
 use Transbank\Webpay\Oneclick;
-use Transbank\Webpay\WebpayPlus\TransactionCreateResponse;
 
 class MallInscription
 {
