@@ -111,17 +111,17 @@ class InscriptionFinishResponse
      */
     public function getLastFourCardDigits()
     {
-        return $this->lastFourDigits;
+        return $this->lastFourCardDigits;
     }
 
     /**
-     * @param mixed $lastFourDigits
+     * @param mixed $lastFourCardDigits
      *
      * @return InscriptionFinishResponse
      */
-    public function setLastFourCardDigits($lastFourDigits)
+    public function setLastFourCardDigits($lastFourCardDigits)
     {
-        $this->lastFourDigits = $lastFourDigits;
+        $this->lastFourCardDigits = $lastFourCardDigits;
         return $this;
     }
 }
