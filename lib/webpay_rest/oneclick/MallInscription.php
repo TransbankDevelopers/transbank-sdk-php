@@ -80,7 +80,7 @@ class MallInscription
 
         $url = str_replace('$TOKEN$', $token, self::INSCRIPTION_FINISH_ENDPOINT);
 
-        $httpResponse = $http->post($baseUrl,
+        $httpResponse = $http->put($baseUrl,
             $url,
             [],
             ['headers' => $headers]
