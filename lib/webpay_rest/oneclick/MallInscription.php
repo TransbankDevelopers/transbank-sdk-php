@@ -14,8 +14,8 @@ use Transbank\Webpay\WebpayPlus\TransactionCreateResponse;
 class MallInscription
 {
 
-    const INSCRIPTION_START_ENDPOINT = '/rswebpaytransaction/api/oneclick/v1.0/inscriptions';
-    const INSCRIPTION_FINISH_ENDPOINT = ' /rswebpaytransaction/api/oneclick/v1.0/inscriptions/$TOKEN$';
+    const INSCRIPTION_START_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/inscriptions';
+    const INSCRIPTION_FINISH_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/inscriptions/$TOKEN$';
 
     public static function start($userName, $email, $responseUrl, $options = null)
     {
