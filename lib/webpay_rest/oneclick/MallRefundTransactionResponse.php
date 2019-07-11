@@ -12,7 +12,7 @@ class MallRefundTransactionResponse
     public $authorizationDate;
     public $nullifiedAmount;
     public $balance;
-
+    public $responseCode;
 
     public function __construct($json)
     {
@@ -144,11 +144,6 @@ class MallRefundTransactionResponse
     {
         $this->responseCode = $responseCode;
         return $this;
-    }
-    public $responseCode;
-
-    public function __construct()
-    {
     }
 
 
