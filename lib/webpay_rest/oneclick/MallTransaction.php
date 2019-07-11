@@ -5,6 +5,7 @@ namespace Transbank\Webpay\Oneclick;
 
 
 use Transbank\Webpay\Exceptions\AuthorizeMallTransactionException;
+use Transbank\Webpay\Exceptions\MallRefundTransactionException;
 use Transbank\Webpay\Exceptions\MallTransactionStatusException;
 use Transbank\Webpay\Oneclick;
 
@@ -101,10 +102,50 @@ class MallTransaction
         return $mallTransactionStatusResponse;
     }
 
-    public static function refund($buyOrder, $amount, $options = null)
+    public static function refund($buyOrder,$childCommerceCode, $childBuyOrder, $amount, $options = null)
     {
+        if ($options == null) {
+            $commerceCode = Oneclick::getCommerceCode();
+            $apiKey = Oneclick::getApiKey();
+            $baseUrl = Oneclick::getIntegrationTypeUrl();
+        } else {
+            $commerceCode = $options->getCommerceCode();
+            $apiKey = $options->getApiKey();
+            $baseUrl = Oneclick::getIntegrationTypeUrl($options->getIntegrationType());
+        }
 
+        $http = Oneclick::getHttpClient();
+        $headers = [
+            "Tbk-Api-Key-Id" => $commerceCode,
+            "Tbk-Api-Key-Secret" => $apiKey
+        ];
+
+        $payload = json_encode([
+            "detail_buy_order" => $childBuyOrder,
+            "commerce_code" => $childCommerceCode,
+            "amount" => $amount
+        ]);
+
+        $url = str_replace('$BUYORDER$', $buyOrder, self::TRANSACTION_REFUND_ENDPOINT);
+        $httpResponse = $http->post($baseUrl,
+            $url,
+            $payload,
+            ['headers' => $headers]
+        );
+
+        if (!$httpResponse) {
+            throw new MallRefundTransactionException('Could not obtain a response from the service', -1);
+        }
+
+        $responseJson = json_decode($httpResponse, true);
+        if (isset($responseJson['error_message'])) {
+            throw new MallRefundTransactionException($responseJson['error_message']);
+        }
+        $json = json_decode($httpResponse, true);
+
+        $mallRefundTransactionResponse = new MallRefundTransactionResponse($json);
+
+        return $mallRefundTransactionResponse;
     }
-
 
 }
