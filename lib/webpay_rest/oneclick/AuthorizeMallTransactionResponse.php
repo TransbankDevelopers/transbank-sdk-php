@@ -37,7 +37,7 @@ class AuthorizeMallTransactionResponse
     /**
      * @param mixed $buyOrder
      *
-     * @return AuthorizeMallTransactionResponse
+     * @return MallTransactionStatusResponse
      */
     public function setBuyOrder($buyOrder)
     {
@@ -56,7 +56,7 @@ class AuthorizeMallTransactionResponse
     /**
      * @param mixed $sessionId
      *
-     * @return AuthorizeMallTransactionResponse
+     * @return MallTransactionStatusResponse
      */
     public function setSessionId($sessionId)
     {
@@ -75,7 +75,7 @@ class AuthorizeMallTransactionResponse
     /**
      * @param mixed $cardNumber
      *
-     * @return AuthorizeMallTransactionResponse
+     * @return MallTransactionStatusResponse
      */
     public function setCardNumber($cardNumber)
     {
@@ -94,7 +94,7 @@ class AuthorizeMallTransactionResponse
     /**
      * @param mixed $expirationDate
      *
-     * @return AuthorizeMallTransactionResponse
+     * @return MallTransactionStatusResponse
      */
     public function setExpirationDate($expirationDate)
     {
@@ -113,7 +113,7 @@ class AuthorizeMallTransactionResponse
     /**
      * @param mixed $accountingDate
      *
-     * @return AuthorizeMallTransactionResponse
+     * @return MallTransactionStatusResponse
      */
     public function setAccountingDate($accountingDate)
     {
@@ -132,7 +132,7 @@ class AuthorizeMallTransactionResponse
     /**
      * @param mixed $transactionDate
      *
-     * @return AuthorizeMallTransactionResponse
+     * @return MallTransactionStatusResponse
      */
     public function setTransactionDate($transactionDate)
     {
@@ -151,7 +151,7 @@ class AuthorizeMallTransactionResponse
     /**
      * @param mixed $details
      *
-     * @return AuthorizeMallTransactionResponse
+     * @return MallTransactionStatusResponse
      */
     public function setDetails($details)
     {
