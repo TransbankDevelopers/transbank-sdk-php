@@ -17,13 +17,25 @@ class AuthorizeMallTransactionResponse
     public function __construct($json)
     {
         $buyOrder = isset($json["buy_order"]) ? $json["buy_order"] : null;
+        $this->setBuyOrder($buyOrder);
+
         $sessionId = isset($json["session_id"]) ? $json["session_id"] : null;
+        $this->setSessionId($sessionId);
+
         $cardNumber = isset($json["card_detail"]) ? isset($json["card_detail"]["card_number"]) ? $json["card_detail"]["card_number"] : null : null;
+        $this->setCardNumber($cardNumber);
 
         $expirationDate = isset($json["expiration_date"]) ? $json["expiration_date"] : null;
+        $this->setExpirationDate($expirationDate);
+
         $accountingDate = isset($json["accounting:date"]) ? $json["accounting:date"] : null;
+        $this->setAccountingDate($accountingDate);
+
         $transactionDate = isset($json["transaction_date"]) ? $json["transaction_date"] : null;
+        $this->setTransactionDate($transactionDate);
+
         $details = isset($json["details"]) ? $json["details"] : null;
+        $this->setDetails($details);
     }
 
     /**
