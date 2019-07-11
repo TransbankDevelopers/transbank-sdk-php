@@ -13,6 +13,25 @@ class MallRefundTransactionResponse
     public $nullifiedAmount;
     public $balance;
 
+
+    public function __construct($json)
+    {
+        $type = isset($json["type"]) ? $json["type"] : null;
+        $this->setType($type);
+
+        $authorizationCode = isset($json["authorization_code"]) ? $json["authorization_code"] : null;
+        $this->setAuthorizationCode($authorizationCode);
+
+        $authorizationDate = isset($json["authorization_date"]) ? $json["authorization_date"] : null;
+        $this->setAuthorizationDate($authorizationDate);
+
+        $nullifiedAmount = isset($json["nullified_amount"]) ? $json["nullified_amount"] : null;
+        $this->setNullifiedAmount($nullifiedAmount);
+
+        $balance = isset($json["balance"]) ? $json["balance"] : null;
+        $this->setBalance($balance);
+    }
+
     /**
      * @return mixed
      */
