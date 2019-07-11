@@ -28,7 +28,7 @@ class AuthorizeMallTransactionResponse
         $expirationDate = isset($json["expiration_date"]) ? $json["expiration_date"] : null;
         $this->setExpirationDate($expirationDate);
 
-        $accountingDate = isset($json["accounting:date"]) ? $json["accounting:date"] : null;
+        $accountingDate = isset($json["accounting_date"]) ? $json["accounting_date"] : null;
         $this->setAccountingDate($accountingDate);
 
         $transactionDate = isset($json["transaction_date"]) ? $json["transaction_date"] : null;
