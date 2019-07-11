@@ -5,7 +5,6 @@ namespace Transbank\Webpay\Oneclick;
 
 
 use Transbank\Webpay\Exceptions\AuthorizeMallTransactionException;
-use Transbank\Webpay\Exceptions\InscriptionStartException;
 use Transbank\Webpay\Oneclick;
 
 class MallTransaction
@@ -26,7 +25,7 @@ class MallTransaction
         } else {
             $commerceCode = $options->getCommerceCode();
             $apiKey = $options->getApiKey();
-            $baseUrl = WebpayPlus::getIntegrationTypeUrl($options->getIntegrationType());
+            $baseUrl = Oneclick::getIntegrationTypeUrl($options->getIntegrationType());
         }
 
         $http = Oneclick::getHttpClient();
