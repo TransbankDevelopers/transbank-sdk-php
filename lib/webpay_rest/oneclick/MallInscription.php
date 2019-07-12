@@ -13,6 +13,7 @@ class MallInscription
 
     const INSCRIPTION_START_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/inscriptions';
     const INSCRIPTION_FINISH_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/inscriptions/$TOKEN$';
+    const INSCRIPTION_DELETE_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/inscriptions';
 
     public static function start($userName, $email, $responseUrl, $options = null)
     {
@@ -96,5 +97,48 @@ class MallInscription
         $inscriptionFinishResponse = new InscriptionFinishResponse($json);
 
         return $inscriptionFinishResponse;
+    }
+
+    public static function delete($tbkUser, $userName, $options = null)
+    {
+        if ($options == null) {
+            $commerceCode = Oneclick::getCommerceCode();
+            $apiKey = Oneclick::getApiKey();
+            $baseUrl = Oneclick::getIntegrationTypeUrl();
+        } else {
+            $commerceCode = $options->getCommerceCode();
+            $apiKey = $options->getApiKey();
+            $baseUrl = WebpayPlus::getIntegrationTypeUrl($options->getIntegrationType());
+        }
+
+        $http = Oneclick::getHttpClient();
+        $headers = [
+            "Tbk-Api-Key-Id" => $commerceCode,
+            "Tbk-Api-Key-Secret" => $apiKey
+        ];
+
+        $payload = json_encode(["tbk_user" => $tbkUser, "username" => $userName]);
+
+        $httpResponse = $http->delete($baseUrl,
+            self::INSCRIPTION_FINISH_ENDPOINT,
+            $payload,
+            ['headers' => $headers]
+        );
+
+        if (!$httpResponse) {
+            throw new InscriptionFinishException('Could not obtain a response from the service', -1);
+        }
+
+        $responseJson = json_decode($httpResponse, true);
+        if (isset($responseJson['error_message'])) {
+            throw new InscriptionFinishException($responseJson['error_message']);
+        }
+        $json = json_decode($httpResponse, true);
+
+        $inscriptionFinishResponse = new InscriptionFinishResponse($json);
+
+        return $inscriptionFinishResponse;
+
+
     }
 }
