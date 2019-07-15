@@ -74,18 +74,19 @@ class Transaction
             ['headers' => $headers]
         );
 
-        if (!$httpResponse) {
-            throw new TransactionCreateException('Could not obtain a response from the service', -1);
+        if ($httpResponse->getStatusCode() != 200) {
+            $reason = $httpResponse->getReasonPhrase();
+            $httpCode = $httpResponse->getStatusCode();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            throw new TransactionCreateException($message, -1);
         }
 
         $responseJson = json_decode($httpResponse, true);
-        if (!$responseJson["token"] || !$responseJson['url']) {
+        if (array_key_exists("error_message", $responseJson)) {
             throw new TransactionCreateException($responseJson['error_message']);
         }
 
-        $json = json_decode($httpResponse, true);
-
-        $transactionCreateResponse = new TransactionCreateResponse($json);
+        $transactionCreateResponse = new TransactionCreateResponse($responseJson);
 
         return $transactionCreateResponse;
     }
@@ -114,8 +115,11 @@ class Transaction
             ['headers' => $headers]
         );
 
-        if (!$httpResponse) {
-            throw new TransactionCommitException('Could not obtain a response from the service', -1);
+        if ($httpResponse->getStatusCode() != 200) {
+            $reason = $httpResponse->getReasonPhrase();
+            $httpCode = $httpResponse->getStatusCode();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            throw new TransactionCommitException($message, -1);
         }
 
         $responseJson = json_decode($httpResponse, true);
@@ -159,8 +163,11 @@ class Transaction
             ['headers' => $headers]
         );
 
-        if (!$httpResponse) {
-            throw new TransactionRefundException('Could not obtain a response from the service', -1);
+        if ($httpResponse->getStatusCode() != 200) {
+            $reason = $httpResponse->getReasonPhrase();
+            $httpCode = $httpResponse->getStatusCode();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            throw new TransactionRefundException($message, -1);
         }
 
         $responseJson = json_decode($httpResponse, true);
@@ -198,8 +205,11 @@ class Transaction
             ['headers' => $headers]);
 
 
-        if (!$httpResponse) {
-            throw new TransactionStatusException('Could not obtain a response from the service', -1);
+        if ($httpResponse->getStatusCode() != 200) {
+            $reason = $httpResponse->getReasonPhrase();
+            $httpCode = $httpResponse->getStatusCode();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            throw new TransactionStatusException($message, -1);
         }
 
         $responseJson = json_decode($httpResponse, true);
@@ -250,12 +260,15 @@ class Transaction
             ['headers' => $headers]
         );
 
-        if (!$httpResponse) {
-            throw new TransactionCreateException('Could not obtain a response from the service', -1);
+        if ($httpResponse->getStatusCode() != 200) {
+            $reason = $httpResponse->getReasonPhrase();
+            $httpCode = $httpResponse->getStatusCode();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            throw new TransactionCreateException($message, -1);
         }
 
         $responseJson = json_decode($httpResponse, true);
-        if (!$responseJson["token"] || !$responseJson['url']) {
+        if (array_key_exists("error_message", $responseJson)) {
             throw new TransactionCreateException($responseJson['error_message']);
         }
 
@@ -290,8 +303,11 @@ class Transaction
             ['headers' => $headers]
         );
 
-        if (!$httpResponse) {
-            throw new TransactionCommitException('Could not obtain a response from the service', -1);
+        if ($httpResponse->getStatusCode() != 200) {
+            $reason = $httpResponse->getReasonPhrase();
+            $httpCode = $httpResponse->getStatusCode();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            throw new TransactionCommitException($message, -1);
         }
 
         $responseJson = json_decode($httpResponse, true);
@@ -340,8 +356,11 @@ class Transaction
             ['headers' => $headers]
         );
 
-        if (!$httpResponse) {
-            throw new TransactionRefundException('Could not obtain a response from the service', -1);
+        if ($httpResponse->getStatusCode() != 200) {
+            $reason = $httpResponse->getReasonPhrase();
+            $httpCode = $httpResponse->getStatusCode();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            throw new TransactionRefundException($message, -1);
         }
 
         $responseJson = json_decode($httpResponse, true);
@@ -379,8 +398,11 @@ class Transaction
             ['headers' => $headers]);
 
 
-        if (!$httpResponse) {
-            throw new TransactionStatusException('Could not obtain a response from the service', -1);
+        if ($httpResponse->getStatusCode() != 200) {
+            $reason = $httpResponse->getReasonPhrase();
+            $httpCode = $httpResponse->getStatusCode();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            throw new TransactionStatusException($message, -1);
         }
 
         $responseJson = json_decode($httpResponse, true);
@@ -424,12 +446,14 @@ class Transaction
             $payload,
             ['headers' => $headers]);
 
-        if (!$httpResponse) {
-            throw new TransactionCaptureException('Could not obtain a response from the service', -1);
+        if ($httpResponse->getStatusCode() != 200) {
+            $reason = $httpResponse->getReasonPhrase();
+            $httpCode = $httpResponse->getStatusCode();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            throw new TransactionCaptureException($message, -1);
         }
 
         $responseJson = json_decode($httpResponse, true);
-
 
         if (array_key_exists("error_message", $responseJson)) {
             throw new TransactionCaptureException($responseJson['error_message']);

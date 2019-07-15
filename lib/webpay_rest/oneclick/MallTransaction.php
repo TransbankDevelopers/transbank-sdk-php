@@ -48,17 +48,19 @@ class MallTransaction
             ['headers' => $headers]
         );
 
-        if (!$httpResponse) {
-            throw new AuthorizeMallTransactionException('Could not obtain a response from the service', -1);
+        if ($httpResponse->getStatusCode() != 200) {
+            $reason = $httpResponse->getReasonPhrase();
+            $httpCode = $httpResponse->getStatusCode();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            throw new AuthorizeMallTransactionException($message, -1);
         }
 
         $responseJson = json_decode($httpResponse, true);
-        if (isset($responseJson['error_message'])) {
+        if (array_key_exists('error_message', $responseJson)) {
             throw new AuthorizeMallTransactionException($responseJson['error_message']);
         }
-        $json = json_decode($httpResponse, true);
 
-        $authorizeTransactionResponse = new AuthorizeMallTransactionResponse($json);
+        $authorizeTransactionResponse = new AuthorizeMallTransactionResponse($responseJson);
 
         return $authorizeTransactionResponse;
     }
@@ -87,17 +89,18 @@ class MallTransaction
             ['headers' => $headers]
         );
 
-        if (!$httpResponse) {
-            throw new MallTransactionStatusException('Could not obtain a response from the service', -1);
+        if ($httpResponse->getStatusCode() != 200) {
+            $reason = $httpResponse->getReasonPhrase();
+            $httpCode = $httpResponse->getStatusCode();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            throw new MallTransactionStatusException($message, -1);
         }
 
         $responseJson = json_decode($httpResponse, true);
-        if (isset($responseJson['error_message'])) {
+        if (array_key_exists('error_message', $responseJson)) {
             throw new MallTransactionStatusException($responseJson['error_message']);
         }
-        $json = json_decode($httpResponse, true);
-
-        $mallTransactionStatusResponse = new MallTransactionStatusResponse($json);
+        $mallTransactionStatusResponse = new MallTransactionStatusResponse($responseJson);
 
         return $mallTransactionStatusResponse;
     }
@@ -133,17 +136,19 @@ class MallTransaction
             ['headers' => $headers]
         );
 
-        if (!$httpResponse) {
-            throw new MallRefundTransactionException('Could not obtain a response from the service', -1);
+        if ($httpResponse->getStatusCode() != 200) {
+            $reason = $httpResponse->getReasonPhrase();
+            $httpCode = $httpResponse->getStatusCode();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            throw new MallRefundTransactionException($message, -1);
         }
 
         $responseJson = json_decode($httpResponse, true);
-        if (isset($responseJson['error_message'])) {
+        if (array_key_exists('error_message', $responseJson)) {
             throw new MallRefundTransactionException($responseJson['error_message']);
         }
-        $json = json_decode($httpResponse, true);
 
-        $mallRefundTransactionResponse = new MallRefundTransactionResponse($json);
+        $mallRefundTransactionResponse = new MallRefundTransactionResponse($responseJson);
 
         return $mallRefundTransactionResponse;
     }

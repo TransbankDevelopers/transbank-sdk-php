@@ -42,17 +42,18 @@ class MallInscription
             ['headers' => $headers]
         );
 
-        if (!$httpResponse) {
-            throw new InscriptionStartException('Could not obtain a response from the service', -1);
+        if ($httpResponse->getStatusCode() != 200) {
+            $reason = $httpResponse->getReasonPhrase();
+            $httpCode = $httpResponse->getStatusCode();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            throw new InscriptionStartException($message, -1);
         }
 
         $responseJson = json_decode($httpResponse, true);
-        if (isset($responseJson['error_message'])) {
+        if (array_key_exists('error_message', $responseJson)) {
             throw new InscriptionStartException($responseJson['error_message']);
         }
-        $json = json_decode($httpResponse, true);
-
-        $inscriptionStartResponse = new InscriptionStartResponse($json);
+        $inscriptionStartResponse = new InscriptionStartResponse($responseJson);
 
         return $inscriptionStartResponse;
     }
@@ -84,12 +85,16 @@ class MallInscription
             ['headers' => $headers]
         );
 
-        if (!$httpResponse) {
-            throw new InscriptionFinishException('Could not obtain a response from the service', -1);
+        if ($httpResponse->getStatusCode() != 200) {
+            $reason = $httpResponse->getReasonPhrase();
+            $httpCode = $httpResponse->getStatusCode();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            throw new InscriptionFinishException($message, -1);
         }
 
         $responseJson = json_decode($httpResponse, true);
-        if (isset($responseJson['error_message'])) {
+
+        if (array_key_exists('error_message', $responseJson)) {
             throw new InscriptionFinishException($responseJson['error_message']);
         }
         $json = json_decode($httpResponse, true);
@@ -125,20 +130,20 @@ class MallInscription
             ['headers' => $headers]
         );
 
-        if (!$httpResponse) {
-            throw new InscriptionFinishException('Could not obtain a response from the service', -1);
+        if ($httpResponse->getStatusCode() != 200) {
+            $reason = $httpResponse->getReasonPhrase();
+            $httpCode = $httpResponse->getStatusCode();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            throw new InscriptionFinishException($message, -1);
         }
 
         $responseJson = json_decode($httpResponse, true);
-        if (isset($responseJson['error_message'])) {
+        if (array_key_exists('error_message', $responseJson)) {
             throw new InscriptionFinishException($responseJson['error_message']);
         }
-        $json = json_decode($httpResponse, true);
 
-        $inscriptionFinishResponse = new InscriptionFinishResponse($json);
+        $inscriptionFinishResponse = new InscriptionFinishResponse($responseJson);
 
         return $inscriptionFinishResponse;
-
-
     }
 }
