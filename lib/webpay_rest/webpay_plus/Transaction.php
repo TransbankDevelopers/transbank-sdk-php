@@ -81,7 +81,7 @@ class Transaction
             throw new TransactionCreateException($message, -1);
         }
 
-        $responseJson = json_decode($httpResponse, true);
+        $responseJson = json_decode($httpResponse->getBody(), true);
         if (array_key_exists("error_message", $responseJson)) {
             throw new TransactionCreateException($responseJson['error_message']);
         }
@@ -122,7 +122,7 @@ class Transaction
             throw new TransactionCommitException($message, -1);
         }
 
-        $responseJson = json_decode($httpResponse, true);
+        $responseJson = json_decode($httpResponse->getBody(), true);
 
         if (array_key_exists("error_message", $responseJson)) {
             throw new TransactionCommitException($responseJson['error_message']);
@@ -170,7 +170,7 @@ class Transaction
             throw new TransactionRefundException($message, -1);
         }
 
-        $responseJson = json_decode($httpResponse, true);
+        $responseJson = json_decode($httpResponse->getBody(), true);
 
         if (array_key_exists("error_message", $responseJson)) {
             throw new TransactionRefundException($responseJson['error_message']);
@@ -212,7 +212,7 @@ class Transaction
             throw new TransactionStatusException($message, -1);
         }
 
-        $responseJson = json_decode($httpResponse, true);
+        $responseJson = json_decode($httpResponse->getBody(), true);
 
         if (array_key_exists("error_message", $responseJson)) {
             throw new TransactionStatusException($responseJson['error_message']);
@@ -267,12 +267,12 @@ class Transaction
             throw new TransactionCreateException($message, -1);
         }
 
-        $responseJson = json_decode($httpResponse, true);
+        $responseJson = json_decode($httpResponse->getBody(), true);
         if (array_key_exists("error_message", $responseJson)) {
             throw new TransactionCreateException($responseJson['error_message']);
         }
 
-        $json = json_decode($httpResponse, true);
+        $json = json_decode($httpResponse->getBody(), true);
 
         $transactionCreateResponse = new TransactionCreateResponse($json);
 
@@ -310,7 +310,7 @@ class Transaction
             throw new TransactionCommitException($message, -1);
         }
 
-        $responseJson = json_decode($httpResponse, true);
+        $responseJson = json_decode($httpResponse->getBody(), true);
 
         if (array_key_exists("error_message", $responseJson)) {
             throw new TransactionCommitException($responseJson['error_message']);
@@ -363,7 +363,7 @@ class Transaction
             throw new TransactionRefundException($message, -1);
         }
 
-        $responseJson = json_decode($httpResponse, true);
+        $responseJson = json_decode($httpResponse->getBody(), true);
 
         if (array_key_exists("error_message", $responseJson)) {
             throw new TransactionRefundException($responseJson['error_message']);
@@ -405,7 +405,7 @@ class Transaction
             throw new TransactionStatusException($message, -1);
         }
 
-        $responseJson = json_decode($httpResponse, true);
+        $responseJson = json_decode($httpResponse->getBody(), true);
 
         if (array_key_exists("error_message", $responseJson)) {
             throw new TransactionStatusException($responseJson['error_message']);
@@ -453,7 +453,7 @@ class Transaction
             throw new TransactionCaptureException($message, -1);
         }
 
-        $responseJson = json_decode($httpResponse, true);
+        $responseJson = json_decode($httpResponse->getBody(), true);
 
         if (array_key_exists("error_message", $responseJson)) {
             throw new TransactionCaptureException($responseJson['error_message']);

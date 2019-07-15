@@ -49,7 +49,7 @@ class MallInscription
             throw new InscriptionStartException($message, -1);
         }
 
-        $responseJson = json_decode($httpResponse, true);
+        $responseJson = json_decode($httpResponse->getBody(), true);
         if (array_key_exists('error_message', $responseJson)) {
             throw new InscriptionStartException($responseJson['error_message']);
         }
@@ -92,12 +92,12 @@ class MallInscription
             throw new InscriptionFinishException($message, -1);
         }
 
-        $responseJson = json_decode($httpResponse, true);
+        $responseJson = json_decode($httpResponse->getBody(), true);
 
         if (array_key_exists('error_message', $responseJson)) {
             throw new InscriptionFinishException($responseJson['error_message']);
         }
-        $json = json_decode($httpResponse, true);
+        $json = json_decode($httpResponse->getBody(), true);
 
         $inscriptionFinishResponse = new InscriptionFinishResponse($json);
 
@@ -137,7 +137,7 @@ class MallInscription
             throw new InscriptionFinishException($message, -1);
         }
 
-        $responseJson = json_decode($httpResponse, true);
+        $responseJson = json_decode($httpResponse->getBody(), true);
         if (array_key_exists('error_message', $responseJson)) {
             throw new InscriptionFinishException($responseJson['error_message']);
         }
