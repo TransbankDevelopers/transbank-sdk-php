@@ -117,7 +117,7 @@ class Transaction
         $http = WebpayPlus::getHttpClient();
         $httpResponse = $http->put($baseUrl,
             self::COMMIT_TRANSACTION_ENDPOINT . "/" . $token,
-            [],
+            null,
             ['headers' => $headers]
         );
 
@@ -329,7 +329,7 @@ class Transaction
         $http = WebpayPlus::getHttpClient();
         $httpResponse = $http->put($baseUrl,
             self::COMMIT_TRANSACTION_ENDPOINT . "/" . $token,
-            [],
+            null,
             ['headers' => $headers]
         );
 

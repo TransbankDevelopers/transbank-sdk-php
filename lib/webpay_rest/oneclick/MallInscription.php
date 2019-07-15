@@ -87,7 +87,7 @@ class MallInscription
 
         $httpResponse = $http->put($baseUrl,
             $url,
-            [],
+            null,
             ['headers' => $headers]
         );
 
