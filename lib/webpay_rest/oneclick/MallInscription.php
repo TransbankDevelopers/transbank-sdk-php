@@ -108,7 +108,7 @@ class MallInscription
         } else {
             $commerceCode = $options->getCommerceCode();
             $apiKey = $options->getApiKey();
-            $baseUrl = WebpayPlus::getIntegrationTypeUrl($options->getIntegrationType());
+            $baseUrl = Oneclick::getIntegrationTypeUrl($options->getIntegrationType());
         }
 
         $http = Oneclick::getHttpClient();
