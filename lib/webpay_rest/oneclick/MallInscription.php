@@ -46,6 +46,12 @@ class MallInscription
             $reason = $httpResponse->getReasonPhrase();
             $httpCode = $httpResponse->getStatusCode();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
             throw new InscriptionStartException($message, -1);
         }
 
@@ -89,6 +95,12 @@ class MallInscription
             $reason = $httpResponse->getReasonPhrase();
             $httpCode = $httpResponse->getStatusCode();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
             throw new InscriptionFinishException($message, -1);
         }
 
@@ -134,6 +146,12 @@ class MallInscription
             $reason = $httpResponse->getReasonPhrase();
             $httpCode = $httpResponse->getStatusCode();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
             throw new InscriptionFinishException($message, -1);
         }
 

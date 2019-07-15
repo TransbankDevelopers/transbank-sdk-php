@@ -78,6 +78,12 @@ class Transaction
             $reason = $httpResponse->getReasonPhrase();
             $httpCode = $httpResponse->getStatusCode();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
             throw new TransactionCreateException($message, -1);
         }
 
@@ -119,6 +125,12 @@ class Transaction
             $reason = $httpResponse->getReasonPhrase();
             $httpCode = $httpResponse->getStatusCode();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
             throw new TransactionCommitException($message, -1);
         }
 
@@ -167,6 +179,12 @@ class Transaction
             $reason = $httpResponse->getReasonPhrase();
             $httpCode = $httpResponse->getStatusCode();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
             throw new TransactionRefundException($message, -1);
         }
 
@@ -209,6 +227,12 @@ class Transaction
             $reason = $httpResponse->getReasonPhrase();
             $httpCode = $httpResponse->getStatusCode();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
             throw new TransactionStatusException($message, -1);
         }
 
@@ -264,6 +288,12 @@ class Transaction
             $reason = $httpResponse->getReasonPhrase();
             $httpCode = $httpResponse->getStatusCode();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
             throw new TransactionCreateException($message, -1);
         }
 
@@ -307,6 +337,12 @@ class Transaction
             $reason = $httpResponse->getReasonPhrase();
             $httpCode = $httpResponse->getStatusCode();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
             throw new TransactionCommitException($message, -1);
         }
 
@@ -360,6 +396,12 @@ class Transaction
             $reason = $httpResponse->getReasonPhrase();
             $httpCode = $httpResponse->getStatusCode();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
             throw new TransactionRefundException($message, -1);
         }
 
@@ -402,6 +444,12 @@ class Transaction
             $reason = $httpResponse->getReasonPhrase();
             $httpCode = $httpResponse->getStatusCode();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
             throw new TransactionStatusException($message, -1);
         }
 
@@ -450,6 +498,13 @@ class Transaction
             $reason = $httpResponse->getReasonPhrase();
             $httpCode = $httpResponse->getStatusCode();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
+
             throw new TransactionCaptureException($message, -1);
         }
 

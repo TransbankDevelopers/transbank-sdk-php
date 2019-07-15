@@ -52,6 +52,12 @@ class MallTransaction
             $reason = $httpResponse->getReasonPhrase();
             $httpCode = $httpResponse->getStatusCode();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
             throw new AuthorizeMallTransactionException($message, -1);
         }
 
@@ -93,6 +99,12 @@ class MallTransaction
             $reason = $httpResponse->getReasonPhrase();
             $httpCode = $httpResponse->getStatusCode();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
             throw new MallTransactionStatusException($message, -1);
         }
 
@@ -140,6 +152,12 @@ class MallTransaction
             $reason = $httpResponse->getReasonPhrase();
             $httpCode = $httpResponse->getStatusCode();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
             throw new MallRefundTransactionException($message, -1);
         }
 
