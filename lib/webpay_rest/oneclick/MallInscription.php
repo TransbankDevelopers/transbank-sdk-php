@@ -120,7 +120,7 @@ class MallInscription
         $payload = json_encode(["tbk_user" => $tbkUser, "username" => $userName]);
 
         $httpResponse = $http->delete($baseUrl,
-            self::INSCRIPTION_FINISH_ENDPOINT,
+            self::INSCRIPTION_DELETE_ENDPOINT,
             $payload,
             ['headers' => $headers]
         );
