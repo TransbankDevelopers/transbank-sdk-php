@@ -4,6 +4,7 @@
 namespace Transbank\Webpay\Oneclick;
 
 
+use Transbank\Webpay\Exceptions\InscriptionDeleteException;
 use Transbank\Webpay\Exceptions\InscriptionFinishException;
 use Transbank\Webpay\Exceptions\InscriptionStartException;
 use Transbank\Webpay\Oneclick;
@@ -152,15 +153,15 @@ class MallInscription
                 $tbkErrorMessage = $body["error_message"];
                 $message = "$message. Details: $tbkErrorMessage";
             }
-            throw new InscriptionFinishException($message, -1);
+            throw new InscriptionDeleteException($message, -1);
         }
 
         $responseJson = json_decode($httpResponse->getBody(), true);
         if (isset($responseJson["error_message"])) {
-            throw new InscriptionFinishException($responseJson['error_message']);
+            throw new InscriptionDeleteException($responseJson['error_message']);
         }
 
-        $inscriptionFinishResponse = new InscriptionFinishResponse($responseJson);
+        $inscriptionFinishResponse = new InscriptionDeleteResponse($httpCode);
 
         return $inscriptionFinishResponse;
     }
