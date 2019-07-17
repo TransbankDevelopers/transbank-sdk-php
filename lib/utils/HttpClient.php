@@ -11,7 +11,8 @@ class HttpClient {
 
         $fullPath = $url . $path;
         $basicHeader = ["Content-Type" => "application/json"];
-        $headers = array_merge($basicHeader, $options["headers"]);
+        $givenHeaders = isset($options["headers"]) ? $options["headers"] : [];
+        $headers = array_merge($basicHeader, $givenHeaders);
 
         $req = new Request('POST', $fullPath,  $headers, $data_to_send);
         $cl = new Client(['http_errors' => false]);
@@ -25,7 +26,8 @@ class HttpClient {
 
         $fullPath = $url . $path;
         $basicHeader = ["Content-Type" => "application/json"];
-        $headers = array_merge($basicHeader, $options["headers"]);
+        $givenHeaders = isset($options["headers"]) ? $options["headers"] : [];
+        $headers = array_merge($basicHeader, $givenHeaders);
 
         $req = new Request('PUT', $fullPath,  $headers, $data_to_send);
         $cl = new Client(['http_errors' => false]);
@@ -39,7 +41,8 @@ class HttpClient {
 
         $fullPath = $url . $path;
         $basicHeader = ["Content-Type" => "application/json"];
-        $headers = array_merge($basicHeader, $options["headers"]);
+        $givenHeaders = isset($options["headers"]) ? $options["headers"] : [];
+        $headers = array_merge($basicHeader, $givenHeaders);
 
         $req = new Request('GET', $fullPath,  $headers);
         $cl = new Client(['http_errors' => false]);
@@ -52,7 +55,8 @@ class HttpClient {
     {
         $fullPath = $url . $path;
         $basicHeader = ["Content-Type" => "application/json"];
-        $headers = array_merge($basicHeader, $options["headers"]);
+        $givenHeaders = isset($options["headers"]) ? $options["headers"] : [];
+        $headers = array_merge($basicHeader, $givenHeaders);
 
         $req = new Request('DELETE', $fullPath,  $headers, $data_to_send);
         $cl = new Client(['http_errors' => false]);
