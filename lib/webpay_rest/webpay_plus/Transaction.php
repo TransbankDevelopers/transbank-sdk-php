@@ -75,7 +75,7 @@ class Transaction
         );
 
         $httpCode = $httpResponse->getStatusCode();
-        if ($httpCode != 200 || $httpCode != 204) {
+        if ($httpCode != 200 && $httpCode != 204) {
             $reason = $httpResponse->getReasonPhrase();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
             $body = json_decode($httpResponse->getBody(), true);
@@ -122,7 +122,7 @@ class Transaction
         );
 
         $httpCode = $httpResponse->getStatusCode();
-        if ($httpCode != 200 || $httpCode != 204) {
+        if ($httpCode != 200 && $httpCode != 204) {
             $reason = $httpResponse->getReasonPhrase();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
             $body = json_decode($httpResponse->getBody(), true);
@@ -176,7 +176,7 @@ class Transaction
         );
 
         $httpCode = $httpResponse->getStatusCode();
-        if ($httpCode != 200 || $httpCode != 204) {
+        if ($httpCode != 200 && $httpCode != 204) {
             $reason = $httpResponse->getReasonPhrase();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
             $body = json_decode($httpResponse->getBody(), true);
@@ -224,7 +224,7 @@ class Transaction
 
 
         $httpCode = $httpResponse->getStatusCode();
-        if ($httpCode != 200 || $httpCode != 204) {
+        if ($httpCode != 200 && $httpCode != 204) {
             $reason = $httpResponse->getReasonPhrase();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
             $body = json_decode($httpResponse->getBody(), true);
@@ -285,7 +285,7 @@ class Transaction
         );
 
         $httpCode = $httpResponse->getStatusCode();
-        if ($httpCode != 200 || $httpCode != 204) {
+        if ($httpCode != 200 && $httpCode != 204) {
             $reason = $httpResponse->getReasonPhrase();
             $httpCode = $httpResponse->getStatusCode();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
@@ -335,7 +335,7 @@ class Transaction
         );
 
         $httpCode = $httpResponse->getStatusCode();
-        if ($httpCode != 200 || $httpCode != 204) {
+        if ($httpCode != 200 && $httpCode != 204) {
             $reason = $httpResponse->getReasonPhrase();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
             $body = json_decode($httpResponse->getBody(), true);
@@ -394,7 +394,7 @@ class Transaction
         );
 
         $httpCode = $httpResponse->getStatusCode();
-        if ($httpCode != 200 || $httpCode != 204) {
+        if ($httpCode != 200 && $httpCode != 204) {
             $reason = $httpResponse->getReasonPhrase();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
             $body = json_decode($httpResponse->getBody(), true);
@@ -442,7 +442,7 @@ class Transaction
 
 
         $httpCode = $httpResponse->getStatusCode();
-        if ($httpCode != 200 || $httpCode != 204) {
+        if ($httpCode != 200 && $httpCode != 204) {
             $reason = $httpResponse->getReasonPhrase();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
             $body = json_decode($httpResponse->getBody(), true);
@@ -496,7 +496,7 @@ class Transaction
             ['headers' => $headers]);
 
         $httpCode = $httpResponse->getStatusCode();
-        if ($httpCode != 200 || $httpCode != 204) {
+        if ($httpCode != 200 && $httpCode != 204) {
             $reason = $httpResponse->getReasonPhrase();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
             $body = json_decode($httpResponse->getBody(), true);
