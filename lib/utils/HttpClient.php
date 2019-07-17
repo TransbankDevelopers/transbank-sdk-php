@@ -7,7 +7,7 @@ use GuzzleHttp\Psr7\Response;
 
 class HttpClient {
 
-    function post($url, $path, $data_to_send, $options = array('headers' => 0, 'transport' => 'https', 'port' => 443, 'proxy' => null)) {
+    function post($url, $path, $data_to_send, $options = null) {
 
         $fullPath = $url . $path;
         $basicHeader = ["Content-Type" => "application/json"];
@@ -21,7 +21,7 @@ class HttpClient {
         return $res;
     }
 
-    function put($url, $path, $data_to_send, $options = array('headers' => 0, 'transport' => 'https', 'port' => 443, 'proxy' => null))
+    function put($url, $path, $data_to_send, $options = null)
     {
 
         $fullPath = $url . $path;
@@ -36,7 +36,7 @@ class HttpClient {
         return $res;
     }
 
-    function get($url, $path, $options = array('headers' => 0, 'transport' => 'https', 'port' => 443, 'proxy' => null))
+    function get($url, $path, $options = null)
     {
 
         $fullPath = $url . $path;
@@ -51,7 +51,7 @@ class HttpClient {
         return $res;
     }
 
-    public function delete($url, $path, $data_to_send, $options = array('headers' => 0, 'transport' => 'https', 'port' => 443, 'proxy' => null))
+    public function delete($url, $path, $data_to_send, $options = null)
     {
         $fullPath = $url . $path;
         $basicHeader = ["Content-Type" => "application/json"];
@@ -64,19 +64,4 @@ class HttpClient {
         $res = $cl->send($req);
         return $res;
     }
-
-    public function toHeaderStrings($associativeArray)
-    {
-
-        $keys = array_keys($associativeArray);
-        $values = array_values($associativeArray);
-
-
-        $func = function($key, $value)
-        {
-            return  $key . ": " . $value;
-        };
-        return array_map($func, $keys, $values);
-    }
-
 }
