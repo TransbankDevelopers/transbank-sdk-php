@@ -62,7 +62,7 @@ class MallTransaction
         }
 
         $responseJson = json_decode($httpResponse->getBody(), true);
-        if (array_key_exists('error_message', $responseJson)) {
+        if (isset($responseJson["error_message"])) {
             throw new AuthorizeMallTransactionException($responseJson['error_message']);
         }
 
@@ -109,7 +109,7 @@ class MallTransaction
         }
 
         $responseJson = json_decode($httpResponse->getBody(), true);
-        if (array_key_exists('error_message', $responseJson)) {
+        if (isset($responseJson["error_message"])) {
             throw new MallTransactionStatusException($responseJson['error_message']);
         }
         $mallTransactionStatusResponse = new MallTransactionStatusResponse($responseJson);
@@ -162,7 +162,7 @@ class MallTransaction
         }
 
         $responseJson = json_decode($httpResponse->getBody(), true);
-        if (array_key_exists('error_message', $responseJson)) {
+        if (isset($responseJson["error_message"])) {
             throw new MallRefundTransactionException($responseJson['error_message']);
         }
 

@@ -56,7 +56,7 @@ class MallInscription
         }
 
         $responseJson = json_decode($httpResponse->getBody(), true);
-        if (array_key_exists('error_message', $responseJson)) {
+        if (isset($responseJson["error_message"])) {
             throw new InscriptionStartException($responseJson['error_message']);
         }
         $inscriptionStartResponse = new InscriptionStartResponse($responseJson);
@@ -106,7 +106,7 @@ class MallInscription
 
         $responseJson = json_decode($httpResponse->getBody(), true);
 
-        if (array_key_exists('error_message', $responseJson)) {
+        if (isset($responseJson["error_message"])) {
             throw new InscriptionFinishException($responseJson['error_message']);
         }
         $json = json_decode($httpResponse->getBody(), true);
@@ -156,7 +156,7 @@ class MallInscription
         }
 
         $responseJson = json_decode($httpResponse->getBody(), true);
-        if (array_key_exists('error_message', $responseJson)) {
+        if (isset($responseJson["error_message"])) {
             throw new InscriptionFinishException($responseJson['error_message']);
         }
 
