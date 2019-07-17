@@ -465,6 +465,62 @@ class Transaction
         return $transactionMallStatusResponse;
     }
 
+    public static function mallCapture($childCommerceCode, $token, $buyOrder, $authorizationCode, $captureAmount, $options = null)
+    {
+        $url = str_replace('$TOKEN$', $token, self::CAPTURE_ENDPOINT);
+        if ($options == null) {
+            $commerceCode = WebpayPlus::getCommerceCode();
+            $apiKey = WebpayPlus::getApiKey();
+            $baseUrl = WebpayPlus::getIntegrationTypeUrl();
+        } else {
+            $commerceCode = $options->getCommerceCode();
+            $apiKey = $options->getApiKey();
+            $baseUrl = WebpayPlus::getIntegrationTypeUrl($options->getIntegrationType());
+        }
+
+        $headers = [
+            "Tbk-Api-Key-Id" => $commerceCode,
+            "Tbk-Api-Key-Secret" => $apiKey
+        ];
+
+        $payload = json_encode([
+            "commerce_code" => $childCommerceCode,
+            "buy_order" => $buyOrder,
+            "authorization_code" => $authorizationCode,
+            "capture_amount" => $captureAmount
+        ]);
+
+        $http = WebpayPlus::getHttpClient();
+        $httpResponse = $http->put($baseUrl,
+            $url,
+            $payload,
+            ['headers' => $headers]);
+
+        $httpCode = $httpResponse->getStatusCode();
+        if ($httpCode != 200 && $httpCode != 204) {
+            $reason = $httpResponse->getReasonPhrase();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
+
+            throw new TransactionCaptureException($message, -1);
+        }
+
+        $responseJson = json_decode($httpResponse->getBody(), true);
+
+        if (isset($responseJson["error_message"])) {
+            throw new TransactionCaptureException($responseJson['error_message']);
+        }
+
+        $transactionCaptureResponse = new TransactionCaptureResponse($responseJson);
+
+        return $transactionCaptureResponse;
+    }
+
     public static function capture($token, $buyOrder, $authorizationCode, $captureAmount, $options = null)
     {
         $url = str_replace('$TOKEN$', $token, self::CAPTURE_ENDPOINT);
