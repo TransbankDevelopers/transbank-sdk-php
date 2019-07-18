@@ -75,7 +75,7 @@ class TransactionCommitResponse
         $this->status = isset($json["status"]) ? $json["status"] : null;
         $this->buyOrder = isset($json["buy_order"]) ? $json["buy_order"] : null;
         $this->sessionId = isset($json["session_id"]) ?$json["session_id"] : null;
-        $this->cardNumber = isset($json["card_detail"]) ? (isset($json["card_detail"]["card_number"]) ? $json["card_detail"] : null) : null;
+        $this->cardNumber = isset($json["card_detail"]) ? (isset($json["card_detail"]["card_number"]) ? $json["card_detail"]["card_number"] : null) : null;
         $this->accountingDate = isset($json["accounting_date"]) ? $json["accounting_date"] : null;
         $this->transactionDate = isset($json["transaction_date"]) ? $json["transaction_date"] : null;
         $this->authorizationCode = isset($json["authorization_code"]) ? $json["authorization_code"] : null;
