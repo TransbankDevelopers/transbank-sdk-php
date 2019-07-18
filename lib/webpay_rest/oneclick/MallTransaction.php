@@ -51,7 +51,7 @@ class MallTransaction
         $httpCode = $httpResponse->getStatusCode();
         if ($httpCode != 200 && $httpCode != 204) {
             $reason = $httpResponse->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
             if (isset($body["error_message"])) {
@@ -98,7 +98,7 @@ class MallTransaction
         $httpCode = $httpResponse->getStatusCode();
         if ($httpCode != 200 && $httpCode != 204) {
             $reason = $httpResponse->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
             if (isset($body["error_message"])) {
@@ -151,7 +151,7 @@ class MallTransaction
         $httpCode = $httpResponse->getStatusCode();
         if ($httpCode != 200 && $httpCode != 204) {
             $reason = $httpResponse->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
             if (isset($body["error_message"])) {
