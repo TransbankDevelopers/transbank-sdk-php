@@ -36,7 +36,7 @@ class Transaction
             "session_id" => $sessionId,
             "amount" => $amount,
             "return_url" => $returnUrl,
-            "details" => $details
+            "wpm_detail" => $details
         ]);
 
         $http = PatPassByWebpay::getHttpClient();
