@@ -21,6 +21,9 @@ class PatPassByWebpay
         "TEST" => "https://webpay3gint.transbank.cl/",
         "MOCK" => ""
     ];
+
+    private static $integrationType = Options::DEFAULT_INTEGRATION_TYPE;
+
     /**
      * @return mixed
      */
@@ -55,8 +58,8 @@ class PatPassByWebpay
 
     public static function configureForTesting()
     {
-        self::setApiKey('asdasd');
-        self::setCommerceCode('asdas');
+        self::setApiKey(Options::DEFAULT_API_KEY);
+        self::setCommerceCode(Options::DEFAULT_PATPASS_BY_WEBPAY_COMMERCE_CODE);
     }
 
     public static function getHttpClient()

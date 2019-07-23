@@ -16,9 +16,7 @@ class Options
      * on a field called "Tbk-Api-Key-Secret")
      */
     const DEFAULT_API_KEY = '579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C';
-    /**
-     *
-     */
+
     const DEFAULT_COMMERCE_CODE = '597055555532';
     const DEFAULT_INTEGRATION_TYPE = "TEST";
     const DEFAULT_INTEGRATION_TYPE_URL = "https://webpay3gint.transbank.cl/";
@@ -30,6 +28,8 @@ class Options
     const DEFAULT_ONECLICK_MALL_COMMERCE_CODE = '597055555541';
     const DEFAULT_ONECLICK_MALL_CHILD_COMMERCE_CODE_1 = '597055555542';
     const DEFAULT_ONECLICK_MALL_CHILD_COMMERCE_CODE_2 = '597055555543';
+
+    const DEFAULT_PATPASS_BY_WEBPAY_COMMERCE_CODE = '597055555550';
 
     /**
      * @var string $apiKey Your api key, given by Transbank.Sent as a header when
