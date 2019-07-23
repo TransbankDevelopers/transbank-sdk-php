@@ -26,7 +26,7 @@ class TransactionCommitResponse
     {
 
         $this->setVci($this->returnValueIfExists($json, 'vci'));
-        $this->setAmount($this->returnValueIfExists($json, 'vci'));
+        $this->setAmount($this->returnValueIfExists($json, 'amount'));
         $this->setStatus($this->returnValueIfExists($json, 'status'));
         $this->setBuyOrder($this->returnValueIfExists($json, 'buy_order'));
         $this->setSessionId($this->returnValueIfExists($json, 'session_id'));
