@@ -13,7 +13,7 @@ class Transaction
 
     const CREATE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions';
 
-    const COMMIT_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$';
+    const COMMIT_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions';
     public static function create($buyOrder, $sessionId, $amount, $returnUrl, $details, $options = null)
     {
         if ($options == null) {
