@@ -8,6 +8,7 @@ namespace Transbank\Onepay;
  * 
  */
 use Transbank\Onepay\Exceptions\RefundCreateException as RefundCreateException;
+use Transbank\Utils\HttpClient;
 
 class Refund {
     const REFUND_TRANSACTION = "nullifytransaction";

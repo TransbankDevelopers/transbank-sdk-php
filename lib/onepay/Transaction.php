@@ -10,6 +10,7 @@ namespace Transbank\Onepay;
 use Transbank\Onepay\Exceptions\TransactionCreateException;
 use Transbank\Onepay\Exceptions\TransactionCommitException;
 use Transbank\Onepay\Exceptions\SignException;
+use Transbank\Utils\HttpClient;
 
  class Transaction {
     const SEND_TRANSACTION = "sendtransaction";

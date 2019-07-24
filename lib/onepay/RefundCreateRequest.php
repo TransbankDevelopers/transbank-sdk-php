@@ -24,6 +24,7 @@ class RefundCreateRequest extends BaseRequest implements \JsonSerializable {
                                 $issuedAt = null, $signature = null)
     {
         $this->nullifyAmount = $nullifyAmount;
+
         $this->occ = $occ;
         $this->externalUniqueNumber = $externalUniqueNumber;
         $this->authorizationCode = $authorizationCode;
