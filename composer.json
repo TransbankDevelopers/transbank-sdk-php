@@ -17,7 +17,11 @@
     "autoload": {
       "psr-4": { "Transbank\\Onepay\\" : ["lib/onepay", "lib/onepay/utils"],
                   "Transbank\\Onepay\\Exceptions\\": ["lib/onepay/exceptions"],
-                  "Transbank\\Webpay\\" : ["lib/webpay", "lib/webpay/soap"]}
+                  "Transbank\\Webpay\\" : ["lib/webpay", "lib/webpay/soap"],
+                  "Transbank\\PatPass\\Commerce":  ["lib/patpass/commerce"],
+                  "Transbank\\PatPass\\Exceptions": ["lib/patpass/exceptions"]
+
+      }
     },
     "license": "BSD-3-Clause"
 }
