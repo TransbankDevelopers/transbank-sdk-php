@@ -1,5 +1,5 @@
 <?php
-namespace Transbank\PatPassByWebpay;
+namespace Transbank\PatpassByWebpay;
 
 class TransactionStatusResponse
 {
