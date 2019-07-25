@@ -16,9 +16,13 @@ class MallTransaction
     const TRANSACTION_STATUS_ENDPONT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/$BUYORDER$';
     const TRANSACTION_REFUND_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/$BUYORDER$/refunds';
 
-    public static function authorize($userName, $tbkUser, $parentBuyOrder, $details,
-                                     $options = null)
-    {
+    public static function authorize(
+        $userName,
+        $tbkUser,
+        $parentBuyOrder,
+        $details,
+        $options = null
+    ) {
 
         if ($options == null) {
             $commerceCode = Oneclick::getCommerceCode();
@@ -40,7 +44,8 @@ class MallTransaction
             "username" => $userName,
             "tbk_user" => $tbkUser,
             "buy_order" => $parentBuyOrder,
-            "details" => $details]);
+            "details" => $details
+        ]);
 
         $httpResponse = $http->post($baseUrl,
             self::AUTHORIZE_TRANSACTION_ENDPOINT,
@@ -117,7 +122,7 @@ class MallTransaction
         return $mallTransactionStatusResponse;
     }
 
-    public static function refund($buyOrder,$childCommerceCode, $childBuyOrder, $amount, $options = null)
+    public static function refund($buyOrder, $childCommerceCode, $childBuyOrder, $amount, $options = null)
     {
         if ($options == null) {
             $commerceCode = Oneclick::getCommerceCode();
@@ -170,5 +175,4 @@ class MallTransaction
 
         return $mallRefundTransactionResponse;
     }
-
 }
