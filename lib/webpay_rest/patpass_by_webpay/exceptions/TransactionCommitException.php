@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Transbank\Webpay\PatPassByWebpay\Exceptions;
+namespace Transbank\PatPassByWebpay\Exceptions;
 
 use Transbank\Webpay\Exceptions\TransbankException;
 

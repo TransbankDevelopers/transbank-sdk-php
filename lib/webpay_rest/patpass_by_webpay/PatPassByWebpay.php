@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Transbank\Webpay;
+namespace Transbank\PatPassByWebpay;
 
 
 use Transbank\Utils\HttpClient;

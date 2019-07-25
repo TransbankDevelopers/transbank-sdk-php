@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Transbank\Webpay\PatPassByWebpay;
+namespace Transbank\PatPassByWebpay;
 
 
 class TransactionCommitResponse
