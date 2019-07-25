@@ -1,6 +1,7 @@
 <?php
 namespace Transbank\PatpassByWebpay;
 
+use Transbank\PatpassByWebpay;
 use Transbank\PatpassByWebpay\Exceptions\TransactionCreateException;
 use Transbank\PatpassByWebpay\Exceptions\TransactionCommitException;
 use Transbank\PatpassByWebpay\Exceptions\TransactionStatusException;
