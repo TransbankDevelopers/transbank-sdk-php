@@ -22,7 +22,7 @@
                   "Transbank\\Webpay\\WebpayPlus\\":["lib/webpay_rest/webpay_plus"],
                   "Transbank\\Webpay\\Exceptions\\":["lib/webpay_rest/exceptions"],
                   "Transbank\\Utils\\":  ["lib/utils"],
-                  "Transbank\\PatpassByWebpay":["lib/webpay_rest/patpass_by_webpay"]
+                  "Transbank\\PatpassByWebpay\\":["lib/webpay_rest/patpass_by_webpay"]
       }
     },
     "license": "BSD-3-Clause"
