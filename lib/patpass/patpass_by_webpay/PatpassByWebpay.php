@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Transbank;
+namespace Transbank\Patpass;
 
 
 use Transbank\Utils\HttpClient;

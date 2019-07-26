@@ -2,11 +2,11 @@
 
 namespace Transbank\Webpay\WebpayPlus;
 
-use Transbank\Webpay\Exceptions\TransactionCaptureException;
-use Transbank\Webpay\Exceptions\TransactionCommitException;
-use Transbank\Webpay\Exceptions\TransactionCreateException;
-use Transbank\Webpay\Exceptions\TransactionRefundException;
-use Transbank\Webpay\Exceptions\TransactionStatusException;
+use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCaptureException;
+use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCommitException;
+use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCreateException;
+use Transbank\Webpay\WebpayPlus\Exceptions\TransactionRefundException;
+use Transbank\Webpay\WebpayPlus\Exceptions\TransactionStatusException;
 use Transbank\Webpay\Options;
 use Transbank\Webpay\WebpayPlus;
 
