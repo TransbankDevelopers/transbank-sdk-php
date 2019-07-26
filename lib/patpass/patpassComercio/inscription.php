@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class TransactionInscription
+ * Class inscription
  *
  * @category
  * @package Transbank\PatPass\Commerce
@@ -15,7 +15,7 @@ use Transbank\PatPass\Exceptions\InscriptionFinishException;
 use Transbank\PatPass\Exceptions\InscriptionStartException;
 
 
-class TransactionInscription
+class inscription
 {
     const INSCRIPTION_START_ENDPOINT = 'restpatpass/v1/services/patInscription';
     const INSCRIPTION_FINISH_ENDPOINT = 'restpatpass/v1/services/patInscription/$TOKEN$';
@@ -34,6 +34,6 @@ class TransactionInscription
         $city
     )
     {
-        
+
     }
 }

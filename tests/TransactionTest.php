@@ -183,7 +183,7 @@ final class TransactionTest extends TestCase
 
     public function testTransactionCommitWorks()
     {
-        // Setting commerce data
+        // Setting patpassComercio data
         $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
                                "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
 
@@ -225,7 +225,7 @@ final class TransactionTest extends TestCase
         $reflectedHttpClient->setAccessible(true);
         $reflectedHttpClient->setValue($httpClientStub);
 
-        // Setting commerce data
+        // Setting patpassComercio data
         $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
                                "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
 
@@ -264,7 +264,7 @@ final class TransactionTest extends TestCase
         $reflectedHttpClient->setAccessible(true);
         $reflectedHttpClient->setValue($httpClientStub);
 
-        // Setting commerce data
+        // Setting patpassComercio data
         $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
                                "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
 
@@ -316,7 +316,7 @@ final class TransactionTest extends TestCase
         $reflectedHttpClient->setAccessible(true);
         $reflectedHttpClient->setValue($httpClientStub);
 
-        // Setting commerce data
+        // Setting patpassComercio data
         $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
                                "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
 

@@ -3,7 +3,7 @@
 
 /**
  *
- * Class PatPassCommerce
+ * Class patpassComercio
  *
  * @category
  * @package Transbank\PatPass\Commerce
@@ -17,7 +17,7 @@ use Transbank\Patpass\Options;
 use Transbank\Utils\HttpClient;
 
 
-class PatPassCommerce
+class PatpassComercio
 {
 
     public static $INTEGRATION_TYPES = [

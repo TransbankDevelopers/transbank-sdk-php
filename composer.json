@@ -1,7 +1,7 @@
 {
   "name": "transbank/transbank-sdk",
   "description": "Transbank SDK",
-  "version": "1.5.2",
+  "version": "1.5.6",
   "keywords": ["payments", "transbank", "api", "sdk"],
   "require": {
       "php": ">=5.5.0",
@@ -15,11 +15,14 @@
       "squizlabs/php_codesniffer": "~2.0"
     },
     "autoload": {
-      "psr-4": { "Transbank\\Onepay\\" : ["lib/onepay", "lib/onepay/utils"],
-                  "Transbank\\Onepay\\Exceptions\\": ["lib/onepay/exceptions"],
-                  "Transbank\\Webpay\\" : ["lib/webpay", "lib/webpay/soap", "lib/webpay_rest", "lib/webpay_rest/webpay_plus"],"Transbank\\Webpay\\WebpayPlus\\":["lib/webpay_rest/webpay_plus"],
-                  "Transbank\\Webpay\\Exceptions\\":["lib/webpay/webpay_rest/exceptions"],
-                  "Transbank\\Utils\\":  ["lib/utils"]}
+      "psr-4": {
+        "Transbank\\Onepay\\" : ["lib/onepay", "lib/onepay/utils"],
+        "Transbank\\Onepay\\Exceptions\\" : ["lib/onepay/exceptions"],
+        "Transbank\\Webpay\\" : ["lib/webpay", "lib/webpay/soap"],
+        "Transbank\\PatPass\\" :  ["lib/patpass"],
+        "Transbank\\PatPass\\PatpassComercio\\" :  ["lib/patpass/commerce"],
+        "Transbank\\PatPass\\Exceptions\\" : ["lib/patpass/exceptions"]
+      }
     },
     "license": "BSD-3-Clause"
 }

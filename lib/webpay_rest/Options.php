@@ -28,7 +28,7 @@ class Options
      */
     public $apiKey = null;
     /**
-     * @var string $commerceCode Your commerce code, given by Transbank. Sent as
+     * @var string $commerceCode Your patpassComercio code, given by Transbank. Sent as
      * a header when making requests to Transbank on a field called "Tbk-Api-Key-Id"
      */
     public $commerceCode = null;

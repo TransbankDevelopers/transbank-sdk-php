@@ -3,7 +3,7 @@
 
 namespace Transbank\Patpass;
 
-use Transbank\PatPass\Commerce\PatPassCommerce;
+use Transbank\PatPass\Commerce\patpassComercio;
 
 /**
  * Class Options
@@ -96,6 +96,6 @@ class Options
      */
     public function integrationTypeUrl()
     {
-        return PatPassCommerce::$INTEGRATION_TYPES[$this->integrationType];
+        return patpassComercio::$INTEGRATION_TYPES[$this->integrationType];
     }
 }
