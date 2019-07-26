@@ -1,10 +1,8 @@
 <?php
+namespace Transbank\Webpay\Oneclick\Exceptions;
+use Transbank\Webpay\WebpayPlus\Exceptions\WebpayException;
 
-
-namespace Transbank\Webpay\Exceptions;
-
-
-class AuthorizeMallTransactionException extends TransbankException
+class MallTransactionStatusException extends WebpayException
 {
     public function __construct($message = self::DEFAULT_MESSAGE, $code = 0, $previous = null)
     {

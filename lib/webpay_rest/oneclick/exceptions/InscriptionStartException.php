@@ -1,10 +1,8 @@
 <?php
+namespace Transbank\Webpay\Oneclick\Exceptions;
+use Transbank\Webpay\WebpayPlus\Exceptions\WebpayException;
 
-
-namespace Transbank\Webpay\Exceptions;
-
-
-class InscriptionStartException extends TransbankException
+class InscriptionStartException extends WebpayException
 {
     public function __construct($message = self::DEFAULT_MESSAGE, $code = 0, $previous = null)
     {

@@ -4,25 +4,20 @@
 namespace Transbank\Webpay\Oneclick;
 
 
-use Transbank\Webpay\Exceptions\AuthorizeMallTransactionException;
-use Transbank\Webpay\Exceptions\MallRefundTransactionException;
-use Transbank\Webpay\Exceptions\MallTransactionStatusException;
 use Transbank\Webpay\Oneclick;
+use Transbank\Webpay\Oneclick\Exceptions\InscriptionDeleteException;
+use Transbank\Webpay\Oneclick\Exceptions\InscriptionFinishException;
+use Transbank\Webpay\Oneclick\Exceptions\InscriptionStartException;
 
-class MallTransaction
+class MallInscription
 {
 
-    const AUTHORIZE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/transactions';
-    const TRANSACTION_STATUS_ENDPONT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/$BUYORDER$';
-    const TRANSACTION_REFUND_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/$BUYORDER$/refunds';
+    const INSCRIPTION_START_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/inscriptions';
+    const INSCRIPTION_FINISH_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/inscriptions/$TOKEN$';
+    const INSCRIPTION_DELETE_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/inscriptions';
 
-    public static function authorize(
-        $userName,
-        $tbkUser,
-        $parentBuyOrder,
-        $details,
-        $options = null
-    ) {
+    public static function start($userName, $email, $responseUrl, $options = null)
+    {
 
         if ($options == null) {
             $commerceCode = Oneclick::getCommerceCode();
@@ -31,7 +26,7 @@ class MallTransaction
         } else {
             $commerceCode = $options->getCommerceCode();
             $apiKey = $options->getApiKey();
-            $baseUrl = Oneclick::getIntegrationTypeUrl($options->getIntegrationType());
+            $baseUrl = WebpayPlus::getIntegrationTypeUrl($options->getIntegrationType());
         }
 
         $http = Oneclick::getHttpClient();
@@ -40,15 +35,10 @@ class MallTransaction
             "Tbk-Api-Key-Secret" => $apiKey
         ];
 
-        $payload = json_encode([
-            "username" => $userName,
-            "tbk_user" => $tbkUser,
-            "buy_order" => $parentBuyOrder,
-            "details" => $details
-        ]);
+        $payload = json_encode(["username" => $userName, "email" => $email, "response_url" => $responseUrl]);
 
         $httpResponse = $http->post($baseUrl,
-            self::AUTHORIZE_TRANSACTION_ENDPOINT,
+            self::INSCRIPTION_START_ENDPOINT,
             $payload,
             ['headers' => $headers]
         );
@@ -63,20 +53,71 @@ class MallTransaction
                 $tbkErrorMessage = $body["error_message"];
                 $message = "$message. Details: $tbkErrorMessage";
             }
-            throw new AuthorizeMallTransactionException($message, -1);
+            throw new InscriptionStartException($message, -1);
         }
 
         $responseJson = json_decode($httpResponse->getBody(), true);
         if (isset($responseJson["error_message"])) {
-            throw new AuthorizeMallTransactionException($responseJson['error_message']);
+            throw new InscriptionStartException($responseJson['error_message']);
         }
+        $inscriptionStartResponse = new InscriptionStartResponse($responseJson);
 
-        $authorizeTransactionResponse = new AuthorizeMallTransactionResponse($responseJson);
-
-        return $authorizeTransactionResponse;
+        return $inscriptionStartResponse;
     }
 
-    public static function getStatus($buyOrder, $options = null)
+
+    public static function finish($token, $options = null)
+    {
+        if ($options == null) {
+            $commerceCode = Oneclick::getCommerceCode();
+            $apiKey = Oneclick::getApiKey();
+            $baseUrl = Oneclick::getIntegrationTypeUrl();
+        } else {
+            $commerceCode = $options->getCommerceCode();
+            $apiKey = $options->getApiKey();
+            $baseUrl = WebpayPlus::getIntegrationTypeUrl($options->getIntegrationType());
+        }
+
+        $http = Oneclick::getHttpClient();
+        $headers = [
+            "Tbk-Api-Key-Id" => $commerceCode,
+            "Tbk-Api-Key-Secret" => $apiKey
+        ];
+
+        $url = str_replace('$TOKEN$', $token, self::INSCRIPTION_FINISH_ENDPOINT);
+
+        $httpResponse = $http->put($baseUrl,
+            $url,
+            null,
+            ['headers' => $headers]
+        );
+
+        $httpCode = $httpResponse->getStatusCode();
+        if ($httpCode != 200 && $httpCode != 204) {
+            $reason = $httpResponse->getReasonPhrase();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
+            throw new InscriptionFinishException($message, -1);
+        }
+
+        $responseJson = json_decode($httpResponse->getBody(), true);
+
+        if (isset($responseJson["error_message"])) {
+            throw new InscriptionFinishException($responseJson['error_message']);
+        }
+        $json = json_decode($httpResponse->getBody(), true);
+
+        $inscriptionFinishResponse = new InscriptionFinishResponse($json);
+
+        return $inscriptionFinishResponse;
+    }
+
+    public static function delete($tbkUser, $userName, $options = null)
     {
         if ($options == null) {
             $commerceCode = Oneclick::getCommerceCode();
@@ -94,61 +135,10 @@ class MallTransaction
             "Tbk-Api-Key-Secret" => $apiKey
         ];
 
-        $url = str_replace('$BUYORDER$', $buyOrder, self::TRANSACTION_STATUS_ENDPONT);
-        $httpResponse = $http->get($baseUrl,
-            $url,
-            ['headers' => $headers]
-        );
+        $payload = json_encode(["tbk_user" => $tbkUser, "username" => $userName]);
 
-        $httpCode = $httpResponse->getStatusCode();
-        if ($httpCode != 200 && $httpCode != 204) {
-            $reason = $httpResponse->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
-            $body = json_decode($httpResponse->getBody(), true);
-
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
-                $message = "$message. Details: $tbkErrorMessage";
-            }
-            throw new MallTransactionStatusException($message, -1);
-        }
-
-        $responseJson = json_decode($httpResponse->getBody(), true);
-        if (isset($responseJson["error_message"])) {
-            throw new MallTransactionStatusException($responseJson['error_message']);
-        }
-        $mallTransactionStatusResponse = new MallTransactionStatusResponse($responseJson);
-
-        return $mallTransactionStatusResponse;
-    }
-
-    public static function refund($buyOrder, $childCommerceCode, $childBuyOrder, $amount, $options = null)
-    {
-        if ($options == null) {
-            $commerceCode = Oneclick::getCommerceCode();
-            $apiKey = Oneclick::getApiKey();
-            $baseUrl = Oneclick::getIntegrationTypeUrl();
-        } else {
-            $commerceCode = $options->getCommerceCode();
-            $apiKey = $options->getApiKey();
-            $baseUrl = Oneclick::getIntegrationTypeUrl($options->getIntegrationType());
-        }
-
-        $http = Oneclick::getHttpClient();
-        $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
-        ];
-
-        $payload = json_encode([
-            "detail_buy_order" => $childBuyOrder,
-            "commerce_code" => $childCommerceCode,
-            "amount" => $amount
-        ]);
-
-        $url = str_replace('$BUYORDER$', $buyOrder, self::TRANSACTION_REFUND_ENDPOINT);
-        $httpResponse = $http->post($baseUrl,
-            $url,
+        $httpResponse = $http->delete($baseUrl,
+            self::INSCRIPTION_DELETE_ENDPOINT,
             $payload,
             ['headers' => $headers]
         );
@@ -163,16 +153,16 @@ class MallTransaction
                 $tbkErrorMessage = $body["error_message"];
                 $message = "$message. Details: $tbkErrorMessage";
             }
-            throw new MallRefundTransactionException($message, -1);
+            throw new InscriptionDeleteException($message, -1);
         }
 
         $responseJson = json_decode($httpResponse->getBody(), true);
         if (isset($responseJson["error_message"])) {
-            throw new MallRefundTransactionException($responseJson['error_message']);
+            throw new InscriptionDeleteException($responseJson['error_message']);
         }
 
-        $mallRefundTransactionResponse = new MallRefundTransactionResponse($responseJson);
+        $inscriptionFinishResponse = new InscriptionDeleteResponse($httpCode);
 
-        return $mallRefundTransactionResponse;
+        return $inscriptionFinishResponse;
     }
 }
