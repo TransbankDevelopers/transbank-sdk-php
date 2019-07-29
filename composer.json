@@ -22,7 +22,7 @@
                   "Transbank\\Webpay\\Exceptions\\":["lib/webpay_rest/exceptions"],
                   "Transbank\\Webpay\\WebpayPlus\\":["lib/webpay_rest/webpay_plus"], "Transbank\\Webpay\\WebpayPlus\\Exceptions\\":["lib/webpay_rest/webpay_plus/exceptions"], "Transbank\\Webpay\\Oneclick\\":["lib/webpay_rest/oneclick", "lib/webpay_rest/oneclick/inscription", "lib/webpay_rest/oneclick/mall"],
         "Transbank\\Webpay\\Oneclick\\Exceptions\\":["lib/webpay_rest/oneclick/exceptions", "lib/webpay_rest/oneclick/mall/exceptions"],
-                  "Transbank\\Patpass\\":["lib/patpass/patpass_by_webpay"],
+                  "Transbank\\Patpass\\":[ "lib/patpass","lib/patpass/patpass_by_webpay"],
                   "Transbank\\Patpass\\PatpassByWebpay\\":["lib/patpass/patpass_by_webpay"],
                   "Transbank\\Patpass\\Exceptions\\":["lib/patpass/exceptions"],
                   "Transbank\\Patpass\\PatpassByWebpay\\Exceptions\\":["lib/patpass/patpass_by_webpay/exceptions"],
