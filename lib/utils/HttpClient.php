@@ -7,11 +7,12 @@ use GuzzleHttp\Psr7\Response;
 
 class HttpClient {
 
-    function post($url, $path, $data_to_send, $options = array('headers' => 0, 'transport' => 'https', 'port' => 443, 'proxy' => null)) {
+    function post($url, $path, $data_to_send, $options = null) {
 
         $fullPath = $url . $path;
         $basicHeader = ["Content-Type" => "application/json"];
-        $headers = array_merge($basicHeader, $options["headers"]);
+        $givenHeaders = isset($options["headers"]) ? $options["headers"] : [];
+        $headers = array_merge($basicHeader, $givenHeaders);
 
         $req = new Request('POST', $fullPath,  $headers, $data_to_send);
         $cl = new Client(['http_errors' => false]);
@@ -20,12 +21,13 @@ class HttpClient {
         return $res;
     }
 
-    function put($url, $path, $data_to_send, $options = array('headers' => 0, 'transport' => 'https', 'port' => 443, 'proxy' => null))
+    function put($url, $path, $data_to_send, $options = null)
     {
 
         $fullPath = $url . $path;
         $basicHeader = ["Content-Type" => "application/json"];
-        $headers = array_merge($basicHeader, $options["headers"]);
+        $givenHeaders = isset($options["headers"]) ? $options["headers"] : [];
+        $headers = array_merge($basicHeader, $givenHeaders);
 
         $req = new Request('PUT', $fullPath,  $headers, $data_to_send);
         $cl = new Client(['http_errors' => false]);
@@ -34,12 +36,13 @@ class HttpClient {
         return $res;
     }
 
-    function get($url, $path, $options = array('headers' => 0, 'transport' => 'https', 'port' => 443, 'proxy' => null))
+    function get($url, $path, $options = null)
     {
 
         $fullPath = $url . $path;
         $basicHeader = ["Content-Type" => "application/json"];
-        $headers = array_merge($basicHeader, $options["headers"]);
+        $givenHeaders = isset($options["headers"]) ? $options["headers"] : [];
+        $headers = array_merge($basicHeader, $givenHeaders);
 
         $req = new Request('GET', $fullPath,  $headers);
         $cl = new Client(['http_errors' => false]);
@@ -48,11 +51,12 @@ class HttpClient {
         return $res;
     }
 
-    public function delete($url, $path, $data_to_send, $options = array('headers' => 0, 'transport' => 'https', 'port' => 443, 'proxy' => null))
+    public function delete($url, $path, $data_to_send, $options = null)
     {
         $fullPath = $url . $path;
         $basicHeader = ["Content-Type" => "application/json"];
-        $headers = array_merge($basicHeader, $options["headers"]);
+        $givenHeaders = isset($options["headers"]) ? $options["headers"] : [];
+        $headers = array_merge($basicHeader, $givenHeaders);
 
         $req = new Request('DELETE', $fullPath,  $headers, $data_to_send);
         $cl = new Client(['http_errors' => false]);
@@ -60,19 +64,4 @@ class HttpClient {
         $res = $cl->send($req);
         return $res;
     }
-
-    public function toHeaderStrings($associativeArray)
-    {
-
-        $keys = array_keys($associativeArray);
-        $values = array_values($associativeArray);
-
-
-        $func = function($key, $value)
-        {
-            return  $key . ": " . $value;
-        };
-        return array_map($func, $keys, $values);
-    }
-
 }
