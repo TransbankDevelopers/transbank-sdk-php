@@ -3,7 +3,6 @@ namespace Transbank\Utils;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
 
 class HttpClient {
 
