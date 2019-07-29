@@ -300,7 +300,7 @@ class Transaction
             throw new TransactionCommitException($responseJson['error_message']);
         }
 
-        $transactionCommitMallResponse = new TransactionCommitMallResponse($responseJson);
+        $transactionCommitMallResponse = new MallTransactionCommitResponse($responseJson);
 
         return $transactionCommitMallResponse;
     }
