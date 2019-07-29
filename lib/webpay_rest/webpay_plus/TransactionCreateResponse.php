@@ -3,9 +3,6 @@
 
 namespace Transbank\Webpay\WebpayPlus;
 
-
-use Exception;
-
 /**
  * Class TransactionCreateResponse
  *

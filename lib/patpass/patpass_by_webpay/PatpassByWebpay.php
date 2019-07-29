@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Transbank\Webpay;
+namespace Transbank\Patpass;
 
 
 use Transbank\Utils\HttpClient;
 
-class PatPassByWebpay
+class PatpassByWebpay
 {
 
     private static $httpClient;

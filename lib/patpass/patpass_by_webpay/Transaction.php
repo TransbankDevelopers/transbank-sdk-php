@@ -1,10 +1,10 @@
 <?php
-namespace Transbank\Webpay\PatPassByWebpay;
+namespace Transbank\Patpass\PatpassByWebpay;
 
-use Transbank\Webpay\Exceptions\TransactionCreateException;
-use Transbank\Webpay\PatPassByWebpay;
-use Transbank\Webpay\PatPassByWebpay\Exceptions\TransactionCommitException;
-use Transbank\Webpay\PatPassByWebpay\Exceptions\TransactionStatusException;
+use Transbank\Patpass\PatpassByWebpay;
+use Transbank\Patpass\PatpassByWebpay\Exceptions\TransactionCreateException;
+use Transbank\Patpass\PatpassByWebpay\Exceptions\TransactionCommitException;
+use Transbank\Patpass\PatpassByWebpay\Exceptions\TransactionStatusException;
 
 class Transaction
 {
@@ -18,13 +18,13 @@ class Transaction
     public static function create($buyOrder, $sessionId, $amount, $returnUrl, $details, $options = null)
     {
         if ($options == null) {
-            $commerceCode = PatPassByWebpay::getCommerceCode();
-            $apiKey = PatPassByWebpay::getApiKey();
-            $baseUrl = PatPassByWebpay::getIntegrationTypeUrl();
+            $commerceCode = PatpassByWebpay::getCommerceCode();
+            $apiKey = PatpassByWebpay::getApiKey();
+            $baseUrl = PatpassByWebpay::getIntegrationTypeUrl();
         } else {
             $commerceCode = $options->getCommerceCode();
             $apiKey = $options->getApiKey();
-            $baseUrl = PatPassByWebpay::getIntegrationTypeUrl($options->getIntegrationType());
+            $baseUrl = PatpassByWebpay::getIntegrationTypeUrl($options->getIntegrationType());
         }
 
         $headers = [
@@ -40,7 +40,7 @@ class Transaction
             "wpm_detail" => $details
         ]);
 
-        $http = PatPassByWebpay::getHttpClient();
+        $http = PatpassByWebpay::getHttpClient();
 
         $httpResponse = $http->post($baseUrl,
             self::CREATE_TRANSACTION_ENDPOINT,

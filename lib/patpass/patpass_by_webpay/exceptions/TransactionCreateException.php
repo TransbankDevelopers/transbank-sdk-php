@@ -1,9 +1,10 @@
 <?php
-namespace Transbank\Webpay\PatPassByWebpay\Exceptions;
 
-use Transbank\Webpay\Exceptions\TransbankException;
+namespace Transbank\Patpass\PatpassByWebpay\Exceptions;
 
-class TransactionStatusException extends TransbankException {
+use Transbank\Patpass\Exceptions\PatpassException;
+
+class TransactionCreateException extends PatpassException {
     const DEFAULT_MESSAGE = 'Transaction could not be created. Please verify given parameters';
 
     public function __construct($message = self::DEFAULT_MESSAGE, $code = 0, $previous = null)

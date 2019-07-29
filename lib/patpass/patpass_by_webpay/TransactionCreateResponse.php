@@ -1,7 +1,6 @@
 <?php
 
-
-namespace Transbank\Webpay\PatPassByWebpay;
+namespace Transbank\Patpass\PatpassByWebpay;
 
 
 class TransactionCreateResponse
@@ -59,10 +58,4 @@ class TransactionCreateResponse
         $this->url = $url;
         return $this;
     }
-
-
-    /*{
-    "token": "e9d555262db0f989e49d724b4db0b0af367cc415cde41f500a776550fc5fddd3",
-    "url": "https://webpay3gint.transbank.cl/webpayserver/initTransaction"
-    }*/
 }
