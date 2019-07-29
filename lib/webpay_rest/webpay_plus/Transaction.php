@@ -74,18 +74,25 @@ class Transaction
             ['headers' => $headers]
         );
 
-        if (!$httpResponse) {
-            throw new TransactionCreateException('Could not obtain a response from the service', -1);
+        $httpCode = $httpResponse->getStatusCode();
+        if ($httpCode != 200 && $httpCode != 204) {
+            $reason = $httpResponse->getReasonPhrase();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
+            throw new TransactionCreateException($message, -1);
         }
 
-        $responseJson = json_decode($httpResponse, true);
-        if (!$responseJson["token"] || !$responseJson['url']) {
+        $responseJson = json_decode($httpResponse->getBody(), true);
+        if (isset($responseJson["error_message"])) {
             throw new TransactionCreateException($responseJson['error_message']);
         }
 
-        $json = json_decode($httpResponse, true);
-
-        $transactionCreateResponse = new TransactionCreateResponse($json);
+        $transactionCreateResponse = new TransactionCreateResponse($responseJson);
 
         return $transactionCreateResponse;
     }
@@ -110,17 +117,26 @@ class Transaction
         $http = WebpayPlus::getHttpClient();
         $httpResponse = $http->put($baseUrl,
             self::COMMIT_TRANSACTION_ENDPOINT . "/" . $token,
-            [],
+            null,
             ['headers' => $headers]
         );
 
-        if (!$httpResponse) {
-            throw new TransactionCommitException('Could not obtain a response from the service', -1);
+        $httpCode = $httpResponse->getStatusCode();
+        if ($httpCode != 200 && $httpCode != 204) {
+            $reason = $httpResponse->getReasonPhrase();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
+            throw new TransactionCommitException($message, -1);
         }
 
-        $responseJson = json_decode($httpResponse, true);
+        $responseJson = json_decode($httpResponse->getBody(), true);
 
-        if (array_key_exists("error_message", $responseJson)) {
+        if (isset($responseJson["error_message"])) {
             throw new TransactionCommitException($responseJson['error_message']);
         }
 
@@ -159,13 +175,22 @@ class Transaction
             ['headers' => $headers]
         );
 
-        if (!$httpResponse) {
-            throw new TransactionRefundException('Could not obtain a response from the service', -1);
+        $httpCode = $httpResponse->getStatusCode();
+        if ($httpCode != 200 && $httpCode != 204) {
+            $reason = $httpResponse->getReasonPhrase();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
+            throw new TransactionRefundException($message, -1);
         }
 
-        $responseJson = json_decode($httpResponse, true);
+        $responseJson = json_decode($httpResponse->getBody(), true);
 
-        if (array_key_exists("error_message", $responseJson)) {
+        if (isset($responseJson["error_message"])) {
             throw new TransactionRefundException($responseJson['error_message']);
         }
 
@@ -198,13 +223,22 @@ class Transaction
             ['headers' => $headers]);
 
 
-        if (!$httpResponse) {
-            throw new TransactionStatusException('Could not obtain a response from the service', -1);
+        $httpCode = $httpResponse->getStatusCode();
+        if ($httpCode != 200 && $httpCode != 204) {
+            $reason = $httpResponse->getReasonPhrase();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
+            throw new TransactionStatusException($message, -1);
         }
 
-        $responseJson = json_decode($httpResponse, true);
+        $responseJson = json_decode($httpResponse->getBody(), true);
 
-        if (array_key_exists("error_message", $responseJson)) {
+        if (isset($responseJson["error_message"])) {
             throw new TransactionStatusException($responseJson['error_message']);
         }
 
@@ -250,16 +284,26 @@ class Transaction
             ['headers' => $headers]
         );
 
-        if (!$httpResponse) {
-            throw new TransactionCreateException('Could not obtain a response from the service', -1);
+        $httpCode = $httpResponse->getStatusCode();
+        if ($httpCode != 200 && $httpCode != 204) {
+            $reason = $httpResponse->getReasonPhrase();
+            $httpCode = $httpResponse->getStatusCode();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
+            throw new TransactionCreateException($message, -1);
         }
 
-        $responseJson = json_decode($httpResponse, true);
-        if (!$responseJson["token"] || !$responseJson['url']) {
+        $responseJson = json_decode($httpResponse->getBody(), true);
+        if (isset($responseJson["error_message"])) {
             throw new TransactionCreateException($responseJson['error_message']);
         }
 
-        $json = json_decode($httpResponse, true);
+        $json = json_decode($httpResponse->getBody(), true);
 
         $transactionCreateResponse = new TransactionCreateResponse($json);
 
@@ -286,17 +330,26 @@ class Transaction
         $http = WebpayPlus::getHttpClient();
         $httpResponse = $http->put($baseUrl,
             self::COMMIT_TRANSACTION_ENDPOINT . "/" . $token,
-            [],
+            null,
             ['headers' => $headers]
         );
 
-        if (!$httpResponse) {
-            throw new TransactionCommitException('Could not obtain a response from the service', -1);
+        $httpCode = $httpResponse->getStatusCode();
+        if ($httpCode != 200 && $httpCode != 204) {
+            $reason = $httpResponse->getReasonPhrase();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
+            throw new TransactionCommitException($message, -1);
         }
 
-        $responseJson = json_decode($httpResponse, true);
+        $responseJson = json_decode($httpResponse->getBody(), true);
 
-        if (array_key_exists("error_message", $responseJson)) {
+        if (isset($responseJson["error_message"])) {
             throw new TransactionCommitException($responseJson['error_message']);
         }
 
@@ -340,13 +393,22 @@ class Transaction
             ['headers' => $headers]
         );
 
-        if (!$httpResponse) {
-            throw new TransactionRefundException('Could not obtain a response from the service', -1);
+        $httpCode = $httpResponse->getStatusCode();
+        if ($httpCode != 200 && $httpCode != 204) {
+            $reason = $httpResponse->getReasonPhrase();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
+            throw new TransactionRefundException($message, -1);
         }
 
-        $responseJson = json_decode($httpResponse, true);
+        $responseJson = json_decode($httpResponse->getBody(), true);
 
-        if (array_key_exists("error_message", $responseJson)) {
+        if (isset($responseJson["error_message"])) {
             throw new TransactionRefundException($responseJson['error_message']);
         }
 
@@ -379,13 +441,22 @@ class Transaction
             ['headers' => $headers]);
 
 
-        if (!$httpResponse) {
-            throw new TransactionStatusException('Could not obtain a response from the service', -1);
+        $httpCode = $httpResponse->getStatusCode();
+        if ($httpCode != 200 && $httpCode != 204) {
+            $reason = $httpResponse->getReasonPhrase();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
+            throw new TransactionStatusException($message, -1);
         }
 
-        $responseJson = json_decode($httpResponse, true);
+        $responseJson = json_decode($httpResponse->getBody(), true);
 
-        if (array_key_exists("error_message", $responseJson)) {
+        if (isset($responseJson["error_message"])) {
             throw new TransactionStatusException($responseJson['error_message']);
         }
 
@@ -424,14 +495,23 @@ class Transaction
             $payload,
             ['headers' => $headers]);
 
-        if (!$httpResponse) {
-            throw new TransactionCaptureException('Could not obtain a response from the service', -1);
+        $httpCode = $httpResponse->getStatusCode();
+        if ($httpCode != 200 && $httpCode != 204) {
+            $reason = $httpResponse->getReasonPhrase();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode )";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
+
+            throw new TransactionCaptureException($message, -1);
         }
 
-        $responseJson = json_decode($httpResponse, true);
+        $responseJson = json_decode($httpResponse->getBody(), true);
 
-
-        if (array_key_exists("error_message", $responseJson)) {
+        if (isset($responseJson["error_message"])) {
             throw new TransactionCaptureException($responseJson['error_message']);
         }
 
