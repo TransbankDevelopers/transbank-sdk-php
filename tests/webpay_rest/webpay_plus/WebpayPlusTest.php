@@ -3,6 +3,8 @@
 namespace Transbank\Webpay;
 
 
+use Transbank\Webpay\WebpayPlus\Transaction;
+
 class WebpayPlusTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -45,7 +47,7 @@ class WebpayPlusTest extends \PHPUnit_Framework_TestCase
     {
 
         $options = new Options('fakeApiKey',
-                 'fakeCommerceCode');
+            'fakeCommerceCode');
 
         $this->setExpectedException(\Exception::class, 'Not Authorized');
         WebpayPlus\Transaction::create($this->buyOrder,
