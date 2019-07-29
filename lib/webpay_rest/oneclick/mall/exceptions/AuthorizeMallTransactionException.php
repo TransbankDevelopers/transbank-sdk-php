@@ -3,7 +3,7 @@
 
 namespace Transbank\Webpay\Oneclick\Exceptions;
 
-use Transbank\Webpay\WebpayPlus\Exceptions\WebpayException;
+use Transbank\Webpay\Exceptions\WebpayException;
 
 class AuthorizeMallTransactionException extends WebpayException
 {
