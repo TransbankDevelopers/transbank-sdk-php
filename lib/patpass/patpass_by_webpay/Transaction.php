@@ -62,10 +62,6 @@ class Transaction
         }
 
         $responseJson = json_decode($httpResponse->getBody(), true);
-        if (isset($responseJson["error_message"])) {
-            throw new TransactionCreateException($responseJson['error_message']);
-        }
-
         $transactionCreateResponse = new TransactionCreateResponse($responseJson);
 
         return $transactionCreateResponse;
@@ -109,11 +105,6 @@ class Transaction
         }
 
         $responseJson = json_decode($httpResponse->getBody(), true);
-
-        if (isset($responseJson["error_message"])) {
-            throw new TransactionCommitException($responseJson['error_message']);
-        }
-
         $transactionCommitResponse = new TransactionCommitResponse($responseJson);
 
         return $transactionCommitResponse;
@@ -158,10 +149,6 @@ class Transaction
         }
 
         $responseJson = json_decode($httpResponse->getBody(), true);
-
-        if (isset($responseJson["error_message"])) {
-            throw new TransactionStatusException($responseJson['error_message']);
-        }
 
         $transactionStatusResponse = new TransactionStatusResponse($responseJson);
 

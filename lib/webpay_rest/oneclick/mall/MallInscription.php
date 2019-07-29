@@ -57,9 +57,6 @@ class MallInscription
         }
 
         $responseJson = json_decode($httpResponse->getBody(), true);
-        if (isset($responseJson["error_message"])) {
-            throw new InscriptionStartException($responseJson['error_message']);
-        }
         $inscriptionStartResponse = new InscriptionStartResponse($responseJson);
 
         return $inscriptionStartResponse;
@@ -107,12 +104,7 @@ class MallInscription
 
         $responseJson = json_decode($httpResponse->getBody(), true);
 
-        if (isset($responseJson["error_message"])) {
-            throw new InscriptionFinishException($responseJson['error_message']);
-        }
-        $json = json_decode($httpResponse->getBody(), true);
-
-        $inscriptionFinishResponse = new InscriptionFinishResponse($json);
+        $inscriptionFinishResponse = new InscriptionFinishResponse($responseJson);
 
         return $inscriptionFinishResponse;
     }
@@ -155,12 +147,6 @@ class MallInscription
             }
             throw new InscriptionDeleteException($message, -1);
         }
-
-        $responseJson = json_decode($httpResponse->getBody(), true);
-        if (isset($responseJson["error_message"])) {
-            throw new InscriptionDeleteException($responseJson['error_message']);
-        }
-
         $inscriptionFinishResponse = new InscriptionDeleteResponse($httpCode);
 
         return $inscriptionFinishResponse;
