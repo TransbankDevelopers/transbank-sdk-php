@@ -1,5 +1,7 @@
 <?php
 namespace Transbank\Webpay\WebpayPlus\Exceptions;
+use Transbank\Webpay\Exceptions\WebpayException;
+
 /**
  * class TransactionCreateException
  * Raised when giving invalid params to a TransactionCreateRequest

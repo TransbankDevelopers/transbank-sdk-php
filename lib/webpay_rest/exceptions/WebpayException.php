@@ -1,6 +1,6 @@
 <?php
 
-namespace Transbank\Webpay\WebpayPlus\Exceptions;
+namespace Transbank\Webpay\Exceptions;
 
 /**
  * class WebpayException
