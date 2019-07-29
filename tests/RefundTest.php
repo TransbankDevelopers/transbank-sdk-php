@@ -51,6 +51,7 @@ final class RefundTest extends TestCase
         $this->setExpectedException(\Transbank\Onepay\Exceptions\RefundCreateException::class);
         $httpResponse = Refund::create(27500, "INVALID OCC", "12345someextuniqnum", "f506a955-800c-4185-8818-4ef9fca97aae",
                                        $options);
+
         $this->assertEquals($httpResponse->getResponseCode(), 'INVALID_PARAMS');
         $this->assertEquals($httpResponse->getDescription(), 'Parametros invalidos');
     }
