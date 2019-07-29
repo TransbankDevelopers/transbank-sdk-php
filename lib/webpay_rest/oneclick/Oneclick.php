@@ -94,13 +94,10 @@ class Oneclick
         return self::$INTEGRATION_TYPES[$integrationType];
     }
 
-    public static function configOneclickMallforTesting()
+    public static function configureOneclickMallForTesting()
     {
-
+        self::setApiKey(Options::DEFAULT_API_KEY);
+        self::setCommerceCode(Options::DEFAULT_ONECLICK_MALL_COMMERCE_CODE);
+        self::setIntegrationType(Options::DEFAULT_INTEGRATION_TYPE);
     }
-
-
-
-
-
 }

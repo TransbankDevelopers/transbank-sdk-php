@@ -23,7 +23,7 @@ class MallTransactionStatusResponse
         $sessionId = isset($json["session_id"]) ? $json["session_id"] : null;
         $this->setSessionId($sessionId);
 
-        $cardNumber = isset($json["card_detail"]) ? isset($json["card_detail"]["card_number"]) ? isset($json["card_detail"]["card_number"]) : null : null;
+        $cardNumber = isset($json["card_detail"]) ? isset($json["card_detail"]["card_number"]) ? $json["card_detail"]["card_number"] : null : null;
         $this->setCardNumber($cardNumber);
 
         $expirationDate = isset($json["expiration_date"]) ? $json["expiration_date"] : null;
