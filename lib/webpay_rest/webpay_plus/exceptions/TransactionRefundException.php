@@ -4,6 +4,8 @@
 namespace Transbank\Webpay\WebpayPlus\Exceptions;
 
 
+use Transbank\Webpay\Exceptions\WebpayException;
+
 /**
  * Class TransactionRefundException
  *

@@ -3,6 +3,7 @@
 
 namespace Transbank\Webpay\WebpayPlus\Exceptions;
 
+use Transbank\Webpay\Exceptions\WebpayException;
 
 class TransactionCaptureException extends WebpayException
 {
