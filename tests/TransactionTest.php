@@ -183,7 +183,7 @@ final class TransactionTest extends TestCase
 
     public function testTransactionCommitWorks()
     {
-        // Setting patpassComercio data
+        // Setting patpass_comercio data
         $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
                                "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
 
@@ -192,7 +192,7 @@ final class TransactionTest extends TestCase
                                         self::OCC_TO_COMMIT_TRANSACTION_TEST,
                                         self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
                                         $options
-                                       );   
+                                       );
         $this->assertEquals($response instanceof TransactionCommitResponse, true);
         $this->assertEquals($response->getResponseCode(), 'OK');
         $this->assertEquals($response->getDescription(), 'OK');
@@ -205,7 +205,7 @@ final class TransactionTest extends TestCase
         $response = Transaction::commit(
                                         self::OCC_TO_COMMIT_TRANSACTION_TEST,
                                         self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST
-                                       );   
+                                       );
         $this->assertEquals($response instanceof TransactionCommitResponse, true);
         $this->assertEquals($response->getResponseCode(), 'OK');
         $this->assertEquals($response->getDescription(), 'OK');
@@ -225,7 +225,7 @@ final class TransactionTest extends TestCase
         $reflectedHttpClient->setAccessible(true);
         $reflectedHttpClient->setValue($httpClientStub);
 
-        // Setting patpassComercio data
+        // Setting patpass_comercio data
         $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
                                "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
 
@@ -238,7 +238,7 @@ final class TransactionTest extends TestCase
                 self::OCC_TO_COMMIT_TRANSACTION_TEST,
                 self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
                 $options
-               );   
+               );
         }
         finally {
             // Reset the HttpClient static property to its original state
@@ -264,7 +264,7 @@ final class TransactionTest extends TestCase
         $reflectedHttpClient->setAccessible(true);
         $reflectedHttpClient->setValue($httpClientStub);
 
-        // Setting patpassComercio data
+        // Setting patpass_comercio data
         $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
                                "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
 
@@ -277,7 +277,7 @@ final class TransactionTest extends TestCase
                 self::OCC_TO_COMMIT_TRANSACTION_TEST,
                 self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
                 $options
-               );   
+               );
         }
         finally {
             // Reset the HttpClient static property to its original state
@@ -316,7 +316,7 @@ final class TransactionTest extends TestCase
         $reflectedHttpClient->setAccessible(true);
         $reflectedHttpClient->setValue($httpClientStub);
 
-        // Setting patpassComercio data
+        // Setting patpass_comercio data
         $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
                                "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
 
@@ -329,7 +329,7 @@ final class TransactionTest extends TestCase
                 self::OCC_TO_COMMIT_TRANSACTION_TEST,
                 self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
                 $options
-               );   
+               );
         }
         finally {
             // Reset the HttpClient static property to its original state

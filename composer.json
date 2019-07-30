@@ -20,8 +20,8 @@
         "Transbank\\Onepay\\Exceptions\\" : ["lib/onepay/exceptions"],
         "Transbank\\Webpay\\" : ["lib/webpay", "lib/webpay/soap"],
         "Transbank\\PatPass\\" :  ["lib/patpass"],
-        "Transbank\\PatPass\\PatpassComercio\\" :  ["lib/patpass/commerce"],
-        "Transbank\\PatPass\\Exceptions\\" : ["lib/patpass/exceptions"]
+        "Transbank\\PatPass\\PatpassComercio\\" :  ["lib/patpass/patpass_comercio"],
+        "Transbank\\PatPass\\Exceptions\\" : ["lib/patpass/exceptions"],
       }
     },
     "license": "BSD-3-Clause"

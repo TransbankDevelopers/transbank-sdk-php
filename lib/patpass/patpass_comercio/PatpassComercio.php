@@ -3,7 +3,7 @@
 
 /**
  *
- * Class patpassComercio
+ * Class patpass_comercio
  *
  * @category
  * @package Transbank\PatPass\Commerce
@@ -11,7 +11,7 @@
  */
 
 
-namespace Transbank\PatPass\PatpassCommerce;
+namespace Transbank\PatPass;
 
 use Transbank\Patpass\Options;
 use Transbank\Utils\HttpClient;
