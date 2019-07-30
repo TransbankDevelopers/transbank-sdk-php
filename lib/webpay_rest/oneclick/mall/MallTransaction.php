@@ -62,7 +62,7 @@ class MallTransaction
                 $tbkErrorMessage = $body["error_message"];
                 $message = "$message. Details: $tbkErrorMessage";
             }
-            throw new AuthorizeMallTransactionException($message, -1);
+            throw new AuthorizeMallTransactionException($message, $httpCode);
         }
 
         $responseJson = json_decode($httpResponse->getBody(), true);
@@ -105,7 +105,7 @@ class MallTransaction
                 $tbkErrorMessage = $body["error_message"];
                 $message = "$message. Details: $tbkErrorMessage";
             }
-            throw new MallTransactionStatusException($message, -1);
+            throw new MallTransactionStatusException($message, $httpCode);
         }
 
         $responseJson = json_decode($httpResponse->getBody(), true);
@@ -155,7 +155,7 @@ class MallTransaction
                 $tbkErrorMessage = $body["error_message"];
                 $message = "$message. Details: $tbkErrorMessage";
             }
-            throw new MallRefundTransactionException($message, -1);
+            throw new MallRefundTransactionException($message, $httpCode);
         }
 
         $responseJson = json_decode($httpResponse->getBody(), true);
