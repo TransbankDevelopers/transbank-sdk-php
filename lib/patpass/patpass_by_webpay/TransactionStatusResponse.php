@@ -1,80 +1,31 @@
 <?php
+namespace Transbank\Patpass\PatpassByWebpay;
 
-namespace Transbank\Webpay\WebpayPlus;
-
-
-class TransactionCommitResponse
+class TransactionStatusResponse
 {
-    /**
-     * @var
-     */
     public $vci;
-    /**
-     * @var
-     */
     public $amount;
-    /**
-     * @var
-     */
     public $status;
-    /**
-     * @var
-     */
     public $buyOrder;
-    /**
-     * @var
-     */
     public $sessionId;
-    /**
-     * @var
-     */
     public $cardNumber;
-    /**
-     * @var
-     */
     public $accountingDate;
-    /**
-     * @var
-     */
     public $transactionDate;
-    /**
-     * @var
-     */
     public $authorizationCode;
-    /**
-     * @var
-     */
     public $paymentTypeCode;
-    /**
-     * @var
-     */
     public $responseCode;
-    /**
-     * @var
-     */
     public $installmentsAmount;
-    /**
-     * @var
-     */
     public $installmentsNumber;
-    /**
-     * @var
-     */
     public $balance;
 
-    /**
-     * TransactionCommitResponse constructor.
-     *
-     * @param $json
-    *
-     **/
 
-    public function __construct($json) {
+    public function __construct($json)
+    {
         $this->vci = isset($json["vci"]) ? $json["vci"] : null;
         $this->amount = isset($json["amount"]) ? $json["amount"] : null;
         $this->status = isset($json["status"]) ? $json["status"] : null;
         $this->buyOrder = isset($json["buy_order"]) ? $json["buy_order"] : null;
-        $this->sessionId = isset($json["session_id"]) ?$json["session_id"] : null;
+        $this->sessionId = isset($json["session_id"]) ? $json["session_id"] : null;
         $this->cardNumber = isset($json["card_detail"]) ? (isset($json["card_detail"]["card_number"]) ? $json["card_detail"]["card_number"] : null) : null;
         $this->accountingDate = isset($json["accounting_date"]) ? $json["accounting_date"] : null;
         $this->transactionDate = isset($json["transaction_date"]) ? $json["transaction_date"] : null;
@@ -83,7 +34,7 @@ class TransactionCommitResponse
         $this->responseCode = isset($json["response_code"]) ? $json["response_code"] : null;
         $this->installmentsAmount = isset($json["installments_amount"]) ? $json["installments_amount"] : null;
 
-        $this->installmentsNumber = isset($json["installmentsNumber"]) ? $json["installmentsNumber"] : null;
+        $this->installmentsNumber = isset($json["installments_number"]) ? $json["installments_number"] : null;
         $this->balance = isset($json["balance"]) ? $json["balance"] : null;
     }
 
@@ -98,7 +49,7 @@ class TransactionCommitResponse
     /**
      * @param mixed $vci
      *
-     * @return TransactionCommitResponse
+     * @return TransactionStatusResponse
      */
     public function setVci($vci)
     {
@@ -117,7 +68,7 @@ class TransactionCommitResponse
     /**
      * @param mixed $amount
      *
-     * @return TransactionCommitResponse
+     * @return TransactionStatusResponse
      */
     public function setAmount($amount)
     {
@@ -136,7 +87,7 @@ class TransactionCommitResponse
     /**
      * @param mixed $status
      *
-     * @return TransactionCommitResponse
+     * @return TransactionStatusResponse
      */
     public function setStatus($status)
     {
@@ -155,7 +106,7 @@ class TransactionCommitResponse
     /**
      * @param mixed $buyOrder
      *
-     * @return TransactionCommitResponse
+     * @return TransactionStatusResponse
      */
     public function setBuyOrder($buyOrder)
     {
@@ -174,7 +125,7 @@ class TransactionCommitResponse
     /**
      * @param mixed $sessionId
      *
-     * @return TransactionCommitResponse
+     * @return TransactionStatusResponse
      */
     public function setSessionId($sessionId)
     {
@@ -193,7 +144,7 @@ class TransactionCommitResponse
     /**
      * @param mixed $cardNumber
      *
-     * @return TransactionCommitResponse
+     * @return TransactionStatusResponse
      */
     public function setCardNumber($cardNumber)
     {
@@ -212,7 +163,7 @@ class TransactionCommitResponse
     /**
      * @param mixed $accountingDate
      *
-     * @return TransactionCommitResponse
+     * @return TransactionStatusResponse
      */
     public function setAccountingDate($accountingDate)
     {
@@ -231,7 +182,7 @@ class TransactionCommitResponse
     /**
      * @param mixed $transactionDate
      *
-     * @return TransactionCommitResponse
+     * @return TransactionStatusResponse
      */
     public function setTransactionDate($transactionDate)
     {
@@ -250,7 +201,7 @@ class TransactionCommitResponse
     /**
      * @param mixed $authorizationCode
      *
-     * @return TransactionCommitResponse
+     * @return TransactionStatusResponse
      */
     public function setAuthorizationCode($authorizationCode)
     {
@@ -269,7 +220,7 @@ class TransactionCommitResponse
     /**
      * @param mixed $paymentTypeCode
      *
-     * @return TransactionCommitResponse
+     * @return TransactionStatusResponse
      */
     public function setPaymentTypeCode($paymentTypeCode)
     {
@@ -288,7 +239,7 @@ class TransactionCommitResponse
     /**
      * @param mixed $responseCode
      *
-     * @return TransactionCommitResponse
+     * @return TransactionStatusResponse
      */
     public function setResponseCode($responseCode)
     {
@@ -307,7 +258,7 @@ class TransactionCommitResponse
     /**
      * @param mixed $installmentsAmount
      *
-     * @return TransactionCommitResponse
+     * @return TransactionStatusResponse
      */
     public function setInstallmentsAmount($installmentsAmount)
     {
@@ -326,7 +277,7 @@ class TransactionCommitResponse
     /**
      * @param mixed $installmentsNumber
      *
-     * @return TransactionCommitResponse
+     * @return TransactionStatusResponse
      */
     public function setInstallmentsNumber($installmentsNumber)
     {
@@ -345,13 +296,11 @@ class TransactionCommitResponse
     /**
      * @param mixed $balance
      *
-     * @return TransactionCommitResponse
+     * @return TransactionStatusResponse
      */
     public function setBalance($balance)
     {
         $this->balance = $balance;
         return $this;
     }
-
-
 }

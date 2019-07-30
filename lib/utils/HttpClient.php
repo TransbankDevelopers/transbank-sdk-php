@@ -1,123 +1,66 @@
 <?php
 namespace Transbank\Utils;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
+
 class HttpClient {
 
-    function post($url, $path, $data_to_send, $options = array('headers' => 0, 'transport' => 'https', 'port' => 443, 'proxy' => null)) {
+    function post($url, $path, $data_to_send, $options = null) {
 
-
-        $curl = curl_init();
-        $optionsHeaders = $options["headers"] ? $options["headers"] : [];
-
+        $fullPath = $url . $path;
         $basicHeader = ["Content-Type" => "application/json"];
-        $headers = $this->toHeaderStrings(
-            array_merge($basicHeader, $optionsHeaders)
-        );
+        $givenHeaders = isset($options["headers"]) ? $options["headers"] : [];
+        $headers = array_merge($basicHeader, $givenHeaders);
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => $url . $path,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => $data_to_send,
-            CURLOPT_HTTPHEADER => $headers,
-        ));
+        $req = new Request('POST', $fullPath,  $headers, $data_to_send);
+        $cl = new Client(['http_errors' => false]);
 
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-        $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-
-        curl_close($curl);
-
-        if ($err) {
-            return $err;
-        } else {
-            return $response;
-        }
+        $res = $cl->send($req);
+        return $res;
     }
 
-    function put($url, $path, $data_to_send, $options = array('headers' => 0, 'transport' => 'https', 'port' => 443, 'proxy' => null))
+    function put($url, $path, $data_to_send, $options = null)
     {
 
-        $curl = curl_init();
-        $optionsHeaders = $options["headers"] ? $options["headers"] : [];
-
+        $fullPath = $url . $path;
         $basicHeader = ["Content-Type" => "application/json"];
-        $headers = $this->toHeaderStrings(
-            array_merge($basicHeader, $optionsHeaders)
-        );
+        $givenHeaders = isset($options["headers"]) ? $options["headers"] : [];
+        $headers = array_merge($basicHeader, $givenHeaders);
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => $url . $path,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "PUT",
-            CURLOPT_POSTFIELDS => $data_to_send,
-            CURLOPT_HTTPHEADER => $headers,
-        ));
+        $req = new Request('PUT', $fullPath,  $headers, $data_to_send);
+        $cl = new Client(['http_errors' => false]);
 
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-        $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-
-        curl_close($curl);
-
-        if ($err) {
-            return $err;
-        } else {
-            return $response;
-        }
+        $res = $cl->send($req);
+        return $res;
     }
 
-    function get($url, $path, $options = array('headers' => 0, 'transport' => 'https', 'port' => 443, 'proxy' => null))
+    function get($url, $path, $options = null)
     {
-        $curl = curl_init();
-        $optionsHeaders = $options["headers"] ? $options["headers"] : [];
 
+        $fullPath = $url . $path;
         $basicHeader = ["Content-Type" => "application/json"];
-        $headers = $this->toHeaderStrings(
-            array_merge($basicHeader, $optionsHeaders)
-        );
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => $url . $path,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => $headers,
-        ));
+        $givenHeaders = isset($options["headers"]) ? $options["headers"] : [];
+        $headers = array_merge($basicHeader, $givenHeaders);
 
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
+        $req = new Request('GET', $fullPath,  $headers);
+        $cl = new Client(['http_errors' => false]);
 
-        curl_close($curl);
-
-        if ($err) {
-            return $err;
-        } else {
-            return $response;
-        }
+        $res = $cl->send($req);
+        return $res;
     }
 
-    public function toHeaderStrings($associativeArray)
+    public function delete($url, $path, $data_to_send, $options = null)
     {
+        $fullPath = $url . $path;
+        $basicHeader = ["Content-Type" => "application/json"];
+        $givenHeaders = isset($options["headers"]) ? $options["headers"] : [];
+        $headers = array_merge($basicHeader, $givenHeaders);
 
-        $keys = array_keys($associativeArray);
-        $values = array_values($associativeArray);
+        $req = new Request('DELETE', $fullPath,  $headers, $data_to_send);
+        $cl = new Client(['http_errors' => false]);
 
-
-        $func = function($key, $value)
-        {
-            return  $key . ": " . $value;
-        };
-        return array_map($func, $keys, $values);
+        $res = $cl->send($req);
+        return $res;
     }
 }

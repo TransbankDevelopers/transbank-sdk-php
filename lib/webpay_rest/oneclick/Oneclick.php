@@ -6,13 +6,7 @@ namespace Transbank\Webpay;
 
 use Transbank\Utils\HttpClient;
 
-/**
- * Class WebpayPlus
- *
- * @package Transbank\Webpay
- *
- */
-class WebpayPlus
+class Oneclick
 {
 
     /**
@@ -29,7 +23,7 @@ class WebpayPlus
      */
     public static $httpClient = null;
     private static $apiKey = Options::DEFAULT_API_KEY;
-    private static $commerceCode = Options::DEFAULT_COMMERCE_CODE;
+    private static $commerceCode = Options::DEFAULT_ONECLICK_MALL_COMMERCE_CODE;
     private static $integrationType = Options::DEFAULT_INTEGRATION_TYPE;
 
     /**
@@ -100,25 +94,10 @@ class WebpayPlus
         return self::$INTEGRATION_TYPES[$integrationType];
     }
 
-    public static function configureForTesting()
+    public static function configureOneclickMallForTesting()
     {
         self::setApiKey(Options::DEFAULT_API_KEY);
-        self::setCommerceCode(Options::DEFAULT_COMMERCE_CODE);
-        self::setIntegrationType(self::$INTEGRATION_TYPES["TEST"]);
+        self::setCommerceCode(Options::DEFAULT_ONECLICK_MALL_COMMERCE_CODE);
+        self::setIntegrationType(Options::DEFAULT_INTEGRATION_TYPE);
     }
-
-    public static function configureMallForTesting()
-    {
-        self::setApiKey(Options::DEFAULT_API_KEY);
-        self::setCommerceCode(Options::DEFAULT_MALL_COMMERCE_CODE);
-        self::setIntegrationType(self::$INTEGRATION_TYPES["TEST"]);
-    }
-
-    public static function configureDeferredForTesting()
-    {
-        self::setApiKey(Options::DEFAULT_API_KEY);
-        self::setCommerceCode(Options::DEFAULT_DEFERRED_COMMERCE_CODE);
-        self::setIntegrationType(self::$INTEGRATION_TYPES["TEST"]);
-    }
-
 }

@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Transbank\Webpay\WebpayPlus;
+namespace Transbank\Webpay\Oneclick;
 
 
-class TransactionMallStatusResponse
+class AuthorizeMallTransactionResponse
 {
     public $buyOrder;
     public $sessionId;
@@ -16,13 +16,26 @@ class TransactionMallStatusResponse
 
     public function __construct($json)
     {
-        $this->buyOrder = isset($json["buy_order"]) ? $json["buy_order"] : null;
-        $this->sessionId = isset($json["session_id"]) ?$json["session_id"] : null;
-        $this->cardNumber = isset($json["card_detail"]) ? (isset($json["card_detail"]["card_number"]) ? $json["card_detail"]["card_number"] : null) : null;
-        $this->expirationDate = isset($json["expiration_date"]) ? $json["expiration_date"] : null;
-        $this->accountingDate = isset($json["accounting_date"]) ? $json["accounting_date"] : null;
-        $this->transactionDate = isset($json["transaction_date"]) ? $json["transaction_date"] : null;
-        $this->details = isset($json["details"]) ? $json["details"] : null;
+        $buyOrder = isset($json["buy_order"]) ? $json["buy_order"] : null;
+        $this->setBuyOrder($buyOrder);
+
+        $sessionId = isset($json["session_id"]) ? $json["session_id"] : null;
+        $this->setSessionId($sessionId);
+
+        $cardNumber = isset($json["card_detail"]) ? isset($json["card_detail"]["card_number"]) ? $json["card_detail"]["card_number"] : null : null;
+        $this->setCardNumber($cardNumber);
+
+        $expirationDate = isset($json["expiration_date"]) ? $json["expiration_date"] : null;
+        $this->setExpirationDate($expirationDate);
+
+        $accountingDate = isset($json["accounting_date"]) ? $json["accounting_date"] : null;
+        $this->setAccountingDate($accountingDate);
+
+        $transactionDate = isset($json["transaction_date"]) ? $json["transaction_date"] : null;
+        $this->setTransactionDate($transactionDate);
+
+        $details = isset($json["details"]) ? $json["details"] : null;
+        $this->setDetails($details);
     }
 
     /**
@@ -36,7 +49,7 @@ class TransactionMallStatusResponse
     /**
      * @param mixed $buyOrder
      *
-     * @return TransactionMallStatusResponse
+     * @return MallTransactionStatusResponse
      */
     public function setBuyOrder($buyOrder)
     {
@@ -55,7 +68,7 @@ class TransactionMallStatusResponse
     /**
      * @param mixed $sessionId
      *
-     * @return TransactionMallStatusResponse
+     * @return MallTransactionStatusResponse
      */
     public function setSessionId($sessionId)
     {
@@ -74,7 +87,7 @@ class TransactionMallStatusResponse
     /**
      * @param mixed $cardNumber
      *
-     * @return TransactionMallStatusResponse
+     * @return MallTransactionStatusResponse
      */
     public function setCardNumber($cardNumber)
     {
@@ -93,7 +106,7 @@ class TransactionMallStatusResponse
     /**
      * @param mixed $expirationDate
      *
-     * @return TransactionMallStatusResponse
+     * @return MallTransactionStatusResponse
      */
     public function setExpirationDate($expirationDate)
     {
@@ -112,7 +125,7 @@ class TransactionMallStatusResponse
     /**
      * @param mixed $accountingDate
      *
-     * @return TransactionMallStatusResponse
+     * @return MallTransactionStatusResponse
      */
     public function setAccountingDate($accountingDate)
     {
@@ -131,7 +144,7 @@ class TransactionMallStatusResponse
     /**
      * @param mixed $transactionDate
      *
-     * @return TransactionMallStatusResponse
+     * @return MallTransactionStatusResponse
      */
     public function setTransactionDate($transactionDate)
     {
@@ -142,21 +155,20 @@ class TransactionMallStatusResponse
     /**
      * @return mixed
      */
-    public function getDetail()
+    public function getDetails()
     {
-        return $this->detail;
+        return $this->details;
     }
 
     /**
-     * @param mixed $detail
+     * @param mixed $details
      *
-     * @return TransactionMallStatusResponse
+     * @return MallTransactionStatusResponse
      */
-    public function setDetail($detail)
+    public function setDetails($details)
     {
-        $this->detail = $detail;
+        $this->details = $details;
         return $this;
     }
-
 
 }
