@@ -53,7 +53,7 @@ class MallInscription
                 $tbkErrorMessage = $body["error_message"];
                 $message = "$message. Details: $tbkErrorMessage";
             }
-            throw new InscriptionStartException($message, -1);
+            throw new InscriptionStartException($message, $httpCode);
         }
 
         $responseJson = json_decode($httpResponse->getBody(), true);
@@ -99,7 +99,7 @@ class MallInscription
                 $tbkErrorMessage = $body["error_message"];
                 $message = "$message. Details: $tbkErrorMessage";
             }
-            throw new InscriptionFinishException($message, -1);
+            throw new InscriptionFinishException($message, $httpCode);
         }
 
         $responseJson = json_decode($httpResponse->getBody(), true);
@@ -145,7 +145,7 @@ class MallInscription
                 $tbkErrorMessage = $body["error_message"];
                 $message = "$message. Details: $tbkErrorMessage";
             }
-            throw new InscriptionDeleteException($message, -1);
+            throw new InscriptionDeleteException($message, $httpCode);
         }
         $inscriptionFinishResponse = new InscriptionDeleteResponse($httpCode);
 

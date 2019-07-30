@@ -58,7 +58,7 @@ class Transaction
                 $tbkErrorMessage = $body["error_message"];
                 $message = "$message. Details: $tbkErrorMessage";
             }
-            throw new TransactionCreateException($message, -1);
+            throw new TransactionCreateException($message, $httpCode);
         }
 
         $responseJson = json_decode($httpResponse->getBody(), true);
@@ -101,7 +101,7 @@ class Transaction
                 $tbkErrorMessage = $body["error_message"];
                 $message = "$message. Details: $tbkErrorMessage";
             }
-            throw new TransactionCommitException($message, -1);
+            throw new TransactionCommitException($message, $httpCode);
         }
 
         $responseJson = json_decode($httpResponse->getBody(), true);
@@ -145,7 +145,7 @@ class Transaction
                 $tbkErrorMessage = $body["error_message"];
                 $message = "$message. Details: $tbkErrorMessage";
             }
-            throw new TransactionStatusException($message, -1);
+            throw new TransactionStatusException($message, $httpCode);
         }
 
         $responseJson = json_decode($httpResponse->getBody(), true);
