@@ -4,7 +4,7 @@
 namespace Transbank\Webpay\WebpayPlus;
 
 
-class TransactionCommitMallResponse
+class MallTransactionCommitResponse
 {
     public $vci;
     public $details; # {"amount":1000,"status":"AUTHORIZED","authorization_code":"1213","payment_type_code":"VN","response_code":0,"installments_number":0,"commerce_code":"597055555537","buy_order":"123buyorder1"}
@@ -38,7 +38,7 @@ class TransactionCommitMallResponse
     /**
      * @param mixed $vci
      *
-     * @return TransactionCommitMallResponse
+     * @return MallTransactionCommitResponse
      */
     public function setVci($vci)
     {
@@ -57,7 +57,7 @@ class TransactionCommitMallResponse
     /**
      * @param mixed $details
      *
-     * @return TransactionCommitMallResponse
+     * @return MallTransactionCommitResponse
      */
     public function setDetails($details)
     {
@@ -76,7 +76,7 @@ class TransactionCommitMallResponse
     /**
      * @param mixed $buyOrder
      *
-     * @return TransactionCommitMallResponse
+     * @return MallTransactionCommitResponse
      */
     public function setBuyOrder($buyOrder)
     {
@@ -95,7 +95,7 @@ class TransactionCommitMallResponse
     /**
      * @param mixed $sessionId
      *
-     * @return TransactionCommitMallResponse
+     * @return MallTransactionCommitResponse
      */
     public function setSessionId($sessionId)
     {
@@ -114,7 +114,7 @@ class TransactionCommitMallResponse
     /**
      * @param mixed $cardNumber
      *
-     * @return TransactionCommitMallResponse
+     * @return MallTransactionCommitResponse
      */
     public function setCardNumber($cardNumber)
     {
@@ -133,7 +133,7 @@ class TransactionCommitMallResponse
     /**
      * @param mixed $accountingDate
      *
-     * @return TransactionCommitMallResponse
+     * @return MallTransactionCommitResponse
      */
     public function setAccountingDate($accountingDate)
     {
@@ -152,7 +152,7 @@ class TransactionCommitMallResponse
     /**
      * @param mixed $transactionDate
      *
-     * @return TransactionCommitMallResponse
+     * @return MallTransactionCommitResponse
      */
     public function setTransactionDate($transactionDate)
     {

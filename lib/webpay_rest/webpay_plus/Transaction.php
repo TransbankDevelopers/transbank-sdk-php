@@ -324,9 +324,9 @@ class Transaction
 
         $responseJson = json_decode($httpResponse->getBody(), true);
 
-        $transactionCommitMallResponse = new TransactionCommitMallResponse($responseJson);
+        $mallTransactionCommitResponse = new MallTransactionCommitResponse($responseJson);
 
-        return $transactionCommitMallResponse;
+        return $mallTransactionCommitResponse;
     }
 
     public static function refundMall($token, $buyOrder, $childCommerceCode, $amount, $options = null)
