@@ -15,7 +15,7 @@ namespace Transbank\Patpass\PatpassComercio;
 class InscriptionStartResponse
 {
     public $token;
-    public $url;
+    public $urlWebpay;
 
     /**
      * InscriptionStartResponse constructor.
@@ -24,9 +24,9 @@ class InscriptionStartResponse
     public function __construct($json)
     {
         $token = $json["token"];
-        $url = $json["url"];
+        $url = $json["url_webpay"];
         $this->setToken($token);
-        $this->setUrl($url);
+        $this->setUrlWebpay($url);
     }
 
     /**
@@ -51,9 +51,9 @@ class InscriptionStartResponse
     /**
      * @return mixed
      */
-    public function getUrl()
+    public function getUrlWebpay()
     {
-        return $this->url;
+        return $this->urlWebpay;
     }
 
     /**
@@ -61,9 +61,9 @@ class InscriptionStartResponse
      *
      * @return InscriptionStartResponse
      */
-    public function setUrl($url)
+    public function setUrlWebpay($url)
     {
-        $this->url = $url;
+        $this->urlWebpay = $url;
         return $this;
     }
 

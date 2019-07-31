@@ -15,7 +15,7 @@ namespace Transbank\Patpass\PatpassComercio;
 class InscriptionStatusResponse
 {
     public $status;
-    public$urlVoucher;
+    public $urlVoucher;
 
     public function __construct($json)
     {
