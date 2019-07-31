@@ -18,6 +18,6 @@ class InscriptionFinishException extends PatpassException
 
     public function __construct($message = self::DEFAULT_MESSAGE, $code = 0, $previous = null)
     {
-        parent::__construc($message, $code, $previous);
+        parent::__construct($message, $code, $previous);
     }
 }
