@@ -3,13 +3,16 @@
 
 namespace Transbank\Patpass;
 
+use Transbank\PatPass\Commerce\patpassComercio;
+
 /**
  * Class Options
  *
- * @package Transbank\Webpay
+ * @package Transbank\Patpass
  */
 class Options
 {
+<<<<<<< HEAD
     /**
      * Default API key (which is sent as a header when making requests to Transbank
      * on a field called "Tbk-Api-Key-Secret")
@@ -18,22 +21,19 @@ class Options
     const DEFAULT_INTEGRATION_TYPE = "TEST";
     const DEFAULT_PATPASS_BY_WEBPAY_COMMERCE_CODE = '597055555550';
     const DEFAULT_PATPASS_COMMERCE_COMMERCE_CODE = '';
+=======
+    const DEFAULT_PATPASS_API_KEY = "";
 
-    /**
-     * @var string $apiKey Your api key, given by Transbank.Sent as a header when
-     * making requests to Transbank on a field called "Tbk-Api-Key-Secret"
-     */
+    const DEFAULT_PATPASS_INTEGRATION_TYPE = "TEST";
+    const DEFAULT_PATPASS_INTEGRATION_TYPE_URL = "https://webpay3gint.transbank.cl/";
+    const DEFAULT_PATPASS_COMMERCE_COMMERCE_CODE = "";
+    const DEFAULT_PATPASS_NAME = "";
+    const DEFAULT_PATPASS_COMMERCE_EMAIL = "";
+>>>>>>> parent of b99096a... Merge branch 'fix/remove_unnecessary_error_checks_in_body' into feat/patpass-commerce
+
     public $apiKey = null;
-    /**
-     * @var string $commerceCode Your commerce code, given by Transbank. Sent as
-     * a header when making requests to Transbank on a field called "Tbk-Api-Key-Id"
-     */
     public $commerceCode = null;
-    /**
-     * @var string $integrationType Sets the environment that the SDK is going
-     * to point to (eg. TEST, LIVE, etc).
-     */
-    public $integrationType = 'TEST';
+    public $integrationType = "TEST";
 
     public function __construct($apiKey, $commerceCode)
     {
@@ -41,14 +41,48 @@ class Options
         $this->commerceCode = $commerceCode;
     }
 
-    /**
-     * @return Options Return an instance of Options with default values
-     * configured
-     */
     public static function defaultConfig()
     {
-        return new Options(self::DEFAULT_API_KEY,
-            self::DEFAULT_PATPASS_BY_WEBPAY_COMMERCE_CODE);
+        return new Options(
+            self::DEFAULT_API_KEY,
+            self::DEFAULT_PATPASS_COMMERCE_COMMERCE_CODE
+        );
+    }
+
+    /**
+     * @return null
+     */
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
+    /**
+     * @param null $apiKey
+     * @return Options
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = $apiKey;
+        return $this;
+    }
+
+    /**
+     * @return null
+     */
+    public function getCommerceCode()
+    {
+        return $this->commerceCode;
+    }
+
+    /**
+     * @param null $commerceCode
+     * @return Options
+     */
+    public function setCommerceCode($commerceCode)
+    {
+        $this->commerceCode = $commerceCode;
+        return $this;
     }
 
     /**
@@ -61,59 +95,18 @@ class Options
 
     /**
      * @param string $integrationType
-     *
-     * @return Options
      */
     public function setIntegrationType($integrationType)
     {
         $this->integrationType = $integrationType;
-        return $this;
     }
 
     /**
-     * @return mixed
-     */
-    public function getApiKey()
-    {
-        return $this->apiKey;
-    }
-
-    /**
-     * @param string $apiKey
-     *
-     * @return Options
-     */
-    public function setApiKey($apiKey)
-    {
-        $this->apiKey = $apiKey;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCommerceCode()
-    {
-        return $this->commerceCode;
-    }
-
-    /**
-     * @param mixed $commerceCode
-     *
-     * @return Options
-     */
-    public function setCommerceCode($commerceCode)
-    {
-        $this->commerceCode = $commerceCode;
-        return $this;
-    }
-
-    /**
-     * @return string Returns the base URL used for making requests, depending on which
+     * @return string  Returns the base URL used for making requests, depending on which
      * integration types
      */
     public function integrationTypeUrl()
     {
-        return PatpassByWebpay::$INTEGRATION_TYPES[$this->integrationType];
+        return patpassComercio::$INTEGRATION_TYPES[$this->integrationType];
     }
 }

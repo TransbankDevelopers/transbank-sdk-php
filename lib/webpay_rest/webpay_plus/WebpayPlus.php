@@ -99,26 +99,4 @@ class WebpayPlus
 
         return self::$INTEGRATION_TYPES[$integrationType];
     }
-
-    public static function configureForTesting()
-    {
-        self::setApiKey(Options::DEFAULT_API_KEY);
-        self::setCommerceCode(Options::DEFAULT_COMMERCE_CODE);
-        self::setIntegrationType(self::$INTEGRATION_TYPES["TEST"]);
-    }
-
-    public static function configureMallForTesting()
-    {
-        self::setApiKey(Options::DEFAULT_API_KEY);
-        self::setCommerceCode(Options::DEFAULT_MALL_COMMERCE_CODE);
-        self::setIntegrationType(self::$INTEGRATION_TYPES["TEST"]);
-    }
-
-    public static function configureDeferredForTesting()
-    {
-        self::setApiKey(Options::DEFAULT_API_KEY);
-        self::setCommerceCode(Options::DEFAULT_DEFERRED_COMMERCE_CODE);
-        self::setIntegrationType(self::$INTEGRATION_TYPES["TEST"]);
-    }
-
 }

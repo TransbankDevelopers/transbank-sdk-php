@@ -1,17 +1,15 @@
 <?php
 
 
-namespace Transbank\Webpay\WebpayPlus\Exceptions;
+namespace Transbank\Webpay\Exceptions;
 
-
-use Transbank\Webpay\Exceptions\WebpayException;
 
 /**
  * Class InscriptionStatusException
  *
  * @package Transbank\Webpay\exceptions
  */
-class TransactionStatusException extends WebpayException {
+class TransactionStatusException extends TransbankException {
     const DEFAULT_MESSAGE = 'Transaction Status could not be confirmed. Please verify given parameters';
 
     public function __construct($message = self::DEFAULT_MESSAGE, $code = 0, $previous = null)

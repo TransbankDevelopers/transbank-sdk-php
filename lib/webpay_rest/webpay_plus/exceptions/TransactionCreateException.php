@@ -1,7 +1,5 @@
 <?php
-namespace Transbank\Webpay\WebpayPlus\Exceptions;
-use Transbank\Webpay\Exceptions\WebpayException;
-
+namespace Transbank\Webpay\Exceptions;
 /**
  * class TransactionCreateException
  * Raised when giving invalid params to a TransactionCreateRequest
@@ -11,7 +9,7 @@ use Transbank\Webpay\Exceptions\WebpayException;
  *
  */
 
-class TransactionCreateException extends WebpayException {
+class TransactionCreateException extends TransbankException {
     const DEFAULT_MESSAGE = 'Transaction could not be created. Please verify given parameters';
 
     public function __construct($message = self::DEFAULT_MESSAGE, $code = 0, $previous = null)

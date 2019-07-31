@@ -4,7 +4,7 @@
 namespace Transbank\Webpay\WebpayPlus;
 
 
-class MallTransactionCommitResponse
+class TransactionCommitMallResponse
 {
     public $vci;
     public $details; # {"amount":1000,"status":"AUTHORIZED","authorization_code":"1213","payment_type_code":"VN","response_code":0,"installments_number":0,"commerce_code":"597055555537","buy_order":"123buyorder1"}
@@ -20,7 +20,7 @@ class MallTransactionCommitResponse
         $this->details = isset($json["details"]) ? $json["details"] : null;
         $this->buyOrder = isset($json["buy_order"]) ? $json["buy_order"] : null;
         $this->sessionId = isset($json["session_id"]) ?$json["session_id"] : null;
-        $this->cardNumber = isset($json["card_detail"]) ? (isset($json["card_detail"]["card_number"]) ? $json["card_detail"]["card_number"] : null) : null;
+        $this->cardNumber = isset($json["card_detail"]) ? (isset($json["card_detail"]["card_number"]) ? $json["card_detail"] : null) : null;
         $this->accountingDate = isset($json["accounting_date"]) ? $json["accounting_date"] : null;
         $this->transactionDate = isset($json["transaction_date"]) ? $json["transaction_date"] : null;
     }
@@ -38,7 +38,7 @@ class MallTransactionCommitResponse
     /**
      * @param mixed $vci
      *
-     * @return MallTransactionCommitResponse
+     * @return TransactionCommitMallResponse
      */
     public function setVci($vci)
     {
@@ -57,7 +57,7 @@ class MallTransactionCommitResponse
     /**
      * @param mixed $details
      *
-     * @return MallTransactionCommitResponse
+     * @return TransactionCommitMallResponse
      */
     public function setDetails($details)
     {
@@ -76,7 +76,7 @@ class MallTransactionCommitResponse
     /**
      * @param mixed $buyOrder
      *
-     * @return MallTransactionCommitResponse
+     * @return TransactionCommitMallResponse
      */
     public function setBuyOrder($buyOrder)
     {
@@ -95,7 +95,7 @@ class MallTransactionCommitResponse
     /**
      * @param mixed $sessionId
      *
-     * @return MallTransactionCommitResponse
+     * @return TransactionCommitMallResponse
      */
     public function setSessionId($sessionId)
     {
@@ -114,7 +114,7 @@ class MallTransactionCommitResponse
     /**
      * @param mixed $cardNumber
      *
-     * @return MallTransactionCommitResponse
+     * @return TransactionCommitMallResponse
      */
     public function setCardNumber($cardNumber)
     {
@@ -133,7 +133,7 @@ class MallTransactionCommitResponse
     /**
      * @param mixed $accountingDate
      *
-     * @return MallTransactionCommitResponse
+     * @return TransactionCommitMallResponse
      */
     public function setAccountingDate($accountingDate)
     {
@@ -152,7 +152,7 @@ class MallTransactionCommitResponse
     /**
      * @param mixed $transactionDate
      *
-     * @return MallTransactionCommitResponse
+     * @return TransactionCommitMallResponse
      */
     public function setTransactionDate($transactionDate)
     {
