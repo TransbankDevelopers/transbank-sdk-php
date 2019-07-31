@@ -17,6 +17,7 @@ class Options
     const DEFAULT_API_KEY = '579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C';
     const DEFAULT_INTEGRATION_TYPE = "TEST";
     const DEFAULT_PATPASS_BY_WEBPAY_COMMERCE_CODE = '597055555550';
+    const DEFAULT_PATPASS_COMMERCE_COMMERCE_CODE = '';
 
     /**
      * @var string $apiKey Your api key, given by Transbank.Sent as a header when
