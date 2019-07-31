@@ -22,21 +22,7 @@ class Inscription
     const INSCRIPTION_FINISH_ENDPOINT = 'restpatpass/v1/services/patInscription/$TOKEN$';
 
     public static function start(
-        $returnUrl,
-        $name,
-        $fLastname,
-        $lLastname,
-        $rut,
-        $serviceId,
-        $finalUrl,
-        $maxAmount,
-        $phoneNumber,
-        $mobileNumber,
-        $patpassName,
-        $userEmail,
-        $commerceEmail,
-        $address,
-        $city,
+        $array,
         $options = null
     )
     {
@@ -55,22 +41,22 @@ class Inscription
             "Tbk-Api-Key-Secret" => $apiKey
         ];
         $payload = json_encode([
-            "url" => $returnUrl,
-            "nombre" => $name,
-            "pApellido" => $fLastname,
-            "sApellido" => $lLastname,
-            "rut" => $rut,
-            "serviceId" => $serviceId,
-            "finalUrl" => $finalUrl,
-            "commerceCode" => $commerceCode,
-            "montoMaximo" => $maxAmount,
-            "telefonoFijo" => $phoneNumber,
-            "telefonoCelular" => $mobileNumber,
-            "nombrePatPass" => $patpassName,
-            "correoPersona" => $userEmail,
-            "correoComercio" => $commerceEmail,
-            "direccion" => $address,
-            "ciudad" => $city
+            "url" => $array['url'],
+            "nombre" => $array['nombre'],
+            "pApellido" => $array['pApellido'],
+            "sApellido" => $array['sApellido'],
+            "rut" => $array['rut'],
+            "serviceId" => $array['serviceId'] ,
+            "finalUrl" => $array['finalUrl'],
+            "commerceCode" => $array['commerceCode'],
+            "montoMaximo" => $array['montoMaximo'],
+            "telefonoFijo" => $array['telefonoFijo'],
+            "telefonoCelular" => $array['telefonoCelular'],
+            "nombrePatPass" => $array['nombrePatPass'],
+            "correoPersona" => $array['correoPersona'],
+            "correoComercio" => $array['correoComercio'],
+            "direccion" => $array['direccion'],
+            "ciudad" => $array['ciudad']
         ]);
         $httpResponse = $http->post($baseUrl,
             self::INSCRIPTION_START_ENDPOINT,
