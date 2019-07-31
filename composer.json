@@ -7,7 +7,8 @@
       "php": ">=5.5.0",
       "ext-curl": "*",
       "ext-json": "*",
-      "ext-mbstring": "*"
+      "ext-mbstring": "*",
+      "guzzlehttp/guzzle":"^6.3.3"
     },
     "require-dev": {
       "phpunit/phpunit": "~4.0",
@@ -15,9 +16,14 @@
       "squizlabs/php_codesniffer": "~2.0"
     },
     "autoload": {
-      "psr-4": { "Transbank\\Onepay\\" : ["lib/onepay", "lib/onepay/utils"],
-                  "Transbank\\Onepay\\Exceptions\\": ["lib/onepay/exceptions"],
-                  "Transbank\\Webpay\\" : ["lib/webpay", "lib/webpay/soap"]}
+      "psr-4": {
+        "Transbank\\Onepay\\" : ["lib/onepay", "lib/onepay/utils"],
+        "Transbank\\Onepay\\Exceptions\\": ["lib/onepay/exceptions"],
+        "Transbank\\Webpay\\" : ["lib/webpay", "lib/webpay/soap"],
+        "Transbank\\TransaccionCompleta\\": ["lib/transaccion_completa", "lib/transaccion_completa/inscription"],
+        "Transbank\\TransaccionCompleta\\Exceptions\\": ["lib/transaccion_completa/exceptions"],
+        "Transbank\\Utils\\": ["lib/utils"]
+      }
     },
     "license": "BSD-3-Clause"
 }
