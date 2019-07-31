@@ -9,9 +9,11 @@
  */
 
 
-namespace Transbank\PatPass\Exceptions;
-use Transbank\Webpay\Exceptions\WebpayException;
-class InscriptionStartException extends WebpayException
+namespace Transbank\Patpass\PatpassComercio\Exceptions;
+
+use Transbank\Patpass\Exceptions\PatpassException;
+
+class InscriptionStartException extends PatpassException
 {
     public function __construct($message = self::DEFAULT_MESSAGE, $code = 0, $previous = null)
     {

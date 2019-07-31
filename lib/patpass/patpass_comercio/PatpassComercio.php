@@ -11,7 +11,7 @@
  */
 
 
-namespace Transbank\PatPass;
+namespace Transbank\Patpass;
 
 use Transbank\Patpass\Options;
 use Transbank\Utils\HttpClient;

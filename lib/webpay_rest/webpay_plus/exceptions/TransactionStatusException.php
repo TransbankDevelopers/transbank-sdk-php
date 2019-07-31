@@ -7,7 +7,7 @@ namespace Transbank\Webpay\WebpayPlus\Exceptions;
 use Transbank\Webpay\Exceptions\WebpayException;
 
 /**
- * Class TransactionStatusException
+ * Class InscriptionStatusException
  *
  * @package Transbank\Webpay\exceptions
  */
