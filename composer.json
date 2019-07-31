@@ -4,7 +4,7 @@
   "version": "1.5.2",
   "keywords": ["payments", "transbank", "api", "sdk"],
   "require": {
-      "php": ">=5.5.0",
+      "php": ">=5.6.0",
       "ext-curl": "*",
       "ext-json": "*",
       "ext-mbstring": "*",
@@ -16,13 +16,18 @@
       "squizlabs/php_codesniffer": "~2.0"
     },
     "autoload": {
-      "psr-4": {
-        "Transbank\\Onepay\\" : ["lib/onepay", "lib/onepay/utils"],
-        "Transbank\\Onepay\\Exceptions\\": ["lib/onepay/exceptions"],
-        "Transbank\\Webpay\\" : ["lib/webpay", "lib/webpay/soap"],
-        "Transbank\\TransaccionCompleta\\": ["lib/transaccion_completa", "lib/transaccion_completa/inscription"],
-        "Transbank\\TransaccionCompleta\\Exceptions\\": ["lib/transaccion_completa/exceptions"],
-        "Transbank\\Utils\\": ["lib/utils"]
+      "psr-4": { "Transbank\\Onepay\\" : ["lib/onepay", "lib/onepay/utils"],
+                  "Transbank\\Onepay\\Exceptions\\": ["lib/onepay/exceptions"],
+                  "Transbank\\Webpay\\" : ["lib/webpay", "lib/webpay/soap", "lib/webpay_rest", "lib/webpay_rest/webpay_plus"],
+                  "Transbank\\Webpay\\Exceptions\\":["lib/webpay_rest/exceptions"],
+                  "Transbank\\Webpay\\WebpayPlus\\":["lib/webpay_rest/webpay_plus"], "Transbank\\Webpay\\WebpayPlus\\Exceptions\\":["lib/webpay_rest/webpay_plus/exceptions"], "Transbank\\Webpay\\Oneclick\\":["lib/webpay_rest/oneclick", "lib/webpay_rest/oneclick/inscription", "lib/webpay_rest/oneclick/mall"],
+        "Transbank\\Webpay\\Oneclick\\Exceptions\\":["lib/webpay_rest/oneclick/exceptions", "lib/webpay_rest/oneclick/mall/exceptions"],
+                  "Transbank\\Patpass\\":[ "lib/patpass","lib/patpass/patpass_by_webpay"],
+                  "Transbank\\Patpass\\PatpassByWebpay\\":["lib/patpass/patpass_by_webpay"],
+                  "Transbank\\Patpass\\Exceptions\\":["lib/patpass/exceptions"],
+                  "Transbank\\Patpass\\PatpassByWebpay\\Exceptions\\":["lib/patpass/patpass_by_webpay/exceptions"],
+                  "Transbank\\Utils\\":  ["lib/utils"]
+
       }
     },
     "license": "BSD-3-Clause"
