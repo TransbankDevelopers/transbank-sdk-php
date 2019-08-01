@@ -16,7 +16,7 @@ class Options
 
     const DEFAULT_PATPASS_INTEGRATION_TYPE = "TEST";
     const DEFAULT_PATPASS_INTEGRATION_TYPE_URL = "https://webpay3gint.transbank.cl/";
-    const DEFAULT_PATPASS_COMMERCE_COMMERCE_CODE = "28299257";
+    const DEFAULT_PATPASS_COMERCIO_COMMERCE_CODE = "28299257";
 
     public $apiKey = null;
     public $commerceCode = null;
