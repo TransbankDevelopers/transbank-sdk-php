@@ -179,9 +179,7 @@ class Inscription
             throw new InscriptionStatusException($message, $httpCode);
         }
 
-        $responseJson = json_decode($httpResponse->getBody(), true);
-
-        $inscriptionFinishResponse = new InscriptionStatusResponse($responseJson);
+        $inscriptionFinishResponse = new InscriptionStatusResponse($httpCode);
 
         return $inscriptionFinishResponse;
 
