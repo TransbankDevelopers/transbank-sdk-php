@@ -32,7 +32,7 @@ class Options
     {
         return new Options(
             self::DEFAULT_PATPASS_API_KEY,
-            self::DEFAULT_PATPASS_COMMERCE_COMMERCE_CODE
+            self::DEFAULT_PATPASS_COMERCIO_COMMERCE_CODE
         );
     }
 
@@ -94,6 +94,6 @@ class Options
      */
     public function integrationTypeUrl()
     {
-        return patpassComercio::$INTEGRATION_TYPES[$this->integrationType];
+        return PatpassComercio::$INTEGRATION_TYPES[$this->integrationType];
     }
 }
