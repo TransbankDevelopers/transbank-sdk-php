@@ -62,9 +62,6 @@ class Inscription
         }
         $responseJson = json_decode($httpResponse->getBody(), true);
 
-        if (isset($responseJson["error_message"])) {
-            throw new InscriptionStartException($responseJson['error_message']);
-        }
         $inscriptionStartResponse = new InscriptionStartResponse($responseJson);
         return $inscriptionStartResponse;
     }
