@@ -23,8 +23,8 @@ class InscriptionStartResponse
      */
     public function __construct($json)
     {
-        $token = $json["token"];
-        $url = $json["url_webpay"];
+        $token = isset($json["token"]) ? $json["token"] : null;
+        $url = isset($json["url_webpay"]) ? $json["url_webpay"] : null;
         $this->setToken($token);
         $this->setUrlWebpay($url);
     }
