@@ -13,7 +13,6 @@
 
 namespace Transbank\Patpass;
 
-use Transbank\Patpass\Options;
 use Transbank\Utils\HttpClient;
 
 
@@ -30,40 +29,7 @@ class PatpassComercio
     private static $apiKey = Options::DEFAULT_PATPASS_API_KEY;
     private static $commerceCode = Options::DEFAULT_PATPASS_COMMERCE_COMMERCE_CODE;
     private static $integrationType = Options::DEFAULT_PATPASS_INTEGRATION_TYPE;
-    private static $name = Options::DEFAULT_PATPASS_NAME;
-    private static $commerceEmail = Options::DEFAULT_PATPASS_COMMERCE_EMAIL;
 
-    /**
-     * @return string
-     */
-    public static function getName()
-    {
-        return self::$name;
-    }
-
-    /**
-     * @param string $name
-     */
-    public static function setName($name)
-    {
-        self::$name = $name;
-    }
-
-    /**
-     * @return string
-     */
-    public static function getCommerceEmail()
-    {
-        return self::$commerceEmail;
-    }
-
-    /**
-     * @param string $commerceEmail
-     */
-    public static function setCommerceEmail($commerceEmail)
-    {
-        self::$commerceEmail = $commerceEmail;
-    }
 
 
     /**

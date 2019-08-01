@@ -3,7 +3,7 @@
 
 namespace Transbank\Patpass;
 
-use Transbank\PatPass\Commerce\patpassComercio;
+use Transbank\Patpass;
 
 /**
  * Class Options
@@ -12,24 +12,11 @@ use Transbank\PatPass\Commerce\patpassComercio;
  */
 class Options
 {
-<<<<<<< HEAD
-    /**
-     * Default API key (which is sent as a header when making requests to Transbank
-     * on a field called "Tbk-Api-Key-Secret")
-     */
-    const DEFAULT_API_KEY = '579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C';
-    const DEFAULT_INTEGRATION_TYPE = "TEST";
-    const DEFAULT_PATPASS_BY_WEBPAY_COMMERCE_CODE = '597055555550';
-    const DEFAULT_PATPASS_COMMERCE_COMMERCE_CODE = '';
-=======
-    const DEFAULT_PATPASS_API_KEY = "";
+    const DEFAULT_PATPASS_API_KEY = "giPmNIQIabX8KADNqJht   ";
 
     const DEFAULT_PATPASS_INTEGRATION_TYPE = "TEST";
     const DEFAULT_PATPASS_INTEGRATION_TYPE_URL = "https://webpay3gint.transbank.cl/";
-    const DEFAULT_PATPASS_COMMERCE_COMMERCE_CODE = "";
-    const DEFAULT_PATPASS_NAME = "";
-    const DEFAULT_PATPASS_COMMERCE_EMAIL = "";
->>>>>>> parent of b99096a... Merge branch 'fix/remove_unnecessary_error_checks_in_body' into feat/patpass-commerce
+    const DEFAULT_PATPASS_COMMERCE_COMMERCE_CODE = "28299257";
 
     public $apiKey = null;
     public $commerceCode = null;
@@ -44,7 +31,7 @@ class Options
     public static function defaultConfig()
     {
         return new Options(
-            self::DEFAULT_API_KEY,
+            self::DEFAULT_PATPASS_API_KEY,
             self::DEFAULT_PATPASS_COMMERCE_COMMERCE_CODE
         );
     }
