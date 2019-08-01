@@ -120,7 +120,7 @@ class Inscription
                 $tbkErrorMessage = $body["error_message"];
                 $message = "$message. Details: $tbkErrorMessage";
             }
-            throw new InscriptionFinishException($message, -1);
+            throw new InscriptionFinishException($message, $httpCode);
         }
 
         $responseJson = json_decode($httpResponse->getBody(), true);
@@ -168,7 +168,7 @@ class Inscription
                 $tbkErrorMessage = $body["error_message"];
                 $message = "$message. Details: $tbkErrorMessage";
             }
-            throw new InscriptionStatusException($message, -1);
+            throw new InscriptionStatusException($message, $httpCode);
         }
 
         $responseJson = json_decode($httpResponse->getBody(), true);
