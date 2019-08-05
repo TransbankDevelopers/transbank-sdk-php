@@ -1,18 +1,18 @@
 <?php
 
 /**
- * Class Exceptions
+ * Class TransaccionCompletaException
  *
  * @category
- * @package Transbank\TransaccionCompleta\Exceptions
+ * @package Transbank\TransaccionCompleta\TransaccionCompletaException
  *
  */
 
 
-namespace Transbank\TransaccionCompleta;
+namespace Transbank\TransaccionCompleta\Exceptions;
 
 
-class Exceptions extends \Exception
+class TransaccionCompletaException extends \Exception
 {
     const DEFAULT_MESSAGE = 'An error has happened, verify given parameters and try again.';
     public function __construct($message = self::DEFAULT_MESSAGE, $code = 0, $previous = null)
