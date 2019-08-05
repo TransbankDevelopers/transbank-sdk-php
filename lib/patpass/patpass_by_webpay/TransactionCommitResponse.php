@@ -10,7 +10,7 @@ class TransactionCommitResponse
     private $status;
     private $buyOrder;
     private $sessionId;
-    private $cardNumber;
+    private $cardDetail;
     private $accountingDate;
     private $transactionDate;
     private $authorizationCode;
@@ -29,10 +29,7 @@ class TransactionCommitResponse
         $this->setStatus($this->returnValueIfExists($json, 'status'));
         $this->setBuyOrder($this->returnValueIfExists($json, 'buy_order'));
         $this->setSessionId($this->returnValueIfExists($json, 'session_id'));
-
-        $cardDetail = $this->returnValueIfExists($json, 'card_detail');
-        $cardNumber = $this->returnValueIfExists($cardDetail, 'card_number');
-        $this->setCardNumber($cardNumber);
+        $this->setCardDetail($this->returnValueIfExists($json, 'card_detail'));
         $this->setAccountingDate($this->returnValueIfExists($json, 'accounting_date'));
         $this->setTransactionDate($this->returnValueIfExists($json, 'transaction_date'));
         $this->setAuthorizationCode($this->returnValueIfExists($json, 'authorization_code'));
@@ -144,9 +141,9 @@ class TransactionCommitResponse
     /**
      * @return mixed
      */
-    public function getCardNumber()
+    public function getCardDetail()
     {
-        return $this->cardNumber;
+        return $this->cardDetail;
     }
 
     /**
@@ -154,9 +151,9 @@ class TransactionCommitResponse
      *
      * @return TransactionCommitResponse
      */
-    public function setCardNumber($cardNumber)
+    public function setCardDetail($cardDetail)
     {
-        $this->cardNumber = $cardNumber;
+        $this->cardDetail = $cardDetail;
         return $this;
     }
 
