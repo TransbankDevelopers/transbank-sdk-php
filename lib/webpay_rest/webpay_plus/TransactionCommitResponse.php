@@ -28,7 +28,7 @@ class TransactionCommitResponse
     /**
      * @var
      */
-    public $cardNumber;
+    public $cardDetail;
     /**
      * @var
      */
@@ -75,14 +75,13 @@ class TransactionCommitResponse
         $this->status = isset($json["status"]) ? $json["status"] : null;
         $this->buyOrder = isset($json["buy_order"]) ? $json["buy_order"] : null;
         $this->sessionId = isset($json["session_id"]) ?$json["session_id"] : null;
-        $this->cardNumber = isset($json["card_detail"]) ? (isset($json["card_detail"]["card_number"]) ? $json["card_detail"]["card_number"] : null) : null;
+        $this->cardDetail = isset($json["card_detail"]) ? $json["card_detail"] : null;
         $this->accountingDate = isset($json["accounting_date"]) ? $json["accounting_date"] : null;
         $this->transactionDate = isset($json["transaction_date"]) ? $json["transaction_date"] : null;
         $this->authorizationCode = isset($json["authorization_code"]) ? $json["authorization_code"] : null;
         $this->paymentTypeCode = isset($json["payment_type_code"]) ? $json["payment_type_code"] : null;
         $this->responseCode = isset($json["response_code"]) ? $json["response_code"] : null;
         $this->installmentsAmount = isset($json["installments_amount"]) ? $json["installments_amount"] : null;
-
         $this->installmentsNumber = isset($json["installmentsNumber"]) ? $json["installmentsNumber"] : null;
         $this->balance = isset($json["balance"]) ? $json["balance"] : null;
     }
@@ -185,19 +184,18 @@ class TransactionCommitResponse
     /**
      * @return mixed
      */
-    public function getCardNumber()
+    public function getCardDetail()
     {
-        return $this->cardNumber;
+        return $this->cardDetail;
     }
 
     /**
-     * @param mixed $cardNumber
-     *
+     * @param $cardDetail
      * @return TransactionCommitResponse
      */
-    public function setCardNumber($cardNumber)
+    public function setCardDetail($cardDetail)
     {
-        $this->cardNumber = $cardNumber;
+        $this->cardDetail = $cardDetail;
         return $this;
     }
 
