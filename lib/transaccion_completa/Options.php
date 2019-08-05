@@ -15,9 +15,8 @@ namespace Transbank\TransaccionCompleta;
 class Options
 {
     const DEFAULT_API_KEY = '';
-    const DEFAULT_COMMERCE_CODE = '';
+    const DEFAULT_TRANSACCION_COMPLETA_COMMERCE_CODE = '';
     const DEFAULT_INTEGRATION_TYPE = "TEST";
-    const DEFAULT_INTEGRATION_TYPE_URL = "https://wwww.pagoautomaticocontarjetas.cl/";
 
     public $apiKey = null;
     public $commerceCode = null;
@@ -31,7 +30,7 @@ class Options
 
     public static function defaultConfig()
     {
-        return new Options(self::DEFAULT_API_KEY, self::DEFAULT_COMMERCE_CODE);
+        return new Options(self::DEFAULT_API_KEY, self::DEFAULT_TRANSACCION_COMPLETA_COMMERCE_CODE);
     }
 
     /**
