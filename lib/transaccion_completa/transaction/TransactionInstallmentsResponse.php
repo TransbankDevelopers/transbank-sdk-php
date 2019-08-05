@@ -16,13 +16,13 @@ class TransactionInstallmentsResponse
 {
     public $installmentsAmount;
     public $idQueryInstallments;
-    public  $deferredPeriods;
+    public $deferredPeriods;
 
 
     public function __construct($json)
     {
         $installmentsAmount = isset($json["installments_amount"]) ? $json["installments_amount"] : null;
-        $this->setInstallmenteAmount($installmentsAmount);
+        $this->setInstallmentsAmount($installmentsAmount);
         $idQueryInstallments = isset($json["id_query_amount"]) ? $json["id_query_amount"] : null;
         $this->setIdQueryInstallments($idQueryInstallments);
         $deferredPeriods = isset($json["deferred_periods"]) ? $json["deferred_periods"] : null;
@@ -32,18 +32,18 @@ class TransactionInstallmentsResponse
     /**
      * @return mixed
      */
-    public function getInstallmenteAmount()
+    public function getInstallmentsAmount()
     {
-        return $this->installmenteAmount;
+        return $this->installmentsAmount;
     }
 
     /**
-     * @param mixed $installmenteAmount
+     * @param mixed $installmentsAmount
      * @return TransactionInstallmentsResponse
      */
-    public function setInstallmenteAmount($installmenteAmount)
+    public function setInstallmentsAmount($installmentsAmount)
     {
-        $this->installmenteAmount = $installmenteAmount;
+        $this->installmentsAmount = $installmentsAmount;
         return $this;
     }
 
