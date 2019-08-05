@@ -5,7 +5,7 @@ namespace Transbank\Onepay\Exceptions;
  * class RefundCreateException
  * Model object for raising exceptions when a Refund::create transaction fails.
  *
- * @package Transbank\Onepay\TransaccionCompletaException
+ * @package Transbank\Onepay\Exceptions
  */
 class RefundCreateException extends TransbankException {
 

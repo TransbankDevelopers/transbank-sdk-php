@@ -27,7 +27,7 @@ require_once(dirname(__FILE__) . '/lib/onepay/Refund.php');
 require_once(dirname(__FILE__) . '/lib/onepay/RefundCreateRequest.php');
 require_once(dirname(__FILE__) . '/lib/onepay/RefundCreateResponse.php');
 
-// TransaccioCompletaExceptionn
+// Exceptions
 require_once(dirname(__FILE__) . '/lib/onepay/exceptions/TransbankException.php');
 require_once(dirname(__FILE__) . '/lib/onepay/exceptions/AmountException.php');
 require_once(dirname(__FILE__) . '/lib/onepay/exceptions/RefundCreateException.php');
