@@ -21,8 +21,8 @@ class InscriptionStartResponse
     public function __construct($json)
     {
         $token = $json["token"];
-        $url = $json["url"];
         $this->setToken($token);
+        $url = $json["url"];
         $this->setUrl($url);
     }
 
