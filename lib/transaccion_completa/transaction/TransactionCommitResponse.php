@@ -1,47 +1,63 @@
 <?php
 
+/**
+ * Class TransactionCommitResponse
+ *
+ * @category
+ * @package Transbank\TransaccionCompleta
+ *
+ */
 
-namespace Transbank\Patpass\PatpassByWebpay;
+
+namespace Transbank\TransaccionCompleta;
+
 
 class TransactionCommitResponse
 {
-    private $vci;
-    private $amount;
-    private $status;
-    private $buyOrder;
-    private $sessionId;
-    private $cardDetail;
-    private $accountingDate;
-    private $transactionDate;
-    private $authorizationCode;
-    private $paymentTypeCode;
-    private $responseCode;
-    private $installmentsNumber;
+    public $vci;
+    public $amount;
+    public $status;
+    public $buyOrder;
+    public $sessionId;
+    public $cardDetail; // card_number
+    public $accountingDate;
+    public $transactionDate;
+    public $authorizationCode;
+    public $paymentTypeCode;
+    public $responseCode;
+    public $installmentsNumber;
+    public $installmentsAmount;
 
-    /**
-     * TransactionCommitResponse constructor.
-     */
     public function __construct($json)
     {
-
-        $this->setVci($this->returnValueIfExists($json, 'vci'));
-        $this->setAmount($this->returnValueIfExists($json, 'amount'));
-        $this->setStatus($this->returnValueIfExists($json, 'status'));
-        $this->setBuyOrder($this->returnValueIfExists($json, 'buy_order'));
-        $this->setSessionId($this->returnValueIfExists($json, 'session_id'));
-        $this->setCardDetail($this->returnValueIfExists($json, 'card_detail'));
-        $this->setAccountingDate($this->returnValueIfExists($json, 'accounting_date'));
-        $this->setTransactionDate($this->returnValueIfExists($json, 'transaction_date'));
-        $this->setAuthorizationCode($this->returnValueIfExists($json, 'authorization_code'));
-        $this->setPaymentTypeCode($this->returnValueIfExists($json, 'payment_type_code'));
-        $this->setResponseCode($this->returnValueIfExists($json, 'response_code'));
-        $this->setInstallmentsNumber($this->returnValueIfExists($json, 'installments_number'));
+        $vci = isset($json["vci"]) ? $json["vci"] : null;
+        $this->setVci($vci);
+        $amount = isset($json["amount"]) ? $json["amount"] : null;
+        $this->setAmount($amount);
+        $status = isset($json["status"]) ? $json["status"] : null;
+        $this->setStatus($status);
+        $buyOrder = isset($json["buy_order"]) ? $json["buy_order"] : null;
+        $this->setBuyOrder($buyOrder);
+        $sessionId = isset($json["session_id"]) ? $json["session_id"] : null;
+        $this->setSessionId($sessionId);
+        $cardDetail= isset($json["accounting_date"]) ? $json["accounting_date"] : null;
+        $this->setCardDetail($cardDetail);
+        $accountingDate = isset($json["card_detail"]) ? $json["card_detail"] : null;
+        $this->setAccountingDate($accountingDate);
+        $transactionDate = isset($json["transaction_date"]) ? $json["transaction_date"] : null;
+        $this->setTransactionDate($transactionDate);
+        $authorizationCode = isset($json["authorization_code"]) ? $json["authorization_code"] : null;
+        $this->setAuthorizationCode($authorizationCode);
+        $paymentTypeCode = isset($json["payment_type_code"]) ? $json["payment_type_code"] : null;
+        $this->setPaymentTypeCode($paymentTypeCode);
+        $responseCode = isset($json["response_code"]) ? $json["response_code"] : null;
+        $this->setResponseCode($responseCode);
+        $installmentsNumber = isset($json["installments_number"]) ? $json["installments_number"] : null;
+        $this->setInstallmentsNumber($installmentsNumber);
+        $installmentsAmount = isset($json["installments_amount"]) ? $json["installments_amount"] : null;
+        $this->setInstallmentsAmount($installmentsAmount);
     }
 
-    public function returnValueIfExists($json, $key)
-    {
-        return isset($json[$key]) ? $json[$key] : null;
-    }
 
     /**
      * @return mixed
@@ -53,7 +69,6 @@ class TransactionCommitResponse
 
     /**
      * @param mixed $vci
-     *
      * @return TransactionCommitResponse
      */
     public function setVci($vci)
@@ -72,7 +87,6 @@ class TransactionCommitResponse
 
     /**
      * @param mixed $amount
-     *
      * @return TransactionCommitResponse
      */
     public function setAmount($amount)
@@ -91,7 +105,6 @@ class TransactionCommitResponse
 
     /**
      * @param mixed $status
-     *
      * @return TransactionCommitResponse
      */
     public function setStatus($status)
@@ -110,7 +123,6 @@ class TransactionCommitResponse
 
     /**
      * @param mixed $buyOrder
-     *
      * @return TransactionCommitResponse
      */
     public function setBuyOrder($buyOrder)
@@ -129,7 +141,6 @@ class TransactionCommitResponse
 
     /**
      * @param mixed $sessionId
-     *
      * @return TransactionCommitResponse
      */
     public function setSessionId($sessionId)
@@ -147,8 +158,7 @@ class TransactionCommitResponse
     }
 
     /**
-     * @param mixed $cardNumber
-     *
+     * @param mixed $cardDetail
      * @return TransactionCommitResponse
      */
     public function setCardDetail($cardDetail)
@@ -167,7 +177,6 @@ class TransactionCommitResponse
 
     /**
      * @param mixed $accountingDate
-     *
      * @return TransactionCommitResponse
      */
     public function setAccountingDate($accountingDate)
@@ -186,7 +195,6 @@ class TransactionCommitResponse
 
     /**
      * @param mixed $transactionDate
-     *
      * @return TransactionCommitResponse
      */
     public function setTransactionDate($transactionDate)
@@ -205,7 +213,6 @@ class TransactionCommitResponse
 
     /**
      * @param mixed $authorizationCode
-     *
      * @return TransactionCommitResponse
      */
     public function setAuthorizationCode($authorizationCode)
@@ -224,7 +231,6 @@ class TransactionCommitResponse
 
     /**
      * @param mixed $paymentTypeCode
-     *
      * @return TransactionCommitResponse
      */
     public function setPaymentTypeCode($paymentTypeCode)
@@ -243,7 +249,6 @@ class TransactionCommitResponse
 
     /**
      * @param mixed $responseCode
-     *
      * @return TransactionCommitResponse
      */
     public function setResponseCode($responseCode)
@@ -262,7 +267,6 @@ class TransactionCommitResponse
 
     /**
      * @param mixed $installmentsNumber
-     *
      * @return TransactionCommitResponse
      */
     public function setInstallmentsNumber($installmentsNumber)
@@ -270,6 +274,26 @@ class TransactionCommitResponse
         $this->installmentsNumber = $installmentsNumber;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getInstallmentsAmount()
+    {
+        return $this->installmentsAmount;
+    }
+
+    /**
+     * @param mixed $installmentsAmount
+     * @return TransactionCommitResponse
+     */
+    public function setInstallmentsAmount($installmentsAmount)
+    {
+        $this->installmentsAmount = $installmentsAmount;
+        return $this;
+    }
+
+
 
 
 }
