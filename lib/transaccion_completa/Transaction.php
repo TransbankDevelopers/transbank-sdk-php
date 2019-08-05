@@ -174,7 +174,7 @@ class Transaction
            "token" => $token,
            "id_query_installments" => $idQueryInstallments,
            "deferred_period_index" => $deferredPeriodIndex,
-           "grade_period" => $gracePeriod
+           "grace_period" => $gracePeriod
         ]);
 
         $http = TransaccionCompleta::getHttpClient();
