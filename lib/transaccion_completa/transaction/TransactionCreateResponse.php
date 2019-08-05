@@ -36,6 +36,7 @@ class TransactionCreateResponse
     public function setToken($token)
     {
         $this->token = $token;
+        return $this;
     }
 
 
