@@ -25,7 +25,7 @@ class Transaction
     const INSTALLMENTS_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$/installments';
     const COMMIT_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$';
     const REFUND_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$/refunds';
-    const STATUS_TRANSACTION_ENDPOINT = ' /rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$';
+    const STATUS_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$';
 
     public static function create(
         $buyOrder,
