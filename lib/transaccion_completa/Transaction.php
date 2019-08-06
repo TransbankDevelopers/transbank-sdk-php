@@ -27,7 +27,7 @@ class Transaction
     const REFUND_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$/refunds';
     const STATUS_TRANSACTION_ENDPOINT = ' /rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$';
 
-    public function create(
+    public static function create(
         $buyOrder,
         $sessionId,
         $amount,
@@ -91,7 +91,7 @@ class Transaction
         return $transactionCreateResponse;
     }
 
-    public function installments(
+    public static function installments(
         $token,
         $installmentsNumber,
         $options = null
@@ -210,7 +210,7 @@ class Transaction
         return $transactionCommitResponse;
     }
 
-    public function refund(
+    public static function refund(
         $token,
         $amount,
         $options = null
@@ -267,7 +267,7 @@ class Transaction
 
     }
 
-    public function status(
+    public static function status(
         $token,
         $options = null
     ) {
