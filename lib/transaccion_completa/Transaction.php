@@ -181,7 +181,7 @@ class Transaction
 
         $http = TransaccionCompleta::getHttpClient();
 
-        $httpResponse = $http->post(
+        $httpResponse = $http->put(
             $baseUrl,
             $url,
             $payload,
@@ -289,7 +289,7 @@ class Transaction
 
         $http = TransaccionCompleta::getHttpClient();
 
-        $httpResponse = $http->post(
+        $httpResponse = $http->get(
             $baseUrl,
             $url,
             null,
