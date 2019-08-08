@@ -266,7 +266,7 @@ class Transaction
 
     }
 
-    public static function status(
+    public static function getStatus(
         $token,
         $options = null
     ) {
@@ -291,7 +291,6 @@ class Transaction
         $httpResponse = $http->get(
             $baseUrl,
             $url,
-            null,
             [ 'headers' => $headers ]
         );
 
