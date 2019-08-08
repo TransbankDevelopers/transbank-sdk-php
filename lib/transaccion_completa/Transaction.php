@@ -173,7 +173,6 @@ class Transaction
         $url = str_replace('$TOKEN$', $token, self::COMMIT_TRANSACTION_ENDPOINT);
 
         $payload = json_encode([
-           "token" => $token,
            "id_query_installments" => $idQueryInstallments,
            "deferred_period_index" => $deferredPeriodIndex,
            "grace_period" => $gracePeriod
