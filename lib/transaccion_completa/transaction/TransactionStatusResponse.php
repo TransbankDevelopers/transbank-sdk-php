@@ -26,6 +26,8 @@ class TransactionStatusResponse
     public $paymentTypeCode;
     public $responseCode;
     public $installmentsNumber;
+    public $installmentsAmount;
+
 
     public function __construct($json)
     {
@@ -39,9 +41,9 @@ class TransactionStatusResponse
         $this->setBuyOrder($buyOrder);
         $sessionId = isset($json["session_id"]) ? $json["session_id"] : null;
         $this->setSessionId($sessionId);
-        $cardDetail= isset($json["accounting_date"]) ? $json["accounting_date"] : null;
+        $cardDetail= isset($json["card_detail"]) ? $json["card_detail"] : null;
         $this->setCardDetail($cardDetail);
-        $accountingDate = isset($json["card_detail"]) ? $json["card_detail"] : null;
+        $accountingDate = isset($json["accounting_date"]) ? $json["accounting_date"] : null;
         $this->setAccountingDate($accountingDate);
         $transactionDate = isset($json["transaction_date"]) ? $json["transaction_date"] : null;
         $this->setTransactionDate($transactionDate);
@@ -53,6 +55,8 @@ class TransactionStatusResponse
         $this->setResponseCode($responseCode);
         $installmentsNumber = isset($json["installments_number"]) ? $json["installments_number"] : null;
         $this->setInstallmentsNumber($installmentsNumber);
+        $installmentsAmount = isset($json["installments_amount"]) ? $json["installments_amount"] : null;
+        $this->setInstallmentsAmount($installmentsAmount);
     }
 
     /**
@@ -271,5 +275,22 @@ class TransactionStatusResponse
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getInstallmentsAmount()
+    {
+        return $this->installmentsAmount;
+    }
+
+    /**
+     * @param mixed $installmentsAmount
+     * @return TransactionStatusResponse
+     */
+    public function setInstallmentsAmount($installmentsAmount)
+    {
+        $this->installmentsAmount = $installmentsAmount;
+        return $this;
+    }
 
 }
