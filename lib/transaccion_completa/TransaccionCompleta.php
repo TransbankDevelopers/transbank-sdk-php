@@ -102,7 +102,7 @@ class TransaccionCompleta
         return self::$INTEGRATION_TYPES[$integrationType];
     }
 
-    public function configureForTesting() {
+    public static function configureForTesting() {
         self::$apiKey = Options::DEFAULT_API_KEY;
         self::$commerceCode = Options::DEFAULT_COMMERCE_CODE;
         self::$integrationType = Options::DEFAULT_INTEGRATION_TYPE;
