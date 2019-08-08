@@ -16,7 +16,7 @@ class TransactionRefundResponse
 {
     public $type;
     public $authorizationCode;
-    public $authorizacionDate;
+    public $authorizationDate;
     public $nullifiedAmount;
     public $balance;
     public $responseCode;
@@ -28,7 +28,7 @@ class TransactionRefundResponse
         $authorizationCode = isset($json["authorization_code"]) ? $json["authorization_code"] : null;
         $this->setAuthorizationCode($authorizationCode);
         $authorizationDate = isset($json["authorization_date"]) ? $json["authorization_date"] : null;
-        $this->setAuthorizacionDate($authorizationDate);
+        $this->setAuthorizationDate($authorizationDate);
         $nullifiedAmount = isset($json["nullified_amount"]) ? $json["nullified_amount"] : null;
         $this->setNullifiedAmount($nullifiedAmount);
         $balance = isset($json["balance"]) ? $json["balance"] : null;
@@ -76,18 +76,18 @@ class TransactionRefundResponse
     /**
      * @return mixed
      */
-    public function getAuthorizacionDate()
+    public function getAuthorizationDate()
     {
-        return $this->AuthorizacionDate;
+        return $this->authorizationDate;
     }
 
     /**
-     * @param mixed $AuthorizacionDate
+     * @param mixed $authorizationDate
      * @return TransactionRefundResponse
      */
-    public function setAuthorizacionDate($authorizacionDate)
+    public function setAuthorizationDate($authorizationDate)
     {
-        $this->authorizacionDate = $authorizacionDate;
+        $this->authorizationDate = $authorizationDate;
         return $this;
     }
 
