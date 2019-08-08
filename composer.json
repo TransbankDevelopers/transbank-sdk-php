@@ -27,12 +27,14 @@
         "Transbank\\Webpay\\Oneclick\\":["lib/webpay_rest/oneclick", "lib/webpay_rest/oneclick/inscription", "lib/webpay_rest/oneclick/mall"],
         "Transbank\\Webpay\\Oneclick\\Exceptions\\":["lib/webpay_rest/oneclick/exceptions", "lib/webpay_rest/oneclick/mall/exceptions"],
         "Transbank\\Patpass\\":[ "lib/patpass","lib/patpass/patpass_by_webpay"],
-        "Transbank\\Patpass\\PatpassByWebpay\\":["lib/patpass/patpass_by_webpay"],
         "Transbank\\Patpass\\Exceptions\\":["lib/patpass/exceptions"],
+        "Transbank\\Patpass\\PatpassByWebpay\\":["lib/patpass/patpass_by_webpay"],
         "Transbank\\Patpass\\PatpassByWebpay\\Exceptions\\":["lib/patpass/patpass_by_webpay/exceptions"],
         "Transbank\\": ["lib/"],
         "Transbank\\TransaccionCompleta\\": ["lib/transaccion_completa", "lib/transaccion_completa/inscription", "lib/transaccion_completa/transaction"],
         "Transbank\\TransaccionCompleta\\Exceptions\\": ["lib/transaccion_completa/exceptions"],
+        "Transbank\\Patpass\\PatpassComercio\\": ["lib/patpass/patpass_comercio", "lib/patpass/patpass_comercio/inscription"],
+        "Transbank\\Patpass\\PatpassComercio\\Exceptions\\": ["lib/patpass/patpass_comercio/exceptions"],
         "Transbank\\Utils\\":  ["lib/utils"]
       }
     },
