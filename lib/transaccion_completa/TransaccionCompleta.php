@@ -12,7 +12,6 @@
 namespace Transbank;
 
 use Transbank\Utils\HttpClient;
-use Transbank;
 use Transbank\TransaccionCompleta\Options;
 
 class TransaccionCompleta
@@ -31,7 +30,7 @@ class TransaccionCompleta
      */
     public static $httpClient = null;
     private static $apiKey = Options::DEFAULT_API_KEY;
-    private static $commerceCode = Options::DEFAULT_COMMERCE_CODE;
+    private static $commerceCode = Options::DEFAULT_TRANSACCION_COMPLETA_COMMERCE_CODE;
     private static $integrationType = Options::DEFAULT_INTEGRATION_TYPE;
 
     /**
@@ -104,7 +103,7 @@ class TransaccionCompleta
 
     public static function configureForTesting() {
         self::$apiKey = Options::DEFAULT_API_KEY;
-        self::$commerceCode = Options::DEFAULT_COMMERCE_CODE;
+        self::$commerceCode = Options::DEFAULT_TRANSACCION_COMPLETA_COMMERCE_CODE;
         self::$integrationType = Options::DEFAULT_INTEGRATION_TYPE;
     }
 
