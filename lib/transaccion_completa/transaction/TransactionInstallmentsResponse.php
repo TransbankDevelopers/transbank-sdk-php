@@ -23,7 +23,7 @@ class TransactionInstallmentsResponse
     {
         $installmentsAmount = isset($json["installments_amount"]) ? $json["installments_amount"] : null;
         $this->setInstallmentsAmount($installmentsAmount);
-        $idQueryInstallments = isset($json["id_query_amount"]) ? $json["id_query_amount"] : null;
+        $idQueryInstallments = isset($json["id_query_installments"]) ? $json["id_query_installments"] : null;
         $this->setIdQueryInstallments($idQueryInstallments);
         $deferredPeriods = isset($json["deferred_periods"]) ? $json["deferred_periods"] : null;
         $this->setDeferredPeriods($deferredPeriods);
