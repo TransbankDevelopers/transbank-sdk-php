@@ -17,6 +17,7 @@
     },
     "autoload": {
       "psr-4": {
+
         "Transbank\\Onepay\\" : ["lib/onepay", "lib/onepay/utils"],
         "Transbank\\Onepay\\Exceptions\\": ["lib/onepay/exceptions"],
         "Transbank\\Webpay\\" : ["lib/webpay", "lib/webpay/soap", "lib/webpay_rest", "lib/webpay_rest/webpay_plus"],
@@ -29,6 +30,7 @@
         "Transbank\\Patpass\\PatpassByWebpay\\":["lib/patpass/patpass_by_webpay"],
         "Transbank\\Patpass\\Exceptions\\":["lib/patpass/exceptions"],
         "Transbank\\Patpass\\PatpassByWebpay\\Exceptions\\":["lib/patpass/patpass_by_webpay/exceptions"],
+        "Transbank\\": ["lib/"],
         "Transbank\\TransaccionCompleta\\": ["lib/transaccion_completa", "lib/transaccion_completa/inscription", "lib/transaccion_completa/transaction"],
         "Transbank\\TransaccionCompleta\\Exceptions\\": ["lib/transaccion_completa/exceptions"],
         "Transbank\\Utils\\":  ["lib/utils"]
