@@ -17,7 +17,6 @@
     },
     "autoload": {
       "psr-4": {
-
         "Transbank\\Onepay\\" : [
           "lib/onepay",
           "lib/onepay/utils"
@@ -69,7 +68,8 @@
           "lib/transaccion_completa",
           "lib/transaccion_completa/inscription",
           "lib/transaccion_completa/transaction",
-          "lib/transaccion_completa/mall"
+          "lib/transaccion_completa/mall",
+          "lib/transaccion_completa/mall/transaction"
         ],
         "Transbank\\TransaccionCompleta\\Exceptions\\": [
           "lib/transaccion_completa/exceptions",
