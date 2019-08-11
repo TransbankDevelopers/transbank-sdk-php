@@ -122,6 +122,8 @@ class MallTransaction
             "Tbk-Api-Key-Secret" => $apiKey
         ];
 
+        $url = str_replace('$TOKEN$', $token, self::INSTALLMENTS_TRANSACTION_ENDPOINT);
+
         $payload = json_encode([
            "commerce_code" => $commerceCodeChild,
            "buy_order" => $buyOrder,
