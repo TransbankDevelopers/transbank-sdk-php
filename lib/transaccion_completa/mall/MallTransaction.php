@@ -11,8 +11,8 @@
 
 namespace Transbank\TransaccionCompleta;
 
-use Transbank\TransaccionCompleta;
 use Transbank\TransaccionCompleta\Exceptions\MallTransactionCreateException;
+use Transbank\TransaccionCompleta\Exceptions\MallTransactionInstallmentsException;
 
 class MallTransaction
 {
@@ -24,8 +24,8 @@ class MallTransaction
 
     private function validateChild($commerceCode)
     {
-        $chillist = MallTransaccionCompleta::getChildCommerceCode();
-        if (in_array($commerceCode, $chillist))
+        $childlist = MallTransaccionCompleta::getChildCommerceCode();
+        if (in_array($commerceCode, $childlist))
         {
             return true;
         }
@@ -97,6 +97,66 @@ class MallTransaction
 
         return $MallTransactionCreateResponse;
 
+    }
+
+    public static function installments(
+        $token,
+        $commerceCodeChild,
+        $buyOrder,
+        $installmentsNumber,
+        $options = null
+    )
+    {
+        if ($options == null) {
+            $commerceCode = MallTransaccionCompleta::getCommerceCode();
+            $apiKey = MallTransaccionCompleta::getApiKey();
+            $baseUrl = MallTransaccionCompleta::getIntegrationTypeUrl();
+        } else {
+            $commerceCode = $options->getCommerceCode();
+            $apiKey = $options->getApiKey();
+            $baseUrl = MallTransaccionCompleta::getIntegrationTypeUrl($options->getIntegrationType());
+        }
+
+        $headers = [
+            "Tbk-Api-Key-Id" => $commerceCode,
+            "Tbk-Api-Key-Secret" => $apiKey
+        ];
+
+        $payload = json_encode([
+           "commerce_code" => $commerceCodeChild,
+           "buy_order" => $buyOrder,
+           "installments_number" => $installmentsNumber,
+        ]);
+
+        $http = MallTransaccionCompleta::getHttpClient();
+
+        $httpResponse = $http->post(
+            $baseUrl,
+            $url,
+            $payload,
+            [ 'headers' => $headers ]
+        );
+
+        $httpCode = $httpResponse->getStatusCode();
+
+        if ($httpCode != 200 && $httpCode != 204) {
+            $reason = $httpResponse->getReasonPhrase();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
+
+            throw new MallTransactionInstallmentsException($message, $httpCode);
+        }
+
+        $responseJson = json_decode($httpResponse->getBody(), true);
+
+        $mallTransactionInstallmentsResponse = new MallTransactionInstallmentsResponse($responseJson);
+
+        return $mallTransactionInstallmentsResponse;
     }
 
 }
