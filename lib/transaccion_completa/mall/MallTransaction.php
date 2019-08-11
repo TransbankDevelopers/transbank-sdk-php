@@ -14,6 +14,7 @@ namespace Transbank\TransaccionCompleta;
 use Transbank\TransaccionCompleta\Exceptions\MallTransactionCommitException;
 use Transbank\TransaccionCompleta\Exceptions\MallTransactionCreateException;
 use Transbank\TransaccionCompleta\Exceptions\MallTransactionInstallmentsException;
+use Transbank\TransaccionCompleta\Exceptions\MallTransactionStatusException;
 
 class MallTransaction
 {
@@ -231,5 +232,58 @@ class MallTransaction
 
         return $mallTransactionCommitResponse;
     }
+
+    public static function getStatus(
+        $token,
+        $options = null
+    )
+    {
+        if ($options == null) {
+            $commerceCode = MallTransaccionCompleta::getCommerceCode();
+            $apiKey = MallTransaccionCompleta::getApiKey();
+            $baseUrl = MallTransaccionCompleta::getIntegrationTypeUrl();
+        } else {
+            $commerceCode = $options->getCommerceCode();
+            $apiKey = $options->getApiKey();
+            $baseUrl = MallTransaccionCompleta::getIntegrationTypeUrl($options->getIntegrationType());
+        }
+
+        $headers = [
+            "Tbk-Api-Key-Id" => $commerceCode,
+            "Tbk-Api-Key-Secret" => $apiKey
+        ];
+        $url = str_replace('$TOKEN$', $token, self::STATUS_TRANSACTION_ENDPOINT);
+
+        $http = MallTransaccionCompleta::getHttpClient();
+
+        $httpResponse = $http->get(
+            $baseUrl,
+            $url,
+            [ 'headers' => $headers ]
+        );
+
+        $httpCode = $httpResponse->getStatusCode();
+
+        if ($httpCode != 200 && $httpCode != 204) {
+            $reason = $httpResponse->getReasonPhrase();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
+
+            throw new MallTransactionStatusException($message, $httpCode);
+        }
+
+        $responseJson = json_decode($httpResponse->getBody(), true);
+
+        $transactionStatusResponse = new MallTransactionStatusResponse($responseJson);
+
+        return $transactionStatusResponse;
+
+    }
+
 
 }
