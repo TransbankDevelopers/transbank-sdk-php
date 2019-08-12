@@ -30,7 +30,7 @@ class MallTransaccionCompleta
     public static $httpClient = null;
     private static $apiKey = Options::DEFAULT_API_KEY;
     private static $commerceCode = Options::DEFAULT_TRANSACCION_COMPLETA_MALL_COMMERCE_CODE;
-    private static $childCommerceCode = Options::DEFAULT_TRANSACCION_COMPLETA_MALL_CHILD_COMMERCE_CODE;
+    private static $childCommerceCodes = Options::DEFAULT_TRANSACCION_COMPLETA_MALL_CHILD_COMMERCE_CODE;
     private static $integrationType = Options::DEFAULT_INTEGRATION_TYPE;
 
 
@@ -85,34 +85,27 @@ class MallTransaccionCompleta
     /**
      * @return array
      */
-    public static function getINTEGRATIONTYPES()
+    public static function getIntegrationTypes()
     {
         return self::$INTEGRATION_TYPES;
     }
 
-    /**
-     * @param array $INTEGRATION_TYPES
-     */
-    public static function setINTEGRATIONTYPES($INTEGRATION_TYPES)
-    {
-        self::$INTEGRATION_TYPES = $INTEGRATION_TYPES;
-    }
 
     /**
      * @return array
      */
-    public static function getChildCommerceCode()
+    public static function getChildCommerceCodes()
     {
-        return self::$childCommerceCode;
+        return self::$childCommerceCodes;
     }
 
     /**
      * @param array $childCommerceCode
      * @return MallTransaccionCompleta
      */
-    public static function setChildCommerceCode($childCommerceCode)
+    public static function setChildCommerceCodes($childCommerceCodes)
     {
-        self::$childCommerceCode = $childCommerceCode;
+        self::$childCommerceCodes = $childCommerceCodes;
     }
 
 
@@ -143,7 +136,7 @@ class MallTransaccionCompleta
         self::$apiKey = Options::DEFAULT_API_KEY;
         self::$commerceCode = Options::DEFAULT_TRANSACCION_COMPLETA_MALL_COMMERCE_CODE;
         self::$integrationType = Options::DEFAULT_INTEGRATION_TYPE;
-        self::$childCommerceCode = Options::DEFAULT_TRANSACCION_COMPLETA_MALL_CHILD_COMMERCE_CODE;
+        self::$childCommerceCodes = Options::DEFAULT_TRANSACCION_COMPLETA_MALL_CHILD_COMMERCE_CODE;
     }
 
 
