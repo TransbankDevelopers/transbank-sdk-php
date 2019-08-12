@@ -25,20 +25,6 @@ class MallTransaction
     const REFUND_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$/refunds';
     const STATUS_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$';
 
-    /**
-     * @param $commerceCode
-     * @return bool
-     */
-    private function validateChild($commerceCode)
-    {
-        $childlist = MallTransaccionCompleta::getChildCommerceCode();
-        if (in_array($commerceCode, $childlist))
-        {
-            return true;
-        }
-        return false;
-    }
-
     public static function create(
         $buyOrder,
         $sessionId,
@@ -70,14 +56,6 @@ class MallTransaction
             "card_expiration_date" => $cardExpirationDate,
             "details" => $details
         ]);
-
-        foreach ($details as $detail) {
-            if (!(new MallTransaction)->validateChild($detail["commerce_code"])) {
-                $message = "Child commerce code is not valid for this parent";
-                $httpCode = 401;
-                throw new MallTransactionCreateException($message, $httpCode);
-            }
-        }
 
         $http = MallTransaccionCompleta::getHttpClient();
 
@@ -194,19 +172,6 @@ class MallTransaction
 
         $url = str_replace('$TOKEN$', $token, self::COMMIT_TRANSACTION_ENDPOINT);
 
-        foreach ($details as $detail) {
-            if (!(new MallTransaction)->validateChild($detail["commerce_code"])) {
-                $message = "Child commerce code is not valid for this parent";
-                $httpCode = 401;
-                throw new MallTransactionCommitException($message, $httpCode);
-            }
-            if (isset($detail["id_query_installments"]) == false) {
-                $message = "There is not installments id in this commerce";
-                $httpCode = 401;
-                throw new MallTransactionCommitException($message, $httpCode);
-            }
-        }
-
         $payload = json_encode([
            "details"
         ]);
@@ -265,12 +230,6 @@ class MallTransaction
             "Tbk-Api-Key-Secret" => $apiKey
         ];
         $url = str_replace('$TOKEN$', $token, self::REFUND_TRANSACTION_ENDPOINT);
-
-        if (!(new MallTransaction)->validateChild($commerceCodeChild)) {
-            $message = "Child commerce code is not valid for this parent";
-            $httpCode = 401;
-            throw new MallTransactionStatusException($message, $httpCode);
-        }
 
         $payload = json_encode([
             "buy_order" => $buyOrder,
