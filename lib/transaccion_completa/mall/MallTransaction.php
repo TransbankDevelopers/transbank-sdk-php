@@ -51,7 +51,7 @@ class MallTransaction
 
         $payload = json_encode([
            "buy_order" => $buyOrder,
-            "sesion_id" => $sessionId,
+            "session_id" => $sessionId,
             "card_number" => $cardNumber,
             "card_expiration_date" => $cardExpirationDate,
             "details" => $details
