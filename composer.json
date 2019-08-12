@@ -17,6 +17,9 @@
     },
     "autoload": {
       "psr-4": {
+        "Transbank\\": [
+          "lib/"
+        ],
         "Transbank\\Onepay\\" : [
           "lib/onepay",
           "lib/onepay/utils"
@@ -58,11 +61,15 @@
         "Transbank\\Patpass\\PatpassByWebpay\\":[
           "lib/patpass/patpass_by_webpay"
         ],
+        "Transbank\\Patpass\\PatpassComercio\\": [
+          "lib/patpass/patpass_comercio",
+          "lib/patpass/patpass_comercio/inscription"
+        ],
+        "Transbank\\Patpass\\PatpassComercio\\Exceptions\\": [
+          "lib/patpass/patpass_comercio/exceptions"
+        ],
         "Transbank\\Patpass\\PatpassByWebpay\\Exceptions\\":[
           "lib/patpass/patpass_by_webpay/exceptions"
-        ],
-        "Transbank\\": [
-          "lib/"
         ],
         "Transbank\\TransaccionCompleta\\": [
           "lib/transaccion_completa",
@@ -74,13 +81,6 @@
         "Transbank\\TransaccionCompleta\\Exceptions\\": [
           "lib/transaccion_completa/exceptions",
           "lib/transaccion_completa/mall/exceptions"
-        ],
-        "Transbank\\Patpass\\PatpassComercio\\": [
-          "lib/patpass/patpass_comercio",
-          "lib/patpass/patpass_comercio/inscription"
-        ],
-        "Transbank\\Patpass\\PatpassComercio\\Exceptions\\": [
-          "lib/patpass/patpass_comercio/exceptions"
         ],
         "Transbank\\Utils\\":  [
           "lib/utils"
