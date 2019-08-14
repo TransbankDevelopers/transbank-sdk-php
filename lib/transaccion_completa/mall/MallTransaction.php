@@ -173,7 +173,7 @@ class MallTransaction
         $url = str_replace('$TOKEN$', $token, self::COMMIT_TRANSACTION_ENDPOINT);
 
         $payload = json_encode([
-           "details"
+           "details" => $details
         ]);
 
         $http = MallTransaccionCompleta::getHttpClient();
@@ -233,7 +233,7 @@ class MallTransaction
 
         $payload = json_encode([
             "buy_order" => $buyOrder,
-            "commerce_code" => $commerceCode,
+            "commerce_code" => $commerceCodeChild,
             "amount" => $amount
         ]);
 
