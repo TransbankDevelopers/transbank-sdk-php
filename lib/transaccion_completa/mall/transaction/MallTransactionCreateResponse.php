@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class TransactionCreateResponse
+ * Class MallTransactionCreateResponse
  *
  * @category
  * @package Transbank\TransaccionCompleta
@@ -14,13 +14,13 @@ namespace Transbank\TransaccionCompleta;
 
 use Transbank\Utils\Utils;
 
-class TransactionCreateResponse
+class MallTransactionCreateResponse
 {
     public $token;
 
     public function __construct($json)
     {
-        $token =  Utils::returnValueIfExists($json, "token");
+        $token = Utils::returnValueIfExists($json, "token");
         $this->setToken($token);
     }
 
@@ -34,12 +34,15 @@ class TransactionCreateResponse
 
     /**
      * @param mixed $token
+     * @return MallTransactionCreateResponse
      */
     public function setToken($token)
     {
         $this->token = $token;
         return $this;
     }
+
+
 
 
 }

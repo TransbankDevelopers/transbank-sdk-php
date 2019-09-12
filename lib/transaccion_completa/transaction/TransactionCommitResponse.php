@@ -12,6 +12,8 @@
 namespace Transbank\TransaccionCompleta;
 
 
+use Transbank\Utils\Utils;
+
 class TransactionCommitResponse
 {
     public $vci;
@@ -30,31 +32,31 @@ class TransactionCommitResponse
 
     public function __construct($json)
     {
-        $vci = isset($json["vci"]) ? $json["vci"] : null;
+        $vci =  Utils::returnValueIfExists($json, "vci");
         $this->setVci($vci);
-        $amount = isset($json["amount"]) ? $json["amount"] : null;
+        $amount =  Utils::returnValueIfExists($json, "amount");
         $this->setAmount($amount);
-        $status = isset($json["status"]) ? $json["status"] : null;
+        $status =  Utils::returnValueIfExists($json, "status");
         $this->setStatus($status);
-        $buyOrder = isset($json["buy_order"]) ? $json["buy_order"] : null;
+        $buyOrder =  Utils::returnValueIfExists($json, "buy_order");
         $this->setBuyOrder($buyOrder);
-        $sessionId = isset($json["session_id"]) ? $json["session_id"] : null;
+        $sessionId =  Utils::returnValueIfExists($json, "session_id");
         $this->setSessionId($sessionId);
-        $cardDetail= isset($json["accounting_date"]) ? $json["accounting_date"] : null;
+        $cardDetail=  Utils::returnValueIfExists($json, "card_detail");
         $this->setCardDetail($cardDetail);
-        $accountingDate = isset($json["card_detail"]) ? $json["card_detail"] : null;
+        $accountingDate =  Utils::returnValueIfExists($json, "accounting_date");
         $this->setAccountingDate($accountingDate);
-        $transactionDate = isset($json["transaction_date"]) ? $json["transaction_date"] : null;
+        $transactionDate =  Utils::returnValueIfExists($json, "transaction_date");
         $this->setTransactionDate($transactionDate);
-        $authorizationCode = isset($json["authorization_code"]) ? $json["authorization_code"] : null;
+        $authorizationCode =  Utils::returnValueIfExists($json, "authorization_code");
         $this->setAuthorizationCode($authorizationCode);
-        $paymentTypeCode = isset($json["payment_type_code"]) ? $json["payment_type_code"] : null;
+        $paymentTypeCode =  Utils::returnValueIfExists($json, "payment_type_code");
         $this->setPaymentTypeCode($paymentTypeCode);
-        $responseCode = isset($json["response_code"]) ? $json["response_code"] : null;
+        $responseCode =  Utils::returnValueIfExists($json, "response_code");
         $this->setResponseCode($responseCode);
-        $installmentsNumber = isset($json["installments_number"]) ? $json["installments_number"] : null;
+        $installmentsNumber =  Utils::returnValueIfExists($json, "installments_number");
         $this->setInstallmentsNumber($installmentsNumber);
-        $installmentsAmount = isset($json["installments_amount"]) ? $json["installments_amount"] : null;
+        $installmentsAmount =  Utils::returnValueIfExists($json, "installments_amount");
         $this->setInstallmentsAmount($installmentsAmount);
     }
 

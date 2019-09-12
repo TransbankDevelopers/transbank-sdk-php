@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class TransactionInstallmentsResponse
+ * Class MallTransactionInstallmentsResponse
  *
  * @category
  * @package Transbank\TransaccionCompleta
@@ -14,20 +14,19 @@ namespace Transbank\TransaccionCompleta;
 
 use Transbank\Utils\Utils;
 
-class TransactionInstallmentsResponse
+class MallTransactionInstallmentsResponse
 {
     public $installmentsAmount;
     public $idQueryInstallments;
     public $deferredPeriods;
 
-
     public function __construct($json)
     {
-        $installmentsAmount =  Utils::returnValueIfExists($json, "installments_amount");
+        $installmentsAmount = Utils::returnValueIfExists($json, "installments_amount");
         $this->setInstallmentsAmount($installmentsAmount);
-        $idQueryInstallments =  Utils::returnValueIfExists($json, "iq_query_installments");
+        $idQueryInstallments = Utils::returnValueIfExists($json, "id_query_installments");
         $this->setIdQueryInstallments($idQueryInstallments);
-        $deferredPeriods =  Utils::returnValueIfExists($json, "deferred_periods");
+        $deferredPeriods = Utils::returnValueIfExists($json, "deferred_periods");
         $this->setDeferredPeriods($deferredPeriods);
     }
 
@@ -41,7 +40,6 @@ class TransactionInstallmentsResponse
 
     /**
      * @param mixed $installmentsAmount
-     * @return TransactionInstallmentsResponse
      */
     public function setInstallmentsAmount($installmentsAmount)
     {
@@ -59,7 +57,6 @@ class TransactionInstallmentsResponse
 
     /**
      * @param mixed $idQueryInstallments
-     * @return TransactionInstallmentsResponse
      */
     public function setIdQueryInstallments($idQueryInstallments)
     {
@@ -77,7 +74,6 @@ class TransactionInstallmentsResponse
 
     /**
      * @param mixed $deferredPeriods
-     * @return TransactionInstallmentsResponse
      */
     public function setDeferredPeriods($deferredPeriods)
     {

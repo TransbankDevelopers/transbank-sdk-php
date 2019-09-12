@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class TransactionRefundResponse
+ * Class MallTransactionRefundResponse
  *
  * @category
  * @package Transbank\TransaccionCompleta
@@ -14,7 +14,7 @@ namespace Transbank\TransaccionCompleta;
 
 use Transbank\Utils\Utils;
 
-class TransactionRefundResponse
+class MallTransactionRefundResponse
 {
     public $type;
     public $authorizationCode;
@@ -25,7 +25,7 @@ class TransactionRefundResponse
 
     public function __construct($json)
     {
-        $type =  Utils::returnValueIfExists($json, "type");
+        $type = Utils::returnValueIfExists($json, "type");
         $this->setType($type);
         $authorizationCode =  Utils::returnValueIfExists($json, "authorization_code");
         $this->setAuthorizationCode($authorizationCode);
@@ -49,7 +49,7 @@ class TransactionRefundResponse
 
     /**
      * @param mixed $type
-     * @return TransactionRefundResponse
+     * @return MallTransactionRefundResponse
      */
     public function setType($type)
     {
@@ -67,7 +67,7 @@ class TransactionRefundResponse
 
     /**
      * @param mixed $authorizationCode
-     * @return TransactionRefundResponse
+     * @return MallTransactionRefundResponse
      */
     public function setAuthorizationCode($authorizationCode)
     {
@@ -85,7 +85,7 @@ class TransactionRefundResponse
 
     /**
      * @param mixed $authorizationDate
-     * @return TransactionRefundResponse
+     * @return MallTransactionRefundResponse
      */
     public function setAuthorizationDate($authorizationDate)
     {
@@ -103,7 +103,7 @@ class TransactionRefundResponse
 
     /**
      * @param mixed $nullifiedAmount
-     * @return TransactionRefundResponse
+     * @return MallTransactionRefundResponse
      */
     public function setNullifiedAmount($nullifiedAmount)
     {
@@ -121,7 +121,7 @@ class TransactionRefundResponse
 
     /**
      * @param mixed $balance
-     * @return TransactionRefundResponse
+     * @return MallTransactionRefundResponse
      */
     public function setBalance($balance)
     {
@@ -141,13 +141,12 @@ class TransactionRefundResponse
      * @param mixed $responseCode
      *
      *
-     * @return TransactionRefundResponse
+     * @return MallTransactionRefundResponse
      */
     public function setResponseCode($responseCode)
     {
         $this->responseCode = $responseCode;
         return $this;
     }
-
 
 }
