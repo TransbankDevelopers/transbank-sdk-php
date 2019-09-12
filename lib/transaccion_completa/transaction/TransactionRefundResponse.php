@@ -12,6 +12,8 @@
 namespace Transbank\TransaccionCompleta;
 
 
+use Transbank\Utils\Utils;
+
 class TransactionRefundResponse
 {
     public $type;
@@ -23,17 +25,17 @@ class TransactionRefundResponse
 
     public function __construct($json)
     {
-        $type = isset($json["type"]) ? $json["type"] : null;
+        $type =  Utils::returnValueIfExists($json, "type");
         $this->setType($type);
-        $authorizationCode = isset($json["authorization_code"]) ? $json["authorization_code"] : null;
+        $authorizationCode =  Utils::returnValueIfExists($json, "authorization_code");
         $this->setAuthorizationCode($authorizationCode);
-        $authorizationDate = isset($json["authorization_date"]) ? $json["authorization_date"] : null;
+        $authorizationDate =  Utils::returnValueIfExists($json, "authorization_date");
         $this->setAuthorizationDate($authorizationDate);
-        $nullifiedAmount = isset($json["nullified_amount"]) ? $json["nullified_amount"] : null;
+        $nullifiedAmount =  Utils::returnValueIfExists($json, "nullified_amount");
         $this->setNullifiedAmount($nullifiedAmount);
-        $balance = isset($json["balance"]) ? $json["balance"] : null;
+        $balance =  Utils::returnValueIfExists($json, "balance");
         $this->setBalance($balance);
-        $responseCode = isset($json["response_code"]) ? $json["response_code"] : null;
+        $responseCode =  Utils::returnValueIfExists($json, "response_code");
         $this->setResponseCode($responseCode);
     }
 

@@ -45,6 +45,7 @@ class Options
 
     /**
      * @param null $apiKey
+     * @return Options
      */
     public function setApiKey($apiKey)
     {
@@ -62,6 +63,7 @@ class Options
 
     /**
      * @param null $commerceCode
+     * @return Options
      */
     public function setCommerceCode($commerceCode)
     {
@@ -79,6 +81,7 @@ class Options
 
     /**
      * @param string $integrationType
+     * @return Options
      */
     public function setIntegrationType($integrationType)
     {

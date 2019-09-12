@@ -11,6 +11,7 @@
 
 namespace Transbank\TransaccionCompleta;
 
+use Transbank\Utils\Utils;
 
 class MallTransactionCommitResponse
 {
@@ -22,16 +23,14 @@ class MallTransactionCommitResponse
 
     public function __construct($json)
     {
-        $buyOrder = isset($json["buy_order"]) ? $json["buy_order"] : null;
+        $buyOrder = Utils::returnValueIfExists($json, "buy_order");
         $this->setBuyOrder($buyOrder);
-        $cardDetail = isset($json["card_detail"]) ? $json["card_detail"] : null;
+        $cardDetail = Utils::returnValueIfExists($json, "card_detail");
         $this->setCardDetail($cardDetail);
-        $accountingDate = isset($json["accounting_date"]) ? $json["accounting_date"] : null;
+        $accountingDate = Utils::returnValueIfExists($json, "accounting_date");
         $this->setAccountingDate($accountingDate);
-        $details = isset($json["details"]) ? $json["details"] : null;
+        $details = Utils::returnValueIfExists($json, "details");
         $this->setDetails($details);
-
-
     }
 
     /**

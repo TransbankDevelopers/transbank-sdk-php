@@ -12,6 +12,8 @@
 namespace Transbank\TransaccionCompleta;
 
 
+use Transbank\Utils\Utils;
+
 class MallTransactionStatusResponse
 {
     public $buyOrder;
@@ -22,13 +24,13 @@ class MallTransactionStatusResponse
 
     public function __construct($json)
     {
-        $buyOrder = isset($json["buy_order"]) ? $json["buy_order"] : null;
+        $buyOrder =  Utils::returnValueIfExists($json, "buy_order");
         $this->setBuyOrder($buyOrder);
-        $cardDetail = isset($json["card_detail"]) ? $json["card_detail"] : null;
+        $cardDetail =  Utils::returnValueIfExists($json, "card_detail");
         $this->setCardDetail($cardDetail);
-        $accountingDate = isset($json["accounting_date"]) ? $json["accounting_date"] : null;
+        $accountingDate =  Utils::returnValueIfExists($json, "accounting_date");
         $this->setAccountingDate($accountingDate);
-        $details = isset($json["details"]) ? $json["details"] : null;
+        $details =  Utils::returnValueIfExists($json, "details");
         $this->setDetails($details);
     }
 
@@ -42,6 +44,7 @@ class MallTransactionStatusResponse
 
     /**
      * @param mixed $buyOrder
+     * @return MallTransactionStatusResponse
      */
     public function setBuyOrder($buyOrder)
     {
@@ -59,6 +62,7 @@ class MallTransactionStatusResponse
 
     /**
      * @param mixed $cardDetail
+     * @return MallTransactionStatusResponse
      */
     public function setCardDetail($cardDetail)
     {
@@ -76,6 +80,7 @@ class MallTransactionStatusResponse
 
     /**
      * @param mixed $accountingDate
+     * @return MallTransactionStatusResponse
      */
     public function setAccountingDate($accountingDate)
     {
@@ -93,6 +98,7 @@ class MallTransactionStatusResponse
 
     /**
      * @param mixed $transactionDate
+     * @return MallTransactionStatusResponse
      */
     public function setTransactionDate($transactionDate)
     {
@@ -110,6 +116,7 @@ class MallTransactionStatusResponse
 
     /**
      * @param mixed $details
+     * @return MallTransactionStatusResponse
      */
     public function setDetails($details)
     {

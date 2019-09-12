@@ -12,6 +12,8 @@
 namespace Transbank\TransaccionCompleta;
 
 
+use Transbank\Utils\Utils;
+
 class TransactionInstallmentsResponse
 {
     public $installmentsAmount;
@@ -21,11 +23,11 @@ class TransactionInstallmentsResponse
 
     public function __construct($json)
     {
-        $installmentsAmount = isset($json["installments_amount"]) ? $json["installments_amount"] : null;
+        $installmentsAmount =  Utils::returnValueIfExists($json, "installments_amount");
         $this->setInstallmentsAmount($installmentsAmount);
-        $idQueryInstallments = isset($json["id_query_installments"]) ? $json["id_query_installments"] : null;
+        $idQueryInstallments =  Utils::returnValueIfExists($json, "iq_query_installments");
         $this->setIdQueryInstallments($idQueryInstallments);
-        $deferredPeriods = isset($json["deferred_periods"]) ? $json["deferred_periods"] : null;
+        $deferredPeriods =  Utils::returnValueIfExists($json, "deferred_periods");
         $this->setDeferredPeriods($deferredPeriods);
     }
 

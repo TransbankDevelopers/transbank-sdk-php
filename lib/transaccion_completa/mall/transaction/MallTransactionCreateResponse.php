@@ -12,13 +12,15 @@
 namespace Transbank\TransaccionCompleta;
 
 
+use Transbank\Utils\Utils;
+
 class MallTransactionCreateResponse
 {
     public $token;
 
     public function __construct($json)
     {
-        $token = isset($json["token"]) ? $json["token"] : null;
+        $token = Utils::returnValueIfExists($json, "token");
         $this->setToken($token);
     }
 

@@ -12,6 +12,8 @@
 namespace Transbank\Patpass\PatpassComercio;
 
 
+use Transbank\Utils\Utils;
+
 class InscriptionStartResponse
 {
     public $token;
@@ -23,9 +25,10 @@ class InscriptionStartResponse
      */
     public function __construct($json)
     {
-        $token = isset($json["token"]) ? $json["token"] : null;
-        $url = isset($json["url_webpay"]) ? $json["url_webpay"] : null;
+        $token = Utils::returnValueIfExists($json, "token");
         $this->setToken($token);
+
+        $url = Utils::returnValueIfExists($json, "url_webpay");
         $this->setUrlWebpay($url);
     }
 
