@@ -51,7 +51,7 @@ class Inscription
             "rut" => $array['rut'],
             "serviceId" => $array['serviceId'] ,
             "finalUrl" => $array['finalUrl'],
-            "commerceCode" => $array['commerceCode'],
+            "commerceCode" => $commerceCode,
             "montoMaximo" => $array['montoMaximo'],
             "telefonoFijo" => $array['telefonoFijo'],
             "telefonoCelular" => $array['telefonoCelular'],
