@@ -27,6 +27,7 @@ class Inscription
     )
     {
         if ($options == null) {
+            PatpassComercio::configureForTesting();
             $commerceCode = PatpassComercio::getCommerceCode();
             $apiKey = PatpassComercio::getApiKey();
             $baseUrl = PatpassComercio::getIntegrationTypeUrl();
@@ -95,6 +96,7 @@ class Inscription
     public static function finish($token, $options = null)
     {
         if ($options == null) {
+            PatpassComercio::configureForTesting();
             $commerceCode = PatpassComercio::getCommerceCode();
             $apiKey = PatpassComercio::getApiKey();
             $baseUrl = PatpassComercio::getIntegrationTypeUrl();
@@ -141,6 +143,7 @@ class Inscription
     public static function getStatus($token, $options = null)
     {
         if ($options == null) {
+            PatpassComercio::configureForTesting();
             $commerceCode = PatpassComercio::getCommerceCode();
             $apiKey = PatpassComercio::getApiKey();
             $baseUrl = PatpassComercio::getIntegrationTypeUrl();

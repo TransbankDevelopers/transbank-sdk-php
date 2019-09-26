@@ -8,7 +8,6 @@
  *
  */
 
-
 namespace Transbank\Patpass\PatpassComercio\Exceptions;
 
 use Transbank\PatPass\Exceptions\PatpassException;
