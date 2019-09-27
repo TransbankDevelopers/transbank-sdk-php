@@ -28,7 +28,7 @@ class InscriptionStartResponse
         $token = Utils::returnValueIfExists($json, "token");
         $this->setToken($token);
 
-        $url = Utils::returnValueIfExists($json, "url_webpay");
+        $url = Utils::returnValueIfExists($json, "url");
         $this->setUrlWebpay($url);
     }
 
