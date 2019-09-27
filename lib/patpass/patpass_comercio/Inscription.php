@@ -39,8 +39,8 @@ class Inscription
         $http = PatpassComercio::getHttpClient();
 
         $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+            "commercecode" => $commerceCode,
+            "Authorization" => $apiKey
         ];
 
         $payload = json_encode([
