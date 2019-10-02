@@ -21,7 +21,21 @@ class Inscription
     const INSCRIPTION_FINISH_ENDPOINT = 'restpatpass/v1/services/patInscription/$TOKEN$';
 
     public static function start(
-        $requestData,
+        $url,
+        $name,
+        $lastName,
+        $secondLastName,
+        $rut,
+        $serviceId,
+        $finalUrl,
+        $maxAmount,
+        $phone,
+        $cellPhone,
+        $patpassName,
+        $personEmail,
+        $commerceEmail,
+        $address,
+        $city,
         $options = null
     )
     {
@@ -43,22 +57,22 @@ class Inscription
         ];
 
         $payload = json_encode([
-            "url" => isset($requestData['url']),
-            "nombre" => isset($requestData['nombre']),
-            "pApellido" => isset($requestData['pApellido']),
-            "sApellido" => isset($requestData['sApellido']),
-            "rut" => isset($requestData['rut']),
-            "serviceId" => isset($requestData['serviceId']) ,
-            "finalUrl" => isset($requestData['finalUrl']),
-            "commerceCode" => isset($commerceCode),
-            "montoMaximo" => isset($requestData['montoMaximo']),
-            "telefonoFijo" => isset($requestData['telefonoFijo']),
-            "telefonoCelular" => isset($requestData['telefonoCelular']),
-            "nombrePatPass" => isset($requestData['nombrePatPass']),
-            "correoPersona" => isset($requestData['correoPersona']),
-            "correoComercio" => isset($requestData['correoComercio']),
-            "direccion" => isset($requestData['direccion']),
-            "ciudad" => isset($requestData['ciudad'])
+            "url" => $url,
+            "nombre" => $name,
+            "pApellido" => $lastName,
+            "sApellido" => $secondLastName,
+            "rut" => $rut,
+            "serviceId" => $serviceId ,
+            "finalUrl" => $finalUrl,
+            "commerceCode" => $commerceCode,
+            "montoMaximo" => $maxAmount,
+            "telefonoFijo" => $phone,
+            "telefonoCelular" => $cellPhone,
+            "nombrePatPass" => $patpassName,
+            "correoPersona" => $personEmail,
+            "correoComercio" => $commerceEmail,
+            "direccion" => $address,
+            "ciudad" => $city
         ]);
         $httpResponse = $http->post($baseUrl,
             self::INSCRIPTION_START_ENDPOINT,
