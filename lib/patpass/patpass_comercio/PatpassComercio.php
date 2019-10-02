@@ -16,8 +16,8 @@ use Transbank\Utils\HttpClient;
 class PatpassComercio
 {
     public static $INTEGRATION_TYPES = [
-        "LIVE" => "https://webpay3g.transbank.cl/",
-        "TEST" => "https://webpay3gint.transbank.cl/",
+        "LIVE" => "https://www.pagoautomaticocontarjetas.cl/",
+        "TEST" => "https://pagoautomaticocontarjetasint.transbank.cl/",
         "MOCK" => ""
     ];
 
