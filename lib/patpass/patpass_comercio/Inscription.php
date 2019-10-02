@@ -21,7 +21,7 @@ class Inscription
     const INSCRIPTION_FINISH_ENDPOINT = 'restpatpass/v1/services/patInscription/$TOKEN$';
 
     public static function start(
-        $array,
+        $requestData,
         $options = null
     )
     {
@@ -43,22 +43,22 @@ class Inscription
         ];
 
         $payload = json_encode([
-            "url" => $array['url'],
-            "nombre" => $array['nombre'],
-            "pApellido" => $array['pApellido'],
-            "sApellido" => $array['sApellido'],
-            "rut" => $array['rut'],
-            "serviceId" => $array['serviceId'] ,
-            "finalUrl" => $array['finalUrl'],
-            "commerceCode" => $commerceCode,
-            "montoMaximo" => $array['montoMaximo'],
-            "telefonoFijo" => $array['telefonoFijo'],
-            "telefonoCelular" => $array['telefonoCelular'],
-            "nombrePatPass" => $array['nombrePatPass'],
-            "correoPersona" => $array['correoPersona'],
-            "correoComercio" => $array['correoComercio'],
-            "direccion" => $array['direccion'],
-            "ciudad" => $array['ciudad']
+            "url" => isset($requestData['url']),
+            "nombre" => isset($requestData['nombre']),
+            "pApellido" => isset($requestData['pApellido']),
+            "sApellido" => isset($requestData['sApellido']),
+            "rut" => isset($requestData['rut']),
+            "serviceId" => isset($requestData['serviceId']) ,
+            "finalUrl" => isset($requestData['finalUrl']),
+            "commerceCode" => isset($commerceCode),
+            "montoMaximo" => isset($requestData['montoMaximo']),
+            "telefonoFijo" => isset($requestData['telefonoFijo']),
+            "telefonoCelular" => isset($requestData['telefonoCelular']),
+            "nombrePatPass" => isset($requestData['nombrePatPass']),
+            "correoPersona" => isset($requestData['correoPersona']),
+            "correoComercio" => isset($requestData['correoComercio']),
+            "direccion" => isset($requestData['direccion']),
+            "ciudad" => isset($requestData['ciudad'])
         ]);
         $httpResponse = $http->post($baseUrl,
             self::INSCRIPTION_START_ENDPOINT,
