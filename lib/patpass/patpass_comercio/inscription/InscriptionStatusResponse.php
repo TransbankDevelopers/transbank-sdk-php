@@ -11,7 +11,6 @@
 
 namespace Transbank\Patpass\PatpassComercio;
 
-use Transbank\Utils\Utils;
 
 class InscriptionStatusResponse
 {
@@ -20,9 +19,9 @@ class InscriptionStatusResponse
 
     public function __construct($json)
     {
-        $status = Utils::returnValueIfExists($json, "authorized");
+        $status = isset($json['authorized']) ? $json['authorized'] : null;
         $this->setStatus($status);
-        $urlVoucher = Utils::returnValueIfExists($json, "voucherUrl");
+        $urlVoucher = isset($json['voucherUrl']) ? $json['voucherUrl'] : null;
         $this->setUrlVoucher($urlVoucher);
     }
 
