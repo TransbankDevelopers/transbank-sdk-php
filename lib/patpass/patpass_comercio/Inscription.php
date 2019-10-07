@@ -18,7 +18,7 @@ use Transbank\Patpass\PatpassComercio\Exceptions\InscriptionStatusException;
 class Inscription
 {
     const INSCRIPTION_START_ENDPOINT = 'restpatpass/v1/services/patInscription';
-    const INSCRIPTION_FINISH_ENDPOINT = 'restpatpass/v1/services/patInscription/$TOKEN$';
+    const INSCRIPTION_STATUS_ENDPOINT = 'restpatpass/v1/services/status';
 
     public static function start(
         $url,
@@ -127,8 +127,8 @@ class Inscription
             "token" => $token
         ]);
 
-        $httpResponse = $http->put($baseUrl,
-            self::INSCRIPTION_FINISH_ENDPOINT,
+        $httpResponse = $http->post($baseUrl,
+            self::INSCRIPTION_STATUS_ENDPOINT,
             $payload,
             ['headers' => $headers]
         );
