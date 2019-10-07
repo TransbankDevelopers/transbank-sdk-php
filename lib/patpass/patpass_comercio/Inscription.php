@@ -146,7 +146,7 @@ class Inscription
             throw new InscriptionStatusException($message, $httpCode);
         }
 
-        $inscriptionFinishResponse = new InscriptionStatusResponse($httpCode);
+        $inscriptionFinishResponse = new InscriptionStatusResponse($httpResponse);
 
         return $inscriptionFinishResponse;
 
