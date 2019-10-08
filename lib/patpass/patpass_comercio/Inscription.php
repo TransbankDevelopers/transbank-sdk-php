@@ -62,7 +62,7 @@ class Inscription
             "pApellido" => $lastName,
             "sApellido" => $secondLastName,
             "rut" => $rut,
-            "serviceId" => $serviceId ,
+            "serviceId" => $serviceId,
             "finalUrl" => $finalUrl,
             "commerceCode" => $commerceCode,
             "montoMaximo" => $maxAmount,
