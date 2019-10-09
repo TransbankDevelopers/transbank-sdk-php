@@ -20,9 +20,9 @@ class InscriptionStatusResponse
 
     public function __construct($json)
     {
-        $status = Utils::returnValueIfExists($json, "status");
+        $status = Utils::returnValueIfExists($json, "authorized");
         $this->setStatus($status);
-        $urlVoucher = Utils::returnValueIfExists($json, "url_voucher");
+        $urlVoucher = Utils::returnValueIfExists($json, "voucherUrl");
         $this->setUrlVoucher($urlVoucher);
     }
 

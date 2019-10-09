@@ -18,10 +18,24 @@ use Transbank\Patpass\PatpassComercio\Exceptions\InscriptionStatusException;
 class Inscription
 {
     const INSCRIPTION_START_ENDPOINT = 'restpatpass/v1/services/patInscription';
-    const INSCRIPTION_FINISH_ENDPOINT = 'restpatpass/v1/services/patInscription/$TOKEN$';
+    const INSCRIPTION_STATUS_ENDPOINT = 'restpatpass/v1/services/status';
 
     public static function start(
-        $array,
+        $url,
+        $name,
+        $lastName,
+        $secondLastName,
+        $rut,
+        $serviceId,
+        $finalUrl,
+        $maxAmount,
+        $phone,
+        $cellPhone,
+        $patpassName,
+        $personEmail,
+        $commerceEmail,
+        $address,
+        $city,
         $options = null
     )
     {
@@ -43,22 +57,22 @@ class Inscription
         ];
 
         $payload = json_encode([
-            "url" => $array['url'],
-            "nombre" => $array['nombre'],
-            "pApellido" => $array['pApellido'],
-            "sApellido" => $array['sApellido'],
-            "rut" => $array['rut'],
-            "serviceId" => $array['serviceId'] ,
-            "finalUrl" => $array['finalUrl'],
+            "url" => $url,
+            "nombre" => $name,
+            "pApellido" => $lastName,
+            "sApellido" => $secondLastName,
+            "rut" => $rut,
+            "serviceId" => $serviceId,
+            "finalUrl" => $finalUrl,
             "commerceCode" => $commerceCode,
-            "montoMaximo" => $array['montoMaximo'],
-            "telefonoFijo" => $array['telefonoFijo'],
-            "telefonoCelular" => $array['telefonoCelular'],
-            "nombrePatPass" => $array['nombrePatPass'],
-            "correoPersona" => $array['correoPersona'],
-            "correoComercio" => $array['correoComercio'],
-            "direccion" => $array['direccion'],
-            "ciudad" => $array['ciudad']
+            "montoMaximo" => $maxAmount,
+            "telefonoFijo" => $phone,
+            "telefonoCelular" => $cellPhone,
+            "nombrePatPass" => $patpassName,
+            "correoPersona" => $personEmail,
+            "correoComercio" => $commerceEmail,
+            "direccion" => $address,
+            "ciudad" => $city
         ]);
         $httpResponse = $http->post($baseUrl,
             self::INSCRIPTION_START_ENDPOINT,
@@ -113,8 +127,8 @@ class Inscription
             "token" => $token
         ]);
 
-        $httpResponse = $http->put($baseUrl,
-            self::INSCRIPTION_FINISH_ENDPOINT,
+        $httpResponse = $http->post($baseUrl,
+            self::INSCRIPTION_STATUS_ENDPOINT,
             $payload,
             ['headers' => $headers]
         );
@@ -131,10 +145,10 @@ class Inscription
             }
             throw new InscriptionStatusException($message, $httpCode);
         }
+        $responseJson = json_decode($httpResponse->getBody(), true);
+        $inscriptionStatusResponse = new InscriptionStatusResponse($responseJson);
 
-        $inscriptionFinishResponse = new InscriptionStatusResponse($httpCode);
-
-        return $inscriptionFinishResponse;
+        return $inscriptionStatusResponse;
 
     }
 }
