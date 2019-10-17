@@ -2,13 +2,13 @@
 namespace Transbank\Webpay;
 
 class WSSecuritySoapClient extends \SoapClient {
-    
+
     private $useSSL = false;
     private $privateKey = "";
     private $publicCert = "";
 
     function __construct($wsdl, $privateKey, $publicCert, $options) {
-        
+
         $locationparts = parse_url($wsdl);
         $this->useSSL = $locationparts['scheme'] == "https" ? true : false;
         $this->privateKey = $privateKey;
@@ -17,14 +17,18 @@ class WSSecuritySoapClient extends \SoapClient {
     }
 
     function __doRequest($request, $location, $saction, $version, $one_way = 0) {
-        
+
         if ($this->useSSL) {
             $locationparts = parse_url($location);
             $location = 'https://';
             if (isset($locationparts['host']))
                 $location .= $locationparts['host'];
-            if (isset($locationparts['port']))
-                $location .= ':' . $locationparts['port'];
+            if (isset($locationparts['port'])) {
+                if ($locationparts['port'] == '80')
+                    $location .= ':' . '443';
+                else
+                    $location .= ':' . $locationparts['port'];
+            }
             if (isset($locationparts['path']))
                 $location .= $locationparts['path'];
             if (isset($locationparts['query']))
@@ -51,7 +55,7 @@ class WSSecuritySoapClient extends \SoapClient {
 
         $doc = new \DOMDocument();
         $doc->loadXML($retVal);
-        
+
         return $doc->saveXML();
     }
 
