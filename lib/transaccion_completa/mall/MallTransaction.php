@@ -114,9 +114,9 @@ class MallTransaction
 
         $resp = array_map(function($det) use ($baseUrl, $url, $headers, $http) {
             $payload = json_encode([
-                "commerce_code" => $det["commerceCode"],
-                "buy_order" => $det["buyOrder"],
-                "installments_number" => $det["installmentsNumber"],
+                "commerce_code" => $det["commerce_code"],
+                "buy_order" => $det["buy_order"],
+                "installments_number" => $det["installments_number"],
             ]);
             $httpResponse = $http->post(
                 $baseUrl,
