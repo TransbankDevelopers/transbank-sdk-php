@@ -3,9 +3,9 @@ namespace Transbank\Onepay;
 /**
  *  Class Transaction
  *  This class creates or commits a transaction (that is, a purchase);
- * 
+ *
  * package @transbank;
- * 
+ *
  */
 use Transbank\Onepay\Exceptions\TransactionCreateException;
 use Transbank\Onepay\Exceptions\TransactionCommitException;
@@ -68,6 +68,10 @@ use Transbank\Utils\HttpClient;
         $path = self::TRANSACTION_BASE_PATH . self::SEND_TRANSACTION;
 
         $httpResponse = $http->post(OnepayBase::getCurrentIntegrationTypeUrl(), $path ,$request);
+        if ($httpResponse === null) {
+            throw new TransactionCreateException('Could not obtain a response from the service', -1);
+        }
+        
         $httpCode = $httpResponse->getStatusCode();
         $responseJson = json_decode($httpResponse->getBody(), true);
 
@@ -97,6 +101,9 @@ use Transbank\Utils\HttpClient;
         $path = self::TRANSACTION_BASE_PATH . self::COMMIT_TRANSACTION;
 
         $httpResponse = $http->post(OnepayBase::getCurrentIntegrationTypeUrl(), $path ,$request);
+        if ($httpResponse === null) {
+            throw new TransactionCommitException('Could not obtain a response from the service', -1);
+        }
         $httpCode = $httpResponse->getStatusCode();
         $responseJson = json_decode($httpResponse->getBody(), true);
 
