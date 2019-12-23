@@ -25,7 +25,7 @@ class TransactionInstallmentsResponse
     {
         $installmentsAmount =  Utils::returnValueIfExists($json, "installments_amount");
         $this->setInstallmentsAmount($installmentsAmount);
-        $idQueryInstallments =  Utils::returnValueIfExists($json, "iq_query_installments");
+        $idQueryInstallments =  Utils::returnValueIfExists($json, "id_query_installments");
         $this->setIdQueryInstallments($idQueryInstallments);
         $deferredPeriods =  Utils::returnValueIfExists($json, "deferred_periods");
         $this->setDeferredPeriods($deferredPeriods);

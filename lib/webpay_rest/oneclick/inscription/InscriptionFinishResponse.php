@@ -23,11 +23,11 @@ class InscriptionFinishResponse
         $authorizationCode = isset($json["authorization_code"]) ? $json["authorization_code"] : null;
         $this->setAuthorizationCode($authorizationCode);
 
-        $creditCardType = isset($json["credit_card_type"]) ? $json["credit_card_type"] : null;
-        $this->setCreditCardType($creditCardType);
+        $cardType = isset($json["card_type"]) ? $json["card_type"] : null;
+        $this->setCardType($cardType);
 
-        $lastFourCardDigits = isset($json["last_four_card_digits"]) ? $json["last_four_card_digits"] : null;
-        $this->setLastFourCardDigits($lastFourCardDigits);
+        $cardNumber = isset($json["card_number"]) ? $json["card_number"] : null;
+        $this->setCardNumber($cardNumber);
     }
 
     /**
@@ -90,38 +90,38 @@ class InscriptionFinishResponse
     /**
      * @return mixed
      */
-    public function getCreditCardType()
+    public function getCardType()
     {
-        return $this->creditCardType;
+        return $this->cardType;
     }
 
     /**
-     * @param mixed $creditCardType
+     * @param mixed $cardType
      *
      * @return InscriptionFinishResponse
      */
-    public function setCreditCardType($creditCardType)
+    public function setCardType($cardType)
     {
-        $this->creditCardType = $creditCardType;
+        $this->cardType = $cardType;
         return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getLastFourCardDigits()
+    public function getCardNumber()
     {
-        return $this->lastFourCardDigits;
+        return $this->cardNumber;
     }
 
     /**
-     * @param mixed $lastFourCardDigits
+     * @param mixed $cardNumber
      *
      * @return InscriptionFinishResponse
      */
-    public function setLastFourCardDigits($lastFourCardDigits)
+    public function setCardNumber($cardNumber)
     {
-        $this->lastFourCardDigits = $lastFourCardDigits;
+        $this->cardNumber = $cardNumber;
         return $this;
     }
 }
