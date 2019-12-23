@@ -9,8 +9,8 @@ class InscriptionFinishResponse
     public $responseCode;
     public $tbkUser;
     public $authorizationCode;
-    public $creditCardType;
-    public $lastFourCardDigits;
+    public $cardType;
+    public $cardNumber;
 
     public function __construct($json)
     {
