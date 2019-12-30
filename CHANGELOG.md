@@ -4,6 +4,10 @@ Todos los cambios notables a este proyecto serán docuemntados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2019-12-26
+### Added
+- Se agrega soporte para Oneclick Mall y Transacción Completa en sus versiones REST.
+
 ## [1.5.3] - 2019-10-17
 ### Fixed
 - Se corrige utilización de puerto 80 en las peticiones SOAP.
