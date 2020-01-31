@@ -101,3 +101,6 @@ Modificar este `README.md` para que los ejemplos usen la nueva versión X.Y.Z
 Luego de obtener aprobación del pull request, debe mezclarse a master e inmediatamente generar un release en GitHub con el tag X.Y.Z. En la descripción del release debes poner lo mismo que agregaste al changelog.
 
 Con eso Travis CI generará automáticamente una nueva versión de la librería y la publicará en Packagist.
+
+### Vulnerabilidades de seguridad
+Si descubres una falla de seguridad dentro de este proyecto, por favor, notifícanos por correo electrónico a transbankdevelopers@continuum.cl. Tomaremos el caso con la mayor celeridad. 
