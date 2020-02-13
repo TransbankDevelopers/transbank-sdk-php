@@ -20,13 +20,7 @@ class Inscription
     const INSCRIPTION_START_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/inscriptions';
     const INSCRIPTION_FINISH_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/inscriptions/$TOKEN$';
 
-    public static function start(
-        $userName,
-        $email,
-        $responseUrl,
-        $options = null
-    )
-    {
+    public static function getCommerceIdentifier($options){
         if ($options == null) {
             $commerceCode = TransaccionCompleta::getCommerceCode();
             $apiKey = TransaccionCompleta::getApiKey();
@@ -36,6 +30,21 @@ class Inscription
             $apiKey = $options->getApiKey();
             $baseUrl = TransaccionCompleta::getIntegrationTypeUrl($options->getIntegrationType());
         }
+        return array(
+            $commerceCode, 
+            $apiKey, 
+            $baseUrl,
+        );
+    }
+
+    public static function start(
+        $userName,
+        $email,
+        $responseUrl,
+        $options = null
+    )
+    {
+        list($commerceCode, $apiKey, $baseUrl) = Inscription::getCommerceIdentifier($options);
         $http = TransaccionCompleta::getHttpClient();
         $headers = [
             "Tbk-Api-Key-Id" => $commerceCode,
@@ -68,15 +77,7 @@ class Inscription
 
     public static function finish($token, $options = null)
     {
-        if ($options == null) {
-            $commerceCode = TransaccionCompleta::getCommerceCode();
-            $apiKey = TransaccionCompleta::getApiKey();
-            $baseUrl = TransaccionCompleta::getIntegrationTypeUrl();
-        } else {
-            $commerceCode = $options->getCommerceCode();
-            $apiKey = $options->getApiKey();
-            $baseUrl = TransaccionCompleta::getIntegrationTypeUrl($options->getIntegrationType());
-        }
+        list($commerceCode, $apiKey, $baseUrl) = Inscription::getCommerceIdentifier($options);
 
         $http = TransaccionCompleta::getHttpClient();
         $headers = [

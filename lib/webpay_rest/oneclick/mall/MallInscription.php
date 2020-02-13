@@ -15,10 +15,8 @@ class MallInscription
     const INSCRIPTION_START_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/inscriptions';
     const INSCRIPTION_FINISH_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/inscriptions/$TOKEN$';
     const INSCRIPTION_DELETE_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/inscriptions';
-
-    public static function start($userName, $email, $responseUrl, $options = null)
-    {
-
+    
+    public static function getCommerceIdentifier($options){
         if ($options == null) {
             $commerceCode = Oneclick::getCommerceCode();
             $apiKey = Oneclick::getApiKey();
@@ -26,8 +24,19 @@ class MallInscription
         } else {
             $commerceCode = $options->getCommerceCode();
             $apiKey = $options->getApiKey();
-            $baseUrl = WebpayPlus::getIntegrationTypeUrl($options->getIntegrationType());
+            $baseUrl = Oneclick::getIntegrationTypeUrl($options->getIntegrationType());
         }
+        return array(
+            $commerceCode, 
+            $apiKey, 
+            $baseUrl,
+        );
+    }
+
+    public static function start($userName, $email, $responseUrl, $options = null)
+    {
+
+        list($commerceCode, $apiKey, $baseUrl) = MallInscription::getCommerceIdentifier($options);
 
         $http = Oneclick::getHttpClient();
         $headers = [
@@ -65,15 +74,7 @@ class MallInscription
 
     public static function finish($token, $options = null)
     {
-        if ($options == null) {
-            $commerceCode = Oneclick::getCommerceCode();
-            $apiKey = Oneclick::getApiKey();
-            $baseUrl = Oneclick::getIntegrationTypeUrl();
-        } else {
-            $commerceCode = $options->getCommerceCode();
-            $apiKey = $options->getApiKey();
-            $baseUrl = WebpayPlus::getIntegrationTypeUrl($options->getIntegrationType());
-        }
+        list($commerceCode, $apiKey, $baseUrl) = MallInscription::getCommerceIdentifier($options);
 
         $http = Oneclick::getHttpClient();
         $headers = [
@@ -111,15 +112,7 @@ class MallInscription
 
     public static function delete($tbkUser, $userName, $options = null)
     {
-        if ($options == null) {
-            $commerceCode = Oneclick::getCommerceCode();
-            $apiKey = Oneclick::getApiKey();
-            $baseUrl = Oneclick::getIntegrationTypeUrl();
-        } else {
-            $commerceCode = $options->getCommerceCode();
-            $apiKey = $options->getApiKey();
-            $baseUrl = Oneclick::getIntegrationTypeUrl($options->getIntegrationType());
-        }
+        list($commerceCode, $apiKey, $baseUrl) = MallInscription::getCommerceIdentifier($options);
 
         $http = Oneclick::getHttpClient();
         $headers = [
