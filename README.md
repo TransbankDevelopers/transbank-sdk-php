@@ -83,7 +83,14 @@ La documentación relevante para usar este SDK es:
 ### Todas las mezclas a master se hacen mediante Pull Request.
 
 ### Test
-Para ejecutar los test localmente debes usar el siguiente comando en una terminal.
+Para ejecutar los test localmente debes ejecutar los siguientes comandos en una terminal.
+
+```bash
+make
+```
+
+Y luego ejecutar los test
+
 ```bash
 make test
 ```
