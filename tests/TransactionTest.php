@@ -2,6 +2,9 @@
 
 namespace Transbank\Onepay;
 
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 require_once(__DIR__ . '/mocks/ShoppingCartMocks.php');
 require_once(__DIR__ . '/mocks/TransactionCreateResponseMocks.php');
@@ -51,14 +54,13 @@ final class TransactionTest extends TestCase
 
     public function testTransactionRaisesWhenResponseIsNotOk()
     {
-
         $mockResponse = json_encode(array('responseCode' => 'INVALID_PARAMS',
-                                          'description' => 'Parametros invalidos',
-                                          'result' => null));
+            'description' => 'Parametros invalidos',
+            'result' => null));
 
         // Create a mock http client that will return Null
         $httpClientStub = $this->getMock(HttpClient::class, array('post'));
-        $httpClientStub->expects($this->any())->method('post')->willReturn($mockResponse);
+        $httpClientStub->expects($this->any())->method('post')->willReturn(new Response(200, [], $mockResponse));
 
         // Alter the private static property of Transaction 'httpClient'
         // to be the httpClientStub
@@ -98,7 +100,7 @@ final class TransactionTest extends TestCase
         }';
         // Create a mock http client that will return Null
         $httpClientStub = $this->getMock(HttpClient::class, array('post'));
-        $httpClientStub->expects($this->any())->method('post')->willReturn($mockResponse);
+        $httpClientStub->expects($this->any())->method('post')->willReturn(new Response(200, [], $mockResponse));
 
         // Alter the private static property of Transaction 'httpClient'
         // to be the httpClientStub
@@ -192,7 +194,7 @@ final class TransactionTest extends TestCase
                                         self::OCC_TO_COMMIT_TRANSACTION_TEST,
                                         self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
                                         $options
-                                       );   
+                                       );
         $this->assertEquals($response instanceof TransactionCommitResponse, true);
         $this->assertEquals($response->getResponseCode(), 'OK');
         $this->assertEquals($response->getDescription(), 'OK');
@@ -205,7 +207,7 @@ final class TransactionTest extends TestCase
         $response = Transaction::commit(
                                         self::OCC_TO_COMMIT_TRANSACTION_TEST,
                                         self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST
-                                       );   
+                                       );
         $this->assertEquals($response instanceof TransactionCommitResponse, true);
         $this->assertEquals($response->getResponseCode(), 'OK');
         $this->assertEquals($response->getDescription(), 'OK');
@@ -238,7 +240,7 @@ final class TransactionTest extends TestCase
                 self::OCC_TO_COMMIT_TRANSACTION_TEST,
                 self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
                 $options
-               );   
+               );
         }
         finally {
             // Reset the HttpClient static property to its original state
@@ -255,7 +257,7 @@ final class TransactionTest extends TestCase
                                           'result' => null));
         // Create a mock http client that will return Null
         $httpClientStub = $this->getMock(HttpClient::class, array('post'));
-        $httpClientStub->expects($this->any())->method('post')->willReturn($mockResponse);
+        $httpClientStub->expects($this->any())->method('post')->willReturn(new Response(200, [], $mockResponse));
 
         // Alter the private static property of Transaction 'httpClient'
         // to be the httpClientStub
@@ -277,7 +279,7 @@ final class TransactionTest extends TestCase
                 self::OCC_TO_COMMIT_TRANSACTION_TEST,
                 self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
                 $options
-               );   
+               );
         }
         finally {
             // Reset the HttpClient static property to its original state
@@ -307,7 +309,7 @@ final class TransactionTest extends TestCase
 
         // Create a mock http client that will return Null
         $httpClientStub = $this->getMock(HttpClient::class, array('post'));
-        $httpClientStub->expects($this->any())->method('post')->willReturn($mockResponse);
+        $httpClientStub->expects($this->any())->method('post')->willReturn(new Response(200, [], $mockResponse));
 
         // Alter the private static property of Transaction 'httpClient'
         // to be the httpClientStub
@@ -329,7 +331,7 @@ final class TransactionTest extends TestCase
                 self::OCC_TO_COMMIT_TRANSACTION_TEST,
                 self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
                 $options
-               );   
+               );
         }
         finally {
             // Reset the HttpClient static property to its original state

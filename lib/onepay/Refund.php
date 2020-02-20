@@ -8,6 +8,7 @@ namespace Transbank\Onepay;
  * 
  */
 use Transbank\Onepay\Exceptions\RefundCreateException as RefundCreateException;
+use Transbank\Utils\HttpClient;
 
 class Refund {
     const REFUND_TRANSACTION = "nullifytransaction";
@@ -26,16 +27,21 @@ class Refund {
         $jsonRequest = json_encode($request, JSON_UNESCAPED_SLASHES);
         $http = new HttpClient();
         $path = self::TRANSACTION_BASE_PATH . self::REFUND_TRANSACTION;
+
         $httpResponse = $http->post(OnepayBase::getCurrentIntegrationTypeUrl(),
                                     $path,
                                     $jsonRequest);
-        $decodedResponse = json_decode($httpResponse, true);
-        if (!$decodedResponse || !$decodedResponse['responseCode']) {
+
+        $httpCode = $httpResponse->getStatusCode();
+        $responseJson = json_decode($httpResponse->getBody(), true);
+
+        if ($httpCode != 200 && $httpCode != 204) {
             throw new RefundCreateException("Could not obtain the service response");
         }
-        $refundCreateResponse = new RefundCreateResponse($decodedResponse);
-        if (strtolower($decodedResponse['responseCode']) != "ok") {
-            $msg = $decodedResponse['responseCode'] . " : " . $decodedResponse['description'];
+
+        $refundCreateResponse = new RefundCreateResponse($responseJson);
+        if (strtolower($responseJson['responseCode']) != "ok") {
+            $msg = $responseJson['responseCode'] . " : " . $responseJson['description'];
             throw new RefundCreateException($msg, -1);
         }
         return $refundCreateResponse;

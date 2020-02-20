@@ -24,13 +24,13 @@ class TransactionCommitResponseMocks {
                 }
             }';
             $transactionCommitResponse = new TransactionCommitResponse($validResponseJson);
-                                           
+            
             array_push(self::$transactionCommitResponseMocks, $transactionCommitResponse);
         }
         return self::$transactionCommitResponseMocks;
     }
 
-    public function get($indexOfMock = 0)
+    public static function get($indexOfMock = 0)
     {
         return self::transactionCommitRequestMocks()[$indexOfMock];
     }

@@ -5,7 +5,7 @@ require_once(dirname(__FILE__) . '/lib/onepay/ChannelEnum.php');
 require_once(dirname(__FILE__) . '/lib/onepay/OnepayBase.php');
 
 // Utilities
-require_once(dirname(__FILE__) . '/lib/onepay/utils/HttpClient.php');
+require_once(dirname(__FILE__) . '/lib/utils/HttpClient.php');
 require_once(dirname(__FILE__) . '/lib/onepay/utils/OnepayRequestBuilder.php');
 require_once(dirname(__FILE__) . '/lib/onepay/utils/OnepaySignUtil.php');
 
