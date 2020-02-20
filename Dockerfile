@@ -1,5 +1,5 @@
-FROM php:7.2-apache-stretch
-RUN apt-get update && apt-get install -y zip unzip libxml2-dev
+FROM php:7.4-apache-buster
+RUN apt-get update && apt-get install -y zip unzip libxml2-dev libzip-dev
 RUN mkdir -p /sdk
 WORKDIR /sdk
 COPY . /sdk
