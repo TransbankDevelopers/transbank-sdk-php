@@ -24,7 +24,7 @@ automaticamente, pero si usas el SDK de manera directa requerirás también:
 Para usar el SDK en tu proyecto puedes usar Composer, añadiendo el SDK como dependencia a tu proyecto:
 ```json
     "require": {
-        "transbank/transbank-sdk": "1.6.0"
+        "transbank/transbank-sdk": "1.6.1"
     }
 ```
 
