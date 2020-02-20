@@ -4,6 +4,13 @@ Todos los cambios notables a este proyecto serán docuemntados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.6.1] - 2020-02-20
+### Fixed
+- Se agrega soporte a las versiones de guzzle superiores a >= 6 y < 7 [https://github.com/TransbankDevelopers/transbank-sdk-php/pull/113].
+- Se sube el soporte de la versión de php a 7.4 [https://github.com/TransbankDevelopers/transbank-sdk-php/pull/117].
+- Se crea el archivo security.md [https://github.com/TransbankDevelopers/transbank-sdk-php/pull/115].
+- La extensión SOAP de PHP es requerida [https://github.com/TransbankDevelopers/transbank-sdk-php/pull/99].
+
 ## [1.6.0] - 2019-12-26
 ### Added
 - Se agrega soporte para Oneclick Mall y Transacción Completa en sus versiones REST.
