@@ -10,7 +10,7 @@
 
 ## Reporting a Vulnerability
 
-To report a vulnerability you need to create a issue or sent an email to soporte@transbankdevelopers.cl 
+To report a vulnerability, pleae send an email to soporte@transbankdevelopers.cl 
 following the next steps:
 
 **Describe the vulnerability**
@@ -21,7 +21,7 @@ A concise description of the vulnerability.
 
 If you can, sent as much evidence as posible including link and screenshots
 
-**desired actions to solve it**
+**Desired actions to solve it**
 
 You can send us all the desired actions or options to solve it
 
