@@ -15,14 +15,7 @@ class MallTransaction
     const TRANSACTION_STATUS_ENDPONT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/$BUYORDER$';
     const TRANSACTION_REFUND_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/$BUYORDER$/refunds';
 
-    public static function authorize(
-        $userName,
-        $tbkUser,
-        $parentBuyOrder,
-        $details,
-        $options = null
-    ) {
-
+    public static function getCommerceIdentifier($options){
         if ($options == null) {
             $commerceCode = Oneclick::getCommerceCode();
             $apiKey = Oneclick::getApiKey();
@@ -32,6 +25,22 @@ class MallTransaction
             $apiKey = $options->getApiKey();
             $baseUrl = Oneclick::getIntegrationTypeUrl($options->getIntegrationType());
         }
+        return array(
+            $commerceCode, 
+            $apiKey, 
+            $baseUrl,
+        );
+    }
+
+    public static function authorize(
+        $userName,
+        $tbkUser,
+        $parentBuyOrder,
+        $details,
+        $options = null
+    ) {
+
+        list($commerceCode, $apiKey, $baseUrl) = MallTransaction::getCommerceIdentifier($options);
 
         $http = Oneclick::getHttpClient();
         $headers = [
@@ -73,15 +82,7 @@ class MallTransaction
 
     public static function getStatus($buyOrder, $options = null)
     {
-        if ($options == null) {
-            $commerceCode = Oneclick::getCommerceCode();
-            $apiKey = Oneclick::getApiKey();
-            $baseUrl = Oneclick::getIntegrationTypeUrl();
-        } else {
-            $commerceCode = $options->getCommerceCode();
-            $apiKey = $options->getApiKey();
-            $baseUrl = Oneclick::getIntegrationTypeUrl($options->getIntegrationType());
-        }
+        list($commerceCode, $apiKey, $baseUrl) = MallTransaction::getCommerceIdentifier($options);
 
         $http = Oneclick::getHttpClient();
         $headers = [
@@ -116,15 +117,7 @@ class MallTransaction
 
     public static function refund($buyOrder, $childCommerceCode, $childBuyOrder, $amount, $options = null)
     {
-        if ($options == null) {
-            $commerceCode = Oneclick::getCommerceCode();
-            $apiKey = Oneclick::getApiKey();
-            $baseUrl = Oneclick::getIntegrationTypeUrl();
-        } else {
-            $commerceCode = $options->getCommerceCode();
-            $apiKey = $options->getApiKey();
-            $baseUrl = Oneclick::getIntegrationTypeUrl($options->getIntegrationType());
-        }
+        list($commerceCode, $apiKey, $baseUrl) = MallTransaction::getCommerceIdentifier($options);
 
         $http = Oneclick::getHttpClient();
         $headers = [

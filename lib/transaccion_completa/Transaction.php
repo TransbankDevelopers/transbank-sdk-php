@@ -27,15 +27,7 @@ class Transaction
     const REFUND_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$/refunds';
     const STATUS_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$';
 
-    public static function create(
-        $buyOrder,
-        $sessionId,
-        $amount,
-        $cvv,
-        $cardNumber,
-        $cardExpirationDate,
-        $options = null
-    ) {
+    public static function getCommerceIdentifier($options){
         if ($options == null) {
             $commerceCode = TransaccionCompleta::getCommerceCode();
             $apiKey = TransaccionCompleta::getApiKey();
@@ -45,6 +37,23 @@ class Transaction
             $apiKey = $options->getApiKey();
             $baseUrl = TransaccionCompleta::getIntegrationTypeUrl($options->getIntegrationType());
         }
+        return array(
+            $commerceCode, 
+            $apiKey, 
+            $baseUrl,
+        );
+    }
+
+    public static function create(
+        $buyOrder,
+        $sessionId,
+        $amount,
+        $cvv,
+        $cardNumber,
+        $cardExpirationDate,
+        $options = null
+    ) {
+        list($commerceCode, $apiKey, $baseUrl) = Transaction::getCommerceIdentifier($options);
 
         $headers = [
             "Tbk-Api-Key-Id" => $commerceCode,
@@ -96,15 +105,7 @@ class Transaction
         $installmentsNumber,
         $options = null
     ) {
-        if ($options == null) {
-            $commerceCode = TransaccionCompleta::getCommerceCode();
-            $apiKey = TransaccionCompleta::getApiKey();
-            $baseUrl = TransaccionCompleta::getIntegrationTypeUrl();
-        } else {
-            $commerceCode = $options->getCommerceCode();
-            $apiKey = $options->getApiKey();
-            $baseUrl = TransaccionCompleta::getIntegrationTypeUrl($options->getIntegrationType());
-        }
+        list($commerceCode, $apiKey, $baseUrl) = Transaction::getCommerceIdentifier($options);
 
         $headers = [
             "Tbk-Api-Key-Id" => $commerceCode,
@@ -156,15 +157,7 @@ class Transaction
         $options = null
     )
     {
-        if ($options == null) {
-            $commerceCode = TransaccionCompleta::getCommerceCode();
-            $apiKey = TransaccionCompleta::getApiKey();
-            $baseUrl = TransaccionCompleta::getIntegrationTypeUrl();
-        } else {
-            $commerceCode = $options->getCommerceCode();
-            $apiKey = $options->getApiKey();
-            $baseUrl = TransaccionCompleta::getIntegrationTypeUrl($options->getIntegrationType());
-        }
+        list($commerceCode, $apiKey, $baseUrl) = Transaction::getCommerceIdentifier($options);
 
         $headers = [
             "Tbk-Api-Key-Id" => $commerceCode,
@@ -214,15 +207,7 @@ class Transaction
         $amount,
         $options = null
     ) {
-        if ($options == null) {
-            $commerceCode = TransaccionCompleta::getCommerceCode();
-            $apiKey = TransaccionCompleta::getApiKey();
-            $baseUrl = TransaccionCompleta::getIntegrationTypeUrl();
-        } else {
-            $commerceCode = $options->getCommerceCode();
-            $apiKey = $options->getApiKey();
-            $baseUrl = TransaccionCompleta::getIntegrationTypeUrl($options->getIntegrationType());
-        }
+        list($commerceCode, $apiKey, $baseUrl) = Transaction::getCommerceIdentifier($options);
 
         $headers = [
             "Tbk-Api-Key-Id" => $commerceCode,
@@ -270,15 +255,7 @@ class Transaction
         $token,
         $options = null
     ) {
-        if ($options == null) {
-            $commerceCode = TransaccionCompleta::getCommerceCode();
-            $apiKey = TransaccionCompleta::getApiKey();
-            $baseUrl = TransaccionCompleta::getIntegrationTypeUrl();
-        } else {
-            $commerceCode = $options->getCommerceCode();
-            $apiKey = $options->getApiKey();
-            $baseUrl = TransaccionCompleta::getIntegrationTypeUrl($options->getIntegrationType());
-        }
+        list($commerceCode, $apiKey, $baseUrl) = Transaction::getCommerceIdentifier($options);
 
         $headers = [
             "Tbk-Api-Key-Id" => $commerceCode,
