@@ -89,15 +89,14 @@ make test
 ```
 
 ### Deploy de una nueva versión.
-Para generar una nueva versión, se debe crear un PR (con un título "Prepare release X.Y.Z" con los valores que correspondan para X, Y y Z). Se debe seguir el estándar semver para determinar si se incrementa el valor de X (si hay cambios no retrocompatibles), Y (para mejoras retrocompatibles) o Z (si sólo hubo correcciones a bugs).
+Para generar una nueva versión, se debe crear un PR (con un título "Prepare release X.Y.Z" con los valores que correspondan para `X`, `Y` y `Z`). Se debe seguir el estándar semver para determinar si se incrementa el valor de `X` (si hay cambios no retrocompatibles), `Y` (para mejoras retrocompatibles) o `Z` (si sólo hubo correcciones a bugs).
 
 En ese PR deben incluirse los siguientes cambios:
 
-Modificar el archivo `CHANGELOG.md` para incluir una nueva entrada (al comienzo) para X.Y.Z que explique en español los cambios de cara al usuario del SDK.
-Modificar el archivo `composer.json` para que la propiedad `"version"` apunte a la nueva versión X.Y.Z
-Modificar este `README.md` para que los ejemplos usen la nueva versión X.Y.Z
+1. Modificar el archivo `CHANGELOG.md` para incluir una nueva entrada (al comienzo) para `X.Y.Z` que explique en español los cambios **de cara al usuario del SDK**.
+2. Modificar este `README.md` para que los ejemplos usen la nueva versión `X.Y.Z`
+3. Modificar el archivo `composer.json` para que la propiedad `"version"` apunte a la nueva versión `X.Y.Z`
 
-
-Luego de obtener aprobación del pull request, debe mezclarse a master e inmediatamente generar un release en GitHub con el tag X.Y.Z. En la descripción del release debes poner lo mismo que agregaste al changelog.
+Luego de obtener aprobación del pull request, debe mezclarse a master e inmediatamente generar un release en GitHub con el tag `X.Y.Z`. En la descripción del release debes poner lo mismo que agregaste al changelog.
 
 Con eso Travis CI generará automáticamente una nueva versión de la librería y la publicará en Packagist.
