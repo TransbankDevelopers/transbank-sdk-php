@@ -1,6 +1,9 @@
 <?php
 namespace Transbank\Webpay;
 
+use Transbank\Webpay\Exceptions\AmountDecimalsException;
+use Transbank\Webpay\Exceptions\AmountException;
+
 class acknowledgeCompleteTransaction {
     var $tokenInput; //string
 }
@@ -204,8 +207,17 @@ class WebpayCompleteTransaction {
     /**
      * Permite inicializar una transacción en Webpay, como respuesta a la invocación
      * se genera un token que representa en  forma única una transacción
+     *
+     * @throws AmountException si el monto no es válido.
+     * @throws AmountDecimalsException si el monto contiene decimales.
      * */
-    function initCompleteTransaction($amount, $buyOrder, $sessionId, $cardExpirationDate, $cvv, $cardNumber) {
+    function initCompleteTransaction($amount, $buyOrder, $sessionId, $cardExpirationDate, $cvv, $cardNumber)
+    {
+        // validaciones $amount
+        if (!is_numeric($amount))
+            throw new AmountException();
+        if (is_float($amount))
+            throw new AmountDecimalsException();
 
         try {
 
