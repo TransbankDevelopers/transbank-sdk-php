@@ -1,6 +1,8 @@
 <?php
 namespace Transbank\Webpay;
 
+use Transbank\Webpay\Exceptions\InvalidAmountException;
+
 class transactionMallNormalResultOutput {
     var $accountingDate; //string
     var $buyOrder; //string
@@ -172,8 +174,20 @@ class WebPayMallNormal {
     /**
      * Permite inicializar una transacción en Webpay. Como respuesta a la invocación
      * se genera un token que representa en forma única una transacción
+     *
+     * @throws InvalidAmountException si el monto no es numérico, o contiene decimales.
      */
-    function initTransaction($buyOrder, $sessionId, $urlReturn, $urlFinal, $stores) {
+    function initTransaction($buyOrder, $sessionId, $urlReturn, $urlFinal, $stores)
+    {
+        // validaciones amounts en $stores
+        foreach (array_column($stores, "amount") as $amount) {
+            if (!is_numeric($amount)) {
+                throw new InvalidAmountException(InvalidAmountException::NOT_NUMERIC_MESSAGE);
+            }
+            if ((float)$amount != (int)$amount) {
+                throw new InvalidAmountException(InvalidAmountException::HAS_DECIMALS_MESSAGE);
+            }
+        }
 
         try {
             $error = array();

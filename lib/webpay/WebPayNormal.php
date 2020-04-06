@@ -1,6 +1,8 @@
 <?php
 namespace Transbank\Webpay;
 
+use Transbank\Webpay\Exceptions\InvalidAmountException;
+
 /**
  * TRANSACCIÓN DE AUTORIZACIÓN NORMAL:
  * Una transacción de autorización normal (o transacción normal), corresponde a una solicitud de
@@ -102,9 +104,18 @@ class WebPayNormal {
      * Permite inicializar una transacción en Webpay.
      * Como respuesta a la invocación se genera un token
      * que representa en forma única una transacción.
-     * */
+     *
+     * @throws InvalidAmountException si el monto no es numérico, o contiene decimales.
+     */
     public function initTransaction($amount, $buyOrder, $sessionId, $urlReturn, $urlFinal)
     {
+        // validaciones $amount
+        if (!is_numeric($amount)) {
+            throw new InvalidAmountException(InvalidAmountException::NOT_NUMERIC_MESSAGE);
+        }
+        if ((float)$amount != (int)$amount) {
+            throw new InvalidAmountException(InvalidAmountException::HAS_DECIMALS_MESSAGE);
+        }
 
         try {
             $error = array();

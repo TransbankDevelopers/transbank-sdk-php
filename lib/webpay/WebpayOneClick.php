@@ -1,6 +1,8 @@
 <?php
 namespace Transbank\Webpay;
 
+use Transbank\Webpay\Exceptions\InvalidAmountException;
+
 class removeUser {
     var $arg0;//oneClickRemoveUserInput
 }
@@ -316,8 +318,18 @@ class WebpayOneClick {
      * Permite realizar transacciones de pago. Retorna el resultado de la autorización.
      * Este método que debe ser ejecutado, cada vez que el usuario
      * selecciona pagar con Oneclick
+     *
+     * @throws InvalidAmountException si el monto no es numérico, o contiene decimales.
      * */
-    public function authorize($buyOrder, $tbkUser, $username, $amount) {
+    public function authorize($buyOrder, $tbkUser, $username, $amount)
+    {
+        // validaciones $amount
+        if (!is_numeric($amount)) {
+            throw new InvalidAmountException(InvalidAmountException::NOT_NUMERIC_MESSAGE);
+        }
+        if ((float)$amount != (int)$amount) {
+            throw new InvalidAmountException(InvalidAmountException::HAS_DECIMALS_MESSAGE);
+        }
 
         try {
 
