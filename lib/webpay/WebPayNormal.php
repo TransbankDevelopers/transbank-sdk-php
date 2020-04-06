@@ -1,8 +1,7 @@
 <?php
 namespace Transbank\Webpay;
 
-use Transbank\Webpay\Exceptions\AmountDecimalsException;
-use Transbank\Webpay\Exceptions\AmountException;
+use Transbank\Webpay\Exceptions\InvalidAmountException;
 
 /**
  * TRANSACCIÓN DE AUTORIZACIÓN NORMAL:
@@ -106,16 +105,17 @@ class WebPayNormal {
      * Como respuesta a la invocación se genera un token
      * que representa en forma única una transacción.
      *
-     * @throws AmountException si el monto no es válido.
-     * @throws AmountDecimalsException si el monto contiene decimales.
+     * @throws InvalidAmountException si el monto no es numérico, o contiene decimales.
      */
     public function initTransaction($amount, $buyOrder, $sessionId, $urlReturn, $urlFinal)
     {
         // validaciones $amount
-        if (!is_numeric($amount))
-            throw new AmountException();
-        if (is_float($amount))
-            throw new AmountDecimalsException();
+        if (!is_numeric($amount)) {
+            throw new InvalidAmountException(InvalidAmountException::NOT_NUMERIC_MESSAGE);
+        }
+        if ((float)$amount != (int)$amount) {
+            throw new InvalidAmountException(InvalidAmountException::HAS_DECIMALS_MESSAGE);
+        }
 
         try {
             $error = array();
