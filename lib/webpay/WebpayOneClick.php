@@ -225,9 +225,8 @@ class WebpayOneClick {
      * y una URL (UrlWebpay),que corresponde a la URL de inscripción de One Click
      * */
     public function initInscription($username, $email, $urlReturn) {
-
+        $error = array();
         try {
-            $error = array();
 
             $oneClickInscriptionInput = new oneClickInscriptionInput();
 
@@ -277,7 +276,7 @@ class WebpayOneClick {
      * el cual será utilizado para realizar las transacciones de pago
      * */
     function finishInscription($token) {
-
+        $error = array();
         try {
 
             $oneClickFinishInscriptionInput = new oneClickFinishInscriptionInput();
@@ -312,6 +311,7 @@ class WebpayOneClick {
             $replaceArray = array('<!--' => '', '-->' => '');
             $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
         }
+        return $error;
     }
 
     /**
@@ -330,7 +330,7 @@ class WebpayOneClick {
         if ((float)$amount != (int)$amount) {
             throw new InvalidAmountException(InvalidAmountException::HAS_DECIMALS_MESSAGE);
         }
-
+        $error = array();
         try {
 
             $oneClickPayInput = new oneClickPayInput();
@@ -367,6 +367,7 @@ class WebpayOneClick {
             $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
 
         }
+        return $error;
     }
 
     /**
@@ -374,7 +375,7 @@ class WebpayOneClick {
      * Este método retorna como respuesta un identificador único de la transacción de reversa.
      * */
     public function reverseTransaction($buyOrder) {
-
+        $error = array();
         try {
 
             $oneClickReverseInput = new oneClickReverseInput();
@@ -409,6 +410,7 @@ class WebpayOneClick {
             $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
 
         }
+        return $error;
     }
 
     /**
@@ -416,7 +418,7 @@ class WebpayOneClick {
      * en su sistema o por la solicitud de este para no operar con esta forma de pago.
      * */
     public function removeUser($tbkUser, $username) {
-
+        $error = array();
         try {
 
             $oneClickRemoveUserInput = new oneClickRemoveUserInput();
@@ -453,6 +455,7 @@ class WebpayOneClick {
             $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
 
         }
+        return $error;
     }
 
 }
