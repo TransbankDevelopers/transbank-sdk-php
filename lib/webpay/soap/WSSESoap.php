@@ -111,7 +111,9 @@ function getIssuerName($X509Cert) {
 function getSerialNumber($X509Cert) {
     $cert = $X509Cert;
     $cert_as_array = openssl_x509_parse($cert);
-    $serialNumber = $cert_as_array['serialNumber'];
+    $serialNumberHex = $cert_as_array['serialNumberHex'];
+    $serialNumber = hexdec($serialNumberHex);
+    die($serialNumber);
     return $serialNumber;
 }
 
