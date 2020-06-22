@@ -111,10 +111,18 @@ function getIssuerName($X509Cert) {
 function getSerialNumber($X509Cert) {
     $cert = $X509Cert;
     $cert_as_array = openssl_x509_parse($cert);
+    // To prevent OpenSSL 1.1 issue when the serial number sometimes comes as an hex, we alway use the serialNumberHex
+    // and then we transform it again to integer.
     $serialNumberHex = $cert_as_array['serialNumberHex'];
-    $serialNumber = hexdec($serialNumberHex);
-    die($serialNumber);
+    $serialNumber = x64toSignedInt($serialNumberHex);
     return $serialNumber;
+}
+
+// Author: @ecrode https://stackoverflow.com/questions/1273484/large-hex-values-with-php-hexdec
+function x64toSignedInt($hexNumber){
+    $leftHalf = hexdec(substr($hexNumber,0,8));
+    $rightHalf = hexdec(substr($hexNumber,8,8));
+    return (int) ($leftHalf << 32) | $rightHalf;
 }
 
 /*
