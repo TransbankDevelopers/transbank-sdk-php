@@ -4,6 +4,14 @@ Todos los cambios notables a este proyecto serán docuemntados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.7.0] - 2020-06-22
+### Fixed
+- Se arregló error de opciones por defecto en Oneclick Mall REST
+- Se arregló forma en que se retornan los errores en Oneclick Mall REST
+
+### Added
+- Se agregaron validaciones numéricas y de decimales a Webpay Plus `init Transaction`
+
 ## [1.6.1] - 2020-02-20
 ### Fixed
 - Se agrega soporte a las versiones de guzzle superiores a >= 6 y < 7 [https://github.com/TransbankDevelopers/transbank-sdk-php/pull/113].
