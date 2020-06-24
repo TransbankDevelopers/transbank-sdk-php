@@ -6,11 +6,12 @@ y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.ht
 
 ## [1.7.0] - 2020-06-22
 ### Fixed
-- Se arregló error de opciones por defecto en Oneclick Mall REST
-- Se arregló forma en que se retornan los errores en Oneclick Mall REST
+- Se arregló error de opciones por defecto en Oneclick Mall REST [PR #123](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/123)
+- Se arregló forma en que se retornan los errores en Oneclick Mall REST [PR #124](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/124)
+- Importante: se arregla error "For input string 0xAB" al user certificados generados con OpenSSL 1.1 [PR #125](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/125)
 
 ### Added
-- Se agregaron validaciones numéricas y de decimales a Webpay Plus `init Transaction`
+- Se agregaron validaciones numéricas y de decimales a Webpay Plus `init Transaction` [PR #122](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/122)
 
 ## [1.6.1] - 2020-02-20
 ### Fixed
