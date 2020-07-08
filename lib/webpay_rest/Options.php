@@ -125,6 +125,6 @@ class Options
      */
     public function integrationTypeUrl()
     {
-        return WebpayPlus::$INTEGRATION_TYPES[$this->integrationType];
+        return Oneclick::$INTEGRATION_TYPES[$this->integrationType];
     }
 }
