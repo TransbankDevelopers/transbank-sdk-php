@@ -111,18 +111,38 @@ function getIssuerName($X509Cert) {
 function getSerialNumber($X509Cert) {
     $cert = $X509Cert;
     $cert_as_array = openssl_x509_parse($cert);
-    // To prevent OpenSSL 1.1 issue when the serial number sometimes comes as an hex, we alway use the serialNumberHex
+    // To prevent OpenSSL 1.1 issue when the serial number sometimes comes as an hex, we always use the serialNumberHex
     // and then we transform it again to integer.
-    $serialNumberHex = $cert_as_array['serialNumberHex'];
-    $serialNumber = x64toSignedInt($serialNumberHex);
+    $serialNumber = 0;
+    if (isset($cert_as_array['serialNumberHex'])) {
+        $serialNumberHex = $cert_as_array['serialNumberHex'];
+        if (function_exists('bcadd')) {
+            $serialNumber = bchexdec($serialNumberHex);
+        } else {
+            $serialNumber = x64toSignedInt($serialNumberHex);
+        }
+    } else {
+        $serialNumber = $cert_as_array['serialNumber'];
+    }
+    
     return $serialNumber;
 }
 
 // Author: @ecrode https://stackoverflow.com/questions/1273484/large-hex-values-with-php-hexdec
-function x64toSignedInt($hexNumber){
-    $leftHalf = hexdec(substr($hexNumber,0,8));
-    $rightHalf = hexdec(substr($hexNumber,8,8));
-    return (int) ($leftHalf << 32) | $rightHalf;
+function bchexdec($hex)
+{
+    $dec = 0;
+    $len = strlen($hex);
+    for ($i = 1; $i <= $len; $i++) {
+        $dec = bcadd($dec, bcmul(strval(hexdec($hex[$i - 1])), bcpow('16', strval($len - $i))));
+    }
+    return $dec;
+}
+
+function x64toSignedInt($k){
+    $left = hexdec(substr($k,0,8));
+    $right = hexdec(substr($k,8,8));
+    return (int) ($left << 32) | $right;
 }
 
 /*
