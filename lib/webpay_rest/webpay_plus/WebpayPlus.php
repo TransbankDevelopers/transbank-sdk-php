@@ -110,7 +110,7 @@ class WebpayPlus
     public static function configureMallForTesting()
     {
         self::setApiKey(Options::DEFAULT_API_KEY);
-        self::setCommerceCode(Options::DEFAULT_MALL_COMMERCE_CODE);
+        self::setCommerceCode(Options::DEFAULT_WEBPAY_PLUS_MALL_COMMERCE_CODE);
         self::setIntegrationType(self::$INTEGRATION_TYPES["TEST"]);
     }
 
