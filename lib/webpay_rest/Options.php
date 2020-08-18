@@ -44,12 +44,13 @@ class Options
      * @var string $integrationType Sets the environment that the SDK is going
      * to point to (eg. TEST, LIVE, etc).
      */
-    public $integrationType = 'TEST';
+    public $integrationType = null;
 
-    public function __construct($apiKey, $commerceCode)
+    public function __construct($apiKey, $commerceCode, $integrationType = 'TEST')
     {
         $this->apiKey = $apiKey;
         $this->commerceCode = $commerceCode;
+        $this->integrationType = $integrationType;
     }
 
     /**
