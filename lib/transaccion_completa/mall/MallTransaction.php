@@ -112,7 +112,7 @@ class MallTransaction
         $url = str_replace('$TOKEN$', $token, self::INSTALLMENTS_TRANSACTION_ENDPOINT);
         $http = MallTransaccionCompleta::getHttpClient();
 
-        $resps = array_map(function($det) use ($baseUrl, $url, $headers, $http) {
+        $resp = array_map(function($det) use ($baseUrl, $url, $headers, $http) {
             $payload = json_encode([
                 "commerce_code" => $det["commerce_code"],
                 "buy_order" => $det["buy_order"],
@@ -124,10 +124,6 @@ class MallTransaction
                 $payload,
                 [ 'headers' => $headers ]
             );
-            return $httpResponse;
-        }, $details);
-
-        foreach ($resps as $httpResponse) {
             $httpCode = $httpResponse->getStatusCode();
 
             if ($httpCode != 200 && $httpCode != 204) {
@@ -147,9 +143,9 @@ class MallTransaction
             $mallTransactionInstallmentsResponse = new MallTransactionInstallmentsResponse($responseJson);
 
             return $mallTransactionInstallmentsResponse;
-        }
+        }, $details);
 
-        return $resps;
+        return $resp;
     }
 
     public static function commit(
