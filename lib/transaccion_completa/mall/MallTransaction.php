@@ -90,9 +90,7 @@ class MallTransaction
 
     public static function installments(
         $token,
-        $commerceCodeChild,
-        $buyOrder,
-        $installmentsNumber,
+        $details,
         $options = null
     )
     {
@@ -112,42 +110,46 @@ class MallTransaction
         ];
 
         $url = str_replace('$TOKEN$', $token, self::INSTALLMENTS_TRANSACTION_ENDPOINT);
-
-        $payload = json_encode([
-           "commerce_code" => $commerceCodeChild,
-           "buy_order" => $buyOrder,
-           "installments_number" => $installmentsNumber,
-        ]);
-
         $http = MallTransaccionCompleta::getHttpClient();
 
-        $httpResponse = $http->post(
-            $baseUrl,
-            $url,
-            $payload,
-            [ 'headers' => $headers ]
-        );
+        $resps = array_map(function($det) use ($baseUrl, $url, $headers, $http) {
+            $payload = json_encode([
+                "commerce_code" => $det["commerce_code"],
+                "buy_order" => $det["buy_order"],
+                "installments_number" => $det["installments_number"],
+            ]);
+            $httpResponse = $http->post(
+                $baseUrl,
+                $url,
+                $payload,
+                [ 'headers' => $headers ]
+            );
+            return $httpResponse;
+        }, $details);
 
-        $httpCode = $httpResponse->getStatusCode();
+        foreach ($resps as $httpResponse) {
+            $httpCode = $httpResponse->getStatusCode();
 
-        if ($httpCode != 200 && $httpCode != 204) {
-            $reason = $httpResponse->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
-            $body = json_decode($httpResponse->getBody(), true);
+            if ($httpCode != 200 && $httpCode != 204) {
+                $reason = $httpResponse->getReasonPhrase();
+                $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
+                $body = json_decode($httpResponse->getBody(), true);
 
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
-                $message = "$message. Details: $tbkErrorMessage";
+                if (isset($body["error_message"])) {
+                    $tbkErrorMessage = $body["error_message"];
+                    $message = "$message. Details: $tbkErrorMessage";
+                }
+
+                throw new MallTransactionInstallmentsException($message, $httpCode);
             }
 
-            throw new MallTransactionInstallmentsException($message, $httpCode);
+            $responseJson = json_decode($httpResponse->getBody(), true);
+            $mallTransactionInstallmentsResponse = new MallTransactionInstallmentsResponse($responseJson);
+
+            return $mallTransactionInstallmentsResponse;
         }
 
-        $responseJson = json_decode($httpResponse->getBody(), true);
-
-        $mallTransactionInstallmentsResponse = new MallTransactionInstallmentsResponse($responseJson);
-
-        return $mallTransactionInstallmentsResponse;
+        return $resps;
     }
 
     public static function commit(
@@ -175,11 +177,10 @@ class MallTransaction
         $payload = json_encode([
            "details" => $details
         ]);
-
         $http = MallTransaccionCompleta::getHttpClient();
 
         $httpResponse = $http->put(
-            $baseUrl.
+            $baseUrl,
             $url,
             $payload,
            [ 'headers' => $headers ]
