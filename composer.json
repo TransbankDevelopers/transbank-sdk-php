@@ -17,7 +17,7 @@
       "squizlabs/php_codesniffer": "~2.0"
     },
     "autoload": {
-      "files": ["lib/webpay_rest/oneclick/Oneclick.php"],
+      "files": ["lib/webpay_rest/oneclick/Oneclick.php", "lib/patpass/patpass_comercio/PatpassComercio.php"],
       "psr-4": {
         "Transbank\\": [
           "lib/"
@@ -55,7 +55,8 @@
         ],
         "Transbank\\Patpass\\":[
           "lib/patpass",
-          "lib/patpass/patpass_by_webpay"
+          "lib/patpass/patpass_by_webpay",
+          "lib/patpass/patpass_comercio"
         ],
         "Transbank\\Patpass\\Exceptions\\":[
           "lib/patpass/exceptions"
