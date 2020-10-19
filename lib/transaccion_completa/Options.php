@@ -24,10 +24,11 @@ class Options
     public $commerceCode = null;
     public $integrationType = 'TEST';
 
-    public function __construct($apiKey, $commerceCode)
+    public function __construct($apiKey, $commerceCode, $integrationType = 'TEST')
     {
         $this->setApiKey($apiKey);
         $this->setCommerceCode($commerceCode);
+        $this->setIntegrationType($integrationType);
     }
 
     public static function defaultConfig()

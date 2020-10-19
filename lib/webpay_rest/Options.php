@@ -46,10 +46,11 @@ class Options
      */
     public $integrationType = 'TEST';
 
-    public function __construct($apiKey, $commerceCode)
+    public function __construct($apiKey, $commerceCode, $integrationType = 'TEST')
     {
-        $this->apiKey = $apiKey;
-        $this->commerceCode = $commerceCode;
+        $this->setApiKey($apiKey);
+        $this->setCommerceCode($commerceCode);
+        $this->setIntegrationType($integrationType);
     }
 
     /**
@@ -125,6 +126,6 @@ class Options
      */
     public function integrationTypeUrl()
     {
-        return Oneclick::$INTEGRATION_TYPES[$this->integrationType];
+        return WebpayPlus::$INTEGRATION_TYPES[$this->integrationType];
     }
 }
