@@ -4,18 +4,22 @@ Todos los cambios notables a este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.8.0] - 2020-10-19
+### Added
+- Se publican clases y métodos para integrar nueva API REST.  
+
 ## [1.7.3] - 2020-10-14
 ### Fixed
-- Soluciona error que producia que la clase Oneclick (REST) no se encontrara [PR #132](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/132)
+- Soluciona error que producía que la clase Oneclick (REST) no se encontrara [PR #132](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/132)
 - Se actualizan dependencias [PR #133](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/133)
 
 ## [1.7.2] - 2020-08-06
 ### Fixed
-- Arreglo error que se ocasianaba al tratar de leer el serial number de un certificado usando PHP 5.6 [PR #130](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/130)
+- Arreglo error que se ocasionaba al tratar de leer el serial number de un certificado usando PHP 5.6 [PR #130](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/130)
 
 ## [1.7.1] - 2020-07-09
 ### Fixed
-- Se arreglo llamada a método de clase que había sido previamente eliminada
+- Se arregló llamada a método de clase que había sido previamente eliminada
 
 ## [1.7.0] - 2020-06-22
 ### Fixed
