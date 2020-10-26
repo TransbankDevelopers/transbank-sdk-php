@@ -4,6 +4,10 @@ Todos los cambios notables a este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.8.1] - 2020-10-26
+### Fixed
+- Se resuelve error de autoloading en clase TransaccionCompleta [PR #142](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/142)   
+
 ## [1.8.0] - 2020-10-19
 ### Added
 - Se publican clases y métodos para integrar nueva API REST.  
