@@ -1,7 +1,6 @@
 <?php
 namespace Transbank\Utils;
 
-use Guzzle\Http\Exception\RequestException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 
