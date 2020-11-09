@@ -2,7 +2,10 @@
 namespace Transbank\Utils;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Message\FutureResponse;
+use GuzzleHttp\Message\ResponseInterface;
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Ring\Future\FutureInterface;
 
 class HttpClient
 {
@@ -14,7 +17,7 @@ class HttpClient
         $givenHeaders = isset($options["headers"]) ? $options["headers"] : [];
         $headers = array_merge($basicHeader, $givenHeaders);
 
-        if (defined('Client::VERSION') && version_compare(Client::VERSION, '6', '<')) {
+        if (defined('\GuzzleHttp\Client::VERSION') && version_compare(Client::VERSION, '6', '<')) {
             $client = new Client();
             return $client->get($fullPath, [
                 'headers' => $headers
@@ -33,7 +36,7 @@ class HttpClient
         $givenHeaders = isset($options["headers"]) ? $options["headers"] : [];
         $headers = array_merge($basicHeader, $givenHeaders);
 
-        if (defined('Client::VERSION') && version_compare(Client::VERSION, '6', '<')) {
+        if (defined('\GuzzleHttp\Client::VERSION') && version_compare(Client::VERSION, '6', '<')) {
             $client = new Client();
 
             return $client->post($fullPath, [
@@ -41,6 +44,7 @@ class HttpClient
                 'body' => $data_to_send
             ]);
         }
+
         $req = new Request('POST', $fullPath, $headers, $data_to_send);
         $cl = new Client(['http_errors' => false]);
 
@@ -52,7 +56,7 @@ class HttpClient
      * @param $path
      * @param $data_to_send
      * @param null $options
-     * @return \GuzzleHttp\Message\FutureResponse|\GuzzleHttp\Message\ResponseInterface|\GuzzleHttp\Ring\Future\FutureInterface|null
+     * @return FutureResponse|ResponseInterface|FutureInterface|null
      */
     public function put($url, $path, $data_to_send, $options = null)
     {
@@ -63,7 +67,7 @@ class HttpClient
         $headers = array_merge($basicHeader, $givenHeaders);
         $client = new Client();
 
-        if (defined('Client::VERSION') && version_compare(Client::getGuzzleVersion, '6', '<')) {
+        if (defined('\GuzzleHttp\Client::VERSION') && version_compare(Client::VERSION, '6', '<')) {
             return $client->put($fullPath, [
                 'headers' => $headers,
                 'body' => $data_to_send
@@ -85,7 +89,7 @@ class HttpClient
         $givenHeaders = isset($options["headers"]) ? $options["headers"] : [];
         $headers = array_merge($basicHeader, $givenHeaders);
 
-        if (defined('Client::VERSION') && version_compare(Client::VERSION, '6', '<')) {
+        if (defined('\GuzzleHttp\Client::VERSION') && version_compare(Client::VERSION, '6', '<')) {
             $client = new Client();
 
             return $client->delete($fullPath, [
