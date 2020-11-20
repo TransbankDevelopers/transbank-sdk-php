@@ -55,7 +55,7 @@ final class TransactionTest extends TestCase
     public function testTransactionRaisesWhenResponseIsNotOk()
     {
         $mockResponse = json_encode(array('responseCode' => 'INVALID_PARAMS',
-            'description' => 'Parámetros inválidos',
+            'description' => 'Parametros invalidos',
             'result' => null));
 
         // Create a mock http client that will return Null
@@ -75,7 +75,7 @@ final class TransactionTest extends TestCase
 
         // This should raise a TransactionCreateException
         try {
-            $this->setExpectedException(TransactionCreateException::class, 'INVALID_PARAMS : Parámetros inválidos');
+            $this->setExpectedException(TransactionCreateException::class, 'INVALID_PARAMS : Parametros invalidos');
             $response = Transaction::create($shoppingCart);
         }
         finally {
@@ -253,7 +253,7 @@ final class TransactionTest extends TestCase
     public function testTransactionCommitRaisesWhenResponseIsNotOk()
     {
         $mockResponse = json_encode(array('responseCode' => 'INVALID_PARAMS',
-                                          'description' => 'Parámetros inválidos',
+                                          'description' => 'Parametros invalidos',
                                           'result' => null));
         // Create a mock http client that will return Null
         $httpClientStub = $this->getMock(HttpClient::class, array('post'));
@@ -274,7 +274,7 @@ final class TransactionTest extends TestCase
 
         // This should raise a TransactionCommitException
         try {
-            $this->setExpectedException(TransactionCommitException::class, 'INVALID_PARAMS : Parámetros inválidos');
+            $this->setExpectedException(TransactionCommitException::class, 'INVALID_PARAMS : Parametros invalidos');
             $response = Transaction::commit(
                 self::OCC_TO_COMMIT_TRANSACTION_TEST,
                 self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
