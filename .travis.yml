@@ -8,7 +8,7 @@ php:
   - '7.4'
 before_script:
   - composer install
-script: ./sdktest.php
+script: ./sdktest.sh
 deploy:
   provider: releases
   name: "$TRAVIS_TAG"
