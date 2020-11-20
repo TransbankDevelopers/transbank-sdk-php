@@ -53,6 +53,6 @@ final class RefundTest extends TestCase
                                        $options);
 
         $this->assertEquals($httpResponse->getResponseCode(), 'INVALID_PARAMS');
-        $this->assertEquals($httpResponse->getDescription(), 'Parámetros inválidos');
+        $this->assertEquals($httpResponse->getDescription(), 'Parametros invalidos');
     }
 }

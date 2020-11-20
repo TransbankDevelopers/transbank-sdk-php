@@ -1,12 +1,14 @@
 <?php
 namespace Transbank\Onepay;
+
 /**
  * class RefundCreateResponse
  * Model object for the response to a Refund creation attempt.
- * 
+ *
  * @package Transbank;
  */
-class RefundCreateResponse extends BaseResponse implements \JsonSerializable {
+class RefundCreateResponse extends BaseResponse implements \JsonSerializable
+{
     private $occ;
     private $externalUniqueNumber;
     private $reverseCode;
@@ -18,7 +20,7 @@ class RefundCreateResponse extends BaseResponse implements \JsonSerializable {
         $this->fromJSON($json);
     }
 
-    public function jsonSerialize() 
+    public function jsonSerialize()
     {
         return get_object_vars($this);
     }
@@ -50,7 +52,8 @@ class RefundCreateResponse extends BaseResponse implements \JsonSerializable {
         return $this->reverseCode;
     }
 
-    public function setReverseCode($reverseCode) {
+    public function setReverseCode($reverseCode)
+    {
         $this->reverseCode = $reverseCode;
         return $this;
     }
@@ -65,7 +68,7 @@ class RefundCreateResponse extends BaseResponse implements \JsonSerializable {
         $this->issuedAt = $issuedAt;
         return $this;
     }
-    
+
     public function getSignature()
     {
         return $this->signature;
@@ -79,23 +82,24 @@ class RefundCreateResponse extends BaseResponse implements \JsonSerializable {
 
     public function fromJSON($json)
     {
-        if(is_string($json)) {
+        if (is_string($json)) {
             $json = json_decode($json, true);
         }
         if (!is_array($json)) {
             throw new \Exception('Given value must be an associative array or a string that can be converted to an associative array with json_decode()');
         }
 
+
         $this->setResponseCode($json['responseCode']);
         $this->setDescription($json['description']);
-        $this->setOcc($json['result']['occ']);
-        $this->setExternalUniqueNumber($json['result']['externalUniqueNumber']);
-        $this->setReverseCode($json['result']['reverseCode']);
-        $this->setIssuedAt($json['result']['issuedAt']);
-        $this->setSignature($json['result']['signature']);
+        if ($json['result']) {
+            $this->setOcc($json['result']['occ']);
+            $this->setExternalUniqueNumber($json['result']['externalUniqueNumber']);
+            $this->setReverseCode($json['result']['reverseCode']);
+            $this->setIssuedAt($json['result']['issuedAt']);
+            $this->setSignature($json['result']['signature']);
+        }
+
         return $this;
     }
-
-
-
 }

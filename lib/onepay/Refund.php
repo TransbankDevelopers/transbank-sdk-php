@@ -1,11 +1,11 @@
 <?php
 namespace Transbank\Onepay;
-/** 
+/**
  * class Refund
  * Model object for Refunds
  * @package Transbank
- * 
- * 
+ *
+ *
  */
 use Transbank\Onepay\Exceptions\RefundCreateException as RefundCreateException;
 use Transbank\Utils\HttpClient;
@@ -20,7 +20,7 @@ class Refund {
     {
 
         $request = OnepayRequestBuilder::getInstance()
-                                       ->buildRefundRequest($amount, $occ, 
+                                       ->buildRefundRequest($amount, $occ,
                                                             $externalUniqueNumber,
                                                             $authorizationCode,
                                                             $options);
@@ -38,7 +38,6 @@ class Refund {
         if ($httpCode != 200 && $httpCode != 204) {
             throw new RefundCreateException("Could not obtain the service response");
         }
-
         $refundCreateResponse = new RefundCreateResponse($responseJson);
         if (strtolower($responseJson['responseCode']) != "ok") {
             $msg = $responseJson['responseCode'] . " : " . $responseJson['description'];
