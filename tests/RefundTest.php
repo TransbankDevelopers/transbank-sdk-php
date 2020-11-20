@@ -3,7 +3,7 @@ namespace Transbank\Onepay;
 
 use PHPUnit\Framework\TestCase;
 
-final class RefundTest extends TestCase 
+final class RefundTest extends TestCase
 {
 
     protected function setup()
@@ -40,7 +40,7 @@ final class RefundTest extends TestCase
         $this->assertEquals($httpResponse->getResponseCode(), 'OK');
         $this->assertEquals($httpResponse->getDescription(), 'OK');
     }
-    
+
     public function testRefundRaisesExceptionWhenInvalid()
     {
         $apiKey = OnepayBase::getApiKey();
@@ -53,6 +53,6 @@ final class RefundTest extends TestCase
                                        $options);
 
         $this->assertEquals($httpResponse->getResponseCode(), 'INVALID_PARAMS');
-        $this->assertEquals($httpResponse->getDescription(), 'Parametros invalidos');
+        $this->assertEquals($httpResponse->getDescription(), 'Parámetros inválidos');
     }
 }
