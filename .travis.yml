@@ -11,7 +11,7 @@ before_script:
 script: "./sdktest.sh"
 deploy:
   provider: releases
-  name: "$TRAVIS_TAG"
+  name: "Versión $TRAVIS_TAG"
   api_key:
     secure: 2wqJhuUR+3fQdTu532Rt05mS8efE6tf+w9iSjVC6aY+Favs80lc/J7VSMwlcrL+PfrhyHHzzg352IMUtwJXYO6JjGl7wlOG5qym48x2qgLCjY+O7btjF1myvKzWRnwaNrcgaVKaFncYzxkJk7ASvCEgIDUHVxg8Z2bgbkeXbvayVogs48js2B7pDYU+8h6Fc6Df1Pd5JEAu7ugnHPGyDEk+78GrI5MoBXOMWuc372iT3GvMjuw/b8G1MQ/8ykwQndGnsvjFCKzUsWVrIspaQh6VAe3SuCV8n2T1cf7W+9sWNr6oV8XDPHYI+oW8U2QgfwR0m47QIp0Tje1zKCq/Mp8yQdjXxtyyAM5sqO7GpTp1QSXRpnQvaYvwxYzXNmeN38XNtNH1wS3Jh7uRfQbkBGF1iNyA1tw1NH9Sm2rGisTvqPSXkUYTZCrQjJFLGS9jDxsW94v+rKp8cq9Qx244+YqbmvnPE00cX0LZdbcPo2bCgaO3kw4bVAp1SfkwbZNf7MdUkWmpwk9bVTmQOb+lcUTmGVdMKAZnyYdvBtCFvmQ6HSXdWnZens3YxZgQ/B9uPBi8jIQr1rVJ540dJf5DYSc2U6kmOgCV7ozbFOHgfPmCRnDZ7Mqnqpl8OOtWdAfV72vlH2hiv21MGJ0S1A9l1G4IOtBhkRU5JazWIIL8HBFQ=
   skip_cleanup: true
