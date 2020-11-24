@@ -9,6 +9,7 @@ namespace Transbank\Onepay;
  *
  */
 use Transbank\Onepay\Exceptions\RefundCreateException as RefundCreateException;
+use Transbank\Onepay\Utils\OnepayRequestBuilder;
 use Transbank\Utils\HttpClient;
 
 class Refund

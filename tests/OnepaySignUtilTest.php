@@ -3,6 +3,7 @@
 namespace Transbank\Onepay;
 
 use PHPUnit\Framework\TestCase;
+use Transbank\Onepay\Utils\OnepaySignUtil;
 
 require_once(__DIR__ . '/mocks/TransactionCreateRequestMocks.php');
 require_once(__DIR__ . '/mocks/TransactionCommitRequestMocks.php');
@@ -33,7 +34,7 @@ final class OnepaySignUtilTest extends TestCase
         $refClass = new \ReflectionClass(OnepaySignUtil::class);
 
         $this->assertTrue($refClass->hasProperty('instance'));
-    
+
         $singleton = OnepaySignUtil::getInstance();
 
         $this->assertTrue($singleton instanceof OnepaySignUtil);

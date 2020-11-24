@@ -1,5 +1,12 @@
 <?php
-namespace Transbank\Onepay;
+namespace Transbank\Onepay\Utils;
+
+use Transbank\Onepay\OnepayBase;
+use Transbank\Onepay\Utils\OnepaySignUtil;
+use Transbank\Onepay\Options;
+use Transbank\Onepay\RefundCreateRequest;
+use Transbank\Onepay\TransactionCommitRequest;
+use Transbank\Onepay\TransactionCreateRequest;
 
 /**
  * @class TransactionCreateRequest

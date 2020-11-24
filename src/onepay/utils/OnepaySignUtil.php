@@ -1,7 +1,13 @@
 <?php
-namespace Transbank\Onepay;
+namespace Transbank\Onepay\Utils;
 
 use Transbank\Onepay\Exceptions\SignException as SignException;
+use Transbank\Onepay\OnepayBase;
+use Transbank\Onepay\RefundCreateRequest;
+use Transbank\Onepay\TransactionCommitRequest;
+use Transbank\Onepay\TransactionCommitResponse;
+use Transbank\Onepay\TransactionCreateRequest;
+use Transbank\Onepay\TransactionCreateResponse;
 
 /**
  * class OnepaySignUtil;
@@ -85,7 +91,7 @@ use Transbank\Onepay\Exceptions\SignException as SignException;
 
          return $signable->getSignature() == $signed;
      }
-    
+
      private function buildSignature($signable, $secret)
      {
          if ($signable instanceof TransactionCommitRequest || $signable instanceof TransactionCreateResponse) {
@@ -186,7 +192,7 @@ use Transbank\Onepay\Exceptions\SignException as SignException;
          $data .= mb_strlen($authorizationCode) . $authorizationCode;
          $data .= mb_strlen($issuedAtAsString) . $issuedAtAsString;
          $data .= mb_strlen($refundAmountAsString) . $refundAmountAsString;
-        
+
          $crypted = hash_hmac('sha256', $data, $secret, true);
          return base64_encode($crypted);
      }

@@ -3,6 +3,7 @@
 namespace Transbank\Onepay;
 
 use PHPUnit\Framework\TestCase;
+use Transbank\Onepay\Utils\OnepayRequestBuilder;
 
 require_once(__DIR__ . '/mocks/ShoppingCartMocks.php');
 

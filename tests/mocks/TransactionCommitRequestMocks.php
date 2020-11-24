@@ -1,6 +1,8 @@
 <?php
 namespace Transbank\Onepay;
 
+use Transbank\Onepay\Utils\OnepayRequestBuilder;
+
 class TransactionCommitRequestMocks
 {
     public static $transactionCommitRequestMocks = array();

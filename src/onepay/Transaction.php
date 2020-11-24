@@ -11,6 +11,8 @@ namespace Transbank\Onepay;
 use Transbank\Onepay\Exceptions\TransactionCreateException;
 use Transbank\Onepay\Exceptions\TransactionCommitException;
 use Transbank\Onepay\Exceptions\SignException;
+use Transbank\Onepay\Utils\OnepayRequestBuilder;
+use Transbank\Onepay\Utils\OnepaySignUtil;
 use Transbank\Utils\HttpClient;
 
  class Transaction
@@ -75,7 +77,7 @@ use Transbank\Utils\HttpClient;
          if ($httpResponse === null) {
              throw new TransactionCreateException('Could not obtain a response from the service', -1);
          }
-        
+
          $httpCode = $httpResponse->getStatusCode();
          $responseJson = json_decode($httpResponse->getBody(), true);
 
@@ -87,7 +89,7 @@ use Transbank\Utils\HttpClient;
          }
 
          $transactionCreateResponse =  new TransactionCreateResponse($responseJson);
-        
+
          $signatureIsValid = OnepaySignUtil::getInstance()
                             ->validate(
                                 $transactionCreateResponse,
