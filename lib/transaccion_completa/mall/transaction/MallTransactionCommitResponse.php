@@ -117,8 +117,4 @@ class MallTransactionCommitResponse
         $this->details = $details;
         return $this;
     }
-
-
-
-
 }

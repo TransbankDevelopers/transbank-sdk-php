@@ -3,7 +3,6 @@
 
 namespace Transbank\Webpay\Oneclick;
 
-
 class AuthorizeMallTransactionResponse
 {
     public $buyOrder;
@@ -170,5 +169,4 @@ class AuthorizeMallTransactionResponse
         $this->details = $details;
         return $this;
     }
-
 }

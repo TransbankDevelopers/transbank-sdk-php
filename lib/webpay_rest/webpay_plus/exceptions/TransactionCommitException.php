@@ -3,7 +3,6 @@
 
 namespace Transbank\Webpay\WebpayPlus\Exceptions;
 
-
 use Transbank\Webpay\Exceptions\WebpayException;
 
 class TransactionCommitException extends WebpayException
@@ -12,5 +11,4 @@ class TransactionCommitException extends WebpayException
     {
         parent::__construct($message, $code, $previous);
     }
-
 }

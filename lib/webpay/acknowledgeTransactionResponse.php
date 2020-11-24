@@ -1,5 +1,6 @@
 <?php
 namespace Transbank\Webpay;
 
-class acknowledgeTransactionResponse {
+class acknowledgeTransactionResponse
+{
 }

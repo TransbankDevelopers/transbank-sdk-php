@@ -1,7 +1,8 @@
 <?php
 namespace Transbank\Webpay;
 
-class cardDetail {
-    var $cardNumber; //string
-    var $cardExpirationDate; //string
+class cardDetail
+{
+    public $cardNumber; //string
+    public $cardExpirationDate; //string
 }

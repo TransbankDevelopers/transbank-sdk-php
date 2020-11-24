@@ -1,5 +1,6 @@
 <?php
 namespace Transbank\Onepay;
+
 /**
  * Class OnepayBase
  * Base class for Transbank\Onepay
@@ -65,8 +66,8 @@ class OnepayBase
     }
 
 
-    public static function integrationTypes($type = null) {
-
+    public static function integrationTypes($type = null)
+    {
         $types = array("TEST" => 'https://onepay.ionix.cl',
                        "LIVE" => 'https://www.onepay.cl',
                        "MOCK" => 'https://transbank-onepay-ewallet-mock.herokuapp.com');
@@ -74,11 +75,9 @@ class OnepayBase
 
         if (!$type) {
             return $types;
-        }
-        else if (!$types[$type]) {
+        } elseif (!$types[$type]) {
             throw new \Exception('Invalid type, valid types: ' . join(array_keys($types), ", "));
-        }
-        else {
+        } else {
             return $types[$type];
         }
     }
@@ -88,7 +87,7 @@ class OnepayBase
      */
     public static function getApiKey()
     {
-        if(!self::$apiKey) {
+        if (!self::$apiKey) {
             return getenv("ONEPAY_API_KEY");
         }
         return self::$apiKey;
@@ -116,7 +115,7 @@ class OnepayBase
      */
     public static function getCallbackUrl()
     {
-        if(!self::$callbackUrl) {
+        if (!self::$callbackUrl) {
             return getenv("ONEPAY_CALLBACK_URL");
         }
         return self::$callbackUrl;
@@ -127,7 +126,7 @@ class OnepayBase
      */
     public static function getSharedSecret()
     {
-        if(!self::$sharedSecret) {
+        if (!self::$sharedSecret) {
             return getenv("ONEPAY_SHARED_SECRET");
         }
         return self::$sharedSecret;
@@ -174,7 +173,6 @@ class OnepayBase
             throw new \Exception('Invalid integration type, valid values are: ' . $integrationTypesAsString);
         }
         return $url;
-
     }
 
     /**
@@ -204,7 +202,7 @@ class OnepayBase
      */
     public static function getAppScheme()
     {
-        if(!self::$appScheme) {
+        if (!self::$appScheme) {
             return getenv("ONEPAY_APP_SCHEME");
         }
 
@@ -215,12 +213,15 @@ class OnepayBase
      * Sets the credentials published by Transbank to play on the TEST
      * environment.
      */
-    public static function setIntegrationApiKeyAndSharedSecret() {
-        if (null == getenv("ONEPAY_API_KEY"))
+    public static function setIntegrationApiKeyAndSharedSecret()
+    {
+        if (null == getenv("ONEPAY_API_KEY")) {
             self::setApiKey('dKVhq1WGt_XapIYirTXNyUKoWTDFfxaEV63-O5jcsdw');
+        }
 
-        if (null == getenv("ONEPAY_SHARED_SECRET"))
+        if (null == getenv("ONEPAY_SHARED_SECRET")) {
             self::setSharedSecret('?XW#WOLG##FBAGEAYSNQ5APD#JF@$AYZ');
+        }
     }
 
     /**
@@ -231,10 +232,10 @@ class OnepayBase
         self::$appScheme = $appScheme;
     }
 
-    public static function DEFAULT_CHANNEL() {
+    public static function DEFAULT_CHANNEL()
+    {
         return ChannelEnum::WEB();
     }
-
 }
 
 OnepayBase::setIntegrationApiKeyAndSharedSecret();

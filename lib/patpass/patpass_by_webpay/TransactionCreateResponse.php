@@ -2,7 +2,6 @@
 
 namespace Transbank\Patpass\PatpassByWebpay;
 
-
 class TransactionCreateResponse
 {
     public $token;

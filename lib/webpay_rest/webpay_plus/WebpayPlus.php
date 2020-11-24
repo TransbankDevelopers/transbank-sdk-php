@@ -3,7 +3,6 @@
 
 namespace Transbank\Webpay;
 
-
 use Transbank\Utils\HttpClient;
 
 /**
@@ -120,5 +119,4 @@ class WebpayPlus
         self::setCommerceCode(Options::DEFAULT_DEFERRED_COMMERCE_CODE);
         self::setIntegrationType(self::$INTEGRATION_TYPES["TEST"]);
     }
-
 }

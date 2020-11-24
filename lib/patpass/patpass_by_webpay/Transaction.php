@@ -8,7 +8,6 @@ use Transbank\Patpass\PatpassByWebpay\Exceptions\TransactionStatusException;
 
 class Transaction
 {
-
     const CREATE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions';
 
     const COMMIT_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions';
@@ -42,7 +41,8 @@ class Transaction
 
         $http = PatpassByWebpay::getHttpClient();
 
-        $httpResponse = $http->post($baseUrl,
+        $httpResponse = $http->post(
+            $baseUrl,
             self::CREATE_TRANSACTION_ENDPOINT,
             $payload,
             ['headers' => $headers]
@@ -85,7 +85,8 @@ class Transaction
         ];
 
         $http = PatpassByWebpay::getHttpClient();
-        $httpResponse = $http->put($baseUrl,
+        $httpResponse = $http->put(
+            $baseUrl,
             self::COMMIT_TRANSACTION_ENDPOINT . "/" . $token,
             null,
             ['headers' => $headers]
@@ -130,9 +131,11 @@ class Transaction
         ];
 
         $http =   PatpassByWebpay::getHttpClient();
-        $httpResponse = $http->get($baseUrl,
+        $httpResponse = $http->get(
+            $baseUrl,
             $url,
-            ['headers' => $headers]);
+            ['headers' => $headers]
+        );
 
 
         $httpCode = $httpResponse->getStatusCode();

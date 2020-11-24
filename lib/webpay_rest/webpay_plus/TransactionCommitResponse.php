@@ -2,7 +2,6 @@
 
 namespace Transbank\Webpay\WebpayPlus;
 
-
 class TransactionCommitResponse
 {
     /**
@@ -69,7 +68,8 @@ class TransactionCommitResponse
     *
      **/
 
-    public function __construct($json) {
+    public function __construct($json)
+    {
         $this->vci = isset($json["vci"]) ? $json["vci"] : null;
         $this->amount = isset($json["amount"]) ? $json["amount"] : null;
         $this->status = isset($json["status"]) ? $json["status"] : null;
@@ -350,6 +350,4 @@ class TransactionCommitResponse
         $this->balance = $balance;
         return $this;
     }
-
-
 }

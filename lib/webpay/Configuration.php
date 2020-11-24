@@ -1,8 +1,8 @@
 <?php
 namespace Transbank\Webpay;
 
-class Configuration {
-
+class Configuration
+{
     private $environment;
     private $commerce_code;
     private $private_key;
@@ -12,69 +12,86 @@ class Configuration {
 
     private $commerce_mail;
 
-    function __construct() {
+    public function __construct()
+    {
     }
 
-    public function Configuration() {
+    public function Configuration()
+    {
     }
 
-    public function getEnvironment() {
+    public function getEnvironment()
+    {
         return $this->environment;
     }
 
-    public function setEnvironment($environment) {
+    public function setEnvironment($environment)
+    {
         $this->environment = $environment;
     }
 
-    public function getCommerceCode() {
+    public function getCommerceCode()
+    {
         return $this->commerce_code;
     }
 
-    public function setCommerceCode($commerce_code) {
+    public function setCommerceCode($commerce_code)
+    {
         $this->commerce_code = $commerce_code;
     }
 
-    public function getPrivateKey() {
+    public function getPrivateKey()
+    {
         return $this->private_key;
     }
 
-    public function setPrivateKey($private_key) {
+    public function setPrivateKey($private_key)
+    {
         $this->private_key = $private_key;
     }
 
-    public function getPublicCert() {
+    public function getPublicCert()
+    {
         return $this->public_cert;
     }
 
-    public function setPublicCert($public_cert) {
+    public function setPublicCert($public_cert)
+    {
         $this->public_cert = $public_cert;
     }
 
-    public function getWebpayCert() {
+    public function getWebpayCert()
+    {
         return $this->webpay_cert;
     }
 
-    public function setWebpayCert($webpay_cert) {
+    public function setWebpayCert($webpay_cert)
+    {
         $this->webpay_cert = $webpay_cert;
     }
 
-    public function setStoreCodes($store_codes) {
+    public function setStoreCodes($store_codes)
+    {
         $this->store_codes = $store_codes;
     }
 
-    public function getStoreCodes() {
+    public function getStoreCodes()
+    {
         return $this->store_codes;
     }
 
-    public function setCommerceMail($commerce_mail) {
+    public function setCommerceMail($commerce_mail)
+    {
         $this->commerce_mail = $commerce_mail;
     }
 
-    public function getCommerceMail() {
+    public function getCommerceMail()
+    {
         return $this->commerce_mail;
     }
 
-    public function getEnvironmentDefault() {
+    public function getEnvironmentDefault()
+    {
         $modo = $this->environment;
         if (!isset($modo) || $modo == "") {
             $modo = "INTEGRACION";
@@ -82,7 +99,8 @@ class Configuration {
         return $modo;
     }
 
-    public static function forTestingWebpayPlusNormal() {
+    public static function forTestingWebpayPlusNormal()
+    {
         $configuration = new Configuration();
         $configuration->setCommerceCode(597020000540);
         $configuration->setPrivateKey(
@@ -142,7 +160,8 @@ class Configuration {
         return $configuration;
     }
 
-    public static function forTestingWebpayPlusMall() {
+    public static function forTestingWebpayPlusMall()
+    {
         $configuration = new Configuration();
         $configuration->setCommerceCode(597044444401);
         $configuration->setPrivateKey(
@@ -202,7 +221,8 @@ class Configuration {
         return $configuration;
     }
 
-    public static function forTestingWebpayPlusCapture() {
+    public static function forTestingWebpayPlusCapture()
+    {
         $configuration = new Configuration();
         $configuration->setCommerceCode(597044444404);
         $configuration->setPrivateKey(
@@ -262,7 +282,8 @@ class Configuration {
         return $configuration;
     }
 
-    public static function forTestingWebpayOneClickNormal() {
+    public static function forTestingWebpayOneClickNormal()
+    {
         $configuration = new Configuration();
         $configuration->setCommerceCode(597044444405);
         $configuration->setPrivateKey(
@@ -322,7 +343,8 @@ class Configuration {
         return $configuration;
     }
 
-    public static function forTestingPatPassByWebpayNormal($commerceMail) {
+    public static function forTestingPatPassByWebpayNormal($commerceMail)
+    {
         $configuration = new Configuration();
 
         $configuration->setCommerceCode(597020000548);
@@ -384,5 +406,4 @@ class Configuration {
         $configuration->setWebpayCert(Webpay::defaultCert());
         return $configuration;
     }
-
 }

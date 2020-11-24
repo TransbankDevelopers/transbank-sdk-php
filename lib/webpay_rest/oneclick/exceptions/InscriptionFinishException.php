@@ -1,5 +1,6 @@
 <?php
 namespace Transbank\Webpay\Oneclick\Exceptions;
+
 use Transbank\Webpay\Exceptions\WebpayException;
 
 class InscriptionFinishException extends WebpayException
@@ -8,5 +9,4 @@ class InscriptionFinishException extends WebpayException
     {
         parent::__construct($message, $code, $previous);
     }
-
 }

@@ -1,19 +1,20 @@
 <?php
 namespace Transbank\Onepay;
+
 /**
- * 
+ *
  * class Options
  *  Options object used when sending a request to Onepay
  * @package Transbank
- * 
+ *
  */
 
 
- class Options implements \JsonSerializable{
-
-    private $apiKey;
-    private $appKey;
-    private $sharedSecret;
+ class Options implements \JsonSerializable
+ {
+     private $apiKey;
+     private $appKey;
+     private $sharedSecret;
      /**
       * @var integer $qrWidthHeight A number used as width and height for the
       *     QR displayed by the front end JS SDK.
@@ -34,63 +35,68 @@ namespace Transbank\Onepay;
      const __DEFAULT_QR_WIDTH_HEIGHT__ = '__DEFAULT_QR_WIDTH_HEIGHT__';
      const __DEFAULT_COMMERCE_LOGO_URL__ = '__DEFAULT_COMMERCE_LOGO_URL__';
 
-    public function __construct($apiKey = null, $sharedSecret = null,
-                                $qrWidthHeight = self::__DEFAULT_QR_WIDTH_HEIGHT__,
-                                $commerceLogoUrl = self::__DEFAULT_COMMERCE_LOGO_URL__)
-    {
-        $this->setApiKey($apiKey);
-        $this->setSharedSecret($sharedSecret);
-        $this->setQrWidthHeight($qrWidthHeight);
-        $this->setCommerceLogoUrl($commerceLogoUrl);
+     public function __construct(
+         $apiKey = null,
+         $sharedSecret = null,
+         $qrWidthHeight = self::__DEFAULT_QR_WIDTH_HEIGHT__,
+         $commerceLogoUrl = self::__DEFAULT_COMMERCE_LOGO_URL__
+     )
+     {
+         $this->setApiKey($apiKey);
+         $this->setSharedSecret($sharedSecret);
+         $this->setQrWidthHeight($qrWidthHeight);
+         $this->setCommerceLogoUrl($commerceLogoUrl);
 
-        $this->setAppKey(OnepayBase::getCurrentIntegrationTypeAppKey());
-    }
+         $this->setAppKey(OnepayBase::getCurrentIntegrationTypeAppKey());
+     }
 
      public static function getDefaults()
      {
-         return new Options(OnepayBase::getApiKey(),
+         return new Options(
+             OnepayBase::getApiKey(),
              OnepayBase::getSharedSecret(),
              OnepayBase::getQrWidthHeight(),
-             OnepayBase::getCommerceLogoUrl());
+             OnepayBase::getCommerceLogoUrl()
+         );
      }
 
      public function jsonSerialize()
-    {
-        return get_object_vars($this);
-    }
+     {
+         return get_object_vars($this);
+     }
 
-    public function getApiKey()
-    {
-        return $this->apiKey;
-    }
+     public function getApiKey()
+     {
+         return $this->apiKey;
+     }
 
-    public function setApiKey($apiKey)
-    {
-        $this->apiKey = $apiKey;
-        return $this;
-    }
+     public function setApiKey($apiKey)
+     {
+         $this->apiKey = $apiKey;
+         return $this;
+     }
 
-    public function getAppKey()
-    {
-        return $this->appKey;
-    }
+     public function getAppKey()
+     {
+         return $this->appKey;
+     }
 
-    public function setAppKey($appKey)
-    {
-        $this->appKey = $appKey;
-        return $this;
-    }
+     public function setAppKey($appKey)
+     {
+         $this->appKey = $appKey;
+         return $this;
+     }
 
-    public function getSharedSecret()
-    {
-        return $this->sharedSecret;
-    }
+     public function getSharedSecret()
+     {
+         return $this->sharedSecret;
+     }
 
-    public function setSharedSecret($sharedSecret)
-    {
-        $this->sharedSecret = $sharedSecret;
-        return $this;
-    }
+     public function setSharedSecret($sharedSecret)
+     {
+         $this->sharedSecret = $sharedSecret;
+         return $this;
+     }
 
      /**
       * @return integer|null

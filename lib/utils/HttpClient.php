@@ -11,7 +11,6 @@ class HttpClient
 {
     public function get($url, $path, $options = null)
     {
-
         $fullPath = $url . $path;
         $basicHeader = ["Content-Type" => "application/json"];
         $givenHeaders = isset($options["headers"]) ? $options["headers"] : [];
@@ -60,7 +59,6 @@ class HttpClient
      */
     public function put($url, $path, $data_to_send, $options = null)
     {
-
         $fullPath = $url . $path;
         $basicHeader = ["Content-Type" => "application/json"];
         $givenHeaders = isset($options["headers"]) ? $options["headers"] : [];

@@ -1,9 +1,10 @@
 <?php
 namespace Transbank\Webpay;
 
-function sortAndAddAttrs($element, $arAtts) {
+function sortAndAddAttrs($element, $arAtts)
+{
     $newAtts = array();
-    foreach ($arAtts AS $attnode) {
+    foreach ($arAtts as $attnode) {
         $newAtts[$attnode->nodeName] = $attnode;
     }
     ksort($newAtts);
@@ -14,7 +15,8 @@ function sortAndAddAttrs($element, $arAtts) {
 
 /* helper function */
 
-function canonical($tree, $element, $withcomments) {
+function canonical($tree, $element, $withcomments)
+{
     if ($tree->nodeType != XML_DOCUMENT_NODE) {
         $dom = $tree->ownerDocument;
     } else {
@@ -22,7 +24,7 @@ function canonical($tree, $element, $withcomments) {
     }
     if ($element->nodeType != XML_ELEMENT_NODE) {
         if ($element->nodeType == XML_DOCUMENT_NODE) {
-            foreach ($element->childNodes AS $node) {
+            foreach ($element->childNodes as $node) {
                 canonical($dom, $node, $withcomments);
             }
             return;
@@ -30,7 +32,7 @@ function canonical($tree, $element, $withcomments) {
         if ($element->nodeType == XML_COMMENT_NODE && !$withcomments) {
             return;
         }
-        $tree->appendChild($dom->importNode($element, TRUE));
+        $tree->appendChild($dom->importNode($element, true));
         return;
     }
     $arNS = array();
@@ -58,7 +60,7 @@ function canonical($tree, $element, $withcomments) {
     $arAtts = $xPath->query('attribute::*[namespace-uri(.) != ""]', $element);
 
     /* Create an array with namespace URIs as keys, and sort them */
-    foreach ($arAtts AS $attnode) {
+    foreach ($arAtts as $attnode) {
         if (array_key_exists($attnode->namespaceURI, $arNS) &&
             ($arNS[$attnode->namespaceURI] == $attnode->prefix)) {
             continue;
@@ -67,7 +69,7 @@ function canonical($tree, $element, $withcomments) {
         if ($prefix != $attnode->prefix) {
             $arNS[$attnode->namespaceURI] = $attnode->prefix;
         } else {
-            $arNS[$attnode->namespaceURI] = NULL;
+            $arNS[$attnode->namespaceURI] = null;
         }
     }
     if (count($arNS) > 0) {
@@ -75,8 +77,8 @@ function canonical($tree, $element, $withcomments) {
     }
 
     /* Add namespace nodes */
-    foreach ($arNS AS $namespaceURI => $prefix) {
-        if ($prefix != NULL) {
+    foreach ($arNS as $namespaceURI => $prefix) {
+        if ($prefix != null) {
             $elCopy->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:" . $prefix, $namespaceURI);
         }
     }
@@ -94,12 +96,13 @@ function canonical($tree, $element, $withcomments) {
         sortAndAddAttrs($elCopy, $arAtts);
     }
 
-    foreach ($element->childNodes AS $node) {
+    foreach ($element->childNodes as $node) {
         canonical($elCopy, $node, $withcomments);
     }
 }
 
-function getIssuerName($X509Cert) {
+function getIssuerName($X509Cert)
+{
     $cert = $X509Cert;
     $cert_as_array = openssl_x509_parse($cert);
     $name = $cert_as_array['name'];
@@ -108,7 +111,8 @@ function getIssuerName($X509Cert) {
     return $name;
 }
 
-function getSerialNumber($X509Cert) {
+function getSerialNumber($X509Cert)
+{
     $cert = $X509Cert;
     $cert_as_array = openssl_x509_parse($cert);
     // To prevent OpenSSL 1.1 issue when the serial number sometimes comes as an hex, we always use the serialNumberHex
@@ -139,9 +143,10 @@ function bchexdec($hex)
     return $dec;
 }
 
-function x64toSignedInt($k){
-    $left = hexdec(substr($k,0,8));
-    $right = hexdec(substr($k,8,8));
+function x64toSignedInt($k)
+{
+    $left = hexdec(substr($k, 0, 8));
+    $right = hexdec(substr($k, 8, 8));
     return (int) ($left << 32) | $right;
 }
 
@@ -151,7 +156,8 @@ function x64toSignedInt($k){
   $withcomments - boolean indicating wether or not to include comments in canonicalized form
  */
 
-function C14NGeneral($element, $exclusive = FALSE, $withcomments = FALSE) {
+function C14NGeneral($element, $exclusive = false, $withcomments = false)
+{
     /* IF PHP 5.2+ then use built in canonical functionality */
     $php_version = explode('.', PHP_VERSION);
     if (($php_version[0] > 5) || ($php_version[0] == 5 && $php_version[1] >= 2)) {
@@ -160,10 +166,10 @@ function C14NGeneral($element, $exclusive = FALSE, $withcomments = FALSE) {
 
     /* Must be element or document */
     if (!$element instanceof DOMElement && !$element instanceof DOMDocument) {
-        return NULL;
+        return null;
     }
     /* Currently only exclusive XML is supported */
-    if ($exclusive == FALSE) {
+    if ($exclusive == false) {
         throw new Exception("Only exclusive canonicalization is supported in this version of PHP");
     }
 
@@ -174,61 +180,63 @@ function C14NGeneral($element, $exclusive = FALSE, $withcomments = FALSE) {
 
 /**
  * WSSESoap.php
- * 
- * Copyright (c) 2010, Robert Richards <rrichards@ctindustries.net>. 
- * All rights reserved. 
- * 
- * Redistribution and use in source and binary forms, with or without 
- * modification, are permitted provided that the following conditions 
- * are met: 
- * 
- *   * Redistributions of source code must retain the above copyright 
- *     notice, this list of conditions and the following disclaimer. 
- * 
- *   * Redistributions in binary form must reproduce the above copyright 
- *     notice, this list of conditions and the following disclaimer in 
- *     the documentation and/or other materials provided with the 
- *     distribution. 
- * 
- *   * Neither the name of Robert Richards nor the names of his 
- *     contributors may be used to endorse or promote products derived 
- *     from this software without specific prior written permission. 
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
- * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
- * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
- * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
- * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
- * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
- * POSSIBILITY OF SUCH DAMAGE. 
- * 
- * @author     Robert Richards <rrichards@ctindustries.net> 
- * @copyright  2007-2010 Robert Richards <rrichards@ctindustries.net> 
- * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License 
- * @version    1.1.0-dev 
+ *
+ * Copyright (c) 2010, Robert Richards <rrichards@ctindustries.net>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *
+ *   * Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in
+ *     the documentation and/or other materials provided with the
+ *     distribution.
+ *
+ *   * Neither the name of Robert Richards nor the names of his
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @author     Robert Richards <rrichards@ctindustries.net>
+ * @copyright  2007-2010 Robert Richards <rrichards@ctindustries.net>
+ * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
+ * @version    1.1.0-dev
  */
-class WSSESoap {
-
+class WSSESoap
+{
     const WSSENS = 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd';
     const WSUNS = 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd';
     const WSUNAME = 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0';
     const WSSEPFX = 'wsse';
     const WSUPFX = 'wsu';
 
-    private $soapNS, $soapPFX;
-    private $soapDoc = NULL;
-    private $envelope = NULL;
-    private $SOAPXPath = NULL;
-    private $secNode = NULL;
-    public $signAllHeaders = FALSE;
+    private $soapNS;
+    private $soapPFX;
+    private $soapDoc = null;
+    private $envelope = null;
+    private $SOAPXPath = null;
+    private $secNode = null;
+    public $signAllHeaders = false;
 
-    private function locateSecurityHeader($bMustUnderstand = TRUE, $setActor = NULL) {
-        if ($this->secNode == NULL) {
+    private function locateSecurityHeader($bMustUnderstand = true, $setActor = null)
+    {
+        if ($this->secNode == null) {
             $headers = $this->SOAPXPath->query('//wssoap:Envelope/wssoap:Header');
             $header = $headers->item(0);
             if (!$header) {
@@ -236,8 +244,8 @@ class WSSESoap {
                 $this->envelope->insertBefore($header, $this->envelope->firstChild);
             }
             $secnodes = $this->SOAPXPath->query('./wswsse:Security', $header);
-            $secnode = NULL;
-            foreach ($secnodes AS $node) {
+            $secnode = null;
+            foreach ($secnodes as $node) {
                 $actor = $node->getAttributeNS($this->soapNS, 'actor');
                 if ($actor == $setActor) {
                     $secnode = $node;
@@ -263,7 +271,8 @@ class WSSESoap {
         return $this->secNode;
     }
 
-    public function __construct($doc, $bMustUnderstand = TRUE, $setActor = NULL) {
+    public function __construct($doc, $bMustUnderstand = true, $setActor = null)
+    {
         $this->soapDoc = $doc;
         $this->envelope = $doc->documentElement;
         $this->soapNS = $this->envelope->namespaceURI;
@@ -274,7 +283,8 @@ class WSSESoap {
         $this->locateSecurityHeader($bMustUnderstand, $setActor);
     }
 
-    public function addTimestamp($secondsToExpire = 3600) {
+    public function addTimestamp($secondsToExpire = 3600)
+    {
 
         /* Add the WSU timestamps */
         $security = $this->locateSecurityHeader();
@@ -290,7 +300,8 @@ class WSSESoap {
         }
     }
 
-    public function addUserToken($userName, $password = NULL, $passwordDigest = FALSE) {
+    public function addUserToken($userName, $password = null, $passwordDigest = false)
+    {
         if ($passwordDigest && empty($password)) {
             throw new \Exception("Cannot calculate the digest without a password");
         }
@@ -327,7 +338,8 @@ class WSSESoap {
         $token->appendChild($created);
     }
 
-    public function addBinaryToken($cert, $isPEMFormat = TRUE, $isDSig = TRUE) {
+    public function addBinaryToken($cert, $isPEMFormat = true, $isDSig = true)
+    {
         $security = $this->locateSecurityHeader();
         $data = XMLSecurityDSig::get509XCert($cert, $isPEMFormat);
 
@@ -341,7 +353,8 @@ class WSSESoap {
         return $token;
     }
 
-    public function attachTokentoSig($token) {
+    public function attachTokentoSig($token)
+    {
         if (!($token instanceof \DOMElement)) {
             throw new \Exception('Invalid parameter: BinarySecurityToken element expected');
         }
@@ -368,8 +381,8 @@ class WSSESoap {
         }
     }
 
-    public function addIssuerSerial($X509Cert) {
-
+    public function addIssuerSerial($X509Cert)
+    {
         $name = getIssuerName($X509Cert);
         $serialNumber = getSerialNumber($X509Cert);
 
@@ -402,20 +415,21 @@ class WSSESoap {
         }
     }
 
-    public function signSoapDoc($objKey, $options = NULL) {
+    public function signSoapDoc($objKey, $options = null)
+    {
         $objDSig = new XMLSecurityDSig();
 
         $objDSig->setCanonicalMethod(XMLSecurityDSig::EXC_C14N);
 
         $arNodes = array();
-        foreach ($this->secNode->childNodes AS $node) {
+        foreach ($this->secNode->childNodes as $node) {
             if ($node->nodeType == XML_ELEMENT_NODE) {
                 $arNodes[] = $node;
             }
         }
 
         if ($this->signAllHeaders) {
-            foreach ($this->secNode->parentNode->childNodes AS $node) {
+            foreach ($this->secNode->parentNode->childNodes as $node) {
                 if (($node->nodeType == XML_ELEMENT_NODE) &&
                         ($node->namespaceURI != WSSESoap::WSSENS)) {
                     $arNodes[] = $node;
@@ -423,7 +437,7 @@ class WSSESoap {
             }
         }
 
-        foreach ($this->envelope->childNodes AS $node) {
+        foreach ($this->envelope->childNodes as $node) {
             if ($node->namespaceURI == $this->soapNS && $node->localName == 'Body') {
                 $arNodes[] = $node;
                 break;
@@ -436,11 +450,11 @@ class WSSESoap {
         }
 
         $arOptions = array('prefix' => WSSESoap::WSUPFX, 'prefix_ns' => WSSESoap::WSUNS);
-        $objDSig->addReferenceList($arNodes, $algorithm, NULL, $arOptions);
+        $objDSig->addReferenceList($arNodes, $algorithm, null, $arOptions);
 
         $objDSig->sign($objKey);
 
-        $insertTop = TRUE;
+        $insertTop = true;
         if (is_array($options) && isset($options["insertBefore"])) {
             $insertTop = (bool) $options["insertBefore"];
         }
@@ -464,7 +478,7 @@ class WSSESoap {
                     $keyid = $x509["extensions"]["subjectKeyIdentifier"];
                     $arkeyid = split(":", $keyid);
                     $data = "";
-                    foreach ($arkeyid AS $hexchar) {
+                    foreach ($arkeyid as $hexchar) {
                         $data .= chr(hexdec($hexchar));
                     }
                     $dataNode = new \DOMText(base64_encode($data));
@@ -474,22 +488,23 @@ class WSSESoap {
         }
     }
 
-    public function addEncryptedKey($node, $key, $token, $options = NULL) {
+    public function addEncryptedKey($node, $key, $token, $options = null)
+    {
         if (!$key->encKey) {
-            return FALSE;
+            return false;
         }
         $encKey = $key->encKey;
         $security = $this->locateSecurityHeader();
         $doc = $security->ownerDocument;
         if (!$doc->isSameNode($encKey->ownerDocument)) {
-            $key->encKey = $security->ownerDocument->importNode($encKey, TRUE);
+            $key->encKey = $security->ownerDocument->importNode($encKey, true);
             $encKey = $key->encKey;
         }
         if (!empty($key->guid)) {
-            return TRUE;
+            return true;
         }
 
-        $lastToken = NULL;
+        $lastToken = null;
         $findTokens = $security->firstChild;
         while ($findTokens) {
             if ($findTokens->localName == 'BinarySecurityToken') {
@@ -528,12 +543,12 @@ class WSSESoap {
                     $keyid = $x509["extensions"]["subjectKeyIdentifier"];
                     $arkeyid = split(":", $keyid);
                     $data = "";
-                    foreach ($arkeyid AS $hexchar) {
+                    foreach ($arkeyid as $hexchar) {
                         $data .= chr(hexdec($hexchar));
                     }
                     $dataNode = new \DOMText(base64_encode($data));
                     $reference->appendChild($dataNode);
-                    return TRUE;
+                    return true;
                 }
             }
         }
@@ -543,11 +558,12 @@ class WSSESoap {
         $reference->setAttribute("URI", $tokenURI);
         $tokenRef->appendChild($reference);
 
-        return TRUE;
+        return true;
     }
 
-    public function AddReference($baseNode, $guid) {
-        $refList = NULL;
+    public function AddReference($baseNode, $guid)
+    {
+        $refList = null;
         $child = $baseNode->firstChild;
         while ($child) {
             if (($child->namespaceURI == XMLSecEnc::XMLENCNS) && ($child->localName == 'ReferenceList')) {
@@ -566,17 +582,17 @@ class WSSESoap {
         $dataref->setAttribute('URI', '#' . $guid);
     }
 
-    public function EncryptBody($siteKey, $objKey, $token) {
-
+    public function EncryptBody($siteKey, $objKey, $token)
+    {
         $enc = new XMLSecEnc();
-        foreach ($this->envelope->childNodes AS $node) {
+        foreach ($this->envelope->childNodes as $node) {
             if ($node->namespaceURI == $this->soapNS && $node->localName == 'Body') {
                 break;
             }
         }
         $enc->setNode($node);
         /* encrypt the symmetric key */
-        $enc->encryptKey($siteKey, $objKey, FALSE);
+        $enc->encryptKey($siteKey, $objKey, false);
 
         $enc->type = XMLSecEnc::Content;
         /* Using the symmetric key to actually encrypt the data */
@@ -597,18 +613,18 @@ class WSSESoap {
         }
     }
 
-    public function encryptSoapDoc($siteKey, $objKey, $options = NULL, $encryptSignature = TRUE) {
-
+    public function encryptSoapDoc($siteKey, $objKey, $options = null, $encryptSignature = true)
+    {
         $enc = new XMLSecEnc();
 
         $xpath = new \DOMXPath($this->envelope->ownerDocument);
-        if ($encryptSignature == FALSE) {
+        if ($encryptSignature == false) {
             $nodes = $xpath->query('//*[local-name()="Body"]');
         } else {
             $nodes = $xpath->query('//*[local-name()="Signature"] | //*[local-name()="Body"]');
         }
 
-        foreach ($nodes AS $node) {
+        foreach ($nodes as $node) {
             $type = XMLSecEnc::Element;
             $name = $node->localName;
             if ($name == "Body") {
@@ -626,16 +642,16 @@ class WSSESoap {
         $this->addEncryptedKey($signode, $enc, $siteKey, $options);
     }
 
-    public function decryptSoapDoc($doc, $options) {
-
-        $privKey = NULL;
-        $privKey_isFile = FALSE;
-        $privKey_isCert = FALSE;
+    public function decryptSoapDoc($doc, $options)
+    {
+        $privKey = null;
+        $privKey_isFile = false;
+        $privKey_isCert = false;
 
         if (is_array($options)) {
-            $privKey = (!empty($options["keys"]["private"]["key"]) ? $options["keys"]["private"]["key"] : NULL);
-            $privKey_isFile = (!empty($options["keys"]["private"]["isFile"]) ? TRUE : FALSE);
-            $privKey_isCert = (!empty($options["keys"]["private"]["isCert"]) ? TRUE : FALSE);
+            $privKey = (!empty($options["keys"]["private"]["key"]) ? $options["keys"]["private"]["key"] : null);
+            $privKey_isFile = (!empty($options["keys"]["private"]["isFile"]) ? true : false);
+            $privKey_isCert = (!empty($options["keys"]["private"]["isCert"]) ? true : false);
         }
 
         $objenc = new XMLSecEnc();
@@ -654,7 +670,7 @@ class WSSESoap {
             if (!$objKey = $objenc->locateKey()) {
                 throw new \Exception("Unable to locate algorithm for this Encrypted Key");
             }
-            $objKey->isEncrypted = TRUE;
+            $objKey->isEncrypted = true;
             $objKey->encryptedCtx = $objenc;
             XMLSecEnc::staticLocateKeyInfo($objKey, $node);
             if ($objKey && $objKey->isEncrypted) {
@@ -670,7 +686,7 @@ class WSSESoap {
             }
         }
 
-        foreach ($references AS $reference) {
+        foreach ($references as $reference) {
             $arUrl = parse_url($reference);
             $reference = $arUrl['fragment'];
             $query = '//*[@Id="' . $reference . '"]';
@@ -684,18 +700,19 @@ class WSSESoap {
 
             $objenc->setNode($encData);
             $objenc->type = $encData->getAttribute("Type");
-            $decrypt = $objenc->decryptNode($objKey, TRUE);
+            $decrypt = $objenc->decryptNode($objKey, true);
         }
 
-        return TRUE;
+        return true;
     }
 
-    public function saveXML() {
+    public function saveXML()
+    {
         return $this->soapDoc->saveXML();
     }
 
-    public function save($file) {
+    public function save($file)
+    {
         return $this->soapDoc->save($file);
     }
-
 }

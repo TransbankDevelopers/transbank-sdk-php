@@ -1,26 +1,30 @@
 <?php
 namespace Transbank\Webpay;
 
-class capture {
-    var $captureInput; //captureInput
+class capture
+{
+    public $captureInput; //captureInput
 }
 
-class captureInput {
-    var $commerceId; //long
-    var $buyOrder; //string
-    var $authorizationCode; //string
-    var $captureAmount; //decimal
+class captureInput
+{
+    public $commerceId; //long
+    public $buyOrder; //string
+    public $authorizationCode; //string
+    public $captureAmount; //decimal
 }
 
-class captureResponse {
-    var $return; //captureOutput
+class captureResponse
+{
+    public $return; //captureOutput
 }
 
-class captureOutput {
-    var $authorizationCode; //string
-    var $authorizationDate; //dateTime
-    var $capturedAmount; //decimal
-    var $token; //string
+class captureOutput
+{
+    public $authorizationCode; //string
+    public $authorizationDate; //dateTime
+    public $capturedAmount; //decimal
+    public $token; //string
 }
 
 /**
@@ -28,10 +32,10 @@ class captureOutput {
  * Este método permite a todo comercio habilitado realizar capturas de una transacción autorizada
  * sin  captura  en  plataforma  Webpay  3G.
  */
-class WebpayCapture {
-
-    var $soapClient;
-    var $config;
+class WebpayCapture
+{
+    public $soapClient;
+    public $config;
 
     /** Configuración de URL según Ambiente */
     private static $WSDL_URL_NORMAL = array(
@@ -71,8 +75,8 @@ class WebpayCapture {
         'captureOutput' => 'Transbank\Webpay\captureOutput'
     );
 
-    function __construct($config) {
-
+    public function __construct($config)
+    {
         $this->config = $config;
         $privateKey = $this->config->getPrivateKey();
         $publicCert = $this->config->getPublicCert();
@@ -87,15 +91,16 @@ class WebpayCapture {
         ));
     }
 
-    function _capture($capture) {
-
+    public function _capture($capture)
+    {
         $captureResponse = $this->soapClient->capture($capture);
 
         return $captureResponse;
     }
 
     /** Descripción según codigo de resultado Webpay (Ver Codigo Resultados) */
-    function _getReason($code) {
+    public function _getReason($code)
+    {
         return WebPayCapture::$RESULT_CODES[$code];
     }
 
@@ -103,10 +108,9 @@ class WebpayCapture {
      * Permite solicitar a Webpay la captura diferida de una transacción
      * con autorización y sin captura simultánea.
      * */
-    function capture($authorizationCode, $captureAmount, $buyOrder) {
-
+    public function capture($authorizationCode, $captureAmount, $buyOrder)
+    {
         try {
-
             $CaptureInput = new CaptureInput();
 
             /** Código de autorización de la transacción que se requiere capturar */
@@ -131,25 +135,20 @@ class WebpayCapture {
             $validationResult = $soapValidation->getValidationResult();
 
             /** Valida conexion a Webpay */
-            if ($validationResult === TRUE) {
-
+            if ($validationResult === true) {
                 $wsCaptureOutput = $captureResponse->return;
                 return $wsCaptureOutput;
-
             } else {
                 $error["error"] = "Error validando conexión a Webpay";
                 $error["error"] = "No se pudo completar la conexión con Webpay";
             }
         } catch (\Exception $e) {
-
             $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
 
             $replaceArray = array('<!--' => '', '-->' => '');
             $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
-
         }
 
         return $error;
     }
-
 }

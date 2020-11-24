@@ -1,16 +1,17 @@
 <?php
 namespace Transbank\Onepay;
+
 /**
- * 
+ *
  * class RefundCreateRequest
  * Creates a request object to be sent to Transbank to attempt a refund
- * 
+ *
  * @package Transbank;
- * 
- * 
+ *
+ *
  */
-class RefundCreateRequest extends BaseRequest implements \JsonSerializable {
-
+class RefundCreateRequest extends BaseRequest implements \JsonSerializable
+{
     private $nullifyAmount;
     private $occ;
     private $externalUniqueNumber;
@@ -18,10 +19,14 @@ class RefundCreateRequest extends BaseRequest implements \JsonSerializable {
     private $issuedAt;
     private $signature;
 
-    public function __construct($nullifyAmount = null, $occ = null,
-                                $externalUniqueNumber = null,
-                                $authorizationCode = null,
-                                $issuedAt = null, $signature = null)
+    public function __construct(
+        $nullifyAmount = null,
+        $occ = null,
+        $externalUniqueNumber = null,
+        $authorizationCode = null,
+        $issuedAt = null,
+        $signature = null
+    )
     {
         $this->nullifyAmount = $nullifyAmount;
 

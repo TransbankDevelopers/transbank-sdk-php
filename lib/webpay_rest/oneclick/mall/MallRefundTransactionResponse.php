@@ -3,10 +3,8 @@
 
 namespace Transbank\Webpay\Oneclick;
 
-
 class MallRefundTransactionResponse
 {
-
     public $type;
     public $authorizationCode;
     public $authorizationDate;
@@ -145,6 +143,4 @@ class MallRefundTransactionResponse
         $this->responseCode = $responseCode;
         return $this;
     }
-
-
 }

@@ -3,7 +3,6 @@
 
 namespace Transbank\Webpay;
 
-
 use Transbank\Utils\HttpClient;
 
 class Oneclick

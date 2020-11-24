@@ -68,7 +68,8 @@ class Transaction
 
         $http = WebpayPlus::getHttpClient();
 
-        $httpResponse = $http->post($baseUrl,
+        $httpResponse = $http->post(
+            $baseUrl,
             self::CREATE_TRANSACTION_ENDPOINT,
             $payload,
             ['headers' => $headers]
@@ -111,7 +112,8 @@ class Transaction
         ];
 
         $http = WebpayPlus::getHttpClient();
-        $httpResponse = $http->put($baseUrl,
+        $httpResponse = $http->put(
+            $baseUrl,
             self::COMMIT_TRANSACTION_ENDPOINT . "/" . $token,
             null,
             ['headers' => $headers]
@@ -160,7 +162,8 @@ class Transaction
         $url = str_replace('$TOKEN$', $token, self::REFUND_TRANSACTION_ENDPOINT);
 
         $http = WebpayPlus::getHttpClient();
-        $httpResponse = $http->post($baseUrl,
+        $httpResponse = $http->post(
+            $baseUrl,
             $url,
             $payload,
             ['headers' => $headers]
@@ -204,9 +207,11 @@ class Transaction
         ];
 
         $http = WebpayPlus::getHttpClient();
-        $httpResponse = $http->get($baseUrl,
+        $httpResponse = $http->get(
+            $baseUrl,
             $url,
-            ['headers' => $headers]);
+            ['headers' => $headers]
+        );
 
 
         $httpCode = $httpResponse->getStatusCode();
@@ -260,7 +265,8 @@ class Transaction
 
         $http = WebpayPlus::getHttpClient();
 
-        $httpResponse = $http->post($baseUrl,
+        $httpResponse = $http->post(
+            $baseUrl,
             self::CREATE_TRANSACTION_ENDPOINT,
             $payload,
             ['headers' => $headers]
@@ -303,7 +309,8 @@ class Transaction
         ];
 
         $http = WebpayPlus::getHttpClient();
-        $httpResponse = $http->put($baseUrl,
+        $httpResponse = $http->put(
+            $baseUrl,
             self::COMMIT_TRANSACTION_ENDPOINT . "/" . $token,
             null,
             ['headers' => $headers]
@@ -351,14 +358,19 @@ class Transaction
                 "buy_order" => $buyOrder,
                 "commerce_code" => $childCommerceCode,
                 "amount" => $amount
-            ]);
+            ]
+        );
 
         $http = WebpayPlus::getHttpClient();
 
-        $url = str_replace('$TOKEN$', $token,
-            self::REFUND_TRANSACTION_ENDPOINT);
+        $url = str_replace(
+            '$TOKEN$',
+            $token,
+            self::REFUND_TRANSACTION_ENDPOINT
+        );
 
-        $httpResponse = $http->post($baseUrl,
+        $httpResponse = $http->post(
+            $baseUrl,
             $url,
             $payload,
             ['headers' => $headers]
@@ -403,9 +415,11 @@ class Transaction
         ];
 
         $http = WebpayPlus::getHttpClient();
-        $httpResponse = $http->get($baseUrl,
+        $httpResponse = $http->get(
+            $baseUrl,
             $url,
-            ['headers' => $headers]);
+            ['headers' => $headers]
+        );
 
 
         $httpCode = $httpResponse->getStatusCode();
@@ -453,10 +467,12 @@ class Transaction
         ]);
 
         $http = WebpayPlus::getHttpClient();
-        $httpResponse = $http->put($baseUrl,
+        $httpResponse = $http->put(
+            $baseUrl,
             $url,
             $payload,
-            ['headers' => $headers]);
+            ['headers' => $headers]
+        );
 
         $httpCode = $httpResponse->getStatusCode();
         if ($httpCode != 200 && $httpCode != 204) {
@@ -503,10 +519,12 @@ class Transaction
         ]);
 
         $http = WebpayPlus::getHttpClient();
-        $httpResponse = $http->put($baseUrl,
+        $httpResponse = $http->put(
+            $baseUrl,
             $url,
             $payload,
-            ['headers' => $headers]);
+            ['headers' => $headers]
+        );
 
         $httpCode = $httpResponse->getStatusCode();
         if ($httpCode != 200 && $httpCode != 204) {
@@ -527,5 +545,4 @@ class Transaction
 
         return $transactionCaptureResponse;
     }
-
 }

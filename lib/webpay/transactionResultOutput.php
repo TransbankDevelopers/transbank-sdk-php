@@ -1,13 +1,14 @@
 <?php
 namespace Transbank\Webpay;
 
-class transactionResultOutput {
-    var $accountingDate; //string
-    var $buyOrder; //string
-    var $cardDetail; //cardDetail
-    var $detailOutput; //wsTransactionDetailOutput
-    var $sessionId; //string
-    var $transactionDate; //dateTime
-    var $urlRedirection; //string
-    var $VCI; //string
+class transactionResultOutput
+{
+    public $accountingDate; //string
+    public $buyOrder; //string
+    public $cardDetail; //cardDetail
+    public $detailOutput; //wsTransactionDetailOutput
+    public $sessionId; //string
+    public $transactionDate; //dateTime
+    public $urlRedirection; //string
+    public $VCI; //string
 }

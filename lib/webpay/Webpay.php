@@ -1,15 +1,16 @@
 <?php
 namespace Transbank\Webpay;
 
-class Webpay {
-
+class Webpay
+{
     const INTEGRACION = "INTEGRACION";
     const CERTIFICACION = "INTEGRACION";
     const TEST = "INTEGRACION";
     const PRODUCCION = "PRODUCCION";
     const LIVE = "PRODUCCION";
 
-    public static function defaultCert($environment = null) {
+    public static function defaultCert($environment = null)
+    {
         if (null != $environment) {
             if ($environment == Webpay::PRODUCCION) {
                 return "-----BEGIN CERTIFICATE-----\n" .
@@ -62,58 +63,72 @@ class Webpay {
             "-----END CERTIFICATE-----\n";
     }
 
-    var $configuration, $webpayNormal, $webpayMallNormal, $webpayNullify, $webpayCapture, $webpayOneClick, $webpayCompleteTransaction;
+    public $configuration;
+    public $webpayNormal;
+    public $webpayMallNormal;
+    public $webpayNullify;
+    public $webpayCapture;
+    public $webpayOneClick;
+    public $webpayCompleteTransaction;
 
-    function __construct($params) {
-
+    public function __construct($params)
+    {
         $this->configuration = $params;
 
-        if (empty($this->configuration->getWebpayCert()))
-            $this->configuration->setWebpayCert(Webpay::defaultCert(
-                $this->configuration->getEnvironment())
+        if (empty($this->configuration->getWebpayCert())) {
+            $this->configuration->setWebpayCert(
+                Webpay::defaultCert(
+                $this->configuration->getEnvironment()
+            )
             );
+        }
     }
 
-    public function getNormalTransaction() {
+    public function getNormalTransaction()
+    {
         if ($this->webpayNormal == null) {
             $this->webpayNormal = new WebPayNormal($this->configuration);
         }
         return $this->webpayNormal;
     }
 
-    public function getMallNormalTransaction() {
+    public function getMallNormalTransaction()
+    {
         if ($this->webpayMallNormal == null) {
             $this->webpayMallNormal = new WebPayMallNormal($this->configuration);
         }
         return $this->webpayMallNormal;
     }
 
-    public function getNullifyTransaction() {
+    public function getNullifyTransaction()
+    {
         if ($this->webpayNullify == null) {
             $this->webpayNullify = new WebpayNullify($this->configuration);
         }
         return $this->webpayNullify;
     }
 
-    public function getCaptureTransaction() {
+    public function getCaptureTransaction()
+    {
         if ($this->webpayCapture == null) {
             $this->webpayCapture = new WebpayCapture($this->configuration);
         }
         return $this->webpayCapture;
     }
 
-    public function getOneClickTransaction() {
+    public function getOneClickTransaction()
+    {
         if ($this->webpayOneClick == null) {
             $this->webpayOneClick = new WebpayOneClick($this->configuration);
         }
         return $this->webpayOneClick;
     }
 
-    public function getCompleteTransaction() {
+    public function getCompleteTransaction()
+    {
         if ($this->webpayCompleteTransaction == null) {
             $this->webpayCompleteTransaction = new WebpayCompleteTransaction($this->configuration);
         }
         return $this->webpayCompleteTransaction;
     }
-
 }

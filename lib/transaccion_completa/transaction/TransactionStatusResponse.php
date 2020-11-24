@@ -11,7 +11,6 @@
 
 namespace Transbank\TransaccionCompleta;
 
-
 use Transbank\Utils\Utils;
 
 class TransactionStatusResponse
@@ -294,5 +293,4 @@ class TransactionStatusResponse
         $this->installmentsAmount = $installmentsAmount;
         return $this;
     }
-
 }

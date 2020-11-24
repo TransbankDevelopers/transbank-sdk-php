@@ -32,8 +32,7 @@ class MallTransaction
         $cardExpirationDate,
         $details,
         $options = null
-    )
-    {
+    ) {
         if ($options == null) {
             $commerceCode = MallTransaccionCompleta::getCommerceCode();
             $apiKey = MallTransaccionCompleta::getApiKey();
@@ -85,15 +84,13 @@ class MallTransaction
         $MallTransactionCreateResponse = new MallTransactionCreateResponse($responseJson);
 
         return $MallTransactionCreateResponse;
-
     }
 
     public static function installments(
         $token,
         $details,
         $options = null
-    )
-    {
+    ) {
         if ($options == null) {
             $commerceCode = MallTransaccionCompleta::getCommerceCode();
             $apiKey = MallTransaccionCompleta::getApiKey();
@@ -112,7 +109,7 @@ class MallTransaction
         $url = str_replace('$TOKEN$', $token, self::INSTALLMENTS_TRANSACTION_ENDPOINT);
         $http = MallTransaccionCompleta::getHttpClient();
 
-        $resp = array_map(function($det) use ($baseUrl, $url, $headers, $http) {
+        $resp = array_map(function ($det) use ($baseUrl, $url, $headers, $http) {
             $payload = json_encode([
                 "commerce_code" => $det["commerce_code"],
                 "buy_order" => $det["buy_order"],
@@ -179,7 +176,7 @@ class MallTransaction
             $baseUrl,
             $url,
             $payload,
-           [ 'headers' => $headers ]
+            [ 'headers' => $headers ]
         );
 
         $httpCode = $httpResponse->getStatusCode();
@@ -210,8 +207,7 @@ class MallTransaction
         $commerceCodeChild,
         $amount,
         $options = null
-    )
-    {
+    ) {
         if ($options == null) {
             $commerceCode = MallTransaccionCompleta::getCommerceCode();
             $apiKey = MallTransaccionCompleta::getApiKey();
@@ -263,15 +259,12 @@ class MallTransaction
         $mallTransactionRefundResponse = new MallTransactionRefundResponse($responseJson);
 
         return $mallTransactionRefundResponse;
-
-
     }
 
     public static function getStatus(
         $token,
         $options = null
-    )
-    {
+    ) {
         if ($options == null) {
             $commerceCode = MallTransaccionCompleta::getCommerceCode();
             $apiKey = MallTransaccionCompleta::getApiKey();
@@ -316,8 +309,5 @@ class MallTransaction
         $transactionStatusResponse = new MallTransactionStatusResponse($responseJson);
 
         return $transactionStatusResponse;
-
     }
-
-
 }

@@ -3,110 +3,131 @@ namespace Transbank\Webpay;
 
 use Transbank\Webpay\Exceptions\InvalidAmountException;
 
-class removeUser {
-    var $arg0;//oneClickRemoveUserInput
+class removeUser
+{
+    public $arg0;//oneClickRemoveUserInput
 }
 
-class oneClickRemoveUserInput {
-    var $tbkUser;//string
-    var $username;//string
+class oneClickRemoveUserInput
+{
+    public $tbkUser;//string
+    public $username;//string
 }
 
-class removeUserResponse {
-    var $return;//boolean
+class removeUserResponse
+{
+    public $return;//boolean
 }
 
-class initInscription {
-    var $arg0;//oneClickInscriptionInput
+class initInscription
+{
+    public $arg0;//oneClickInscriptionInput
 }
 
-class oneClickInscriptionInput {
-    var $email;//string
-    var $responseURL;//string
-    var $username;//string
+class oneClickInscriptionInput
+{
+    public $email;//string
+    public $responseURL;//string
+    public $username;//string
 }
 
-class initInscriptionResponse {
-    var $return;//oneClickInscriptionOutput
+class initInscriptionResponse
+{
+    public $return;//oneClickInscriptionOutput
 }
 
-class oneClickInscriptionOutput {
-    var $token;//string
-    var $urlWebpay;//string
+class oneClickInscriptionOutput
+{
+    public $token;//string
+    public $urlWebpay;//string
 }
 
-class finishInscription {
-    var $arg0;//oneClickFinishInscriptionInput
+class finishInscription
+{
+    public $arg0;//oneClickFinishInscriptionInput
 }
 
-class oneClickFinishInscriptionInput {
-    var $token;//string
+class oneClickFinishInscriptionInput
+{
+    public $token;//string
 }
 
-class finishInscriptionResponse {
-    var $return;//oneClickFinishInscriptionOutput
+class finishInscriptionResponse
+{
+    public $return;//oneClickFinishInscriptionOutput
 }
 
-class oneClickFinishInscriptionOutput {
-    var $authCode;//string
-    var $creditCardType;//creditCardType
-    var $last4CardDigits;//string
-    var $responseCode;//int
-    var $tbkUser;//string
+class oneClickFinishInscriptionOutput
+{
+    public $authCode;//string
+    public $creditCardType;//creditCardType
+    public $last4CardDigits;//string
+    public $responseCode;//int
+    public $tbkUser;//string
 }
 
-class codeReverseOneClick {
-    var $arg0;//oneClickReverseInput
+class codeReverseOneClick
+{
+    public $arg0;//oneClickReverseInput
 }
 
-class oneClickReverseInput {
-    var $buyorder;//long
+class oneClickReverseInput
+{
+    public $buyorder;//long
 }
 
-class codeReverseOneClickResponse {
-    var $return;//oneClickReverseOutput
+class codeReverseOneClickResponse
+{
+    public $return;//oneClickReverseOutput
 }
 
-class oneClickReverseOutput {
-    var $reverseCode;//long
-    var $reversed;//boolean
+class oneClickReverseOutput
+{
+    public $reverseCode;//long
+    public $reversed;//boolean
 }
 
-class authorize {
-    var $arg0;//oneClickPayInput
+class authorize
+{
+    public $arg0;//oneClickPayInput
 }
 
-class oneClickPayInput {
-    var $amount;//decimal
-    var $buyOrder;//long
-    var $tbkUser;//string
-    var $username;//string
+class oneClickPayInput
+{
+    public $amount;//decimal
+    public $buyOrder;//long
+    public $tbkUser;//string
+    public $username;//string
 }
 
-class authorizeResponse {
-    var $return;//oneClickPayOutput
+class authorizeResponse
+{
+    public $return;//oneClickPayOutput
 }
 
-class oneClickPayOutput {
-    var $authorizationCode;//string
-    var $creditCardType;//creditCardType
-    var $last4CardDigits;//string
-    var $responseCode;//int
-    var $transactionId;//long
+class oneClickPayOutput
+{
+    public $authorizationCode;//string
+    public $creditCardType;//creditCardType
+    public $last4CardDigits;//string
+    public $responseCode;//int
+    public $transactionId;//long
 }
 
-class reverse{
-    var $arg0;//oneClickReverseInput
+class reverse
+{
+    public $arg0;//oneClickReverseInput
 }
 
-class reverseResponse{
-    var $return;//boolean
+class reverseResponse
+{
+    public $return;//boolean
 }
 
-class WebpayOneClick {
-
-    var $soapClient;
-    var $config;
+class WebpayOneClick
+{
+    public $soapClient;
+    public $config;
 
     /** Configuración de URL según Ambiente */
     private static $WSDL_URL_NORMAL = array(
@@ -157,8 +178,8 @@ class WebpayOneClick {
         , 'reverseResponse' => 'Transbank\Webpay\reverseResponse'
     );
 
-    function __construct($config) {
-
+    public function __construct($config)
+    {
         $this->config = $config;
         $privateKey = $this->config->getPrivateKey();
         $publicCert = $this->config->getPublicCert();
@@ -173,49 +194,50 @@ class WebpayOneClick {
         ));
     }
 
-    function _removeUser($removeUser) {
-
+    public function _removeUser($removeUser)
+    {
         $remove = $removeUser["oneClickRemoveUserInput"];
         $removeUserResponse = $this->soapClient->removeUser(array("arg0" => $remove));
         return $removeUserResponse;
     }
 
-    function _initInscription($oneClickInscriptionInput) {
-
+    public function _initInscription($oneClickInscriptionInput)
+    {
         $oneClickInscription = $oneClickInscriptionInput["oneClickInscriptionInput"];
         $initInscriptionResponse = $this->soapClient->initInscription(array("arg0" => $oneClickInscription));
         return $initInscriptionResponse;
     }
 
-    function _finishInscription($oneClickFinishInscriptionInput) {
-
+    public function _finishInscription($oneClickFinishInscriptionInput)
+    {
         $oneClickFinishInscription = $oneClickFinishInscriptionInput["oneClickFinishInscriptionInput"];
         $finishInscriptionResponse = $this->soapClient->finishInscription(array("arg0" => $oneClickFinishInscription));
         return $finishInscriptionResponse;
     }
 
-    function _authorize($authorize) {
-
+    public function _authorize($authorize)
+    {
         $authorizeOneClick = $authorize["oneClickPayInput"];
         $authorizeResponse = $this->soapClient->authorize(array("arg0" => $authorizeOneClick));
         return $authorizeResponse;
     }
 
-    function _codeReverseOneClick($codeReverseOneClick) {
-
+    public function _codeReverseOneClick($codeReverseOneClick)
+    {
         $codeReverse = $codeReverseOneClick["oneClickReverseInput"];
 
         $codeReverseOneClickResponse = $this->soapClient->codeReverseOneClick(array("arg0" => $codeReverse));
         return $codeReverseOneClickResponse;
     }
 
-    function _reverse($reverse) {
-
+    public function _reverse($reverse)
+    {
         $reverseResponse = $this->soapClient->reverse($reverse);
         return $reverseResponse;
     }
 
-    function _getReason($code) {
+    public function _getReason($code)
+    {
         return WebPayNormal::$RESULT_CODES[$code];
     }
 
@@ -224,10 +246,10 @@ class WebpayOneClick {
      * tarjeta de crédito. Retorna como respuesta un token que representa la transacción de inscripción
      * y una URL (UrlWebpay),que corresponde a la URL de inscripción de One Click
      * */
-    public function initInscription($username, $email, $urlReturn) {
+    public function initInscription($username, $email, $urlReturn)
+    {
         $error = array();
         try {
-
             $oneClickInscriptionInput = new oneClickInscriptionInput();
 
             /** nombre de usuario */
@@ -240,7 +262,7 @@ class WebpayOneClick {
             $oneClickInscriptionInput->responseURL = $urlReturn;
 
             $initInscriptionResponse = $this->_initInscription(
-                    array("oneClickInscriptionInput" => $oneClickInscriptionInput)
+                array("oneClickInscriptionInput" => $oneClickInscriptionInput)
             );
 
             /** Validación de firma del requerimiento de respuesta enviado por Webpay */
@@ -249,18 +271,14 @@ class WebpayOneClick {
             $validationResult = $soapValidation->getValidationResult();
 
             /** Valida conexion a Webpay. Caso correcto retorna URL y Token */
-            if ($validationResult === TRUE) {
-
+            if ($validationResult === true) {
                 $oneClickInscriptionOutput = $initInscriptionResponse->return;
                 return $oneClickInscriptionOutput;
-
             } else {
-
                 $error["error"] = "Error validando conexi&oacute;n a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
                 $error["detail"] = "No se pudo completar la conexi&oacute;n con Webpay";
             }
         } catch (\Exception $e) {
-
             $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
 
             $replaceArray = array('<!--' => '', '-->' => '');
@@ -275,17 +293,17 @@ class WebpayOneClick {
      * Entre otras cosas, retorna el identificador del usuario en Oneclick,
      * el cual será utilizado para realizar las transacciones de pago
      * */
-    function finishInscription($token) {
+    public function finishInscription($token)
+    {
         $error = array();
         try {
-
             $oneClickFinishInscriptionInput = new oneClickFinishInscriptionInput();
 
             /** $token resultado obtenido en el metodo initInscription */
             $oneClickFinishInscriptionInput->token = $token;
 
             $oneClickFinishInscriptionResponse = $this->_finishInscription(
-                    array("oneClickFinishInscriptionInput" => $oneClickFinishInscriptionInput)
+                array("oneClickFinishInscriptionInput" => $oneClickFinishInscriptionInput)
             );
 
             /** Validación de firma del requerimiento de respuesta enviado por Webpay */
@@ -294,18 +312,14 @@ class WebpayOneClick {
             $validationResult = $soapValidation->getValidationResult();
 
             /** Valida conexion a Webpay. Caso correcto retorna URL y Token */
-            if ($validationResult === TRUE) {
-
+            if ($validationResult === true) {
                 $oneClickFinishInscriptionOutput = $oneClickFinishInscriptionResponse->return;
                 return $oneClickFinishInscriptionOutput;
-
             } else {
-
                 $error["error"] = "Error validando conexi&oacute;n a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
                 $error["detail"] = "No se pudo completar la conexi&oacute;n con Webpay";
             }
         } catch (\Exception $e) {
-
             $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
 
             $replaceArray = array('<!--' => '', '-->' => '');
@@ -332,7 +346,6 @@ class WebpayOneClick {
         }
         $error = array();
         try {
-
             $oneClickPayInput = new oneClickPayInput();
 
             $oneClickPayInput->buyOrder = $buyOrder;
@@ -341,7 +354,7 @@ class WebpayOneClick {
             $oneClickPayInput->amount = $amount;
 
             $oneClickauthorizeResponse = $this->_authorize(
-                    array("oneClickPayInput" => $oneClickPayInput)
+                array("oneClickPayInput" => $oneClickPayInput)
             );
 
             /** Validación de firma del requerimiento de respuesta enviado por Webpay */
@@ -349,23 +362,18 @@ class WebpayOneClick {
             $soapValidation = new SoapValidation($xmlResponse, $this->config->getWebpayCert());
             $validationResult = $soapValidation->getValidationResult();
 
-            if ($validationResult === TRUE) {
-
+            if ($validationResult === true) {
                 $oneClickPayOutput = $oneClickauthorizeResponse->return;
                 return $oneClickPayOutput;
-
             } else {
-
                 $error["error"] = "Error validando conexi&oacute;n a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
                 $error["detail"] = "No se pudo completar la conexi&oacute;n con Webpay";
             }
         } catch (\Exception $e) {
-
             $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
 
             $replaceArray = array('<!--' => '', '-->' => '');
             $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
-
         }
         return $error;
     }
@@ -374,16 +382,16 @@ class WebpayOneClick {
      * Permite reversar una transacción de venta autorizada con anterioridad.
      * Este método retorna como respuesta un identificador único de la transacción de reversa.
      * */
-    public function reverseTransaction($buyOrder) {
+    public function reverseTransaction($buyOrder)
+    {
         $error = array();
         try {
-
             $oneClickReverseInput = new oneClickReverseInput();
 
             $oneClickReverseInput->buyorder = $buyOrder;
 
             $codeReverseOneClickResponse = $this->_codeReverseOneClick(
-                    array("oneClickReverseInput" => $oneClickReverseInput)
+                array("oneClickReverseInput" => $oneClickReverseInput)
             );
 
             /** Validación de firma del requerimiento de respuesta enviado por Webpay */
@@ -391,24 +399,18 @@ class WebpayOneClick {
             $soapValidation = new SoapValidation($xmlResponse, $this->config->getWebpayCert());
             $validationResult = $soapValidation->getValidationResult();
 
-            if ($validationResult === TRUE) {
-
+            if ($validationResult === true) {
                 $oneClickReverseOutput = $codeReverseOneClickResponse->return;
                 return $oneClickReverseOutput;
-
             } else {
-
                 $error["error"] = "Error validando conexi&oacute;n a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
                 $error["detail"] = "No se pudo completar la conexi&oacute;n con Webpay";
             }
-
         } catch (\Exception $e) {
-
             $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
 
             $replaceArray = array('<!--' => '', '-->' => '');
             $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
-
         }
         return $error;
     }
@@ -417,17 +419,17 @@ class WebpayOneClick {
      * Permite eliminar la inscripción de un usuario en Webpay OneClick ya sea por la eliminación de un cliente
      * en su sistema o por la solicitud de este para no operar con esta forma de pago.
      * */
-    public function removeUser($tbkUser, $username) {
+    public function removeUser($tbkUser, $username)
+    {
         $error = array();
         try {
-
             $oneClickRemoveUserInput = new oneClickRemoveUserInput();
 
             $oneClickRemoveUserInput->tbkUser = $tbkUser;
             $oneClickRemoveUserInput->username = $username;
 
             $removeUserResponse = $this->_removeUser(
-                    array("oneClickRemoveUserInput" => $oneClickRemoveUserInput)
+                array("oneClickRemoveUserInput" => $oneClickRemoveUserInput)
             );
 
             /** Validación de firma del requerimiento de respuesta enviado por Webpay */
@@ -435,27 +437,19 @@ class WebpayOneClick {
             $soapValidation = new SoapValidation($xmlResponse, $this->config->getWebpayCert());
             $validationResult = $soapValidation->getValidationResult();
 
-            if ($validationResult === TRUE) {
-
+            if ($validationResult === true) {
                 $oneClickremoveUserOutput = $removeUserResponse->return;
                 return $oneClickremoveUserOutput;
-
             } else {
-
                 $error["error"] = "Error validando conexi&oacute;n a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
                 $error["detail"] = "No se pudo completar la conexi&oacute;n con Webpay";
-
             }
-
         } catch (\Exception $e) {
-
             $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
 
             $replaceArray = array('<!--' => '', '-->' => '');
             $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
-
         }
         return $error;
     }
-
 }

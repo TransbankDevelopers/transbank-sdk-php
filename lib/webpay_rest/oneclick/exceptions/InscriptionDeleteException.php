@@ -2,6 +2,7 @@
 
 
 namespace Transbank\Webpay\Oneclick\Exceptions;
+
 use Transbank\Webpay\Exceptions\WebpayException;
 
 class InscriptionDeleteException extends WebpayException

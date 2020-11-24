@@ -11,7 +11,6 @@
 
 namespace Transbank\TransaccionCompleta\Exceptions;
 
-
 class MallTransactionCommitException extends MallTransactionCompletaException
 {
     public function __construct($message = self::DEFAULT_MESSAGE, $code = 0, $previous = null)

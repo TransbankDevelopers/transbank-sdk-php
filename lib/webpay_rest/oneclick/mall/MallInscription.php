@@ -3,7 +3,6 @@
 
 namespace Transbank\Webpay\Oneclick;
 
-
 use Transbank\Webpay\Oneclick;
 use Transbank\Webpay\Oneclick\Exceptions\InscriptionDeleteException;
 use Transbank\Webpay\Oneclick\Exceptions\InscriptionFinishException;
@@ -11,12 +10,12 @@ use Transbank\Webpay\Oneclick\Exceptions\InscriptionStartException;
 
 class MallInscription
 {
-
     const INSCRIPTION_START_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/inscriptions';
     const INSCRIPTION_FINISH_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/inscriptions/$TOKEN$';
     const INSCRIPTION_DELETE_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/inscriptions';
     
-    public static function getCommerceIdentifier($options){
+    public static function getCommerceIdentifier($options)
+    {
         if ($options == null) {
             $commerceCode = Oneclick::getCommerceCode();
             $apiKey = Oneclick::getApiKey();
@@ -27,15 +26,14 @@ class MallInscription
             $baseUrl = Oneclick::getIntegrationTypeUrl($options->getIntegrationType());
         }
         return array(
-            $commerceCode, 
-            $apiKey, 
+            $commerceCode,
+            $apiKey,
             $baseUrl,
         );
     }
 
     public static function start($userName, $email, $responseUrl, $options = null)
     {
-
         list($commerceCode, $apiKey, $baseUrl) = MallInscription::getCommerceIdentifier($options);
 
         $http = Oneclick::getHttpClient();
@@ -46,7 +44,8 @@ class MallInscription
 
         $payload = json_encode(["username" => $userName, "email" => $email, "response_url" => $responseUrl]);
 
-        $httpResponse = $http->post($baseUrl,
+        $httpResponse = $http->post(
+            $baseUrl,
             self::INSCRIPTION_START_ENDPOINT,
             $payload,
             ['headers' => $headers]
@@ -84,7 +83,8 @@ class MallInscription
 
         $url = str_replace('$TOKEN$', $token, self::INSCRIPTION_FINISH_ENDPOINT);
 
-        $httpResponse = $http->put($baseUrl,
+        $httpResponse = $http->put(
+            $baseUrl,
             $url,
             null,
             ['headers' => $headers]
@@ -122,7 +122,8 @@ class MallInscription
 
         $payload = json_encode(["tbk_user" => $tbkUser, "username" => $userName]);
 
-        $httpResponse = $http->delete($baseUrl,
+        $httpResponse = $http->delete(
+            $baseUrl,
             self::INSCRIPTION_DELETE_ENDPOINT,
             $payload,
             ['headers' => $headers]

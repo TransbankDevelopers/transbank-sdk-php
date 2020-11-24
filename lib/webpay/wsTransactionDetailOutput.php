@@ -1,8 +1,9 @@
 <?php
 namespace Transbank\Webpay;
 
-class wsTransactionDetailOutput {
-    var $authorizationCode; //string
-    var $paymentTypeCode; //string
-    var $responseCode; //int
+class wsTransactionDetailOutput
+{
+    public $authorizationCode; //string
+    public $paymentTypeCode; //string
+    public $responseCode; //int
 }

@@ -61,5 +61,4 @@ class InscriptionStatusResponse
         $this->urlVoucher = $urlVoucher;
         return $this;
     }
-
 }

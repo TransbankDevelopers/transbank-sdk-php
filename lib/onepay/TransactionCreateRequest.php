@@ -1,12 +1,14 @@
 <?php
 namespace Transbank\Onepay;
+
 /**
  *  @class TransactionRequest
  *  Creates an object to be used when making a transaction request to Onepay
  * @package Transbank;
  */
 
-class TransactionCreateRequest extends BaseRequest implements \JsonSerializable {
+class TransactionCreateRequest extends BaseRequest implements \JsonSerializable
+{
     private $externalUniqueNumber; # Number not null
     private $total; # Number not null
     private $itemsQuantity; # Number not null
@@ -18,9 +20,18 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
     private $generateOttQrCode = true;
     private $commerceLogoUrl;
 
-    function __construct($externalUniqueNumber, $total, $itemsQuantity, $issuedAt,
-                         $items, $callbackUrl = null, $channel = 'WEB',
-                         $appScheme = null, $widthHeight, $commerceLogoUrl)
+    public function __construct(
+        $externalUniqueNumber,
+        $total,
+        $itemsQuantity,
+        $issuedAt,
+        $items,
+        $callbackUrl = null,
+        $channel = 'WEB',
+        $appScheme = null,
+        $widthHeight,
+        $commerceLogoUrl
+    )
     {
         if (!$externalUniqueNumber) {
             throw new \Exception('External unique number cannot be null.');
@@ -53,10 +64,12 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
         $this->items = $items;
         $this->issuedAt = $issuedAt;
 
-        if (!$callbackUrl) { throw new \Exception('callbackUrl cannot be null'); }
+        if (!$callbackUrl) {
+            throw new \Exception('callbackUrl cannot be null');
+        }
         $this->callbackUrl = $callbackUrl;
 
-        if(!$channel) {
+        if (!$channel) {
             throw new \Exception('channel cannot be null.');
         }
         $this->channel = $channel;
@@ -157,7 +170,9 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
 
     public function setCallbackUrl($url)
     {
-        if (!$url) { throw new \Exception('url cannot be null'); }
+        if (!$url) {
+            throw new \Exception('url cannot be null');
+        }
         $this->callbackUrl = $url;
         return $this;
     }
@@ -169,7 +184,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
 
     public function setChannel($channel)
     {
-        if(!$channel) {
+        if (!$channel) {
             throw new \Exception('channel cannot be null.');
         }
         $this->channel = $channel;
@@ -223,8 +238,9 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable 
 
     public function getWidthHeight()
     {
-        if (isset($this->widthHeight))
+        if (isset($this->widthHeight)) {
             return $this->widthHeight;
+        }
 
         return null;
     }
