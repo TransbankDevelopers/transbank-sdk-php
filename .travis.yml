@@ -1,0 +1,20 @@
+language: php
+php:
+  - '5.6'
+  - '7.0'
+  - '7.1'
+  - '7.2'
+  - '7.3'
+  - '7.4'
+before_script:
+  - composer install
+script: ./sdktest.sh
+deploy:
+  provider: releases
+  name: "$TRAVIS_TAG"
+  api_key:
+    secure: erCD8ZJCL0GJ06K/YwtDXBcbQRgA/Ol+Um5ebPwBk3Cm+Q0UqNm5lssqg88MhhW0Pg5UIO7rzZg/36UX43nlRew/MbJLSYV+dxLNHjNsSxuxx1a3rEMw7YH26Y1FekC7o4jZ4H0I5mSlKobFlshbwIH57WkMrTDYYuJVbuCshQH+FxxqCgFcJo9bvcr48pTc4h4MWyk5IBlNeHqyvSDuypku9A9Eo9PpTJLQPqtwPcI0he9vY6z6QMs3pOyHJ5t6lLoL9Ks0Q8ea+YRw1xK4kbXK4LrwBx+owstB0VwP2XH63onPJC8fser8FxNHq3W4jL2rqhHt1K9Wi0Psc6ST17yuDdlRs18QWfWqKsVjxeTvAwv0W2whBoKrRgmYrdFzjcutvzA76pphOoC0AISe9Ji/U8b+2g6EDlgLkCl5IoYw/nUGbwt5VlrrRs5uAaexBXoMXynM8tUSCKXDsdmSr3/I4Bq/ScMx1gfdvTx5q9tBGVWhT6LaW3iFTdDHLmm0yUsFgjK0ks5YsXF1jBwQMvjVYKxJncwCmJVh291jJ4WsBwV3EWfSYxaw+Z3yrzf8jRvPR84O+uEbbMJYD63G6fJ9gxMSXSI+XSrvBy9f6TPymoNYj+8vKdN0X/kcY8jXpVwEf4OWXr4lL8qvpiFr+ZOn7yz8V9+WH1pMITluJlg=
+  skip_cleanup: true
+  on:
+    repo: TransbankDevelopers/transbank-sdk-php
+    tags: true
