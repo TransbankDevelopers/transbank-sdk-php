@@ -4,6 +4,10 @@ Todos los cambios notables a este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.8.2] - 2020-11-20
+### Fixed
+- Ahora el SDK soporta tres versiones de Guzzle, para evitar conflictos de versiones: Guzzle 5.X, 6.X y 7.X. [PR #144](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/144)      
+
 ## [1.8.1] - 2020-10-26
 ### Fixed
 - Se resuelve error de autoloading en clase TransaccionCompleta [PR #142](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/142)   
