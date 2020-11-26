@@ -6,6 +6,7 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
+
 require_once(__DIR__ . '/mocks/ShoppingCartMocks.php');
 require_once(__DIR__ . '/mocks/TransactionCreateResponseMocks.php');
 use Transbank\Onepay\Exceptions\TransactionCreateException;
@@ -23,7 +24,8 @@ final class TransactionTest extends TestCase
         OnepayBase::setCurrentIntegrationType("MOCK");
     }
 
-    public function testTransactionRaisesWhenResponseIsNull() {
+    public function testTransactionRaisesWhenResponseIsNull()
+    {
 
         // Create a mock http client that will return Null
         $httpClientStub = $this->getMock(HttpClient::class, array('post'));
@@ -44,8 +46,7 @@ final class TransactionTest extends TestCase
         try {
             $this->setExpectedException(TransactionCreateException::class, 'Could not obtain a response from the service');
             $response = Transaction::create($shoppingCart);
-        }
-        finally {
+        } finally {
             // Reset the HttpClient static property to its original state
             $reflectedHttpClient->setValue(null);
             $reflectedHttpClient->setAccessible(false);
@@ -77,8 +78,7 @@ final class TransactionTest extends TestCase
         try {
             $this->setExpectedException(TransactionCreateException::class, 'INVALID_PARAMS : Parametros invalidos');
             $response = Transaction::create($shoppingCart);
-        }
-        finally {
+        } finally {
             $reflectedHttpClient->setValue(null);
             $reflectedHttpClient->setAccessible(false);
         }
@@ -117,8 +117,7 @@ final class TransactionTest extends TestCase
         try {
             $this->setExpectedException(SignException::class, 'The response signature is not valid');
             $response = Transaction::create($shoppingCart);
-        }
-        finally {
+        } finally {
             $reflectedHttpClient->setValue(null);
             $reflectedHttpClient->setAccessible(false);
         }
@@ -126,7 +125,6 @@ final class TransactionTest extends TestCase
 
     public function testTransactionCreationWorksTakingKeysFromGetenv()
     {
-
         $originalApiKey = OnepayBase::getApiKey();
         $originalSharedSecret = OnepayBase::getSharedSecret();
         OnepayBase::setApiKey(null);
@@ -164,8 +162,10 @@ final class TransactionTest extends TestCase
     public function testTransactionCreationWorksWithOptions()
     {
         $shoppingCart = new ShoppingCart();
-        $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
-                               "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
+        $options = new Options(
+            "mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
+            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX"
+        );
         $firstItem = new Item("Zapatos", 1, 15000, null, -1);
         $secondItem = new Item("Pantalon", 1, 12500, null, -1);
 
@@ -186,32 +186,32 @@ final class TransactionTest extends TestCase
     public function testTransactionCommitWorks()
     {
         // Setting commerce data
-        $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
-                               "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
+        $options = new Options(
+            "mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
+            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX"
+        );
 
         // commit transaction
         $response = Transaction::commit(
-                                        self::OCC_TO_COMMIT_TRANSACTION_TEST,
-                                        self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
-                                        $options
-                                       );
+            self::OCC_TO_COMMIT_TRANSACTION_TEST,
+            self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
+            $options
+        );
         $this->assertEquals($response instanceof TransactionCommitResponse, true);
         $this->assertEquals($response->getResponseCode(), 'OK');
         $this->assertEquals($response->getDescription(), 'OK');
-
     }
 
     public function testTransactionCommitWorksWithoutOptions()
     {
         // commit transaction
         $response = Transaction::commit(
-                                        self::OCC_TO_COMMIT_TRANSACTION_TEST,
-                                        self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST
-                                       );
+            self::OCC_TO_COMMIT_TRANSACTION_TEST,
+            self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST
+        );
         $this->assertEquals($response instanceof TransactionCommitResponse, true);
         $this->assertEquals($response->getResponseCode(), 'OK');
         $this->assertEquals($response->getDescription(), 'OK');
-
     }
 
     public function testTransactionCommitRaisesWhenResponseIsNull()
@@ -228,8 +228,10 @@ final class TransactionTest extends TestCase
         $reflectedHttpClient->setValue($httpClientStub);
 
         // Setting commerce data
-        $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
-                               "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
+        $options = new Options(
+            "mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
+            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX"
+        );
 
         // commit transaction
 
@@ -240,14 +242,12 @@ final class TransactionTest extends TestCase
                 self::OCC_TO_COMMIT_TRANSACTION_TEST,
                 self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
                 $options
-               );
-        }
-        finally {
+            );
+        } finally {
             // Reset the HttpClient static property to its original state
             $reflectedHttpClient->setValue(null);
             $reflectedHttpClient->setAccessible(false);
         }
-
     }
 
     public function testTransactionCommitRaisesWhenResponseIsNotOk()
@@ -267,8 +267,10 @@ final class TransactionTest extends TestCase
         $reflectedHttpClient->setValue($httpClientStub);
 
         // Setting commerce data
-        $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
-                               "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
+        $options = new Options(
+            "mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
+            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX"
+        );
 
         // commit transaction
 
@@ -279,14 +281,12 @@ final class TransactionTest extends TestCase
                 self::OCC_TO_COMMIT_TRANSACTION_TEST,
                 self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
                 $options
-               );
-        }
-        finally {
+            );
+        } finally {
             // Reset the HttpClient static property to its original state
             $reflectedHttpClient->setValue(null);
             $reflectedHttpClient->setAccessible(false);
         }
-
     }
 
     public function testTransactionCommitRaisesWhenResponseSignatureIsNotValid()
@@ -319,8 +319,10 @@ final class TransactionTest extends TestCase
         $reflectedHttpClient->setValue($httpClientStub);
 
         // Setting commerce data
-        $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
-                               "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
+        $options = new Options(
+            "mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
+            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX"
+        );
 
         // commit transaction
 
@@ -331,17 +333,16 @@ final class TransactionTest extends TestCase
                 self::OCC_TO_COMMIT_TRANSACTION_TEST,
                 self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
                 $options
-               );
-        }
-        finally {
+            );
+        } finally {
             // Reset the HttpClient static property to its original state
             $reflectedHttpClient->setValue(null);
             $reflectedHttpClient->setAccessible(false);
         }
     }
 
-    public function testTransactionFailsWhenChannelMobileAndCallbackUrlNull() {
-
+    public function testTransactionFailsWhenChannelMobileAndCallbackUrlNull()
+    {
         OnepayBase::setCallbackUrl(null);
         // Create a mock http client that will return Null
         $httpClientStub = $this->getMock(HttpClient::class, array('post'));
@@ -362,20 +363,21 @@ final class TransactionTest extends TestCase
         try {
             $this->setExpectedException(TransactionCreateException::class, 'You need to set a valid callback if you want to use the MOBILE channel');
             $response = Transaction::create($shoppingCart, ChannelEnum::MOBILE());
-        }
-        finally {
+        } finally {
             // Reset the HttpClient static property to its original state
             $reflectedHttpClient->setValue(null);
             $reflectedHttpClient->setAccessible(false);
         }
     }
 
-    public function testTransactionWhenChannelMobileAndCallbackUrlNotNull() {
-
+    public function testTransactionWhenChannelMobileAndCallbackUrlNotNull()
+    {
         OnepayBase::setCallbackUrl("http://some.callback.url");
         $shoppingCart = new ShoppingCart();
-        $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
-            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
+        $options = new Options(
+            "mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
+            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX"
+        );
         $firstItem = new Item("Zapatos", 1, 15000, null, -1);
         $secondItem = new Item("Pantalon", 1, 12500, null, -1);
 
@@ -393,7 +395,8 @@ final class TransactionTest extends TestCase
         $this->assertNotNull($response->getQrCodeAsBase64());
     }
 
-    public function testTransactionFailsWhenChannelAPPAndAppSchemeNull() {
+    public function testTransactionFailsWhenChannelAPPAndAppSchemeNull()
+    {
         // Create a mock http client that will return Null
         $httpClientStub = $this->getMock(HttpClient::class, array('post'));
         $httpClientStub->expects($this->any())->method('post')->willReturn(null);
@@ -413,19 +416,21 @@ final class TransactionTest extends TestCase
         try {
             $this->setExpectedException(TransactionCreateException::class, 'You need to set an appScheme if you want to use the APP channel');
             $response = Transaction::create($shoppingCart, ChannelEnum::APP());
-        }
-        finally {
+        } finally {
             // Reset the HttpClient static property to its original state
             $reflectedHttpClient->setValue(null);
             $reflectedHttpClient->setAccessible(false);
         }
     }
 
-    public function testTransactionWhenChannelAPPAndAppSchemeNotNull() {
+    public function testTransactionWhenChannelAPPAndAppSchemeNotNull()
+    {
         OnepayBase::setAppScheme('somescheme');
         $shoppingCart = new ShoppingCart();
-        $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
-            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
+        $options = new Options(
+            "mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
+            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX"
+        );
         $firstItem = new Item("Zapatos", 1, 15000, null, -1);
         $secondItem = new Item("Pantalon", 1, 12500, null, -1);
 
@@ -443,11 +448,14 @@ final class TransactionTest extends TestCase
         $this->assertNotNull($response->getQrCodeAsBase64());
     }
 
-    public function testTransactionWhenExternalUniqueNumberNull() {
+    public function testTransactionWhenExternalUniqueNumberNull()
+    {
         OnepayBase::setAppScheme('somescheme');
         $shoppingCart = new ShoppingCart();
-        $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
-            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
+        $options = new Options(
+            "mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
+            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX"
+        );
         $firstItem = new Item("Zapatos", 1, 15000, null, -1);
         $secondItem = new Item("Pantalon", 1, 12500, null, -1);
 
@@ -465,11 +473,14 @@ final class TransactionTest extends TestCase
         $this->assertNotNull($response->getQrCodeAsBase64());
     }
 
-    public function testTransactionWhenExternalUniqueNumberPresent() {
+    public function testTransactionWhenExternalUniqueNumberPresent()
+    {
         OnepayBase::setAppScheme('somescheme');
         $shoppingCart = new ShoppingCart();
-        $options = new Options("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
-            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
+        $options = new Options(
+            "mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
+            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX"
+        );
         $firstItem = new Item("Zapatos", 1, 15000, null, -1);
         $secondItem = new Item("Pantalon", 1, 12500, null, -1);
 
@@ -490,7 +501,5 @@ final class TransactionTest extends TestCase
 
     public function testTransactionIncludesWidthHeight()
     {
-
     }
-
 }

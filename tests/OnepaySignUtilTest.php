@@ -3,6 +3,7 @@
 namespace Transbank\Onepay;
 
 use PHPUnit\Framework\TestCase;
+use Transbank\Onepay\Utils\OnepaySignUtil;
 
 require_once(__DIR__ . '/mocks/TransactionCreateRequestMocks.php');
 require_once(__DIR__ . '/mocks/TransactionCommitRequestMocks.php');
@@ -12,7 +13,6 @@ require_once(__DIR__ . '/mocks/TransactionCommitResponseMocks.php');
 
 final class OnepaySignUtilTest extends TestCase
 {
-
     protected function setup()
     {
         OnepayBase::setSharedSecret("P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
@@ -34,7 +34,7 @@ final class OnepaySignUtilTest extends TestCase
         $refClass = new \ReflectionClass(OnepaySignUtil::class);
 
         $this->assertTrue($refClass->hasProperty('instance'));
-    
+
         $singleton = OnepaySignUtil::getInstance();
 
         $this->assertTrue($singleton instanceof OnepaySignUtil);

@@ -1,7 +1,10 @@
 <?php
 
 namespace Transbank\Onepay;
+
 use PHPUnit\Framework\TestCase;
+use Transbank\Onepay\Utils\OnepayRequestBuilder;
+
 require_once(__DIR__ . '/mocks/ShoppingCartMocks.php');
 
 class TransactionCreateRequestTest extends TestCase
@@ -32,7 +35,7 @@ class TransactionCreateRequestTest extends TestCase
         $transactionCreateRequest = $this->builder->buildCreateRequest($this->shoppingCart, 'WEB', '1231245', $this->optionsWithApiKey);
 
         $this->assertTrue($transactionCreateRequest instanceof TransactionCreateRequest);
-        $this->assertEquals( "someapikey", $transactionCreateRequest->getApiKey());
+        $this->assertEquals("someapikey", $transactionCreateRequest->getApiKey());
     }
 
 
@@ -41,7 +44,7 @@ class TransactionCreateRequestTest extends TestCase
         $transactionCreateRequest = $this->builder->buildCreateRequest($this->shoppingCart, 'WEB', '1231245', $this->emptyOptions);
 
         $this->assertTrue($transactionCreateRequest instanceof TransactionCreateRequest);
-        $this->assertEquals( OnepayBase::getQrWidthHeight(), $transactionCreateRequest->getWidthHeight());
+        $this->assertEquals(OnepayBase::getQrWidthHeight(), $transactionCreateRequest->getWidthHeight());
         $this->assertEquals(OnepayBase::getCommerceLogoUrl(), $transactionCreateRequest->getCommerceLogoUrl());
     }
 
@@ -102,12 +105,20 @@ class TransactionCreateRequestTest extends TestCase
         $widthHeight = null;
         $commerceLogoUrl = "http://logo.url";
 
-        $tcr = new TransactionCreateRequest($externalUniqueNumber, $total, $itemsQuantity,
-            $issuedAt,$items, $callbackUrl, $channel, $appScheme,
-            $widthHeight, $commerceLogoUrl);
+        $tcr = new TransactionCreateRequest(
+            $externalUniqueNumber,
+            $total,
+            $itemsQuantity,
+            $issuedAt,
+            $items,
+            $callbackUrl,
+            $channel,
+            $appScheme,
+            $widthHeight,
+            $commerceLogoUrl
+        );
         // WidthHeight should not exist, so it is not serialized nor sent to TBK
         $widthHeightExists = array_key_exists('widthHeight', get_object_vars($tcr));
         $this->assertEquals($widthHeightExists, false);
     }
-
 }
