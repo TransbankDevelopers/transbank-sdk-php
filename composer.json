@@ -17,76 +17,9 @@
       "squizlabs/php_codesniffer": "~2.0"
     },
     "autoload": {
-      "files": ["src/webpay_rest/oneclick/Oneclick.php", "src/patpass/patpass_comercio/PatpassComercio.php", "src/transaccion_completa/TransaccionCompleta.php"],
       "psr-4": {
         "Transbank\\": [
           "src/"
-        ],
-        "Transbank\\Onepay\\" : [
-          "src/onepay",
-          "src/onepay/utils"
-        ],
-        "Transbank\\Onepay\\Exceptions\\": [
-          "src/onepay/exceptions"
-        ],
-        "Transbank\\Webpay\\" : [
-          "src/webpay",
-          "src/webpay/soap",
-          "src/webpay_rest",
-          "src/webpay_rest/webpay_plus"
-        ],
-        "Transbank\\Webpay\\Exceptions\\":[
-          "src/webpay_rest/exceptions"
-        ],
-        "Transbank\\Webpay\\WebpayPlus\\":[
-          "src/webpay_rest/webpay_plus"
-        ],
-        "Transbank\\Webpay\\WebpayPlus\\Exceptions\\":[
-          "src/webpay_rest/webpay_plus/exceptions"
-        ],
-        "Transbank\\Webpay\\Oneclick\\":[
-          "src/webpay_rest/oneclick",
-          "src/webpay_rest/oneclick/inscription",
-          "src/webpay_rest/oneclick/mall"
-        ],
-        "Transbank\\Webpay\\Oneclick\\Exceptions\\":[
-          "src/webpay_rest/oneclick/exceptions",
-          "src/webpay_rest/oneclick/mall/exceptions"
-        ],
-        "Transbank\\Patpass\\":[
-          "src/patpass",
-          "src/patpass/patpass_by_webpay",
-          "src/patpass/patpass_comercio"
-        ],
-        "Transbank\\Patpass\\Exceptions\\":[
-          "src/patpass/exceptions"
-        ],
-        "Transbank\\Patpass\\PatpassByWebpay\\":[
-          "src/patpass/patpass_by_webpay"
-        ],
-        "Transbank\\Patpass\\PatpassComercio\\": [
-          "src/patpass/patpass_comercio",
-          "src/patpass/patpass_comercio/inscription"
-        ],
-        "Transbank\\Patpass\\PatpassComercio\\Exceptions\\": [
-          "src/patpass/patpass_comercio/exceptions"
-        ],
-        "Transbank\\Patpass\\PatpassByWebpay\\Exceptions\\":[
-          "src/patpass/patpass_by_webpay/exceptions"
-        ],
-        "Transbank\\TransaccionCompleta\\": [
-          "src/transaccion_completa",
-          "src/transaccion_completa/inscription",
-          "src/transaccion_completa/transaction",
-          "src/transaccion_completa/mall",
-          "src/transaccion_completa/mall/transaction"
-        ],
-        "Transbank\\TransaccionCompleta\\Exceptions\\": [
-          "src/transaccion_completa/exceptions",
-          "src/transaccion_completa/mall/exceptions"
-        ],
-        "Transbank\\Utils\\":  [
-          "src/utils"
         ]
       }
     },
