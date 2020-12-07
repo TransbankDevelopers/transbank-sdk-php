@@ -1,17 +1,14 @@
 <?php
 namespace Transbank\Onepay;
-
-use Transbank\Onepay\Utils\OnepayRequestBuilder;
-
 require_once(__DIR__ . '/ShoppingCartMocks.php');
 
-class TransactionCreateRequestMocks
-{
+class TransactionCreateRequestMocks {
+
     public static $transactionCreateRequestMocks = array();
 
     public static function transactionCreateRequestMocks()
     {
-        if (empty(self::$transactionCreateRequestMocks)) {
+        if(empty(self::$transactionCreateRequestMocks)) {
             $cart = ShoppingCartMocks::get();
             $transactionCreateRequest = OnepayRequestBuilder::getInstance()->buildCreateRequest($cart, null);
             array_push(self::$transactionCreateRequestMocks, $transactionCreateRequest);

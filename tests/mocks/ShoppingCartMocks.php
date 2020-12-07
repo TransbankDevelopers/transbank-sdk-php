@@ -1,8 +1,7 @@
 <?php
 namespace Transbank\Onepay;
 
-class ShoppingCartMocks
-{
+class ShoppingCartMocks {
     public static $shoppingCartMocks = array();
 
     public static function get($indexOfMock = 0)
@@ -12,7 +11,7 @@ class ShoppingCartMocks
 
     public static function shoppingCartMocks()
     {
-        if (empty(self::$shoppingCartMocks)) {
+        if(empty(self::$shoppingCartMocks)) {
             $shoppingCart = new ShoppingCart();
 
             $firstItem = new Item("Zapatos", 1, 15000, null, -1);

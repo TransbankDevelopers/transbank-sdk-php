@@ -2,13 +2,11 @@
 
 namespace Transbank\Onepay;
 
-class TransactionCreateResponseMocks
-{
+class TransactionCreateResponseMocks {
     public static $transactionCreateResponseMocks = array();
 
-    public static function transactionCreateRequestMocks()
-    {
-        if (empty(self::$transactionCreateResponseMocks)) {
+    public static function transactionCreateRequestMocks() {
+        if(empty(self::$transactionCreateResponseMocks)) {
             $validResponseJson = '{
                 "responseCode": "OK",
                 "description": "OK",
