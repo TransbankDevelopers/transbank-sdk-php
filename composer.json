@@ -17,9 +17,76 @@
       "squizlabs/php_codesniffer": "~2.0"
     },
     "autoload": {
+      "files": ["lib/webpay_rest/oneclick/Oneclick.php", "lib/patpass/patpass_comercio/PatpassComercio.php", "lib/transaccion_completa/TransaccionCompleta.php"],
       "psr-4": {
         "Transbank\\": [
-          "src/"
+          "lib/"
+        ],
+        "Transbank\\Onepay\\" : [
+          "lib/onepay",
+          "lib/onepay/utils"
+        ],
+        "Transbank\\Onepay\\Exceptions\\": [
+          "lib/onepay/exceptions"
+        ],
+        "Transbank\\Webpay\\" : [
+          "lib/webpay",
+          "lib/webpay/soap",
+          "lib/webpay_rest",
+          "lib/webpay_rest/webpay_plus"
+        ],
+        "Transbank\\Webpay\\Exceptions\\":[
+          "lib/webpay_rest/exceptions"
+        ],
+        "Transbank\\Webpay\\WebpayPlus\\":[
+          "lib/webpay_rest/webpay_plus"
+        ],
+        "Transbank\\Webpay\\WebpayPlus\\Exceptions\\":[
+          "lib/webpay_rest/webpay_plus/exceptions"
+        ],
+        "Transbank\\Webpay\\Oneclick\\":[
+          "lib/webpay_rest/oneclick",
+          "lib/webpay_rest/oneclick/inscription",
+          "lib/webpay_rest/oneclick/mall"
+        ],
+        "Transbank\\Webpay\\Oneclick\\Exceptions\\":[
+          "lib/webpay_rest/oneclick/exceptions",
+          "lib/webpay_rest/oneclick/mall/exceptions"
+        ],
+        "Transbank\\Patpass\\":[
+          "lib/patpass",
+          "lib/patpass/patpass_by_webpay",
+          "lib/patpass/patpass_comercio"
+        ],
+        "Transbank\\Patpass\\Exceptions\\":[
+          "lib/patpass/exceptions"
+        ],
+        "Transbank\\Patpass\\PatpassByWebpay\\":[
+          "lib/patpass/patpass_by_webpay"
+        ],
+        "Transbank\\Patpass\\PatpassComercio\\": [
+          "lib/patpass/patpass_comercio",
+          "lib/patpass/patpass_comercio/inscription"
+        ],
+        "Transbank\\Patpass\\PatpassComercio\\Exceptions\\": [
+          "lib/patpass/patpass_comercio/exceptions"
+        ],
+        "Transbank\\Patpass\\PatpassByWebpay\\Exceptions\\":[
+          "lib/patpass/patpass_by_webpay/exceptions"
+        ],
+        "Transbank\\TransaccionCompleta\\": [
+          "lib/transaccion_completa",
+          "lib/transaccion_completa/inscription",
+          "lib/transaccion_completa/transaction",
+          "lib/transaccion_completa/mall",
+          "lib/transaccion_completa/mall/transaction"
+        ],
+        "Transbank\\TransaccionCompleta\\Exceptions\\": [
+          "lib/transaccion_completa/exceptions",
+          "lib/transaccion_completa/mall/exceptions"
+        ],
+        "Transbank\\Utils\\":  [
+          "lib/utils"
         ]
       }
     },
