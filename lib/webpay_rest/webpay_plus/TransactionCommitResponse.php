@@ -82,7 +82,7 @@ class TransactionCommitResponse
         $this->paymentTypeCode = isset($json["payment_type_code"]) ? $json["payment_type_code"] : null;
         $this->responseCode = isset($json["response_code"]) ? $json["response_code"] : null;
         $this->installmentsAmount = isset($json["installments_amount"]) ? $json["installments_amount"] : null;
-        $this->installmentsNumber = isset($json["installmentsNumber"]) ? $json["installmentsNumber"] : null;
+        $this->installmentsNumber = isset($json["installments_number"]) ? $json["installments_number"] : null;
         $this->balance = isset($json["balance"]) ? $json["balance"] : null;
     }
 
