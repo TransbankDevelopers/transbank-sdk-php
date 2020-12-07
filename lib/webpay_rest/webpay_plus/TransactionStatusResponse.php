@@ -3,7 +3,6 @@
 
 namespace Transbank\Webpay\WebpayPlus;
 
-
 class TransactionStatusResponse
 {
     public $vci;

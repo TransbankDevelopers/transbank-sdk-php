@@ -11,7 +11,6 @@
 
 namespace Transbank\TransaccionCompleta;
 
-
 use Transbank\TransaccionCompleta;
 use Transbank\TransaccionCompleta\Exceptions\TransactionCreateException;
 use Transbank\TransaccionCompleta\Exceptions\TransactionInstallmentsException;
@@ -27,7 +26,8 @@ class Transaction
     const REFUND_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$/refunds';
     const STATUS_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$';
 
-    public static function getCommerceIdentifier($options){
+    public static function getCommerceIdentifier($options)
+    {
         if ($options == null) {
             $commerceCode = TransaccionCompleta::getCommerceCode();
             $apiKey = TransaccionCompleta::getApiKey();
@@ -38,8 +38,8 @@ class Transaction
             $baseUrl = TransaccionCompleta::getIntegrationTypeUrl($options->getIntegrationType());
         }
         return array(
-            $commerceCode, 
-            $apiKey, 
+            $commerceCode,
+            $apiKey,
             $baseUrl,
         );
     }
@@ -146,7 +146,6 @@ class Transaction
         $transactionInstallmentsResponse = new TransactionInstallmentsResponse($responseJson);
 
         return $transactionInstallmentsResponse;
-
     }
 
     public static function commit(
@@ -155,8 +154,7 @@ class Transaction
         $deferredPeriodIndex,
         $gracePeriod,
         $options = null
-    )
-    {
+    ) {
         list($commerceCode, $apiKey, $baseUrl) = Transaction::getCommerceIdentifier($options);
 
         $headers = [
@@ -248,7 +246,6 @@ class Transaction
         $transactionRefundResponse = new TransactionRefundResponse($responseJson);
 
         return $transactionRefundResponse;
-
     }
 
     public static function getStatus(
@@ -292,5 +289,4 @@ class Transaction
 
         return $transactionStatusResponse;
     }
-
 }

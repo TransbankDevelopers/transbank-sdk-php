@@ -3,12 +3,10 @@
 
 namespace Transbank\Patpass;
 
-
 use Transbank\Utils\HttpClient;
 
 class PatpassByWebpay
 {
-
     private static $httpClient;
     private static $commerceCode;
     private static $apiKey;
@@ -79,5 +77,4 @@ class PatpassByWebpay
 
         return self::$INTEGRATION_TYPES[$integrationType];
     }
-
 }

@@ -1,6 +1,7 @@
 <?php
 namespace Transbank\Webpay;
 
-class initTransactionResponse {
-    var $return; //wsInitTransactionOutput
+class initTransactionResponse
+{
+    public $return; //wsInitTransactionOutput
 }

@@ -11,7 +11,6 @@
 
 namespace Transbank\Patpass\PatpassComercio;
 
-
 use Transbank\Utils\Utils;
 
 class InscriptionStartResponse
@@ -69,5 +68,4 @@ class InscriptionStartResponse
         $this->urlWebpay = $url;
         return $this;
     }
-
 }

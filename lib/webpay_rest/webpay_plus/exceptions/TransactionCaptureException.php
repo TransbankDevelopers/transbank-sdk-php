@@ -11,5 +11,4 @@ class TransactionCaptureException extends WebpayException
     {
         parent::__construct($message, $code, $previous);
     }
-
 }

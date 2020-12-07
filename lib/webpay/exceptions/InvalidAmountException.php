@@ -1,5 +1,6 @@
 <?php
 namespace Transbank\Webpay\Exceptions;
+
 /**
  * class AmountException
  *   Happens when the amount of something is invalid
@@ -9,8 +10,8 @@ namespace Transbank\Webpay\Exceptions;
  *
  */
 
-class InvalidAmountException extends TransbankException {
-
+class InvalidAmountException extends TransbankException
+{
     const DEFAULT_MESSAGE = 'Invalid amount given.';
     const NOT_NUMERIC_MESSAGE = 'Given amount is not numeric.';
     const HAS_DECIMALS_MESSAGE = 'Given amount has decimals. Webpay only accepts integer amounts. Please remove decimal places.';
@@ -19,5 +20,4 @@ class InvalidAmountException extends TransbankException {
     {
         parent::__construct($message, $code, $previous);
     }
-
 }

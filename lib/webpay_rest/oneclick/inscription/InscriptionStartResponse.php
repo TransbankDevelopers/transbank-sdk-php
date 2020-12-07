@@ -3,10 +3,8 @@
 
 namespace Transbank\Webpay\Oneclick;
 
-
 class InscriptionStartResponse
 {
-
     public $token;
     public $urlWebpay;
 

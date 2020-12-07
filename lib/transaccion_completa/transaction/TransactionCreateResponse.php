@@ -11,7 +11,6 @@
 
 namespace Transbank\TransaccionCompleta;
 
-
 use Transbank\Utils\Utils;
 
 class TransactionCreateResponse
@@ -40,6 +39,4 @@ class TransactionCreateResponse
         $this->token = $token;
         return $this;
     }
-
-
 }

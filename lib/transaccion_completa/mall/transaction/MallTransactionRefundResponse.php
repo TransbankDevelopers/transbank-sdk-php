@@ -11,7 +11,6 @@
 
 namespace Transbank\TransaccionCompleta;
 
-
 use Transbank\Utils\Utils;
 
 class MallTransactionRefundResponse
@@ -148,5 +147,4 @@ class MallTransactionRefundResponse
         $this->responseCode = $responseCode;
         return $this;
     }
-
 }

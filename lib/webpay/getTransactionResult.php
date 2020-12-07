@@ -1,6 +1,7 @@
 <?php
 namespace Transbank\Webpay;
 
-class getTransactionResult {
-    var $tokenInput; //string
+class getTransactionResult
+{
+    public $tokenInput; //string
 }

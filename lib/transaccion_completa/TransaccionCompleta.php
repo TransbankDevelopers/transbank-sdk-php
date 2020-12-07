@@ -101,10 +101,10 @@ class TransaccionCompleta
         return self::$INTEGRATION_TYPES[$integrationType];
     }
 
-    public static function configureForTesting() {
+    public static function configureForTesting()
+    {
         self::$apiKey = Options::DEFAULT_API_KEY;
         self::$commerceCode = Options::DEFAULT_TRANSACCION_COMPLETA_COMMERCE_CODE;
         self::$integrationType = Options::DEFAULT_INTEGRATION_TYPE;
     }
-
 }

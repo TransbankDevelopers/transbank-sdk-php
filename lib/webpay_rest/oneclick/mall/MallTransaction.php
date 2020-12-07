@@ -3,7 +3,6 @@
 
 namespace Transbank\Webpay\Oneclick;
 
-
 use Transbank\Webpay\Oneclick;
 use Transbank\Webpay\Oneclick\Exceptions\AuthorizeMallTransactionException;
 use Transbank\Webpay\Oneclick\Exceptions\MallRefundTransactionException;
@@ -15,7 +14,8 @@ class MallTransaction
     const TRANSACTION_STATUS_ENDPONT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/$BUYORDER$';
     const TRANSACTION_REFUND_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/$BUYORDER$/refunds';
 
-    public static function getCommerceIdentifier($options){
+    public static function getCommerceIdentifier($options)
+    {
         if ($options == null) {
             $commerceCode = Oneclick::getCommerceCode();
             $apiKey = Oneclick::getApiKey();
@@ -26,8 +26,8 @@ class MallTransaction
             $baseUrl = Oneclick::getIntegrationTypeUrl($options->getIntegrationType());
         }
         return array(
-            $commerceCode, 
-            $apiKey, 
+            $commerceCode,
+            $apiKey,
             $baseUrl,
         );
     }
@@ -39,7 +39,6 @@ class MallTransaction
         $details,
         $options = null
     ) {
-
         list($commerceCode, $apiKey, $baseUrl) = MallTransaction::getCommerceIdentifier($options);
 
         $http = Oneclick::getHttpClient();
@@ -55,7 +54,8 @@ class MallTransaction
             "details" => $details
         ]);
 
-        $httpResponse = $http->post($baseUrl,
+        $httpResponse = $http->post(
+            $baseUrl,
             self::AUTHORIZE_TRANSACTION_ENDPOINT,
             $payload,
             ['headers' => $headers]
@@ -91,7 +91,8 @@ class MallTransaction
         ];
 
         $url = str_replace('$BUYORDER$', $buyOrder, self::TRANSACTION_STATUS_ENDPONT);
-        $httpResponse = $http->get($baseUrl,
+        $httpResponse = $http->get(
+            $baseUrl,
             $url,
             ['headers' => $headers]
         );
@@ -132,7 +133,8 @@ class MallTransaction
         ]);
 
         $url = str_replace('$BUYORDER$', $buyOrder, self::TRANSACTION_REFUND_ENDPOINT);
-        $httpResponse = $http->post($baseUrl,
+        $httpResponse = $http->post(
+            $baseUrl,
             $url,
             $payload,
             ['headers' => $headers]

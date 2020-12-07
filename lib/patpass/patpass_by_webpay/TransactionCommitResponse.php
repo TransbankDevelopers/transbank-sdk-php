@@ -23,7 +23,6 @@ class TransactionCommitResponse
      */
     public function __construct($json)
     {
-
         $this->setVci($this->returnValueIfExists($json, 'vci'));
         $this->setAmount($this->returnValueIfExists($json, 'amount'));
         $this->setStatus($this->returnValueIfExists($json, 'status'));
@@ -270,6 +269,4 @@ class TransactionCommitResponse
         $this->installmentsNumber = $installmentsNumber;
         return $this;
     }
-
-
 }

@@ -16,7 +16,12 @@ final class WebpayTest extends TestCase
         $final_url = 'https://callback/final/post/comprobante/webpay';
 
         $init_result = $transaction->initTransaction(
-            $amount, $buy_order, $session_id, $return_url, $final_url);
+            $amount,
+            $buy_order,
+            $session_id,
+            $return_url,
+            $final_url
+        );
 
         $this->assertNotNull($init_result->token, '$init_result->token Can not be null');
         $this->assertNotNull($init_result->url, '$init_result->url Can not be null');
@@ -47,7 +52,12 @@ final class WebpayTest extends TestCase
         );
 
         $init_result = $transaction->initTransaction(
-            $buy_order, $session_id, $return_url, $final_url, $transactions);
+            $buy_order,
+            $session_id,
+            $return_url,
+            $final_url,
+            $transactions
+        );
 
         $this->assertNotNull($init_result->token, '$init_result->token Can not be null');
         $this->assertNotNull($init_result->url, '$init_result->url Can not be null');

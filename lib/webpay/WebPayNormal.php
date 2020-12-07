@@ -10,10 +10,10 @@ use Transbank\Webpay\Exceptions\InvalidAmountException;
  * ingresa al sitio del comercio, selecciona productos o servicio, y el ingreso asociado a los datos de la
  * tarjeta de crédito o débito lo realiza en forma segura en Webpay.
  */
-class WebPayNormal {
-
-    var $soapClient;
-    var $config;
+class WebPayNormal
+{
+    public $soapClient;
+    public $config;
 
     /** Configuración de URL según Ambiente */
     private static $WSDL_URL_NORMAL = array(
@@ -53,9 +53,8 @@ class WebPayNormal {
         'wsInitTransactionOutput' => 'Transbank\Webpay\initTransactionResponse'
     ];
 
-    function __construct($config)
+    public function __construct($config)
     {
-
         $this->config = $config;
         $privateKey = $this->config->getPrivateKey();
         $publicCert = $this->config->getPublicCert();
@@ -72,30 +71,28 @@ class WebPayNormal {
     }
 
     /** Obtiene resultado desde Webpay */
-    function _getTransactionResult($getTransactionResult)
+    public function _getTransactionResult($getTransactionResult)
     {
-
         $getTransactionResultResponse = $this->soapClient->getTransactionResult($getTransactionResult);
         return $getTransactionResultResponse;
     }
 
     /** Notifica a Webpay Transacción OK */
-    function _acknowledgeTransaction($acknowledgeTransaction)
+    public function _acknowledgeTransaction($acknowledgeTransaction)
     {
-
         $acknowledgeTransactionResponse = $this->soapClient->acknowledgeTransaction($acknowledgeTransaction);
         return $acknowledgeTransactionResponse;
     }
 
     /** Inicia transacción con Webpay */
-    function _initTransaction($initTransaction)
+    public function _initTransaction($initTransaction)
     {
         $initTransactionResponse = $this->soapClient->initTransaction($initTransaction);
         return $initTransactionResponse;
     }
 
     /** Descripción según codigo de resultado Webpay (Ver Codigo Resultados) */
-    function _getReason($code)
+    public function _getReason($code)
     {
         return WebPayNormal::$RESULT_CODES[$code];
     }
@@ -145,19 +142,14 @@ class WebPayNormal {
             $validationResult = $soapValidation->getValidationResult();
 
             /** Valida conexion a Webpay. Caso correcto retorna URL y Token */
-            if ($validationResult === TRUE) {
-
+            if ($validationResult === true) {
                 $wsInitTransactionOutput = $initTransactionResponse->return;
                 return $wsInitTransactionOutput;
-
             } else {
-
                 $error["error"] = "Error validando conexi&oacute;n a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
                 $error["detail"] = "No se pudo completar la conexi&oacute;n con Webpay";
             }
-
         } catch (\Exception $e) {
-
             $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
 
             $replaceArray = array('<!--' => '', '-->' => '');
@@ -173,9 +165,7 @@ class WebPayNormal {
      */
     public function getTransactionResult($token)
     {
-
         try {
-
             $getTransactionResult = new getTransactionResult();
 
             $getTransactionResult->tokenInput = $token;
@@ -186,8 +176,7 @@ class WebPayNormal {
             $soapValidation = new SoapValidation($xmlResponse, $this->config->getWebpayCert());
             $validationResult = $soapValidation->getValidationResult();
 
-            if ($validationResult === TRUE) {
-
+            if ($validationResult === true) {
                 $transactionResultOutput = $getTransactionResultResponse->return;
 
                 /** Indica a Webpay que se ha recibido conforme el resultado de la transacción */
@@ -202,13 +191,11 @@ class WebPayNormal {
                         return $transactionResultOutput;
                     }
                 } else {
-
                     $error["error"] = "Error validando conexi&oacute;n a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
                     $error["detail"] = "No se pudo completar la conexi&oacute;n con Webpay";
                 }
             }
         } catch (\Exception $e) {
-
             $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
 
             $replaceArray = array('<!--' => '', '-->' => '');
@@ -223,7 +210,6 @@ class WebPayNormal {
      * */
     public function acknowledgeTransaction($token)
     {
-
         $acknowledgeTransaction = new acknowledgeTransaction();
         $acknowledgeTransaction->tokenInput = $token;
         $this->_acknowledgeTransaction($acknowledgeTransaction);
@@ -231,7 +217,6 @@ class WebPayNormal {
         $xmlResponse = $this->soapClient->__getLastResponse();
         $soapValidation = new SoapValidation($xmlResponse, $this->config->getWebpayCert());
         $validationResult = $soapValidation->getValidationResult();
-        return $validationResult === TRUE;
+        return $validationResult === true;
     }
-
 }

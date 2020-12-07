@@ -11,7 +11,6 @@
 
 namespace Transbank\Patpass\PatpassComercio;
 
-
 class InscriptionFinishResponse
 {
     public $status;
@@ -64,7 +63,4 @@ class InscriptionFinishResponse
         $this->code = $code;
         return $this;
     }
-
-
-
 }

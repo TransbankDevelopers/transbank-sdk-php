@@ -11,7 +11,6 @@
 
 namespace Transbank\TransaccionCompleta;
 
-
 use Transbank\Utils\Utils;
 
 class MallTransactionStatusResponse

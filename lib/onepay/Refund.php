@@ -1,5 +1,6 @@
 <?php
 namespace Transbank\Onepay;
+
 /**
  * class Refund
  * Model object for Refunds
@@ -10,27 +11,37 @@ namespace Transbank\Onepay;
 use Transbank\Onepay\Exceptions\RefundCreateException as RefundCreateException;
 use Transbank\Utils\HttpClient;
 
-class Refund {
+class Refund
+{
     const REFUND_TRANSACTION = "nullifytransaction";
     const TRANSACTION_BASE_PATH = '/ewallet-plugin-api-services/services/transactionservice/';
 
 
-    public static function create($amount, $occ, $externalUniqueNumber,
-                                  $authorizationCode, $options = null)
+    public static function create(
+        $amount,
+        $occ,
+        $externalUniqueNumber,
+        $authorizationCode,
+        $options = null
+    )
     {
-
         $request = OnepayRequestBuilder::getInstance()
-                                       ->buildRefundRequest($amount, $occ,
-                                                            $externalUniqueNumber,
-                                                            $authorizationCode,
-                                                            $options);
+                                       ->buildRefundRequest(
+                                           $amount,
+                                           $occ,
+                                           $externalUniqueNumber,
+                                           $authorizationCode,
+                                           $options
+                                       );
         $jsonRequest = json_encode($request, JSON_UNESCAPED_SLASHES);
         $http = new HttpClient();
         $path = self::TRANSACTION_BASE_PATH . self::REFUND_TRANSACTION;
 
-        $httpResponse = $http->post(OnepayBase::getCurrentIntegrationTypeUrl(),
-                                    $path,
-                                    $jsonRequest);
+        $httpResponse = $http->post(
+            OnepayBase::getCurrentIntegrationTypeUrl(),
+            $path,
+            $jsonRequest
+        );
 
         $httpCode = $httpResponse->getStatusCode();
         $responseJson = json_decode($httpResponse->getBody(), true);

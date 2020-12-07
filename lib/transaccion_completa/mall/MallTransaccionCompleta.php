@@ -132,12 +132,11 @@ class MallTransaccionCompleta
     }
 
 
-    public static function configureForTesting() {
+    public static function configureForTesting()
+    {
         self::$apiKey = Options::DEFAULT_API_KEY;
         self::$commerceCode = Options::DEFAULT_TRANSACCION_COMPLETA_MALL_COMMERCE_CODE;
         self::$integrationType = Options::DEFAULT_INTEGRATION_TYPE;
         self::$childCommerceCodes = Options::DEFAULT_TRANSACCION_COMPLETA_MALL_CHILD_COMMERCE_CODE;
     }
-
-
 }

@@ -78,8 +78,7 @@ class PatpassComercio
 
     public static function getHttpClient()
     {
-        if (!isset(self::$httpClient) || self::$httpClient == null)
-        {
+        if (!isset(self::$httpClient) || self::$httpClient == null) {
             self::$httpClient = new HttpClient();
         }
         return self::$httpClient;
@@ -87,8 +86,7 @@ class PatpassComercio
 
     public static function getIntegrationTypeUrl($integrationType = null)
     {
-        if ($integrationType == null)
-        {
+        if ($integrationType == null) {
             return self::$INTEGRATION_TYPES[self::$integrationType];
         }
         return self::$INTEGRATION_TYPES[$integrationType];
@@ -100,5 +98,4 @@ class PatpassComercio
         self::setCommerceCode(Options::DEFAULT_PATPASS_COMERCIO_COMMERCE_CODE);
         self::setIntegrationType(self::$INTEGRATION_TYPES["TEST"]);
     }
-
 }

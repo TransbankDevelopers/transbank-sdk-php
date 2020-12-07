@@ -1,5 +1,6 @@
 <?php
 namespace Transbank\Webpay\Oneclick\Exceptions;
+
 use Transbank\Webpay\Exceptions\WebpayException;
 
 class MallTransactionStatusException extends WebpayException
@@ -8,5 +9,4 @@ class MallTransactionStatusException extends WebpayException
     {
         parent::__construct($message, $code, $previous);
     }
-
 }

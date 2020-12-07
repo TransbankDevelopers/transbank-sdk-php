@@ -49,8 +49,10 @@ class Options
      */
     public static function defaultConfig()
     {
-        return new Options(self::DEFAULT_API_KEY,
-            self::DEFAULT_PATPASS_BY_WEBPAY_COMMERCE_CODE);
+        return new Options(
+            self::DEFAULT_API_KEY,
+            self::DEFAULT_PATPASS_BY_WEBPAY_COMMERCE_CODE
+        );
     }
 
     /**

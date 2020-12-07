@@ -1,16 +1,17 @@
 <?php
 namespace Transbank\Onepay;
-/** 
+
+/**
  *
  *  @class TransactionCreateResponse
  *  Instances of this class represent the response from Transbank's servers
  *  to a TransactionCreateRequest
  *  @package Transbank;
- *  
+ *
 */
 
-class TransactionCreateResponse extends BaseResponse implements \JsonSerializable {
-
+class TransactionCreateResponse extends BaseResponse implements \JsonSerializable
+{
     private $occ;
     private $ott;
     private $externalUniqueNumber;
@@ -19,18 +20,17 @@ class TransactionCreateResponse extends BaseResponse implements \JsonSerializabl
     private $signature;
     public function __construct($json)
     {
-
         $this->fromJSON($json);
     }
 
-    public function jsonSerialize() 
+    public function jsonSerialize()
     {
         return get_object_vars($this);
     }
 
     public function fromJSON($json)
     {
-        if(is_string($json)) {
+        if (is_string($json)) {
             $json = json_decode($json, true);
         }
         if (!is_array($json)) {
@@ -48,7 +48,8 @@ class TransactionCreateResponse extends BaseResponse implements \JsonSerializabl
         return $this;
     }
 
-    public function getOcc() {
+    public function getOcc()
+    {
         return $this->occ;
     }
 
@@ -111,5 +112,4 @@ class TransactionCreateResponse extends BaseResponse implements \JsonSerializabl
         $this->signature = $signature;
         return $this;
     }
-
 }
