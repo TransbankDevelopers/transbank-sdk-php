@@ -3,7 +3,6 @@
 
 namespace Transbank\Webpay\WebpayPlus;
 
-
 class TransactionMallStatusResponse
 {
     public $buyOrder;
@@ -157,6 +156,4 @@ class TransactionMallStatusResponse
         $this->detail = $detail;
         return $this;
     }
-
-
 }

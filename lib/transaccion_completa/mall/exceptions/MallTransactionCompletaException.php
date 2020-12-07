@@ -11,7 +11,6 @@
 
 namespace Transbank\TransaccionCompleta\Exceptions;
 
-
 class MallTransactionCompletaException extends \Exception
 {
     const DEFAULT_MESSAGE = 'An error has happened, verify given parameters and try again.';

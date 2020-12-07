@@ -3,7 +3,6 @@
 
 namespace Transbank\Webpay\Oneclick;
 
-
 class InscriptionDeleteResponse
 {
     public $status;
@@ -59,6 +58,4 @@ class InscriptionDeleteResponse
         $this->code = $code;
         return $this;
     }
-
-
 }

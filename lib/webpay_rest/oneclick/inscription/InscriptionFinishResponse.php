@@ -5,7 +5,6 @@ namespace Transbank\Webpay\Oneclick;
 
 class InscriptionFinishResponse
 {
-
     public $responseCode;
     public $tbkUser;
     public $authorizationCode;

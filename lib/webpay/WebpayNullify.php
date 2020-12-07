@@ -6,10 +6,10 @@ namespace Transbank\Webpay;
  * Este método permite a todo comercio habilitado anular una transacción que fue generada en
  * plataforma Webpay 3G. El método contempla anular total o parcialmente una transacción.
  */
-class WebpayNullify {
-
-    var $soapClient;
-    var $config;
+class WebpayNullify
+{
+    public $soapClient;
+    public $config;
 
     /** Configuración de URL según Ambiente */
     private static $WSDL_URL_NORMAL = array(
@@ -48,8 +48,8 @@ class WebpayNullify {
         , 'nullifyResponse' => 'Transbank\Webpay\nullifyResponse'
     );
 
-    function __construct($config) {
-
+    public function __construct($config)
+    {
         $this->config = $config;
         $privateKey = $this->config->getPrivateKey();
         $publicCert = $this->config->getPublicCert();
@@ -65,20 +65,21 @@ class WebpayNullify {
     }
 
     /** Método que permite anular una transacción de pago Webpay */
-    function _nullify($nullify) {
-
+    public function _nullify($nullify)
+    {
         $nullifyResponse = $this->soapClient->nullify($nullify);
         return $nullifyResponse;
     }
 
     /** Descripción según codigo de resultado Webpay (Ver Codigo Resultados) */
-    function _getReason($code) {
+    public function _getReason($code)
+    {
         return WebpayNullify::$RESULT_CODES[$code];
     }
 
     /** Método que permite anular una transacción de pago Webpay */
-    function nullify($authorizationCode, $authorizedAmount, $buyOrder, $nullifyAmount, $commercecode) {
-
+    public function nullify($authorizationCode, $authorizedAmount, $buyOrder, $nullifyAmount, $commercecode)
+    {
         try {
             $nullificationInput = new nullificationInput();
 
@@ -93,7 +94,7 @@ class WebpayNullify {
 
             $nullificationInput->buyOrder = $buyOrder; // string
 
-            if ($commercecode == null){
+            if ($commercecode == null) {
                 $nullificationInput->commerceId = floatval($this->config->getCommerceCode());
             } else {
                 $nullificationInput->commerceId = floatval($commercecode);
@@ -102,7 +103,8 @@ class WebpayNullify {
             $nullificationInput->nullifyAmount = $nullifyAmount;
 
             $nullifyResponse = $this->_nullify(
-                    array("nullificationInput" => $nullificationInput));
+                array("nullificationInput" => $nullificationInput)
+            );
 
             /** Validación de firma del requerimiento de respuesta enviado por Webpay */
             $xmlResponse = $this->soapClient->__getLastResponse();
@@ -110,17 +112,14 @@ class WebpayNullify {
             $validationResult = $soapValidation->getValidationResult();
 
             /** Valida conexion a Webpay */
-            if ($validationResult === TRUE) {
-
+            if ($validationResult === true) {
                 $nullificationOutput = $nullifyResponse->return;
                 return $nullificationOutput;
             } else {
                 $error["error"] = "Error validando conexión a Webpay";
                 $error["error"] = "No se pudo completar la conexión con Webpay";
             }
-
         } catch (\Exception $e) {
-
             $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
 
             $replaceArray = array('<!--' => '', '-->' => '');

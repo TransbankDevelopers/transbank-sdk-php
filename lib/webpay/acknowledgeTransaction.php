@@ -1,6 +1,7 @@
 <?php
 namespace Transbank\Webpay;
 
-class acknowledgeTransaction {
-    var $tokenInput; //string
+class acknowledgeTransaction
+{
+    public $tokenInput; //string
 }

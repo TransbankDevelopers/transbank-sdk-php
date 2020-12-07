@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 final class ItemTest extends TestCase
 {
-
     public function testFromJSONThrowsIfParamIsNotJSON()
     {
         $randomString = "definitely not json";

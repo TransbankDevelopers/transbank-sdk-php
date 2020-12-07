@@ -1,10 +1,11 @@
 <?php
 namespace Transbank\Webpay;
 
-class nullificationOutput {
-    var $authorizationCode; //string
-    var $authorizationDate; //dateTime
-    var $balance; //decimal
-    var $nullifiedAmount; //decimal
-    var $token; //string
+class nullificationOutput
+{
+    public $authorizationCode; //string
+    public $authorizationDate; //dateTime
+    public $balance; //decimal
+    public $nullifiedAmount; //decimal
+    public $token; //string
 }

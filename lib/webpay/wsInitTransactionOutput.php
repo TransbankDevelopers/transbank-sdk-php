@@ -1,7 +1,8 @@
 <?php
 namespace Transbank\Webpay;
 
-class wsInitTransactionOutput {
+class wsInitTransactionOutput
+{
     public $token; //string
     public $url; //string
 }

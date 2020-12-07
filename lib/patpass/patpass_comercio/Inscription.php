@@ -37,8 +37,7 @@ class Inscription
         $address,
         $city,
         $options = null
-    )
-    {
+    ) {
         if ($options == null) {
             $commerceCode = PatpassComercio::getCommerceCode();
             $apiKey = PatpassComercio::getApiKey();
@@ -74,7 +73,8 @@ class Inscription
             "direccion" => $address,
             "ciudad" => $city
         ]);
-        $httpResponse = $http->post($baseUrl,
+        $httpResponse = $http->post(
+            $baseUrl,
             self::INSCRIPTION_START_ENDPOINT,
             $payload,
             ['headers' => $headers]
@@ -93,7 +93,6 @@ class Inscription
                 $tbkErrorMessage = $body["error_message"];
 
                 $message = "$message. Details: $tbkErrorMessage";
-
             }
 
             throw new InscriptionStartException($message, $httpCode);
@@ -106,7 +105,7 @@ class Inscription
     }
 
     public static function status($token, $options = null)
-        {
+    {
         if ($options == null) {
             $commerceCode = PatpassComercio::getCommerceCode();
             $apiKey = PatpassComercio::getApiKey();
@@ -127,7 +126,8 @@ class Inscription
             "token" => $token
         ]);
 
-        $httpResponse = $http->post($baseUrl,
+        $httpResponse = $http->post(
+            $baseUrl,
             self::INSCRIPTION_STATUS_ENDPOINT,
             $payload,
             ['headers' => $headers]
@@ -149,6 +149,5 @@ class Inscription
         $inscriptionStatusResponse = new InscriptionStatusResponse($responseJson);
 
         return $inscriptionStatusResponse;
-
     }
 }

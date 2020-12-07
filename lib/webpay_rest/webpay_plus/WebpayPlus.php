@@ -3,7 +3,6 @@
 
 namespace Transbank\Webpay;
 
-
 use Transbank\Utils\HttpClient;
 
 /**
@@ -14,7 +13,6 @@ use Transbank\Utils\HttpClient;
  */
 class WebpayPlus
 {
-
     const ENVIRONMENT_LIVE = 'LIVE';
     const ENVIRONMENT_TEST = 'TEST';
     const ENVIRONMENT_MOCK = 'MOCK';
@@ -111,7 +109,6 @@ class WebpayPlus
         self::setApiKey(Options::DEFAULT_API_KEY);
         self::setCommerceCode(Options::DEFAULT_COMMERCE_CODE);
         self::setIntegrationType(self::ENVIRONMENT_TEST);
-
     }
 
     public static function configureMallForTesting()
@@ -119,7 +116,6 @@ class WebpayPlus
         self::setApiKey(Options::DEFAULT_API_KEY);
         self::setCommerceCode(Options::DEFAULT_WEBPAY_PLUS_MALL_COMMERCE_CODE);
         self::setIntegrationType(self::ENVIRONMENT_TEST);
-
     }
 
     public static function configureDeferredForTesting()
@@ -135,5 +131,4 @@ class WebpayPlus
         self::setCommerceCode($commerceCode);
         self::setIntegrationType(self::ENVIRONMENT_LIVE);
     }
-
 }

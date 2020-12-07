@@ -3,7 +3,6 @@
 
 namespace Transbank\Webpay\Oneclick;
 
-
 class MallTransactionStatusResponse
 {
     public $buyOrder;
@@ -16,7 +15,6 @@ class MallTransactionStatusResponse
 
     public function __construct($json)
     {
-
         $buyOrder = isset($json["buy_order"]) ? $json["buy_order"] : null;
         $this->setBuyOrder($buyOrder);
 
@@ -171,5 +169,4 @@ class MallTransactionStatusResponse
         $this->buyOrder = $buyOrder;
         return $this;
     }
-
 }

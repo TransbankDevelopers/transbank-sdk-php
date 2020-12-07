@@ -280,12 +280,11 @@ class XMLSecurityKey
      */
     public static function getRawThumbprint($cert)
     {
-
         $arCert = explode("\n", $cert);
         $data = '';
         $inData = false;
 
-        foreach ($arCert AS $curData) {
+        foreach ($arCert as $curData) {
             if (! $inData) {
                 if (strncmp($curData, '-----BEGIN CERTIFICATE', 22) == 0) {
                     $inData = true;
@@ -638,8 +637,9 @@ class XMLSecurityKey
     {
         switch ($type) {
             case 0x02:
-                if (ord($string) > 0x7f)
+                if (ord($string) > 0x7f) {
                     $string = chr(0).$string;
+                }
                 break;
             case 0x03:
                 $string = chr(0).$string;
@@ -650,9 +650,9 @@ class XMLSecurityKey
 
         if ($length < 128) {
             $output = sprintf("%c%c%s", $type, $length, $string);
-        } else if ($length < 0x0100) {
+        } elseif ($length < 0x0100) {
             $output = sprintf("%c%c%c%s", $type, 0x81, $length, $string);
-        } else if ($length < 0x010000) {
+        } elseif ($length < 0x010000) {
             $output = sprintf("%c%c%c%c%s", $type, 0x82, $length / 0x0100, $length % 0x0100, $string);
         } else {
             $output = null;
@@ -693,7 +693,6 @@ class XMLSecurityKey
      */
     public function serializeKey($parent)
     {
-
     }
 
     /**
@@ -734,7 +733,6 @@ class XMLSecurityKey
      */
     public static function fromEncryptedKeyElement(DOMElement $element)
     {
-
         $objenc = new XMLSecEnc();
         $objenc->setNode($element);
         if (! $objKey = $objenc->locateKey()) {
@@ -745,5 +743,4 @@ class XMLSecurityKey
         XMLSecEnc::staticLocateKeyInfo($objKey, $element);
         return $objKey;
     }
-
 }

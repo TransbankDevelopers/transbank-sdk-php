@@ -20,7 +20,8 @@ class Inscription
     const INSCRIPTION_START_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/inscriptions';
     const INSCRIPTION_FINISH_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/inscriptions/$TOKEN$';
 
-    public static function getCommerceIdentifier($options){
+    public static function getCommerceIdentifier($options)
+    {
         if ($options == null) {
             $commerceCode = TransaccionCompleta::getCommerceCode();
             $apiKey = TransaccionCompleta::getApiKey();
@@ -31,8 +32,8 @@ class Inscription
             $baseUrl = TransaccionCompleta::getIntegrationTypeUrl($options->getIntegrationType());
         }
         return array(
-            $commerceCode, 
-            $apiKey, 
+            $commerceCode,
+            $apiKey,
             $baseUrl,
         );
     }
@@ -42,8 +43,7 @@ class Inscription
         $email,
         $responseUrl,
         $options = null
-    )
-    {
+    ) {
         list($commerceCode, $apiKey, $baseUrl) = Inscription::getCommerceIdentifier($options);
         $http = TransaccionCompleta::getHttpClient();
         $headers = [
@@ -53,7 +53,8 @@ class Inscription
 
         $payload = json_encode(["username" => $userName, "email" => $email, "response_url" => $responseUrl]);
 
-        $httpResponse = $http->post($baseUrl,
+        $httpResponse = $http->post(
+            $baseUrl,
             self::INSCRIPTION_START_ENDPOINT,
             $payload,
             ['headers' => $headers]
@@ -87,7 +88,8 @@ class Inscription
 
         $url = str_replace('$TOKEN$', $token, self::INSCRIPTION_FINISH_ENDPOINT);
 
-        $httpResponse = $http->put($baseUrl,
+        $httpResponse = $http->put(
+            $baseUrl,
             $url,
             null,
             ['headers' => $headers]
@@ -112,5 +114,4 @@ class Inscription
 
         return $inscriptionFinishResponse;
     }
-
 }

@@ -11,5 +11,4 @@ class AuthorizeMallTransactionException extends WebpayException
     {
         parent::__construct($message, $code, $previous);
     }
-
 }

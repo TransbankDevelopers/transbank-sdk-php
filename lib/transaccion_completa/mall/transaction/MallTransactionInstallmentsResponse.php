@@ -11,7 +11,6 @@
 
 namespace Transbank\TransaccionCompleta;
 
-
 use Transbank\Utils\Utils;
 
 class MallTransactionInstallmentsResponse
@@ -80,7 +79,4 @@ class MallTransactionInstallmentsResponse
         $this->deferredPeriods = $deferredPeriods;
         return $this;
     }
-
-
-
 }

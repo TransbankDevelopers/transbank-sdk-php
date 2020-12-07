@@ -3,7 +3,6 @@
 
 namespace Transbank\Webpay\WebpayPlus;
 
-
 class MallTransactionCommitResponse
 {
     public $vci;
@@ -159,6 +158,4 @@ class MallTransactionCommitResponse
         $this->transactionDate = $transactionDate;
         return $this;
     }
-
-
 }

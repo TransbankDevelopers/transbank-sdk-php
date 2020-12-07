@@ -3,7 +3,6 @@
 
 namespace Transbank\Webpay\WebpayPlus;
 
-
 /**
  * Class TransactionRefundResponse
  *
@@ -50,7 +49,6 @@ class TransactionRefundResponse
         $this->nullifiedAmount = isset($json["nullified_amount"]) ? $json["nullified_amount"] : null;
         $this->balance = isset($json["balance"]) ? $json["balance"] : null;
         $this->responseCode = isset($json["response_code"]) ? $json["response_code"] : null;
-
     }
 
     /**
@@ -166,6 +164,4 @@ class TransactionRefundResponse
         $this->authorizationDate = $authorizationDate;
         return $this;
     }
-
-
 }
