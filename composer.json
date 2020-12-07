@@ -23,11 +23,11 @@
           "src/"
         ],
         "Transbank\\Onepay\\" : [
-          "src/onepay",
-          "src/onepay/utils"
+          "src/Onepay",
+          "src/Onepay/Utils"
         ],
         "Transbank\\Onepay\\Exceptions\\": [
-          "src/onepay/exceptions"
+          "src/Onepay/Exceptions"
         ],
         "Transbank\\Webpay\\" : [
           "src/webpay",

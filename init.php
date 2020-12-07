@@ -1,39 +1,39 @@
 <?php
 
 // Onepay Singleton
-require_once(dirname(__FILE__) . '/src/onepay/ChannelEnum.php');
-require_once(dirname(__FILE__) . '/src/onepay/OnepayBase.php');
+require_once(dirname(__FILE__) . '/src/Onepay/ChannelEnum.php');
+require_once(dirname(__FILE__) . '/src/Onepay/OnepayBase.php');
 
 // Utilities
 require_once(dirname(__FILE__) . '/src/utils/HttpClient.php');
-require_once(dirname(__FILE__) . '/src/onepay/utils/OnepayRequestBuilder.php');
-require_once(dirname(__FILE__) . '/src/onepay/utils/OnepaySignUtil.php');
+require_once(dirname(__FILE__) . '/src/Onepay/Utils/OnepayRequestBuilder.php');
+require_once(dirname(__FILE__) . '/src/Onepay/Utils/OnepaySignUtil.php');
 
 // Model classes
-require_once(dirname(__FILE__) . '/src/onepay/BaseRequest.php');
-require_once(dirname(__FILE__) . '/src/onepay/BaseResponse.php');
-require_once(dirname(__FILE__) . '/src/onepay/Item.php');
-require_once(dirname(__FILE__) . '/src/onepay/Options.php');
-require_once(dirname(__FILE__) . '/src/onepay/ShoppingCart.php');
-require_once(dirname(__FILE__) . '/src/onepay/Transaction.php');
+require_once(dirname(__FILE__) . '/src/Onepay/BaseRequest.php');
+require_once(dirname(__FILE__) . '/src/Onepay/BaseResponse.php');
+require_once(dirname(__FILE__) . '/src/Onepay/Item.php');
+require_once(dirname(__FILE__) . '/src/Onepay/Options.php');
+require_once(dirname(__FILE__) . '/src/Onepay/ShoppingCart.php');
+require_once(dirname(__FILE__) . '/src/Onepay/Transaction.php');
 
-require_once(dirname(__FILE__) . '/src/onepay/TransactionCreateRequest.php');
-require_once(dirname(__FILE__) . '/src/onepay/TransactionCreateResponse.php');
+require_once(dirname(__FILE__) . '/src/Onepay/TransactionCreateRequest.php');
+require_once(dirname(__FILE__) . '/src/Onepay/TransactionCreateResponse.php');
 
-require_once(dirname(__FILE__) . '/src/onepay/TransactionCommitRequest.php');
-require_once(dirname(__FILE__) . '/src/onepay/TransactionCommitResponse.php');
+require_once(dirname(__FILE__) . '/src/Onepay/TransactionCommitRequest.php');
+require_once(dirname(__FILE__) . '/src/Onepay/TransactionCommitResponse.php');
 
-require_once(dirname(__FILE__) . '/src/onepay/Refund.php');
-require_once(dirname(__FILE__) . '/src/onepay/RefundCreateRequest.php');
-require_once(dirname(__FILE__) . '/src/onepay/RefundCreateResponse.php');
+require_once(dirname(__FILE__) . '/src/Onepay/Refund.php');
+require_once(dirname(__FILE__) . '/src/Onepay/RefundCreateRequest.php');
+require_once(dirname(__FILE__) . '/src/Onepay/RefundCreateResponse.php');
 
 // Exceptions
-require_once(dirname(__FILE__) . '/src/onepay/exceptions/TransbankException.php');
-require_once(dirname(__FILE__) . '/src/onepay/exceptions/AmountException.php');
-require_once(dirname(__FILE__) . '/src/onepay/exceptions/RefundCreateException.php');
-require_once(dirname(__FILE__) . '/src/onepay/exceptions/SignException.php');
-require_once(dirname(__FILE__) . '/src/onepay/exceptions/TransactionCommitException.php');
-require_once(dirname(__FILE__) . '/src/onepay/exceptions/TransactionCreateException.php');
+require_once(dirname(__FILE__) . '/src/Onepay/Exceptions/TransbankException.php');
+require_once(dirname(__FILE__) . '/src/Onepay/Exceptions/AmountException.php');
+require_once(dirname(__FILE__) . '/src/Onepay/Exceptions/RefundCreateException.php');
+require_once(dirname(__FILE__) . '/src/Onepay/Exceptions/SignException.php');
+require_once(dirname(__FILE__) . '/src/Onepay/Exceptions/TransactionCommitException.php');
+require_once(dirname(__FILE__) . '/src/Onepay/Exceptions/TransactionCreateException.php');
 
 // WEBPAY
 require_once(dirname(__FILE__) . '/src/webpay/Configuration.php');
