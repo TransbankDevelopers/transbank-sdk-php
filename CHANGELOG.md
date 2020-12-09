@@ -4,6 +4,16 @@ Todos los cambios notables a este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.9.0] - 2020-12-09
+### Added
+- Se agrega método helper `WebpayPlus::configureForProduction($commerceCode, $apiKeySecret)` [PR #153](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/153)
+- Se añade travis para automatizar release en github - Se agrega método helper `WebpayPlus::configureForProduction($commerceCode, $apiKeySecret)` [PR #147](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/147)
+
+### Fixed
+- Se mejora el formato del código (PSR-2) [PR #156](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/156)
+- Se mejora orden de archivos y carpetas para ser compatible con PSR-4 y evitar problema al instalar SDK usando composer2 [PR #157](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/157)
+- Se resuelve error con parámetro `installments_number` que venía vacío al hacer un `commit` en Webpay Plus - Se agrega método helper `WebpayPlus::configureForProduction($commerceCode, $apiKeySecret)` [PR #150](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/150)
+
 ## [1.8.2] - 2020-11-20
 ### Fixed
 - Ahora el SDK soporta tres versiones de Guzzle, para evitar conflictos de versiones: Guzzle 5.X, 6.X y 7.X. [PR #144](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/144)      
