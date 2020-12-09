@@ -105,4 +105,11 @@ class Oneclick
         self::setCommerceCode(Options::DEFAULT_ONECLICK_MALL_DEFERRED_COMMERCE_CODE);
         self::setIntegrationType(Options::DEFAULT_INTEGRATION_TYPE);
     }
+
+    public static function configureOneclickMallForProduction($apiKey, $commerceCode)
+    {
+        self::setApiKey($apiKey);
+        self::setCommerceCode($commerceCode);
+        self::setIntegrationType("LIVE");
+    }
 }
