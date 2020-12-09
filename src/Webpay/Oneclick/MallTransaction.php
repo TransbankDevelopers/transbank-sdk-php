@@ -7,12 +7,14 @@ use Transbank\Webpay\Oneclick;
 use Transbank\Webpay\Oneclick\Exceptions\AuthorizeMallTransactionException;
 use Transbank\Webpay\Oneclick\Exceptions\MallRefundTransactionException;
 use Transbank\Webpay\Oneclick\Exceptions\MallTransactionStatusException;
+use Transbank\Webpay\Oneclick\Exceptions\MallTransactionCaptureException;
 
 class MallTransaction
 {
     const AUTHORIZE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/transactions';
     const TRANSACTION_STATUS_ENDPONT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/$BUYORDER$';
     const TRANSACTION_REFUND_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/$BUYORDER$/refunds';
+    const TRANSACTION_CAPTURE_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/capture';
 
     public static function getCommerceIdentifier($options)
     {
@@ -78,6 +80,48 @@ class MallTransaction
         $authorizeTransactionResponse = new AuthorizeMallTransactionResponse($responseJson);
 
         return $authorizeTransactionResponse;
+    }
+
+    public static function capture($childCommerceCode, $childBuyOrder, $authorizationCode, $amount, $options = null)
+    {
+        list($commerceCode, $apiKey, $baseUrl) = MallTransaction::getCommerceIdentifier($options);
+
+        $http = Oneclick::getHttpClient();
+        $headers = [
+            "Tbk-Api-Key-Id" => $commerceCode,
+            "Tbk-Api-Key-Secret" => $apiKey
+        ];
+
+        $payload = json_encode([
+            "commerce_code" => $childCommerceCode,
+            "buy_order" => $childBuyOrder,
+            "authorization_code" => $authorizationCode,
+            "capture_amount" => $amount
+        ]);
+
+        $httpResponse = $http->put(
+            $baseUrl,
+            self::TRANSACTION_CAPTURE_ENDPOINT,
+            $payload,
+            ['headers' => $headers]
+        );
+
+        $httpCode = $httpResponse->getStatusCode();
+        if ($httpCode != 200 && $httpCode != 204) {
+            $reason = $httpResponse->getReasonPhrase();
+            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
+            $body = json_decode($httpResponse->getBody(), true);
+
+            if (isset($body["error_message"])) {
+                $tbkErrorMessage = $body["error_message"];
+                $message = "$message. Details: $tbkErrorMessage";
+            }
+            throw new MallTransactionCaptureException($message, $httpCode);
+        }
+
+        $responseJson = json_decode($httpResponse->getBody(), true);
+
+        return new MallTransactionCaptureResponse($responseJson);;
     }
 
     public static function getStatus($buyOrder, $options = null)
