@@ -106,7 +106,7 @@ class Oneclick
         self::setIntegrationType(Options::DEFAULT_INTEGRATION_TYPE);
     }
 
-    public static function configureOneclickMallForProduction($apiKey, $commerceCode)
+    public static function configureOneclickMallForProduction($commerceCode, $apiKey)
     {
         self::setApiKey($apiKey);
         self::setCommerceCode($commerceCode);

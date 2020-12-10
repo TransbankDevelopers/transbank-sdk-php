@@ -4,6 +4,14 @@ Todos los cambios notables a este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.10.0] - 2020-12-10
+### Added
+- Se agrega soporte para Oneclick Mall Captura Diferida
+- Se agrega helper para pasar a produccion Oneclick `Oneclick::configureForProduction($commerceCode, $apiKeySecret)`
+
+### Fixed
+- El response code de la respuesta de una reversa en Oneclick ya no es ignorado por el SDK.
+
 ## [1.9.0] - 2020-12-09
 ### Added
 - Se agrega método helper `WebpayPlus::configureForProduction($commerceCode, $apiKeySecret)` [PR #153](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/153)
