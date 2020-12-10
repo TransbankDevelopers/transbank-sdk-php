@@ -28,6 +28,9 @@ class MallRefundTransactionResponse
 
         $balance = isset($json["balance"]) ? $json["balance"] : null;
         $this->setBalance($balance);
+
+        $responseCode = isset($json["response_code"]) ? $json["response_code"] : null;
+        $this->setResponseCode($responseCode);
     }
 
     /**
