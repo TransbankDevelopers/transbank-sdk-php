@@ -6,7 +6,7 @@ namespace Transbank\Webpay\WebpayPlus;
 class MallTransactionCommitResponse
 {
     public $vci;
-    public $details; # {"amount":1000,"status":"AUTHORIZED","authorization_code":"1213","payment_type_code":"VN","response_code":0,"installments_number":0,"commerce_code":"597055555537","buy_order":"123buyorder1"}
+    public $details;
     public $buyOrder;
     public $sessionId;
     public $cardNumber;
