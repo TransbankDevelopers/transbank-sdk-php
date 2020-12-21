@@ -2,20 +2,20 @@ language: php
 php:
   - '5.6'
   - '7.0'
-  - '7.1'
-  - '7.2'
-  - '7.3'
   - '7.4'
+  - '8.0'
+
 before_script:
   - phpenv config-rm xdebug.ini
   - composer install
 script: "./sdktest.sh"
 deploy:
   provider: releases
-  name: "Versión $TRAVIS_TAG"
+  name: "$TRAVIS_TAG"
   api_key:
-    secure: 2wqJhuUR+3fQdTu532Rt05mS8efE6tf+w9iSjVC6aY+Favs80lc/J7VSMwlcrL+PfrhyHHzzg352IMUtwJXYO6JjGl7wlOG5qym48x2qgLCjY+O7btjF1myvKzWRnwaNrcgaVKaFncYzxkJk7ASvCEgIDUHVxg8Z2bgbkeXbvayVogs48js2B7pDYU+8h6Fc6Df1Pd5JEAu7ugnHPGyDEk+78GrI5MoBXOMWuc372iT3GvMjuw/b8G1MQ/8ykwQndGnsvjFCKzUsWVrIspaQh6VAe3SuCV8n2T1cf7W+9sWNr6oV8XDPHYI+oW8U2QgfwR0m47QIp0Tje1zKCq/Mp8yQdjXxtyyAM5sqO7GpTp1QSXRpnQvaYvwxYzXNmeN38XNtNH1wS3Jh7uRfQbkBGF1iNyA1tw1NH9Sm2rGisTvqPSXkUYTZCrQjJFLGS9jDxsW94v+rKp8cq9Qx244+YqbmvnPE00cX0LZdbcPo2bCgaO3kw4bVAp1SfkwbZNf7MdUkWmpwk9bVTmQOb+lcUTmGVdMKAZnyYdvBtCFvmQ6HSXdWnZens3YxZgQ/B9uPBi8jIQr1rVJ540dJf5DYSc2U6kmOgCV7ozbFOHgfPmCRnDZ7Mqnqpl8OOtWdAfV72vlH2hiv21MGJ0S1A9l1G4IOtBhkRU5JazWIIL8HBFQ=
+    secure: kwsEZ8iFhSzF2Bmk+wA5mjf9UGQ24U5yonZgWwmT05JuxM5JbeKVVEGfrbdfrT4qqksh3LamDvhbnug8qT1EWCOfXdPiYJj16fJR9HJpx7iUwjp+rulGpusfLrZoFu1gyXXMGfsmlTSdYn4jDN22wQgAZtiGD1L/nLHlTSM6fWPAThtF3ySLdqAbNGzIDYxTP+XI/PI91/DaM+EH88eww6bKVTOShGXHbVDu57BHo20RWEpN2KRjDPt/7QvvMUF5YzNNYlZb0WK61vZKwdKPD3f8+ZcqA9g4N6xodnpNbc/h/toh8CeayWNGOwV3pSmVabBiFi0MNoSgTtCFACBdvWpV8AwLOv6+zLyo2rIYJ7AWoDrtRZXqSZ+Qmk7HLoWNWMtH9MMyXuVzJkrWFauKtE7aX5B75xTWpZVQZSUk2lxesz9zmyZ1eViEfBzegAFbMFOK/P7J6bZFOhYEqCGP0+GGQOh8+pvolyEM+U0GHl6VOOgJ8s7XpBdVLw4urfzOUyqeh7lW+MJDDba9SKGO7j9PRyMILPT3K+0Oqtset3ByQZG5VHQlp1V5SxeiAtsF8aLZMmvTFQQMHG97t/FJ72teS2+3OeQ4m4GknA+c1MYcnGb20fLABC6SbWEnBhQcre8o+imyavuAQkHq/Hn7MU19wF7CGmb3pFTJuhGRRvI=
   skip_cleanup: true
   on:
     repo: TransbankDevelopers/transbank-sdk-php
     tags: true
+    php: 7.4
