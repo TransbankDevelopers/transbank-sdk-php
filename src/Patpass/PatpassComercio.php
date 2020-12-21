@@ -96,6 +96,6 @@ class PatpassComercio
     {
         self::setApiKey(Options::DEFAULT_PATPASS_COMERCIO_API_KEY);
         self::setCommerceCode(Options::DEFAULT_PATPASS_COMERCIO_COMMERCE_CODE);
-        self::setIntegrationType(self::$INTEGRATION_TYPES["TEST"]);
+        self::setIntegrationType("TEST");
     }
 }
