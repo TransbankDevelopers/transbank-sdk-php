@@ -10,6 +10,10 @@ namespace Transbank\Webpay;
  */
 class Options
 {
+    const ENVIRONMENT_LIVE = 'LIVE';
+    const ENVIRONMENT_TEST = 'TEST';
+    const ENVIRONMENT_MOCK = 'MOCK';
+
     /**
      * Default API key (which is sent as a header when making requests to Transbank
      * on a field called "Tbk-Api-Key-Secret")
@@ -17,6 +21,7 @@ class Options
     const DEFAULT_API_KEY = '579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C';
 
     const DEFAULT_COMMERCE_CODE = '597055555532';
+    const DEFAULT_WEBPAY_MODAL_COMMERCE_CODE = '597055555584';
     const DEFAULT_INTEGRATION_TYPE = "TEST";
     const DEFAULT_INTEGRATION_TYPE_URL = "https://webpay3gint.transbank.cl/";
     const DEFAULT_WEBPAY_PLUS_MALL_COMMERCE_CODE = '597055555535';
