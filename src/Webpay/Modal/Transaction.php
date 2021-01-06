@@ -37,6 +37,9 @@ class Transaction
         if ($options == null) {
             $options = WebpayModal::getDefaultOptions();
         }
+        if ($sessionId === null) {
+            $sessionId = uniqid();
+        }
 
         $payload = [
             "buy_order" => $buyOrder,

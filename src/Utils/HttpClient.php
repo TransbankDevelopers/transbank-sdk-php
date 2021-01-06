@@ -97,7 +97,7 @@ class HttpClient
             ]);
         }
         $request = new Request($method, $url, $headers, $data_to_send);
-        $client = new Client(['http_errors' => true]);
+        $client = new Client(['http_errors' => false]);
         return $client->send($request);
     }
 }
