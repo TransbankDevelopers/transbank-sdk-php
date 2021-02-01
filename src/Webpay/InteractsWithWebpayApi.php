@@ -38,6 +38,7 @@ trait InteractsWithWebpayApi
         $baseUrl = WebpayModal::getIntegrationTypeUrl($options->getIntegrationType());
         $response = $client->perform($method, $baseUrl . $endpoint, $payload, ['headers' => $headers]);
         $httpCode = $response->getStatusCode();
+
         if (!in_array($httpCode, [200, 204])) {
             $reason = $response->getReasonPhrase();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";

@@ -24,7 +24,7 @@ class Transaction
 
     const GET_TRANSACTION_STATUS_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$';
 
-    const CAPTURE_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$/capture';
+    const CAPTURE_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$/capture';
 
     /**
      * @param string $buyOrder

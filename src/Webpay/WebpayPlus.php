@@ -30,13 +30,6 @@ class WebpayPlus
         self::setIntegrationType(self::ENVIRONMENT_TEST);
     }
 
-    public static function configureForTesting()
-    {
-        self::setApiKey(Options::DEFAULT_API_KEY);
-        self::setCommerceCode(Options::DEFAULT_COMMERCE_CODE);
-        self::setIntegrationType(self::ENVIRONMENT_TEST);
-    }
-
     public static function configureMallForTesting()
     {
         self::setApiKey(Options::DEFAULT_API_KEY);
