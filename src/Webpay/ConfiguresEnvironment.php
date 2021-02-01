@@ -91,6 +91,12 @@ trait ConfiguresEnvironment
         return self::$httpClient;
     }
 
+    public function configureForIntegration($commerceCode, $apiKey)
+    {
+        self::setApiKey($apiKey);
+        self::setCommerceCode($commerceCode);
+        self::setIntegrationType(Options::ENVIRONMENT_TEST);
+    }
 
     public static function configureForProduction($commerceCode, $apiKey)
     {
