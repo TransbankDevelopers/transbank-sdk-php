@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Transbank\Webpay\Oneclick;
+namespace Transbank\Webpay\Oneclick\Responses;
 
 class InscriptionDeleteResponse
 {

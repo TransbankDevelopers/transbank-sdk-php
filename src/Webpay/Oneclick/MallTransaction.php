@@ -8,31 +8,19 @@ use Transbank\Webpay\Oneclick\Exceptions\AuthorizeMallTransactionException;
 use Transbank\Webpay\Oneclick\Exceptions\MallRefundTransactionException;
 use Transbank\Webpay\Oneclick\Exceptions\MallTransactionStatusException;
 use Transbank\Webpay\Oneclick\Exceptions\MallTransactionCaptureException;
+use Transbank\Webpay\Oneclick\Responses\AuthorizeMallTransactionResponse;
+use Transbank\Webpay\Oneclick\Responses\MallRefundTransactionResponse;
+use Transbank\Webpay\Oneclick\Responses\MallTransactionCaptureResponse;
+use Transbank\Webpay\Oneclick\Responses\MallTransactionStatusResponse;
+use Transbank\Webpay\Oneclick\Traits\NeedsConfiguration;
 
 class MallTransaction
 {
+    use NeedsConfiguration;
     const AUTHORIZE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/transactions';
     const TRANSACTION_STATUS_ENDPONT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/$BUYORDER$';
     const TRANSACTION_REFUND_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/$BUYORDER$/refunds';
     const TRANSACTION_CAPTURE_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/capture';
-
-    public static function getCommerceIdentifier($options)
-    {
-        if ($options == null) {
-            $commerceCode = Oneclick::getCommerceCode();
-            $apiKey = Oneclick::getApiKey();
-            $baseUrl = Oneclick::getIntegrationTypeUrl();
-        } else {
-            $commerceCode = $options->getCommerceCode();
-            $apiKey = $options->getApiKey();
-            $baseUrl = Oneclick::getIntegrationTypeUrl($options->getIntegrationType());
-        }
-        return array(
-            $commerceCode,
-            $apiKey,
-            $baseUrl,
-        );
-    }
 
     public static function authorize(
         $userName,

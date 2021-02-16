@@ -1,9 +1,11 @@
 <?php
 
 
-namespace Transbank\Webpay\Oneclick;
+namespace Transbank\Webpay\Oneclick\Responses;
 
-class MallTransactionStatusResponse
+use Transbank\Webpay\Oneclick\Responses\MallTransactionStatusResponse;
+
+class AuthorizeMallTransactionResponse
 {
     public $buyOrder;
     public $sessionId;
@@ -40,19 +42,19 @@ class MallTransactionStatusResponse
     /**
      * @return mixed
      */
-    public function getTransactionDate()
+    public function getBuyOrder()
     {
-        return $this->transactionDate;
+        return $this->buyOrder;
     }
 
     /**
-     * @param mixed $transactionDate
+     * @param mixed $buyOrder
      *
      * @return MallTransactionStatusResponse
      */
-    public function setTransactionDate($transactionDate)
+    public function setBuyOrder($buyOrder)
     {
-        $this->transactionDate = $transactionDate;
+        $this->buyOrder = $buyOrder;
         return $this;
     }
 
@@ -135,6 +137,25 @@ class MallTransactionStatusResponse
     /**
      * @return mixed
      */
+    public function getTransactionDate()
+    {
+        return $this->transactionDate;
+    }
+
+    /**
+     * @param mixed $transactionDate
+     *
+     * @return MallTransactionStatusResponse
+     */
+    public function setTransactionDate($transactionDate)
+    {
+        $this->transactionDate = $transactionDate;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getDetails()
     {
         return $this->details;
@@ -148,25 +169,6 @@ class MallTransactionStatusResponse
     public function setDetails($details)
     {
         $this->details = $details;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getBuyOrder()
-    {
-        return $this->buyOrder;
-    }
-
-    /**
-     * @param mixed $buyOrder
-     *
-     * @return MallTransactionStatusResponse
-     */
-    public function setBuyOrder($buyOrder)
-    {
-        $this->buyOrder = $buyOrder;
         return $this;
     }
 }

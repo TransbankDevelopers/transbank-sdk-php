@@ -9,7 +9,7 @@
  */
 
 
-namespace Transbank;
+namespace Transbank\TransaccionCompleta;
 
 use Transbank\Utils\HttpClient;
 use Transbank\TransaccionCompleta\Options;
