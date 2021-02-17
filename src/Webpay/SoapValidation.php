@@ -1,4 +1,5 @@
 <?php
+
 namespace Transbank\Webpay;
 
 class SoapValidation
@@ -22,7 +23,7 @@ class SoapValidation
 
     public function __construct($xmlSoap, $certServerPath)
     {
-        $doc = new \DOMDocument("1.0");
+        $doc = new \DOMDocument('1.0');
         $doc->loadXML($xmlSoap);
         $this->soapDoc = $doc;
         $this->envelope = $doc->documentElement;
@@ -40,7 +41,7 @@ class SoapValidation
         if (!empty($wsNamespace)) {
             $this->SOAPXPath->registerNamespace('wswsse', $wsNamespace);
         }
-        
+
         $this->result = $this->process();
     }
 
@@ -66,6 +67,7 @@ class SoapValidation
             }
             $this->secNode = $secnode;
         }
+
         return $wsNamespace;
     }
 
@@ -82,7 +84,7 @@ class SoapValidation
         $retVal = $objXMLSecDSig->validateReference();
 
         if (!$retVal) {
-            throw new \Exception("Validation Failed");
+            throw new \Exception('Validation Failed');
         }
 
         $key = null;
@@ -95,7 +97,7 @@ class SoapValidation
                 $objKey->loadKey($x509cert, false, true);
                 break;
 
-                throw new \Exception("Error loading key to handle Signature");
+                throw new \Exception('Error loading key to handle Signature');
             }
         } while (0);
 
@@ -116,7 +118,7 @@ class SoapValidation
         while ($node) {
             $nextNode = $node->nextSibling;
             switch ($node->localName) {
-                case "Signature":
+                case 'Signature':
                     if ($this->processSignature($node)) {
                         if ($node->parentNode) {
                             $node->parentNode->removeChild($node);
@@ -129,6 +131,7 @@ class SoapValidation
         }
         $this->secNode->parentNode->removeChild($this->secNode);
         $this->secNode = null;
+
         return true;
     }
 

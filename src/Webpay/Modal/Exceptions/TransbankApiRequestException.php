@@ -8,11 +8,12 @@ class TransbankApiRequestException extends \Exception
 
     protected $transbankError = null;
 
-    public function __construct($message = self::DEFAULT_MESSAGE, $transbankError = null,  $code = 0, $previous = null)
+    public function __construct($message = self::DEFAULT_MESSAGE, $transbankError = null, $code = 0, $previous = null)
     {
         $this->transbankError = $transbankError;
         parent::__construct($message, $code, $previous);
     }
+
     /**
      * @return mixed|null
      */

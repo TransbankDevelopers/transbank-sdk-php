@@ -4,7 +4,7 @@ namespace Transbank\Onepay;
 
 class TransactionCreateResponseMocks
 {
-    public static $transactionCreateResponseMocks = array();
+    public static $transactionCreateResponseMocks = [];
 
     public static function transactionCreateRequestMocks()
     {
@@ -25,6 +25,7 @@ class TransactionCreateResponseMocks
             $transactionCreateResponse = new TransactionCreateResponse($validResponseJson);
             array_push(self::$transactionCreateResponseMocks, $transactionCreateResponse);
         }
+
         return self::$transactionCreateResponseMocks;
     }
 

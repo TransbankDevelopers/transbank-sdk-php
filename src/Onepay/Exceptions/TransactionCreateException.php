@@ -1,15 +1,11 @@
 <?php
+
 namespace Transbank\Onepay\Exceptions;
 
-/**
- * class TransactionCreateException
- * Raised when giving invalid params to a TransactionCreateRequest
- *
- * @package Transbank
- *
- *
- */
-
+ /**
+  * class TransactionCreateException
+  * Raised when giving invalid params to a TransactionCreateRequest.
+  */
  class TransactionCreateException extends TransbankException
  {
      const DEFAULT_MESSAGE = 'Transaction could not be created. Please verify given parameters';

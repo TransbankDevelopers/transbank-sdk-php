@@ -7,18 +7,18 @@ use Transbank\Utils\HttpClient;
 trait ConfiguresEnvironment
 {
     /**
-     * @var $httpClient HttpClient|null
+     * @var HttpClient|null
      */
     public static $httpClient = null;
 
     /**
-     * @var array $INTEGRATION_TYPES contains key-value pairs of
-     * integration_type => url_of_that_integration
+     * @var array contains key-value pairs of
+     *            integration_type => url_of_that_integration
      */
     public static $INTEGRATION_TYPES = [
-        Options::ENVIRONMENT_LIVE => "https://webpay3g.transbank.cl/",
-        Options::ENVIRONMENT_TEST => "https://webpay3gint.transbank.cl/",
-        Options::ENVIRONMENT_MOCK => ""
+        Options::ENVIRONMENT_LIVE => 'https://webpay3g.transbank.cl/',
+        Options::ENVIRONMENT_TEST => 'https://webpay3gint.transbank.cl/',
+        Options::ENVIRONMENT_MOCK => '',
 
     ];
 
@@ -76,7 +76,6 @@ trait ConfiguresEnvironment
             return self::$INTEGRATION_TYPES[self::$integrationType];
         }
 
-
         return self::$INTEGRATION_TYPES[$integrationType];
     }
 
@@ -88,6 +87,7 @@ trait ConfiguresEnvironment
         if (!isset(self::$httpClient) || self::$httpClient == null) {
             self::$httpClient = new HttpClient();
         }
+
         return self::$httpClient;
     }
 
@@ -104,5 +104,4 @@ trait ConfiguresEnvironment
         self::setCommerceCode($commerceCode);
         self::setIntegrationType(Options::ENVIRONMENT_LIVE);
     }
-
 }

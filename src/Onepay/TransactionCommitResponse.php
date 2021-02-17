@@ -1,15 +1,12 @@
 <?php
+
 namespace Transbank\Onepay;
 
 /**
- *
  *  @class TransactionCommitResponse
  *  Instances of this class represent the response from Transbank's servers
  *  to a TransactionCommitRequest
- *  @package Transbank;
- *
-*/
-
+ */
 class TransactionCommitResponse extends BaseResponse implements \JsonSerializable
 {
     private $occ;
@@ -26,6 +23,7 @@ class TransactionCommitResponse extends BaseResponse implements \JsonSerializabl
     {
         $this->fromJSON($json);
     }
+
     public function jsonSerialize()
     {
         return get_object_vars($this);
@@ -39,6 +37,7 @@ class TransactionCommitResponse extends BaseResponse implements \JsonSerializabl
     public function setOcc($occ)
     {
         $this->occ = $occ;
+
         return $this;
     }
 
@@ -50,6 +49,7 @@ class TransactionCommitResponse extends BaseResponse implements \JsonSerializabl
     public function setAuthorizationCode($authorizationCode)
     {
         $this->authorizationCode = $authorizationCode;
+
         return $this;
     }
 
@@ -61,6 +61,7 @@ class TransactionCommitResponse extends BaseResponse implements \JsonSerializabl
     public function setSignature($signature)
     {
         $this->signature = $signature;
+
         return $this;
     }
 
@@ -72,6 +73,7 @@ class TransactionCommitResponse extends BaseResponse implements \JsonSerializabl
     public function setTransactionDesc($transactionDesc)
     {
         $this->transactionDesc;
+
         return $this;
     }
 
@@ -83,6 +85,7 @@ class TransactionCommitResponse extends BaseResponse implements \JsonSerializabl
     public function setBuyOrder($buyOrder)
     {
         $this->buyOrder = $buyOrder;
+
         return $this;
     }
 
@@ -94,6 +97,7 @@ class TransactionCommitResponse extends BaseResponse implements \JsonSerializabl
     public function setIssuedAt($issuedAt)
     {
         $this->issuedAt = $issuedAt;
+
         return $this;
     }
 
@@ -105,6 +109,7 @@ class TransactionCommitResponse extends BaseResponse implements \JsonSerializabl
     public function setAmount($amount)
     {
         $this->amount = $amount;
+
         return $this;
     }
 
@@ -116,6 +121,7 @@ class TransactionCommitResponse extends BaseResponse implements \JsonSerializabl
     public function setInstallmentsAmount($installmentsAmount)
     {
         $this->installmentsAmount = $installmentsAmount;
+
         return $this;
     }
 
@@ -127,6 +133,7 @@ class TransactionCommitResponse extends BaseResponse implements \JsonSerializabl
     public function setInstallmentsNumber($installmentsNumber)
     {
         $this->installmentsNumber = $installmentsNumber;
+
         return $this;
     }
 
@@ -151,6 +158,7 @@ class TransactionCommitResponse extends BaseResponse implements \JsonSerializabl
         $this->setAmount($responseResult['amount']);
         $this->setInstallmentsAmount($responseResult['installmentsAmount']);
         $this->setInstallmentsNumber($responseResult['installmentsNumber']);
+
         return $this;
     }
 }

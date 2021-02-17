@@ -1,15 +1,12 @@
 <?php
+
 namespace Transbank\Utils;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Message\FutureResponse;
-use GuzzleHttp\Message\ResponseInterface;
 use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Ring\Future\FutureInterface;
 
 /**
- * Class HttpClient
- * @package Transbank\Utils
+ * Class HttpClient.
  */
 class HttpClient
 {
@@ -17,12 +14,14 @@ class HttpClient
      * @param $url
      * @param $path
      * @param null $options
-     * @return \Psr\Http\Message\ResponseInterface
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function get($url, $path, $options = null)
     {
-        return $this->perform('GET', $url . $path, [], $options);
+        return $this->perform('GET', $url.$path, [], $options);
     }
 
     /**
@@ -30,26 +29,29 @@ class HttpClient
      * @param $path
      * @param $data_to_send
      * @param null $options
-     * @return \Psr\Http\Message\ResponseInterface
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function post($url, $path, $data_to_send, $options = null)
     {
-        return $this->perform('POST', $url . $path, $data_to_send, $options);
+        return $this->perform('POST', $url.$path, $data_to_send, $options);
     }
-
 
     /**
      * @param $url
      * @param $path
      * @param $data_to_send
      * @param null $options
-     * @return \Psr\Http\Message\ResponseInterface
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function put($url, $path, $data_to_send, $options = null)
     {
-        return $this->perform('PUT', $url . $path, $data_to_send, $options);
+        return $this->perform('PUT', $url.$path, $data_to_send, $options);
     }
 
     /**
@@ -57,12 +59,14 @@ class HttpClient
      * @param $path
      * @param $data_to_send
      * @param null $options
-     * @return \Psr\Http\Message\ResponseInterface
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function delete($url, $path, $data_to_send, $options = null)
     {
-        return $this->perform('DELETE', $url . $path, $data_to_send, $options);
+        return $this->perform('DELETE', $url.$path, $data_to_send, $options);
     }
 
     /**
@@ -71,16 +75,18 @@ class HttpClient
      * @param $options
      * @param $method
      * @param $data_to_send
-     * @return \Psr\Http\Message\ResponseInterface
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function perform($method, $url, $data_to_send = [], $options = null)
     {
         $basicHeader = [
-            "Content-Type" => "application/json",
-            "User-Agent" => 'TransbankSDK/1.0 SDK-PHP/1.0'
+            'Content-Type' => 'application/json',
+            'User-Agent'   => 'TransbankSDK/1.0 SDK-PHP/1.0',
         ];
-        $givenHeaders = isset($options["headers"]) ? $options["headers"] : [];
+        $givenHeaders = isset($options['headers']) ? $options['headers'] : [];
         $headers = array_merge($basicHeader, $givenHeaders);
         if (!$data_to_send) {
             $data_to_send = null;
@@ -91,13 +97,15 @@ class HttpClient
 
         if (defined('\GuzzleHttp\Client::VERSION') && version_compare(Client::VERSION, '6', '<')) {
             $client = new Client();
+
             return $client->request($method, $url, [
                 'headers' => $headers,
-                'body' => $data_to_send
+                'body'    => $data_to_send,
             ]);
         }
         $request = new Request($method, $url, $headers, $data_to_send);
         $client = new Client(['http_errors' => false]);
+
         return $client->send($request);
     }
 }

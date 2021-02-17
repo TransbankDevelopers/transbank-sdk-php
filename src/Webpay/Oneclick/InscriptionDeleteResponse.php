@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Transbank\Webpay\Oneclick;
 
 class InscriptionDeleteResponse
@@ -12,11 +11,13 @@ class InscriptionDeleteResponse
     {
         $this->setCode($httpCode);
         if ($httpCode == 204) {
-            $this->setStatus("OK");
+            $this->setStatus('OK');
+
             return;
         }
         if ($httpCode == 404) {
-            $this->setStatus("Not found");
+            $this->setStatus('Not found');
+
             return;
         }
     }
@@ -37,6 +38,7 @@ class InscriptionDeleteResponse
     public function setStatus($status)
     {
         $this->status = $status;
+
         return $this;
     }
 
@@ -56,6 +58,7 @@ class InscriptionDeleteResponse
     public function setCode($code)
     {
         $this->code = $code;
+
         return $this;
     }
 }

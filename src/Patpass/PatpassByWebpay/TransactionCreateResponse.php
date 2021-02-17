@@ -36,6 +36,7 @@ class TransactionCreateResponse
     public function setToken($token)
     {
         $this->token = $token;
+
         return $this;
     }
 
@@ -55,6 +56,7 @@ class TransactionCreateResponse
     public function setUrl($url)
     {
         $this->url = $url;
+
         return $this;
     }
 }

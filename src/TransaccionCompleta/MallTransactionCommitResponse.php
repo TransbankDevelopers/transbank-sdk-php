@@ -1,13 +1,10 @@
 <?php
 
 /**
- * Class MallTransactionCommitResponse
+ * Class MallTransactionCommitResponse.
  *
  * @category
- * @package Transbank\TransaccionCompleta
- *
  */
-
 
 namespace Transbank\TransaccionCompleta;
 
@@ -23,13 +20,13 @@ class MallTransactionCommitResponse
 
     public function __construct($json)
     {
-        $buyOrder = Utils::returnValueIfExists($json, "buy_order");
+        $buyOrder = Utils::returnValueIfExists($json, 'buy_order');
         $this->setBuyOrder($buyOrder);
-        $cardDetail = Utils::returnValueIfExists($json, "card_detail");
+        $cardDetail = Utils::returnValueIfExists($json, 'card_detail');
         $this->setCardDetail($cardDetail);
-        $accountingDate = Utils::returnValueIfExists($json, "accounting_date");
+        $accountingDate = Utils::returnValueIfExists($json, 'accounting_date');
         $this->setAccountingDate($accountingDate);
-        $details = Utils::returnValueIfExists($json, "details");
+        $details = Utils::returnValueIfExists($json, 'details');
         $this->setDetails($details);
     }
 
@@ -47,6 +44,7 @@ class MallTransactionCommitResponse
     public function setBuyOrder($buyOrder)
     {
         $this->buyOrder = $buyOrder;
+
         return $this;
     }
 
@@ -64,6 +62,7 @@ class MallTransactionCommitResponse
     public function setCardDetail($cardDetail)
     {
         $this->cardDetail = $cardDetail;
+
         return $this;
     }
 
@@ -81,6 +80,7 @@ class MallTransactionCommitResponse
     public function setAccountingDate($accountingDate)
     {
         $this->accountingDate = $accountingDate;
+
         return $this;
     }
 
@@ -98,6 +98,7 @@ class MallTransactionCommitResponse
     public function setTransactionDate($transactionDate)
     {
         $this->transactionDate = $transactionDate;
+
         return $this;
     }
 
@@ -115,6 +116,7 @@ class MallTransactionCommitResponse
     public function setDetails($details)
     {
         $this->details = $details;
+
         return $this;
     }
 }

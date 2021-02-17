@@ -1,13 +1,10 @@
 <?php
 
 /**
- * Class InscriptionStartResponse
+ * Class InscriptionStartResponse.
  *
  * @category
- * @package Transbank\Patpass\PatpassComercio
- *
  */
-
 
 namespace Transbank\Patpass\PatpassComercio;
 
@@ -20,14 +17,15 @@ class InscriptionStartResponse
 
     /**
      * InscriptionStartResponse constructor.
+     *
      * @param $token
      */
     public function __construct($json)
     {
-        $token = Utils::returnValueIfExists($json, "token");
+        $token = Utils::returnValueIfExists($json, 'token');
         $this->setToken($token);
 
-        $url = Utils::returnValueIfExists($json, "url");
+        $url = Utils::returnValueIfExists($json, 'url');
         $this->setUrlWebpay($url);
     }
 
@@ -47,6 +45,7 @@ class InscriptionStartResponse
     public function setToken($token)
     {
         $this->token = $token;
+
         return $this;
     }
 
@@ -66,6 +65,7 @@ class InscriptionStartResponse
     public function setUrlWebpay($url)
     {
         $this->urlWebpay = $url;
+
         return $this;
     }
 }

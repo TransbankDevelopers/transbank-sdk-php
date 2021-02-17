@@ -1,29 +1,25 @@
 <?php
+
 namespace Transbank\Onepay;
 
-/**
- *
- * class ShoppingCart
- *
- * @package Transbank
- */
-
+ /**
+  * class ShoppingCart.
+  */
  class ShoppingCart implements \JsonSerializable
  {
      private $items;
      private $total;
-    
+
      public function jsonSerialize()
      {
          return get_object_vars($this);
      }
-    
+
      public function __construct()
      {
-         $this->items = array();
+         $this->items = [];
          $this->total = 0;
      }
-
 
      public function getTotal()
      {
@@ -34,10 +30,10 @@ namespace Transbank\Onepay;
      {
          /**
           * Returns a copy of $this->items so it cannot be modified from the
-          * outside
+          * outside.
           */
          if (empty($this->items)) {
-             return array();
+             return [];
          }
          $newItems = [];
 
@@ -45,6 +41,7 @@ namespace Transbank\Onepay;
              $newItem = clone $item;
              array_push($newItems, $newItem);
          }
+
          return  $newItems;
      }
 
@@ -52,10 +49,11 @@ namespace Transbank\Onepay;
      {
          $newTotal = $this->total + $item->getAmount() * $item->getQuantity();
          if ($newTotal < 0) {
-             throw new \Exception("Total amount cannot be less than zero.");
+             throw new \Exception('Total amount cannot be less than zero.');
          }
          array_push($this->items, $item);
          $this->total = $newTotal;
+
          return true;
      }
 
@@ -68,17 +66,18 @@ namespace Transbank\Onepay;
          }
 
          if ($newTotal < 0) {
-             throw new \Exception("Total amount cannot be less than zero.");
+             throw new \Exception('Total amount cannot be less than zero.');
          }
          array_splice($this->items, $itemKey, 1);
          $this->total = $newTotal;
+
          return true;
      }
 
      public function removeAll()
      {
          $this->total = 0;
-         $this->items = array();
+         $this->items = [];
      }
 
      public function getItemQuantity()
@@ -87,12 +86,13 @@ namespace Transbank\Onepay;
          foreach ($this->items as $item) {
              $quantity += $item->getQuantity();
          }
+
          return $quantity;
      }
 
      /**
       * Creates a ShoppingCart from an associative array (or json_decode-able string)
-      * with the following shape
+      * with the following shape.
       *
       * $cart = array(
       *  "items" => [
@@ -105,7 +105,6 @@ namespace Transbank\Onepay;
       *     to include
       *  ]
       * );
-      *
       */
      public static function fromJSON($cart)
      {
@@ -133,6 +132,7 @@ namespace Transbank\Onepay;
              $item = Item::fromJSON($cartItem);
              $shoppingCartObject->add($item);
          }
+
          return $shoppingCartObject;
      }
  }

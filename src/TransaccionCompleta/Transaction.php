@@ -1,26 +1,23 @@
 <?php
 
 /**
- * Class Transaction
+ * Class Transaction.
  *
  * @category
- * @package Transbank\TransaccionCompleta
- *
  */
-
 
 namespace Transbank\TransaccionCompleta;
 
 use Transbank\TransaccionCompleta;
+use Transbank\TransaccionCompleta\Exceptions\TransactionCommitException;
 use Transbank\TransaccionCompleta\Exceptions\TransactionCreateException;
 use Transbank\TransaccionCompleta\Exceptions\TransactionInstallmentsException;
-use Transbank\TransaccionCompleta\Exceptions\TransactionCommitException;
 use Transbank\TransaccionCompleta\Exceptions\TransactionRefundException;
 use Transbank\TransaccionCompleta\Exceptions\TransactionStatusException;
 
 class Transaction
 {
-    const CREATE_TRANSACTION_ENDPOINT  = '/rswebpaytransaction/api/webpay/v1.0/transactions';
+    const CREATE_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions';
     const INSTALLMENTS_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$/installments';
     const COMMIT_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$';
     const REFUND_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$/refunds';
@@ -37,11 +34,12 @@ class Transaction
             $apiKey = $options->getApiKey();
             $baseUrl = TransaccionCompleta::getIntegrationTypeUrl($options->getIntegrationType());
         }
-        return array(
+
+        return [
             $commerceCode,
             $apiKey,
             $baseUrl,
-        );
+        ];
     }
 
     public static function create(
@@ -56,17 +54,17 @@ class Transaction
         list($commerceCode, $apiKey, $baseUrl) = Transaction::getCommerceIdentifier($options);
 
         $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+            'Tbk-Api-Key-Id'     => $commerceCode,
+            'Tbk-Api-Key-Secret' => $apiKey,
         ];
 
         $payload = json_encode([
-            "buy_order" => $buyOrder,
-            "session_id" => $sessionId,
-            "amount" => $amount,
-            "cvv" => $cvv,
-            "card_number" => $cardNumber,
-            "card_expiration_date" => $cardExpirationDate
+            'buy_order'            => $buyOrder,
+            'session_id'           => $sessionId,
+            'amount'               => $amount,
+            'cvv'                  => $cvv,
+            'card_number'          => $cardNumber,
+            'card_expiration_date' => $cardExpirationDate,
         ]);
 
         $http = TransaccionCompleta::getHttpClient();
@@ -75,7 +73,7 @@ class Transaction
             $baseUrl,
             self::CREATE_TRANSACTION_ENDPOINT,
             $payload,
-            [ 'headers' => $headers ]
+            ['headers' => $headers]
         );
 
         $httpCode = $httpResponse->getStatusCode();
@@ -85,8 +83,8 @@ class Transaction
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
+            if (isset($body['error_message'])) {
+                $tbkErrorMessage = $body['error_message'];
                 $message = "$message. Details: $tbkErrorMessage";
             }
 
@@ -108,13 +106,13 @@ class Transaction
         list($commerceCode, $apiKey, $baseUrl) = Transaction::getCommerceIdentifier($options);
 
         $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+            'Tbk-Api-Key-Id'     => $commerceCode,
+            'Tbk-Api-Key-Secret' => $apiKey,
         ];
         $url = str_replace('$TOKEN$', $token, self::INSTALLMENTS_TRANSACTION_ENDPOINT);
 
         $payload = json_encode([
-            "installments_number" => $installmentsNumber
+            'installments_number' => $installmentsNumber,
         ]);
 
         $http = TransaccionCompleta::getHttpClient();
@@ -123,7 +121,7 @@ class Transaction
             $baseUrl,
             $url,
             $payload,
-            [ 'headers' => $headers ]
+            ['headers' => $headers]
         );
 
         $httpCode = $httpResponse->getStatusCode();
@@ -133,8 +131,8 @@ class Transaction
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
+            if (isset($body['error_message'])) {
+                $tbkErrorMessage = $body['error_message'];
                 $message = "$message. Details: $tbkErrorMessage";
             }
 
@@ -158,15 +156,15 @@ class Transaction
         list($commerceCode, $apiKey, $baseUrl) = Transaction::getCommerceIdentifier($options);
 
         $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+            'Tbk-Api-Key-Id'     => $commerceCode,
+            'Tbk-Api-Key-Secret' => $apiKey,
         ];
         $url = str_replace('$TOKEN$', $token, self::COMMIT_TRANSACTION_ENDPOINT);
 
         $payload = json_encode([
-           "id_query_installments" => $idQueryInstallments,
-           "deferred_period_index" => $deferredPeriodIndex,
-           "grace_period" => $gracePeriod
+            'id_query_installments' => $idQueryInstallments,
+            'deferred_period_index' => $deferredPeriodIndex,
+            'grace_period'          => $gracePeriod,
         ]);
 
         $http = TransaccionCompleta::getHttpClient();
@@ -175,7 +173,7 @@ class Transaction
             $baseUrl,
             $url,
             $payload,
-            [ 'headers' => $headers ]
+            ['headers' => $headers]
         );
 
         $httpCode = $httpResponse->getStatusCode();
@@ -185,8 +183,8 @@ class Transaction
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
+            if (isset($body['error_message'])) {
+                $tbkErrorMessage = $body['error_message'];
                 $message = "$message. Details: $tbkErrorMessage";
             }
 
@@ -208,13 +206,13 @@ class Transaction
         list($commerceCode, $apiKey, $baseUrl) = Transaction::getCommerceIdentifier($options);
 
         $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+            'Tbk-Api-Key-Id'     => $commerceCode,
+            'Tbk-Api-Key-Secret' => $apiKey,
         ];
         $url = str_replace('$TOKEN$', $token, self::REFUND_TRANSACTION_ENDPOINT);
 
         $payload = json_encode([
-            "amount" => $amount
+            'amount' => $amount,
         ]);
 
         $http = TransaccionCompleta::getHttpClient();
@@ -223,7 +221,7 @@ class Transaction
             $baseUrl,
             $url,
             $payload,
-            [ 'headers' => $headers ]
+            ['headers' => $headers]
         );
 
         $httpCode = $httpResponse->getStatusCode();
@@ -233,8 +231,8 @@ class Transaction
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
+            if (isset($body['error_message'])) {
+                $tbkErrorMessage = $body['error_message'];
                 $message = "$message. Details: $tbkErrorMessage";
             }
 
@@ -255,8 +253,8 @@ class Transaction
         list($commerceCode, $apiKey, $baseUrl) = Transaction::getCommerceIdentifier($options);
 
         $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+            'Tbk-Api-Key-Id'     => $commerceCode,
+            'Tbk-Api-Key-Secret' => $apiKey,
         ];
         $url = str_replace('$TOKEN$', $token, self::STATUS_TRANSACTION_ENDPOINT);
 
@@ -265,7 +263,7 @@ class Transaction
         $httpResponse = $http->get(
             $baseUrl,
             $url,
-            [ 'headers' => $headers ]
+            ['headers' => $headers]
         );
 
         $httpCode = $httpResponse->getStatusCode();
@@ -275,8 +273,8 @@ class Transaction
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
+            if (isset($body['error_message'])) {
+                $tbkErrorMessage = $body['error_message'];
                 $message = "$message. Details: $tbkErrorMessage";
             }
 

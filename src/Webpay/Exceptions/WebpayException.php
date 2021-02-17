@@ -3,12 +3,9 @@
 namespace Transbank\Webpay\Exceptions;
 
 /**
- * class WebpayException
+ * class WebpayException.
  *
  *   basic class for  Webpay related exceptions
- *
- * @package Transbank
- *
  */
 class WebpayException extends \Exception
 {

@@ -1,13 +1,10 @@
 <?php
 
 /**
- * Class InscriptionFinishResponse
+ * Class InscriptionFinishResponse.
  *
  * @category
- * @package Transbank\Patpass\PatpassComercio
- *
  */
-
 
 namespace Transbank\Patpass\PatpassComercio;
 
@@ -21,11 +18,13 @@ class InscriptionFinishResponse
         $this->setCode($httpCode);
 
         if ($httpCode == 204) {
-            $this->setStatus("OK");
+            $this->setStatus('OK');
+
             return;
         }
         if ($httpCode == 404) {
-            $this->setStatus("Not Found");
+            $this->setStatus('Not Found');
+
             return;
         }
     }
@@ -44,6 +43,7 @@ class InscriptionFinishResponse
     public function setStatus($status)
     {
         $this->status = $status;
+
         return $this;
     }
 
@@ -61,6 +61,7 @@ class InscriptionFinishResponse
     public function setCode($code)
     {
         $this->code = $code;
+
         return $this;
     }
 }

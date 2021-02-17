@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Transbank\Webpay\Oneclick;
 
 class InscriptionStartResponse
@@ -10,8 +9,8 @@ class InscriptionStartResponse
 
     public function __construct($json)
     {
-        $token = $json["token"];
-        $urlWebpay = $json["url_webpay"];
+        $token = $json['token'];
+        $urlWebpay = $json['url_webpay'];
         $this->setToken($token);
         $this->setUrlWebpay($urlWebpay);
     }
@@ -32,6 +31,7 @@ class InscriptionStartResponse
     public function setToken($token)
     {
         $this->token = $token;
+
         return $this;
     }
 
@@ -51,6 +51,7 @@ class InscriptionStartResponse
     public function setUrlWebpay($urlWebpay)
     {
         $this->urlWebpay = $urlWebpay;
+
         return $this;
     }
 }

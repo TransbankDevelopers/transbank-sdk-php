@@ -2,33 +2,32 @@
 
 namespace Transbank\Onepay;
 
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
-require_once(__DIR__ . '/mocks/ShoppingCartMocks.php');
-require_once(__DIR__ . '/mocks/TransactionCreateResponseMocks.php');
-use Transbank\Onepay\Exceptions\TransactionCreateException;
-use Transbank\Onepay\Exceptions\TransactionCommitException;
+require_once __DIR__.'/mocks/ShoppingCartMocks.php';
+require_once __DIR__.'/mocks/TransactionCreateResponseMocks.php';
 use Transbank\Onepay\Exceptions\SignException;
+use Transbank\Onepay\Exceptions\TransactionCommitException;
+use Transbank\Onepay\Exceptions\TransactionCreateException;
 
 final class TransactionTest extends TestCase
 {
-    const EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST = "1532376544050";
-    const OCC_TO_COMMIT_TRANSACTION_TEST = "1807829988419927";
+    const EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST = '1532376544050';
+    const OCC_TO_COMMIT_TRANSACTION_TEST = '1807829988419927';
+
     protected function setup()
     {
-        OnepayBase::setSharedSecret("P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
-        OnepayBase::setApiKey("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg");
-        OnepayBase::setCurrentIntegrationType("MOCK");
+        OnepayBase::setSharedSecret('P4DCPS55QB2QLT56SQH6#W#LV76IAPYX');
+        OnepayBase::setApiKey('mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg');
+        OnepayBase::setCurrentIntegrationType('MOCK');
     }
 
     public function testTransactionRaisesWhenResponseIsNull()
     {
 
         // Create a mock http client that will return Null
-        $httpClientStub = $this->getMock(HttpClient::class, array('post'));
+        $httpClientStub = $this->getMock(HttpClient::class, ['post']);
         $httpClientStub->expects($this->any())->method('post')->willReturn(null);
 
         // Alter the private static property of Transaction 'httpClient'
@@ -55,12 +54,12 @@ final class TransactionTest extends TestCase
 
     public function testTransactionRaisesWhenResponseIsNotOk()
     {
-        $mockResponse = json_encode(array('responseCode' => 'INVALID_PARAMS',
-            'description' => 'Parametros invalidos',
-            'result' => null));
+        $mockResponse = json_encode(['responseCode' => 'INVALID_PARAMS',
+            'description'                           => 'Parametros invalidos',
+            'result'                                => null, ]);
 
         // Create a mock http client that will return Null
-        $httpClientStub = $this->getMock(HttpClient::class, array('post'));
+        $httpClientStub = $this->getMock(HttpClient::class, ['post']);
         $httpClientStub->expects($this->any())->method('post')->willReturn(new Response(200, [], $mockResponse));
 
         // Alter the private static property of Transaction 'httpClient'
@@ -86,7 +85,7 @@ final class TransactionTest extends TestCase
 
     public function testTransactionRaisesWhenSignatureIsInvalid()
     {
-        $mockResponse =  '{
+        $mockResponse = '{
             "responseCode": "OK",
             "description": "OK",
             "result": {
@@ -99,7 +98,7 @@ final class TransactionTest extends TestCase
             }
         }';
         // Create a mock http client that will return Null
-        $httpClientStub = $this->getMock(HttpClient::class, array('post'));
+        $httpClientStub = $this->getMock(HttpClient::class, ['post']);
         $httpClientStub->expects($this->any())->method('post')->willReturn(new Response(200, [], $mockResponse));
 
         // Alter the private static property of Transaction 'httpClient'
@@ -137,16 +136,16 @@ final class TransactionTest extends TestCase
         $this->assertNull($nullApiKey);
         $this->assertNull($nullSharedSecret);
 
-        putenv('ONEPAY_API_KEY=' . $originalApiKey);
-        putenv('ONEPAY_SHARED_SECRET=' . $originalSharedSecret);
+        putenv('ONEPAY_API_KEY='.$originalApiKey);
+        putenv('ONEPAY_SHARED_SECRET='.$originalSharedSecret);
 
         $this->assertEquals(OnepayBase::getApiKey(), getenv('ONEPAY_API_KEY'));
         $this->assertEquals(OnepayBase::getSharedSecret(), getenv('ONEPAY_SHARED_SECRET'));
 
         $shoppingCart = ShoppingCartMocks::get();
         $response = Transaction::create($shoppingCart);
-        $this->assertEquals($response->getResponseCode(), "OK");
-        $this->assertEquals($response->getDescription(), "OK");
+        $this->assertEquals($response->getResponseCode(), 'OK');
+        $this->assertEquals($response->getDescription(), 'OK');
         $this->assertNotNull($response->getQrCodeAsBase64());
     }
 
@@ -154,8 +153,8 @@ final class TransactionTest extends TestCase
     {
         $shoppingCart = ShoppingCartMocks::get();
         $response = Transaction::create($shoppingCart);
-        $this->assertEquals($response->getResponseCode(), "OK");
-        $this->assertEquals($response->getDescription(), "OK");
+        $this->assertEquals($response->getResponseCode(), 'OK');
+        $this->assertEquals($response->getDescription(), 'OK');
         $this->assertNotNull($response->getQrCodeAsBase64());
     }
 
@@ -163,11 +162,11 @@ final class TransactionTest extends TestCase
     {
         $shoppingCart = new ShoppingCart();
         $options = new Options(
-            "mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
-            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX"
+            'mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg',
+            'P4DCPS55QB2QLT56SQH6#W#LV76IAPYX'
         );
-        $firstItem = new Item("Zapatos", 1, 15000, null, -1);
-        $secondItem = new Item("Pantalon", 1, 12500, null, -1);
+        $firstItem = new Item('Zapatos', 1, 15000, null, -1);
+        $secondItem = new Item('Pantalon', 1, 12500, null, -1);
 
         $shoppingCart->add($firstItem);
         $shoppingCart->add($secondItem);
@@ -178,8 +177,8 @@ final class TransactionTest extends TestCase
         $response = Transaction::create($shoppingCart, $options);
 
         $this->assertEquals($response instanceof TransactionCreateResponse, true);
-        $this->assertEquals($response->getResponseCode(), "OK");
-        $this->assertEquals($response->getDescription(), "OK");
+        $this->assertEquals($response->getResponseCode(), 'OK');
+        $this->assertEquals($response->getDescription(), 'OK');
         $this->assertNotNull($response->getQrCodeAsBase64());
     }
 
@@ -187,8 +186,8 @@ final class TransactionTest extends TestCase
     {
         // Setting commerce data
         $options = new Options(
-            "mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
-            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX"
+            'mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg',
+            'P4DCPS55QB2QLT56SQH6#W#LV76IAPYX'
         );
 
         // commit transaction
@@ -217,7 +216,7 @@ final class TransactionTest extends TestCase
     public function testTransactionCommitRaisesWhenResponseIsNull()
     {
         // Create a mock http client that will return Null
-        $httpClientStub = $this->getMock(HttpClient::class, array('post'));
+        $httpClientStub = $this->getMock(HttpClient::class, ['post']);
         $httpClientStub->expects($this->any())->method('post')->willReturn(null);
 
         // Alter the private static property of Transaction 'httpClient'
@@ -229,8 +228,8 @@ final class TransactionTest extends TestCase
 
         // Setting commerce data
         $options = new Options(
-            "mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
-            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX"
+            'mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg',
+            'P4DCPS55QB2QLT56SQH6#W#LV76IAPYX'
         );
 
         // commit transaction
@@ -252,11 +251,11 @@ final class TransactionTest extends TestCase
 
     public function testTransactionCommitRaisesWhenResponseIsNotOk()
     {
-        $mockResponse = json_encode(array('responseCode' => 'INVALID_PARAMS',
-                                          'description' => 'Parametros invalidos',
-                                          'result' => null));
+        $mockResponse = json_encode(['responseCode' => 'INVALID_PARAMS',
+            'description'                           => 'Parametros invalidos',
+            'result'                                => null, ]);
         // Create a mock http client that will return Null
-        $httpClientStub = $this->getMock(HttpClient::class, array('post'));
+        $httpClientStub = $this->getMock(HttpClient::class, ['post']);
         $httpClientStub->expects($this->any())->method('post')->willReturn(new Response(200, [], $mockResponse));
 
         // Alter the private static property of Transaction 'httpClient'
@@ -268,8 +267,8 @@ final class TransactionTest extends TestCase
 
         // Setting commerce data
         $options = new Options(
-            "mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
-            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX"
+            'mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg',
+            'P4DCPS55QB2QLT56SQH6#W#LV76IAPYX'
         );
 
         // commit transaction
@@ -308,7 +307,7 @@ final class TransactionTest extends TestCase
         }';
 
         // Create a mock http client that will return Null
-        $httpClientStub = $this->getMock(HttpClient::class, array('post'));
+        $httpClientStub = $this->getMock(HttpClient::class, ['post']);
         $httpClientStub->expects($this->any())->method('post')->willReturn(new Response(200, [], $mockResponse));
 
         // Alter the private static property of Transaction 'httpClient'
@@ -320,8 +319,8 @@ final class TransactionTest extends TestCase
 
         // Setting commerce data
         $options = new Options(
-            "mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
-            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX"
+            'mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg',
+            'P4DCPS55QB2QLT56SQH6#W#LV76IAPYX'
         );
 
         // commit transaction
@@ -345,7 +344,7 @@ final class TransactionTest extends TestCase
     {
         OnepayBase::setCallbackUrl(null);
         // Create a mock http client that will return Null
-        $httpClientStub = $this->getMock(HttpClient::class, array('post'));
+        $httpClientStub = $this->getMock(HttpClient::class, ['post']);
         $httpClientStub->expects($this->any())->method('post')->willReturn(null);
 
         // Alter the private static property of Transaction 'httpClient'
@@ -372,14 +371,14 @@ final class TransactionTest extends TestCase
 
     public function testTransactionWhenChannelMobileAndCallbackUrlNotNull()
     {
-        OnepayBase::setCallbackUrl("http://some.callback.url");
+        OnepayBase::setCallbackUrl('http://some.callback.url');
         $shoppingCart = new ShoppingCart();
         $options = new Options(
-            "mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
-            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX"
+            'mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg',
+            'P4DCPS55QB2QLT56SQH6#W#LV76IAPYX'
         );
-        $firstItem = new Item("Zapatos", 1, 15000, null, -1);
-        $secondItem = new Item("Pantalon", 1, 12500, null, -1);
+        $firstItem = new Item('Zapatos', 1, 15000, null, -1);
+        $secondItem = new Item('Pantalon', 1, 12500, null, -1);
 
         $shoppingCart->add($firstItem);
         $shoppingCart->add($secondItem);
@@ -390,15 +389,15 @@ final class TransactionTest extends TestCase
         $response = Transaction::create($shoppingCart, ChannelEnum::MOBILE());
 
         $this->assertEquals($response instanceof TransactionCreateResponse, true);
-        $this->assertEquals($response->getResponseCode(), "OK");
-        $this->assertEquals($response->getDescription(), "OK");
+        $this->assertEquals($response->getResponseCode(), 'OK');
+        $this->assertEquals($response->getDescription(), 'OK');
         $this->assertNotNull($response->getQrCodeAsBase64());
     }
 
     public function testTransactionFailsWhenChannelAPPAndAppSchemeNull()
     {
         // Create a mock http client that will return Null
-        $httpClientStub = $this->getMock(HttpClient::class, array('post'));
+        $httpClientStub = $this->getMock(HttpClient::class, ['post']);
         $httpClientStub->expects($this->any())->method('post')->willReturn(null);
 
         // Alter the private static property of Transaction 'httpClient'
@@ -428,11 +427,11 @@ final class TransactionTest extends TestCase
         OnepayBase::setAppScheme('somescheme');
         $shoppingCart = new ShoppingCart();
         $options = new Options(
-            "mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
-            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX"
+            'mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg',
+            'P4DCPS55QB2QLT56SQH6#W#LV76IAPYX'
         );
-        $firstItem = new Item("Zapatos", 1, 15000, null, -1);
-        $secondItem = new Item("Pantalon", 1, 12500, null, -1);
+        $firstItem = new Item('Zapatos', 1, 15000, null, -1);
+        $secondItem = new Item('Pantalon', 1, 12500, null, -1);
 
         $shoppingCart->add($firstItem);
         $shoppingCart->add($secondItem);
@@ -443,8 +442,8 @@ final class TransactionTest extends TestCase
         $response = Transaction::create($shoppingCart, ChannelEnum::APP());
 
         $this->assertEquals($response instanceof TransactionCreateResponse, true);
-        $this->assertEquals($response->getResponseCode(), "OK");
-        $this->assertEquals($response->getDescription(), "OK");
+        $this->assertEquals($response->getResponseCode(), 'OK');
+        $this->assertEquals($response->getDescription(), 'OK');
         $this->assertNotNull($response->getQrCodeAsBase64());
     }
 
@@ -453,11 +452,11 @@ final class TransactionTest extends TestCase
         OnepayBase::setAppScheme('somescheme');
         $shoppingCart = new ShoppingCart();
         $options = new Options(
-            "mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
-            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX"
+            'mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg',
+            'P4DCPS55QB2QLT56SQH6#W#LV76IAPYX'
         );
-        $firstItem = new Item("Zapatos", 1, 15000, null, -1);
-        $secondItem = new Item("Pantalon", 1, 12500, null, -1);
+        $firstItem = new Item('Zapatos', 1, 15000, null, -1);
+        $secondItem = new Item('Pantalon', 1, 12500, null, -1);
 
         $shoppingCart->add($firstItem);
         $shoppingCart->add($secondItem);
@@ -468,8 +467,8 @@ final class TransactionTest extends TestCase
         $response = Transaction::create($shoppingCart, ChannelEnum::APP(), null);
 
         $this->assertEquals($response instanceof TransactionCreateResponse, true);
-        $this->assertEquals($response->getResponseCode(), "OK");
-        $this->assertEquals($response->getDescription(), "OK");
+        $this->assertEquals($response->getResponseCode(), 'OK');
+        $this->assertEquals($response->getDescription(), 'OK');
         $this->assertNotNull($response->getQrCodeAsBase64());
     }
 
@@ -478,11 +477,11 @@ final class TransactionTest extends TestCase
         OnepayBase::setAppScheme('somescheme');
         $shoppingCart = new ShoppingCart();
         $options = new Options(
-            "mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg",
-            "P4DCPS55QB2QLT56SQH6#W#LV76IAPYX"
+            'mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg',
+            'P4DCPS55QB2QLT56SQH6#W#LV76IAPYX'
         );
-        $firstItem = new Item("Zapatos", 1, 15000, null, -1);
-        $secondItem = new Item("Pantalon", 1, 12500, null, -1);
+        $firstItem = new Item('Zapatos', 1, 15000, null, -1);
+        $secondItem = new Item('Pantalon', 1, 12500, null, -1);
 
         $shoppingCart->add($firstItem);
         $shoppingCart->add($secondItem);
@@ -490,13 +489,13 @@ final class TransactionTest extends TestCase
         $this->assertEquals('Zapatos', $firstItem->getDescription());
         $this->assertEquals('Pantalon', $secondItem->getDescription());
 
-        $response = Transaction::create($shoppingCart, ChannelEnum::APP(), "ABC123");
+        $response = Transaction::create($shoppingCart, ChannelEnum::APP(), 'ABC123');
 
         $this->assertEquals(true, $response instanceof TransactionCreateResponse);
-        $this->assertEquals("OK", $response->getResponseCode());
-        $this->assertEquals("OK", $response->getDescription());
+        $this->assertEquals('OK', $response->getResponseCode());
+        $this->assertEquals('OK', $response->getDescription());
         $this->assertNotNull($response->getQrCodeAsBase64());
-        $this->assertEquals("f506a955-800c-4185-8818-4ef9fca97aae", $response->getExternalUniqueNumber());
+        $this->assertEquals('f506a955-800c-4185-8818-4ef9fca97aae', $response->getExternalUniqueNumber());
     }
 
     public function testTransactionIncludesWidthHeight()

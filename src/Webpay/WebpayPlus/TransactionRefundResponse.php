@@ -1,16 +1,12 @@
 <?php
 
-
 namespace Transbank\Webpay\WebpayPlus;
 
 /**
- * Class TransactionRefundResponse
- *
- * @package Transbank\Webpay\WebpayPlus
+ * Class TransactionRefundResponse.
  */
 class TransactionRefundResponse
 {
-
     /**
      * @var mixed|null
      */
@@ -43,12 +39,12 @@ class TransactionRefundResponse
      */
     public function __construct($json)
     {
-        $this->type = isset($json["type"]) ? $json["type"] : null;
-        $this->authorizationCode = isset($json["authorization_code"]) ? $json["authorization_code"] : null;
-        $this->authorizationDate = isset($json["authorization_date"]) ? $json["authorization_date"] : null;
-        $this->nullifiedAmount = isset($json["nullified_amount"]) ? $json["nullified_amount"] : null;
-        $this->balance = isset($json["balance"]) ? $json["balance"] : null;
-        $this->responseCode = isset($json["response_code"]) ? $json["response_code"] : null;
+        $this->type = isset($json['type']) ? $json['type'] : null;
+        $this->authorizationCode = isset($json['authorization_code']) ? $json['authorization_code'] : null;
+        $this->authorizationDate = isset($json['authorization_date']) ? $json['authorization_date'] : null;
+        $this->nullifiedAmount = isset($json['nullified_amount']) ? $json['nullified_amount'] : null;
+        $this->balance = isset($json['balance']) ? $json['balance'] : null;
+        $this->responseCode = isset($json['response_code']) ? $json['response_code'] : null;
     }
 
     /**
@@ -67,6 +63,7 @@ class TransactionRefundResponse
     public function setNullifiedAmount($nullifiedAmount)
     {
         $this->nullifiedAmount = $nullifiedAmount;
+
         return $this;
     }
 
@@ -86,6 +83,7 @@ class TransactionRefundResponse
     public function setBalance($balance)
     {
         $this->balance = $balance;
+
         return $this;
     }
 
@@ -105,6 +103,7 @@ class TransactionRefundResponse
     public function setResponseCode($responseCode)
     {
         $this->responseCode = $responseCode;
+
         return $this;
     }
 
@@ -124,6 +123,7 @@ class TransactionRefundResponse
     public function setType($type)
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -143,6 +143,7 @@ class TransactionRefundResponse
     public function setAuthorizationCode($authorizationCode)
     {
         $this->authorizationCode = $authorizationCode;
+
         return $this;
     }
 
@@ -162,6 +163,7 @@ class TransactionRefundResponse
     public function setAuthorizationDate($authorizationDate)
     {
         $this->authorizationDate = $authorizationDate;
+
         return $this;
     }
 }

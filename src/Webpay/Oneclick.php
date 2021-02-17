@@ -1,9 +1,6 @@
 <?php
 
-
 namespace Transbank\Webpay;
-
-use Transbank\Utils\HttpClient;
 
 class Oneclick
 {
@@ -13,7 +10,6 @@ class Oneclick
     private static $commerceCode = Options::DEFAULT_ONECLICK_MALL_COMMERCE_CODE;
     private static $integrationType = Options::DEFAULT_INTEGRATION_TYPE;
 
-
     public static function configureOneclickMallForTesting()
     {
         self::setApiKey(Options::DEFAULT_API_KEY);
@@ -21,7 +17,8 @@ class Oneclick
         self::setIntegrationType(Options::DEFAULT_INTEGRATION_TYPE);
     }
 
-    public static function configureOneclickMallDeferredForTesting(){
+    public static function configureOneclickMallDeferredForTesting()
+    {
         self::setApiKey(Options::DEFAULT_API_KEY);
         self::setCommerceCode(Options::DEFAULT_ONECLICK_MALL_DEFERRED_COMMERCE_CODE);
         self::setIntegrationType(Options::DEFAULT_INTEGRATION_TYPE);
@@ -31,6 +28,6 @@ class Oneclick
     {
         self::setApiKey($apiKey);
         self::setCommerceCode($commerceCode);
-        self::setIntegrationType("LIVE");
+        self::setIntegrationType('LIVE');
     }
 }

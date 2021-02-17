@@ -1,37 +1,36 @@
 <?php
+
 namespace Transbank\Onepay;
 
 /**
  * Class OnepayBase
- * Base class for Transbank\Onepay
- * @package Transbank
-*/
+ * Base class for Transbank\Onepay.
+ */
 class OnepayBase
 {
-    const DEFAULT_CALLBACK = "http://no.callback.has/been.set";
+    const DEFAULT_CALLBACK = 'http://no.callback.has/been.set';
 
-    public static $appKeys = array("TEST" => '1a0c0639-bd2f-4846-8d26-81f43187e797',
-                                   "LIVE" => '2B571C49-C1B6-4AD1-9806-592AC68023B7',
-                                   "MOCK" => '04533c31-fe7e-43ed-bbc4-1c8ab1538afp');
+    public static $appKeys = ['TEST' => '1a0c0639-bd2f-4846-8d26-81f43187e797',
+        'LIVE'                       => '2B571C49-C1B6-4AD1-9806-592AC68023B7',
+        'MOCK'                       => '04533c31-fe7e-43ed-bbc4-1c8ab1538afp', ];
     public static $callbackUrl = null;
 
     public static $serverBasePath;
     public static $scriptPath;
     public static $apiKey;
     public static $sharedSecret;
-    private static $integrationType = "TEST";
+    private static $integrationType = 'TEST';
     private static $appScheme = null;
     /**
-     * @var integer|null $qrWidthHeight an integer used as the width & height of the
-     *      QR code rendered by the Onepay front end JS SDK.
+     * @var int|null an integer used as the width & height of the
+     *               QR code rendered by the Onepay front end JS SDK.
      */
     private static $qrWidthHeight = null;
     /**
-     * @var string|null $commerceLogoUrl URL for the merchant's logo, used by the
-     *      Onepay front end JS SDK.
+     * @var string|null URL for the merchant's logo, used by the
+     *                  Onepay front end JS SDK.
      */
     private static $commerceLogoUrl = null;
-
 
     /**
      * @return int|null
@@ -65,36 +64,36 @@ class OnepayBase
         self::$commerceLogoUrl = $commerceLogoUrl;
     }
 
-
     public static function integrationTypes($type = null)
     {
-        $types = array("TEST" => 'https://onepay.ionix.cl',
-                       "LIVE" => 'https://www.onepay.cl',
-                       "MOCK" => 'https://transbank-onepay-ewallet-mock.herokuapp.com');
-
+        $types = ['TEST' => 'https://onepay.ionix.cl',
+            'LIVE'       => 'https://www.onepay.cl',
+            'MOCK'       => 'https://transbank-onepay-ewallet-mock.herokuapp.com', ];
 
         if (!$type) {
             return $types;
         } elseif (!$types[$type]) {
-            throw new \Exception('Invalid type, valid types: ' . join(array_keys($types), ", "));
+            throw new \Exception('Invalid type, valid types: '.join(array_keys($types), ', '));
         } else {
             return $types[$type];
         }
     }
+
     /**
      * Get your Onepay API key
-     * If self::$apiKey evaluates to false, it will return getenv("ONEPAY_API_KEY")
+     * If self::$apiKey evaluates to false, it will return getenv("ONEPAY_API_KEY").
      */
     public static function getApiKey()
     {
         if (!self::$apiKey) {
-            return getenv("ONEPAY_API_KEY");
+            return getenv('ONEPAY_API_KEY');
         }
+
         return self::$apiKey;
     }
 
     /**
-     * Sets the API key to use for requests
+     * Sets the API key to use for requests.
      */
     public static function setApiKey($apiKey)
     {
@@ -103,36 +102,42 @@ class OnepayBase
 
     /**
      * @param mixed $callbackUrl
+     *
      * @throws \Exception
      */
     public static function setCallbackUrl($callbackUrl)
     {
         self::$callbackUrl = $callbackUrl;
     }
+
     /**
      * Get the callback URL. Not necessary nor used by integrators, but must be
-     * kept for legacy reasons
+     * kept for legacy reasons.
      */
     public static function getCallbackUrl()
     {
         if (!self::$callbackUrl) {
-            return getenv("ONEPAY_CALLBACK_URL");
+            return getenv('ONEPAY_CALLBACK_URL');
         }
+
         return self::$callbackUrl;
     }
+
     /**
      * Get the SharedSecret
-     * If self::$sharedSecret evaluates to false, it will return getenv("ONEPAY_SHARED_SECRET")
+     * If self::$sharedSecret evaluates to false, it will return getenv("ONEPAY_SHARED_SECRET").
      */
     public static function getSharedSecret()
     {
         if (!self::$sharedSecret) {
-            return getenv("ONEPAY_SHARED_SECRET");
+            return getenv('ONEPAY_SHARED_SECRET');
         }
+
         return self::$sharedSecret;
     }
+
     /**
-     * Set the SharedSecret
+     * Set the SharedSecret.
      */
     public static function setSharedSecret($sharedSecret)
     {
@@ -140,59 +145,55 @@ class OnepayBase
     }
 
     /**
-     * Get the url of the current integration endpoint
+     * Get the url of the current integration endpoint.
      */
-
     public static function getCurrentIntegrationTypeUrl()
     {
         return self::integrationTypes()[self::$integrationType];
     }
 
     /**
-     * Get the appKey of the current integration endpoint
+     * Get the appKey of the current integration endpoint.
      */
-
     public static function getCurrentIntegrationTypeAppKey()
     {
         return self::$appKeys[self::$integrationType];
     }
 
-
-
     /**
-     *
-     * Get the integration URL of $type
+     * Get the integration URL of $type.
      */
-
     public static function getIntegrationTypeUrl($type)
     {
         $url = self::integrationTypes()[$type];
         if (!$url) {
             $integrationTypes = array_keys(self::integrationTypes());
-            $integrationTypesAsString = join($integrationTypes, ", ");
-            throw new \Exception('Invalid integration type, valid values are: ' . $integrationTypesAsString);
+            $integrationTypesAsString = join($integrationTypes, ', ');
+
+            throw new \Exception('Invalid integration type, valid values are: '.$integrationTypesAsString);
         }
+
         return $url;
     }
 
     /**
-     * Get the current integration type (eg. MOCK, TEST, LIVE)
+     * Get the current integration type (eg. MOCK, TEST, LIVE).
      */
-
     public static function getCurrentIntegrationType()
     {
         return self::$integrationType;
     }
-    /**
-     * Set the integration type
-     */
 
+    /**
+     * Set the integration type.
+     */
     public static function setCurrentIntegrationType($type)
     {
         if (!self::integrationTypes()[$type]) {
             $integrationTypes = array_keys(self::integrationTypes());
-            $integrationTypesAsString = join($integrationTypes, ", ");
-            throw new \Exception('Invalid integration type, valid values are: ' . $integrationTypesAsString);
+            $integrationTypesAsString = join($integrationTypes, ', ');
+
+            throw new \Exception('Invalid integration type, valid values are: '.$integrationTypesAsString);
         }
         self::$integrationType = $type;
     }
@@ -203,7 +204,7 @@ class OnepayBase
     public static function getAppScheme()
     {
         if (!self::$appScheme) {
-            return getenv("ONEPAY_APP_SCHEME");
+            return getenv('ONEPAY_APP_SCHEME');
         }
 
         return self::$appScheme;
@@ -215,11 +216,11 @@ class OnepayBase
      */
     public static function setIntegrationApiKeyAndSharedSecret()
     {
-        if (null == getenv("ONEPAY_API_KEY")) {
+        if (null == getenv('ONEPAY_API_KEY')) {
             self::setApiKey('dKVhq1WGt_XapIYirTXNyUKoWTDFfxaEV63-O5jcsdw');
         }
 
-        if (null == getenv("ONEPAY_SHARED_SECRET")) {
+        if (null == getenv('ONEPAY_SHARED_SECRET')) {
             self::setSharedSecret('?XW#WOLG##FBAGEAYSNQ5APD#JF@$AYZ');
         }
     }

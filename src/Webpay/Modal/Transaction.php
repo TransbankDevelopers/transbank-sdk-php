@@ -23,13 +23,14 @@ class Transaction
     const REFUND_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
 
     /**
-     * @param string $buyOrder
-     * @param string $sessionId
-     * @param integer $amount
+     * @param string       $buyOrder
+     * @param string       $sessionId
+     * @param int          $amount
      * @param Options|null $options
      *
-     * @return TransactionCreateResponse
      * @throws TransactionCreateException
+     *
+     * @return TransactionCreateResponse
      **
      */
     public static function create($amount, $buyOrder, $sessionId = null, Options $options = null)
@@ -42,23 +43,23 @@ class Transaction
         }
 
         $payload = [
-            "buy_order" => $buyOrder,
-            "session_id" => $sessionId,
-            "amount" => $amount
+            'buy_order'  => $buyOrder,
+            'session_id' => $sessionId,
+            'amount'     => $amount,
         ];
 
         $responseJson = static::request('POST', static::CREATE_TRANSACTION_ENDPOINT, $payload, $options, TransactionCreateException::class);
 
         return new TransactionCreateResponse($responseJson);
-
     }
 
     /**
-     * @param string $token
+     * @param string       $token
      * @param Options|null $options
      *
-     * @return TransactionCommitResponse
      * @throws TransactionCommitException
+     *
+     * @return TransactionCommitResponse
      **
      */
     public static function commit($token, Options $options = null)
@@ -69,8 +70,8 @@ class Transaction
 
         $endpoint = str_replace('{token}', $token, static::COMMIT_TRANSACTION_ENDPOINT);
         $response = static::request('PUT', $endpoint, [], $options, TransactionCommitException::class);
-        return new TransactionCommitResponse($response);
 
+        return new TransactionCommitResponse($response);
     }
 
     public static function status($token, Options $options = null)
@@ -81,8 +82,8 @@ class Transaction
 
         $endpoint = str_replace('{token}', $token, static::STATUS_TRANSACTION_ENDPOINT);
         $response = static::request('GET', $endpoint, [], $options, TransactionStatusException::class);
-        return new TransactionStatusResponse($response);
 
+        return new TransactionStatusResponse($response);
     }
 
     public static function refund($token, $amount, Options $options = null)
@@ -97,10 +98,9 @@ class Transaction
             $endpoint,
             ['amount' => $amount],
             $options,
-            TransactionRefundException::class);
+            TransactionRefundException::class
+        );
 
         return new TransactionRefundResponse($response);
-
     }
-
 }

@@ -1,15 +1,11 @@
 <?php
+
 namespace Transbank\Onepay;
 
-/**
- * @class BaseResponse
- * Basic response class that includes commonly used members
- *
- * @package Transbank;
- *
- *
- */
-
+ /**
+  * @class BaseResponse
+  * Basic response class that includes commonly used members
+  */
  class BaseResponse
  {
      public function __construct()
@@ -26,6 +22,7 @@ namespace Transbank\Onepay;
      public function setResponseCode($responseCode)
      {
          $this->responseCode = $responseCode;
+
          return $this;
      }
 
@@ -37,6 +34,7 @@ namespace Transbank\Onepay;
      public function setDescription($appKey)
      {
          $this->description = $appKey;
+
          return $this;
      }
  }

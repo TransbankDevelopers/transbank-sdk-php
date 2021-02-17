@@ -1,15 +1,9 @@
 <?php
 
-
 namespace Transbank\Webpay;
 
-use Transbank\Utils\HttpClient;
-
 /**
- * Class WebpayPlus
- *
- * @package Transbank\Webpay
- *
+ * Class WebpayPlus.
  */
 class WebpayPlus
 {

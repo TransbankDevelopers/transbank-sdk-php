@@ -1,13 +1,10 @@
 <?php
 
 /**
- * Class PatpassComercio
+ * Class PatpassComercio.
  *
  * @category
- * @package Transbank\Patpass\PatpassComercio
- *
  */
-
 
 namespace Transbank\Patpass;
 
@@ -16,17 +13,15 @@ use Transbank\Utils\HttpClient;
 class PatpassComercio
 {
     public static $INTEGRATION_TYPES = [
-        "LIVE" => "https://www.pagoautomaticocontarjetas.cl/",
-        "TEST" => "https://pagoautomaticocontarjetasint.transbank.cl/",
-        "MOCK" => ""
+        'LIVE' => 'https://www.pagoautomaticocontarjetas.cl/',
+        'TEST' => 'https://pagoautomaticocontarjetasint.transbank.cl/',
+        'MOCK' => '',
     ];
 
     public static $httpClient = null;
     private static $apiKey = Options::DEFAULT_PATPASS_COMERCIO_API_KEY;
     private static $commerceCode = Options::DEFAULT_PATPASS_COMERCIO_COMMERCE_CODE;
     private static $integrationType = Options::DEFAULT_INTEGRATION_TYPE;
-
-
 
     /**
      * @return string
@@ -81,6 +76,7 @@ class PatpassComercio
         if (!isset(self::$httpClient) || self::$httpClient == null) {
             self::$httpClient = new HttpClient();
         }
+
         return self::$httpClient;
     }
 
@@ -89,6 +85,7 @@ class PatpassComercio
         if ($integrationType == null) {
             return self::$INTEGRATION_TYPES[self::$integrationType];
         }
+
         return self::$INTEGRATION_TYPES[$integrationType];
     }
 
@@ -96,6 +93,6 @@ class PatpassComercio
     {
         self::setApiKey(Options::DEFAULT_PATPASS_COMERCIO_API_KEY);
         self::setCommerceCode(Options::DEFAULT_PATPASS_COMERCIO_COMMERCE_CODE);
-        self::setIntegrationType("TEST");
+        self::setIntegrationType('TEST');
     }
 }

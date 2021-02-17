@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Transbank\Webpay\WebpayPlus;
 
 class MallTransactionCommitResponse
@@ -15,16 +14,14 @@ class MallTransactionCommitResponse
 
     public function __construct($json)
     {
-        $this->vci = isset($json["vci"]) ? $json["vci"] : null;
-        $this->details = isset($json["details"]) ? $json["details"] : null;
-        $this->buyOrder = isset($json["buy_order"]) ? $json["buy_order"] : null;
-        $this->sessionId = isset($json["session_id"]) ?$json["session_id"] : null;
-        $this->cardNumber = isset($json["card_detail"]) ? (isset($json["card_detail"]["card_number"]) ? $json["card_detail"]["card_number"] : null) : null;
-        $this->accountingDate = isset($json["accounting_date"]) ? $json["accounting_date"] : null;
-        $this->transactionDate = isset($json["transaction_date"]) ? $json["transaction_date"] : null;
+        $this->vci = isset($json['vci']) ? $json['vci'] : null;
+        $this->details = isset($json['details']) ? $json['details'] : null;
+        $this->buyOrder = isset($json['buy_order']) ? $json['buy_order'] : null;
+        $this->sessionId = isset($json['session_id']) ? $json['session_id'] : null;
+        $this->cardNumber = isset($json['card_detail']) ? (isset($json['card_detail']['card_number']) ? $json['card_detail']['card_number'] : null) : null;
+        $this->accountingDate = isset($json['accounting_date']) ? $json['accounting_date'] : null;
+        $this->transactionDate = isset($json['transaction_date']) ? $json['transaction_date'] : null;
     }
-
-
 
     /**
      * @return mixed
@@ -42,6 +39,7 @@ class MallTransactionCommitResponse
     public function setVci($vci)
     {
         $this->vci = $vci;
+
         return $this;
     }
 
@@ -61,6 +59,7 @@ class MallTransactionCommitResponse
     public function setDetails($details)
     {
         $this->details = $details;
+
         return $this;
     }
 
@@ -80,6 +79,7 @@ class MallTransactionCommitResponse
     public function setBuyOrder($buyOrder)
     {
         $this->buyOrder = $buyOrder;
+
         return $this;
     }
 
@@ -99,6 +99,7 @@ class MallTransactionCommitResponse
     public function setSessionId($sessionId)
     {
         $this->sessionId = $sessionId;
+
         return $this;
     }
 
@@ -118,6 +119,7 @@ class MallTransactionCommitResponse
     public function setCardNumber($cardNumber)
     {
         $this->cardNumber = $cardNumber;
+
         return $this;
     }
 
@@ -137,6 +139,7 @@ class MallTransactionCommitResponse
     public function setAccountingDate($accountingDate)
     {
         $this->accountingDate = $accountingDate;
+
         return $this;
     }
 
@@ -156,6 +159,7 @@ class MallTransactionCommitResponse
     public function setTransactionDate($transactionDate)
     {
         $this->transactionDate = $transactionDate;
+
         return $this;
     }
 }

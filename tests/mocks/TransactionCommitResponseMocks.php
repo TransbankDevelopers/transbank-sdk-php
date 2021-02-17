@@ -4,7 +4,7 @@ namespace Transbank\Onepay;
 
 class TransactionCommitResponseMocks
 {
-    public static $transactionCommitResponseMocks = array();
+    public static $transactionCommitResponseMocks = [];
 
     public static function transactionCommitRequestMocks()
     {
@@ -25,9 +25,10 @@ class TransactionCommitResponseMocks
                 }
             }';
             $transactionCommitResponse = new TransactionCommitResponse($validResponseJson);
-            
+
             array_push(self::$transactionCommitResponseMocks, $transactionCommitResponse);
         }
+
         return self::$transactionCommitResponseMocks;
     }
 

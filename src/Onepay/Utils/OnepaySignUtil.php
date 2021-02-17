@@ -1,21 +1,21 @@
 <?php
+
 namespace Transbank\Onepay;
 
 use Transbank\Onepay\Exceptions\SignException as SignException;
 
-/**
- * class OnepaySignUtil;
- *
- * @package Transbank;
- */
-
+ /**
+  * class OnepaySignUtil;.
+  */
  class OnepaySignUtil
  {
      // Make this be a singleton class
      protected static $instance = null;
+
      protected function __construct()
      {
      }
+
      protected function __clone()
      {
      }
@@ -23,8 +23,9 @@ use Transbank\Onepay\Exceptions\SignException as SignException;
      public static function getInstance()
      {
          if (!isset(static::$instance)) {
-             static::$instance = new static;
+             static::$instance = new static();
          }
+
          return static::$instance;
      }
 
@@ -45,12 +46,14 @@ use Transbank\Onepay\Exceptions\SignException as SignException;
          if ($requestToSign instanceof RefundCreateRequest) {
              return self::getInstance()->signRefundCreateRequest($requestToSign, $secret);
          }
+
          throw new SignException('Parameter \'$requestToSign\' must be a TransactionCreateRequest or TransactionCommitRequest');
      }
 
      private function signTransactionCreateRequest($transactionCreateRequest, $secret)
      {
          $signature = $this->buildSignature($transactionCreateRequest, $secret);
+
          return $transactionCreateRequest->setSignature($signature);
      }
 
@@ -60,6 +63,7 @@ use Transbank\Onepay\Exceptions\SignException as SignException;
              $transactionCommitRequest,
              $secret
          );
+
          return $transactionCommitRequest->setSignature($signature);
      }
 
@@ -69,9 +73,9 @@ use Transbank\Onepay\Exceptions\SignException as SignException;
              $refundCreateRequest,
              $secret
          );
+
          return $refundCreateRequest->setSignature($signature);
      }
-
 
      public function validate($signable, $secret)
      {
@@ -85,7 +89,7 @@ use Transbank\Onepay\Exceptions\SignException as SignException;
 
          return $signable->getSignature() == $signed;
      }
-    
+
      private function buildSignature($signable, $secret)
      {
          if ($signable instanceof TransactionCommitRequest || $signable instanceof TransactionCreateResponse) {
@@ -109,15 +113,16 @@ use Transbank\Onepay\Exceptions\SignException as SignException;
 
          $occ = $signable->getOcc();
          $externalUniqueNumber = $signable->getExternalUniqueNumber();
-         $issuedAtAsString = (string)$signable->getIssuedAt();
+         $issuedAtAsString = (string) $signable->getIssuedAt();
 
          if (!$occ || !$externalUniqueNumber) {
              throw new SignException('occ / externalUniqueNumber cannot be null.');
          }
 
-         $data = mb_strlen($occ) . $occ;
-         $data .= mb_strlen($externalUniqueNumber) . $externalUniqueNumber;
-         $data .= mb_strlen($issuedAtAsString) . $issuedAtAsString;
+         $data = mb_strlen($occ).$occ;
+         $data .= mb_strlen($externalUniqueNumber).$externalUniqueNumber;
+         $data .= mb_strlen($issuedAtAsString).$issuedAtAsString;
+
          return base64_encode(hash_hmac('sha256', $data, $secret, true));
      }
 
@@ -127,19 +132,19 @@ use Transbank\Onepay\Exceptions\SignException as SignException;
              throw new SignException('Invalid signable. Accepted type: TransactionCreateRequest');
          }
 
-         $externalUniqueNumberAsString = (string)$signable->getExternalUniqueNumber();
-         $totalAsString = (string)$signable->getTotal();
-         $itemsQuantityAsString = (string)$signable->getItemsQuantity();
-         $issuedAtAsString = (string)$signable->getIssuedAt();
+         $externalUniqueNumberAsString = (string) $signable->getExternalUniqueNumber();
+         $totalAsString = (string) $signable->getTotal();
+         $itemsQuantityAsString = (string) $signable->getItemsQuantity();
+         $issuedAtAsString = (string) $signable->getIssuedAt();
 
-         $data = mb_strlen($externalUniqueNumberAsString) . $externalUniqueNumberAsString;
-         $data .= mb_strlen($totalAsString) . $totalAsString;
-         $data .= mb_strlen($itemsQuantityAsString) . $itemsQuantityAsString;
-         $data .= mb_strlen($issuedAtAsString) . $issuedAtAsString;
-         $data .= mb_strlen(OnepayBase::getCallbackUrl()) . OnepayBase::getCallbackUrl();
-
+         $data = mb_strlen($externalUniqueNumberAsString).$externalUniqueNumberAsString;
+         $data .= mb_strlen($totalAsString).$totalAsString;
+         $data .= mb_strlen($itemsQuantityAsString).$itemsQuantityAsString;
+         $data .= mb_strlen($issuedAtAsString).$issuedAtAsString;
+         $data .= mb_strlen(OnepayBase::getCallbackUrl()).OnepayBase::getCallbackUrl();
 
          $crypted = hash_hmac('sha256', $data, $secret, true);
+
          return base64_encode($crypted);
      }
 
@@ -151,21 +156,22 @@ use Transbank\Onepay\Exceptions\SignException as SignException;
 
          $occ = $signable->getOcc();
          $authorizationCode = $signable->getAuthorizationCode();
-         $issuedAtAsString = (string)$signable->getIssuedAt();
-         $amountAsString = (string)$signable->getAmount();
-         $installmentsAmountAsString = (string)$signable->getInstallmentsAmount();
-         $installmentsNumberAsString = (string)$signable->getInstallmentsNumber();
-         $buyOrder = (string)$signable->getBuyOrder();
+         $issuedAtAsString = (string) $signable->getIssuedAt();
+         $amountAsString = (string) $signable->getAmount();
+         $installmentsAmountAsString = (string) $signable->getInstallmentsAmount();
+         $installmentsNumberAsString = (string) $signable->getInstallmentsNumber();
+         $buyOrder = (string) $signable->getBuyOrder();
 
-         $data = mb_strlen($occ) . $occ;
-         $data .= mb_strlen($authorizationCode) . $authorizationCode;
-         $data .= mb_strlen($issuedAtAsString) . $issuedAtAsString;
-         $data .= mb_strlen($amountAsString) . $amountAsString;
-         $data .= mb_strlen($installmentsAmountAsString) . $installmentsAmountAsString;
-         $data .= mb_strlen($installmentsNumberAsString) . $installmentsNumberAsString;
-         $data .= mb_strlen($buyOrder) . $buyOrder;
+         $data = mb_strlen($occ).$occ;
+         $data .= mb_strlen($authorizationCode).$authorizationCode;
+         $data .= mb_strlen($issuedAtAsString).$issuedAtAsString;
+         $data .= mb_strlen($amountAsString).$amountAsString;
+         $data .= mb_strlen($installmentsAmountAsString).$installmentsAmountAsString;
+         $data .= mb_strlen($installmentsNumberAsString).$installmentsNumberAsString;
+         $data .= mb_strlen($buyOrder).$buyOrder;
 
          $crypted = hash_hmac('sha256', $data, $secret, true);
+
          return base64_encode($crypted);
      }
 
@@ -178,16 +184,17 @@ use Transbank\Onepay\Exceptions\SignException as SignException;
          $occ = $signable->getOcc();
          $externalUniqueNumber = $signable->getExternalUniqueNumber();
          $authorizationCode = $signable->getAuthorizationCode();
-         $issuedAtAsString = (string)$signable->getIssuedAt();
-         $refundAmountAsString = (string)$signable->getNullifyAmount();
+         $issuedAtAsString = (string) $signable->getIssuedAt();
+         $refundAmountAsString = (string) $signable->getNullifyAmount();
 
-         $data = mb_strlen($occ) . $occ;
-         $data .= mb_strlen($externalUniqueNumber) . $externalUniqueNumber;
-         $data .= mb_strlen($authorizationCode) . $authorizationCode;
-         $data .= mb_strlen($issuedAtAsString) . $issuedAtAsString;
-         $data .= mb_strlen($refundAmountAsString) . $refundAmountAsString;
-        
+         $data = mb_strlen($occ).$occ;
+         $data .= mb_strlen($externalUniqueNumber).$externalUniqueNumber;
+         $data .= mb_strlen($authorizationCode).$authorizationCode;
+         $data .= mb_strlen($issuedAtAsString).$issuedAtAsString;
+         $data .= mb_strlen($refundAmountAsString).$refundAmountAsString;
+
          $crypted = hash_hmac('sha256', $data, $secret, true);
+
          return base64_encode($crypted);
      }
  }

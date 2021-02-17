@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Transbank\Webpay\WebpayPlus;
 
 class TransactionStatusResponse
@@ -21,24 +20,23 @@ class TransactionStatusResponse
     public $installmentsNumber;
     public $balance;
 
-
     public function __construct($json)
     {
-        $this->vci = isset($json["vci"]) ? $json["vci"] : null;
-        $this->amount = isset($json["amount"]) ? $json["amount"] : null;
-        $this->status = isset($json["status"]) ? $json["status"] : null;
-        $this->buyOrder = isset($json["buy_order"]) ? $json["buy_order"] : null;
-        $this->sessionId = isset($json["session_id"]) ?$json["session_id"] : null;
-        $this->cardNumber = isset($json["card_detail"]) && isset($json["card_detail"]["card_number"]) ? $json["card_detail"]["card_number"] : null;
-        $this->cardDetail = isset($json["card_detail"]) ? $json["card_detail"] : null;
-        $this->accountingDate = isset($json["accounting_date"]) ? $json["accounting_date"] : null;
-        $this->transactionDate = isset($json["transaction_date"]) ? $json["transaction_date"] : null;
-        $this->authorizationCode = isset($json["authorization_code"]) ? $json["authorization_code"] : null;
-        $this->paymentTypeCode = isset($json["payment_type_code"]) ? $json["payment_type_code"] : null;
-        $this->responseCode = isset($json["response_code"]) ? $json["response_code"] : null;
-        $this->installmentsAmount = isset($json["installments_amount"]) ? $json["installments_amount"] : null;
-        $this->installmentsNumber = isset($json["installments_number"]) ? $json["installments_number"] : null;
-        $this->balance = isset($json["balance"]) ? $json["balance"] : null;
+        $this->vci = isset($json['vci']) ? $json['vci'] : null;
+        $this->amount = isset($json['amount']) ? $json['amount'] : null;
+        $this->status = isset($json['status']) ? $json['status'] : null;
+        $this->buyOrder = isset($json['buy_order']) ? $json['buy_order'] : null;
+        $this->sessionId = isset($json['session_id']) ? $json['session_id'] : null;
+        $this->cardNumber = isset($json['card_detail']) && isset($json['card_detail']['card_number']) ? $json['card_detail']['card_number'] : null;
+        $this->cardDetail = isset($json['card_detail']) ? $json['card_detail'] : null;
+        $this->accountingDate = isset($json['accounting_date']) ? $json['accounting_date'] : null;
+        $this->transactionDate = isset($json['transaction_date']) ? $json['transaction_date'] : null;
+        $this->authorizationCode = isset($json['authorization_code']) ? $json['authorization_code'] : null;
+        $this->paymentTypeCode = isset($json['payment_type_code']) ? $json['payment_type_code'] : null;
+        $this->responseCode = isset($json['response_code']) ? $json['response_code'] : null;
+        $this->installmentsAmount = isset($json['installments_amount']) ? $json['installments_amount'] : null;
+        $this->installmentsNumber = isset($json['installments_number']) ? $json['installments_number'] : null;
+        $this->balance = isset($json['balance']) ? $json['balance'] : null;
     }
 
     /**
@@ -57,6 +55,7 @@ class TransactionStatusResponse
     public function setVci($vci)
     {
         $this->vci = $vci;
+
         return $this;
     }
 
@@ -76,6 +75,7 @@ class TransactionStatusResponse
     public function setAmount($amount)
     {
         $this->amount = $amount;
+
         return $this;
     }
 
@@ -95,6 +95,7 @@ class TransactionStatusResponse
     public function setStatus($status)
     {
         $this->status = $status;
+
         return $this;
     }
 
@@ -114,6 +115,7 @@ class TransactionStatusResponse
     public function setBuyOrder($buyOrder)
     {
         $this->buyOrder = $buyOrder;
+
         return $this;
     }
 
@@ -133,6 +135,7 @@ class TransactionStatusResponse
     public function setSessionId($sessionId)
     {
         $this->sessionId = $sessionId;
+
         return $this;
     }
 
@@ -152,6 +155,7 @@ class TransactionStatusResponse
     public function setCardNumber($cardNumber)
     {
         $this->cardNumber = $cardNumber;
+
         return $this;
     }
 
@@ -171,6 +175,7 @@ class TransactionStatusResponse
     public function setAccountingDate($accountingDate)
     {
         $this->accountingDate = $accountingDate;
+
         return $this;
     }
 
@@ -190,6 +195,7 @@ class TransactionStatusResponse
     public function setTransactionDate($transactionDate)
     {
         $this->transactionDate = $transactionDate;
+
         return $this;
     }
 
@@ -209,6 +215,7 @@ class TransactionStatusResponse
     public function setAuthorizationCode($authorizationCode)
     {
         $this->authorizationCode = $authorizationCode;
+
         return $this;
     }
 
@@ -228,6 +235,7 @@ class TransactionStatusResponse
     public function setPaymentTypeCode($paymentTypeCode)
     {
         $this->paymentTypeCode = $paymentTypeCode;
+
         return $this;
     }
 
@@ -247,6 +255,7 @@ class TransactionStatusResponse
     public function setResponseCode($responseCode)
     {
         $this->responseCode = $responseCode;
+
         return $this;
     }
 
@@ -266,6 +275,7 @@ class TransactionStatusResponse
     public function setInstallmentsAmount($installmentsAmount)
     {
         $this->installmentsAmount = $installmentsAmount;
+
         return $this;
     }
 
@@ -285,6 +295,7 @@ class TransactionStatusResponse
     public function setInstallmentsNumber($installmentsNumber)
     {
         $this->installmentsNumber = $installmentsNumber;
+
         return $this;
     }
 
@@ -304,6 +315,7 @@ class TransactionStatusResponse
     public function setBalance($balance)
     {
         $this->balance = $balance;
+
         return $this;
     }
 }

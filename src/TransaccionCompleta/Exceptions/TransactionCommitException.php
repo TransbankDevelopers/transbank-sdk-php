@@ -1,13 +1,10 @@
 <?php
 
 /**
- * Class TransactionCommitException
+ * Class TransactionCommitException.
  *
  * @category
- * @package Transbank\TransaccionCompleta\Exceptions
- *
  */
-
 
 namespace Transbank\TransaccionCompleta\Exceptions;
 

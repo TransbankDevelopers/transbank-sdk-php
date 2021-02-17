@@ -1,17 +1,13 @@
 <?php
 
 /**
- * Class TransaccionCompleta
+ * Class TransaccionCompleta.
  *
  * @category
- * @package Transbank\TransaccionCompleta
- *
  */
-
 
 namespace Transbank;
 
-use Transbank\Utils\HttpClient;
 use Transbank\TransaccionCompleta\Options;
 use Transbank\Webpay\ConfiguresEnvironment;
 

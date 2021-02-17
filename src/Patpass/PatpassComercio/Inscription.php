@@ -1,13 +1,10 @@
 <?php
 
 /**
- * Class Inscription
+ * Class Inscription.
  *
  * @category
- * @package Transbank\Patpass\PatpassComercio
- *
  */
-
 
 namespace Transbank\Patpass\PatpassComercio;
 
@@ -51,27 +48,27 @@ class Inscription
         $http = PatpassComercio::getHttpClient();
 
         $headers = [
-            "commercecode" => $commerceCode,
-            "Authorization" => $apiKey
+            'commercecode'  => $commerceCode,
+            'Authorization' => $apiKey,
         ];
 
         $payload = json_encode([
-            "url" => $url,
-            "nombre" => $name,
-            "pApellido" => $lastName,
-            "sApellido" => $secondLastName,
-            "rut" => $rut,
-            "serviceId" => $serviceId,
-            "finalUrl" => $finalUrl,
-            "commerceCode" => $commerceCode,
-            "montoMaximo" => $maxAmount,
-            "telefonoFijo" => $phone,
-            "telefonoCelular" => $cellPhone,
-            "nombrePatPass" => $patpassName,
-            "correoPersona" => $personEmail,
-            "correoComercio" => $commerceEmail,
-            "direccion" => $address,
-            "ciudad" => $city
+            'url'             => $url,
+            'nombre'          => $name,
+            'pApellido'       => $lastName,
+            'sApellido'       => $secondLastName,
+            'rut'             => $rut,
+            'serviceId'       => $serviceId,
+            'finalUrl'        => $finalUrl,
+            'commerceCode'    => $commerceCode,
+            'montoMaximo'     => $maxAmount,
+            'telefonoFijo'    => $phone,
+            'telefonoCelular' => $cellPhone,
+            'nombrePatPass'   => $patpassName,
+            'correoPersona'   => $personEmail,
+            'correoComercio'  => $commerceEmail,
+            'direccion'       => $address,
+            'ciudad'          => $city,
         ]);
         $httpResponse = $http->post(
             $baseUrl,
@@ -89,8 +86,8 @@ class Inscription
 
             $body = json_decode($httpResponse->getBody(), true);
 
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
+            if (isset($body['error_message'])) {
+                $tbkErrorMessage = $body['error_message'];
 
                 $message = "$message. Details: $tbkErrorMessage";
             }
@@ -118,12 +115,12 @@ class Inscription
 
         $http = PatpassComercio::getHttpClient();
         $headers = [
-            "commercecode" => $commerceCode,
-            "Authorization" => $apiKey
+            'commercecode'  => $commerceCode,
+            'Authorization' => $apiKey,
         ];
 
         $payload = json_encode([
-            "token" => $token
+            'token' => $token,
         ]);
 
         $httpResponse = $http->post(
@@ -139,10 +136,11 @@ class Inscription
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
+            if (isset($body['error_message'])) {
+                $tbkErrorMessage = $body['error_message'];
                 $message = "$message. Details: $tbkErrorMessage";
             }
+
             throw new InscriptionStatusException($message, $httpCode);
         }
         $responseJson = json_decode($httpResponse->getBody(), true);

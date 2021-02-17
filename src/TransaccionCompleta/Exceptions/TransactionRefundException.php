@@ -1,13 +1,10 @@
 <?php
 
 /**
- * Class TransactionRefundException
+ * Class TransactionRefundException.
  *
  * @category
- * @package Transbank\TransaccionCompleta\Exceptions
- *
  */
-
 
 namespace Transbank\TransaccionCompleta\Exceptions;
 
