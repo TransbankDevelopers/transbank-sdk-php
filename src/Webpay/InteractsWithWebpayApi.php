@@ -4,41 +4,47 @@ namespace Transbank\Webpay;
 
 use Transbank\Utils\HttpClient;
 use Transbank\Webpay\Exceptions\TransbankException;
+use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Modal\Exceptions\TransactionCreateException;
 use Transbank\Webpay\Modal\WebpayModal;
 
 /**
  * Trait InteractsWithWebpayApi
+ *
  * @package Transbank\Webpay
  */
 trait InteractsWithWebpayApi
 {
-
+    
     /**
      * @param $method
      * @param $endpoint
      * @param $payload
      * @param Options $options
-     * @param string $customExceptionClassName
      * @param HttpClient|null $client
      * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException|WebpayRequestException
      */
-    public static function request($method, $endpoint, $payload, Options $options, $customExceptionClassName = TransbankException::class, HttpClient $client = null)
-    {
+    public static function request(
+        $method,
+        $endpoint,
+        $payload,
+        Options $options,
+        HttpClient $client = null
+    ) {
         $headers = [
             "Tbk-Api-Key-Id" => $options->getCommerceCode(),
             "Tbk-Api-Key-Secret" => $options->getApiKey()
         ];
-
+        
         if ($client == null) {
             $client = new HttpClient();
         }
-
-        $baseUrl = WebpayModal::getIntegrationTypeUrl($options->getIntegrationType());
+        
+        $baseUrl = static::getBaseUrl($options->getIntegrationType());
         $response = $client->perform($method, $baseUrl . $endpoint, $payload, ['headers' => $headers]);
         $httpCode = $response->getStatusCode();
-
+        
         if (!in_array($httpCode, [200, 204])) {
             $reason = $response->getReasonPhrase();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
@@ -48,10 +54,14 @@ trait InteractsWithWebpayApi
                 $tbkErrorMessage = $body["error_message"];
                 $message = "$message. Details: $tbkErrorMessage";
             }
-            throw new $customExceptionClassName($message, $tbkErrorMessage, $httpCode);
+            throw new WebpayRequestException($message, $tbkErrorMessage, $httpCode);
         }
-
+        
         return json_decode($response->getBody(), true);
-
+    }
+    
+    public static function getBaseUrl($integrationEnvironment)
+    {
+        return WebpayModal::getIntegrationTypeUrl($integrationEnvironment);
     }
 }
