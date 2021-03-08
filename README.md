@@ -11,11 +11,10 @@ SDK Oficial de Transbank
 
 ## Dependencias
 En caso de instalar con Composer las siguientes dependencias deberían instalarse
-automaticamente, pero si usas el SDK de manera directa requerirás también: 
+automáticamente, pero si usas el SDK de manera directa requerirás también: 
 - ext-curl
 - ext-json
 - ext-mbstring
-- ext-soap
 
 # Instalación
 
@@ -28,7 +27,12 @@ Para usar el SDK en tu proyecto debes usar Composer (si no lo tienes instalado, 
     }
 ```
 
-También puedes instalarlo desde la consola:
+Luego debes correr 
+```
+composer update
+```
+
+También puedes instalarlo directamente desde la consola:
 ```bash
 composer require transbank/transbank-sdk
 ```
