@@ -9,4 +9,3 @@ RUN php -r "if (hash_file('SHA384', 'composer-setup.php') === trim(file_get_cont
 RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 RUN php -r "unlink('composer-setup.php');"
 RUN php -r "unlink('composer-setup.sig');"
-RUN docker-php-ext-install soap
