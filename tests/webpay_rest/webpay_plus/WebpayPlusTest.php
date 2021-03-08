@@ -129,7 +129,7 @@ class WebpayPlusTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return WebpayPlus\TransactionCreateResponse
+     * @return \Transbank\Webpay\WebpayPlus\Responses\TransactionCreateResponse
      * @throws WebpayPlus\Exceptions\TransactionCreateException
      */
     public function createTransaction()

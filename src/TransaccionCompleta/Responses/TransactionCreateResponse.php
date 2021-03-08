@@ -1,25 +1,15 @@
 <?php
-
-/**
- * Class MallTransactionCreateResponse
- *
- * @category
- * @package Transbank\TransaccionCompleta
- *
- */
-
-
-namespace Transbank\TransaccionCompleta;
+namespace Transbank\TransaccionCompleta\Responses;
 
 use Transbank\Utils\Utils;
 
-class MallTransactionCreateResponse
+class TransactionCreateResponse
 {
     public $token;
 
     public function __construct($json)
     {
-        $token = Utils::returnValueIfExists($json, "token");
+        $token =  Utils::returnValueIfExists($json, "token");
         $this->setToken($token);
     }
 
@@ -33,7 +23,6 @@ class MallTransactionCreateResponse
 
     /**
      * @param mixed $token
-     * @return MallTransactionCreateResponse
      */
     public function setToken($token)
     {

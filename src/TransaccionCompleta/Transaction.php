@@ -17,6 +17,11 @@ use Transbank\TransaccionCompleta\Exceptions\TransactionInstallmentsException;
 use Transbank\TransaccionCompleta\Exceptions\TransactionCommitException;
 use Transbank\TransaccionCompleta\Exceptions\TransactionRefundException;
 use Transbank\TransaccionCompleta\Exceptions\TransactionStatusException;
+use Transbank\TransaccionCompleta\Responses\TransactionCommitResponse;
+use Transbank\TransaccionCompleta\Responses\TransactionCreateResponse;
+use Transbank\TransaccionCompleta\Responses\TransactionInstallmentsResponse;
+use Transbank\TransaccionCompleta\Responses\TransactionRefundResponse;
+use Transbank\TransaccionCompleta\Responses\TransactionStatusResponse;
 
 class Transaction
 {

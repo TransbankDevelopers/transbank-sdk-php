@@ -9,7 +9,7 @@
  */
 
 
-namespace Transbank\Patpass\PatpassComercio;
+namespace Transbank\Patpass\PatpassComercio\Responses;
 
 use Transbank\Utils\Utils;
 

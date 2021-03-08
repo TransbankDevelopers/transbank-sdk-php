@@ -1,7 +1,7 @@
 <?php
+namespace Transbank\TransaccionCompleta\Responses;
 
-
-namespace Transbank\Webpay\WebpayPlus;
+use Transbank\Utils\Utils;
 
 class TransactionStatusResponse
 {
@@ -10,35 +10,47 @@ class TransactionStatusResponse
     public $status;
     public $buyOrder;
     public $sessionId;
-    public $cardNumber;
     public $cardDetail;
+    public $cardNumber;
     public $accountingDate;
     public $transactionDate;
     public $authorizationCode;
     public $paymentTypeCode;
     public $responseCode;
-    public $installmentsAmount;
     public $installmentsNumber;
-    public $balance;
+    public $installmentsAmount;
 
 
     public function __construct($json)
     {
-        $this->vci = isset($json["vci"]) ? $json["vci"] : null;
-        $this->amount = isset($json["amount"]) ? $json["amount"] : null;
-        $this->status = isset($json["status"]) ? $json["status"] : null;
-        $this->buyOrder = isset($json["buy_order"]) ? $json["buy_order"] : null;
-        $this->sessionId = isset($json["session_id"]) ?$json["session_id"] : null;
-        $this->cardNumber = isset($json["card_detail"]) && isset($json["card_detail"]["card_number"]) ? $json["card_detail"]["card_number"] : null;
-        $this->cardDetail = isset($json["card_detail"]) ? $json["card_detail"] : null;
-        $this->accountingDate = isset($json["accounting_date"]) ? $json["accounting_date"] : null;
-        $this->transactionDate = isset($json["transaction_date"]) ? $json["transaction_date"] : null;
-        $this->authorizationCode = isset($json["authorization_code"]) ? $json["authorization_code"] : null;
-        $this->paymentTypeCode = isset($json["payment_type_code"]) ? $json["payment_type_code"] : null;
-        $this->responseCode = isset($json["response_code"]) ? $json["response_code"] : null;
-        $this->installmentsAmount = isset($json["installments_amount"]) ? $json["installments_amount"] : null;
-        $this->installmentsNumber = isset($json["installments_number"]) ? $json["installments_number"] : null;
-        $this->balance = isset($json["balance"]) ? $json["balance"] : null;
+        $vci =  Utils::returnValueIfExists($json, "vci");
+        $this->setVci($vci);
+        $amount =  Utils::returnValueIfExists($json, "amount");
+        $this->setAmount($amount);
+        $status =  Utils::returnValueIfExists($json, "status");
+        $this->setStatus($status);
+        $buyOrder =  Utils::returnValueIfExists($json, "buy_order");
+        $this->setBuyOrder($buyOrder);
+        $sessionId = Utils::returnValueIfExists($json, "session_id");
+        $this->setSessionId($sessionId);
+        $cardDetail= Utils::returnValueIfExists($json, "card_detail");
+        $this->setCardDetail($cardDetail);
+        $cardNumber = (isset($json["card_detail"]) && isset($json["card_detail"]["card_number"])) ? $json["card_detail"]["card_number"] : null;
+        $this->setCardNumber($cardNumber);
+        $accountingDate = Utils::returnValueIfExists($json, "accounting_date");
+        $this->setAccountingDate($accountingDate);
+        $transactionDate = Utils::returnValueIfExists($json, "transaction_date");
+        $this->setTransactionDate($transactionDate);
+        $authorizationCode = Utils::returnValueIfExists($json, "authorization_code");
+        $this->setAuthorizationCode($authorizationCode);
+        $paymentTypeCode = Utils::returnValueIfExists($json, "payment_type_code");
+        $this->setPaymentTypeCode($paymentTypeCode);
+        $responseCode = Utils::returnValueIfExists($json, "response_code");
+        $this->setResponseCode($responseCode);
+        $installmentsNumber = Utils::returnValueIfExists($json, "installments_number");
+        $this->setInstallmentsNumber($installmentsNumber);
+        $installmentsAmount = Utils::returnValueIfExists($json, "installments_amount");
+        $this->setInstallmentsAmount($installmentsAmount);
     }
 
     /**
@@ -51,7 +63,6 @@ class TransactionStatusResponse
 
     /**
      * @param mixed $vci
-     *
      * @return TransactionStatusResponse
      */
     public function setVci($vci)
@@ -70,7 +81,6 @@ class TransactionStatusResponse
 
     /**
      * @param mixed $amount
-     *
      * @return TransactionStatusResponse
      */
     public function setAmount($amount)
@@ -89,7 +99,6 @@ class TransactionStatusResponse
 
     /**
      * @param mixed $status
-     *
      * @return TransactionStatusResponse
      */
     public function setStatus($status)
@@ -108,7 +117,6 @@ class TransactionStatusResponse
 
     /**
      * @param mixed $buyOrder
-     *
      * @return TransactionStatusResponse
      */
     public function setBuyOrder($buyOrder)
@@ -127,7 +135,6 @@ class TransactionStatusResponse
 
     /**
      * @param mixed $sessionId
-     *
      * @return TransactionStatusResponse
      */
     public function setSessionId($sessionId)
@@ -139,19 +146,18 @@ class TransactionStatusResponse
     /**
      * @return mixed
      */
-    public function getCardNumber()
+    public function getCardDetail()
     {
-        return $this->cardNumber;
+        return $this->cardDetail;
     }
 
     /**
-     * @param mixed $cardNumber
-     *
+     * @param mixed $cardDetail
      * @return TransactionStatusResponse
      */
-    public function setCardNumber($cardNumber)
+    public function setCardDetail($cardDetail)
     {
-        $this->cardNumber = $cardNumber;
+        $this->cardDetail = $cardDetail;
         return $this;
     }
 
@@ -165,7 +171,6 @@ class TransactionStatusResponse
 
     /**
      * @param mixed $accountingDate
-     *
      * @return TransactionStatusResponse
      */
     public function setAccountingDate($accountingDate)
@@ -184,7 +189,6 @@ class TransactionStatusResponse
 
     /**
      * @param mixed $transactionDate
-     *
      * @return TransactionStatusResponse
      */
     public function setTransactionDate($transactionDate)
@@ -203,7 +207,6 @@ class TransactionStatusResponse
 
     /**
      * @param mixed $authorizationCode
-     *
      * @return TransactionStatusResponse
      */
     public function setAuthorizationCode($authorizationCode)
@@ -222,7 +225,6 @@ class TransactionStatusResponse
 
     /**
      * @param mixed $paymentTypeCode
-     *
      * @return TransactionStatusResponse
      */
     public function setPaymentTypeCode($paymentTypeCode)
@@ -241,31 +243,11 @@ class TransactionStatusResponse
 
     /**
      * @param mixed $responseCode
-     *
      * @return TransactionStatusResponse
      */
     public function setResponseCode($responseCode)
     {
         $this->responseCode = $responseCode;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getInstallmentsAmount()
-    {
-        return $this->installmentsAmount;
-    }
-
-    /**
-     * @param mixed $installmentsAmount
-     *
-     * @return TransactionStatusResponse
-     */
-    public function setInstallmentsAmount($installmentsAmount)
-    {
-        $this->installmentsAmount = $installmentsAmount;
         return $this;
     }
 
@@ -279,7 +261,6 @@ class TransactionStatusResponse
 
     /**
      * @param mixed $installmentsNumber
-     *
      * @return TransactionStatusResponse
      */
     public function setInstallmentsNumber($installmentsNumber)
@@ -291,19 +272,32 @@ class TransactionStatusResponse
     /**
      * @return mixed
      */
-    public function getBalance()
+    public function getInstallmentsAmount()
     {
-        return $this->balance;
+        return $this->installmentsAmount;
     }
 
     /**
-     * @param mixed $balance
-     *
+     * @param mixed $installmentsAmount
      * @return TransactionStatusResponse
      */
-    public function setBalance($balance)
+    public function setInstallmentsAmount($installmentsAmount)
     {
-        $this->balance = $balance;
+        $this->installmentsAmount = $installmentsAmount;
         return $this;
+    }
+    /**
+     * @return mixed
+     */
+    public function getCardNumber()
+    {
+        return $this->cardNumber;
+    }
+    /**
+     * @param mixed $cardNumber
+     */
+    public function setCardNumber($cardNumber)
+    {
+        $this->cardNumber = $cardNumber;
     }
 }

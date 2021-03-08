@@ -1,13 +1,6 @@
 <?php
+namespace Transbank\Webpay\WebpayPlus\Responses;
 
-
-namespace Transbank\Webpay\WebpayPlus;
-
-/**
- * Class TransactionRefundResponse
- *
- * @package Transbank\Webpay\WebpayPlus
- */
 class TransactionRefundResponse
 {
 

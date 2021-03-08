@@ -1,9 +1,11 @@
 <?php
 
 
-namespace Transbank\Webpay;
+namespace Transbank\Webpay\WebpayPlus;
 
 use Transbank\Utils\HttpClient;
+use Transbank\Webpay\ConfiguresEnvironment;
+use Transbank\Webpay\Options;
 
 /**
  * Class WebpayPlus

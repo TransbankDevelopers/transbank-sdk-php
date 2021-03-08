@@ -16,6 +16,11 @@ use Transbank\TransaccionCompleta\Exceptions\MallTransactionCreateException;
 use Transbank\TransaccionCompleta\Exceptions\MallTransactionInstallmentsException;
 use Transbank\TransaccionCompleta\Exceptions\MallTransactionRefundException;
 use Transbank\TransaccionCompleta\Exceptions\MallTransactionStatusException;
+use Transbank\TransaccionCompleta\Responses\MallTransactionCommitResponse;
+use Transbank\TransaccionCompleta\Responses\MallTransactionCreateResponse;
+use Transbank\TransaccionCompleta\Responses\MallTransactionInstallmentsResponse;
+use Transbank\TransaccionCompleta\Responses\MallTransactionRefundResponse;
+use Transbank\TransaccionCompleta\Responses\MallTransactionStatusResponse;
 
 class MallTransaction
 {

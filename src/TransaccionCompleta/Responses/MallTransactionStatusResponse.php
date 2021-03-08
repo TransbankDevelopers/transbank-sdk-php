@@ -1,38 +1,30 @@
 <?php
 
-/**
- * Class MallTransactionStatusResponse
- *
- * @category
- * @package Transbank\TransaccionCompleta
- *
- */
-
-
-namespace Transbank\TransaccionCompleta;
+namespace Transbank\TransaccionCompleta\Responses;
 
 use Transbank\Utils\Utils;
 
-class MallTransactionStatusResponse
+class
+MallTransactionStatusResponse
 {
     public $buyOrder;
     public $cardDetail;
     public $accountingDate;
     public $transactionDate;
     public $details;
-
+    
     public function __construct($json)
     {
-        $buyOrder =  Utils::returnValueIfExists($json, "buy_order");
+        $buyOrder = Utils::returnValueIfExists($json, "buy_order");
         $this->setBuyOrder($buyOrder);
-        $cardDetail =  Utils::returnValueIfExists($json, "card_detail");
+        $cardDetail = Utils::returnValueIfExists($json, "card_detail");
         $this->setCardDetail($cardDetail);
-        $accountingDate =  Utils::returnValueIfExists($json, "accounting_date");
+        $accountingDate = Utils::returnValueIfExists($json, "accounting_date");
         $this->setAccountingDate($accountingDate);
-        $details =  Utils::returnValueIfExists($json, "details");
+        $details = Utils::returnValueIfExists($json, "details");
         $this->setDetails($details);
     }
-
+    
     /**
      * @return mixed
      */
@@ -40,7 +32,7 @@ class MallTransactionStatusResponse
     {
         return $this->buyOrder;
     }
-
+    
     /**
      * @param mixed $buyOrder
      * @return MallTransactionStatusResponse
@@ -48,9 +40,10 @@ class MallTransactionStatusResponse
     public function setBuyOrder($buyOrder)
     {
         $this->buyOrder = $buyOrder;
+        
         return $this;
     }
-
+    
     /**
      * @return mixed
      */
@@ -58,7 +51,7 @@ class MallTransactionStatusResponse
     {
         return $this->cardDetail;
     }
-
+    
     /**
      * @param mixed $cardDetail
      * @return MallTransactionStatusResponse
@@ -66,9 +59,10 @@ class MallTransactionStatusResponse
     public function setCardDetail($cardDetail)
     {
         $this->cardDetail = $cardDetail;
+        
         return $this;
     }
-
+    
     /**
      * @return mixed
      */
@@ -76,7 +70,7 @@ class MallTransactionStatusResponse
     {
         return $this->accountingDate;
     }
-
+    
     /**
      * @param mixed $accountingDate
      * @return MallTransactionStatusResponse
@@ -84,9 +78,10 @@ class MallTransactionStatusResponse
     public function setAccountingDate($accountingDate)
     {
         $this->accountingDate = $accountingDate;
+        
         return $this;
     }
-
+    
     /**
      * @return mixed
      */
@@ -94,7 +89,7 @@ class MallTransactionStatusResponse
     {
         return $this->transactionDate;
     }
-
+    
     /**
      * @param mixed $transactionDate
      * @return MallTransactionStatusResponse
@@ -102,9 +97,10 @@ class MallTransactionStatusResponse
     public function setTransactionDate($transactionDate)
     {
         $this->transactionDate = $transactionDate;
+        
         return $this;
     }
-
+    
     /**
      * @return mixed
      */
@@ -112,7 +108,7 @@ class MallTransactionStatusResponse
     {
         return $this->details;
     }
-
+    
     /**
      * @param mixed $details
      * @return MallTransactionStatusResponse
@@ -120,6 +116,7 @@ class MallTransactionStatusResponse
     public function setDetails($details)
     {
         $this->details = $details;
+        
         return $this;
     }
 }

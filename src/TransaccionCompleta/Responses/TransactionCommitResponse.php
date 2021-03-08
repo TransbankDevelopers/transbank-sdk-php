@@ -1,15 +1,6 @@
 <?php
 
-/**
- * Class TransactionCommitResponse
- *
- * @category
- * @package Transbank\TransaccionCompleta
- *
- */
-
-
-namespace Transbank\TransaccionCompleta;
+namespace Transbank\TransaccionCompleta\Responses;
 
 use Transbank\Utils\Utils;
 

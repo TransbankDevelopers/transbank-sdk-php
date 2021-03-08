@@ -7,10 +7,6 @@ use GuzzleHttp\Message\ResponseInterface;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Ring\Future\FutureInterface;
 
-/**
- * Class HttpClient
- * @package Transbank\Utils
- */
 class HttpClient
 {
     /**

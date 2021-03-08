@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Transbank\Webpay\WebpayPlus;
+namespace Transbank\Webpay\WebpayPlus\Responses;
 
 class TransactionMallStatusResponse
 {

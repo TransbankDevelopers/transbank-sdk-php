@@ -1,19 +1,10 @@
 <?php
 
-/**
- * Class MallTransactionRefundResponse
- *
- * @category
- * @package Transbank\TransaccionCompleta
- *
- */
-
-
-namespace Transbank\TransaccionCompleta;
+namespace Transbank\TransaccionCompleta\Responses;
 
 use Transbank\Utils\Utils;
 
-class MallTransactionRefundResponse
+class TransactionRefundResponse
 {
     public $type;
     public $authorizationCode;
@@ -24,7 +15,7 @@ class MallTransactionRefundResponse
 
     public function __construct($json)
     {
-        $type = Utils::returnValueIfExists($json, "type");
+        $type =  Utils::returnValueIfExists($json, "type");
         $this->setType($type);
         $authorizationCode =  Utils::returnValueIfExists($json, "authorization_code");
         $this->setAuthorizationCode($authorizationCode);
@@ -48,7 +39,7 @@ class MallTransactionRefundResponse
 
     /**
      * @param mixed $type
-     * @return MallTransactionRefundResponse
+     * @return TransactionRefundResponse
      */
     public function setType($type)
     {
@@ -66,7 +57,7 @@ class MallTransactionRefundResponse
 
     /**
      * @param mixed $authorizationCode
-     * @return MallTransactionRefundResponse
+     * @return TransactionRefundResponse
      */
     public function setAuthorizationCode($authorizationCode)
     {
@@ -84,7 +75,7 @@ class MallTransactionRefundResponse
 
     /**
      * @param mixed $authorizationDate
-     * @return MallTransactionRefundResponse
+     * @return TransactionRefundResponse
      */
     public function setAuthorizationDate($authorizationDate)
     {
@@ -102,7 +93,7 @@ class MallTransactionRefundResponse
 
     /**
      * @param mixed $nullifiedAmount
-     * @return MallTransactionRefundResponse
+     * @return TransactionRefundResponse
      */
     public function setNullifiedAmount($nullifiedAmount)
     {
@@ -120,7 +111,7 @@ class MallTransactionRefundResponse
 
     /**
      * @param mixed $balance
-     * @return MallTransactionRefundResponse
+     * @return TransactionRefundResponse
      */
     public function setBalance($balance)
     {
@@ -140,7 +131,7 @@ class MallTransactionRefundResponse
      * @param mixed $responseCode
      *
      *
-     * @return MallTransactionRefundResponse
+     * @return TransactionRefundResponse
      */
     public function setResponseCode($responseCode)
     {
