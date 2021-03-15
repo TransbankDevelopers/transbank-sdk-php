@@ -44,13 +44,7 @@ class Transaction
      * @throws TransactionCreateException
      **
      */
-    public static function create(
-        $buyOrder,
-        $sessionId,
-        $amount,
-        $returnUrl,
-        $options = null
-    ) {
+    public static function create($buyOrder, $sessionId, $amount, $returnUrl, $options = null) {
         $options = WebpayPlus::getDefaultOptions($options);
 
         $payload = [
@@ -61,7 +55,6 @@ class Transaction
         ];
     
         try {
-    
             $response = static::request(
                 'POST',
                 static::CREATE_TRANSACTION_ENDPOINT,
@@ -69,10 +62,10 @@ class Transaction
                 $options
             );
         } catch (WebpayRequestException $exception) {
-            throw new TransactionCreateException($exception->getMessage())
+            throw TransactionCreateException::raise($exception);
         }
         
-        return new TransactionCreateResponse($responseJson);
+        return new TransactionCreateResponse($response);
     }
 
     public static function commit($token, $options = null)

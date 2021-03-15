@@ -7,7 +7,6 @@ use Transbank\Utils\HttpClient;
 use Transbank\Webpay\ConfiguresEnvironment;
 use Transbank\Webpay\Modal\WebpayModal;
 use Transbank\Webpay\Options;
-use Transbank\Webpay\Options;
 
 /**
  * Class WebpayPlus

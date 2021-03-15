@@ -3,6 +3,7 @@
 namespace Transbank\Webpay;
 
 use Transbank\Utils\HttpClient;
+use Transbank\Webpay\Exceptions\FailedRequestCapturedData;
 use Transbank\Webpay\Exceptions\TransbankException;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Modal\Exceptions\TransactionCreateException;
@@ -52,9 +53,10 @@ trait InteractsWithWebpayApi
             $tbkErrorMessage = '-';
             if (isset($body["error_message"])) {
                 $tbkErrorMessage = $body["error_message"];
-                $message = "$message. Details: $tbkErrorMessage";
+                $message = "Transbank API REST Error: $tbkErrorMessage | $message";
             }
-            throw new WebpayRequestException($message, $tbkErrorMessage, $httpCode);
+            $failedRequest = new FailedRequestCapturedData($method, $baseUrl, $endpoint, $payload, $headers);
+            throw new WebpayRequestException($message, $tbkErrorMessage, $httpCode, $failedRequest);
         }
         
         return json_decode($response->getBody(), true);
