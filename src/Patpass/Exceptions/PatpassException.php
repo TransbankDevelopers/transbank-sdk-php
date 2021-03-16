@@ -1,9 +1,9 @@
 <?php
 namespace Transbank\Patpass\Exceptions;
 
-use Transbank\Webpay\Exceptions\TransbankException;
+use Transbank\Webpay\Exceptions\WebpayRequestException;
 
-class PatpassException extends TransbankException
+class PatpassException extends WebpayRequestException
 {
 
 }

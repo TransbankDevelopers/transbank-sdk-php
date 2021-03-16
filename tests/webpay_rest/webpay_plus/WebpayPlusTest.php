@@ -90,7 +90,7 @@ class WebpayPlusTest extends \PHPUnit_Framework_TestCase
             $this->returnUrl
         );
 
-        $response = Transaction::getStatus($response->getToken());
+        $response = Transaction::status($response->getToken());
         $this->assertEquals('INITIALIZED', $response->getStatus());
         $this->assertEquals($this->amount, $response->getAmount());
         $this->assertEquals($this->buyOrder, $response->getBuyOrder());

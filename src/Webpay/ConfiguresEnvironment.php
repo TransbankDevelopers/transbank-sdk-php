@@ -27,7 +27,7 @@ trait ConfiguresEnvironment
      */
     public static function getApiKey()
     {
-        return self::$apiKey;
+        return static::$apiKey;
     }
 
     /**
@@ -35,7 +35,7 @@ trait ConfiguresEnvironment
      */
     public static function setApiKey($apiKey)
     {
-        self::$apiKey = $apiKey;
+        static::$apiKey = $apiKey;
     }
 
     /**
@@ -43,7 +43,7 @@ trait ConfiguresEnvironment
      */
     public static function getCommerceCode()
     {
-        return self::$commerceCode;
+        return static::$commerceCode;
     }
 
     /**
@@ -51,7 +51,7 @@ trait ConfiguresEnvironment
      */
     public static function setCommerceCode($commerceCode)
     {
-        self::$commerceCode = $commerceCode;
+        static::$commerceCode = $commerceCode;
     }
 
     /**
@@ -59,7 +59,7 @@ trait ConfiguresEnvironment
      */
     public static function getIntegrationType()
     {
-        return self::$integrationType;
+        return static::$integrationType;
     }
 
     /**
@@ -67,17 +67,17 @@ trait ConfiguresEnvironment
      */
     public static function setIntegrationType($integrationType)
     {
-        self::$integrationType = $integrationType;
+        static::$integrationType = $integrationType;
     }
 
     public static function getIntegrationTypeUrl($integrationType = null)
     {
         if ($integrationType == null) {
-            return self::$INTEGRATION_TYPES[self::$integrationType];
+            return static::$INTEGRATION_TYPES[static::$integrationType];
         }
 
 
-        return self::$INTEGRATION_TYPES[$integrationType];
+        return static::$INTEGRATION_TYPES[$integrationType];
     }
 
     /**
@@ -85,24 +85,24 @@ trait ConfiguresEnvironment
      */
     public static function getHttpClient()
     {
-        if (!isset(self::$httpClient) || self::$httpClient == null) {
-            self::$httpClient = new HttpClient();
+        if (!isset(static::$httpClient) || static::$httpClient == null) {
+            static::$httpClient = new HttpClient();
         }
-        return self::$httpClient;
+        return static::$httpClient;
     }
 
     public function configureForIntegration($commerceCode, $apiKey)
     {
-        self::setApiKey($apiKey);
-        self::setCommerceCode($commerceCode);
-        self::setIntegrationType(Options::ENVIRONMENT_TEST);
+        static::setApiKey($apiKey);
+        static::setCommerceCode($commerceCode);
+        static::setIntegrationType(Options::ENVIRONMENT_TEST);
     }
 
     public static function configureForProduction($commerceCode, $apiKey)
     {
-        self::setApiKey($apiKey);
-        self::setCommerceCode($commerceCode);
-        self::setIntegrationType(Options::ENVIRONMENT_LIVE);
+        static::setApiKey($apiKey);
+        static::setCommerceCode($commerceCode);
+        static::setIntegrationType(Options::ENVIRONMENT_LIVE);
     }
 
 }

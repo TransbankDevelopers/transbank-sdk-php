@@ -2,6 +2,7 @@
 
 namespace Transbank\Webpay\Modal;
 
+use GuzzleHttp\Exception\GuzzleException;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\InteractsWithWebpayApi;
 use Transbank\Webpay\Modal\Exceptions\TransactionCommitException;
@@ -18,10 +19,10 @@ class Transaction
 {
     use InteractsWithWebpayApi;
 
-    const CREATE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions';
-    const COMMIT_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions/{token}';
-    const STATUS_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions/{token}';
-    const REFUND_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions/{token}/refunds';
+    const CREATE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions';
+    const COMMIT_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
+    const STATUS_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
+    const REFUND_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
     
     /**
      * @param string $buyOrder
@@ -31,7 +32,7 @@ class Transaction
      *
      * @return TransactionCreateResponse
      * @throws TransactionCreateException
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException|TransactionCreateException
      **
      */
     public static function create($amount, $buyOrder, $sessionId = null, Options $options = null)
@@ -62,7 +63,7 @@ class Transaction
      * @param Options|null $options
      *
      * @return TransactionCommitResponse
-     * @throws TransactionCommitException|\GuzzleHttp\Exception\GuzzleException
+     * @throws TransactionCommitException|GuzzleException
      **
      */
     public static function commit($token, Options $options = null)
@@ -84,13 +85,11 @@ class Transaction
      * @param Options|null $options
      * @return TransactionStatusResponse
      * @throws TransactionStatusException
-     * @throws \GuzzleHttp\Exception\GuzzleException|TransactionStatusException
+     * @throws GuzzleException|TransactionStatusException
      */
     public static function status($token, Options $options = null)
     {
-        if ($options == null) {
-            $options = WebpayModal::getDefaultOptions();
-        }
+        $options = WebpayModal::getDefaultOptions($options);
 
         $endpoint = str_replace('{token}', $token, static::STATUS_TRANSACTION_ENDPOINT);
         try {
@@ -106,8 +105,7 @@ class Transaction
      * @param $amount
      * @param Options|null $options
      * @return TransactionRefundResponse
-     * @throws TransactionRefundException
-     * @throws \GuzzleHttp\Exception\GuzzleException|TransactionStatusException
+     * @throws GuzzleException|TransactionRefundException
      */
     public static function refund($token, $amount, Options $options = null)
     {
@@ -122,7 +120,7 @@ class Transaction
                 $options
             );
         } catch (WebpayRequestException $exception) {
-            throw TransactionStatusException::raise($exception);
+            throw TransactionRefundException::raise($exception);
         }
         
 

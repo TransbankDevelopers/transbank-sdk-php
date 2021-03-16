@@ -1,13 +1,5 @@
 <?php
 
-/**
- * Class MallTransactionStatusException
- *
- * @category
- * @package Transbank\TransaccionCompleta\Exceptions
- *
- */
-
 
 namespace Transbank\TransaccionCompleta\Exceptions;
 

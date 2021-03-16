@@ -34,11 +34,7 @@ trait InteractsWithWebpayApi
         Options $options,
         HttpClient $client = null
     ) {
-        $headers = [
-            "Tbk-Api-Key-Id" => $options->getCommerceCode(),
-            "Tbk-Api-Key-Secret" => $options->getApiKey()
-        ];
-        
+        $headers = static::getHeaders($options);
         if ($client == null) {
             $client = new HttpClient();
         }
@@ -78,5 +74,18 @@ trait InteractsWithWebpayApi
     public static function getLastResponse()
     {
         return self::$lastResponse;
+    }
+    /**
+     * @param Options $options
+     * @return array
+     */
+    public static function getHeaders(Options $options)
+    {
+        $headers = [
+            "Tbk-Api-Key-Id" => $options->getCommerceCode(),
+            "Tbk-Api-Key-Secret" => $options->getApiKey()
+        ];
+        
+        return $headers;
     }
 }
