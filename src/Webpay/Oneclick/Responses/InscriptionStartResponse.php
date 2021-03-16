@@ -15,6 +15,11 @@ class InscriptionStartResponse
         $this->setToken($token);
         $this->setUrlWebpay($urlWebpay);
     }
+    
+    public function getRedirectUrl()
+    {
+        return $this->getUrlWebpay() . '?token_ws=' . $this->getToken();
+    }
 
     /**
      * @return mixed

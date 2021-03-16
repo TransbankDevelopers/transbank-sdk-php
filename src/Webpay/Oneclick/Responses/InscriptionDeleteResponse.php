@@ -5,57 +5,24 @@ namespace Transbank\Webpay\Oneclick\Responses;
 
 class InscriptionDeleteResponse
 {
-    public $status;
+    public $success = false;
     public $code;
 
-    public function __construct($httpCode)
+    public function __construct($success, $httpCode = null)
     {
-        $this->setCode($httpCode);
-        if ($httpCode == 204) {
-            $this->setStatus("OK");
-            return;
-        }
-        if ($httpCode == 404) {
-            $this->setStatus("Not found");
-            return;
-        }
+        $this->success = $success;
+        $this->code = $httpCode;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getStatus()
+    
+    public function wasSuccessfull()
     {
-        return $this->status;
+        return $this->success === true;
     }
-
     /**
-     * @param mixed $status
-     *
-     * @return InscriptionDeleteResponse
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-        return $this;
-    }
-
-    /**
-     * @return mixed
+     * @return mixed|null
      */
     public function getCode()
     {
         return $this->code;
-    }
-
-    /**
-     * @param mixed $code
-     *
-     * @return InscriptionDeleteResponse
-     */
-    public function setCode($code)
-    {
-        $this->code = $code;
-        return $this;
     }
 }

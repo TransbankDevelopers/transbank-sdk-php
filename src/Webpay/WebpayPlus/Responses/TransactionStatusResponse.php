@@ -3,6 +3,9 @@
 
 namespace Transbank\Webpay\WebpayPlus\Responses;
 
+use Transbank\Utils\ResponseCodesEnum;
+use Transbank\Utils\TransactionStatusEnum;
+
 class TransactionStatusResponse
 {
     public $vci;
@@ -29,7 +32,8 @@ class TransactionStatusResponse
         $this->status = isset($json["status"]) ? $json["status"] : null;
         $this->buyOrder = isset($json["buy_order"]) ? $json["buy_order"] : null;
         $this->sessionId = isset($json["session_id"]) ?$json["session_id"] : null;
-        $this->cardNumber = isset($json["card_detail"]) && isset($json["card_detail"]["card_number"]) ? $json["card_detail"]["card_number"] : null;
+        $this->cardNumber = (isset($json["card_detail"]) && isset($json["card_detail"]["card_number"])) ?
+            $json["card_detail"]["card_number"] : null;
         $this->cardDetail = isset($json["card_detail"]) ? $json["card_detail"] : null;
         $this->accountingDate = isset($json["accounting_date"]) ? $json["accounting_date"] : null;
         $this->transactionDate = isset($json["transaction_date"]) ? $json["transaction_date"] : null;
@@ -39,6 +43,12 @@ class TransactionStatusResponse
         $this->installmentsAmount = isset($json["installments_amount"]) ? $json["installments_amount"] : null;
         $this->installmentsNumber = isset($json["installments_number"]) ? $json["installments_number"] : null;
         $this->balance = isset($json["balance"]) ? $json["balance"] : null;
+    }
+    
+    public function isApproved()
+    {
+        return $this->getResponseCode() === ResponseCodesEnum::RESPONSE_CODE_APPROVED &&
+            $this->getStatus() !== TransactionStatusEnum::STATUS_FAILED;
     }
 
     /**
@@ -236,7 +246,7 @@ class TransactionStatusResponse
      */
     public function getResponseCode()
     {
-        return $this->responseCode;
+        return (int)$this->responseCode;
     }
 
     /**

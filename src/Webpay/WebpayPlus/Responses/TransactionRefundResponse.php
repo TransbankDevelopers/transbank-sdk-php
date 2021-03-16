@@ -87,7 +87,7 @@ class TransactionRefundResponse
      */
     public function getResponseCode()
     {
-        return $this->responseCode;
+        return (int) $this->responseCode;
     }
 
     /**

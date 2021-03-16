@@ -3,6 +3,8 @@
 
 namespace Transbank\Webpay\Oneclick;
 
+use Transbank\Webpay\Exceptions\WebpayRequestException;
+use Transbank\Webpay\InteractsWithWebpayApi;
 use Transbank\Webpay\Oneclick;
 use Transbank\Webpay\Oneclick\Exceptions\AuthorizeMallTransactionException;
 use Transbank\Webpay\Oneclick\Exceptions\MallRefundTransactionException;
@@ -12,14 +14,13 @@ use Transbank\Webpay\Oneclick\Responses\AuthorizeMallTransactionResponse;
 use Transbank\Webpay\Oneclick\Responses\MallRefundTransactionResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionCaptureResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionStatusResponse;
-use Transbank\Webpay\Oneclick\Traits\NeedsConfiguration;
 
 class MallTransaction
 {
-    use NeedsConfiguration;
+    use InteractsWithWebpayApi;
     const AUTHORIZE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/transactions';
-    const TRANSACTION_STATUS_ENDPONT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/$BUYORDER$';
-    const TRANSACTION_REFUND_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/$BUYORDER$/refunds';
+    const TRANSACTION_STATUS_ENDPONT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/{buy_order}';
+    const TRANSACTION_REFUND_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/{buy_order}/refunds';
     const TRANSACTION_CAPTURE_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/capture';
 
     public static function authorize(
@@ -29,165 +30,88 @@ class MallTransaction
         $details,
         $options = null
     ) {
-        list($commerceCode, $apiKey, $baseUrl) = MallTransaction::getCommerceIdentifier($options);
-
-        $http = Oneclick::getHttpClient();
-        $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+        $options = Oneclick::getDefaultOptions($options);
+    
+        $payload = [
+            'username' => $userName,
+            'tbk_user' => $tbkUser,
+            'buy_order' => $parentBuyOrder,
+            'details' => $details
         ];
-
-        $payload = json_encode([
-            "username" => $userName,
-            "tbk_user" => $tbkUser,
-            "buy_order" => $parentBuyOrder,
-            "details" => $details
-        ]);
-
-        $httpResponse = $http->post(
-            $baseUrl,
-            self::AUTHORIZE_TRANSACTION_ENDPOINT,
-            $payload,
-            ['headers' => $headers]
-        );
-
-        $httpCode = $httpResponse->getStatusCode();
-        if ($httpCode != 200 && $httpCode != 204) {
-            $reason = $httpResponse->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
-            $body = json_decode($httpResponse->getBody(), true);
-
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
-                $message = "$message. Details: $tbkErrorMessage";
-            }
-            throw new AuthorizeMallTransactionException($message, $httpCode);
+    
+        try {
+            $response = static::request(
+                'POST',
+                static::AUTHORIZE_TRANSACTION_ENDPOINT,
+                $payload,
+                $options
+            );
+        } catch (WebpayRequestException $e) {
+            throw AuthorizeMallTransactionException::raise($e);
         }
-
-        $responseJson = json_decode($httpResponse->getBody(), true);
-        $authorizeTransactionResponse = new AuthorizeMallTransactionResponse($responseJson);
-
-        return $authorizeTransactionResponse;
+        return new AuthorizeMallTransactionResponse($response);
     }
 
     public static function capture($childCommerceCode, $childBuyOrder, $authorizationCode, $amount, $options = null)
     {
-        list($commerceCode, $apiKey, $baseUrl) = MallTransaction::getCommerceIdentifier($options);
-
-        $http = Oneclick::getHttpClient();
-        $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+        $options = Oneclick::getDefaultOptions($options);
+    
+        $payload = [
+            'commerce_code' => $childCommerceCode,
+            'buy_order' => $childBuyOrder,
+            'authorization_code' => $authorizationCode,
+            'capture_amount' => $amount
         ];
-
-        $payload = json_encode([
-            "commerce_code" => $childCommerceCode,
-            "buy_order" => $childBuyOrder,
-            "authorization_code" => $authorizationCode,
-            "capture_amount" => $amount
-        ]);
-
-        $httpResponse = $http->put(
-            $baseUrl,
-            self::TRANSACTION_CAPTURE_ENDPOINT,
-            $payload,
-            ['headers' => $headers]
-        );
-
-        $httpCode = $httpResponse->getStatusCode();
-        if ($httpCode != 200 && $httpCode != 204) {
-            $reason = $httpResponse->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
-            $body = json_decode($httpResponse->getBody(), true);
-
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
-                $message = "$message. Details: $tbkErrorMessage";
-            }
-            throw new MallTransactionCaptureException($message, $httpCode);
+    
+        try {
+            $response = static::request(
+                'PUT',
+                static::TRANSACTION_CAPTURE_ENDPOINT,
+                $payload,
+                $options
+            );
+        } catch (WebpayRequestException $e) {
+            throw MallTransactionCaptureException::raise($e);
         }
-
-        $responseJson = json_decode($httpResponse->getBody(), true);
-
-        return new MallTransactionCaptureResponse($responseJson);;
+        return new MallTransactionCaptureResponse($response);
     }
 
-    public static function getStatus($buyOrder, $options = null)
+    public static function status($buyOrder, $options = null)
     {
-        list($commerceCode, $apiKey, $baseUrl) = MallTransaction::getCommerceIdentifier($options);
-
-        $http = Oneclick::getHttpClient();
-        $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
-        ];
-
-        $url = str_replace('$BUYORDER$', $buyOrder, self::TRANSACTION_STATUS_ENDPONT);
-        $httpResponse = $http->get(
-            $baseUrl,
-            $url,
-            ['headers' => $headers]
-        );
-
-        $httpCode = $httpResponse->getStatusCode();
-        if ($httpCode != 200 && $httpCode != 204) {
-            $reason = $httpResponse->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
-            $body = json_decode($httpResponse->getBody(), true);
-
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
-                $message = "$message. Details: $tbkErrorMessage";
-            }
-            throw new MallTransactionStatusException($message, $httpCode);
+        $options = Oneclick::getDefaultOptions($options);
+    
+        try {
+            $response = static::request(
+                'GET',
+                str_replace('{buy_order}', $buyOrder, self::TRANSACTION_STATUS_ENDPONT),
+                null,
+                $options
+            );
+        } catch (WebpayRequestException $e) {
+            throw MallTransactionStatusException::raise($e);
         }
-
-        $responseJson = json_decode($httpResponse->getBody(), true);
-        $mallTransactionStatusResponse = new MallTransactionStatusResponse($responseJson);
-
-        return $mallTransactionStatusResponse;
+        return new MallTransactionStatusResponse($response);
     }
 
     public static function refund($buyOrder, $childCommerceCode, $childBuyOrder, $amount, $options = null)
     {
-        list($commerceCode, $apiKey, $baseUrl) = MallTransaction::getCommerceIdentifier($options);
-
-        $http = Oneclick::getHttpClient();
-        $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+        $options = Oneclick::getDefaultOptions($options);
+        $payload = [
+            'detail_buy_order' => $childBuyOrder,
+            'commerce_code' => $childCommerceCode,
+            'amount' => $amount
         ];
-
-        $payload = json_encode([
-            "detail_buy_order" => $childBuyOrder,
-            "commerce_code" => $childCommerceCode,
-            "amount" => $amount
-        ]);
-
-        $url = str_replace('$BUYORDER$', $buyOrder, self::TRANSACTION_REFUND_ENDPOINT);
-        $httpResponse = $http->post(
-            $baseUrl,
-            $url,
-            $payload,
-            ['headers' => $headers]
-        );
-
-        $httpCode = $httpResponse->getStatusCode();
-        if ($httpCode != 200 && $httpCode != 204) {
-            $reason = $httpResponse->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
-            $body = json_decode($httpResponse->getBody(), true);
-
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
-                $message = "$message. Details: $tbkErrorMessage";
-            }
-            throw new MallRefundTransactionException($message, $httpCode);
+        try {
+            $response = static::request(
+                'POST',
+                str_replace('{buy_order}', $buyOrder, self::TRANSACTION_REFUND_ENDPOINT),
+                $payload,
+                $options
+            );
+        } catch (WebpayRequestException $e) {
+            throw MallRefundTransactionException::raise($e);
         }
-
-        $responseJson = json_decode($httpResponse->getBody(), true);
-        $mallRefundTransactionResponse = new MallRefundTransactionResponse($responseJson);
-
-        return $mallRefundTransactionResponse;
+        
+        return new MallRefundTransactionResponse($response);
     }
 }

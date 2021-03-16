@@ -2,6 +2,7 @@
 
 namespace Transbank\Webpay;
 
+use GuzzleHttp\Exception\GuzzleException;
 use Transbank\Utils\HttpClient;
 use Transbank\Webpay\Exceptions\FailedRequestCapturedData;
 use Transbank\Webpay\Exceptions\TransbankException;
@@ -16,7 +17,7 @@ use Transbank\Webpay\Modal\WebpayModal;
  */
 trait InteractsWithWebpayApi
 {
-    
+    protected static $lastResponse = null;
     /**
      * @param $method
      * @param $endpoint
@@ -44,13 +45,14 @@ trait InteractsWithWebpayApi
         
         $baseUrl = static::getBaseUrl($options->getIntegrationType());
         $response = $client->perform($method, $baseUrl . $endpoint, $payload, ['headers' => $headers]);
+        static::$lastResponse = $response;
         $httpCode = $response->getStatusCode();
         
         if (!in_array($httpCode, [200, 204])) {
             $reason = $response->getReasonPhrase();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($response->getBody(), true);
-            $tbkErrorMessage = '-';
+            $tbkErrorMessage = null;
             if (isset($body["error_message"])) {
                 $tbkErrorMessage = $body["error_message"];
                 $message = "Transbank API REST Error: $tbkErrorMessage | $message";
@@ -62,8 +64,19 @@ trait InteractsWithWebpayApi
         return json_decode($response->getBody(), true);
     }
     
+    /**
+     * @param $integrationEnvironment
+     * @return mixed|string
+     */
     public static function getBaseUrl($integrationEnvironment)
     {
         return WebpayModal::getIntegrationTypeUrl($integrationEnvironment);
+    }
+    /**
+     * @return null
+     */
+    public static function getLastResponse()
+    {
+        return self::$lastResponse;
     }
 }

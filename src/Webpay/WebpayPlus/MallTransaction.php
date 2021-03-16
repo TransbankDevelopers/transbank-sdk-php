@@ -2,23 +2,33 @@
 
 namespace Transbank\Webpay\WebpayPlus;
 
+use Transbank\Webpay\ConfiguresEnvironment;
+use Transbank\Webpay\Exceptions\WebpayRequestException;
+use Transbank\Webpay\InteractsWithWebpayApi;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCaptureException;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCommitException;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCreateException;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionRefundException;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionStatusException;
-use Transbank\Webpay\Options;
 use Transbank\Webpay\WebpayPlus;
-use Transbank\Webpay\WebpayPlus\Responses\MallTransactionCommitResponse;
+use Transbank\Webpay\WebpayPlus\Responses\MallCommitResponseTransaction;
 use Transbank\Webpay\WebpayPlus\Responses\TransactionCaptureResponse;
 use Transbank\Webpay\WebpayPlus\Responses\TransactionCommitResponse;
 use Transbank\Webpay\WebpayPlus\Responses\TransactionCreateResponse;
-use Transbank\Webpay\WebpayPlus\Responses\TransactionMallStatusResponse;
+use Transbank\Webpay\WebpayPlus\Responses\MallTransactionStatusResponse;
 use Transbank\Webpay\WebpayPlus\Responses\TransactionRefundResponse;
 use Transbank\Webpay\WebpayPlus\Responses\TransactionStatusResponse;
 
-class MallTransaction extends Transaction
+class MallTransaction
 {
+    use InteractsWithWebpayApi;
+    
+    const CREATE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions';
+    const COMMIT_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions/{token}';
+    const REFUND_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions/{token}/refunds';
+    const TRANSACTION_STATUS_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions/{token}';
+    const CAPTURE_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions/{token}/capture';
+    
     public static function create(
         $buyOrder,
         $sessionId,
@@ -26,204 +36,86 @@ class MallTransaction extends Transaction
         $details,
         $options = null
     ) {
-        if ($options == null) {
-            $commerceCode = WebpayPlus::getCommerceCode();
-            $apiKey = WebpayPlus::getApiKey();
-            $baseUrl = WebpayPlus::getIntegrationTypeUrl();
-        } else {
-            $commerceCode = $options->getCommerceCode();
-            $apiKey = $options->getApiKey();
-            $baseUrl = WebpayPlus::getIntegrationTypeUrl($options->getIntegrationType());
-        }
-
-        $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+        $options = WebpayPlus::getDefaultOptions($options);
+    
+        $payload = [
+            'buy_order' => $buyOrder,
+            'session_id' => $sessionId,
+            'details' => $details,
+            'return_url' => $returnUrl
         ];
-
-        $payload = json_encode([
-            "buy_order" => $buyOrder,
-            "session_id" => $sessionId,
-            "details" => $details,
-            "return_url" => $returnUrl
-        ]);
-
-        $http = WebpayPlus::getHttpClient();
-
-        $httpResponse = $http->post(
-            $baseUrl,
-            self::CREATE_TRANSACTION_ENDPOINT,
-            $payload,
-            ['headers' => $headers]
-        );
-
-        $httpCode = $httpResponse->getStatusCode();
-        if ($httpCode != 200 && $httpCode != 204) {
-            $reason = $httpResponse->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
-            $body = json_decode($httpResponse->getBody(), true);
-
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
-                $message = "$message. Details: $tbkErrorMessage";
-            }
-            throw new TransactionCreateException($message, $httpCode);
+    
+        try {
+            $response = static::request(
+                'POST',
+                static::CREATE_TRANSACTION_ENDPOINT,
+                $payload,
+                $options
+            );
+        } catch (WebpayRequestException $exception) {
+            throw TransactionCreateException::raise($exception);
         }
-
-        $responseJson = json_decode($httpResponse->getBody(), true);
-        $transactionCreateResponse = new TransactionCreateResponse($responseJson);
-
-        return $transactionCreateResponse;
+    
+        return new TransactionCreateResponse($response);
     }
 
     public static function commit($token, $options = null)
     {
-        if ($options == null) {
-            $commerceCode = WebpayPlus::getCommerceCode();
-            $apiKey = WebpayPlus::getApiKey();
-            $baseUrl = WebpayPlus::getIntegrationTypeUrl();
-        } else {
-            $commerceCode = $options->getCommerceCode();
-            $apiKey = $options->getApiKey();
-            $baseUrl = WebpayPlus::getIntegrationTypeUrl($options->getIntegrationType());
+        $options = WebpayPlus::getDefaultOptions($options);
+    
+        try {
+            $response = static::request(
+                'PUT',
+                str_replace('{token}', $token, static::COMMIT_TRANSACTION_ENDPOINT),
+                null,
+                $options
+            );
+        } catch (WebpayRequestException $e) {
+            throw TransactionCommitException::raise($e);
         }
-
-        $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
-        ];
-
-        $http = WebpayPlus::getHttpClient();
-        $httpResponse = $http->put(
-            $baseUrl,
-            self::COMMIT_TRANSACTION_ENDPOINT . "/" . $token,
-            null,
-            ['headers' => $headers]
-        );
-
-        $httpCode = $httpResponse->getStatusCode();
-        if ($httpCode != 200 && $httpCode != 204) {
-            $reason = $httpResponse->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
-            $body = json_decode($httpResponse->getBody(), true);
-
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
-                $message = "$message. Details: $tbkErrorMessage";
-            }
-            throw new TransactionCommitException($message, $httpCode);
-        }
-
-        $responseJson = json_decode($httpResponse->getBody(), true);
-
-        $mallTransactionCommitResponse = new MallTransactionCommitResponse($responseJson);
-
-        return $mallTransactionCommitResponse;
+    
+        return new MallCommitResponseTransaction($response);
     }
 
     public static function refund($token, $buyOrder, $childCommerceCode, $amount, $options = null)
     {
-        if ($options == null) {
-            $commerceCode = WebpayPlus::getCommerceCode();
-            $apiKey = WebpayPlus::getApiKey();
-            $baseUrl = WebpayPlus::getIntegrationTypeUrl();
-        } else {
-            $commerceCode = $options->getCommerceCode();
-            $apiKey = $options->getApiKey();
-            $baseUrl = WebpayPlus::getIntegrationTypeUrl($options->getIntegrationType());
-        }
-
-        $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+        $options = WebpayPlus::getDefaultOptions($options);
+    
+        $payload = [
+            'buy_order' => $buyOrder,
+            'commerce_code' => $childCommerceCode,
+            'amount' => $amount
         ];
-
-        $payload = json_encode(
-            [
-                "buy_order" => $buyOrder,
-                "commerce_code" => $childCommerceCode,
-                "amount" => $amount
-            ]
-        );
-
-        $http = WebpayPlus::getHttpClient();
-
-        $url = str_replace(
-            '$TOKEN$',
-            $token,
-            self::REFUND_TRANSACTION_ENDPOINT
-        );
-
-        $httpResponse = $http->post(
-            $baseUrl,
-            $url,
-            $payload,
-            ['headers' => $headers]
-        );
-
-        $httpCode = $httpResponse->getStatusCode();
-        if ($httpCode != 200 && $httpCode != 204) {
-            $reason = $httpResponse->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
-            $body = json_decode($httpResponse->getBody(), true);
-
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
-                $message = "$message. Details: $tbkErrorMessage";
-            }
-            throw new TransactionRefundException($message, $httpCode);
+        try {
+            $response = static::request(
+                'POST',
+                str_replace('{token}', $token, static::REFUND_TRANSACTION_ENDPOINT),
+                $payload,
+                $options
+            );
+        } catch (WebpayRequestException $e) {
+            throw TransactionRefundException::raise($e);
         }
-
-        $responseJson = json_decode($httpResponse->getBody(), true);
-
-        $transactionRefundResponse = new TransactionRefundResponse($responseJson);
-
-        return $transactionRefundResponse;
+    
+        return new TransactionRefundResponse($response);
     }
 
     public static function status($token, $options = null)
     {
-        $url = str_replace('$TOKEN$', $token, self::GET_TRANSACTION_STATUS_ENDPOINT);
-        if ($options == null) {
-            $commerceCode = WebpayPlus::getCommerceCode();
-            $apiKey = WebpayPlus::getApiKey();
-            $baseUrl = WebpayPlus::getIntegrationTypeUrl();
-        } else {
-            $commerceCode = $options->getCommerceCode();
-            $apiKey = $options->getApiKey();
-            $baseUrl = WebpayPlus::getIntegrationTypeUrl($options->getIntegrationType());
+        $options = WebpayPlus::getDefaultOptions($options);
+    
+        try {
+            $response = static::request(
+                'GET',
+                str_replace('{token}', $token, static::TRANSACTION_STATUS_ENDPOINT),
+                null,
+                $options
+            );
+        } catch (WebpayRequestException $e) {
+            throw TransactionStatusException::raise($e);
         }
-
-        $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
-        ];
-
-        $http = WebpayPlus::getHttpClient();
-        $httpResponse = $http->get(
-            $baseUrl,
-            $url,
-            ['headers' => $headers]
-        );
-
-
-        $httpCode = $httpResponse->getStatusCode();
-        if ($httpCode != 200 && $httpCode != 204) {
-            $reason = $httpResponse->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
-            $body = json_decode($httpResponse->getBody(), true);
-
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
-                $message = "$message. Details: $tbkErrorMessage";
-            }
-            throw new TransactionStatusException($message, $httpCode);
-        }
-
-        $responseJson = json_decode($httpResponse->getBody(), true);
-        $transactionMallStatusResponse = new TransactionMallStatusResponse($responseJson);
-
-        return $transactionMallStatusResponse;
+    
+        return new MallTransactionStatusResponse($response);
     }
     
     /**
@@ -237,58 +129,35 @@ class MallTransaction extends Transaction
      * @throws TransactionCaptureException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public static function capture($childCommerceCode, $token, $buyOrder, $authorizationCode, $captureAmount, $options = null)
-    {
-        $url = str_replace('$TOKEN$', $token, self::CAPTURE_ENDPOINT);
-        if ($options == null) {
-            $commerceCode = WebpayPlus::getCommerceCode();
-            $apiKey = WebpayPlus::getApiKey();
-            $baseUrl = WebpayPlus::getIntegrationTypeUrl();
-        } else {
-            $commerceCode = $options->getCommerceCode();
-            $apiKey = $options->getApiKey();
-            $baseUrl = WebpayPlus::getIntegrationTypeUrl($options->getIntegrationType());
-        }
-
-        $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
-        ];
-
-        $payload = json_encode([
-            "commerce_code" => $childCommerceCode,
-            "buy_order" => $buyOrder,
-            "authorization_code" => $authorizationCode,
-            "capture_amount" => $captureAmount
-        ]);
-
-        $http = WebpayPlus::getHttpClient();
-        $httpResponse = $http->put(
-            $baseUrl,
-            $url,
-            $payload,
-            ['headers' => $headers]
-        );
-
-        $httpCode = $httpResponse->getStatusCode();
-        if ($httpCode != 200 && $httpCode != 204) {
-            $reason = $httpResponse->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
-            $body = json_decode($httpResponse->getBody(), true);
-
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
-                $message = "$message. Details: $tbkErrorMessage";
-            }
-
-            throw new TransactionCaptureException($message, $httpCode);
-        }
-
-        $responseJson = json_decode($httpResponse->getBody(), true);
-        $transactionCaptureResponse = new TransactionCaptureResponse($responseJson);
-
-        return $transactionCaptureResponse;
-    }
-
+    public static function capture(
+        $childCommerceCode,
+        $token,
+        $buyOrder,
+        $authorizationCode,
+        $captureAmount,
+        $options = null
+    ) {
     
+        $options = WebpayPlus::getDefaultOptions($options);
+    
+        $payload = [
+            'commerce_code' => $childCommerceCode,
+            'buy_order' => $buyOrder,
+            'authorization_code' => $authorizationCode,
+            'capture_amount' => $captureAmount
+        ];
+    
+        try {
+            $response = static::request(
+                'PUT',
+                str_replace('{token}', $token, static::CAPTURE_ENDPOINT),
+                $payload,
+                $options
+            );
+        } catch (WebpayRequestException $e) {
+            throw TransactionCaptureException::raise($e);
+        }
+    
+        return new TransactionCaptureResponse($response);
+    }
 }

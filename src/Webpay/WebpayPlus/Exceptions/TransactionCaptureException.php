@@ -3,12 +3,9 @@
 
 namespace Transbank\Webpay\WebpayPlus\Exceptions;
 
-use Transbank\Webpay\Exceptions\WebpayException;
+use Transbank\Webpay\Exceptions\WebpayRequestException;
 
-class TransactionCaptureException extends WebpayException
+class TransactionCaptureException extends WebpayRequestException
 {
-    public function __construct($message = self::DEFAULT_MESSAGE, $code = 0, $previous = null)
-    {
-        parent::__construct($message, $code, $previous);
-    }
+
 }

@@ -3,6 +3,8 @@
 
 namespace Transbank\Webpay\Oneclick\Responses;
 
+use Transbank\Utils\ResponseCodesEnum;
+
 class InscriptionFinishResponse
 {
     public $responseCode;
@@ -28,13 +30,18 @@ class InscriptionFinishResponse
         $cardNumber = isset($json["card_number"]) ? $json["card_number"] : null;
         $this->setCardNumber($cardNumber);
     }
+    
+    public function isApproved()
+    {
+        return $this->getResponseCode() === ResponseCodesEnum::RESPONSE_CODE_APPROVED;
+    }
 
     /**
      * @return mixed
      */
     public function getResponseCode()
     {
-        return $this->responseCode;
+        return (int) $this->responseCode;
     }
 
     /**

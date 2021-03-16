@@ -3,9 +3,10 @@
 
 namespace Transbank\Webpay\WebpayPlus\Responses;
 
+use Transbank\Utils\ResponseCodesEnum;
+
 class TransactionCaptureResponse
 {
-
     /**
      * TransactionCaptureResponse constructor.
      *
@@ -25,6 +26,11 @@ class TransactionCaptureResponse
         $this->authorizationDate = isset($json["authorization_date"]) ? $json["authorization_date"] : null;
         $this->capturedAmount = isset($json["captured_amount"]) ? $json["captured_amount"] : null;
         $this->responseCode = isset($json["response_code"]) ? $json["response_code"] : null;
+    }
+    
+    public function isApproved()
+    {
+        return $this->responseCode === ResponseCodesEnum::RESPONSE_CODE_APPROVED;
     }
 
     /**

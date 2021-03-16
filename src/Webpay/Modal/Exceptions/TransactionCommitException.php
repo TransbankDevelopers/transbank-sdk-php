@@ -2,7 +2,9 @@
 
 namespace Transbank\Webpay\Modal\Exceptions;
 
-class TransactionCommitException extends TransbankApiRequestException
+use Transbank\Webpay\Exceptions\WebpayRequestException;
+
+class TransactionCommitException extends WebpayRequestException
 {
 
 }
