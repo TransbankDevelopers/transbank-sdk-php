@@ -24,7 +24,7 @@ class MallTransaction
     const REFUND_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
     const TRANSACTION_STATUS_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
     const CAPTURE_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/capture';
-    
+
     public static function create(
         $buyOrder,
         $sessionId,
