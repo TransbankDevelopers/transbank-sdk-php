@@ -14,12 +14,55 @@ namespace Transbank\Patpass\PatpassComercio;
 use Transbank\Patpass\PatpassComercio;
 use Transbank\Patpass\PatpassComercio\Exceptions\InscriptionStartException;
 use Transbank\Patpass\PatpassComercio\Exceptions\InscriptionStatusException;
+use Transbank\Patpass\PatpassComercio\Responses\InscriptionStartResponse;
+use Transbank\Patpass\PatpassComercio\Responses\InscriptionStatusResponse;
+use Transbank\TransaccionCompleta\Exceptions\TransactionInstallmentsException;
+use Transbank\TransaccionCompleta\Responses\TransactionInstallmentsResponse;
+use Transbank\TransaccionCompleta\TransaccionCompleta;
+use Transbank\Webpay\Exceptions\WebpayRequestException;
+use Transbank\Webpay\InteractsWithWebpayApi;
+use Transbank\Webpay\Modal\WebpayModal;
+use Transbank\Webpay\Options;
 
 class Inscription
 {
+    use InteractsWithWebpayApi;
     const INSCRIPTION_START_ENDPOINT = 'restpatpass/v1/services/patInscription';
     const INSCRIPTION_STATUS_ENDPOINT = 'restpatpass/v1/services/status';
-
+    
+    /**
+     * @param Options $options
+     * @return array
+     */
+    public static function getHeaders(Options $options)
+    {
+        return [
+            "commercecode" => $options->getCommerceCode(),
+            "Authorization" => $options->getApiKey()
+        ];
+    }
+    
+    /**
+     * @param $url
+     * @param $name
+     * @param $lastName
+     * @param $secondLastName
+     * @param $rut
+     * @param $serviceId
+     * @param $finalUrl
+     * @param $maxAmount
+     * @param $phone
+     * @param $cellPhone
+     * @param $patpassName
+     * @param $personEmail
+     * @param $commerceEmail
+     * @param $address
+     * @param $city
+     * @param null $options
+     * @return InscriptionStartResponse
+     * @throws InscriptionStartException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public static function start(
         $url,
         $name,
@@ -38,116 +81,67 @@ class Inscription
         $city,
         $options = null
     ) {
-        if ($options == null) {
-            $commerceCode = PatpassComercio::getCommerceCode();
-            $apiKey = PatpassComercio::getApiKey();
-            $baseUrl = PatpassComercio::getIntegrationTypeUrl();
-        } else {
-            $commerceCode = $options->getCommerceCode();
-            $apiKey = $options->getApiKey();
-            $baseUrl = PatpassComercio::getIntegrationTypeUrl($options->getIntegrationType());
-        }
+        $options = PatpassComercio::getDefaultOptions($options);
 
-        $http = PatpassComercio::getHttpClient();
-
-        $headers = [
-            "commercecode" => $commerceCode,
-            "Authorization" => $apiKey
+        $payload = [
+            'url' => $url,
+            'nombre' => $name,
+            'pApellido' => $lastName,
+            'sApellido' => $secondLastName,
+            'rut' => $rut,
+            'serviceId' => $serviceId,
+            'finalUrl' => $finalUrl,
+            'commerceCode' => $options->getCommerceCode(),
+            'montoMaximo' => $maxAmount,
+            'telefonoFijo' => $phone,
+            'telefonoCelular' => $cellPhone,
+            'nombrePatPass' => $patpassName,
+            'correoPersona' => $personEmail,
+            'correoComercio' => $commerceEmail,
+            'direccion' => $address,
+            'ciudad' => $city
         ];
-
-        $payload = json_encode([
-            "url" => $url,
-            "nombre" => $name,
-            "pApellido" => $lastName,
-            "sApellido" => $secondLastName,
-            "rut" => $rut,
-            "serviceId" => $serviceId,
-            "finalUrl" => $finalUrl,
-            "commerceCode" => $commerceCode,
-            "montoMaximo" => $maxAmount,
-            "telefonoFijo" => $phone,
-            "telefonoCelular" => $cellPhone,
-            "nombrePatPass" => $patpassName,
-            "correoPersona" => $personEmail,
-            "correoComercio" => $commerceEmail,
-            "direccion" => $address,
-            "ciudad" => $city
-        ]);
-        $httpResponse = $http->post(
-            $baseUrl,
-            self::INSCRIPTION_START_ENDPOINT,
-            $payload,
-            ['headers' => $headers]
-        );
-
-        $httpCode = $httpResponse->getStatusCode();
-
-        if ($httpCode != 200 && $httpCode != 204) {
-            $reason = $httpResponse->getReasonPhrase();
-
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
-
-            $body = json_decode($httpResponse->getBody(), true);
-
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
-
-                $message = "$message. Details: $tbkErrorMessage";
-            }
-
-            throw new InscriptionStartException($message, $httpCode);
+        $endpoint = self::INSCRIPTION_START_ENDPOINT;
+        try {
+            $response = static::request('POST', $endpoint, $payload, $options);
+        } catch (WebpayRequestException $exception) {
+            throw InscriptionStartException::raise($exception);
         }
-        $responseJson = json_decode($httpResponse->getBody(), true);
-
-        $inscriptionStartResponse = new InscriptionStartResponse($responseJson);
-
-        return $inscriptionStartResponse;
+        
+        return new InscriptionStartResponse($response);
     }
-
+    
+    /**
+     * @param $token
+     * @param null $options
+     * @return InscriptionStatusResponse
+     * @throws InscriptionStatusException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public static function status($token, $options = null)
     {
-        if ($options == null) {
-            $commerceCode = PatpassComercio::getCommerceCode();
-            $apiKey = PatpassComercio::getApiKey();
-            $baseUrl = PatpassComercio::getIntegrationTypeUrl();
-        } else {
-            $commerceCode = $options->getCommerceCode();
-            $apiKey = $options->getApiKey();
-            $baseUrl = PatpassComercio::getIntegrationTypeUrl($options->getIntegrationType());
-        }
+        $options = PatpassComercio::getDefaultOptions($options);
 
-        $http = PatpassComercio::getHttpClient();
-        $headers = [
-            "commercecode" => $commerceCode,
-            "Authorization" => $apiKey
+        $payload = [
+            'token' => $token
         ];
-
-        $payload = json_encode([
-            "token" => $token
-        ]);
-
-        $httpResponse = $http->post(
-            $baseUrl,
-            self::INSCRIPTION_STATUS_ENDPOINT,
-            $payload,
-            ['headers' => $headers]
-        );
-
-        $httpCode = $httpResponse->getStatusCode();
-        if ($httpCode != 200 && $httpCode != 204) {
-            $reason = $httpResponse->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
-            $body = json_decode($httpResponse->getBody(), true);
-
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
-                $message = "$message. Details: $tbkErrorMessage";
-            }
-            throw new InscriptionStatusException($message, $httpCode);
+    
+        $endpoint = str_replace('{token}', $token, self::INSCRIPTION_STATUS_ENDPOINT);
+        try {
+            $response = static::request('POST', $endpoint, $payload, $options);
+        } catch (WebpayRequestException $exception) {
+            throw InscriptionStatusException::raise($exception);
         }
-        $responseJson = json_decode($httpResponse->getBody(), true);
-        $inscriptionStatusResponse = new InscriptionStatusResponse($responseJson);
-
-        return $inscriptionStatusResponse;
+    
+        return new InscriptionStatusResponse($response);
+    }
+    
+    /**
+     * @param $integrationEnvironment
+     * @return mixed|string
+     */
+    public static function getBaseUrl($integrationEnvironment)
+    {
+        return PatpassComercio::getIntegrationTypeUrl($integrationEnvironment);
     }
 }

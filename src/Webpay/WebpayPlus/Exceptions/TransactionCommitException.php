@@ -3,12 +3,10 @@
 
 namespace Transbank\Webpay\WebpayPlus\Exceptions;
 
-use Transbank\Webpay\Exceptions\WebpayException;
+use Transbank\Webpay\Exceptions\FailedRequestCapturedData;
+use Transbank\Webpay\Exceptions\WebpayRequestException;
 
-class TransactionCommitException extends WebpayException
+class TransactionCommitException extends WebpayRequestException
 {
-    public function __construct($message = self::DEFAULT_MESSAGE, $code = 0, $previous = null)
-    {
-        parent::__construct($message, $code, $previous);
-    }
+    protected static $defaultMessage = 'The transaction could not be confirmed';
 }

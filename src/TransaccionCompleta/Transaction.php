@@ -1,48 +1,31 @@
 <?php
 
-/**
- * Class Transaction
- *
- * @category
- * @package Transbank\TransaccionCompleta
- *
- */
-
 
 namespace Transbank\TransaccionCompleta;
 
-use Transbank\TransaccionCompleta;
 use Transbank\TransaccionCompleta\Exceptions\TransactionCreateException;
 use Transbank\TransaccionCompleta\Exceptions\TransactionInstallmentsException;
 use Transbank\TransaccionCompleta\Exceptions\TransactionCommitException;
 use Transbank\TransaccionCompleta\Exceptions\TransactionRefundException;
 use Transbank\TransaccionCompleta\Exceptions\TransactionStatusException;
+use Transbank\TransaccionCompleta\Responses\TransactionCommitResponse;
+use Transbank\TransaccionCompleta\Responses\TransactionCreateResponse;
+use Transbank\TransaccionCompleta\Responses\TransactionInstallmentsResponse;
+use Transbank\TransaccionCompleta\Responses\TransactionRefundResponse;
+use Transbank\TransaccionCompleta\Responses\TransactionStatusResponse;
+use Transbank\Webpay\Exceptions\WebpayRequestException;
+use Transbank\Webpay\InteractsWithWebpayApi;
+use Transbank\Webpay\Modal\WebpayModal;
 
 class Transaction
 {
+    use InteractsWithWebpayApi;
+    
     const CREATE_TRANSACTION_ENDPOINT  = '/rswebpaytransaction/api/webpay/v1.0/transactions';
-    const INSTALLMENTS_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$/installments';
-    const COMMIT_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$';
-    const REFUND_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$/refunds';
-    const STATUS_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$';
-
-    public static function getCommerceIdentifier($options)
-    {
-        if ($options == null) {
-            $commerceCode = TransaccionCompleta::getCommerceCode();
-            $apiKey = TransaccionCompleta::getApiKey();
-            $baseUrl = TransaccionCompleta::getIntegrationTypeUrl();
-        } else {
-            $commerceCode = $options->getCommerceCode();
-            $apiKey = $options->getApiKey();
-            $baseUrl = TransaccionCompleta::getIntegrationTypeUrl($options->getIntegrationType());
-        }
-        return array(
-            $commerceCode,
-            $apiKey,
-            $baseUrl,
-        );
-    }
+    const INSTALLMENTS_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/{token}/installments';
+    const COMMIT_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/{token}';
+    const REFUND_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/{token}/refunds';
+    const STATUS_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/{token}';
 
     public static function create(
         $buyOrder,
@@ -53,51 +36,24 @@ class Transaction
         $cardExpirationDate,
         $options = null
     ) {
-        list($commerceCode, $apiKey, $baseUrl) = Transaction::getCommerceIdentifier($options);
-
-        $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+        $options = TransaccionCompleta::getDefaultOptions($options);
+    
+        $payload = [
+            'buy_order' => $buyOrder,
+            'session_id' => $sessionId,
+            'amount' => $amount,
+            'cvv' => $cvv,
+            'card_number' => $cardNumber,
+            'card_expiration_date' => $cardExpirationDate
         ];
-
-        $payload = json_encode([
-            "buy_order" => $buyOrder,
-            "session_id" => $sessionId,
-            "amount" => $amount,
-            "cvv" => $cvv,
-            "card_number" => $cardNumber,
-            "card_expiration_date" => $cardExpirationDate
-        ]);
-
-        $http = TransaccionCompleta::getHttpClient();
-
-        $httpResponse = $http->post(
-            $baseUrl,
-            self::CREATE_TRANSACTION_ENDPOINT,
-            $payload,
-            [ 'headers' => $headers ]
-        );
-
-        $httpCode = $httpResponse->getStatusCode();
-
-        if ($httpCode != 200 && $httpCode != 204) {
-            $reason = $httpResponse->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
-            $body = json_decode($httpResponse->getBody(), true);
-
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
-                $message = "$message. Details: $tbkErrorMessage";
-            }
-
-            throw new TransactionCreateException($message, $httpCode);
+    
+        try {
+            $response = static::request('POST', static::CREATE_TRANSACTION_ENDPOINT, $payload, $options);
+        } catch (WebpayRequestException $exception) {
+            throw TransactionCreateException::raise($exception);
         }
-
-        $responseJson = json_decode($httpResponse->getBody(), true);
-
-        $transactionCreateResponse = new TransactionCreateResponse($responseJson);
-
-        return $transactionCreateResponse;
+    
+        return new TransactionCreateResponse($response);
     }
 
     public static function installments(
@@ -105,47 +61,20 @@ class Transaction
         $installmentsNumber,
         $options = null
     ) {
-        list($commerceCode, $apiKey, $baseUrl) = Transaction::getCommerceIdentifier($options);
-
-        $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+        $options = TransaccionCompleta::getDefaultOptions($options);
+    
+        $payload = [
+            'installments_number' => $installmentsNumber,
         ];
-        $url = str_replace('$TOKEN$', $token, self::INSTALLMENTS_TRANSACTION_ENDPOINT);
-
-        $payload = json_encode([
-            "installments_number" => $installmentsNumber
-        ]);
-
-        $http = TransaccionCompleta::getHttpClient();
-
-        $httpResponse = $http->post(
-            $baseUrl,
-            $url,
-            $payload,
-            [ 'headers' => $headers ]
-        );
-
-        $httpCode = $httpResponse->getStatusCode();
-
-        if ($httpCode != 200 && $httpCode != 204) {
-            $reason = $httpResponse->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
-            $body = json_decode($httpResponse->getBody(), true);
-
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
-                $message = "$message. Details: $tbkErrorMessage";
-            }
-
-            throw new TransactionInstallmentsException($message, $httpCode);
+    
+        $endpoint = str_replace('{token}', $token, self::INSTALLMENTS_TRANSACTION_ENDPOINT);
+        try {
+            $response = static::request('POST', $endpoint, $payload, $options);
+        } catch (WebpayRequestException $exception) {
+            throw TransactionInstallmentsException::raise($exception);
         }
-
-        $responseJson = json_decode($httpResponse->getBody(), true);
-
-        $transactionInstallmentsResponse = new TransactionInstallmentsResponse($responseJson);
-
-        return $transactionInstallmentsResponse;
+    
+        return new TransactionInstallmentsResponse($response);
     }
 
     public static function commit(
@@ -155,49 +84,22 @@ class Transaction
         $gracePeriod,
         $options = null
     ) {
-        list($commerceCode, $apiKey, $baseUrl) = Transaction::getCommerceIdentifier($options);
-
-        $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+        $options = TransaccionCompleta::getDefaultOptions($options);
+    
+        $payload = [
+            'id_query_installments' => $idQueryInstallments,
+            'deferred_period_index' => $deferredPeriodIndex,
+            'grace_period' => $gracePeriod
         ];
-        $url = str_replace('$TOKEN$', $token, self::COMMIT_TRANSACTION_ENDPOINT);
-
-        $payload = json_encode([
-           "id_query_installments" => $idQueryInstallments,
-           "deferred_period_index" => $deferredPeriodIndex,
-           "grace_period" => $gracePeriod
-        ]);
-
-        $http = TransaccionCompleta::getHttpClient();
-
-        $httpResponse = $http->put(
-            $baseUrl,
-            $url,
-            $payload,
-            [ 'headers' => $headers ]
-        );
-
-        $httpCode = $httpResponse->getStatusCode();
-
-        if ($httpCode != 200 && $httpCode != 204) {
-            $reason = $httpResponse->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
-            $body = json_decode($httpResponse->getBody(), true);
-
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
-                $message = "$message. Details: $tbkErrorMessage";
-            }
-
-            throw new TransactionCommitException($message, $httpCode);
+    
+        $endpoint = str_replace('{token}', $token, self::COMMIT_TRANSACTION_ENDPOINT);
+        try {
+            $response = static::request('PUT', $endpoint, $payload, $options);
+        } catch (WebpayRequestException $exception) {
+            throw TransactionCommitException::raise($exception);
         }
-
-        $responseJson = json_decode($httpResponse->getBody(), true);
-
-        $transactionCommitResponse = new TransactionCommitResponse($responseJson);
-
-        return $transactionCommitResponse;
+    
+        return new TransactionCommitResponse($response);
     }
 
     public static function refund(
@@ -205,88 +107,44 @@ class Transaction
         $amount,
         $options = null
     ) {
-        list($commerceCode, $apiKey, $baseUrl) = Transaction::getCommerceIdentifier($options);
-
-        $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+        $options = TransaccionCompleta::getDefaultOptions($options);
+    
+        $payload = [
+            'amount' => $amount,
         ];
-        $url = str_replace('$TOKEN$', $token, self::REFUND_TRANSACTION_ENDPOINT);
-
-        $payload = json_encode([
-            "amount" => $amount
-        ]);
-
-        $http = TransaccionCompleta::getHttpClient();
-
-        $httpResponse = $http->post(
-            $baseUrl,
-            $url,
-            $payload,
-            [ 'headers' => $headers ]
-        );
-
-        $httpCode = $httpResponse->getStatusCode();
-
-        if ($httpCode != 200 && $httpCode != 204) {
-            $reason = $httpResponse->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
-            $body = json_decode($httpResponse->getBody(), true);
-
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
-                $message = "$message. Details: $tbkErrorMessage";
-            }
-
-            throw new TransactionRefundException($message, $httpCode);
+    
+        $endpoint = str_replace('{token}', $token, self::REFUND_TRANSACTION_ENDPOINT);
+        try {
+            $response = static::request('POST', $endpoint, $payload, $options);
+        } catch (WebpayRequestException $exception) {
+            throw TransactionRefundException::raise($exception);
         }
-
-        $responseJson = json_decode($httpResponse->getBody(), true);
-
-        $transactionRefundResponse = new TransactionRefundResponse($responseJson);
-
-        return $transactionRefundResponse;
+    
+        return new TransactionRefundResponse($response);
     }
 
-    public static function getStatus(
+    public static function status(
         $token,
         $options = null
     ) {
-        list($commerceCode, $apiKey, $baseUrl) = Transaction::getCommerceIdentifier($options);
-
-        $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
-        ];
-        $url = str_replace('$TOKEN$', $token, self::STATUS_TRANSACTION_ENDPOINT);
-
-        $http = TransaccionCompleta::getHttpClient();
-
-        $httpResponse = $http->get(
-            $baseUrl,
-            $url,
-            [ 'headers' => $headers ]
-        );
-
-        $httpCode = $httpResponse->getStatusCode();
-
-        if ($httpCode != 200 && $httpCode != 204) {
-            $reason = $httpResponse->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
-            $body = json_decode($httpResponse->getBody(), true);
-
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
-                $message = "$message. Details: $tbkErrorMessage";
-            }
-
-            throw new TransactionStatusException($message, $httpCode);
+        $options = TransaccionCompleta::getDefaultOptions($options);
+    
+        $endpoint = str_replace('{token}', $token, self::STATUS_TRANSACTION_ENDPOINT);
+        try {
+            $response = static::request('GET', $endpoint, null, $options);
+        } catch (WebpayRequestException $exception) {
+            throw TransactionStatusException::raise($exception);
         }
-
-        $responseJson = json_decode($httpResponse->getBody(), true);
-
-        $transactionStatusResponse = new TransactionStatusResponse($responseJson);
-
-        return $transactionStatusResponse;
+    
+        return new TransactionStatusResponse($response);
+    }
+    
+    /**
+     * @param $integrationEnvironment
+     * @return mixed|string
+     */
+    public static function getBaseUrl($integrationEnvironment)
+    {
+        return TransaccionCompleta::getIntegrationTypeUrl($integrationEnvironment);
     }
 }

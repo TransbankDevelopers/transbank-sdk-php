@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Class MallTransaccionCompleta
- *
- * @category
- * @package Transbank\TransaccionCompleta
- *
- */
 
 
 namespace Transbank\TransaccionCompleta;
@@ -138,5 +131,19 @@ class MallTransaccionCompleta
         self::$commerceCode = Options::DEFAULT_TRANSACCION_COMPLETA_MALL_COMMERCE_CODE;
         self::$integrationType = Options::DEFAULT_INTEGRATION_TYPE;
         self::$childCommerceCodes = Options::DEFAULT_TRANSACCION_COMPLETA_MALL_CHILD_COMMERCE_CODE;
+    }
+    
+    /**
+     * Get the default options if none are given.
+     *
+     * @param Options|null $options
+     * @return Options
+     */
+    public static function getDefaultOptions(Options $options = null)
+    {
+        if ($options !== null) {
+            return $options;
+        }
+        return new Options(static::getApiKey(), static::getCommerceCode(), static::getIntegrationType());
     }
 }

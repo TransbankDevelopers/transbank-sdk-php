@@ -1,16 +1,13 @@
 <?php
 namespace Transbank\Utils;
 
+use Composer\InstalledVersions;
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\FutureResponse;
 use GuzzleHttp\Message\ResponseInterface;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Ring\Future\FutureInterface;
 
-/**
- * Class HttpClient
- * @package Transbank\Utils
- */
 class HttpClient
 {
     /**
@@ -76,9 +73,15 @@ class HttpClient
      */
     public function perform($method, $url, $data_to_send = [], $options = null)
     {
+        $installedVersion = 'unknown';
+        try {
+            $installedVersion = InstalledVersions::getVersion('transbank/transbank-sdk');
+        } catch (\Exception $exception) {
+        }
+        
         $basicHeader = [
             "Content-Type" => "application/json",
-            "User-Agent" => 'TransbankSDK/1.0 SDK-PHP/1.0'
+            "User-Agent" => 'SDK-PHP/' . $installedVersion
         ];
         $givenHeaders = isset($options["headers"]) ? $options["headers"] : [];
         $headers = array_merge($basicHeader, $givenHeaders);

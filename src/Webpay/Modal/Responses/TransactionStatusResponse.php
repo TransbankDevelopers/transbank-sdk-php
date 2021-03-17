@@ -2,6 +2,9 @@
 
 namespace Transbank\Webpay\Modal\Responses;
 
+use Transbank\Utils\ResponseCodesEnum;
+use Transbank\Utils\TransactionStatusEnum;
+
 class TransactionStatusResponse
 {
     public $amount;
@@ -36,6 +39,12 @@ class TransactionStatusResponse
         $this->responseCode = (int) isset($json['response_code']) ? $json['response_code'] : null;
         $this->installmentsAmount = isset($json['installments_amount']) ? $json['installments_amount'] : null;
         $this->installmentsNumber = isset($json['installments_number']) ? $json['installments_number'] : null;
+    }
+    
+    public function isApproved()
+    {
+        return $this->getResponseCode() === ResponseCodesEnum::RESPONSE_CODE_APPROVED &&
+            $this->getStatus() !== TransactionStatusEnum::STATUS_FAILED;
     }
     /**
      * @return mixed
@@ -112,7 +121,7 @@ class TransactionStatusResponse
      */
     public function getResponseCode()
     {
-        return $this->responseCode;
+        return (int) $this->responseCode;
     }
     /**
      * @return mixed

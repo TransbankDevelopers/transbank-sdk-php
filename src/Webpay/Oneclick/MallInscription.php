@@ -3,146 +3,98 @@
 
 namespace Transbank\Webpay\Oneclick;
 
+use Transbank\Webpay\Exceptions\WebpayRequestException;
+use Transbank\Webpay\InteractsWithWebpayApi;
 use Transbank\Webpay\Oneclick;
 use Transbank\Webpay\Oneclick\Exceptions\InscriptionDeleteException;
 use Transbank\Webpay\Oneclick\Exceptions\InscriptionFinishException;
 use Transbank\Webpay\Oneclick\Exceptions\InscriptionStartException;
+use Transbank\Webpay\Oneclick\Responses\InscriptionDeleteResponse;
+use Transbank\Webpay\Oneclick\Responses\InscriptionFinishResponse;
+use Transbank\Webpay\Oneclick\Responses\InscriptionStartResponse;
 
 class MallInscription
 {
-    const INSCRIPTION_START_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/inscriptions';
-    const INSCRIPTION_FINISH_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/inscriptions/$TOKEN$';
-    const INSCRIPTION_DELETE_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/inscriptions';
+    use InteractsWithWebpayApi;
     
-    public static function getCommerceIdentifier($options)
+    const INSCRIPTION_START_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/inscriptions';
+    const INSCRIPTION_FINISH_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/inscriptions/{token}';
+    const INSCRIPTION_DELETE_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/inscriptions';
+    
+    /**
+     * @param $username
+     * @param $email
+     * @param $responseUrl
+     * @param null $options
+     * @return InscriptionStartResponse
+     * @throws InscriptionStartException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public static function start($username, $email, $responseUrl, $options = null)
     {
-        if ($options == null) {
-            $commerceCode = Oneclick::getCommerceCode();
-            $apiKey = Oneclick::getApiKey();
-            $baseUrl = Oneclick::getIntegrationTypeUrl();
-        } else {
-            $commerceCode = $options->getCommerceCode();
-            $apiKey = $options->getApiKey();
-            $baseUrl = Oneclick::getIntegrationTypeUrl($options->getIntegrationType());
-        }
-        return array(
-            $commerceCode,
-            $apiKey,
-            $baseUrl,
-        );
-    }
-
-    public static function start($userName, $email, $responseUrl, $options = null)
-    {
-        list($commerceCode, $apiKey, $baseUrl) = MallInscription::getCommerceIdentifier($options);
-
-        $http = Oneclick::getHttpClient();
-        $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+        $options = Oneclick::getDefaultOptions($options);
+    
+        $payload = [
+            'username' => $username,
+            'email' => $email,
+            'response_url' => $responseUrl
         ];
-
-        $payload = json_encode(["username" => $userName, "email" => $email, "response_url" => $responseUrl]);
-
-        $httpResponse = $http->post(
-            $baseUrl,
-            self::INSCRIPTION_START_ENDPOINT,
-            $payload,
-            ['headers' => $headers]
-        );
-
-        $httpCode = $httpResponse->getStatusCode();
-        if ($httpCode != 200 && $httpCode != 204) {
-            $reason = $httpResponse->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
-            $body = json_decode($httpResponse->getBody(), true);
-
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
-                $message = "$message. Details: $tbkErrorMessage";
-            }
-            throw new InscriptionStartException($message, $httpCode);
+    
+        try {
+            $response = static::request(
+                'POST',
+                static::INSCRIPTION_START_ENDPOINT,
+                $payload,
+                $options
+            );
+        } catch (WebpayRequestException $e) {
+            throw InscriptionStartException::raise($e);
         }
-
-        $responseJson = json_decode($httpResponse->getBody(), true);
-        $inscriptionStartResponse = new InscriptionStartResponse($responseJson);
-
-        return $inscriptionStartResponse;
+        
+        return new InscriptionStartResponse($response);
     }
 
 
     public static function finish($token, $options = null)
     {
-        list($commerceCode, $apiKey, $baseUrl) = MallInscription::getCommerceIdentifier($options);
-
-        $http = Oneclick::getHttpClient();
-        $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
-        ];
-
-        $url = str_replace('$TOKEN$', $token, self::INSCRIPTION_FINISH_ENDPOINT);
-
-        $httpResponse = $http->put(
-            $baseUrl,
-            $url,
-            null,
-            ['headers' => $headers]
-        );
-
-        $httpCode = $httpResponse->getStatusCode();
-        if ($httpCode != 200 && $httpCode != 204) {
-            $reason = $httpResponse->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
-            $body = json_decode($httpResponse->getBody(), true);
-
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
-                $message = "$message. Details: $tbkErrorMessage";
-            }
-            throw new InscriptionFinishException($message, $httpCode);
+        $options = Oneclick::getDefaultOptions($options);
+    
+        try {
+            $response = static::request(
+                'PUT',
+                str_replace('{token}', $token, static::INSCRIPTION_FINISH_ENDPOINT),
+                null,
+                $options
+            );
+        } catch (WebpayRequestException $e) {
+            throw InscriptionFinishException::raise($e);
         }
-
-        $responseJson = json_decode($httpResponse->getBody(), true);
-
-        $inscriptionFinishResponse = new InscriptionFinishResponse($responseJson);
-
-        return $inscriptionFinishResponse;
+        return new InscriptionFinishResponse($response);
     }
 
-    public static function delete($tbkUser, $userName, $options = null)
+    public static function delete($tbkUser, $username, $options = null)
     {
-        list($commerceCode, $apiKey, $baseUrl) = MallInscription::getCommerceIdentifier($options);
-
-        $http = Oneclick::getHttpClient();
-        $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+        $options = Oneclick::getDefaultOptions($options);
+    
+        $payload = [
+            'tbk_user' => $tbkUser,
+            'username' => $username
         ];
-
-        $payload = json_encode(["tbk_user" => $tbkUser, "username" => $userName]);
-
-        $httpResponse = $http->delete(
-            $baseUrl,
-            self::INSCRIPTION_DELETE_ENDPOINT,
-            $payload,
-            ['headers' => $headers]
-        );
-
-        $httpCode = $httpResponse->getStatusCode();
-        if ($httpCode != 200 && $httpCode != 204) {
-            $reason = $httpResponse->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
-            $body = json_decode($httpResponse->getBody(), true);
-
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
-                $message = "$message. Details: $tbkErrorMessage";
+        
+        try {
+            $response = static::request(
+                'DELETE',
+                static::INSCRIPTION_DELETE_ENDPOINT,
+                $payload,
+                $options
+            );
+        } catch (WebpayRequestException $e) {
+            if ($e->getHttpCode() !== 204) {
+                return new InscriptionDeleteResponse(false, $e->getHttpCode());
             }
-            throw new InscriptionDeleteException($message, $httpCode);
+            throw InscriptionDeleteException::raise($e);
         }
-        $inscriptionFinishResponse = new InscriptionDeleteResponse($httpCode);
-
-        return $inscriptionFinishResponse;
+        
+        return new InscriptionDeleteResponse(true);
     }
 }

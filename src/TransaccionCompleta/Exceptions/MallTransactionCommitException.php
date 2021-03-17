@@ -1,14 +1,5 @@
 <?php
 
-/**
- * Class MallTransactionCommitException
- *
- * @category
- * @package Transbank\TransaccionCompleta\Exceptions
- *
- */
-
-
 namespace Transbank\TransaccionCompleta\Exceptions;
 
 class MallTransactionCommitException extends MallTransactionCompletaException

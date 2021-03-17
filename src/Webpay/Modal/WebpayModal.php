@@ -20,8 +20,11 @@ class WebpayModal
         self::setIntegrationType(Options::ENVIRONMENT_TEST);
     }
 
-    public static function getDefaultOptions()
+    public static function getDefaultOptions($options)
     {
+        if ($options !== null) {
+            return $options;
+        }
         return new Options(WebpayModal::getApiKey(), WebpayModal::getCommerceCode(), WebpayModal::getIntegrationType());
     }
 }
