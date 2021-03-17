@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Transbank\Patpass;
 
 use Transbank\Utils\HttpClient;
@@ -11,13 +10,13 @@ class PatpassByWebpay
     private static $commerceCode;
     private static $apiKey;
     /**
-     * @var array $INTEGRATION_TYPES contains key-value pairs of
-     * integration_type => url_of_that_integration
+     * @var array contains key-value pairs of
+     *            integration_type => url_of_that_integration
      */
     public static $INTEGRATION_TYPES = [
-        "LIVE" => "https://webpay3g.transbank.cl/",
-        "TEST" => "https://webpay3gint.transbank.cl/",
-        "MOCK" => ""
+        'LIVE' => 'https://webpay3g.transbank.cl/',
+        'TEST' => 'https://webpay3gint.transbank.cl/',
+        'MOCK' => '',
     ];
 
     private static $integrationType = Options::DEFAULT_INTEGRATION_TYPE;
@@ -65,9 +64,9 @@ class PatpassByWebpay
         if (!isset(self::$httpClient) || self::$httpClient == null) {
             self::$httpClient = new HttpClient();
         }
+
         return self::$httpClient;
     }
-
 
     public static function getIntegrationTypeUrl($integrationType = null)
     {

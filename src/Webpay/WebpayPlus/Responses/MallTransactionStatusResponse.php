@@ -1,12 +1,9 @@
 <?php
 
-
 namespace Transbank\Webpay\WebpayPlus\Responses;
 
 /**
- * Class MallTransactionStatusResponse
- *
- * @package Transbank\Webpay\WebpayPlus\Responses
+ * Class MallTransactionStatusResponse.
  */
 class MallTransactionStatusResponse
 {
@@ -16,7 +13,7 @@ class MallTransactionStatusResponse
     public $expirationDate;
     public $accountingDate;
     public $transactionDate;
-    
+
     /**
      * @var TransactionDetail[]
      */
@@ -24,16 +21,16 @@ class MallTransactionStatusResponse
 
     public function __construct($json)
     {
-        $this->buyOrder = isset($json["buy_order"]) ? $json["buy_order"] : null;
-        $this->sessionId = isset($json["session_id"]) ?$json["session_id"] : null;
-        $this->cardNumber = isset($json["card_detail"]) ? (isset($json["card_detail"]["card_number"]) ?
-            $json["card_detail"]["card_number"] : null) : null;
-        $this->expirationDate = isset($json["expiration_date"]) ? $json["expiration_date"] : null;
-        $this->accountingDate = isset($json["accounting_date"]) ? $json["accounting_date"] : null;
-        $this->transactionDate = isset($json["transaction_date"]) ? $json["transaction_date"] : null;
-        $details = isset($json["details"]) ? $json["details"] : null;
+        $this->buyOrder = isset($json['buy_order']) ? $json['buy_order'] : null;
+        $this->sessionId = isset($json['session_id']) ? $json['session_id'] : null;
+        $this->cardNumber = isset($json['card_detail']) ? (isset($json['card_detail']['card_number']) ?
+            $json['card_detail']['card_number'] : null) : null;
+        $this->expirationDate = isset($json['expiration_date']) ? $json['expiration_date'] : null;
+        $this->accountingDate = isset($json['accounting_date']) ? $json['accounting_date'] : null;
+        $this->transactionDate = isset($json['transaction_date']) ? $json['transaction_date'] : null;
+        $details = isset($json['details']) ? $json['details'] : null;
         $this->details = null;
-        
+
         if (is_array($details)) {
             $this->details = [];
             foreach ($details as $detail) {
@@ -41,19 +38,19 @@ class MallTransactionStatusResponse
             }
         }
     }
-    
+
     public function isApproved()
     {
         if (!$details = $this->getDetails()) {
             return false;
         }
-        
+
         foreach ($details as $detail) {
             if ($detail->isApproved()) {
                 return true;
             }
         }
-        
+
         return false;
     }
 
@@ -73,6 +70,7 @@ class MallTransactionStatusResponse
     public function setBuyOrder($buyOrder)
     {
         $this->buyOrder = $buyOrder;
+
         return $this;
     }
 
@@ -92,6 +90,7 @@ class MallTransactionStatusResponse
     public function setSessionId($sessionId)
     {
         $this->sessionId = $sessionId;
+
         return $this;
     }
 
@@ -111,6 +110,7 @@ class MallTransactionStatusResponse
     public function setCardNumber($cardNumber)
     {
         $this->cardNumber = $cardNumber;
+
         return $this;
     }
 
@@ -130,6 +130,7 @@ class MallTransactionStatusResponse
     public function setExpirationDate($expirationDate)
     {
         $this->expirationDate = $expirationDate;
+
         return $this;
     }
 
@@ -149,6 +150,7 @@ class MallTransactionStatusResponse
     public function setAccountingDate($accountingDate)
     {
         $this->accountingDate = $accountingDate;
+
         return $this;
     }
 
@@ -168,6 +170,7 @@ class MallTransactionStatusResponse
     public function setTransactionDate($transactionDate)
     {
         $this->transactionDate = $transactionDate;
+
         return $this;
     }
 
@@ -178,14 +181,16 @@ class MallTransactionStatusResponse
     {
         return $this->details;
     }
-    
+
     /**
      * @param $details
+     *
      * @return MallTransactionStatusResponse
      */
     public function setDetails($details)
     {
         $this->details = $details;
+
         return $this;
     }
 }

@@ -1,9 +1,7 @@
 <?php
 
-
 namespace Transbank\Webpay\WebpayPlus\Exceptions;
 
-use Transbank\Webpay\Exceptions\FailedRequestCapturedData;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 
 class TransactionCommitException extends WebpayRequestException

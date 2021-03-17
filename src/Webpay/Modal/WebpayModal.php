@@ -25,6 +25,7 @@ class WebpayModal
         if ($options !== null) {
             return $options;
         }
+
         return new Options(WebpayModal::getApiKey(), WebpayModal::getCommerceCode(), WebpayModal::getIntegrationType());
     }
 }

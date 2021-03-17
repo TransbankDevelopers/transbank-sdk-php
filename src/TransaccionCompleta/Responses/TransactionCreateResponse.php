@@ -1,4 +1,5 @@
 <?php
+
 namespace Transbank\TransaccionCompleta\Responses;
 
 use Transbank\Utils\Utils;
@@ -9,7 +10,7 @@ class TransactionCreateResponse
 
     public function __construct($json)
     {
-        $token =  Utils::returnValueIfExists($json, "token");
+        $token = Utils::returnValueIfExists($json, 'token');
         $this->setToken($token);
     }
 
@@ -27,6 +28,7 @@ class TransactionCreateResponse
     public function setToken($token)
     {
         $this->token = $token;
+
         return $this;
     }
 }

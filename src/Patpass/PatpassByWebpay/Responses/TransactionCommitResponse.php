@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Transbank\Patpass\PatpassByWebpay\Responses;
 
 class TransactionCommitResponse
@@ -58,6 +57,7 @@ class TransactionCommitResponse
     public function setVci($vci)
     {
         $this->vci = $vci;
+
         return $this;
     }
 
@@ -77,6 +77,7 @@ class TransactionCommitResponse
     public function setAmount($amount)
     {
         $this->amount = $amount;
+
         return $this;
     }
 
@@ -96,6 +97,7 @@ class TransactionCommitResponse
     public function setStatus($status)
     {
         $this->status = $status;
+
         return $this;
     }
 
@@ -115,6 +117,7 @@ class TransactionCommitResponse
     public function setBuyOrder($buyOrder)
     {
         $this->buyOrder = $buyOrder;
+
         return $this;
     }
 
@@ -134,6 +137,7 @@ class TransactionCommitResponse
     public function setSessionId($sessionId)
     {
         $this->sessionId = $sessionId;
+
         return $this;
     }
 
@@ -153,6 +157,7 @@ class TransactionCommitResponse
     public function setCardDetail($cardDetail)
     {
         $this->cardDetail = $cardDetail;
+
         return $this;
     }
 
@@ -172,6 +177,7 @@ class TransactionCommitResponse
     public function setAccountingDate($accountingDate)
     {
         $this->accountingDate = $accountingDate;
+
         return $this;
     }
 
@@ -191,6 +197,7 @@ class TransactionCommitResponse
     public function setTransactionDate($transactionDate)
     {
         $this->transactionDate = $transactionDate;
+
         return $this;
     }
 
@@ -210,6 +217,7 @@ class TransactionCommitResponse
     public function setAuthorizationCode($authorizationCode)
     {
         $this->authorizationCode = $authorizationCode;
+
         return $this;
     }
 
@@ -229,6 +237,7 @@ class TransactionCommitResponse
     public function setPaymentTypeCode($paymentTypeCode)
     {
         $this->paymentTypeCode = $paymentTypeCode;
+
         return $this;
     }
 
@@ -248,6 +257,7 @@ class TransactionCommitResponse
     public function setResponseCode($responseCode)
     {
         $this->responseCode = $responseCode;
+
         return $this;
     }
 
@@ -267,6 +277,7 @@ class TransactionCommitResponse
     public function setInstallmentsNumber($installmentsNumber)
     {
         $this->installmentsNumber = $installmentsNumber;
+
         return $this;
     }
 }

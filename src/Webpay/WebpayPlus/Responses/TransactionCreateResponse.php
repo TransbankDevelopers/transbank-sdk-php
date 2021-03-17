@@ -1,17 +1,16 @@
 <?php
 
-
 namespace Transbank\Webpay\WebpayPlus\Responses;
 
 class TransactionCreateResponse
 {
     /**
-     * @var string|null $token
+     * @var string|null
      */
     public $token;
 
     /**
-     * @var string|null $url
+     * @var string|null
      */
     public $url;
 
@@ -19,11 +18,10 @@ class TransactionCreateResponse
      * TransactionCreateResponse constructor.
      *
      * @param array $json an associative array with keys 'token', 'url'
-     *   + token (string, required) - the token returned from a successful call
-     *   to 'create'
-     *   + url (string, required) - the url returned from a successful call to
-     *   'create'
-     *
+     *                    + token (string, required) - the token returned from a successful call
+     *                    to 'create'
+     *                    + url (string, required) - the url returned from a successful call to
+     *                    'create'
      */
     public function __construct($json)
     {
@@ -32,16 +30,18 @@ class TransactionCreateResponse
 
     /**
      * @param array $json an associative array with keys 'token', 'url'
-     *   + token (string, required) - the token returned from a successful call
-     *   to 'create'
-     *   + url (string, required) - the url returned from a successful call to
-     *   'create'
+     *                    + token (string, required) - the token returned from a successful call
+     *                    to 'create'
+     *                    + url (string, required) - the url returned from a successful call to
+     *                    'create'
+     *
      * @return $this
      */
     public function fromJSON($json)
     {
-        $this->setToken($json["token"]);
-        $this->setUrl($json["url"]);
+        $this->setToken($json['token']);
+        $this->setUrl($json['url']);
+
         return $this;
     }
 
@@ -61,6 +61,7 @@ class TransactionCreateResponse
     public function setToken($token)
     {
         $this->token = $token;
+
         return $this;
     }
 
@@ -80,6 +81,7 @@ class TransactionCreateResponse
     public function setUrl($url)
     {
         $this->url = $url;
+
         return $this;
     }
 }

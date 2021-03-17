@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Transbank\Webpay\Oneclick;
 
 use Transbank\Webpay\Exceptions\WebpayRequestException;
@@ -16,30 +15,32 @@ use Transbank\Webpay\Oneclick\Responses\InscriptionStartResponse;
 class MallInscription
 {
     use InteractsWithWebpayApi;
-    
+
     const INSCRIPTION_START_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/inscriptions';
     const INSCRIPTION_FINISH_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/inscriptions/{token}';
     const INSCRIPTION_DELETE_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/inscriptions';
-    
+
     /**
      * @param $username
      * @param $email
      * @param $responseUrl
      * @param null $options
-     * @return InscriptionStartResponse
+     *
      * @throws InscriptionStartException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return InscriptionStartResponse
      */
     public static function start($username, $email, $responseUrl, $options = null)
     {
         $options = Oneclick::getDefaultOptions($options);
-    
+
         $payload = [
-            'username' => $username,
-            'email' => $email,
-            'response_url' => $responseUrl
+            'username'     => $username,
+            'email'        => $email,
+            'response_url' => $responseUrl,
         ];
-    
+
         try {
             $response = static::request(
                 'POST',
@@ -50,15 +51,14 @@ class MallInscription
         } catch (WebpayRequestException $e) {
             throw InscriptionStartException::raise($e);
         }
-        
+
         return new InscriptionStartResponse($response);
     }
-
 
     public static function finish($token, $options = null)
     {
         $options = Oneclick::getDefaultOptions($options);
-    
+
         try {
             $response = static::request(
                 'PUT',
@@ -69,18 +69,19 @@ class MallInscription
         } catch (WebpayRequestException $e) {
             throw InscriptionFinishException::raise($e);
         }
+
         return new InscriptionFinishResponse($response);
     }
 
     public static function delete($tbkUser, $username, $options = null)
     {
         $options = Oneclick::getDefaultOptions($options);
-    
+
         $payload = [
             'tbk_user' => $tbkUser,
-            'username' => $username
+            'username' => $username,
         ];
-        
+
         try {
             $response = static::request(
                 'DELETE',
@@ -92,9 +93,10 @@ class MallInscription
             if ($e->getHttpCode() !== 204) {
                 return new InscriptionDeleteResponse(false, $e->getHttpCode());
             }
+
             throw InscriptionDeleteException::raise($e);
         }
-        
+
         return new InscriptionDeleteResponse(true);
     }
 }

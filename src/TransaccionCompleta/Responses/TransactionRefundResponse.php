@@ -15,17 +15,17 @@ class TransactionRefundResponse
 
     public function __construct($json)
     {
-        $type =  Utils::returnValueIfExists($json, "type");
+        $type = Utils::returnValueIfExists($json, 'type');
         $this->setType($type);
-        $authorizationCode =  Utils::returnValueIfExists($json, "authorization_code");
+        $authorizationCode = Utils::returnValueIfExists($json, 'authorization_code');
         $this->setAuthorizationCode($authorizationCode);
-        $authorizationDate =  Utils::returnValueIfExists($json, "authorization_date");
+        $authorizationDate = Utils::returnValueIfExists($json, 'authorization_date');
         $this->setAuthorizationDate($authorizationDate);
-        $nullifiedAmount =  Utils::returnValueIfExists($json, "nullified_amount");
+        $nullifiedAmount = Utils::returnValueIfExists($json, 'nullified_amount');
         $this->setNullifiedAmount($nullifiedAmount);
-        $balance =  Utils::returnValueIfExists($json, "balance");
+        $balance = Utils::returnValueIfExists($json, 'balance');
         $this->setBalance($balance);
-        $responseCode =  Utils::returnValueIfExists($json, "response_code");
+        $responseCode = Utils::returnValueIfExists($json, 'response_code');
         $this->setResponseCode($responseCode);
     }
 
@@ -39,11 +39,13 @@ class TransactionRefundResponse
 
     /**
      * @param mixed $type
+     *
      * @return TransactionRefundResponse
      */
     public function setType($type)
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -57,11 +59,13 @@ class TransactionRefundResponse
 
     /**
      * @param mixed $authorizationCode
+     *
      * @return TransactionRefundResponse
      */
     public function setAuthorizationCode($authorizationCode)
     {
         $this->authorizationCode = $authorizationCode;
+
         return $this;
     }
 
@@ -75,11 +79,13 @@ class TransactionRefundResponse
 
     /**
      * @param mixed $authorizationDate
+     *
      * @return TransactionRefundResponse
      */
     public function setAuthorizationDate($authorizationDate)
     {
         $this->authorizationDate = $authorizationDate;
+
         return $this;
     }
 
@@ -93,11 +99,13 @@ class TransactionRefundResponse
 
     /**
      * @param mixed $nullifiedAmount
+     *
      * @return TransactionRefundResponse
      */
     public function setNullifiedAmount($nullifiedAmount)
     {
         $this->nullifiedAmount = $nullifiedAmount;
+
         return $this;
     }
 
@@ -111,11 +119,13 @@ class TransactionRefundResponse
 
     /**
      * @param mixed $balance
+     *
      * @return TransactionRefundResponse
      */
     public function setBalance($balance)
     {
         $this->balance = $balance;
+
         return $this;
     }
 
@@ -130,12 +140,12 @@ class TransactionRefundResponse
     /**
      * @param mixed $responseCode
      *
-     *
      * @return TransactionRefundResponse
      */
     public function setResponseCode($responseCode)
     {
         $this->responseCode = $responseCode;
+
         return $this;
     }
 }

@@ -6,5 +6,4 @@ use Transbank\Webpay\Exceptions\WebpayRequestException;
 
 class TransactionRefundException extends WebpayRequestException
 {
-
 }

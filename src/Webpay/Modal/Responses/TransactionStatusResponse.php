@@ -20,8 +20,10 @@ class TransactionStatusResponse
     public $responseCode;
     public $installmentsAmount;
     public $installmentsNumber;
+
     /**
      * TransactionCommitResponse constructor.
+     *
      * @param mixed $json
      */
     public function __construct($json)
@@ -40,12 +42,13 @@ class TransactionStatusResponse
         $this->installmentsAmount = isset($json['installments_amount']) ? $json['installments_amount'] : null;
         $this->installmentsNumber = isset($json['installments_number']) ? $json['installments_number'] : null;
     }
-    
+
     public function isApproved()
     {
         return $this->getResponseCode() === ResponseCodesEnum::RESPONSE_CODE_APPROVED &&
             $this->getStatus() !== TransactionStatusEnum::STATUS_FAILED;
     }
+
     /**
      * @return mixed
      */
@@ -53,6 +56,7 @@ class TransactionStatusResponse
     {
         return $this->amount;
     }
+
     /**
      * @return mixed
      */
@@ -60,6 +64,7 @@ class TransactionStatusResponse
     {
         return $this->status;
     }
+
     /**
      * @return mixed
      */
@@ -67,6 +72,7 @@ class TransactionStatusResponse
     {
         return $this->buyOrder;
     }
+
     /**
      * @return mixed
      */
@@ -74,6 +80,7 @@ class TransactionStatusResponse
     {
         return $this->sessionId;
     }
+
     /**
      * @return mixed
      */
@@ -81,6 +88,7 @@ class TransactionStatusResponse
     {
         return $this->cardDetail;
     }
+
     /**
      * @return mixed|null
      */
@@ -88,6 +96,7 @@ class TransactionStatusResponse
     {
         return $this->cardNumber;
     }
+
     /**
      * @return mixed
      */
@@ -95,6 +104,7 @@ class TransactionStatusResponse
     {
         return $this->accountingDate;
     }
+
     /**
      * @return mixed
      */
@@ -102,6 +112,7 @@ class TransactionStatusResponse
     {
         return $this->transactionDate;
     }
+
     /**
      * @return mixed
      */
@@ -109,6 +120,7 @@ class TransactionStatusResponse
     {
         return $this->authorizationCode;
     }
+
     /**
      * @return mixed
      */
@@ -116,6 +128,7 @@ class TransactionStatusResponse
     {
         return $this->paymentTypeCode;
     }
+
     /**
      * @return mixed
      */
@@ -123,6 +136,7 @@ class TransactionStatusResponse
     {
         return (int) $this->responseCode;
     }
+
     /**
      * @return mixed
      */
@@ -130,6 +144,7 @@ class TransactionStatusResponse
     {
         return $this->installmentsAmount;
     }
+
     /**
      * @return mixed
      */
@@ -137,6 +152,4 @@ class TransactionStatusResponse
     {
         return $this->installmentsNumber;
     }
-
-
 }

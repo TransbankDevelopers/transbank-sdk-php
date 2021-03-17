@@ -1,9 +1,6 @@
 <?php
 
-
 namespace Transbank\Webpay\Oneclick\Responses;
-
-use Transbank\Webpay\Oneclick\Responses\MallTransactionStatusResponse;
 
 class AuthorizeMallTransactionResponse
 {
@@ -17,25 +14,25 @@ class AuthorizeMallTransactionResponse
 
     public function __construct($json)
     {
-        $buyOrder = isset($json["buy_order"]) ? $json["buy_order"] : null;
+        $buyOrder = isset($json['buy_order']) ? $json['buy_order'] : null;
         $this->setBuyOrder($buyOrder);
 
-        $sessionId = isset($json["session_id"]) ? $json["session_id"] : null;
+        $sessionId = isset($json['session_id']) ? $json['session_id'] : null;
         $this->setSessionId($sessionId);
 
-        $cardNumber = isset($json["card_detail"]) ? isset($json["card_detail"]["card_number"]) ? $json["card_detail"]["card_number"] : null : null;
+        $cardNumber = isset($json['card_detail']) ? isset($json['card_detail']['card_number']) ? $json['card_detail']['card_number'] : null : null;
         $this->setCardNumber($cardNumber);
 
-        $expirationDate = isset($json["expiration_date"]) ? $json["expiration_date"] : null;
+        $expirationDate = isset($json['expiration_date']) ? $json['expiration_date'] : null;
         $this->setExpirationDate($expirationDate);
 
-        $accountingDate = isset($json["accounting_date"]) ? $json["accounting_date"] : null;
+        $accountingDate = isset($json['accounting_date']) ? $json['accounting_date'] : null;
         $this->setAccountingDate($accountingDate);
 
-        $transactionDate = isset($json["transaction_date"]) ? $json["transaction_date"] : null;
+        $transactionDate = isset($json['transaction_date']) ? $json['transaction_date'] : null;
         $this->setTransactionDate($transactionDate);
 
-        $details = isset($json["details"]) ? $json["details"] : null;
+        $details = isset($json['details']) ? $json['details'] : null;
         $this->setDetails($details);
     }
 
@@ -55,6 +52,7 @@ class AuthorizeMallTransactionResponse
     public function setBuyOrder($buyOrder)
     {
         $this->buyOrder = $buyOrder;
+
         return $this;
     }
 
@@ -74,6 +72,7 @@ class AuthorizeMallTransactionResponse
     public function setSessionId($sessionId)
     {
         $this->sessionId = $sessionId;
+
         return $this;
     }
 
@@ -93,6 +92,7 @@ class AuthorizeMallTransactionResponse
     public function setCardNumber($cardNumber)
     {
         $this->cardNumber = $cardNumber;
+
         return $this;
     }
 
@@ -112,6 +112,7 @@ class AuthorizeMallTransactionResponse
     public function setExpirationDate($expirationDate)
     {
         $this->expirationDate = $expirationDate;
+
         return $this;
     }
 
@@ -131,6 +132,7 @@ class AuthorizeMallTransactionResponse
     public function setAccountingDate($accountingDate)
     {
         $this->accountingDate = $accountingDate;
+
         return $this;
     }
 
@@ -150,6 +152,7 @@ class AuthorizeMallTransactionResponse
     public function setTransactionDate($transactionDate)
     {
         $this->transactionDate = $transactionDate;
+
         return $this;
     }
 
@@ -169,6 +172,7 @@ class AuthorizeMallTransactionResponse
     public function setDetails($details)
     {
         $this->details = $details;
+
         return $this;
     }
 }

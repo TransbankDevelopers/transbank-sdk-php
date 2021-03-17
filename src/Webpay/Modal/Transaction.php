@@ -23,30 +23,31 @@ class Transaction
     const COMMIT_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
     const STATUS_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
     const REFUND_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
-    
+
     /**
-     * @param string $buyOrder
-     * @param string $sessionId
-     * @param integer $amount
+     * @param string       $buyOrder
+     * @param string       $sessionId
+     * @param int          $amount
      * @param Options|null $options
      *
-     * @return TransactionCreateResponse
      * @throws TransactionCreateException
      * @throws GuzzleException|TransactionCreateException
+     *
+     * @return TransactionCreateResponse
      **
      */
     public static function create($amount, $buyOrder, $sessionId = null, Options $options = null)
     {
         $options = WebpayModal::getDefaultOptions($options);
-        
+
         if ($sessionId === null) {
             $sessionId = uniqid();
         }
 
         $payload = [
-            'buy_order' => $buyOrder,
+            'buy_order'  => $buyOrder,
             'session_id' => $sessionId,
-            'amount' => $amount
+            'amount'     => $amount,
         ];
 
         try {
@@ -54,16 +55,17 @@ class Transaction
         } catch (WebpayRequestException $exception) {
             throw TransactionCreateException::raise($exception);
         }
-        
+
         return new TransactionCreateResponse($response);
     }
 
     /**
-     * @param string $token
+     * @param string       $token
      * @param Options|null $options
      *
-     * @return TransactionCommitResponse
      * @throws TransactionCommitException|GuzzleException
+     *
+     * @return TransactionCommitResponse
      **
      */
     public static function commit($token, Options $options = null)
@@ -71,47 +73,55 @@ class Transaction
         $options = WebpayModal::getDefaultOptions($options);
 
         $endpoint = str_replace('{token}', $token, static::COMMIT_TRANSACTION_ENDPOINT);
+
         try {
             $response = static::request('PUT', $endpoint, [], $options);
         } catch (WebpayRequestException $exception) {
             throw TransactionCommitException::raise($exception);
         }
-        
+
         return new TransactionCommitResponse($response);
     }
-    
+
     /**
      * @param $token
      * @param Options|null $options
-     * @return TransactionStatusResponse
+     *
      * @throws TransactionStatusException
      * @throws GuzzleException|TransactionStatusException
+     *
+     * @return TransactionStatusResponse
      */
     public static function status($token, Options $options = null)
     {
         $options = WebpayModal::getDefaultOptions($options);
 
         $endpoint = str_replace('{token}', $token, static::STATUS_TRANSACTION_ENDPOINT);
+
         try {
             $response = static::request('GET', $endpoint, [], $options);
         } catch (WebpayRequestException $exception) {
             throw TransactionStatusException::raise($exception);
         }
+
         return new TransactionStatusResponse($response);
     }
-    
+
     /**
      * @param $token
      * @param $amount
      * @param Options|null $options
-     * @return TransactionRefundResponse
+     *
      * @throws GuzzleException|TransactionRefundException
+     *
+     * @return TransactionRefundResponse
      */
     public static function refund($token, $amount, Options $options = null)
     {
         $options = WebpayModal::getDefaultOptions($options);
 
         $endpoint = str_replace('{token}', $token, static::REFUND_TRANSACTION_ENDPOINT);
+
         try {
             $response = static::request(
                 'POST',
@@ -122,7 +132,6 @@ class Transaction
         } catch (WebpayRequestException $exception) {
             throw TransactionRefundException::raise($exception);
         }
-        
 
         return new TransactionRefundResponse($response);
     }

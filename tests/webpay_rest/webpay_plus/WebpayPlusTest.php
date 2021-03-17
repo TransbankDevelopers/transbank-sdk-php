@@ -2,14 +2,12 @@
 
 namespace Transbank\Webpay;
 
-
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCaptureException;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCommitException;
 use Transbank\Webpay\WebpayPlus\Transaction;
 
 class WebpayPlusTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var int
      */
@@ -30,9 +28,9 @@ class WebpayPlusTest extends \PHPUnit_Framework_TestCase
     protected function setup()
     {
         $this->amount = 1000;
-        $this->sessionId = "some_session_id_".uniqid();
-        $this->buyOrder = "123999555";
-        $this->returnUrl = "https://comercio.cl/callbacks/transaccion_creada_exitosamente";
+        $this->sessionId = 'some_session_id_'.uniqid();
+        $this->buyOrder = '123999555';
+        $this->returnUrl = 'https://comercio.cl/callbacks/transaccion_creada_exitosamente';
     }
 
     public function testCreateATransactionWithoutOptions()
@@ -129,8 +127,9 @@ class WebpayPlusTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Transbank\Webpay\WebpayPlus\Responses\TransactionCreateResponse
      * @throws WebpayPlus\Exceptions\TransactionCreateException
+     *
+     * @return \Transbank\Webpay\WebpayPlus\Responses\TransactionCreateResponse
      */
     public function createTransaction()
     {

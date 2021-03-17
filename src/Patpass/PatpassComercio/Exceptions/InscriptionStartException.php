@@ -1,11 +1,9 @@
 <?php
 
 /**
- * Class InscriptionStartException
+ * Class InscriptionStartException.
  *
  * @category
- * @package Transbank\Patpass\PatpassComercio\Exceptions
- *
  */
 
 namespace Transbank\Patpass\PatpassComercio\Exceptions;

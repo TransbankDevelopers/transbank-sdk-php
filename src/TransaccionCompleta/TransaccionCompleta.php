@@ -1,18 +1,13 @@
 <?php
 
 /**
- * Class TransaccionCompleta
+ * Class TransaccionCompleta.
  *
  * @category
- * @package Transbank\TransaccionCompleta
- *
  */
-
 
 namespace Transbank\TransaccionCompleta;
 
-use Transbank\Utils\HttpClient;
-use Transbank\TransaccionCompleta\Options;
 use Transbank\Webpay\ConfiguresEnvironment;
 
 class TransaccionCompleta
@@ -36,11 +31,12 @@ class TransaccionCompleta
         self::$commerceCode = Options::DEFAULT_TRANSACCION_COMPLETA_MALL_COMMERCE_CODE;
         self::$integrationType = Options::DEFAULT_INTEGRATION_TYPE;
     }
-    
+
     /**
      * Get the default options if none are given.
      *
      * @param \Transbank\TransaccionCompleta\Options|null $options
+     *
      * @return Options
      */
     public static function getDefaultOptions(Options $options = null)
@@ -48,6 +44,7 @@ class TransaccionCompleta
         if ($options !== null) {
             return $options;
         }
+
         return new Options(static::getApiKey(), static::getCommerceCode(), static::getIntegrationType());
     }
 }

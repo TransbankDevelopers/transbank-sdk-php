@@ -59,7 +59,7 @@ class TransbankWebpayModalTest extends \PHPUnit\Framework\TestCase
     /** @test */
     public function it_cannot_refund_a_recently_created_transaction()
     {
-        $this->setExpectedException(\Transbank\Webpay\Modal\Exceptions\TransactionRefundException::class, "Transaction is unfinished, it is not possible to refund it yet");
+        $this->setExpectedException(\Transbank\Webpay\Modal\Exceptions\TransactionRefundException::class, 'Transaction is unfinished, it is not possible to refund it yet');
         $response = Transaction::create(1500, 'BuyOrder1', 'Session2312');
         $response = Transaction::refund($response->getToken(), 1500);
     }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Transbank\Webpay\Oneclick\Responses;
 
 class MallRefundTransactionResponse
@@ -14,22 +13,22 @@ class MallRefundTransactionResponse
 
     public function __construct($json)
     {
-        $type = isset($json["type"]) ? $json["type"] : null;
+        $type = isset($json['type']) ? $json['type'] : null;
         $this->setType($type);
 
-        $authorizationCode = isset($json["authorization_code"]) ? $json["authorization_code"] : null;
+        $authorizationCode = isset($json['authorization_code']) ? $json['authorization_code'] : null;
         $this->setAuthorizationCode($authorizationCode);
 
-        $authorizationDate = isset($json["authorization_date"]) ? $json["authorization_date"] : null;
+        $authorizationDate = isset($json['authorization_date']) ? $json['authorization_date'] : null;
         $this->setAuthorizationDate($authorizationDate);
 
-        $nullifiedAmount = isset($json["nullified_amount"]) ? $json["nullified_amount"] : null;
+        $nullifiedAmount = isset($json['nullified_amount']) ? $json['nullified_amount'] : null;
         $this->setNullifiedAmount($nullifiedAmount);
 
-        $balance = isset($json["balance"]) ? $json["balance"] : null;
+        $balance = isset($json['balance']) ? $json['balance'] : null;
         $this->setBalance($balance);
 
-        $responseCode = isset($json["response_code"]) ? $json["response_code"] : null;
+        $responseCode = isset($json['response_code']) ? $json['response_code'] : null;
         $this->setResponseCode($responseCode);
     }
 
@@ -49,6 +48,7 @@ class MallRefundTransactionResponse
     public function setType($type)
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -68,6 +68,7 @@ class MallRefundTransactionResponse
     public function setAuthorizationCode($authorizationCode)
     {
         $this->authorizationCode = $authorizationCode;
+
         return $this;
     }
 
@@ -87,6 +88,7 @@ class MallRefundTransactionResponse
     public function setAuthorizationDate($authorizationDate)
     {
         $this->authorizationDate = $authorizationDate;
+
         return $this;
     }
 
@@ -106,6 +108,7 @@ class MallRefundTransactionResponse
     public function setNullifiedAmount($nullifiedAmount)
     {
         $this->nullifiedAmount = $nullifiedAmount;
+
         return $this;
     }
 
@@ -125,6 +128,7 @@ class MallRefundTransactionResponse
     public function setBalance($balance)
     {
         $this->balance = $balance;
+
         return $this;
     }
 
@@ -144,6 +148,7 @@ class MallRefundTransactionResponse
     public function setResponseCode($responseCode)
     {
         $this->responseCode = $responseCode;
+
         return $this;
     }
 }

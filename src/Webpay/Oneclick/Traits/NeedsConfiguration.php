@@ -17,10 +17,11 @@ trait NeedsConfiguration
             $apiKey = $options->getApiKey();
             $baseUrl = Oneclick::getIntegrationTypeUrl($options->getIntegrationType());
         }
-        return array(
+
+        return [
             $commerceCode,
             $apiKey,
             $baseUrl,
-        );
+        ];
     }
 }

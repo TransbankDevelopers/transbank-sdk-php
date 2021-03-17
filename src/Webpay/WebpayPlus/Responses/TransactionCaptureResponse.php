@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Transbank\Webpay\WebpayPlus\Responses;
 
 use Transbank\Utils\ResponseCodesEnum;
@@ -12,7 +11,6 @@ class TransactionCaptureResponse
      *
      * @param mixed $responseJson
      */
-
     public $token;
     public $authorizationCode;
     public $authorizationDate;
@@ -21,13 +19,13 @@ class TransactionCaptureResponse
 
     public function __construct($json)
     {
-        $this->token = isset($json["token"]) ? $json["token"] : null;
-        $this->authorizationCode = isset($json["authorization_code"]) ? $json["authorization_code"] : null;
-        $this->authorizationDate = isset($json["authorization_date"]) ? $json["authorization_date"] : null;
-        $this->capturedAmount = isset($json["captured_amount"]) ? $json["captured_amount"] : null;
-        $this->responseCode = isset($json["response_code"]) ? $json["response_code"] : null;
+        $this->token = isset($json['token']) ? $json['token'] : null;
+        $this->authorizationCode = isset($json['authorization_code']) ? $json['authorization_code'] : null;
+        $this->authorizationDate = isset($json['authorization_date']) ? $json['authorization_date'] : null;
+        $this->capturedAmount = isset($json['captured_amount']) ? $json['captured_amount'] : null;
+        $this->responseCode = isset($json['response_code']) ? $json['response_code'] : null;
     }
-    
+
     public function isApproved()
     {
         return $this->responseCode === ResponseCodesEnum::RESPONSE_CODE_APPROVED;
@@ -49,6 +47,7 @@ class TransactionCaptureResponse
     public function setToken($token)
     {
         $this->token = $token;
+
         return $this;
     }
 
@@ -68,6 +67,7 @@ class TransactionCaptureResponse
     public function setAuthorizationCode($authorizationCode)
     {
         $this->authorizationCode = $authorizationCode;
+
         return $this;
     }
 
@@ -87,6 +87,7 @@ class TransactionCaptureResponse
     public function setAuthorizationDate($authorizationDate)
     {
         $this->authorizationDate = $authorizationDate;
+
         return $this;
     }
 
@@ -106,6 +107,7 @@ class TransactionCaptureResponse
     public function setCapturedAmount($capturedAmount)
     {
         $this->capturedAmount = $capturedAmount;
+
         return $this;
     }
 
@@ -125,6 +127,7 @@ class TransactionCaptureResponse
     public function setResponseCode($responseCode)
     {
         $this->responseCode = $responseCode;
+
         return $this;
     }
 }

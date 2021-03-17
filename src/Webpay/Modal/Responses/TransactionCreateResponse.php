@@ -5,7 +5,7 @@ namespace Transbank\Webpay\Modal\Responses;
 class TransactionCreateResponse
 {
     /**
-     * @var string|null $token
+     * @var string|null
      */
     public $token;
 

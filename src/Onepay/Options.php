@@ -1,27 +1,23 @@
 <?php
+
 namespace Transbank\Onepay;
 
-/**
- *
- * class Options
- *  Options object used when sending a request to Onepay
- * @package Transbank
- *
- */
-
-
+ /**
+  * class Options
+  *  Options object used when sending a request to Onepay.
+  */
  class Options implements \JsonSerializable
  {
      private $apiKey;
      private $appKey;
      private $sharedSecret;
      /**
-      * @var integer $qrWidthHeight A number used as width and height for the
+      * @var int A number used as width and height for the
       *     QR displayed by the front end JS SDK.
       */
      private $qrWidthHeight;
      /**
-      * @var string $commerceLogoUrl URL for the merchant's logo,
+      * @var string URL for the merchant's logo,
       *     used by the front end JS SDK.
       */
      private $commerceLogoUrl;
@@ -40,8 +36,7 @@ namespace Transbank\Onepay;
          $sharedSecret = null,
          $qrWidthHeight = self::__DEFAULT_QR_WIDTH_HEIGHT__,
          $commerceLogoUrl = self::__DEFAULT_COMMERCE_LOGO_URL__
-     )
-     {
+     ) {
          $this->setApiKey($apiKey);
          $this->setSharedSecret($sharedSecret);
          $this->setQrWidthHeight($qrWidthHeight);
@@ -73,6 +68,7 @@ namespace Transbank\Onepay;
      public function setApiKey($apiKey)
      {
          $this->apiKey = $apiKey;
+
          return $this;
      }
 
@@ -84,6 +80,7 @@ namespace Transbank\Onepay;
      public function setAppKey($appKey)
      {
          $this->appKey = $appKey;
+
          return $this;
      }
 
@@ -95,11 +92,12 @@ namespace Transbank\Onepay;
      public function setSharedSecret($sharedSecret)
      {
          $this->sharedSecret = $sharedSecret;
+
          return $this;
      }
 
      /**
-      * @return integer|null
+      * @return int|null
       */
      public function getQrWidthHeight()
      {
@@ -107,7 +105,8 @@ namespace Transbank\Onepay;
      }
 
      /**
-      * @param integer|null $qrWidthHeight
+      * @param int|null $qrWidthHeight
+      *
       * @return $this
       */
      public function setQrWidthHeight($qrWidthHeight)
@@ -116,6 +115,7 @@ namespace Transbank\Onepay;
              $qrWidthHeight = OnepayBase::getQrWidthHeight();
          }
          $this->qrWidthHeight = $qrWidthHeight;
+
          return $this;
      }
 
@@ -129,6 +129,7 @@ namespace Transbank\Onepay;
 
      /**
       * @param string|null $commerceLogoUrl
+      *
       * @return $this
       */
      public function setCommerceLogoUrl($commerceLogoUrl)
@@ -137,6 +138,7 @@ namespace Transbank\Onepay;
              $commerceLogoUrl = OnepayBase::getCommerceLogoUrl();
          }
          $this->commerceLogoUrl = $commerceLogoUrl;
+
          return $this;
      }
  }

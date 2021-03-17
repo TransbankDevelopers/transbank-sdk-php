@@ -9,7 +9,7 @@ class FailedRequestCapturedData
     public $endpoint;
     public $payload;
     public $headers;
-    
+
     /**
      * FailedRequestCapturedData constructor.
      *
@@ -27,6 +27,7 @@ class FailedRequestCapturedData
         $this->payload = $payload;
         $this->headers = $headers;
     }
+
     /**
      * @return mixed
      */
@@ -34,6 +35,7 @@ class FailedRequestCapturedData
     {
         return $this->method;
     }
+
     /**
      * @return mixed
      */
@@ -41,6 +43,7 @@ class FailedRequestCapturedData
     {
         return $this->baseUrl;
     }
+
     /**
      * @return mixed
      */
@@ -48,6 +51,7 @@ class FailedRequestCapturedData
     {
         return $this->endpoint;
     }
+
     /**
      * @return array
      */
@@ -55,6 +59,7 @@ class FailedRequestCapturedData
     {
         return $this->payload;
     }
+
     /**
      * @return array
      */

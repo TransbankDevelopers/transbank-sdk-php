@@ -16,7 +16,7 @@ class TransactionDetail
     public $installmentsAmount;
     public $commerceCode;
     public $buyOrder;
-    
+
     /**
      * TransactionDetail constructor.
      *
@@ -50,7 +50,7 @@ class TransactionDetail
         $this->commerceCode = $commerceCode;
         $this->buyOrder = $buyOrder;
     }
-    
+
     public static function createFromArray(array $array)
     {
         $amount = isset($array['amount']) ? $array['amount'] : null;
@@ -62,17 +62,17 @@ class TransactionDetail
         $installmentsAmount = isset($array['installments_amount']) ? $array['installments_amount'] : null;
         $commerceCode = isset($array['commerce_code']) ? $array['commerce_code'] : null;
         $buyOrder = isset($array['buy_order']) ? $array['buy_order'] : null;
+
         return new static($amount, $status, $authorizationCode, $paymentTypeCode, $responseCode, $installmentsNumber,
             $installmentsAmount, $commerceCode, $buyOrder);
     }
-    
-    
+
     public function isApproved()
     {
         return $this->getResponseCode() === ResponseCodesEnum::RESPONSE_CODE_APPROVED &&
             !in_array($this->getStatus(), [TransactionStatusEnum::STATUS_FAILED]);
     }
-    
+
     /**
      * @return mixed
      */
@@ -80,6 +80,7 @@ class TransactionDetail
     {
         return $this->amount;
     }
+
     /**
      * @param mixed $amount
      */
@@ -87,6 +88,7 @@ class TransactionDetail
     {
         $this->amount = $amount;
     }
+
     /**
      * @return mixed
      */
@@ -94,6 +96,7 @@ class TransactionDetail
     {
         return $this->status;
     }
+
     /**
      * @param mixed $status
      */
@@ -101,6 +104,7 @@ class TransactionDetail
     {
         $this->status = $status;
     }
+
     /**
      * @return mixed
      */
@@ -108,6 +112,7 @@ class TransactionDetail
     {
         return $this->authorizationCode;
     }
+
     /**
      * @param mixed $authorizationCode
      */
@@ -115,6 +120,7 @@ class TransactionDetail
     {
         $this->authorizationCode = $authorizationCode;
     }
+
     /**
      * @return mixed
      */
@@ -122,6 +128,7 @@ class TransactionDetail
     {
         return $this->paymentTypeCode;
     }
+
     /**
      * @param mixed $paymentTypeCode
      */
@@ -129,6 +136,7 @@ class TransactionDetail
     {
         $this->paymentTypeCode = $paymentTypeCode;
     }
+
     /**
      * @return mixed
      */
@@ -136,6 +144,7 @@ class TransactionDetail
     {
         return $this->responseCode;
     }
+
     /**
      * @param mixed $responseCode
      */
@@ -143,6 +152,7 @@ class TransactionDetail
     {
         $this->responseCode = $responseCode;
     }
+
     /**
      * @return mixed
      */
@@ -150,6 +160,7 @@ class TransactionDetail
     {
         return $this->installmentsNumber;
     }
+
     /**
      * @param mixed $installmentsNumber
      */
@@ -157,6 +168,7 @@ class TransactionDetail
     {
         $this->installmentsNumber = $installmentsNumber;
     }
+
     /**
      * @return mixed
      */
@@ -164,6 +176,7 @@ class TransactionDetail
     {
         return $this->commerceCode;
     }
+
     /**
      * @param mixed $commerceCode
      */
@@ -171,6 +184,7 @@ class TransactionDetail
     {
         $this->commerceCode = $commerceCode;
     }
+
     /**
      * @return mixed
      */
@@ -178,6 +192,7 @@ class TransactionDetail
     {
         return $this->buyOrder;
     }
+
     /**
      * @param mixed $buyOrder
      */
@@ -185,6 +200,7 @@ class TransactionDetail
     {
         $this->buyOrder = $buyOrder;
     }
+
     /**
      * @return mixed
      */
@@ -192,6 +208,7 @@ class TransactionDetail
     {
         return $this->installmentsAmount;
     }
+
     /**
      * @param mixed $installmentsAmount
      */

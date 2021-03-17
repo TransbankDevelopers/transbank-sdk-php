@@ -2,12 +2,8 @@
 
 namespace Transbank\Webpay\Exceptions;
 
-use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCommitException;
-
 /**
- * Class WebpayRequestException
- *
- * @package Transbank\Webpay\Exceptions
+ * Class WebpayRequestException.
  */
 class WebpayRequestException extends WebpayException
 {
@@ -15,7 +11,7 @@ class WebpayRequestException extends WebpayException
      * @var string
      */
     protected static $defaultMessage = 'An error has happened on the request';
-    
+
     /**
      * @var mixed
      */
@@ -24,23 +20,23 @@ class WebpayRequestException extends WebpayException
      * @var int
      */
     protected $httpCode;
-    
+
     /**
      * @var
      */
     protected $response;
-    
+
     /**
      * @var FailedRequestCapturedData|null
      */
     protected $failedRequest;
-    
+
     /**
      * WebpayRequestException constructor.
      *
-     * @param string $message
-     * @param mixed|string $tbkErrorMessage
-     * @param int $httpCode
+     * @param string                         $message
+     * @param mixed|string                   $tbkErrorMessage
+     * @param int                            $httpCode
      * @param FailedRequestCapturedData|null $failedRequest
      */
     public function __construct(
@@ -53,15 +49,15 @@ class WebpayRequestException extends WebpayException
         if ($failedRequest !== null) {
             $theMessage = $this->getExceptionMessage($message, $tbkErrorMessage, $httpCode, $failedRequest);
         }
-        
+
         $this->message = $theMessage;
         $this->transbankErrorMessage = $tbkErrorMessage;
         $this->httpCode = $httpCode;
         $this->failedRequest = $failedRequest;
-        
+
         parent::__construct($theMessage, $httpCode);
     }
-    
+
     /**
      * @return mixed
      */
@@ -69,9 +65,10 @@ class WebpayRequestException extends WebpayException
     {
         return $this->transbankErrorMessage;
     }
-    
+
     /**
      * @param WebpayRequestException $exception
+     *
      * @return static
      */
     public static function raise(WebpayRequestException $exception)
@@ -79,7 +76,7 @@ class WebpayRequestException extends WebpayException
         return new static($exception->getMessage(), $exception->getTransbankErrorMessage(), $exception->getHttpCode(),
             $exception->getFailedRequest());
     }
-    
+
     /**
      * @return int
      */
@@ -87,7 +84,7 @@ class WebpayRequestException extends WebpayException
     {
         return $this->httpCode;
     }
-    
+
     /**
      * @return FailedRequestCapturedData|null
      */
@@ -95,12 +92,13 @@ class WebpayRequestException extends WebpayException
     {
         return $this->failedRequest;
     }
-    
+
     /**
      * @param $message
      * @param $tbkErrorMessage
      * @param $httpCode
      * @param FailedRequestCapturedData|null $failedRequestCapturedData
+     *
      * @return string
      */
     protected function getExceptionMessage(
@@ -112,20 +110,21 @@ class WebpayRequestException extends WebpayException
         if (!$tbkErrorMessage) {
             $theMessage = $message;
         } else {
-            $theMessage = 'API Response: "' . $tbkErrorMessage . '" [' . $httpCode . '] - ' . static::$defaultMessage;
+            $theMessage = 'API Response: "'.$tbkErrorMessage.'" ['.$httpCode.'] - '.static::$defaultMessage;
         }
-        
+
         if ($possibleCause = $this->getPossibleCause($httpCode, $tbkErrorMessage, $failedRequestCapturedData)) {
-            return $theMessage . ' - ' . $possibleCause;
+            return $theMessage.' - '.$possibleCause;
         }
-        
+
         return $theMessage;
     }
-    
+
     /**
      * @param $httpCode
      * @param $tbkErrorMessage
      * @param FailedRequestCapturedData|null $failedRequestCapturedData
+     *
      * @return null
      */
     protected function getPossibleCause($httpCode, $tbkErrorMessage, FailedRequestCapturedData $failedRequestCapturedData = null)

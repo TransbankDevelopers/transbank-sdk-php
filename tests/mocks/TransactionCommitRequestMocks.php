@@ -1,9 +1,10 @@
 <?php
+
 namespace Transbank\Onepay;
 
 class TransactionCommitRequestMocks
 {
-    public static $transactionCommitRequestMocks = array();
+    public static $transactionCommitRequestMocks = [];
 
     public static function transactionCreateRequestMocks()
     {
@@ -11,12 +12,13 @@ class TransactionCommitRequestMocks
             $cart = ShoppingCartMocks::get();
             $transactionCommitRequest = OnepayRequestBuilder::getInstance()
                                         ->buildCommitRequest(
-                                            "1807419329781765",
-                                            "8934751b-aa9a-45be-b686-1f45b6c45b02",
+                                            '1807419329781765',
+                                            '8934751b-aa9a-45be-b686-1f45b6c45b02',
                                             null
                                         );
             array_push(self::$transactionCommitRequestMocks, $transactionCommitRequest);
         }
+
         return self::$transactionCommitRequestMocks;
     }
 

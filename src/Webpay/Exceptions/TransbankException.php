@@ -1,4 +1,5 @@
 <?php
+
 namespace Transbank\Webpay\Exceptions;
 
 class TransbankException extends \Exception

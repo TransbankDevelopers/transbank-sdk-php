@@ -8,7 +8,7 @@ final class ItemTest extends TestCase
 {
     public function testFromJSONThrowsIfParamIsNotJSON()
     {
-        $randomString = "definitely not json";
+        $randomString = 'definitely not json';
         $this->setExpectedException(\Exception::class, 'Item must be a JSON string or an associative array that is transformable to an associative array using json_decode');
         $item = Item::fromJSON($randomString);
     }
@@ -19,17 +19,17 @@ final class ItemTest extends TestCase
         $item = Item::fromJSON($aJSONStringContainingAnItem);
 
         /**
-         * Correctly creates the item
+         * Correctly creates the item.
          */
         $this->assertTrue($item instanceof Item);
         /**
-         * Correctly sets the mandatory values
+         * Correctly sets the mandatory values.
          */
         $this->assertEquals($item->getAmount(), 5000);
         $this->assertEquals($item->getQuantity(), 5);
         $this->assertEquals($item->getDescription(), 'something valuable');
         /**
-         * Correctly sets default values
+         * Correctly sets default values.
          */
         $this->assertEquals($item->getExpire(), 0);
         $this->assertEquals($item->getAdditionalData(), '');
@@ -41,17 +41,17 @@ final class ItemTest extends TestCase
         $item = Item::fromJSON($aJSONStringContainingAnItem);
 
         /**
-         * Correctly creates the item
+         * Correctly creates the item.
          */
         $this->assertTrue($item instanceof Item);
         /**
-         * Correctly sets the mandatory values
+         * Correctly sets the mandatory values.
          */
         $this->assertEquals($item->getAmount(), 5000);
         $this->assertEquals($item->getQuantity(), 5);
         $this->assertEquals($item->getDescription(), 'something valuable');
         /**
-         * Correctly sets default values
+         * Correctly sets default values.
          */
         $this->assertEquals($item->getExpire(), 0);
         $this->assertEquals($item->getAdditionalData(), '');
@@ -63,17 +63,17 @@ final class ItemTest extends TestCase
         $item = Item::fromJSON($aJSONStringContainingAnItem);
 
         /**
-         * Correctly creates the item
+         * Correctly creates the item.
          */
         $this->assertTrue($item instanceof Item);
         /**
-         * Correctly sets the mandatory values
+         * Correctly sets the mandatory values.
          */
         $this->assertEquals($item->getAmount(), 2000);
         $this->assertEquals($item->getQuantity(), 2);
         $this->assertEquals($item->getDescription(), 'something else');
         /**
-         * Correctly sets default values
+         * Correctly sets default values.
          */
         $this->assertEquals($item->getExpire(), 0);
         $this->assertEquals($item->getAdditionalData(), '');
@@ -85,17 +85,17 @@ final class ItemTest extends TestCase
         $item = Item::fromJSON($aJSONStringContainingAnItem);
 
         /**
-         * Correctly creates the item
+         * Correctly creates the item.
          */
         $this->assertTrue($item instanceof Item);
         /**
-         * Correctly sets the mandatory values
+         * Correctly sets the mandatory values.
          */
         $this->assertEquals($item->getAmount(), 2000);
         $this->assertEquals($item->getQuantity(), 2);
         $this->assertEquals($item->getDescription(), 'something else');
         /**
-         * Correctly sets default values
+         * Correctly sets default values.
          */
         $this->assertEquals($item->getExpire(), 123456789);
         $this->assertEquals($item->getAdditionalData(), 'additional data here');
@@ -107,6 +107,7 @@ final class ItemTest extends TestCase
         $this->setExpectedException(\Exception::class, 'Description is not a string');
         $item = Item::fromJSON($aJSONStringWithoutDescription);
     }
+
     public function testThrowsIfDescriptionIsNull()
     {
         $aJSONStringWithoutDescription = '{"amount": 5000, "quantity": 5, "description": null}';
@@ -120,6 +121,7 @@ final class ItemTest extends TestCase
         $this->setExpectedException(\Exception::class, 'amount must be an Integer');
         $item = Item::fromJSON($aJSONStringWithoutDescription);
     }
+
     public function testThrowsIfAmountIsNull()
     {
         $aJSONStringWithoutDescription = '{"amount": null, "quantity": 5, "description": "something pretty"}';
@@ -140,6 +142,7 @@ final class ItemTest extends TestCase
         $this->setExpectedException(\Exception::class, 'quantity must be an Integer');
         $item = Item::fromJSON($aJSONStringWithoutDescription);
     }
+
     public function testThrowsIfQuantityIsNull()
     {
         $aJSONStringWithoutDescription = '{"amount": 5000, "quantity": null, "description": "something pretty"}';
@@ -157,7 +160,7 @@ final class ItemTest extends TestCase
     public function testThrowsIfQuantityIsLessThanZero()
     {
         $aJSONStringContainingAnItem = '{"amount": 2000, "quantity": -5, "description": "something valuable"}';
-        $this->setExpectedException(\Exception::class, "quantity cannot be less than zero");
+        $this->setExpectedException(\Exception::class, 'quantity cannot be less than zero');
         $item = Item::fromJSON($aJSONStringContainingAnItem);
     }
 }

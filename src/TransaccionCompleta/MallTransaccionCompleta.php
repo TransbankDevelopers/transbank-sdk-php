@@ -1,7 +1,5 @@
 <?php
 
-
-
 namespace Transbank\TransaccionCompleta;
 
 use Transbank\Utils\HttpClient;
@@ -9,23 +7,22 @@ use Transbank\Utils\HttpClient;
 class MallTransaccionCompleta
 {
     /**
-     * @var array $INTEGRATION_TYPES contains key-value pairs of
-     * integration_type => url_of_that_integration
+     * @var array contains key-value pairs of
+     *            integration_type => url_of_that_integration
      */
     public static $INTEGRATION_TYPES = [
-        "LIVE" => "https://wwww.pagoautomaticocontarjetas.cl/",
-        "TEST" => "https://webpay3gint.transbank.cl/",
-        "MOCK" => ""
+        'LIVE' => 'https://wwww.pagoautomaticocontarjetas.cl/',
+        'TEST' => 'https://webpay3gint.transbank.cl/',
+        'MOCK' => '',
     ];
     /**
-     * @var $httpClient HttpClient|null
+     * @var HttpClient|null
      */
     public static $httpClient = null;
     private static $apiKey = Options::DEFAULT_API_KEY;
     private static $commerceCode = Options::DEFAULT_TRANSACCION_COMPLETA_MALL_COMMERCE_CODE;
     private static $childCommerceCodes = Options::DEFAULT_TRANSACCION_COMPLETA_MALL_CHILD_COMMERCE_CODE;
     private static $integrationType = Options::DEFAULT_INTEGRATION_TYPE;
-
 
     /**
      * @return string
@@ -83,7 +80,6 @@ class MallTransaccionCompleta
         return self::$INTEGRATION_TYPES;
     }
 
-
     /**
      * @return array
      */
@@ -94,6 +90,7 @@ class MallTransaccionCompleta
 
     /**
      * @param array $childCommerceCode
+     *
      * @return MallTransaccionCompleta
      */
     public static function setChildCommerceCodes($childCommerceCodes)
@@ -101,17 +98,15 @@ class MallTransaccionCompleta
         self::$childCommerceCodes = $childCommerceCodes;
     }
 
-
-
     /**
      * @return HttpClient
      */
-
     public static function getHttpClient()
     {
         if (!isset(self::$httpClient) || self::$httpClient == null) {
             self::$httpClient = new HttpClient();
         }
+
         return self::$httpClient;
     }
 
@@ -124,7 +119,6 @@ class MallTransaccionCompleta
         return self::$INTEGRATION_TYPES[$integrationType];
     }
 
-
     public static function configureForTesting()
     {
         self::$apiKey = Options::DEFAULT_API_KEY;
@@ -132,11 +126,12 @@ class MallTransaccionCompleta
         self::$integrationType = Options::DEFAULT_INTEGRATION_TYPE;
         self::$childCommerceCodes = Options::DEFAULT_TRANSACCION_COMPLETA_MALL_CHILD_COMMERCE_CODE;
     }
-    
+
     /**
      * Get the default options if none are given.
      *
      * @param Options|null $options
+     *
      * @return Options
      */
     public static function getDefaultOptions(Options $options = null)
@@ -144,6 +139,7 @@ class MallTransaccionCompleta
         if ($options !== null) {
             return $options;
         }
+
         return new Options(static::getApiKey(), static::getCommerceCode(), static::getIntegrationType());
     }
 }

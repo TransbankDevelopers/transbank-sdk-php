@@ -1,13 +1,10 @@
 <?php
 
 /**
- * Class InscriptionStatusResponse
+ * Class InscriptionStatusResponse.
  *
  * @category
- * @package Transbank\Patpass\PatpassComercio
- *
  */
-
 
 namespace Transbank\Patpass\PatpassComercio\Responses;
 
@@ -20,9 +17,9 @@ class InscriptionStatusResponse
 
     public function __construct($json)
     {
-        $status = Utils::returnValueIfExists($json, "authorized");
+        $status = Utils::returnValueIfExists($json, 'authorized');
         $this->setStatus($status);
-        $urlVoucher = Utils::returnValueIfExists($json, "voucherUrl");
+        $urlVoucher = Utils::returnValueIfExists($json, 'voucherUrl');
         $this->setUrlVoucher($urlVoucher);
     }
 
@@ -36,11 +33,13 @@ class InscriptionStatusResponse
 
     /**
      * @param mixed $status
+     *
      * @return InscriptionStatusResponse
      */
     public function setStatus($status)
     {
         $this->status = $status;
+
         return $this;
     }
 
@@ -54,11 +53,13 @@ class InscriptionStatusResponse
 
     /**
      * @param mixed $urlVoucher
+     *
      * @return InscriptionStatusResponse
      */
     public function setUrlVoucher($urlVoucher)
     {
         $this->urlVoucher = $urlVoucher;
+
         return $this;
     }
 }

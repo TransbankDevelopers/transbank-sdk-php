@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Transbank\Webpay\Oneclick;
 
 use Transbank\Webpay\Exceptions\WebpayRequestException;
@@ -8,8 +7,8 @@ use Transbank\Webpay\InteractsWithWebpayApi;
 use Transbank\Webpay\Oneclick;
 use Transbank\Webpay\Oneclick\Exceptions\AuthorizeMallTransactionException;
 use Transbank\Webpay\Oneclick\Exceptions\MallRefundTransactionException;
-use Transbank\Webpay\Oneclick\Exceptions\MallTransactionStatusException;
 use Transbank\Webpay\Oneclick\Exceptions\MallTransactionCaptureException;
+use Transbank\Webpay\Oneclick\Exceptions\MallTransactionStatusException;
 use Transbank\Webpay\Oneclick\Responses\AuthorizeMallTransactionResponse;
 use Transbank\Webpay\Oneclick\Responses\MallRefundTransactionResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionCaptureResponse;
@@ -31,14 +30,14 @@ class MallTransaction
         $options = null
     ) {
         $options = Oneclick::getDefaultOptions($options);
-    
+
         $payload = [
-            'username' => $userName,
-            'tbk_user' => $tbkUser,
+            'username'  => $userName,
+            'tbk_user'  => $tbkUser,
             'buy_order' => $parentBuyOrder,
-            'details' => $details
+            'details'   => $details,
         ];
-    
+
         try {
             $response = static::request(
                 'POST',
@@ -49,20 +48,21 @@ class MallTransaction
         } catch (WebpayRequestException $e) {
             throw AuthorizeMallTransactionException::raise($e);
         }
+
         return new AuthorizeMallTransactionResponse($response);
     }
 
     public static function capture($childCommerceCode, $childBuyOrder, $authorizationCode, $amount, $options = null)
     {
         $options = Oneclick::getDefaultOptions($options);
-    
+
         $payload = [
-            'commerce_code' => $childCommerceCode,
-            'buy_order' => $childBuyOrder,
+            'commerce_code'      => $childCommerceCode,
+            'buy_order'          => $childBuyOrder,
             'authorization_code' => $authorizationCode,
-            'capture_amount' => $amount
+            'capture_amount'     => $amount,
         ];
-    
+
         try {
             $response = static::request(
                 'PUT',
@@ -73,13 +73,14 @@ class MallTransaction
         } catch (WebpayRequestException $e) {
             throw MallTransactionCaptureException::raise($e);
         }
+
         return new MallTransactionCaptureResponse($response);
     }
 
     public static function status($buyOrder, $options = null)
     {
         $options = Oneclick::getDefaultOptions($options);
-    
+
         try {
             $response = static::request(
                 'GET',
@@ -90,6 +91,7 @@ class MallTransaction
         } catch (WebpayRequestException $e) {
             throw MallTransactionStatusException::raise($e);
         }
+
         return new MallTransactionStatusResponse($response);
     }
 
@@ -98,9 +100,10 @@ class MallTransaction
         $options = Oneclick::getDefaultOptions($options);
         $payload = [
             'detail_buy_order' => $childBuyOrder,
-            'commerce_code' => $childCommerceCode,
-            'amount' => $amount
+            'commerce_code'    => $childCommerceCode,
+            'amount'           => $amount,
         ];
+
         try {
             $response = static::request(
                 'POST',
@@ -111,7 +114,7 @@ class MallTransaction
         } catch (WebpayRequestException $e) {
             throw MallRefundTransactionException::raise($e);
         }
-        
+
         return new MallRefundTransactionResponse($response);
     }
 }

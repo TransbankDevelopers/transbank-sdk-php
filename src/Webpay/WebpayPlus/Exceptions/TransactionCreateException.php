@@ -1,7 +1,7 @@
 <?php
+
 namespace Transbank\Webpay\WebpayPlus\Exceptions;
 
-use Transbank\Webpay\Exceptions\WebpayException;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 
 class TransactionCreateException extends WebpayRequestException
