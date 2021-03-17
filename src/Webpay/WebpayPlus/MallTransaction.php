@@ -19,12 +19,11 @@ use Transbank\Webpay\WebpayPlus\Responses\TransactionRefundResponse;
 class MallTransaction
 {
     use InteractsWithWebpayApi;
-
-    const CREATE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions';
-    const COMMIT_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions/{token}';
-    const REFUND_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions/{token}/refunds';
-    const TRANSACTION_STATUS_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions/{token}';
-    const CAPTURE_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions/{token}/capture';
+    const CREATE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions';
+    const COMMIT_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
+    const REFUND_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
+    const TRANSACTION_STATUS_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
+    const CAPTURE_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/capture';
 
     public static function create(
         $buyOrder,

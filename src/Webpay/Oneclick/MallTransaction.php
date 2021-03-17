@@ -17,10 +17,10 @@ use Transbank\Webpay\Oneclick\Responses\MallTransactionStatusResponse;
 class MallTransaction
 {
     use InteractsWithWebpayApi;
-    const AUTHORIZE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/transactions';
-    const TRANSACTION_STATUS_ENDPONT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/{buy_order}';
-    const TRANSACTION_REFUND_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/{buy_order}/refunds';
-    const TRANSACTION_CAPTURE_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.0/transactions/capture';
+    const AUTHORIZE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/transactions';
+    const TRANSACTION_STATUS_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/transactions/{buy_order}';
+    const TRANSACTION_REFUND_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/transactions/{buy_order}/refunds';
+    const TRANSACTION_CAPTURE_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/transactions/capture';
 
     public static function authorize(
         $userName,
@@ -84,7 +84,7 @@ class MallTransaction
         try {
             $response = static::request(
                 'GET',
-                str_replace('{buy_order}', $buyOrder, self::TRANSACTION_STATUS_ENDPONT),
+                str_replace('{buy_order}', $buyOrder, self::TRANSACTION_STATUS_ENDPOINT),
                 null,
                 $options
             );
