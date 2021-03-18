@@ -13,7 +13,7 @@ use Transbank\TransaccionCompleta\Responses\TransactionInstallmentsResponse;
 use Transbank\TransaccionCompleta\Responses\TransactionRefundResponse;
 use Transbank\TransaccionCompleta\Responses\TransactionStatusResponse;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
-use Transbank\Webpay\InteractsWithWebpayApi;
+use Transbank\Utils\InteractsWithWebpayApi;
 
 class Transaction
 {

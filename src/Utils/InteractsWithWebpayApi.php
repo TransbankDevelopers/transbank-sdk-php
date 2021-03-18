@@ -1,11 +1,12 @@
 <?php
 
-namespace Transbank\Webpay;
+namespace Transbank\Utils;
 
 use Transbank\Utils\HttpClient;
 use Transbank\Webpay\Exceptions\FailedRequestCapturedData;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Modal\WebpayModal;
+use Transbank\Webpay\Options;
 
 /**
  * Trait InteractsWithWebpayApi.

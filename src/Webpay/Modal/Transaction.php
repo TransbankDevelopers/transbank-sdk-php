@@ -4,7 +4,7 @@ namespace Transbank\Webpay\Modal;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
-use Transbank\Webpay\InteractsWithWebpayApi;
+use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Modal\Exceptions\TransactionCommitException;
 use Transbank\Webpay\Modal\Exceptions\TransactionCreateException;
 use Transbank\Webpay\Modal\Exceptions\TransactionRefundException;

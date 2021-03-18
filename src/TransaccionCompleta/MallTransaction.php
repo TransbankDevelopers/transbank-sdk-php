@@ -19,7 +19,7 @@ use Transbank\TransaccionCompleta\Responses\MallTransactionInstallmentsResponse;
 use Transbank\TransaccionCompleta\Responses\MallTransactionRefundResponse;
 use Transbank\TransaccionCompleta\Responses\MallTransactionStatusResponse;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
-use Transbank\Webpay\InteractsWithWebpayApi;
+use Transbank\Utils\InteractsWithWebpayApi;
 
 class MallTransaction
 {

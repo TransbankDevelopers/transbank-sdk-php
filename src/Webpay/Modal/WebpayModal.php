@@ -2,7 +2,7 @@
 
 namespace Transbank\Webpay\Modal;
 
-use Transbank\Webpay\ConfiguresEnvironment;
+use Transbank\Utils\ConfiguresEnvironment;
 use Transbank\Webpay\Options;
 
 class WebpayModal

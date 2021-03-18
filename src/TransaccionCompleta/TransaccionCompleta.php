@@ -8,7 +8,7 @@
 
 namespace Transbank\TransaccionCompleta;
 
-use Transbank\Webpay\ConfiguresEnvironment;
+use Transbank\Utils\ConfiguresEnvironment;
 
 class TransaccionCompleta
 {
