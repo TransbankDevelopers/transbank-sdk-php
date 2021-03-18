@@ -7,7 +7,7 @@ SDK Oficial de Transbank
 
 ## Requisitos:
 
-- PHP 5.5+
+- PHP 5.6+
 
 ## Dependencias
 En caso de instalar con Composer las siguientes dependencias deberían instalarse
@@ -20,7 +20,7 @@ automáticamente, pero si usas el SDK de manera directa requerirás también:
 
 ### Instalar con Composer
 
-Para usar el SDK en tu proyecto debes usar Composer (si no lo tienes instalado, puedes instalarlo [acá](https://getcomposer.org/)), añadiendo el SDK como dependencia a tu proyecto:
+Para usar el SDK en tu proyecto **debes** usar Composer (si no lo tienes instalado, puedes instalarlo [acá](https://getcomposer.org/)), añadiendo el SDK como dependencia a tu proyecto:
 ```json
     "require": {
         "transbank/transbank-sdk": "^1.10"
@@ -34,14 +34,20 @@ composer update
 
 También puedes instalarlo directamente desde la consola:
 ```bash
-composer require transbank/transbank-sdk
+composer require transbank/transbank-sdk:^1.10
 ```
 
-**OBSOLETO:** Si no deseas usar Composer, puedes descargar el código desde este repositorio y requerirlo directamente. Esto es posible solo para integraciones que usen el API SOAP. Para REST es obligación usar composer
-```php
-require_once('/directorio/del/sdk/init.php');
-```
+Si es primera vez que usas composer en tu proyecto, se creará una carpeta `vendor/` con el SDK y todo lo necesario.
+Te recomendamos leer como funciona Composer, pero para comentar un punto importante, ahora asegúrate de que se incluye 
+el archivo `vendor/autoload.php` en tu proyecto, idealmente al inicio de todo tu código. 
 
+Si tu proyecto ya usa composer, la librería ya estará disponible para ser usaada sin que tengas que hacer nada 
+adicional. 
+
+Nota: Si usas un hosting compartido o un ambiente donde no tienes acceso para instalar Composer, no te preocupes: Puedes 
+instalar composer en tu propio computador, instalar el paquete como se indica anteriormente, y luego subir por FTP, SSH 
+o como sea, todos los archivos del proyecto. No es necesario tener instalado composer en el servidor. Solo es necesario 
+que los archivos generados tras la instalación de composer si estén. 
 
 ## Documentación 
 
@@ -49,22 +55,19 @@ Puedes encontrar toda la documentación de cómo usar este SDK en el sitio https
 
 La documentación relevante para usar este SDK es:
 
+- Primeros pasos con [Webpay](https://www.transbankdevelopers.cl/documentacion/webpay) y [Onepay](https://www.transbankdevelopers.cl/documentacion/onepay).
+- Documentación sobre [ambientes, deberes del comercio, puesta en producción,
+  etc](https://www.transbankdevelopers.cl/documentacion/como_empezar#ambientes).
+  
+También puedes encontrar: 
 - Documentación general sobre los productos y sus diferencias:
   [Webpay](https://www.transbankdevelopers.cl/producto/webpay) y
   [Onepay](https://www.transbankdevelopers.cl/producto/onepay).
-- Documentación sobre [ambientes, deberes del comercio, puesta en producción,
-  etc](https://www.transbankdevelopers.cl/documentacion/como_empezar#ambientes).
-- Primeros pasos con [Webpay](https://www.transbankdevelopers.cl/documentacion/webpay) y [Onepay](https://www.transbankdevelopers.cl/documentacion/onepay).
 - Referencia detallada sobre [Webpay](https://www.transbankdevelopers.cl/referencia/webpay) y [Onepay](https://www.transbankdevelopers.cl/referencia/onepay).
 
 ## Información para contribuir y desarrollar este SDK
 
-### Requerimientos
-- Docker
-- Make
-- Plugin de editorconfig para tu editor favorito.
-
-### Standares
+### Estándares
 
 - Para los commits respetamos las siguientes normas: https://chris.beams.io/posts/git-commit/
 - Usamos ingles, para los mensajes de commit.
