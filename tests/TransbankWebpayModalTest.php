@@ -14,7 +14,7 @@ class TransbankWebpayModalTest extends \PHPUnit\Framework\TestCase
     }
 
     /** @test */
-    public function it_creates_a_modal_transaction_withoud_givin_a_session_id()
+    public function it_creates_a_modal_transaction_without_givin_a_session_id()
     {
         $response = Transaction::create(1500, 'BuyOrder1');
         $this->assertInstanceOf(\Transbank\Webpay\Modal\Responses\TransactionCreateResponse::class, $response);

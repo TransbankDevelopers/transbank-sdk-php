@@ -5,7 +5,7 @@ namespace Transbank\Webpay\Oneclick;
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Oneclick;
-use Transbank\Webpay\Oneclick\Exceptions\AuthorizeMallTransactionException;
+use Transbank\Webpay\Oneclick\Exceptions\MallTransactionAuthorizeException;
 use Transbank\Webpay\Oneclick\Exceptions\MallRefundTransactionException;
 use Transbank\Webpay\Oneclick\Exceptions\MallTransactionCaptureException;
 use Transbank\Webpay\Oneclick\Exceptions\MallTransactionStatusException;
@@ -46,7 +46,7 @@ class MallTransaction
                 $options
             );
         } catch (WebpayRequestException $e) {
-            throw AuthorizeMallTransactionException::raise($e);
+            throw MallTransactionAuthorizeException::raise($e);
         }
 
         return new MallTransactionAuthorizeResponse($response);
