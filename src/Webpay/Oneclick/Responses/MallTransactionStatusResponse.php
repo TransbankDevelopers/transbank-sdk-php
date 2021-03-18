@@ -10,6 +10,10 @@ class MallTransactionStatusResponse
     public $expirationDate;
     public $accountingDate;
     public $transactionDate;
+
+    /**
+     * @var TransactionDetail[]
+     */
     public $details;
 
     public function __construct($json)
@@ -20,7 +24,8 @@ class MallTransactionStatusResponse
         $sessionId = isset($json['session_id']) ? $json['session_id'] : null;
         $this->setSessionId($sessionId);
 
-        $cardNumber = isset($json['card_detail']) ? isset($json['card_detail']['card_number']) ? $json['card_detail']['card_number'] : null : null;
+        $cardNumber = isset($json['card_detail']) ? isset($json['card_detail']['card_number']) ?
+            $json['card_detail']['card_number'] : null : null;
         $this->setCardNumber($cardNumber);
 
         $expirationDate = isset($json['expiration_date']) ? $json['expiration_date'] : null;
@@ -33,7 +38,34 @@ class MallTransactionStatusResponse
         $this->setTransactionDate($transactionDate);
 
         $details = isset($json['details']) ? $json['details'] : null;
-        $this->setDetails($details);
+
+        $detailsObjectArray = [];
+        if (is_array($details)) {
+            foreach ($details as $detail) {
+                $detailsObjectArray[] = TransactionDetail::createFromArray($detail);
+            }
+        }
+        $this->setDetails($detailsObjectArray);
+    }
+
+    /**
+     * If at least one of the child transactions is approved, the transaction is considered approved.
+     *
+     * @return bool
+     */
+    public function isApproved()
+    {
+        if (!$details = $this->getDetails()) {
+            return false;
+        }
+
+        foreach ($details as $detail) {
+            if ($detail->isApproved()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -137,7 +169,7 @@ class MallTransactionStatusResponse
     }
 
     /**
-     * @return mixed
+     * @return TransactionDetail[]
      */
     public function getDetails()
     {
@@ -149,7 +181,7 @@ class MallTransactionStatusResponse
      *
      * @return MallTransactionStatusResponse
      */
-    public function setDetails($details)
+    public function setDetails(array $details)
     {
         $this->details = $details;
 

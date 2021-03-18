@@ -12,8 +12,8 @@ use Transbank\TransaccionCompleta\Responses\TransactionCreateResponse;
 use Transbank\TransaccionCompleta\Responses\TransactionInstallmentsResponse;
 use Transbank\TransaccionCompleta\Responses\TransactionRefundResponse;
 use Transbank\TransaccionCompleta\Responses\TransactionStatusResponse;
+use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
-use Transbank\Webpay\InteractsWithWebpayApi;
 
 class Transaction
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Transbank\Webpay;
+namespace Transbank\Utils;
 
-use Transbank\Utils\HttpClient;
+use Transbank\Webpay\Options;
 
 trait ConfiguresEnvironment
 {

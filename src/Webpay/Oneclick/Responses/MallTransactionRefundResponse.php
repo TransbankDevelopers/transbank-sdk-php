@@ -2,7 +2,7 @@
 
 namespace Transbank\Webpay\Oneclick\Responses;
 
-class MallRefundTransactionResponse
+class MallTransactionRefundResponse
 {
     public $type;
     public $authorizationCode;
@@ -43,7 +43,7 @@ class MallRefundTransactionResponse
     /**
      * @param mixed $type
      *
-     * @return MallRefundTransactionResponse
+     * @return MallTransactionRefundResponse
      */
     public function setType($type)
     {
@@ -63,7 +63,7 @@ class MallRefundTransactionResponse
     /**
      * @param mixed $authorizationCode
      *
-     * @return MallRefundTransactionResponse
+     * @return MallTransactionRefundResponse
      */
     public function setAuthorizationCode($authorizationCode)
     {
@@ -83,7 +83,7 @@ class MallRefundTransactionResponse
     /**
      * @param mixed $authorizationDate
      *
-     * @return MallRefundTransactionResponse
+     * @return MallTransactionRefundResponse
      */
     public function setAuthorizationDate($authorizationDate)
     {
@@ -103,7 +103,7 @@ class MallRefundTransactionResponse
     /**
      * @param mixed $nullifiedAmount
      *
-     * @return MallRefundTransactionResponse
+     * @return MallTransactionRefundResponse
      */
     public function setNullifiedAmount($nullifiedAmount)
     {
@@ -123,7 +123,7 @@ class MallRefundTransactionResponse
     /**
      * @param mixed $balance
      *
-     * @return MallRefundTransactionResponse
+     * @return MallTransactionRefundResponse
      */
     public function setBalance($balance)
     {
@@ -143,7 +143,7 @@ class MallRefundTransactionResponse
     /**
      * @param mixed $responseCode
      *
-     * @return MallRefundTransactionResponse
+     * @return MallTransactionRefundResponse
      */
     public function setResponseCode($responseCode)
     {

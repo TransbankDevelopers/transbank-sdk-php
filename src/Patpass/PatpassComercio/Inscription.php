@@ -13,8 +13,8 @@ use Transbank\Patpass\PatpassComercio\Exceptions\InscriptionStartException;
 use Transbank\Patpass\PatpassComercio\Exceptions\InscriptionStatusException;
 use Transbank\Patpass\PatpassComercio\Responses\InscriptionStartResponse;
 use Transbank\Patpass\PatpassComercio\Responses\InscriptionStatusResponse;
+use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
-use Transbank\Webpay\InteractsWithWebpayApi;
 use Transbank\Webpay\Options;
 
 class Inscription

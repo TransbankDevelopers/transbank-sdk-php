@@ -2,7 +2,7 @@
 
 namespace Transbank\Patpass\PatpassComercio;
 
-use Transbank\Webpay\ConfiguresEnvironment;
+use Transbank\Utils\ConfiguresEnvironment;
 
 class BasePatpassComercio
 {

@@ -2,6 +2,8 @@
 
 namespace Transbank\Webpay;
 
+use Transbank\Utils\ConfiguresEnvironment;
+
 /**
  * Class WebpayPlus.
  */
