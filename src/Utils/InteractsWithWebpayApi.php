@@ -18,12 +18,12 @@ trait InteractsWithWebpayApi
      * @var ResponseInterface|null
      */
     protected static $lastResponse = null;
-    
+
     /**
      * @var TransbankApiRequest|null
      */
     protected static $lastRequest = null;
-    
+
     /**
      * @param $method
      * @param $endpoint
@@ -49,10 +49,10 @@ trait InteractsWithWebpayApi
 
         $baseUrl = static::getBaseUrl($options->getIntegrationType());
         $request = new TransbankApiRequest($method, $baseUrl, $endpoint, $payload, $headers);
-        
+
         static::setLastRequest($request);
-        $response = $client->perform($method, $baseUrl . $endpoint, $payload, ['headers' => $headers]);
-        
+        $response = $client->perform($method, $baseUrl.$endpoint, $payload, ['headers' => $headers]);
+
         static::setLastResponse($response);
         $httpCode = $response->getStatusCode();
 
@@ -89,7 +89,7 @@ trait InteractsWithWebpayApi
     {
         return self::$lastResponse;
     }
-    
+
     /**
      * @param ResponseInterface|null $lastResponse
      */
@@ -97,7 +97,7 @@ trait InteractsWithWebpayApi
     {
         self::$lastResponse = $lastResponse;
     }
-    
+
     /**
      * @return TransbankApiRequest|null
      */
@@ -105,7 +105,7 @@ trait InteractsWithWebpayApi
     {
         return self::$lastRequest;
     }
-    
+
     /**
      * @param TransbankApiRequest|null $lastRequest
      */
