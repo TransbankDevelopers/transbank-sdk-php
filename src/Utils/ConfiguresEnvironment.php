@@ -2,7 +2,6 @@
 
 namespace Transbank\Utils;
 
-use Transbank\Utils\HttpClient;
 use Transbank\Webpay\Options;
 
 trait ConfiguresEnvironment

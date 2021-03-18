@@ -2,8 +2,8 @@
 
 namespace Transbank\Webpay\WebpayPlus;
 
-use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Utils\InteractsWithWebpayApi;
+use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\WebpayPlus;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCaptureException;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCommitException;

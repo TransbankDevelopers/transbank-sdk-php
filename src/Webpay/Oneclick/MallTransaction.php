@@ -2,8 +2,8 @@
 
 namespace Transbank\Webpay\Oneclick;
 
-use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Utils\InteractsWithWebpayApi;
+use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Oneclick;
 use Transbank\Webpay\Oneclick\Exceptions\AuthorizeMallTransactionException;
 use Transbank\Webpay\Oneclick\Exceptions\MallRefundTransactionException;
