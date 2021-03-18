@@ -9,8 +9,8 @@ use Transbank\Webpay\Oneclick\Exceptions\AuthorizeMallTransactionException;
 use Transbank\Webpay\Oneclick\Exceptions\MallRefundTransactionException;
 use Transbank\Webpay\Oneclick\Exceptions\MallTransactionCaptureException;
 use Transbank\Webpay\Oneclick\Exceptions\MallTransactionStatusException;
-use Transbank\Webpay\Oneclick\Responses\AuthorizeMallTransactionResponse;
-use Transbank\Webpay\Oneclick\Responses\MallRefundTransactionResponse;
+use Transbank\Webpay\Oneclick\Responses\MallTransactionAuthorizeResponse;
+use Transbank\Webpay\Oneclick\Responses\MallTransactionRefundResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionCaptureResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionStatusResponse;
 
@@ -49,7 +49,7 @@ class MallTransaction
             throw AuthorizeMallTransactionException::raise($e);
         }
 
-        return new AuthorizeMallTransactionResponse($response);
+        return new MallTransactionAuthorizeResponse($response);
     }
 
     public static function capture($childCommerceCode, $childBuyOrder, $authorizationCode, $amount, $options = null)
@@ -115,6 +115,6 @@ class MallTransaction
             throw MallRefundTransactionException::raise($e);
         }
 
-        return new MallRefundTransactionResponse($response);
+        return new MallTransactionRefundResponse($response);
     }
 }

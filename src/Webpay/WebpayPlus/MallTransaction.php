@@ -10,7 +10,7 @@ use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCommitException;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCreateException;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionRefundException;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionStatusException;
-use Transbank\Webpay\WebpayPlus\Responses\MallCommitResponseTransaction;
+use Transbank\Webpay\WebpayPlus\Responses\MallTransactionCommitResponse;
 use Transbank\Webpay\WebpayPlus\Responses\MallTransactionStatusResponse;
 use Transbank\Webpay\WebpayPlus\Responses\TransactionCaptureResponse;
 use Transbank\Webpay\WebpayPlus\Responses\TransactionCreateResponse;
@@ -70,7 +70,7 @@ class MallTransaction
             throw TransactionCommitException::raise($e);
         }
 
-        return new MallCommitResponseTransaction($response);
+        return new MallTransactionCommitResponse($response);
     }
 
     public static function refund($token, $buyOrder, $childCommerceCode, $amount, $options = null)
