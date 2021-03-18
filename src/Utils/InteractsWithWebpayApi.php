@@ -2,17 +2,27 @@
 
 namespace Transbank\Utils;
 
-use Transbank\Webpay\Exceptions\FailedRequestCapturedData;
+use GuzzleHttp\Exception\GuzzleException;
+use Psr\Http\Message\ResponseInterface;
+use Transbank\Webpay\Exceptions\TransbankApiRequest;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
-use Transbank\Webpay\Modal\WebpayModal;
 use Transbank\Webpay\Options;
+use Transbank\Webpay\WebpayPlus;
 
 /**
  * Trait InteractsWithWebpayApi.
  */
 trait InteractsWithWebpayApi
 {
+    /**
+     * @var ResponseInterface|null
+     */
     protected static $lastResponse = null;
+
+    /**
+     * @var TransbankApiRequest|null
+     */
+    protected static $lastRequest = null;
 
     /**
      * @param $method
@@ -21,11 +31,11 @@ trait InteractsWithWebpayApi
      * @param Options         $options
      * @param HttpClient|null $client
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException|WebpayRequestException
+     * @throws GuzzleException|WebpayRequestException
      *
      * @return mixed
      */
-    public static function request(
+    protected static function request(
         $method,
         $endpoint,
         $payload,
@@ -38,8 +48,12 @@ trait InteractsWithWebpayApi
         }
 
         $baseUrl = static::getBaseUrl($options->getIntegrationType());
+        $request = new TransbankApiRequest($method, $baseUrl, $endpoint, $payload, $headers);
+
+        static::setLastRequest($request);
         $response = $client->perform($method, $baseUrl.$endpoint, $payload, ['headers' => $headers]);
-        static::$lastResponse = $response;
+
+        static::setLastResponse($response);
         $httpCode = $response->getStatusCode();
 
         if (!in_array($httpCode, [200, 204])) {
@@ -51,9 +65,8 @@ trait InteractsWithWebpayApi
                 $tbkErrorMessage = $body['error_message'];
                 $message = "Transbank API REST Error: $tbkErrorMessage | $message";
             }
-            $failedRequest = new FailedRequestCapturedData($method, $baseUrl, $endpoint, $payload, $headers);
 
-            throw new WebpayRequestException($message, $tbkErrorMessage, $httpCode, $failedRequest);
+            throw new WebpayRequestException($message, $tbkErrorMessage, $httpCode, $request);
         }
 
         return json_decode($response->getBody(), true);
@@ -64,17 +77,41 @@ trait InteractsWithWebpayApi
      *
      * @return mixed|string
      */
-    public static function getBaseUrl($integrationEnvironment)
+    protected static function getBaseUrl($integrationEnvironment)
     {
-        return WebpayModal::getIntegrationTypeUrl($integrationEnvironment);
+        return WebpayPlus::getIntegrationTypeUrl($integrationEnvironment);
     }
 
     /**
-     * @return null
+     * @return ResponseInterface|null
      */
     public static function getLastResponse()
     {
         return self::$lastResponse;
+    }
+
+    /**
+     * @param ResponseInterface|null $lastResponse
+     */
+    public static function setLastResponse($lastResponse)
+    {
+        self::$lastResponse = $lastResponse;
+    }
+
+    /**
+     * @return TransbankApiRequest|null
+     */
+    public static function getLastRequest()
+    {
+        return self::$lastRequest;
+    }
+
+    /**
+     * @param TransbankApiRequest|null $lastRequest
+     */
+    public static function setLastRequest($lastRequest)
+    {
+        self::$lastRequest = $lastRequest;
     }
 
     /**

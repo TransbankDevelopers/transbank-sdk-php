@@ -27,23 +27,23 @@ class WebpayRequestException extends WebpayException
     protected $response;
 
     /**
-     * @var FailedRequestCapturedData|null
+     * @var TransbankApiRequest|null
      */
     protected $failedRequest;
 
     /**
      * WebpayRequestException constructor.
      *
-     * @param string                         $message
-     * @param mixed|string                   $tbkErrorMessage
-     * @param int                            $httpCode
-     * @param FailedRequestCapturedData|null $failedRequest
+     * @param string                   $message
+     * @param mixed|string             $tbkErrorMessage
+     * @param int                      $httpCode
+     * @param TransbankApiRequest|null $failedRequest
      */
     public function __construct(
         $message,
         $tbkErrorMessage = null,
         $httpCode = null,
-        FailedRequestCapturedData $failedRequest = null
+        TransbankApiRequest $failedRequest = null
     ) {
         $theMessage = isset($tbkErrorMessage) ? $tbkErrorMessage : $message;
         if ($failedRequest !== null) {
@@ -86,7 +86,7 @@ class WebpayRequestException extends WebpayException
     }
 
     /**
-     * @return FailedRequestCapturedData|null
+     * @return TransbankApiRequest|null
      */
     public function getFailedRequest()
     {
@@ -97,7 +97,7 @@ class WebpayRequestException extends WebpayException
      * @param $message
      * @param $tbkErrorMessage
      * @param $httpCode
-     * @param FailedRequestCapturedData|null $failedRequestCapturedData
+     * @param TransbankApiRequest|null $failedRequestCapturedData
      *
      * @return string
      */
@@ -105,7 +105,7 @@ class WebpayRequestException extends WebpayException
         $message,
         $tbkErrorMessage,
         $httpCode,
-        FailedRequestCapturedData $failedRequestCapturedData = null
+        TransbankApiRequest $failedRequestCapturedData = null
     ) {
         if (!$tbkErrorMessage) {
             $theMessage = $message;
@@ -123,11 +123,11 @@ class WebpayRequestException extends WebpayException
     /**
      * @param $httpCode
      * @param $tbkErrorMessage
-     * @param FailedRequestCapturedData|null $failedRequestCapturedData
+     * @param TransbankApiRequest|null $failedRequestCapturedData
      *
      * @return null
      */
-    protected function getPossibleCause($httpCode, $tbkErrorMessage, FailedRequestCapturedData $failedRequestCapturedData = null)
+    protected function getPossibleCause($httpCode, $tbkErrorMessage, TransbankApiRequest $failedRequestCapturedData = null)
     {
         return null;
     }

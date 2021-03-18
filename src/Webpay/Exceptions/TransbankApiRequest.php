@@ -2,7 +2,7 @@
 
 namespace Transbank\Webpay\Exceptions;
 
-class FailedRequestCapturedData
+class TransbankApiRequest
 {
     public $method;
     public $baseUrl;
