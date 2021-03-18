@@ -9,7 +9,7 @@ use Transbank\Utils\TransactionStatusEnum;
 class TransactionStatusResponse
 {
     use HasTransactionStatus;
-    
+
     /**
      * TransactionCommitResponse constructor.
      *
@@ -25,5 +25,4 @@ class TransactionStatusResponse
         return $this->getResponseCode() === ResponseCodesEnum::RESPONSE_CODE_APPROVED &&
             $this->getStatus() !== TransactionStatusEnum::STATUS_FAILED;
     }
-    
 }

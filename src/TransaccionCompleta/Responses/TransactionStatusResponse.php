@@ -3,12 +3,11 @@
 namespace Transbank\TransaccionCompleta\Responses;
 
 use Transbank\Utils\HasTransactionStatus;
-use Transbank\Utils\Utils;
 
 class TransactionStatusResponse
 {
     use HasTransactionStatus;
-    
+
     public $vci;
 
     public function __construct($json)
@@ -36,5 +35,4 @@ class TransactionStatusResponse
 
         return $this;
     }
-    
 }

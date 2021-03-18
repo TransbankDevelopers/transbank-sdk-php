@@ -10,15 +10,15 @@ class TransactionStatusResponse
 {
     use HasTransactionStatus;
     public $vci;
-    
+
     public function __construct($json)
     {
         $this->vci = isset($json['vci']) ? $json['vci'] : null;
         $this->setTransactionStatusFields($json);
     }
-    
+
     /**
-     * Returns true if the transaction was approved
+     * Returns true if the transaction was approved.
      *
      * @return bool
      */
@@ -47,5 +47,4 @@ class TransactionStatusResponse
 
         return $this;
     }
-    
 }

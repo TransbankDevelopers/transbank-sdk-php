@@ -38,9 +38,9 @@ class MallTransactionStatusResponse
             }
         }
     }
-    
+
     /**
-     * If at least one of the child transactions is approved, the transaction is considered approved
+     * If at least one of the child transactions is approved, the transaction is considered approved.
      *
      * @return bool
      */

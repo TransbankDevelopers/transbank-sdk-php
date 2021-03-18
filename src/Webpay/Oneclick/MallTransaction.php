@@ -10,8 +10,8 @@ use Transbank\Webpay\Oneclick\Exceptions\MallRefundTransactionException;
 use Transbank\Webpay\Oneclick\Exceptions\MallTransactionCaptureException;
 use Transbank\Webpay\Oneclick\Exceptions\MallTransactionStatusException;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionAuthorizeResponse;
-use Transbank\Webpay\Oneclick\Responses\MallTransactionRefundResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionCaptureResponse;
+use Transbank\Webpay\Oneclick\Responses\MallTransactionRefundResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionStatusResponse;
 
 class MallTransaction
