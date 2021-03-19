@@ -33,7 +33,7 @@ class Refund
             );
         $jsonRequest = json_encode($request, JSON_UNESCAPED_SLASHES);
         $http = new HttpClient();
-        $path = self::TRANSACTION_BASE_PATH . self::REFUND_TRANSACTION;
+        $path = self::TRANSACTION_BASE_PATH.self::REFUND_TRANSACTION;
 
         $httpResponse = $http->post(
             OnepayBase::getCurrentIntegrationTypeUrl(),
@@ -49,7 +49,7 @@ class Refund
         }
         $refundCreateResponse = new RefundCreateResponse($responseJson);
         if (strtolower($responseJson['responseCode']) != 'ok') {
-            $msg = $responseJson['responseCode'] . ' : ' . $responseJson['description'];
+            $msg = $responseJson['responseCode'].' : '.$responseJson['description'];
 
             throw new RefundCreateException($msg, -1);
         }

@@ -2,12 +2,11 @@
 
 namespace Transbank\Onepay;
 
-use Exception;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/mocks/ShoppingCartMocks.php';
-require_once __DIR__ . '/mocks/TransactionCreateResponseMocks.php';
+require_once __DIR__.'/mocks/ShoppingCartMocks.php';
+require_once __DIR__.'/mocks/TransactionCreateResponseMocks.php';
 
 use Transbank\Onepay\Exceptions\SignException;
 use Transbank\Onepay\Exceptions\TransactionCommitException;
@@ -57,7 +56,7 @@ final class TransactionTest extends TestCase
     public function testTransactionRaisesWhenResponseIsNotOk()
     {
         $mockResponse = json_encode([
-            'responseCode' => 'INVALID_PARAMS',
+            'responseCode'                          => 'INVALID_PARAMS',
             'description'                           => 'Parametros invalidos',
             'result'                                => null,
         ]);
@@ -140,8 +139,8 @@ final class TransactionTest extends TestCase
         $this->assertNull($nullApiKey);
         $this->assertNull($nullSharedSecret);
 
-        putenv('ONEPAY_API_KEY=' . $originalApiKey);
-        putenv('ONEPAY_SHARED_SECRET=' . $originalSharedSecret);
+        putenv('ONEPAY_API_KEY='.$originalApiKey);
+        putenv('ONEPAY_SHARED_SECRET='.$originalSharedSecret);
 
         $this->assertEquals(OnepayBase::getApiKey(), getenv('ONEPAY_API_KEY'));
         $this->assertEquals(OnepayBase::getSharedSecret(), getenv('ONEPAY_SHARED_SECRET'));
@@ -256,7 +255,7 @@ final class TransactionTest extends TestCase
     public function testTransactionCommitRaisesWhenResponseIsNotOk()
     {
         $mockResponse = json_encode([
-            'responseCode' => 'INVALID_PARAMS',
+            'responseCode'                          => 'INVALID_PARAMS',
             'description'                           => 'Parametros invalidos',
             'result'                                => null,
         ]);

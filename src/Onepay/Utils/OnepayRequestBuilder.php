@@ -3,7 +3,6 @@
 namespace Transbank\Onepay\Utils;
 
 use Transbank\Onepay\OnepayBase;
-use Transbank\Onepay\Utils\OnepaySignUtil;
 use Transbank\Onepay\Options;
 use Transbank\Onepay\RefundCreateRequest;
 use Transbank\Onepay\TransactionCommitRequest;

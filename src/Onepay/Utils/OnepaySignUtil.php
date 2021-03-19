@@ -125,9 +125,9 @@ class OnepaySignUtil
             throw new SignException('occ / externalUniqueNumber cannot be null.');
         }
 
-        $data = mb_strlen($occ) . $occ;
-        $data .= mb_strlen($externalUniqueNumber) . $externalUniqueNumber;
-        $data .= mb_strlen($issuedAtAsString) . $issuedAtAsString;
+        $data = mb_strlen($occ).$occ;
+        $data .= mb_strlen($externalUniqueNumber).$externalUniqueNumber;
+        $data .= mb_strlen($issuedAtAsString).$issuedAtAsString;
 
         return base64_encode(hash_hmac('sha256', $data, $secret, true));
     }
@@ -143,11 +143,11 @@ class OnepaySignUtil
         $itemsQuantityAsString = (string) $signable->getItemsQuantity();
         $issuedAtAsString = (string) $signable->getIssuedAt();
 
-        $data = mb_strlen($externalUniqueNumberAsString) . $externalUniqueNumberAsString;
-        $data .= mb_strlen($totalAsString) . $totalAsString;
-        $data .= mb_strlen($itemsQuantityAsString) . $itemsQuantityAsString;
-        $data .= mb_strlen($issuedAtAsString) . $issuedAtAsString;
-        $data .= mb_strlen(OnepayBase::getCallbackUrl()) . OnepayBase::getCallbackUrl();
+        $data = mb_strlen($externalUniqueNumberAsString).$externalUniqueNumberAsString;
+        $data .= mb_strlen($totalAsString).$totalAsString;
+        $data .= mb_strlen($itemsQuantityAsString).$itemsQuantityAsString;
+        $data .= mb_strlen($issuedAtAsString).$issuedAtAsString;
+        $data .= mb_strlen(OnepayBase::getCallbackUrl()).OnepayBase::getCallbackUrl();
 
         $crypted = hash_hmac('sha256', $data, $secret, true);
 
@@ -168,13 +168,13 @@ class OnepaySignUtil
         $installmentsNumberAsString = (string) $signable->getInstallmentsNumber();
         $buyOrder = (string) $signable->getBuyOrder();
 
-        $data = mb_strlen($occ) . $occ;
-        $data .= mb_strlen($authorizationCode) . $authorizationCode;
-        $data .= mb_strlen($issuedAtAsString) . $issuedAtAsString;
-        $data .= mb_strlen($amountAsString) . $amountAsString;
-        $data .= mb_strlen($installmentsAmountAsString) . $installmentsAmountAsString;
-        $data .= mb_strlen($installmentsNumberAsString) . $installmentsNumberAsString;
-        $data .= mb_strlen($buyOrder) . $buyOrder;
+        $data = mb_strlen($occ).$occ;
+        $data .= mb_strlen($authorizationCode).$authorizationCode;
+        $data .= mb_strlen($issuedAtAsString).$issuedAtAsString;
+        $data .= mb_strlen($amountAsString).$amountAsString;
+        $data .= mb_strlen($installmentsAmountAsString).$installmentsAmountAsString;
+        $data .= mb_strlen($installmentsNumberAsString).$installmentsNumberAsString;
+        $data .= mb_strlen($buyOrder).$buyOrder;
 
         $crypted = hash_hmac('sha256', $data, $secret, true);
 
@@ -193,11 +193,11 @@ class OnepaySignUtil
         $issuedAtAsString = (string) $signable->getIssuedAt();
         $refundAmountAsString = (string) $signable->getNullifyAmount();
 
-        $data = mb_strlen($occ) . $occ;
-        $data .= mb_strlen($externalUniqueNumber) . $externalUniqueNumber;
-        $data .= mb_strlen($authorizationCode) . $authorizationCode;
-        $data .= mb_strlen($issuedAtAsString) . $issuedAtAsString;
-        $data .= mb_strlen($refundAmountAsString) . $refundAmountAsString;
+        $data = mb_strlen($occ).$occ;
+        $data .= mb_strlen($externalUniqueNumber).$externalUniqueNumber;
+        $data .= mb_strlen($authorizationCode).$authorizationCode;
+        $data .= mb_strlen($issuedAtAsString).$issuedAtAsString;
+        $data .= mb_strlen($refundAmountAsString).$refundAmountAsString;
 
         $crypted = hash_hmac('sha256', $data, $secret, true);
 

@@ -92,7 +92,7 @@ class Transaction
         $http = PatpassByWebpay::getHttpClient();
         $httpResponse = $http->put(
             $baseUrl,
-            self::COMMIT_TRANSACTION_ENDPOINT . '/' . $token,
+            self::COMMIT_TRANSACTION_ENDPOINT.'/'.$token,
             null,
             ['headers' => $headers]
         );

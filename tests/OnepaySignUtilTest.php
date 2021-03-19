@@ -5,11 +5,11 @@ namespace Transbank\Onepay;
 use PHPUnit\Framework\TestCase;
 use Transbank\Onepay\Utils\OnepaySignUtil;
 
-require_once __DIR__ . '/mocks/TransactionCreateRequestMocks.php';
-require_once __DIR__ . '/mocks/TransactionCommitRequestMocks.php';
-require_once __DIR__ . '/mocks/ShoppingCartMocks.php';
-require_once __DIR__ . '/mocks/TransactionCreateResponseMocks.php';
-require_once __DIR__ . '/mocks/TransactionCommitResponseMocks.php';
+require_once __DIR__.'/mocks/TransactionCreateRequestMocks.php';
+require_once __DIR__.'/mocks/TransactionCommitRequestMocks.php';
+require_once __DIR__.'/mocks/ShoppingCartMocks.php';
+require_once __DIR__.'/mocks/TransactionCreateResponseMocks.php';
+require_once __DIR__.'/mocks/TransactionCommitResponseMocks.php';
 
 final class OnepaySignUtilTest extends TestCase
 {
