@@ -7,6 +7,8 @@ use Transbank\Patpass\PatpassByWebpay\Exceptions\TransactionCommitException;
 use Transbank\Patpass\PatpassByWebpay\Exceptions\TransactionCreateException;
 use Transbank\Patpass\PatpassByWebpay\Exceptions\TransactionStatusException;
 use Transbank\Patpass\PatpassByWebpay\Responses\TransactionCommitResponse;
+use Transbank\Patpass\PatpassByWebpay\Responses\TransactionCreateResponse;
+use Transbank\Patpass\PatpassByWebpay\Responses\TransactionStatusResponse;
 
 class Transaction
 {
@@ -90,7 +92,7 @@ class Transaction
         $http = PatpassByWebpay::getHttpClient();
         $httpResponse = $http->put(
             $baseUrl,
-            self::COMMIT_TRANSACTION_ENDPOINT.'/'.$token,
+            self::COMMIT_TRANSACTION_ENDPOINT . '/' . $token,
             null,
             ['headers' => $headers]
         );

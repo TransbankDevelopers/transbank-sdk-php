@@ -1,129 +1,136 @@
 <?php
 
-namespace Transbank\Onepay;
+namespace Transbank\Onepay\Utils;
 
- /**
-  * @class TransactionCreateRequest
-  *  Creates a request object to be used when connecting to Onepay
-  */
- class OnepayRequestBuilder
- {
-     // Make this be a singleton class
-     protected static $instance = null;
+use Transbank\Onepay\OnepayBase;
+use Transbank\Onepay\Utils\OnepaySignUtil;
+use Transbank\Onepay\Options;
+use Transbank\Onepay\RefundCreateRequest;
+use Transbank\Onepay\TransactionCommitRequest;
+use Transbank\Onepay\TransactionCreateRequest;
 
-     protected function __construct()
-     {
-     }
+/**
+ * @class TransactionCreateRequest
+ *  Creates a request object to be used when connecting to Onepay
+ */
+class OnepayRequestBuilder
+{
+    // Make this be a singleton class
+    protected static $instance = null;
 
-     protected function __clone()
-     {
-     }
+    protected function __construct()
+    {
+    }
 
-     /**
-      * @return OnepayRequestBuilder singleton;
-      */
-     public static function getInstance()
-     {
-         if (!isset(static::$instance)) {
-             static::$instance = new static();
-         }
+    protected function __clone()
+    {
+    }
 
-         return static::$instance;
-     }
+    /**
+     * @return OnepayRequestBuilder singleton;
+     */
+    public static function getInstance()
+    {
+        if (!isset(static::$instance)) {
+            static::$instance = new static();
+        }
 
-     public function buildCreateRequest($shoppingCart, $channel, $externalUniqueNumber = null, $options = null)
-     {
-         if (null == OnepayBase::getCallBackUrl()) {
-             OnepayBase::setCallbackUrl(OnepayBase::DEFAULT_CALLBACK);
-         }
+        return static::$instance;
+    }
 
-         if (null == $channel) {
-             $channel = OnepayBase::DEFAULT_CHANNEL();
-         }
+    public function buildCreateRequest($shoppingCart, $channel, $externalUniqueNumber = null, $options = null)
+    {
+        if (null == OnepayBase::getCallBackUrl()) {
+            OnepayBase::setCallbackUrl(OnepayBase::DEFAULT_CALLBACK);
+        }
 
-         if (null == $externalUniqueNumber) {
-             $externalUniqueNumber = (int) (microtime(true) * 1000);
-         }
+        if (null == $channel) {
+            $channel = OnepayBase::DEFAULT_CHANNEL();
+        }
 
-         $options = self::buildOptions($options);
-         $issuedAt = time();
+        if (null == $externalUniqueNumber) {
+            $externalUniqueNumber = (int) (microtime(true) * 1000);
+        }
 
-         $request = new TransactionCreateRequest(
-             $externalUniqueNumber,
-             $shoppingCart->getTotal(),
-             $shoppingCart->getItemQuantity(),
-             $issuedAt,
-             $shoppingCart->getItems(),
-             OnepayBase::getCallBackUrl(),
-             $channel, // Channel, can be 'WEB', 'MOBILE' or 'APP'
-                                          OnepayBase::getAppScheme(),
-             $options->getQrWidthHeight(),
-             $options->getCommerceLogoUrl()
-         );
+        $options = self::buildOptions($options);
+        $issuedAt = time();
 
-         self::setKeys($request, $options);
+        $request = new TransactionCreateRequest(
+            $externalUniqueNumber,
+            $shoppingCart->getTotal(),
+            $shoppingCart->getItemQuantity(),
+            $issuedAt,
+            $shoppingCart->getItems(),
+            OnepayBase::getCallBackUrl(),
+            $channel, // Channel, can be 'WEB', 'MOBILE' or 'APP'
+            OnepayBase::getAppScheme(),
+            $options->getQrWidthHeight(),
+            $options->getCommerceLogoUrl()
+        );
 
-         return OnepaySignUtil::getInstance()->sign($request, $options->getSharedSecret());
-     }
+        self::setKeys($request, $options);
 
-     public function buildCommitRequest($occ, $externalUniqueNumber, $options = null)
-     {
-         $options = self::buildOptions($options);
+        return OnepaySignUtil::getInstance()->sign($request, $options->getSharedSecret());
+    }
 
-         $issuedAt = time();
-         $request = new TransactionCommitRequest($occ, $externalUniqueNumber, $issuedAt);
-         self::setKeys($request, $options);
+    public function buildCommitRequest($occ, $externalUniqueNumber, $options = null)
+    {
+        $options = self::buildOptions($options);
 
-         return OnepaySignUtil::getInstance()->sign($request, $options->getSharedSecret());
-     }
+        $issuedAt = time();
+        $request = new TransactionCommitRequest($occ, $externalUniqueNumber, $issuedAt);
+        self::setKeys($request, $options);
 
-     public function buildRefundRequest(
-         $refundAmount,
-         $occ,
-         $externalUniqueNumber,
-         $authorizationCode,
-         $options = null
-     ) {
-         $options = self::buildOptions($options);
-         $issuedAt = time();
-         $request = new RefundCreateRequest(
-             $refundAmount,
-             $occ,
-             (string) $externalUniqueNumber,
-             $authorizationCode,
-             $issuedAt
-         );
-         self::setKeys($request, $options);
+        return OnepaySignUtil::getInstance()->sign($request, $options->getSharedSecret());
+    }
 
-         return OnepaySignUtil::getInstance()->sign(
-             $request,
-             $options->getSharedSecret()
-         );
-     }
+    public function buildRefundRequest(
+        $refundAmount,
+        $occ,
+        $externalUniqueNumber,
+        $authorizationCode,
+        $options = null
+    ) {
+        $options = self::buildOptions($options);
+        $issuedAt = time();
+        $request = new RefundCreateRequest(
+            $refundAmount,
+            $occ,
+            (string) $externalUniqueNumber,
+            $authorizationCode,
+            $issuedAt
+        );
+        self::setKeys($request, $options);
 
-     public static function buildOptions($options)
-     {
-         if (!$options) {
-             return Options::getDefaults();
-         }
+        return OnepaySignUtil::getInstance()->sign(
+            $request,
+            $options->getSharedSecret()
+        );
+    }
 
-         if (!$options->getApiKey()) {
-             $options->setApiKey(OnepayBase::getApiKey());
-         }
+    public static function buildOptions($options)
+    {
+        if (!$options) {
+            return Options::getDefaults();
+        }
 
-         if (!$options->getAppKey()) {
-             $options->setAppKey(OnepayBase::getCurrentIntegrationTypeAppKey());
-         }
-         if (!$options->getSharedSecret()) {
-             $options->setSharedSecret(OnepayBase::getSharedSecret());
-         }
+        if (!$options->getApiKey()) {
+            $options->setApiKey(OnepayBase::getApiKey());
+        }
 
-         return $options;
-     }
+        if (!$options->getAppKey()) {
+            $options->setAppKey(OnepayBase::getCurrentIntegrationTypeAppKey());
+        }
+        if (!$options->getSharedSecret()) {
+            $options->setSharedSecret(OnepayBase::getSharedSecret());
+        }
 
-     public static function setKeys($request, $options)
-     {
-         $request->setAppKey($options->getAppKey());
-         $request->setApiKey($options->getApiKey());
-     }
- }
+        return $options;
+    }
+
+    public static function setKeys($request, $options)
+    {
+        $request->setAppKey($options->getAppKey());
+        $request->setApiKey($options->getApiKey());
+    }
+}
