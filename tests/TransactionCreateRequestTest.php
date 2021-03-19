@@ -3,8 +3,9 @@
 namespace Transbank\Onepay;
 
 use PHPUnit\Framework\TestCase;
+use Transbank\Onepay\Utils\OnepayRequestBuilder;
 
-require_once __DIR__.'/mocks/ShoppingCartMocks.php';
+require_once __DIR__ . '/mocks/ShoppingCartMocks.php';
 
 class TransactionCreateRequestTest extends TestCase
 {
@@ -17,7 +18,7 @@ class TransactionCreateRequestTest extends TestCase
     public $optionsWithCommerceLogoUrl;
     public $optionsWithQrWidthHeightAndCommerceLogoUrl;
 
-    protected function setup()
+    protected function setup(): void
     {
         $this->emptyOptions = new Options();
         $this->optionsWithApiKey = new Options('someapikey');
