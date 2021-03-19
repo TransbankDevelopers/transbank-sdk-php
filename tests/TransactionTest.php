@@ -17,7 +17,7 @@ final class TransactionTest extends TestCase
     const EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST = '1532376544050';
     const OCC_TO_COMMIT_TRANSACTION_TEST = '1807829988419927';
 
-    protected function setup(): void
+    protected function setup()
     {
         OnepayBase::setSharedSecret('P4DCPS55QB2QLT56SQH6#W#LV76IAPYX');
         OnepayBase::setApiKey('mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg');

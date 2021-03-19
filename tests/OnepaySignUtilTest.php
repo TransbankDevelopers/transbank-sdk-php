@@ -13,7 +13,7 @@ require_once __DIR__.'/mocks/TransactionCommitResponseMocks.php';
 
 final class OnepaySignUtilTest extends TestCase
 {
-    protected function setup(): void
+    protected function setup()
     {
         OnepayBase::setSharedSecret('P4DCPS55QB2QLT56SQH6#W#LV76IAPYX');
         OnepayBase::setApiKey('mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg');
