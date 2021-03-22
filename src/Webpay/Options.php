@@ -7,9 +7,11 @@ namespace Transbank\Webpay;
  */
 class Options
 {
-    const ENVIRONMENT_LIVE = 'LIVE';
-    const ENVIRONMENT_TEST = 'TEST';
-    const ENVIRONMENT_MOCK = 'MOCK';
+    const ENVIRONMENT_PRODUCTION = 'LIVE';
+    const ENVIRONMENT_INTEGRATION = 'TEST';
+    
+    const BASE_URL_PRODUCTION = 'https://webpay3g.transbank.cl/';
+    const BASE_URL_INTEGRATION = 'https://webpay3gint.transbank.cl/';
 
     /**
      * Default API key (which is sent as a header when making requests to Transbank
@@ -49,25 +51,28 @@ class Options
      * @var string Sets the environment that the SDK is going
      *             to point to (eg. TEST, LIVE, etc).
      */
-    public $integrationType = 'TEST';
+    public $integrationType = self::ENVIRONMENT_INTEGRATION;
 
-    public function __construct($apiKey, $commerceCode, $integrationType = 'TEST')
+    public function __construct($apiKey, $commerceCode, $integrationType = self::ENVIRONMENT_INTEGRATION)
     {
         $this->setApiKey($apiKey);
         $this->setCommerceCode($commerceCode);
         $this->setIntegrationType($integrationType);
     }
-
-    /**
-     * @return Options Return an instance of Options with default values
-     *                 configured
-     */
-    public static function defaultConfig()
+    
+    public static function forProduction($commerceCode, $apiKey)
     {
-        return new Options(
-            self::DEFAULT_API_KEY,
-            self::DEFAULT_COMMERCE_CODE
-        );
+        return new static($apiKey, $commerceCode, self::ENVIRONMENT_PRODUCTION);
+    }
+    
+    public static function forIntegration($commerceCode, $apiKey)
+    {
+        return new static($apiKey, $commerceCode, self::ENVIRONMENT_INTEGRATION);
+    }
+    
+    public function isProduction()
+    {
+        return $this->getIntegrationType() === self::ENVIRONMENT_PRODUCTION;
     }
 
     /**
@@ -134,8 +139,23 @@ class Options
      * @return string Returns the base URL used for making requests, depending on which
      *                integration types
      */
-    public function integrationTypeUrl()
+    public function getApiBaseUrl()
     {
-        return WebpayPlus::$INTEGRATION_TYPES[$this->integrationType];
+        if ($this->isProduction()) {
+            return self::BASE_URL_PRODUCTION;
+        }
+        return self::BASE_URL_INTEGRATION;
+    }
+    
+    /**
+     *
+     * @return array
+     */
+    public function getHeaders()
+    {
+        return [
+            'Tbk-Api-Key-Id'     => $this->getCommerceCode(),
+            'Tbk-Api-Key-Secret' => $this->getApiKey(),
+        ];
     }
 }

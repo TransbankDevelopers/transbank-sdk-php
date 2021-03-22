@@ -7,58 +7,104 @@ use Psr\Http\Message\ResponseInterface;
 use Transbank\Webpay\Exceptions\TransbankApiRequest;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
-use Transbank\Webpay\WebpayPlus;
 
 /**
  * Trait InteractsWithWebpayApi.
  */
 trait InteractsWithWebpayApi
 {
+    
     /**
      * @var ResponseInterface|null
      */
-    protected static $lastResponse = null;
+    protected $lastResponse = null;
 
     /**
      * @var TransbankApiRequest|null
      */
-    protected static $lastRequest = null;
-
+    protected $lastRequest = null;
+    /**
+     * @var HttpClient
+     */
+    protected $httpClient;
+    /**
+     * @var Options
+     */
+    protected $options;
+    /**
+     * Transaction constructor.
+     *
+     * @param Options $options
+     * @param HttpClient $httpClient
+     */
+    public function __construct(
+        Options $options = null,
+        HttpClient $httpClient = null
+    ) {
+        $this->setOptions($options !== null ? $options : $this->getDefaultOptions());
+        $this->setHttpClient($httpClient !== null ? $httpClient : new HttpClient());
+    }
+    /**
+     * @return Options
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+    /**
+     * @param Options $options
+     */
+    public function setOptions(Options $options)
+    {
+        $this->options = $options;
+    }
+    /**
+     * @param HttpClient $httpClient
+     */
+    public function setHttpClient($httpClient)
+    {
+        $this->httpClient = $httpClient;
+    }
+    /**
+     * @return HttpClient
+     */
+    public function getHttpClient()
+    {
+        return $this->httpClient;
+    }
+    
     /**
      * @param $method
      * @param $endpoint
      * @param $payload
-     * @param Options         $options
-     * @param HttpClient|null $client
-     *
-     * @throws GuzzleException|WebpayRequestException
-     *
      * @return mixed
+     * @throws GuzzleException
+     * @throws WebpayRequestException
      */
-    protected static function request(
+    protected function request(
         $method,
         $endpoint,
-        $payload,
-        Options $options,
-        HttpClient $client = null
+        $payload
     ) {
-        $headers = static::getHeaders($options);
+        $headers = $this->getOptions()->getHeaders();
+        
+        $client = $this->httpClient;
         if ($client == null) {
             $client = new HttpClient();
         }
 
-        $baseUrl = static::getBaseUrl($options->getIntegrationType());
+        $baseUrl = $this->getBaseUrl();
         $request = new TransbankApiRequest($method, $baseUrl, $endpoint, $payload, $headers);
 
-        static::setLastRequest($request);
-        $response = $client->perform($method, $baseUrl.$endpoint, $payload, ['headers' => $headers]);
-
-        static::setLastResponse($response);
+        $this->setLastRequest($request);
+        $response = $client->perform($method, $baseUrl . $endpoint, $payload, ['headers' => $headers]);
+    
+        $this->setLastResponse($response);
         $httpCode = $response->getStatusCode();
 
         if (!in_array($httpCode, [200, 204])) {
             $reason = $response->getReasonPhrase();
-            $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
+            $message = "Could not obtain a response from Transbank API: $reason (HTTP code $httpCode)";
             $body = json_decode($response->getBody(), true);
             $tbkErrorMessage = null;
             if (isset($body['error_message'])) {
@@ -73,59 +119,51 @@ trait InteractsWithWebpayApi
     }
 
     /**
-     * @param $integrationEnvironment
-     *
-     * @return mixed|string
-     */
-    protected static function getBaseUrl($integrationEnvironment)
-    {
-        return WebpayPlus::getIntegrationTypeUrl($integrationEnvironment);
-    }
-
-    /**
      * @return ResponseInterface|null
      */
-    public static function getLastResponse()
+    public function getLastResponse()
     {
-        return self::$lastResponse;
+        return $this->lastResponse;
     }
 
     /**
      * @param ResponseInterface|null $lastResponse
      */
-    public static function setLastResponse($lastResponse)
+    public function setLastResponse($lastResponse)
     {
-        self::$lastResponse = $lastResponse;
+        $this->lastResponse = $lastResponse;
     }
 
     /**
      * @return TransbankApiRequest|null
      */
-    public static function getLastRequest()
+    public function getLastRequest()
     {
-        return self::$lastRequest;
+        return $this->lastRequest;
     }
 
     /**
      * @param TransbankApiRequest|null $lastRequest
      */
-    public static function setLastRequest($lastRequest)
+    public function setLastRequest($lastRequest)
     {
-        self::$lastRequest = $lastRequest;
+        $this->lastRequest = $lastRequest;
     }
-
+    
     /**
-     * @param Options $options
-     *
-     * @return array
+     * @return Options
      */
-    public static function getHeaders(Options $options)
+    protected function getDefaultOptions()
     {
-        $headers = [
-            'Tbk-Api-Key-Id'     => $options->getCommerceCode(),
-            'Tbk-Api-Key-Secret' => $options->getApiKey(),
-        ];
-
-        return $headers;
+        return Options::forIntegration(Options::DEFAULT_COMMERCE_CODE, Options::DEFAULT_API_KEY);
+    }
+    
+    /**
+     *
+     * @return mixed|string
+     */
+    protected function getBaseUrl()
+    {
+        return $this->getOptions()->getApiBaseUrl();
     }
 }

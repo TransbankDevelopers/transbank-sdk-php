@@ -2,6 +2,8 @@
 
 namespace Transbank\Webpay\WebpayPlus;
 
+use GuzzleHttp\Exception\GuzzleException;
+use Transbank\Utils\HttpClient;
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
@@ -23,29 +25,28 @@ use Transbank\Webpay\WebpayPlus\Responses\TransactionStatusResponse;
 class Transaction
 {
     use InteractsWithWebpayApi;
+    
+    const DEFAULT_COMMERCE_CODE = '597055555532';
+    const DEFAULT_API_KEY = Options::DEFAULT_API_KEY;
 
-    const CREATE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions';
-    const COMMIT_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
-    const REFUND_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
-    const TRANSACTION_STATUS_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
-    const CAPTURE_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/capture';
-
+    const ENDPOINT_CREATE_TRANSACTION = 'rswebpaytransaction/api/webpay/v1.2/transactions';
+    const ENDPOINT_COMMIT_TRANSACTION = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
+    const ENDPOINT_REFUND_TRANSACTION = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
+    const ENDPOINT_STATUS_TRANSACTION = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
+    const ENDPOINT_CAPTURE_TRANSACTION = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/capture';
+    
     /**
-     * @param string       $buyOrder
-     * @param string       $sessionId
-     * @param int          $amount
-     * @param string       $returnUrl
-     * @param Options|null $options
+     * @param string $buyOrder
+     * @param string $sessionId
+     * @param int $amount
+     * @param string $returnUrl
+     * @return TransactionCreateResponse
      *
      * @throws TransactionCreateException
-     *
-     * @return TransactionCreateResponse
-     **
+     * @throws GuzzleException
      */
-    public static function create($buyOrder, $sessionId, $amount, $returnUrl, $options = null)
+    public function create($buyOrder, $sessionId, $amount, $returnUrl)
     {
-        $options = WebpayPlus::getDefaultOptions($options);
-
         $payload = [
             'buy_order'  => $buyOrder,
             'session_id' => $sessionId,
@@ -54,11 +55,10 @@ class Transaction
         ];
 
         try {
-            $response = static::request(
+            $response = $this->request(
                 'POST',
-                static::CREATE_TRANSACTION_ENDPOINT,
-                $payload,
-                $options
+                static::ENDPOINT_CREATE_TRANSACTION,
+                $payload
             );
         } catch (WebpayRequestException $exception) {
             throw TransactionCreateException::raise($exception);
@@ -66,26 +66,20 @@ class Transaction
 
         return new TransactionCreateResponse($response);
     }
-
+    
     /**
      * @param $token
-     * @param null $options
-     *
-     * @throws TransactionCommitException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     *
      * @return TransactionCommitResponse
+     * @throws TransactionCommitException
+     * @throws GuzzleException
      */
-    public static function commit($token, $options = null)
+    public function commit($token)
     {
-        $options = WebpayPlus::getDefaultOptions($options);
-
         try {
-            $response = static::request(
+            $response = $this->request(
                 'PUT',
-                str_replace('{token}', $token, static::COMMIT_TRANSACTION_ENDPOINT),
-                null,
-                $options
+                str_replace('{token}', $token, static::ENDPOINT_COMMIT_TRANSACTION),
+                null
             );
         } catch (WebpayRequestException $e) {
             throw TransactionCommitException::raise($e);
@@ -93,27 +87,21 @@ class Transaction
 
         return new TransactionCommitResponse($response);
     }
-
+    
     /**
      * @param $token
      * @param $amount
-     * @param null $options
-     *
-     * @throws TransactionRefundException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     *
      * @return TransactionRefundResponse
+     * @throws TransactionRefundException
+     * @throws GuzzleException
      */
-    public static function refund($token, $amount, $options = null)
+    public function refund($token, $amount)
     {
-        $options = WebpayPlus::getDefaultOptions($options);
-
         try {
-            $response = static::request(
+            $response = $this->request(
                 'POST',
-                str_replace('{token}', $token, static::REFUND_TRANSACTION_ENDPOINT),
-                ['amount' => $amount],
-                $options
+                str_replace('{token}', $token, static::ENDPOINT_REFUND_TRANSACTION),
+                ['amount' => $amount]
             );
         } catch (WebpayRequestException $e) {
             throw TransactionRefundException::raise($e);
@@ -121,26 +109,20 @@ class Transaction
 
         return new TransactionRefundResponse($response);
     }
-
+    
     /**
      * @param $token
-     * @param null $options
-     *
-     * @throws TransactionStatusException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     *
      * @return TransactionStatusResponse
+     * @throws TransactionStatusException
+     * @throws GuzzleException
      */
-    public static function status($token, $options = null)
+    public function status($token)
     {
-        $options = WebpayPlus::getDefaultOptions($options);
-
         try {
-            $response = static::request(
+            $response = $this->request(
                 'GET',
-                str_replace('{token}', $token, static::TRANSACTION_STATUS_ENDPOINT),
-                null,
-                $options
+                str_replace('{token}', $token, static::ENDPOINT_STATUS_TRANSACTION),
+                null
             );
         } catch (WebpayRequestException $e) {
             throw TransactionStatusException::raise($e);
@@ -148,23 +130,18 @@ class Transaction
 
         return new TransactionStatusResponse($response);
     }
-
+    
     /**
      * @param $token
      * @param $buyOrder
      * @param $authorizationCode
      * @param $captureAmount
-     * @param null $options
-     *
-     * @throws TransactionCaptureException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     *
      * @return TransactionCaptureResponse
+     * @throws TransactionCaptureException
+     * @throws GuzzleException
      */
-    public static function capture($token, $buyOrder, $authorizationCode, $captureAmount, $options = null)
+    public function capture($token, $buyOrder, $authorizationCode, $captureAmount)
     {
-        $options = WebpayPlus::getDefaultOptions($options);
-
         $payload = [
             'buy_order'          => $buyOrder,
             'authorization_code' => $authorizationCode,
@@ -172,11 +149,10 @@ class Transaction
         ];
 
         try {
-            $response = static::request(
+            $response = $this->request(
                 'PUT',
-                str_replace('{token}', $token, static::CAPTURE_ENDPOINT),
-                $payload,
-                $options
+                str_replace('{token}', $token, static::ENDPOINT_CAPTURE_TRANSACTION),
+                $payload
             );
         } catch (WebpayRequestException $e) {
             throw TransactionCaptureException::raise($e);
@@ -184,14 +160,15 @@ class Transaction
 
         return new TransactionCaptureResponse($response);
     }
-
+    
     /**
-     * @param $integrationEnvironment
+     * Get the default options if none are given.
      *
-     * @return mixed|string
+     * @return Options
      */
-    public static function getBaseUrl($integrationEnvironment)
+    public function getDefaultOptions()
     {
-        return WebpayPlus::getIntegrationTypeUrl($integrationEnvironment);
+        return Options::forIntegration(static::DEFAULT_API_KEY, static::DEFAULT_COMMERCE_CODE);
     }
+    
 }

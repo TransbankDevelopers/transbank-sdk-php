@@ -9,7 +9,7 @@ class WebpayModal
 {
     use ConfiguresEnvironment;
 
-    protected static $integrationType = Options::ENVIRONMENT_TEST;
+    protected static $integrationType = Options::ENVIRONMENT_INTEGRATION;
     protected static $apiKey = Options::DEFAULT_API_KEY;
     protected static $commerceCode = Options::DEFAULT_WEBPAY_MODAL_COMMERCE_CODE;
 
@@ -17,7 +17,7 @@ class WebpayModal
     {
         self::setApiKey(Options::DEFAULT_API_KEY);
         self::setCommerceCode(Options::DEFAULT_WEBPAY_MODAL_COMMERCE_CODE);
-        self::setIntegrationType(Options::ENVIRONMENT_TEST);
+        self::setIntegrationType(Options::ENVIRONMENT_INTEGRATION);
     }
 
     public static function getDefaultOptions($options)

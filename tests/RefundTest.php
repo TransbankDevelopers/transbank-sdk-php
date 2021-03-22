@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 final class RefundTest extends TestCase
 {
-    protected function setup()
+    protected function setUp() : void
     {
         OnepayBase::setSharedSecret('P4DCPS55QB2QLT56SQH6#W#LV76IAPYX');
         OnepayBase::setApiKey('mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg');

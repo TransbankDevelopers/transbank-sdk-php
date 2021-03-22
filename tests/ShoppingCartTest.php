@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 final class ShoppingCartTest extends TestCase
 {
-    protected function setup()
+    protected function setUp() : void
     {
         $this->cartString = '{"items": [{"amount": 100, "quantity": 10, "description": "something"}, {"amount": 200, "quantity": 20, "description": "something else"}, {"amount": 300, "quantity": 30, "description": "third element"}]}';
     }

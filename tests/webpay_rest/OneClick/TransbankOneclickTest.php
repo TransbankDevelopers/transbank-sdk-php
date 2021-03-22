@@ -16,7 +16,7 @@ class TransbankOneclickTest extends TestCase
     public $username;
     public $email;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->createDemoData();
     }

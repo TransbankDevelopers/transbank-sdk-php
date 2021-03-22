@@ -16,9 +16,8 @@ trait ConfiguresEnvironment
      *            integration_type => url_of_that_integration
      */
     public static $INTEGRATION_TYPES = [
-        Options::ENVIRONMENT_LIVE => 'https://webpay3g.transbank.cl/',
-        Options::ENVIRONMENT_TEST => 'https://webpay3gint.transbank.cl/',
-        Options::ENVIRONMENT_MOCK => '',
+        Options::ENVIRONMENT_PRODUCTION => 'https://webpay3g.transbank.cl/',
+        Options::ENVIRONMENT_INTEGRATION => 'https://webpay3gint.transbank.cl/',
 
     ];
 
@@ -95,13 +94,13 @@ trait ConfiguresEnvironment
     {
         static::setApiKey($apiKey);
         static::setCommerceCode($commerceCode);
-        static::setIntegrationType(Options::ENVIRONMENT_TEST);
+        static::setIntegrationType(Options::ENVIRONMENT_INTEGRATION);
     }
 
     public static function configureForProduction($commerceCode, $apiKey)
     {
         static::setApiKey($apiKey);
         static::setCommerceCode($commerceCode);
-        static::setIntegrationType(Options::ENVIRONMENT_LIVE);
+        static::setIntegrationType(Options::ENVIRONMENT_PRODUCTION);
     }
 }

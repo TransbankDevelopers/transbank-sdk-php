@@ -13,9 +13,8 @@ use Transbank\Patpass\PatpassComercio\BasePatpassComercio;
 class PatpassComercio extends BasePatpassComercio
 {
     public static $INTEGRATION_TYPES = [
-        Options::ENVIRONMENT_LIVE => 'https://www.pagoautomaticocontarjetas.cl/',
-        Options::ENVIRONMENT_TEST => 'https://pagoautomaticocontarjetasint.transbank.cl/',
-        Options::ENVIRONMENT_MOCK => '',
+        Options::ENVIRONMENT_PRODUCTION => 'https://www.pagoautomaticocontarjetas.cl/',
+        Options::ENVIRONMENT_INTEGRATION => 'https://pagoautomaticocontarjetasint.transbank.cl/',
     ];
 
     protected static $apiKey = Options::DEFAULT_PATPASS_COMERCIO_API_KEY;
