@@ -217,6 +217,11 @@ class Transbank
         return $this->webpay ??= new Services\Webpay($this, $this->credentials->webpay ??= new Credentials());
     }
 
+    /**
+     * Returns the Webpay Mall service.
+     *
+     * @return \Transbank\Sdk\Services\WebpayMall
+     */
     public function webpayMall(): Services\WebpayMall
     {
         return $this->webpayMall ??= new Services\WebpayMall(
