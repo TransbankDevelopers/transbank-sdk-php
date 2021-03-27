@@ -4,6 +4,23 @@ Todos los cambios notables a este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2021-03-26
+
+- Requiere PHP 8.0
+- Todos los servicios de Transbank se manejan en una única instancia.
+- Refactorización de todo el código por métodos fluidos.
+- Se agrega única clase dinámica para la recepción de respuesta desde Transbank.
+- Se agrega capacidad de alterar los `headers` del `request` en todas las transacciones.
+- Removida dependencia-dura de Cliente HTTP.
+- Se agrega "fail-safe" para pasar a producción introduciendo credenciales respectivas. 
+- Se agrega soporte para cualquier Cliente HTTP (PSR-17) estándar.
+- Se agrega soporte para logger (PSR-3) estándar, opcional.
+- Se agrega soporte para despachador de eventos (PSR-14) estándar, opcional.
+- Se agrega soporte por defecto de ambiente de integración.
+- Se agrega excepciones para distintos tipos de errores (cliente, servidor, conexión, desconocido).
+- Se agrega interfaz única para todas las excepciones de Transbank.
+- Se agrega excepción para respuestas de Transbank con códigos HTTP 4xx y 5xx.
+
 ## [1.10.1] - 2020-12-21
 ### Fixed
 - Se soluciona error de syntax en algunos archivos
