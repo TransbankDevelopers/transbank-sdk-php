@@ -1,5 +1,5 @@
-<phpunit bootstrap="tests/bootstrap.php" colors="true">
-    <testsuites>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd" backupGlobals="true" bootstrap="./vendor/autoload.php" colors="true">
+<testsuites>
         <testsuite name="Transbank SDK Test Suite">
             <directory>tests</directory>
         </testsuite>
