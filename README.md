@@ -7,112 +7,95 @@ SDK Oficial de Transbank
 
 ## Requisitos:
 
-- PHP 5.6+
+* PHP 8.0 o superior
+* `ext-json` (Extensión para manejar JSON)
 
-## Dependencias
-En caso de instalar con Composer las siguientes dependencias deberían instalarse
-automáticamente, pero si usas el SDK de manera directa requerirás también: 
-- ext-curl
-- ext-json
-- ext-mbstring
+**Dependencias**
+
+* [Cliente HTTP](#cliente-http)
+* [Logger](#logger-opcional) (opcional)
+* [Despachador de Eventos](#eventos-opcional) (opcional)
+
+> Este SDK no incluye un cliente HTTP para que puedas usar el tuyo. Si no tienes uno, puedes [instarlo aparte](#cliente-http).
 
 # Instalación
 
-### Instalar con Composer
+Para usar el SDK en tu proyecto **debes** usar [Composer](https://getcomposer.org/), añadiendo el SDK como dependencia a tu proyecto:
 
-Para usar el SDK en tu proyecto **debes** usar Composer (si no lo tienes instalado, puedes instalarlo [acá](https://getcomposer.org/)), añadiendo el SDK como dependencia a tu proyecto:
-```json
-    "require": {
-        "transbank/transbank-sdk": "^1.10"
-    }
-```
+    composer require transbank/transbank-sdk:>=2.0
 
-Luego debes correr 
-```
-composer update
-```
-
-También puedes instalarlo directamente desde la consola:
-```bash
-composer require transbank/transbank-sdk:^1.10
-```
-
-Si es primera vez que usas composer en tu proyecto, se creará una carpeta `vendor/` con el SDK y todo lo necesario.
-Te recomendamos leer como funciona Composer, pero para comentar un punto importante, ahora asegúrate de que se incluye 
-el archivo `vendor/autoload.php` en tu proyecto, idealmente al inicio de todo tu código. 
-
-Si tu proyecto ya usa composer, la librería ya estará disponible para ser usaada sin que tengas que hacer nada 
-adicional. 
-
-Nota: Si usas un hosting compartido o un ambiente donde no tienes acceso para instalar Composer, no te preocupes: Puedes 
-instalar composer en tu propio computador, instalar el paquete como se indica anteriormente, y luego subir por FTP, SSH 
-o como sea, todos los archivos del proyecto. No es necesario tener instalado composer en el servidor. Solo es necesario 
-que los archivos generados tras la instalación de composer si estén. 
+> Nota: Si usas un hosting compartido o un ambiente donde no tienes acceso para instalar Composer, tendrás que instalar el SDK en tu propio computador, y luego subir todos los archivos a tu aplicación por FTP, SSH, u otro.
 
 ## Documentación 
 
-Puedes encontrar toda la documentación de cómo usar este SDK en el sitio https://www.transbankdevelopers.cl.
+Puedes encontrar toda la documentación de cómo usar este SDK en el sitio de [Transbank Developers](https://www.transbankdevelopers.cl).
 
 La documentación relevante para usar este SDK es:
 
 - Primeros pasos con [Webpay](https://www.transbankdevelopers.cl/documentacion/webpay) y [Onepay](https://www.transbankdevelopers.cl/documentacion/onepay).
-- Documentación sobre [ambientes, deberes del comercio, puesta en producción,
-  etc](https://www.transbankdevelopers.cl/documentacion/como_empezar#ambientes).
+- Documentación sobre [ambientes, deberes del comercio, puesta en producción, etc](https://www.transbankdevelopers.cl/documentacion/como_empezar#ambientes).
   
 También puedes encontrar: 
-- Documentación general sobre los productos y sus diferencias:
-  [Webpay](https://www.transbankdevelopers.cl/producto/webpay) y
-  [Onepay](https://www.transbankdevelopers.cl/producto/onepay).
+- Documentación general sobre los productos y sus diferencias, como [Webpay](https://www.transbankdevelopers.cl/producto/webpay) y [Onepay](https://www.transbankdevelopers.cl/producto/onepay).
 - Referencia detallada sobre [Webpay](https://www.transbankdevelopers.cl/referencia/webpay) y [Onepay](https://www.transbankdevelopers.cl/referencia/onepay).
 
 ## Información para contribuir y desarrollar este SDK
 
 ### Estándares
 
-- Para los commits respetamos las siguientes normas: https://chris.beams.io/posts/git-commit/
-- Usamos ingles, para los mensajes de commit.
-- Se pueden usar tokens como WIP, en el subject de un commit, separando el token con `:`, por ejemplo:
+Para los commits respetamos las siguientes [normas de Chris Beams](https://chris.beams.io/posts/git-commit/):
+
+* Usamos **inglés** para los mensajes de commit.
+* Se pueden usar tokens como `WIP`, en el subject de un commit, separando el token con `:`, por ejemplo:
 `WIP: This is a useful commit message`
-- Para los nombres de ramas también usamos ingles.
-- Se asume, que una rama de feature no mezclada, es un feature no terminado.
-- El nombre de las ramas va en minúsculas.
-- Las palabras se separan con `-`.
-- Las ramas comienzan con alguno de los short lead tokens definidos, por ejemplo: `feat/tokens-configuration`
+* Para los nombres de ramas también usamos **inglés**.
+* Se asume que una rama de `feature` no mezclada, es un feature no terminado.
+* El nombre de las ramas va en **minúsculas**.
+* Las palabras se separan con `-`.
+* Las ramas comienzan con alguno de los _short lead_ tokens definidos, por ejemplo: `feat/tokens-configuration`
 
-#### Short lead tokens
-##### Commits
-- WIP = Trabajo en progreso.
-##### Ramas
-- feat = Nuevos features
-- chore = Tareas, que no son visibles al usuario.
-- bug = Resolución de bugs.
+#### Tokens
 
-### Todas las mezclas a master se hacen mediante Pull Request.
+Para los commits, `WIP` equivale a "Trabajo en progreso".
+
+Para las nuevas ramas, aceptamos:
+
+* `feat`: Nuevos features (características).
+* `chore`: Tareas invisibles al usuario final.
+* `bug`: Resolución de errores.
+
+**Todas las mezclas a master se hacen mediante Pull Request.**
 
 ### Test
-Para ejecutar los test localmente debes ejecutar los siguientes comandos en una terminal.
+
+Para ejecutar los test localmente puedes usar Composer directamente, asumiendo que lo tienes instalado:
+
+    composer install && composer run-script test
+
+Si estás en linux, podrás ejecutar los tests en un contenedor de [Docker](https://docs.docker.com/get-docker/).
 
 ```bash
-make
+make && make test
 ```
 
-Y luego ejecutar los test
 
-```bash
-make test
-```
+### Publicando una nueva versión.
 
-### Deploy de una nueva versión.
-Para generar una nueva versión, se debe crear un PR (con un título "Prepare release X.Y.Z" con los valores que correspondan para `X`, `Y` y `Z`). Se debe seguir el estándar semver para determinar si se incrementa el valor de `X` (si hay cambios no retrocompatibles), `Y` (para mejoras retrocompatibles) o `Z` (si sólo hubo correcciones a bugs).
+Para generar una nueva versión, se debe crear un PR (Pull Request) con un título "Prepare release {version}", donde `{version}` corresponde al [estándar semver](https://semver.org/lang/es/): 
 
-En ese PR deben incluirse los siguientes cambios:
+* una nueva versión mayor (como `3.0`) si no hay compatibilidad con la versión anterior,
+* una versión menor (como `2.12`) para mejoras que son retrocompatibles,
+* o una versión parche (como `2.12.1`) si sólo hubo correción de errores.
 
-1. Modificar el archivo `CHANGELOG.md` para incluir una nueva entrada (al comienzo) para `X.Y.Z` que explique en español los cambios **de cara al usuario del SDK**.
+En cada PR deben incluirse los siguientes cambios:
+
+1. Modificar el archivo `CHANGELOG.md` para incluir una nueva entrada (al comienzo) para `X.Y.Z` que explique, en español, **los cambios para usuario del SDK**.
 2. Modificar este `README.md` para que los ejemplos usen la nueva versión `X.Y.Z`
 
-Luego de obtener aprobación del pull request, debe mezclarse a master e inmediatamente generar un release en GitHub con el tag `X.Y.Z`. En la descripción del release debes poner lo mismo que agregaste al changelog.
+Luego de obtener aprobación del PR, se mezclará a la rama `master` y se generará, a corto plazo por el equipo, un release en GitHub con el tag `X.Y.Z`. En la descripción del _release_ debes poner lo mismo que agregaste al `CHANGELOG.md`.
 
 Con eso Travis CI generará automáticamente una nueva versión de la librería y la publicará en Packagist.
 
 ### Vulnerabilidades de seguridad
-Si descubres una falla de seguridad dentro de este proyecto, por favor, notifícanos por correo electrónico a transbankdevelopers@continuum.cl. Tomaremos el caso con la mayor celeridad. 
+
+Si descubres una falla de seguridad dentro de este proyecto, por favor, notifícanos por correo electrónico a transbankdevelopers@continuum.cl, en vez de publicarlo. Tomaremos el caso con la mayor celeridad. 

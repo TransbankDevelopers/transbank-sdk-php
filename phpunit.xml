@@ -1,15 +1,21 @@
 <phpunit bootstrap="tests/bootstrap.php" colors="true">
     <testsuites>
-        <testsuite name="Transbank Onepay SDK Test Suite">
-            <directory suffix="Test.php">tests</directory>
+        <testsuite name="Transbank SDK Test Suite">
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist>
-            <directory>lib</directory>
-        </whitelist>
-    </filter>
     <logging>
         <log type="coverage-clover" target="clover.xml"/>
     </logging>
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+        <exclude>
+            <file>src/Events/NullDispatcher.php</file>
+        </exclude>
+        <report>
+            <clover outputFile="build/logs/clover.xml"/>
+        </report>
+    </coverage>
 </phpunit>
