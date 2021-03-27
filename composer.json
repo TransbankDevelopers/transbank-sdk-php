@@ -19,12 +19,12 @@
     "psr/http-client": "1.*",
     "psr/log": "1.*",
     "psr/event-dispatcher": "1.*",
-    "nyholm/psr7": "^1.4.0"
+    "nyholm/psr7": "^1.4"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
     "phpunit/phpunit": "^9.5",
-    "mockery/mockery": "^1.4.0",
+    "mockery/mockery": "^1.4",
     "guzzlehttp/guzzle": "^7.0"
   },
   "suggest": {
