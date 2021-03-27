@@ -78,7 +78,6 @@ Si estás en linux, podrás ejecutar los tests en un contenedor de [Docker](http
 make && make test
 ```
 
-
 ### Publicando una nueva versión.
 
 Para generar una nueva versión, se debe crear un PR (Pull Request) con un título "Prepare release {version}", donde `{version}` corresponde al [estándar semver](https://semver.org/lang/es/): 
