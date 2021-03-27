@@ -18,7 +18,7 @@ use JsonSerializable;
  *
  * @package Transbank\Sdk\Services\Transactions
  *
- * @property-read $details []static
+ * @property-read $details []static An array of details only for Mall transactions.
  */
 class Transaction implements ArrayAccess, JsonSerializable
 {
