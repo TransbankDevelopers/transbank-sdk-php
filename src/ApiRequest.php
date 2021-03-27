@@ -3,7 +3,6 @@
 namespace Transbank\Sdk;
 
 use ArrayAccess;
-use JsonException;
 use JsonSerializable;
 
 class ApiRequest implements JsonSerializable, ArrayAccess

@@ -50,8 +50,13 @@ class WebpayMall
      * @return \Transbank\Sdk\Services\Transactions\Transaction
      * @throws \Transbank\Sdk\Exceptions\TransbankException
      */
-    public function create(string $buyOrder, string $returnUrl, array $transactionDetails, string $sessionId = null, array $options = []): Transactions\Transaction
-    {
+    public function create(
+        string $buyOrder,
+        string $returnUrl,
+        array $transactionDetails,
+        string $sessionId = null,
+        array $options = []
+    ): Transactions\Transaction {
         $apiRequest = new ApiRequest(static::ACTION_CREATE, [
             'buy_order' => $buyOrder,
             'session_id' => $sessionId,
@@ -152,8 +157,13 @@ class WebpayMall
      * @return \Transbank\Sdk\Services\Transactions\Transaction
      * @throws \Transbank\Sdk\Exceptions\TransbankException
      */
-    public function refund(string|int $commerceCode, string $token, string $buyOrder, int|float $amount, array $options = []): Transactions\Transaction
-    {
+    public function refund(
+        string|int $commerceCode,
+        string $token,
+        string $buyOrder,
+        int|float $amount,
+        array $options = []
+    ): Transactions\Transaction {
         $apiRequest = new ApiRequest(static::ACTION_REFUND, [
             'commerce_code' => $commerceCode,
             'buy_order' => $buyOrder,
@@ -195,8 +205,14 @@ class WebpayMall
      * @return \Transbank\Sdk\Services\Transactions\Transaction
      * @throws \Transbank\Sdk\Exceptions\TransbankException
      */
-    public function capture(string|int $commerceCode, string $token, string $buyOrder, int $authorizationCode, int|float $captureAmount, array $options = []): Transactions\Transaction
-    {
+    public function capture(
+        string|int $commerceCode,
+        string $token,
+        string $buyOrder,
+        int $authorizationCode,
+        int|float $captureAmount,
+        array $options = []
+    ): Transactions\Transaction {
         $apiRequest = new ApiRequest(static::ACTION_CAPTURE, [
             'commerce_code' => $commerceCode,
             'buy_order' => $buyOrder,

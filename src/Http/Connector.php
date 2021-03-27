@@ -83,8 +83,13 @@ class Connector
      * @return array
      * @throws \JsonException|\Transbank\Sdk\Exceptions\TransbankException
      */
-    public function send(string $method, string $endpoint, ApiRequest $apiRequest, Credentials $credentials, array $options = []): array
-    {
+    public function send(
+        string $method,
+        string $endpoint,
+        ApiRequest $apiRequest,
+        Credentials $credentials,
+        array $options = []
+    ): array {
         $request = $this->requestFactory->createServerRequest($method, $this->setApiVersion($endpoint));
 
         return $this->sendRequest($request, $apiRequest, $credentials, $options);
@@ -101,8 +106,12 @@ class Connector
      * @return array
      * @throws \JsonException|\Transbank\Sdk\Exceptions\TransbankException
      */
-    protected function sendRequest(Request $request, ApiRequest $apiRequest, Credentials $credentials, array $options = []): array
-    {
+    protected function sendRequest(
+        Request $request,
+        ApiRequest $apiRequest,
+        Credentials $credentials,
+        array $options = []
+    ): array {
         $request = $this->prepareRequest($request, $apiRequest, $credentials, $options);
 
         try {
@@ -123,8 +132,11 @@ class Connector
         return $this->decodeJsonFromContents($apiRequest, $request, $response);
     }
 
-    protected function decodeJsonFromContents(ApiRequest $apiRequest, ServerRequestInterface $request, ResponseInterface $response): array
-    {
+    protected function decodeJsonFromContents(
+        ApiRequest $apiRequest,
+        ServerRequestInterface $request,
+        ResponseInterface $response
+    ): array {
         try {
             return json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
         } catch (JsonException $exception) {
@@ -144,8 +156,12 @@ class Connector
      * @throws \JsonException
      * @noinspection CallableParameterUseCaseInTypeContextInspection
      */
-    protected function prepareRequest(Request $request, ApiRequest $apiRequest, Credentials $credentials, array $options): Request
-    {
+    protected function prepareRequest(
+        Request $request,
+        ApiRequest $apiRequest,
+        Credentials $credentials,
+        array $options
+    ): Request {
         // Let the developer override the credentials headers by adding them before anything else.
         $request = $request->withHeader(static::HEADER_KEY, $credentials->key);
         $request = $request->withHeader(static::HEADER_SECRET, $credentials->secret);

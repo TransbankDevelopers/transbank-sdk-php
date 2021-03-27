@@ -22,8 +22,14 @@ trait SendsRequests
      * @return array
      * @throws \Transbank\Sdk\Exceptions\TransbankException
      */
-    protected function send(string $action, ApiRequest $apiRequest, string $method, string $endpoint, array $replace = [], array $options = []): array
-    {
+    protected function send(
+        string $action,
+        ApiRequest $apiRequest,
+        string $method,
+        string $endpoint,
+        array $replace = [],
+        array $options = []
+    ): array {
         return $this->transbank->connector->send(
             $method,
             $this->buildEndpoint($endpoint, $replace),

@@ -49,16 +49,20 @@ class OneclickMall
      * @return \Transbank\Sdk\Services\Transactions\Response
      * @throws \Transbank\Sdk\Exceptions\TransbankException
      */
-    public function start(string $username, string $email, string $responseUrl, array $options = []): Transactions\Response
-    {
+    public function start(
+        string $username,
+        string $email,
+        string $responseUrl,
+        array $options = []
+    ): Transactions\Response {
         $apiRequest = new ApiRequest(static::ACTION_START, [
             'username' => $username,
             'email' => $email,
-            'response_url' => $responseUrl
+            'response_url' => $responseUrl,
         ]);
 
         $this->log('Creating subscription', [
-            'api_request' => $apiRequest
+            'api_request' => $apiRequest,
         ]);
 
         $this->fireStarted($apiRequest);
@@ -67,7 +71,7 @@ class OneclickMall
 
         $this->logResponse([
             'api_request' => $apiRequest,
-            'response' => $response
+            'response' => $response,
         ]);
 
         return new Transactions\Response($response['token'], $response['url']);
@@ -88,7 +92,7 @@ class OneclickMall
 
         $this->log('Finishing subscription process', [
             'token' => $token,
-            'api_request' => $apiRequest
+            'api_request' => $apiRequest,
         ]);
 
         $response = $this->send(static::SERVICE_NAME, $apiRequest, 'put', static::ENDPOINT_FINISH, [
@@ -127,7 +131,7 @@ class OneclickMall
         ]);
 
         $this->log('Deleting subscription', [
-            'api_request' => $apiRequest
+            'api_request' => $apiRequest,
         ]);
 
         $response = $this->send(static::SERVICE_NAME, $apiRequest, 'delete', static::ENDPOINT_DELETE, [], $options);
@@ -150,8 +154,13 @@ class OneclickMall
      * @return \Transbank\Sdk\Services\Transactions\Transaction
      * @throws \Transbank\Sdk\Exceptions\TransbankException
      */
-    public function authorize(string $tbkUser, string $username, string $parentBuyOrder, array $details, array $options = []): Transactions\Transaction
-    {
+    public function authorize(
+        string $tbkUser,
+        string $username,
+        string $parentBuyOrder,
+        array $details,
+        array $options = []
+    ): Transactions\Transaction {
         $apiRequest = new ApiRequest(static::ACTION_AUTHORIZE, [
             'tbk_user' => $tbkUser,
             'username' => $username,
@@ -160,7 +169,7 @@ class OneclickMall
         ]);
 
         $this->log('Authorizing transaction', [
-            'api_request' => $apiRequest
+            'api_request' => $apiRequest,
         ]);
 
         $this->fireStarted($apiRequest);
@@ -192,7 +201,7 @@ class OneclickMall
 
         $this->log('Authorizing transaction', [
             'buy_order' => $buyOrder,
-            'api_request' => $apiRequest
+            'api_request' => $apiRequest,
         ]);
 
         $response = $this->send(static::SERVICE_NAME, $apiRequest, 'get', static::ENDPOINT_STATUS, [
@@ -219,8 +228,13 @@ class OneclickMall
      * @return \Transbank\Sdk\Services\Transactions\Transaction
      * @throws \Transbank\Sdk\Exceptions\TransbankException
      */
-    public function refund(string $buyOrder, string $childCommerceCode, string $childBuyOrder, int|float $amount, array $options = []): Transactions\Transaction
-    {
+    public function refund(
+        string $buyOrder,
+        string $childCommerceCode,
+        string $childBuyOrder,
+        int|float $amount,
+        array $options = []
+    ): Transactions\Transaction {
         $apiRequest = new ApiRequest(static::ACTION_REFUND, [
             'commerce_code' => $childCommerceCode,
             'detail_buy_order' => $childBuyOrder,
@@ -261,8 +275,13 @@ class OneclickMall
      * @return \Transbank\Sdk\Services\Transactions\Transaction
      * @throws \Transbank\Sdk\Exceptions\TransbankException
      */
-    public function capture(string $commerceCode, string $buyOrder, int $authorizationCode, int|float $amount, array $options = []): Transactions\Transaction
-    {
+    public function capture(
+        string $commerceCode,
+        string $buyOrder,
+        int $authorizationCode,
+        int|float $amount,
+        array $options = []
+    ): Transactions\Transaction {
         $apiRequest = new ApiRequest(static::ACTION_CAPTURE, [
             'commerce_code' => $commerceCode,
             'buy_order' => $buyOrder,

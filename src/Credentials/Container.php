@@ -3,7 +3,6 @@
 namespace Transbank\Sdk\Credentials;
 
 use LogicException;
-use RuntimeException;
 
 /**
  * Class Container

@@ -58,8 +58,13 @@ class Webpay
      * @return \Transbank\Sdk\Services\Transactions\Response
      * @throws \Transbank\Sdk\Exceptions\TransbankException
      */
-    public function create(string $buyOrder, int|float $amount, string $returnUrl, string $sessionId = null, array $options = []): Transactions\Response
-    {
+    public function create(
+        string $buyOrder,
+        int|float $amount,
+        string $returnUrl,
+        string $sessionId = null,
+        array $options = []
+    ): Transactions\Response {
         $apiRequest = new ApiRequest(static::ACTION_CREATE, [
             'buy_order' => $buyOrder,
             'amount' => $amount,
@@ -199,8 +204,13 @@ class Webpay
      * @return \Transbank\Sdk\Services\Transactions\Transaction
      * @throws \Transbank\Sdk\Exceptions\TransbankException
      */
-    public function capture(string $token, string $buyOrder, int $authorizationCode, int|float $captureAmount, array $options = []): Transactions\Transaction
-    {
+    public function capture(
+        string $token,
+        string $buyOrder,
+        int $authorizationCode,
+        int|float $captureAmount,
+        array $options = []
+    ): Transactions\Transaction {
         $transaction = new ApiRequest(static::ACTION_CAPTURE, [
             'buy_order' => $buyOrder,
             'authorization_code' => $authorizationCode,
