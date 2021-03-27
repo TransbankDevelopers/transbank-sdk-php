@@ -105,7 +105,7 @@ class WebpayMall
 
         $this->fireCompleted($apiRequest, $response);
 
-        return new Transactions\Transaction(static::ACTION_COMMIT, $response);
+        return Transactions\Transaction::createWithDetails(static::ACTION_COMMIT, $response);
     }
 
 
@@ -137,7 +137,7 @@ class WebpayMall
             'response' => $response,
         ]);
 
-        return new Transactions\Transaction(static::ACTION_STATUS, $response);
+        return Transactions\Transaction::createWithDetails(static::ACTION_STATUS, $response);
     }
 
     /**

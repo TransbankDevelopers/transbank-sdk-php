@@ -19,6 +19,7 @@ use Transbank\Sdk\Credentials\Credentials;
 use Transbank\Sdk\Events\TransactionCompleted;
 use Transbank\Sdk\Events\TransactionCreating;
 use Transbank\Sdk\Http\Connector;
+use Transbank\Sdk\Services\Transactions\Detail;
 use Transbank\Sdk\Services\Webpay;
 use Transbank\Sdk\Services\WebpayMall;
 use Transbank\Sdk\Transbank;
@@ -231,7 +232,14 @@ class WebpayMallTest extends TestCase
         static::assertEquals('webpayMall.commit', $response->serviceAction);
 
         foreach ($transbankResponse as $key => $value) {
-            static::assertEquals($value, $response->{'get' . static::snakeCaseToPascalCase($key)}());
+            if ($key !== 'details') {
+                static::assertEquals($value, $response->{'get' . static::snakeCaseToPascalCase($key)}());
+            }
+        }
+
+        foreach ($response->details as $detail) {
+            static::assertInstanceOf(Detail::class, $detail);
+            static::assertTrue($detail->isSuccessful());
         }
 
         static::assertCount(1, $this->requests);
@@ -301,7 +309,14 @@ class WebpayMallTest extends TestCase
         static::assertEquals('webpayMall.status', $response->serviceAction);
 
         foreach ($transbankResponse as $key => $value) {
-            static::assertEquals($value, $response->{'get' . static::snakeCaseToPascalCase($key)}());
+            if ($key !== 'details') {
+                static::assertEquals($value, $response->{'get' . static::snakeCaseToPascalCase($key)}());
+            }
+        }
+
+        foreach ($response->details as $detail) {
+            static::assertInstanceOf(Detail::class, $detail);
+            static::assertFalse($detail->isSuccessful());
         }
 
         static::assertCount(1, $this->requests);
