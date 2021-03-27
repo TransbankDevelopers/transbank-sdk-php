@@ -13,7 +13,7 @@ y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.ht
 - Se agrega capacidad de alterar los `headers` del `request` en todas las transacciones.
 - Removida dependencia-dura de Cliente HTTP.
 - Se agrega "fail-safe" para pasar a producción introduciendo credenciales respectivas. 
-- Se agrega soporte para cualquier Cliente HTTP (PSR-17) estándar.
+- Se agrega soporte para cualquier Cliente HTTP (PSR-18) estándar.
 - Se agrega soporte para logger (PSR-3) estándar, opcional.
 - Se agrega soporte para despachador de eventos (PSR-14) estándar, opcional.
 - Se agrega soporte por defecto de ambiente de integración.
