@@ -3,3 +3,4 @@
 .built
 .bundled
 composer.lock
+/.phpunit.result.cache
