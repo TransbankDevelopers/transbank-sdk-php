@@ -85,18 +85,20 @@ class Transbank
     {
         // Get one of the two clients HTTP Clients and try to use them if they're installed.
         $client = match (true) {
-            class_exists(\GuzzleHttp\Client::class) => new \GuzzleHttp\Client,
-            class_exists(\Symfony\Component\HttpClient\Psr18Client::class) => new \Symfony\Component\HttpClient\Psr18Client,
+            class_exists(\GuzzleHttp\Client::class) => new \GuzzleHttp\Client(),
+            class_exists(
+                \Symfony\Component\HttpClient\Psr18Client::class
+            ) => new \Symfony\Component\HttpClient\Psr18Client(),
             default => throw new RuntimeException(
                 'The "guzzlehttp/guzzle" or "symfony/http-client" libraries are not present. Install one or use your own PSR-18 HTTP Client.'
             ),
         };
 
         return new static(
-            new Container,
-            new NullLogger,
-            new NullDispatcher,
-            new Connector($client, $factory = new Psr17Factory, $factory)
+            new Container(),
+            new NullLogger(),
+            new NullDispatcher(),
+            new Connector($client, $factory = new Psr17Factory(), $factory)
         );
     }
 
@@ -161,9 +163,12 @@ class Transbank
 
         $this->production = true;
 
-        $this->logger->debug('Transbank has been set to production environment.', [
-            'credentials' => array_keys($credentials),
-        ]);
+        $this->logger->debug(
+            'Transbank has been set to production environment.',
+            [
+                'credentials' => array_keys($credentials),
+            ]
+        );
 
         return $this;
     }
@@ -183,16 +188,6 @@ class Transbank
     }
 
     /**
-     * Check if the current Transbank SDK are running in production environment.
-     *
-     * @return bool
-     */
-    public function isProduction(): bool
-    {
-        return $this->production;
-    }
-
-    /**
      * Check if the current Transbank SDK are running in integration environment.
      *
      * @return bool
@@ -203,17 +198,29 @@ class Transbank
     }
 
     /**
+     * Check if the current Transbank SDK are running in production environment.
+     *
+     * @return bool
+     */
+    public function isProduction(): bool
+    {
+        return $this->production;
+    }
+
+    /**
      * Returns the Webpay service.
      *
      * @return \Transbank\Sdk\Services\Webpay
      */
     public function webpay(): Services\Webpay
     {
-        return $this->webpay ??= new Services\Webpay($this, $this->credentials->webpay ??= new Credentials);
+        return $this->webpay ??= new Services\Webpay($this, $this->credentials->webpay ??= new Credentials());
     }
 
     public function webpayMall(): Services\WebpayMall
     {
-        return $this->webpayMall ??= new Services\WebpayMall($this, $this->credentials->webpayMall ??= new Credentials);
+        return $this->webpayMall ??= new Services\WebpayMall(
+            $this, $this->credentials->webpayMall ??= new Credentials()
+        );
     }
 }

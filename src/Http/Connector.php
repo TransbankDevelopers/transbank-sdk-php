@@ -96,6 +96,18 @@ class Connector
     }
 
     /**
+     * Replace the API Version from the endpoint.
+     *
+     * @param  string  $endpoint
+     *
+     * @return string
+     */
+    protected function setApiVersion(string $endpoint): string
+    {
+        return str_replace('{api_version}', static::API_VERSION, $endpoint);
+    }
+
+    /**
      * Prepares the transaction and sends it.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface  $request
@@ -130,18 +142,6 @@ class Connector
         $this->throwExceptionOnResponseError($apiRequest, $request, $response);
 
         return $this->decodeJsonFromContents($apiRequest, $request, $response);
-    }
-
-    protected function decodeJsonFromContents(
-        ApiRequest $apiRequest,
-        ServerRequestInterface $request,
-        ResponseInterface $response
-    ): array {
-        try {
-            return json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
-        } catch (JsonException $exception) {
-            throw new ServerException('The response JSON is malformed.', $apiRequest, $request, $response, $exception);
-        }
     }
 
     /**
@@ -226,15 +226,15 @@ class Connector
         return $contents['error_message'] ?? $response->getBody()->getContents();
     }
 
-    /**
-     * Replace the API Version from the endpoint.
-     *
-     * @param  string  $endpoint
-     *
-     * @return string
-     */
-    protected function setApiVersion(string $endpoint): string
-    {
-        return str_replace('{api_version}', static::API_VERSION, $endpoint);
+    protected function decodeJsonFromContents(
+        ApiRequest $apiRequest,
+        ServerRequestInterface $request,
+        ResponseInterface $response
+    ): array {
+        try {
+            return json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (JsonException $exception) {
+            throw new ServerException('The response JSON is malformed.', $apiRequest, $request, $response, $exception);
+        }
     }
 }

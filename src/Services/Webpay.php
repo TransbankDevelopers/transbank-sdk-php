@@ -65,25 +65,32 @@ class Webpay
         string $sessionId = null,
         array $options = []
     ): Transactions\Response {
-        $apiRequest = new ApiRequest(static::ACTION_CREATE, [
+        $apiRequest = new ApiRequest(
+            static::ACTION_CREATE, [
             'buy_order' => $buyOrder,
             'amount' => $amount,
             'session_id' => $sessionId,
             'return_url' => $returnUrl,
-        ]);
+        ]
+        );
 
-        $this->log('Creating transaction', [
-            'api_request' => $apiRequest,
-        ]);
+        $this->log(
+            'Creating transaction',
+            [
+                'api_request' => $apiRequest,
+            ]
+        );
 
         $this->fireStarted($apiRequest);
 
         $response = $this->send(static::SERVICE_NAME, $apiRequest, 'post', self::ENDPOINT_CREATE, [], $options);
 
-        $this->logResponse([
-            'api_request' => $apiRequest,
-            'response' => $response,
-        ]);
+        $this->logResponse(
+            [
+                'api_request' => $apiRequest,
+                'response' => $response,
+            ]
+        );
 
         return new Transactions\Response($response['token'], $response['url']);
     }
@@ -101,20 +108,32 @@ class Webpay
     {
         $apiRequest = new ApiRequest(static::ACTION_COMMIT);
 
-        $this->log('Committing transaction', [
-            'token' => $token,
-            'api_request' => $apiRequest,
-        ]);
+        $this->log(
+            'Committing transaction',
+            [
+                'token' => $token,
+                'api_request' => $apiRequest,
+            ]
+        );
 
-        $response = $this->send(static::SERVICE_NAME, $apiRequest, 'put', static::ENDPOINT_COMMIT, [
-            '{token}' => $token,
-        ], $options);
+        $response = $this->send(
+            static::SERVICE_NAME,
+            $apiRequest,
+            'put',
+            static::ENDPOINT_COMMIT,
+            [
+                '{token}' => $token,
+            ],
+            $options
+        );
 
-        $this->logResponse([
-            'token' => $token,
-            'api_request' => $apiRequest,
-            'response' => $response,
-        ]);
+        $this->logResponse(
+            [
+                'token' => $token,
+                'api_request' => $apiRequest,
+                'response' => $response,
+            ]
+        );
 
         $this->fireCompleted($apiRequest, $response);
 
@@ -134,20 +153,32 @@ class Webpay
     {
         $apiRequest = new ApiRequest(self::ACTION_STATUS);
 
-        $this->log('Transaction status', [
-            'token' => $token,
-            'api_request' => $apiRequest,
-        ]);
+        $this->log(
+            'Transaction status',
+            [
+                'token' => $token,
+                'api_request' => $apiRequest,
+            ]
+        );
 
-        $response = $this->send(self::SERVICE_NAME, $apiRequest, 'get', self::ENDPOINT_STATUS, [
-            '{token}' => $token,
-        ], $options);
+        $response = $this->send(
+            self::SERVICE_NAME,
+            $apiRequest,
+            'get',
+            self::ENDPOINT_STATUS,
+            [
+                '{token}' => $token,
+            ],
+            $options
+        );
 
-        $this->logResponse([
-            'token' => $token,
-            'api_request' => $apiRequest,
-            'response' => $response,
-        ]);
+        $this->logResponse(
+            [
+                'token' => $token,
+                'api_request' => $apiRequest,
+                'response' => $response,
+            ]
+        );
 
         return new Transactions\Transaction(self::ACTION_STATUS, $response);
     }
@@ -164,26 +195,40 @@ class Webpay
      */
     public function refund(string $token, int|float $amount, array $options = []): Transactions\Transaction
     {
-        $apiRequest = new ApiRequest(static::ACTION_REFUND, [
+        $apiRequest = new ApiRequest(
+            static::ACTION_REFUND, [
             'amount' => $amount,
-        ]);
+        ]
+        );
 
-        $this->log('Refunding transaction', [
-            'token' => $token,
-            'api_request' => $apiRequest,
-        ]);
+        $this->log(
+            'Refunding transaction',
+            [
+                'token' => $token,
+                'api_request' => $apiRequest,
+            ]
+        );
 
         $this->fireStarted($apiRequest);
 
-        $response = $this->send(static::SERVICE_NAME, $apiRequest, 'put', self::ENDPOINT_REFUND, [
-            '{token}' => $token,
-        ], $options);
+        $response = $this->send(
+            static::SERVICE_NAME,
+            $apiRequest,
+            'put',
+            self::ENDPOINT_REFUND,
+            [
+                '{token}' => $token,
+            ],
+            $options
+        );
 
-        $this->logResponse([
-            'token' => $token,
-            'api_request' => $apiRequest,
-            'response' => $response,
-        ]);
+        $this->logResponse(
+            [
+                'token' => $token,
+                'api_request' => $apiRequest,
+                'response' => $response,
+            ]
+        );
 
         $this->fireCompleted($apiRequest, $response);
 
@@ -211,26 +256,40 @@ class Webpay
         int|float $captureAmount,
         array $options = []
     ): Transactions\Transaction {
-        $transaction = new ApiRequest(static::ACTION_CAPTURE, [
+        $transaction = new ApiRequest(
+            static::ACTION_CAPTURE, [
             'buy_order' => $buyOrder,
             'authorization_code' => $authorizationCode,
             'capture_amount' => $captureAmount,
-        ]);
+        ]
+        );
 
-        $this->log('Capturing transaction', [
-            'token' => $token,
-            'transaction' => $transaction,
-        ]);
+        $this->log(
+            'Capturing transaction',
+            [
+                'token' => $token,
+                'transaction' => $transaction,
+            ]
+        );
 
-        $response = $this->send(static::SERVICE_NAME, $transaction, 'put', self::ENDPOINT_CAPTURE, [
-            '{token}' => $token,
-        ], $options);
+        $response = $this->send(
+            static::SERVICE_NAME,
+            $transaction,
+            'put',
+            self::ENDPOINT_CAPTURE,
+            [
+                '{token}' => $token,
+            ],
+            $options
+        );
 
-        $this->logResponse([
-            'token' => $token,
-            'transaction' => $transaction,
-            'response' => $response,
-        ]);
+        $this->logResponse(
+            [
+                'token' => $token,
+                'transaction' => $transaction,
+                'response' => $response,
+            ]
+        );
 
         $this->fireCompleted($transaction, $response);
 

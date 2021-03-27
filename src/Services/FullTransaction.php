@@ -29,10 +29,12 @@ class FullTransaction
         string|DateTime $expiration,
         array $options = []
     ) {
-        $apiRequest = new ApiRequest(static::ACTION_CREATE, [
+        $apiRequest = new ApiRequest(
+            static::ACTION_CREATE, [
             'buy_order' => $buyOrder,
 
-        ]);
+        ]
+        );
     }
 
     public function installments(string $token, int $installments, array $options = [])

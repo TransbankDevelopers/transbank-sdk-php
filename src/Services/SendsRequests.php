@@ -49,8 +49,13 @@ trait SendsRequests
      */
     protected function buildEndpoint(string $endpoint, array $replace = []): string
     {
-        return str_replace(array_keys($replace), $replace, $this->transbank->isProduction()
-            ? Connector::PRODUCTION_ENDPOINT . $endpoint
-            : Connector::INTEGRATION_ENDPOINT . $endpoint, $replace);
+        return str_replace(
+            array_keys($replace),
+            $replace,
+            $this->transbank->isProduction()
+                ? Connector::PRODUCTION_ENDPOINT . $endpoint
+                : Connector::INTEGRATION_ENDPOINT . $endpoint,
+            $replace
+        );
     }
 }

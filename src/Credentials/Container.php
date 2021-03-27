@@ -73,20 +73,6 @@ class Container
     }
 
     /**
-     * Returns the credentials for a given service.
-     *
-     * @param  string  $service
-     *
-     * @return \Transbank\Sdk\Credentials\Credentials
-     */
-    public function getCredentials(string $service): Credentials
-    {
-        $this->throwWhenCredentialsDoesNotExists($service);
-
-        return $this->{$service};
-    }
-
-    /**
      * Checks that credentials for a service name exists.
      *
      * @param  string  $service
@@ -98,5 +84,19 @@ class Container
         if (!property_exists($this, $service)) {
             throw new LogicException("The Transbank service [$service] doesn't exist for these credentials.");
         }
+    }
+
+    /**
+     * Returns the credentials for a given service.
+     *
+     * @param  string  $service
+     *
+     * @return \Transbank\Sdk\Credentials\Credentials
+     */
+    public function getCredentials(string $service): Credentials
+    {
+        $this->throwWhenCredentialsDoesNotExists($service);
+
+        return $this->{$service};
     }
 }

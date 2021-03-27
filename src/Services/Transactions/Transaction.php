@@ -38,6 +38,26 @@ class Transaction implements ArrayAccess, JsonSerializable
     }
 
     /**
+     * Creates a new Transaction with a detail array.
+     *
+     * @param  string  $serviceAction
+     * @param  array  $response
+     *
+     * @return static
+     */
+    public static function createWithDetails(string $serviceAction, array $response): static
+    {
+        // If the response contains details, add them as a class.
+        if (isset($response['details']) && is_array($response['details'])) {
+            foreach ($response['details'] as $index => $detail) {
+                $response['details'][$index] = new Detail($detail);
+            }
+        }
+
+        return new static($serviceAction, $response);
+    }
+
+    /**
      * Checks if the transaction was successful.
      *
      * @return bool
@@ -76,25 +96,5 @@ class Transaction implements ArrayAccess, JsonSerializable
     public function getCreditCardNumber(): null|int
     {
         return $this->data['card_detail']['card_number'] ?? null;
-    }
-
-    /**
-     * Creates a new Transaction with a detail array.
-     *
-     * @param  string  $serviceAction
-     * @param  array  $response
-     *
-     * @return static
-     */
-    public static function createWithDetails(string $serviceAction, array $response): static
-    {
-        // If the response contains details, add them as a class.
-        if (isset($response['details']) && is_array($response['details'])) {
-            foreach ($response['details'] as $index => $detail) {
-                $response['details'][$index] = new Detail($detail);
-            }
-        }
-
-        return new static($serviceAction, $response);
     }
 }

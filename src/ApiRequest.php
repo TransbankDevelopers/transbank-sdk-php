@@ -20,16 +20,6 @@ class ApiRequest implements JsonSerializable, ArrayAccess
     }
 
     /**
-     * Specify data which should be serialized to JSON.
-     *
-     * @return mixed
-     */
-    public function jsonSerialize(): array
-    {
-        return $this->attributes;
-    }
-
-    /**
      * Returns a JSON representation of the transaction.
      *
      * @return string
@@ -37,6 +27,16 @@ class ApiRequest implements JsonSerializable, ArrayAccess
     public function toJson(): string
     {
         return json_encode($this->jsonSerialize(), JSON_ERROR_NONE);
+    }
+
+    /**
+     * Specify data which should be serialized to JSON.
+     *
+     * @return mixed
+     */
+    public function jsonSerialize(): array
+    {
+        return $this->attributes;
     }
 
     /**
