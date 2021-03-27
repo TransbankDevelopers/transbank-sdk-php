@@ -56,7 +56,8 @@ class OneclickMall
         array $options = []
     ): Transactions\Response {
         $apiRequest = new ApiRequest(
-            static::ACTION_START, [
+            static::ACTION_START,
+            [
             'username' => $username,
             'email' => $email,
             'response_url' => $responseUrl,
@@ -121,7 +122,8 @@ class OneclickMall
     public function delete(string $tbkUser, string $username, array $options = []): void
     {
         $apiRequest = new ApiRequest(
-            static::ACTION_DELETE, [
+            static::ACTION_DELETE,
+            [
             'tbk_user' => $tbkUser,
             'username' => $username,
         ]
@@ -154,7 +156,8 @@ class OneclickMall
         array $options = []
     ): Transactions\Transaction {
         $apiRequest = new ApiRequest(
-            static::ACTION_AUTHORIZE, [
+            static::ACTION_AUTHORIZE,
+            [
             'tbk_user' => $tbkUser,
             'username' => $username,
             'buy_order' => $username,
@@ -224,7 +227,8 @@ class OneclickMall
         array $options = []
     ): Transactions\Transaction {
         $apiRequest = new ApiRequest(
-            static::ACTION_REFUND, [
+            static::ACTION_REFUND,
+            [
             'commerce_code' => $childCommerceCode,
             'detail_buy_order' => $childBuyOrder,
             'amount' => $amount,
@@ -271,7 +275,8 @@ class OneclickMall
         array $options = []
     ): Transactions\Transaction {
         $apiRequest = new ApiRequest(
-            static::ACTION_CAPTURE, [
+            static::ACTION_CAPTURE,
+            [
             'commerce_code' => $commerceCode,
             'buy_order' => $buyOrder,
             'authorization_code' => $authorizationCode,

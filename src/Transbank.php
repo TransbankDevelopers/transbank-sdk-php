@@ -220,7 +220,8 @@ class Transbank
     public function webpayMall(): Services\WebpayMall
     {
         return $this->webpayMall ??= new Services\WebpayMall(
-            $this, $this->credentials->webpayMall ??= new Credentials()
+            $this,
+            $this->credentials->webpayMall ??= new Credentials()
         );
     }
 }

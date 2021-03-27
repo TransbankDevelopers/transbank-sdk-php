@@ -140,7 +140,8 @@ class FullTransaction
         array $options = []
     ): Transactions\Transaction {
         $apiRequest = new ApiRequest(
-            static::ACTION_COMMIT, [
+            static::ACTION_COMMIT,
+            [
             'id_query_installments' => $idQueryInstallments,
             'deferred_period_index' => $deferredPeriodIndex,
             'grace_period' => $gracePeriod,

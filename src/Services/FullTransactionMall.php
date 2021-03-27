@@ -274,4 +274,3 @@ class FullTransactionMall
         return new Transactions\Transaction(static::ACTION_CAPTURE, $response);
     }
 }
-
