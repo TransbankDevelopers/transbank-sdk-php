@@ -4,6 +4,8 @@ namespace Transbank\Sdk\Services;
 
 use DateTime;
 use Transbank\Sdk\ApiRequest;
+use Transbank\Sdk\Credentials\Credentials;
+use Transbank\Sdk\Transbank;
 
 class FullTransaction
 {
@@ -20,50 +22,261 @@ class FullTransaction
     protected const ACTION_REFUND = self::SERVICE_NAME . '.refund';
     protected const ACTION_CAPTURE = self::SERVICE_NAME . '.capture';
 
+    // Endpoints for the transactions.
+    public const ENDPOINT_CREATE = Webpay::ENDPOINT_CREATE;
+    public const ENDPOINT_COMMIT = Webpay::ENDPOINT_COMMIT;
+    public const ENDPOINT_REFUND = Webpay::ENDPOINT_REFUND;
+    public const ENDPOINT_STATUS = Webpay::ENDPOINT_STATUS;
+    public const ENDPOINT_CAPTURE = Webpay::ENDPOINT_CAPTURE;
+    public const ENDPOINT_INSTALLMENTS = self::ENDPOINT_STATUS . '/installments';
+
+    /**
+     * Webpay constructor.
+     *
+     * @param  \Transbank\Sdk\Transbank  $transbank
+     * @param  \Transbank\Sdk\Credentials\Credentials  $credentials
+     */
+    public function __construct(
+        protected Transbank $transbank,
+        protected Credentials $credentials,
+    ) {
+    }
+
+    /**
+     * Creates a new transaction.
+     *
+     * @param  string  $buyOrder
+     * @param  string  $sessionId
+     * @param  int|float  $amount
+     * @param  int  $ccv
+     * @param  int|string  $cardNumber
+     * @param  string|\DateTime  $expiration
+     * @param  array  $options
+     *
+     * @return \Transbank\Sdk\Services\Transactions\Response
+     * @throws \Transbank\Sdk\Exceptions\TransbankException
+     */
     public function create(
         string $buyOrder,
         string $sessionId,
         int|float $amount,
-        int|string $ccv,
+        int $ccv,
         int|string $cardNumber,
         string|DateTime $expiration,
         array $options = []
-    ) {
+    ): Transactions\Response {
+        if ($expiration instanceof DateTime) {
+            $expiration = $expiration->format('y/m');
+        }
+
         $apiRequest = new ApiRequest(
-            static::ACTION_CREATE, [
-            'buy_order' => $buyOrder,
-
-        ]
+            static::ACTION_CREATE,
+            [
+                'buy_order' => $buyOrder,
+                'session_id' => $sessionId,
+                'amount' => $amount,
+                'ccv' => $ccv,
+                'card_number' => $cardNumber,
+                'card_expiration_date' => $expiration,
+            ]
         );
+
+        $this->log('Creating transaction', ['api_request' => $apiRequest]);
+
+        $this->fireStarted($apiRequest);
+
+        $response = $this->send(static::SERVICE_NAME, $apiRequest, 'post', self::ENDPOINT_CREATE, [], $options);
+
+        $this->logResponse(['api_request' => $apiRequest, 'response' => $response]);
+
+        return new Transactions\Response($response['token'], $response['url']);
     }
 
-    public function installments(string $token, int $installments, array $options = [])
+    /**
+     * Returns the installments for a given transaction.
+     *
+     * @param  string  $token
+     * @param  int  $installments
+     * @param  array  $options
+     *
+     * @return \Transbank\Sdk\Services\Transactions\Transaction
+     * @throws \Transbank\Sdk\Exceptions\TransbankException
+     */
+    public function installments(string $token, int $installments, array $options = []): Transactions\Transaction
     {
+        $apiRequest = new ApiRequest(
+            static::ACTION_INSTALLMENTS,
+            [
+                'installments_number' => $installments,
+            ]
+        );
+
+        $this->log('Retrieving installments', ['token' => $token, 'api_request' => $apiRequest]);
+
+        $response = $this->send(static::SERVICE_NAME, $apiRequest, 'post', self::ENDPOINT_INSTALLMENTS, [], $options);
+
+        $this->logResponse(['token' => $token, 'api_request' => $apiRequest, 'response' => $response]);
+
+        return new Transactions\Transaction(static::ACTION_INSTALLMENTS, $response);
     }
 
+    /**
+     * Commits a transaction.
+     *
+     * @param  string  $token
+     * @param  int  $idQueryInstallments
+     * @param  int  $deferredPeriodIndex
+     * @param  bool  $gracePeriod
+     * @param  array  $options
+     *
+     * @return \Transbank\Sdk\Services\Transactions\Transaction
+     * @throws \Transbank\Sdk\Exceptions\TransbankException
+     */
     public function commit(
         string $token,
-        int $queryInstallmentId,
+        int $idQueryInstallments,
         int $deferredPeriodIndex,
         bool $gracePeriod,
         array $options = []
-    ) {
+    ): Transactions\Transaction {
+        $apiRequest = new ApiRequest(
+            static::ACTION_COMMIT, [
+            'id_query_installments' => $idQueryInstallments,
+            'deferred_period_index' => $deferredPeriodIndex,
+            'grace_period' => $gracePeriod,
+        ]
+        );
+
+        $this->log('Committing transaction', ['token' => $token, 'api_request' => $apiRequest]);
+
+        $response = $this->send(
+            static::SERVICE_NAME,
+            $apiRequest,
+            'post',
+            self::ENDPOINT_COMMIT,
+            ['{token}' => $token],
+            $options
+        );
+
+        $this->logResponse(['token' => $token, 'api_request' => $apiRequest, 'response' => $response]);
+
+        $this->fireCompleted($apiRequest, $response);
+
+        return new Transactions\Transaction(static::ACTION_COMMIT, $response);
     }
 
-    public function status(string $token, array $options = [])
+    /**
+     * Returns the status of a transaction.
+     *
+     * @param  string  $token
+     * @param  array  $options
+     *
+     * @return \Transbank\Sdk\Services\Transactions\Transaction
+     * @throws \Transbank\Sdk\Exceptions\TransbankException
+     */
+    public function status(string $token, array $options = []): Transactions\Transaction
     {
+        $apiRequest = new ApiRequest(static::ACTION_STATUS);
+
+        $this->log('Getting transaction', ['token' => $token, 'api_request' => $apiRequest]);
+
+        $response = $this->send(
+            static::SERVICE_NAME,
+            $apiRequest,
+            'get',
+            self::ENDPOINT_STATUS,
+            ['{token}' => $token],
+            $options
+        );
+
+        $this->logResponse(['token' => $token, 'api_request' => $apiRequest, 'response' => $response]);
+
+        return new Transactions\Transaction(static::ACTION_COMMIT, $response);
     }
 
-    public function refund(string $token, int|float $amount, array $options = [])
+    /**
+     * Refunds a transaction partially or completely.
+     *
+     * @param  string  $token
+     * @param  int|float  $amount
+     * @param  array  $options
+     *
+     * @return \Transbank\Sdk\Services\Transactions\Transaction
+     * @throws \Transbank\Sdk\Exceptions\TransbankException
+     */
+    public function refund(string $token, int|float $amount, array $options = []): Transactions\Transaction
     {
+        $apiRequest = new ApiRequest(static::ACTION_REFUND, ['amount' => $amount]);
+
+        $this->log('Refunding transaction', ['token' => $token, 'api_request' => $apiRequest]);
+
+        $this->fireStarted($apiRequest);
+
+        $response = $this->send(
+            static::SERVICE_NAME,
+            $apiRequest,
+            'post',
+            self::ENDPOINT_REFUND,
+            ['{token}' => $token],
+            $options
+        );
+
+        $this->logResponse(['token' => $token, 'api_request' => $apiRequest, 'response' => $response]);
+
+        $this->fireCompleted($apiRequest, $response);
+
+        return new Transactions\Transaction(static::ACTION_REFUND, $response);
     }
 
+
+    /**
+     * Captures a transaction.
+     *
+     * @param  string  $token
+     * @param  string  $buyOrder
+     * @param  int  $authorizationCode
+     * @param  int|float  $captureAmount
+     * @param  array  $options
+     *
+     * @return \Transbank\Sdk\Services\Transactions\Transaction
+     * @throws \Transbank\Sdk\Exceptions\TransbankException
+     */
     public function capture(
         string $token,
         string $buyOrder,
         int $authorizationCode,
         int|float $captureAmount,
         array $options = []
-    ) {
+    ): Transactions\Transaction {
+        $apiRequest = new ApiRequest(
+            static::ACTION_REFUND,
+            [
+                'buy_order' => $buyOrder,
+                'authorization_code' => $authorizationCode,
+                'capture_amount' => $captureAmount,
+            ]
+        );
+
+        $this->log('Capturing transaction', ['token' => $token, 'api_request' => $apiRequest]);
+
+        // If we are on integration, we need to override the credentials.
+        $serviceName = $this->transbank->isIntegration() ? static::ACTION_CAPTURE : static::SERVICE_NAME;
+
+        $response = $this->send(
+            $serviceName,
+            $apiRequest,
+            'put',
+            static::ENDPOINT_CAPTURE,
+            [
+                '{token}' => $token
+            ],
+            $options
+        );
+
+        $this->logResponse(['token' => $token, 'api_request' => $apiRequest, 'response' => $response]);
+
+        $this->fireCompleted($apiRequest, $response);
+
+        return new Transactions\Transaction(static::ACTION_CAPTURE, $response);
     }
 }
