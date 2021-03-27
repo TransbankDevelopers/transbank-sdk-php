@@ -11,21 +11,21 @@ trait FiresEvents
     /**
      * Fires a ApiRequest Started event.
      *
-     * @param  \Transbank\Sdk\ApiRequest  $transaction
+     * @param  \Transbank\Sdk\ApiRequest  $apiRequest
      */
-    protected function fireStarted(ApiRequest $transaction): void
+    protected function fireStarted(ApiRequest $apiRequest): void
     {
-        $this->transbank->event->dispatch(new TransactionCreating($transaction));
+        $this->transbank->event->dispatch(new TransactionCreating($apiRequest));
     }
 
     /**
      * Fires a ApiRequest Completed event.
      *
-     * @param  \Transbank\Sdk\ApiRequest  $transaction
+     * @param  \Transbank\Sdk\ApiRequest  $apiRequest
      * @param  array  $response
      */
-    protected function fireCompleted(ApiRequest $transaction, array $response): void
+    protected function fireCompleted(ApiRequest $apiRequest, array $response): void
     {
-        $this->transbank->event->dispatch(new TransactionCompleted($transaction, $response));
+        $this->transbank->event->dispatch(new TransactionCompleted($apiRequest, $response));
     }
 }
