@@ -1,0 +1,8 @@
+version: 8
+preset: laravel
+tab-width: 4
+use-tabs: false
+
+finder:
+  exclude:
+    - "tests"
