@@ -63,23 +63,13 @@ class OneclickMall
         ]
         );
 
-        $this->log(
-            'Creating subscription',
-            [
-                'api_request' => $apiRequest,
-            ]
-        );
+        $this->log('Creating subscription', ['api_request' => $apiRequest,]);
 
         $this->fireStarted($apiRequest);
 
         $response = $this->send(self::SERVICE_NAME, $apiRequest, 'post', static::ENDPOINT_START, [], $options);
 
-        $this->logResponse(
-            [
-                'api_request' => $apiRequest,
-                'response' => $response,
-            ]
-        );
+        $this->logResponse(['api_request' => $apiRequest, 'response' => $response]);
 
         return new Transactions\Response($response['token'], $response['url']);
     }
@@ -97,32 +87,18 @@ class OneclickMall
     {
         $apiRequest = new ApiRequest(static::ACTION_START);
 
-        $this->log(
-            'Finishing subscription process',
-            [
-                'token' => $token,
-                'api_request' => $apiRequest,
-            ]
-        );
+        $this->log('Finishing subscription process', ['token' => $token, 'api_request' => $apiRequest,]);
 
         $response = $this->send(
             static::SERVICE_NAME,
             $apiRequest,
             'put',
             static::ENDPOINT_FINISH,
-            [
-                '{token}' => $token,
-            ],
+            ['{token}' => $token],
             $options
         );
 
-        $this->logResponse(
-            [
-                'token' => $token,
-                'api_request' => $apiRequest,
-                'response' => $response,
-            ]
-        );
+        $this->logResponse(['token' => $token, 'api_request' => $apiRequest, 'response' => $response]);
 
         $this->fireCompleted($apiRequest, $response);
 
@@ -151,21 +127,11 @@ class OneclickMall
         ]
         );
 
-        $this->log(
-            'Deleting subscription',
-            [
-                'api_request' => $apiRequest,
-            ]
-        );
+        $this->log('Deleting subscription', ['api_request' => $apiRequest,]);
 
         $response = $this->send(static::SERVICE_NAME, $apiRequest, 'delete', static::ENDPOINT_DELETE, [], $options);
 
-        $this->logResponse(
-            [
-                'api_request' => $apiRequest,
-                'response' => $response,
-            ]
-        );
+        $this->logResponse(['api_request' => $apiRequest, 'response' => $response]);
     }
 
     /**
@@ -196,23 +162,13 @@ class OneclickMall
         ]
         );
 
-        $this->log(
-            'Authorizing transaction',
-            [
-                'api_request' => $apiRequest,
-            ]
-        );
+        $this->log('Authorizing transaction', ['api_request' => $apiRequest,]);
 
         $this->fireStarted($apiRequest);
 
         $response = $this->send(static::SERVICE_NAME, $apiRequest, 'post', static::ENDPOINT_AUTHORIZE, [], $options);
 
-        $this->logResponse(
-            [
-                'api_request' => $apiRequest,
-                'response' => $response,
-            ]
-        );
+        $this->logResponse(['api_request' => $apiRequest, 'response' => $response]);
 
         $this->fireCompleted($apiRequest, $response);
 
@@ -232,31 +188,18 @@ class OneclickMall
     {
         $apiRequest = new ApiRequest(static::ACTION_STATUS);
 
-        $this->log(
-            'Authorizing transaction',
-            [
-                'buy_order' => $buyOrder,
-                'api_request' => $apiRequest,
-            ]
-        );
+        $this->log('Authorizing transaction', ['buy_order' => $buyOrder, 'api_request' => $apiRequest,]);
 
         $response = $this->send(
             static::SERVICE_NAME,
             $apiRequest,
             'get',
             static::ENDPOINT_STATUS,
-            [
-                '{buyOrder}' => $buyOrder,
-            ],
+            ['{buyOrder}' => $buyOrder],
             $options
         );
 
-        $this->logResponse(
-            [
-                'api_request' => $apiRequest,
-                'response' => $response,
-            ]
-        );
+        $this->logResponse(['api_request' => $apiRequest, 'response' => $response]);
 
         return Transactions\Transaction::createWithDetails(static::ACTION_AUTHORIZE, $response);
     }
@@ -288,13 +231,7 @@ class OneclickMall
         ]
         );
 
-        $this->log(
-            'Refunding transaction',
-            [
-                'buy_order' => $buyOrder,
-                'api_request' => $apiRequest,
-            ]
-        );
+        $this->log('Refunding transaction', ['buy_order' => $buyOrder, 'api_request' => $apiRequest,]);
 
         $this->fireStarted($apiRequest);
 
@@ -303,19 +240,11 @@ class OneclickMall
             $apiRequest,
             'post',
             static::ENDPOINT_REFUND,
-            [
-                '{buyOrder}' => $buyOrder,
-            ],
+            ['{buyOrder}' => $buyOrder],
             $options
         );
 
-        $this->logResponse(
-            [
-                'buy_order' => $buyOrder,
-                'api_request' => $apiRequest,
-                'response' => $response,
-            ]
-        );
+        $this->logResponse(['buy_order' => $buyOrder, 'api_request' => $apiRequest, 'response' => $response]);
 
         $this->fireCompleted($apiRequest, $response);
 
@@ -350,24 +279,14 @@ class OneclickMall
         ]
         );
 
-        $this->log(
-            'Capturing transaction',
-            [
-                'api_request' => $apiRequest,
-            ]
-        );
+        $this->log('Capturing transaction', ['api_request' => $apiRequest,]);
 
         // If we are on integration, we need to override the credentials.
         $serviceName = $this->transbank->isIntegration() ? static::ACTION_CAPTURE : static::SERVICE_NAME;
 
         $response = $this->send($serviceName, $apiRequest, 'put', static::ENDPOINT_CAPTURE, [], $options);
 
-        $this->logResponse(
-            [
-                'api_request' => $apiRequest,
-                'response' => $response,
-            ]
-        );
+        $this->logResponse(['api_request' => $apiRequest, 'response' => $response]);
 
         $this->fireCompleted($apiRequest, $response);
 

@@ -58,12 +58,13 @@ class WebpayMall
         array $options = []
     ): Transactions\Transaction {
         $apiRequest = new ApiRequest(
-            static::ACTION_CREATE, [
-            'buy_order' => $buyOrder,
-            'session_id' => $sessionId,
-            'return_url' => $returnUrl,
-            'details' => $transactionDetails,
-        ]
+            static::ACTION_CREATE,
+            [
+                'buy_order' => $buyOrder,
+                'session_id' => $sessionId,
+                'return_url' => $returnUrl,
+                'details' => $transactionDetails,
+            ]
         );
 
         $this->log(
@@ -198,20 +199,15 @@ class WebpayMall
         array $options = []
     ): Transactions\Transaction {
         $apiRequest = new ApiRequest(
-            static::ACTION_REFUND, [
-            'commerce_code' => $commerceCode,
-            'buy_order' => $buyOrder,
-            'amount' => $amount,
-        ]
-        );
-
-        $this->log(
-            'Refunding transaction',
+            static::ACTION_REFUND,
             [
-                'token' => $token,
-                'api_request' => $apiRequest,
+                'commerce_code' => $commerceCode,
+                'buy_order' => $buyOrder,
+                'amount' => $amount,
             ]
         );
+
+        $this->log('Refunding transaction', ['token' => $token, 'api_request' => $apiRequest,]);
 
         $this->fireStarted($apiRequest);
 
@@ -220,19 +216,11 @@ class WebpayMall
             $apiRequest,
             'post',
             Webpay::ENDPOINT_REFUND,
-            [
-                '{token}' => $token,
-            ],
+            ['{token}' => $token],
             $options
         );
 
-        $this->logResponse(
-            [
-                'token' => $token,
-                'api_request' => $apiRequest,
-                'response' => $response,
-            ]
-        );
+        $this->logResponse(['token' => $token, 'api_request' => $apiRequest, 'response' => $response]);
 
         $this->fireCompleted($apiRequest, $response);
 
@@ -261,21 +249,16 @@ class WebpayMall
         array $options = []
     ): Transactions\Transaction {
         $apiRequest = new ApiRequest(
-            static::ACTION_CAPTURE, [
-            'commerce_code' => $commerceCode,
-            'buy_order' => $buyOrder,
-            'authorization_code' => $authorizationCode,
-            'capture_amount' => $captureAmount,
-        ]
-        );
-
-        $this->log(
-            'Capturing transaction',
+            static::ACTION_CAPTURE,
             [
-                'token' => $token,
-                'api_request' => $apiRequest,
+                'commerce_code' => $commerceCode,
+                'buy_order' => $buyOrder,
+                'authorization_code' => $authorizationCode,
+                'capture_amount' => $captureAmount,
             ]
         );
+
+        $this->log('Capturing transaction', ['token' => $token, 'api_request' => $apiRequest,]);
 
         // If we are on integration, we need to override the credentials.
         $serviceName = $this->transbank->isIntegration() ? static::ACTION_CAPTURE : static::SERVICE_NAME;
@@ -285,19 +268,11 @@ class WebpayMall
             $apiRequest,
             'put',
             Webpay::ENDPOINT_CAPTURE,
-            [
-                '{token}' => $token,
-            ],
+            ['{token}' => $token],
             $options
         );
 
-        $this->logResponse(
-            [
-                'token' => $token,
-                'api_request' => $apiRequest,
-                'response' => $response,
-            ]
-        );
+        $this->logResponse(['token' => $token, 'api_request' => $apiRequest, 'response' => $response]);
 
         $this->fireCompleted($apiRequest, $response);
 
