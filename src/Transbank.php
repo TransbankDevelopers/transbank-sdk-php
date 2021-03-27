@@ -3,7 +3,6 @@
 namespace Transbank\Sdk;
 
 use Closure;
-use GuzzleHttp\Client;
 use LogicException;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -11,7 +10,6 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use ReflectionFunction;
 use RuntimeException;
-use Symfony\Component\HttpClient\Psr18Client;
 use Transbank\Sdk\Credentials\Container;
 use Transbank\Sdk\Credentials\Credentials;
 use Transbank\Sdk\Events\NullDispatcher;
@@ -85,18 +83,21 @@ class Transbank
      */
     public static function make(): static
     {
+        // Get one of the two clients HTTP Clients and try to use them if they're installed.
         $client = match (true) {
-            class_exists(Client::class) => new Client,
-            class_exists(Psr18Client::class) => new Psr18Client,
+            class_exists(\GuzzleHttp\Client::class) => new \GuzzleHttp\Client,
+            class_exists(\Symfony\Component\HttpClient\Psr18Client::class) => new \Symfony\Component\HttpClient\Psr18Client,
             default => throw new RuntimeException(
                 'The "guzzlehttp/guzzle" or "symfony/http-client" libraries are not present. Install one or use your own PSR-18 HTTP Client.'
             ),
         };
 
-        $container = new Container;
-        $factory = new Psr17Factory;
-
-        return new static($container, new NullLogger, new NullDispatcher, new Connector($client, $factory, $factory));
+        return new static(
+            new Container,
+            new NullLogger,
+            new NullDispatcher,
+            new Connector($client, $factory = new Psr17Factory, $factory)
+        );
     }
 
     /**
