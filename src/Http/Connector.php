@@ -153,7 +153,6 @@ class Connector
      * @param  array  $options
      *
      * @return \Psr\Http\Message\ServerRequestInterface
-     * @throws \JsonException
      * @noinspection CallableParameterUseCaseInTypeContextInspection
      */
     protected function prepareRequest(
@@ -226,6 +225,15 @@ class Connector
         return $contents['error_message'] ?? $response->getBody()->getContents();
     }
 
+    /**
+     * Parses the JSON from the response, or bails if is malformed.
+     *
+     * @param  \Transbank\Sdk\ApiRequest  $apiRequest
+     * @param  \Psr\Http\Message\ServerRequestInterface  $request
+     * @param  \Psr\Http\Message\ResponseInterface  $response
+     *
+     * @return array
+     */
     protected function decodeJsonFromContents(
         ApiRequest $apiRequest,
         ServerRequestInterface $request,
