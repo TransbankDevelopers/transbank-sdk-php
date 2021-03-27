@@ -142,10 +142,10 @@ class FullTransaction
         $apiRequest = new ApiRequest(
             static::ACTION_COMMIT,
             [
-            'id_query_installments' => $idQueryInstallments,
-            'deferred_period_index' => $deferredPeriodIndex,
-            'grace_period' => $gracePeriod,
-        ]
+                'id_query_installments' => $idQueryInstallments,
+                'deferred_period_index' => $deferredPeriodIndex,
+                'grace_period' => $gracePeriod,
+            ]
         );
 
         $this->log('Committing transaction', ['token' => $token, 'api_request' => $apiRequest]);

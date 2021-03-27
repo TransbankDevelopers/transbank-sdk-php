@@ -58,10 +58,10 @@ class OneclickMall
         $apiRequest = new ApiRequest(
             static::ACTION_START,
             [
-            'username' => $username,
-            'email' => $email,
-            'response_url' => $responseUrl,
-        ]
+                'username' => $username,
+                'email' => $email,
+                'response_url' => $responseUrl,
+            ]
         );
 
         $this->log('Creating subscription', ['api_request' => $apiRequest,]);
@@ -124,9 +124,9 @@ class OneclickMall
         $apiRequest = new ApiRequest(
             static::ACTION_DELETE,
             [
-            'tbk_user' => $tbkUser,
-            'username' => $username,
-        ]
+                'tbk_user' => $tbkUser,
+                'username' => $username,
+            ]
         );
 
         $this->log('Deleting subscription', ['api_request' => $apiRequest,]);
@@ -158,11 +158,11 @@ class OneclickMall
         $apiRequest = new ApiRequest(
             static::ACTION_AUTHORIZE,
             [
-            'tbk_user' => $tbkUser,
-            'username' => $username,
-            'buy_order' => $username,
-            'details' => $details,
-        ]
+                'tbk_user' => $tbkUser,
+                'username' => $username,
+                'buy_order' => $username,
+                'details' => $details,
+            ]
         );
 
         $this->log('Authorizing transaction', ['api_request' => $apiRequest,]);
@@ -229,10 +229,10 @@ class OneclickMall
         $apiRequest = new ApiRequest(
             static::ACTION_REFUND,
             [
-            'commerce_code' => $childCommerceCode,
-            'detail_buy_order' => $childBuyOrder,
-            'amount' => $amount,
-        ]
+                'commerce_code' => $childCommerceCode,
+                'detail_buy_order' => $childBuyOrder,
+                'amount' => $amount,
+            ]
         );
 
         $this->log('Refunding transaction', ['buy_order' => $buyOrder, 'api_request' => $apiRequest,]);
@@ -277,11 +277,11 @@ class OneclickMall
         $apiRequest = new ApiRequest(
             static::ACTION_CAPTURE,
             [
-            'commerce_code' => $commerceCode,
-            'buy_order' => $buyOrder,
-            'authorization_code' => $authorizationCode,
-            'amount' => $amount,
-        ]
+                'commerce_code' => $commerceCode,
+                'buy_order' => $buyOrder,
+                'authorization_code' => $authorizationCode,
+                'amount' => $amount,
+            ]
         );
 
         $this->log('Capturing transaction', ['api_request' => $apiRequest,]);
