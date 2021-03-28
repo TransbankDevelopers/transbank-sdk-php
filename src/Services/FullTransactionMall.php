@@ -4,6 +4,8 @@ namespace Transbank\Sdk\Services;
 
 use DateTime;
 use Transbank\Sdk\ApiRequest;
+use Transbank\Sdk\Credentials\Container;
+use Transbank\Sdk\Transbank;
 
 class FullTransactionMall
 {
@@ -27,6 +29,18 @@ class FullTransactionMall
     public const ENDPOINT_STATUS = Webpay::ENDPOINT_STATUS;
     public const ENDPOINT_CAPTURE = Webpay::ENDPOINT_CAPTURE;
     public const ENDPOINT_INSTALLMENTS = self::ENDPOINT_STATUS . '/installments';
+
+    /**
+     * Full Transaction Mall constructor.
+     *
+     * @param  \Transbank\Sdk\Transbank  $transbank
+     * @param  \Transbank\Sdk\Credentials\Container  $container
+     */
+    public function __construct(
+        protected Transbank $transbank,
+        protected Container $container
+    ) {
+    }
 
     /**
      * Creates a new transaction.

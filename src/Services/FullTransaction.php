@@ -4,7 +4,7 @@ namespace Transbank\Sdk\Services;
 
 use DateTime;
 use Transbank\Sdk\ApiRequest;
-use Transbank\Sdk\Credentials\Credentials;
+use Transbank\Sdk\Credentials\Container;
 use Transbank\Sdk\Transbank;
 
 class FullTransaction
@@ -31,14 +31,14 @@ class FullTransaction
     public const ENDPOINT_INSTALLMENTS = self::ENDPOINT_STATUS . '/installments';
 
     /**
-     * Webpay constructor.
+     * Full Transaction constructor.
      *
      * @param  \Transbank\Sdk\Transbank  $transbank
-     * @param  \Transbank\Sdk\Credentials\Credentials  $credentials
+     * @param  \Transbank\Sdk\Credentials\Container  $container
      */
     public function __construct(
         protected Transbank $transbank,
-        protected Credentials $credentials,
+        protected Container $container,
     ) {
     }
 
@@ -228,7 +228,6 @@ class FullTransaction
 
         return new Transactions\Transaction(static::ACTION_REFUND, $response);
     }
-
 
     /**
      * Captures a transaction.

@@ -21,7 +21,7 @@ trait HandlesCredentials
     protected function getEnvironmentCredentials(string $overrideServiceName): Credentials
     {
         if ($this->transbank->isProduction()) {
-            return $this->credentials;
+            return $this->container->getProductionCredentials(static::SERVICE_NAME);
         }
 
         // If we're running on integration, there is no harm on creating new credentials for each request.

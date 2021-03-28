@@ -3,7 +3,7 @@
 namespace Transbank\Sdk\Services;
 
 use Transbank\Sdk\ApiRequest;
-use Transbank\Sdk\Credentials\Credentials;
+use Transbank\Sdk\Credentials\Container;
 use Transbank\Sdk\Transbank;
 
 class Webpay
@@ -38,11 +38,11 @@ class Webpay
      * Webpay constructor.
      *
      * @param  \Transbank\Sdk\Transbank  $transbank
-     * @param  \Transbank\Sdk\Credentials\Credentials  $credentials
+     * @param  \Transbank\Sdk\Credentials\Container  $container
      */
     public function __construct(
         protected Transbank $transbank,
-        protected Credentials $credentials,
+        protected Container $container,
     ) {
     }
 
