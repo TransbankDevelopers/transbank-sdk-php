@@ -11,7 +11,6 @@ use Psr\Log\NullLogger;
 use ReflectionFunction;
 use RuntimeException;
 use Transbank\Sdk\Credentials\Container;
-use Transbank\Sdk\Credentials\Credentials;
 use Transbank\Sdk\Events\NullDispatcher;
 use Transbank\Sdk\Http\Connector;
 
@@ -214,7 +213,7 @@ class Transbank
      */
     public function webpay(): Services\Webpay
     {
-        return $this->webpay ??= new Services\Webpay($this, $this->credentials->webpay ??= new Credentials());
+        return $this->webpay ??= new Services\Webpay($this, $this->credentials);
     }
 
     /**
@@ -224,9 +223,16 @@ class Transbank
      */
     public function webpayMall(): Services\WebpayMall
     {
-        return $this->webpayMall ??= new Services\WebpayMall(
-            $this,
-            $this->credentials->webpayMall ??= new Credentials()
-        );
+        return $this->webpayMall ??= new Services\WebpayMall($this, $this->credentials);
+    }
+
+    /**
+     * Returns the Oneclick Mall service.
+     *
+     * @return \Transbank\Sdk\Services\OneclickMall
+     */
+    public function oneclickMall(): Services\OneclickMall
+    {
+        return $this->oneclickMall ??= new Services\OneclickMall($this, $this->credentials);
     }
 }
