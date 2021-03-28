@@ -13,9 +13,7 @@
   },
   "require": {
     "php": ">=8.0",
-    "ext-curl": "*",
     "ext-json": "*",
-    "ext-mbstring": "*",
     "psr/http-client": "1.*",
     "psr/log": "1.*",
     "psr/event-dispatcher": "1.*",
