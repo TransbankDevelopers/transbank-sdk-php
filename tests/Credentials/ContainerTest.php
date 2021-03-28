@@ -14,7 +14,7 @@ class ContainerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->container = new Container;
+        $this->container = new Container();
     }
 
     public function test_set_all_from_array(): void
@@ -25,12 +25,11 @@ class ContainerTest extends TestCase
             'webpay' => $credentials,
             'webpayMall' => $credentials,
             'oneclickMall' => $credentials,
-            'patpass' => $credentials,
             'fullTransaction' => $credentials,
         ]);
 
-        foreach (['webpay', 'webpayMall', 'oneclickMall', 'patpass', 'fullTransaction'] as $service) {
-            $credential = $this->container->getCredentials($service);
+        foreach (['webpay', 'webpayMall', 'oneclickMall', 'fullTransaction'] as $service) {
+            $credential = $this->container->getProductionCredentials($service);
             static::assertEquals($credentials['key'], $credential->key);
             static::assertEquals($credentials['secret'], $credential->secret);
         }
@@ -68,13 +67,13 @@ class ContainerTest extends TestCase
 
     public function test_exception_when_service_has_no_credentials(): void
     {
-        $this->expectException(Error::class);
-        $this->expectExceptionMessage('Typed property Transbank\Sdk\Credentials\Container::$webpayMall must not be accessed before initialization');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Production credentials for [webpayMall] are not set.');
 
         $this->container->setFromArray([
             'webpay' => ['secret' => 'test_secret', 'key' => 'test_key']
         ]);
 
-        $this->container->getCredentials('webpayMall');
+        $this->container->getProductionCredentials('webpayMall');
     }
 }
