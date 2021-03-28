@@ -247,8 +247,12 @@ class Connector
         ServerRequestInterface $request,
         ResponseInterface $response
     ): array {
+        if (empty($contents = $response->getBody()->getContents())) {
+            return [];
+        }
+
         try {
-            return json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+            return json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
         } catch (JsonException $exception) {
             throw new ServerException('The response JSON is malformed.', $apiRequest, $request, $response, $exception);
         }
