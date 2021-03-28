@@ -3,6 +3,8 @@
 namespace Transbank\Sdk\Services;
 
 use Transbank\Sdk\ApiRequest;
+use Transbank\Sdk\Credentials\Container;
+use Transbank\Sdk\Transbank;
 
 class OneclickMall
 {
@@ -28,15 +30,27 @@ class OneclickMall
     protected const ENDPOINT_BASE = '/rswebpaytransaction/api/oneclick/{api_version}/';
 
     // Endpoints for the inscriptions.
-    public const ENDPOINT_START = self::ENDPOINT_BASE . '/inscriptions';
-    public const ENDPOINT_FINISH = self::ENDPOINT_BASE . '/inscriptions/{token}';
-    public const ENDPOINT_DELETE = self::ENDPOINT_BASE . '/inscriptions';
+    public const ENDPOINT_START = self::ENDPOINT_BASE . 'inscriptions';
+    public const ENDPOINT_FINISH = self::ENDPOINT_BASE . 'inscriptions/{token}';
+    public const ENDPOINT_DELETE = self::ENDPOINT_BASE . 'inscriptions';
 
     // Endpoints for the transactions.
-    public const ENDPOINT_AUTHORIZE = self::ENDPOINT_BASE . '/transactions';
-    public const ENDPOINT_STATUS = self::ENDPOINT_BASE . '/transactions/{buyOrder}';
-    public const ENDPOINT_REFUND = self::ENDPOINT_BASE . '/transactions/{buyOrder}/refunds';
+    public const ENDPOINT_AUTHORIZE = self::ENDPOINT_BASE . 'transactions';
+    public const ENDPOINT_STATUS = self::ENDPOINT_BASE . 'transactions/{buyOrder}';
+    public const ENDPOINT_REFUND = self::ENDPOINT_BASE . 'transactions/{buyOrder}/refunds';
     public const ENDPOINT_CAPTURE = '/rswebpaytransaction/api/oneclick/mall/{api_version}/transactions/capture';
+
+    /**
+     * Oneclick Mall constructor.
+     *
+     * @param  \Transbank\Sdk\Transbank  $transbank
+     * @param  \Transbank\Sdk\Credentials\Container  $container
+     */
+    public function __construct(
+        protected Transbank $transbank,
+        protected Container $container,
+    ) {
+    }
 
     /**
      * Creates a new pending subscription in Transbank.
@@ -86,9 +100,9 @@ class OneclickMall
      */
     public function finish(string $token, array $options = []): Transactions\Transaction
     {
-        $apiRequest = new ApiRequest(static::ACTION_START);
+        $apiRequest = new ApiRequest(static::ACTION_FINISH);
 
-        $this->log('Finishing subscription process', ['token' => $token, 'api_request' => $apiRequest,]);
+        $this->log('Finishing subscription', ['token' => $token, 'api_request' => $apiRequest]);
 
         $response = $this->send(
             static::SERVICE_NAME,
