@@ -1,29 +1,35 @@
-# Security Policy
+# Política de seguridad
 
-## Supported Versions
+## Versiones soportadas
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 1.6.x   | :white_check_mark: |
-| 1.5.x   | :white_check_mark: |
-| < 1.5   | :x:                |
+Cada versión mayor tiene un soporte hasta 1 año después que la siguiente versión mayor se publica. Soportar activamente una versión permite arreglar errores y añadir nuevas características. 
 
-## Reporting a Vulnerability
+> Una excepción es la versión 1.5 hacia atrás.
 
-To report a vulnerability, pleae send an email to soporte@transbankdevelopers.cl 
-following the next steps:
+| Version | Soporte            | Fecha de retiro |
+| ------- | ------------------ | --------------- |
+| 2.x     | :white_check_mark: | Activa          |
+| 1.x     | :white_check_mark: | 2021-12-31      |
+| < 1.5   | :x:                | 2020-12-31      |
 
-**Describe the vulnerability**
+Por ejemplo, si la hipotética versión 5.0 se publica en Marzo de 2023, la versión anterior 4.0 tendrá soporte hasta Marzo de 2024, siendo esa su "fecha de retiro".
 
-A concise description of the vulnerability.
+> Sólo las [versiones activas de PHP](https://www.php.net/supported-versions.php) son soportadas por el SDK.   
 
-**Evidence**
+## Reportar una vulnerabilidad
 
-If you can, sent as much evidence as posible including link and screenshots
+Para reportar una vulnerabilidad, no la hagas pública. Envía un email a **soporte@transbankdevelopers.cl**, con el siguiente contenido:
 
-**Desired actions to solve it**
+1. **Descripción de vulnerabilidad**
 
-You can send us all the desired actions or options to solve it
+Una descripción breve de todo el asunto: "URL inválida filtra credenciales de comercio".
 
+2. **Evidencia**
+   
+Entrega tanta evidencia como sea posible: vínculos a páginas web, capturas de pantalla o videos, o un proyecto de muestra.
 
-We will to review and answer the case as soon as posible
+3. **Posibles soluciones**
+
+Si lo deseas, puedes comentar cómo es posible solucionarlo.
+
+Revisaremos el email y responderemos tan pronto como sea posible.
