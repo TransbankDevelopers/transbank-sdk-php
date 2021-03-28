@@ -95,6 +95,15 @@ class Transaction implements ArrayAccess, JsonSerializable
      */
     public function getCreditCardNumber(): null|int
     {
-        return $this->data['card_detail']['card_number'] ?? null;
+        if (! isset($this->data['card_detail']['card_number'])) {
+            return null;
+        }
+
+        // If the card number is a string, then get the last 4 digits.
+        if (is_string($this->data['card_detail']['card_number'])) {
+            return (int)substr($this->data['card_detail']['card_number'], -4);
+        }
+
+        return $this->data['card_detail']['card_number'];
     }
 }
