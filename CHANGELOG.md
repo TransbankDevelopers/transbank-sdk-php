@@ -6,11 +6,11 @@ y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.ht
 
 ## [2.0.0] - 2021-03-26
 
-- Requiere PHP 8.0
+- Requiere PHP 8.0 o mayor.
 - Todos los servicios de Transbank se manejan en una única instancia.
 - Refactorización de todo el código por métodos fluidos.
 - Se agrega única clase dinámica para la recepción de respuesta desde Transbank.
-- Se agrega capacidad de alterar los `headers` del `request` en todas las transacciones.
+- Se agrega capacidad de alterar las cabeceras del `request` en todas las transacciones.
 - Removida dependencia-dura de Cliente HTTP.
 - Se agrega "fail-safe" para pasar a producción introduciendo credenciales respectivas. 
 - Se agrega soporte para cualquier Cliente HTTP (PSR-18) estándar.
@@ -20,6 +20,8 @@ y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.ht
 - Se agrega excepciones para distintos tipos de errores (cliente, servidor, conexión, desconocido).
 - Se agrega interfaz única para todas las excepciones de Transbank.
 - Se agrega excepción para respuestas de Transbank con códigos HTTP 4xx y 5xx.
+- Se agrega [Roave Security Advisories](https://github.com/Roave/SecurityAdvisories) para prevenir dependencias con problemas de seguridad.
+
 
 ## [1.10.1] - 2020-12-21
 ### Fixed
