@@ -3,6 +3,7 @@
 namespace Transbank\Sdk\Credentials;
 
 use LogicException;
+use RuntimeException;
 
 /**
  * Class Container
@@ -18,37 +19,30 @@ class Container
     /**
      * Credentials for Webpay.
      *
-     * @var Credentials
+     * @var Credentials|null
      */
-    public Credentials $webpay;
+    protected Credentials|null $webpay = null;
 
     /**
      * Credentials for Webpay Mall.
      *
-     * @var Credentials
+     * @var Credentials|null
      */
-    public Credentials $webpayMall;
+    protected Credentials|null $webpayMall = null;
 
     /**
      * Credentials for Oneclick Mall.
      *
-     * @var Credentials
+     * @var Credentials|null
      */
-    public Credentials $oneclickMall;
-
-    /**
-     * Credentials for Patpass.
-     *
-     * @var Credentials
-     */
-    public Credentials $patpass;
+    protected Credentials|null $oneclickMall = null;
 
     /**
      * Credentials for Full ApiRequest.
      *
-     * @var Credentials
+     * @var Credentials|null
      */
-    public Credentials $fullTransaction;
+    protected Credentials|null $fullTransaction = null;
 
     /**
      * Fills the credentials for each service.
@@ -93,9 +87,13 @@ class Container
      *
      * @return \Transbank\Sdk\Credentials\Credentials
      */
-    public function getCredentials(string $service): Credentials
+    public function getProductionCredentials(string $service): Credentials
     {
         $this->throwWhenCredentialsDoesNotExists($service);
+
+        if (!$this->{$service}) {
+            throw new RuntimeException("Production credentials for [$service] are not set.");
+        }
 
         return $this->{$service};
     }
