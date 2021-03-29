@@ -81,7 +81,7 @@ class WebpayTest extends TestCase
         $returnUrl = 'http://app.com/return';
         $sessionId = 'test_session_id';
 
-        $this->handlerStack->setHandler(new MockHandler([
+        $this->handlerStack->setHandler($mockHandler = new MockHandler([
             new Response(200, [
                 'content-type' => 'application/json',
             ], json_encode([
@@ -130,7 +130,20 @@ class WebpayTest extends TestCase
         static::assertCount(1, $this->requests);
         static::assertEquals('POST', $this->requests[0]['request']->getMethod());
 
-        static::assertApiEndpoint(Webpay::ENDPOINT_CREATE, $this->requests[0]['request']);
+        static::assertEndpointPath(Webpay::ENDPOINT_CREATE, $this->requests[0]['request']);
+
+        $stream = $mockHandler->getLastRequest()->getBody();
+        $stream->rewind();
+
+        static::assertEquals(
+            json_encode([
+                'buy_order' => 'test-buyOrder',
+                'amount' => 100,
+                'session_id' => 'test_session_id',
+                'return_url' => 'http://app.com/return',
+            ]),
+            $stream->getContents()
+        );
     }
 
     public function test_commit(): void
@@ -154,7 +167,7 @@ class WebpayTest extends TestCase
             'installments_number' => 0,
         ];
 
-        $this->handlerStack->setHandler(new MockHandler([
+        $this->handlerStack->setHandler($mockHandler = new MockHandler([
             new Response(200, [
                 'content-type' => 'application/json',
             ], json_encode($transbankResponse, JSON_THROW_ON_ERROR)),
@@ -195,9 +208,11 @@ class WebpayTest extends TestCase
         static::assertCount(1, $this->requests);
         static::assertEquals('PUT', $this->requests[0]['request']->getMethod());
 
-        static::assertApiEndpoint(Webpay::ENDPOINT_COMMIT, $this->requests[0]['request'], [
+        static::assertEndpointPath(Webpay::ENDPOINT_COMMIT, $this->requests[0]['request'], [
             '{token}' => $token
         ]);
+
+        static::assertRequestContentsEmpty($this->requests[0]['request']);
     }
 
     public function test_status(): void
@@ -219,7 +234,7 @@ class WebpayTest extends TestCase
             'installments_number' => 0,
         ];
 
-        $this->handlerStack->setHandler(new MockHandler([
+        $this->handlerStack->setHandler($mockHandler = new MockHandler([
             new Response(200, [
                 'content-type' => 'application/json',
             ], json_encode($transbankResponse, JSON_THROW_ON_ERROR)),
@@ -255,9 +270,11 @@ class WebpayTest extends TestCase
         static::assertCount(1, $this->requests);
         static::assertEquals('GET', $this->requests[0]['request']->getMethod());
 
-        static::assertApiEndpoint(Webpay::ENDPOINT_STATUS, $this->requests[0]['request'], [
+        static::assertEndpointPath(Webpay::ENDPOINT_STATUS, $this->requests[0]['request'], [
             '{token}' => $token
         ]);
+
+        static::assertRequestContentsEmpty($this->requests[0]['request']);
     }
 
     public function test_refund(): void
@@ -307,7 +324,7 @@ class WebpayTest extends TestCase
             return true;
         })->once()->andReturnNull();
 
-        $this->handlerStack->setHandler(new MockHandler([
+        $this->handlerStack->setHandler($mockHandler = new MockHandler([
             new Response(200, [
                 'content-type' => 'application/json',
             ], json_encode($transbankResponse, JSON_THROW_ON_ERROR)),
@@ -325,15 +342,22 @@ class WebpayTest extends TestCase
         static::assertCount(1, $this->requests);
         static::assertEquals('PUT', $this->requests[0]['request']->getMethod());
 
-        static::assertApiEndpoint(Webpay::ENDPOINT_REFUND, $this->requests[0]['request'], [
+        static::assertEndpointPath(Webpay::ENDPOINT_REFUND, $this->requests[0]['request'], [
             '{token}' => $token
         ]);
+
+        static::assertRequestContents(
+            [
+                'amount' => $nullifiedAmount
+            ],
+            $this->requests[0]['request']
+        );
     }
 
     public function test_capture(): void
     {
         $buyOrder = 'test_buy_order';
-        $authorizationCode = '123456';
+        $authorizationCode = 123456;
         $captureAmount = 1000;
         $token = 'e074d38c628122c63e5c0986368ece22974d6fee1440617d85873b7b4efa48a3';
 
@@ -370,7 +394,7 @@ class WebpayTest extends TestCase
             return true;
         })->once()->andReturnNull();
 
-        $this->handlerStack->setHandler(new MockHandler([
+        $this->handlerStack->setHandler($mockHandler = new MockHandler([
             new Response(200, [
                 'content-type' => 'application/json',
             ], json_encode($transbankResponse, JSON_THROW_ON_ERROR)),
@@ -378,16 +402,24 @@ class WebpayTest extends TestCase
 
         $response = $this->transbank->webpay()->capture($token, $buyOrder, $authorizationCode, $captureAmount);
 
-        static::assertEquals($response->getToken(), $token);
-        static::assertEquals($response->getCapturedAmount(), $captureAmount);
-        static::assertEquals($response->getAuthorizationCode(), $authorizationCode);
-        static::assertTrue($response->isSuccessful());
+        foreach ($transbankResponse as $key => $value) {
+            static::assertEquals($value, $response->{'get' . self::snakeCaseToPascalCase($key)}());
+        }
 
         static::assertCount(1, $this->requests);
         static::assertEquals('PUT', $this->requests[0]['request']->getMethod());
 
-        static::assertApiEndpoint(Webpay::ENDPOINT_CAPTURE, $this->requests[0]['request'], [
+        static::assertEndpointPath(Webpay::ENDPOINT_CAPTURE, $this->requests[0]['request'], [
             '{token}' => $token
         ]);
+
+        static::assertRequestContents(
+            [
+                'buy_order' => $buyOrder,
+                'authorization_code' => $authorizationCode,
+                'capture_amount' => $captureAmount,
+            ],
+            $this->requests[0]['request']
+        );
     }
 }
