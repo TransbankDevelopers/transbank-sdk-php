@@ -76,7 +76,7 @@ final class OnepaySignUtilTest extends TestCase
 
     public function testTryingToSignWhateverElseShouldRaiseSignException()
     {
-        $this->setExpectedException(\Transbank\Onepay\Exceptions\SignException::class);
+        $this->expectException(\Transbank\Onepay\Exceptions\SignException::class);
         OnepaySignUtil::getInstance()->sign('a string', $this->secret);
     }
 

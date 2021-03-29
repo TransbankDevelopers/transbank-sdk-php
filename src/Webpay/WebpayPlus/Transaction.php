@@ -3,8 +3,10 @@
 namespace Transbank\Webpay\WebpayPlus;
 
 use GuzzleHttp\Exception\GuzzleException;
+use Transbank\Utils\ConfiguresEnvironment;
 use Transbank\Utils\HttpClient;
 use Transbank\Utils\InteractsWithWebpayApi;
+use Transbank\Utils\RequestService;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
 use Transbank\Webpay\WebpayPlus;
@@ -25,15 +27,12 @@ use Transbank\Webpay\WebpayPlus\Responses\TransactionStatusResponse;
 class Transaction
 {
     use InteractsWithWebpayApi;
-    
-    const DEFAULT_COMMERCE_CODE = '597055555532';
-    const DEFAULT_API_KEY = Options::DEFAULT_API_KEY;
 
-    const ENDPOINT_CREATE_TRANSACTION = 'rswebpaytransaction/api/webpay/v1.2/transactions';
-    const ENDPOINT_COMMIT_TRANSACTION = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
-    const ENDPOINT_REFUND_TRANSACTION = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
-    const ENDPOINT_STATUS_TRANSACTION = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
-    const ENDPOINT_CAPTURE_TRANSACTION = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/capture';
+    const ENDPOINT_CREATE = 'rswebpaytransaction/api/webpay/v1.2/transactions';
+    const ENDPOINT_COMMIT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
+    const ENDPOINT_REFUND = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
+    const ENDPOINT_STATUS = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
+    const ENDPOINT_CAPTURE = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/capture';
     
     /**
      * @param string $buyOrder
@@ -55,11 +54,7 @@ class Transaction
         ];
 
         try {
-            $response = $this->request(
-                'POST',
-                static::ENDPOINT_CREATE_TRANSACTION,
-                $payload
-            );
+            $response = $this->request('POST', static::ENDPOINT_CREATE, $payload);
         } catch (WebpayRequestException $exception) {
             throw TransactionCreateException::raise($exception);
         }
@@ -78,7 +73,7 @@ class Transaction
         try {
             $response = $this->request(
                 'PUT',
-                str_replace('{token}', $token, static::ENDPOINT_COMMIT_TRANSACTION),
+                str_replace('{token}', $token, static::ENDPOINT_COMMIT),
                 null
             );
         } catch (WebpayRequestException $e) {
@@ -100,7 +95,7 @@ class Transaction
         try {
             $response = $this->request(
                 'POST',
-                str_replace('{token}', $token, static::ENDPOINT_REFUND_TRANSACTION),
+                str_replace('{token}', $token, static::ENDPOINT_REFUND),
                 ['amount' => $amount]
             );
         } catch (WebpayRequestException $e) {
@@ -121,7 +116,7 @@ class Transaction
         try {
             $response = $this->request(
                 'GET',
-                str_replace('{token}', $token, static::ENDPOINT_STATUS_TRANSACTION),
+                str_replace('{token}', $token, static::ENDPOINT_STATUS),
                 null
             );
         } catch (WebpayRequestException $e) {
@@ -151,7 +146,7 @@ class Transaction
         try {
             $response = $this->request(
                 'PUT',
-                str_replace('{token}', $token, static::ENDPOINT_CAPTURE_TRANSACTION),
+                str_replace('{token}', $token, static::ENDPOINT_CAPTURE),
                 $payload
             );
         } catch (WebpayRequestException $e) {
@@ -166,9 +161,19 @@ class Transaction
      *
      * @return Options
      */
-    public function getDefaultOptions()
+    public static function getDefaultOptions()
     {
-        return Options::forIntegration(static::DEFAULT_API_KEY, static::DEFAULT_COMMERCE_CODE);
+        return Options::forIntegration(WebpayPlus::DEFAULT_COMMERCE_CODE);
+    }
+    
+    /**
+     * Get the default options if none are given.
+     *
+     * @return Options
+     */
+    public static function getGlobalOptions()
+    {
+        return WebpayPlus::getOptions();
     }
     
 }

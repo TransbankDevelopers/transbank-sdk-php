@@ -85,7 +85,7 @@ class TransactionCreateRequestTest extends TestCase
     public function testTransactionCreateRequestShouldRaiseIfWidthHeightIsAttemptedToBeSetAsNull()
     {
         $transactionCreateRequest = $this->builder->buildCreateRequest($this->shoppingCart, 'WEB', '1231245', $this->optionsWithQrWidthHeightAndCommerceLogoUrl);
-        $this->setExpectedException(\Exception::class, 'WidthHeight cannot be null.');
+        $this->expectException(\Exception::class, 'WidthHeight cannot be null.');
         $transactionCreateRequest->setWidthHeight(null);
     }
 

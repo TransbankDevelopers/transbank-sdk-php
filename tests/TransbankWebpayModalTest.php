@@ -1,14 +1,19 @@
 <?php
 
+use Transbank\Webpay\Modal\Exceptions\TransactionCommitException;
+use Transbank\Webpay\Modal\Exceptions\TransactionCreateException;
+use Transbank\Webpay\Modal\Exceptions\TransactionRefundException;
 use Transbank\Webpay\Modal\Responses\TransactionStatusResponse;
 use Transbank\Webpay\Modal\Transaction;
+use Transbank\Webpay\Modal\WebpayModal;
+use Transbank\Webpay\Options;
 
 class TransbankWebpayModalTest extends \PHPUnit\Framework\TestCase
 {
     /** @test */
     public function it_creates_a_modal_transaction()
     {
-        $response = Transaction::create(1500, 'BuyOrder1', 'Session2312');
+        $response = (new Transaction())->create(1500, 'BuyOrder1', 'Session2312');
         $this->assertInstanceOf(\Transbank\Webpay\Modal\Responses\TransactionCreateResponse::class, $response);
         $this->assertNotEmpty($response->getToken());
     }
@@ -16,7 +21,7 @@ class TransbankWebpayModalTest extends \PHPUnit\Framework\TestCase
     /** @test */
     public function it_creates_a_modal_transaction_without_givin_a_session_id()
     {
-        $response = Transaction::create(1500, 'BuyOrder1');
+        $response = (new Transaction())->create(1500, 'BuyOrder1');
         $this->assertInstanceOf(\Transbank\Webpay\Modal\Responses\TransactionCreateResponse::class, $response);
         $this->assertNotEmpty($response->getToken());
     }
@@ -24,15 +29,15 @@ class TransbankWebpayModalTest extends \PHPUnit\Framework\TestCase
     /** @test */
     public function it_fails_when_creates_a_modal_transaction_with_invalid_data()
     {
-        $this->setExpectedException(\Transbank\Webpay\Modal\Exceptions\TransactionCreateException::class);
-        $response = Transaction::create('hola', '');
+        $this->expectException(TransactionCreateException::class);
+        $response = (new Transaction())->create('hola', '');
     }
 
     /** @test */
     public function it_get_the_status_of_a_transction()
     {
-        $response = Transaction::create(1500, 'BuyOrder1', 'Session2312');
-        $status = Transaction::status($response->getToken());
+        $response = (new Transaction())->create(1500, 'BuyOrder1', 'Session2312');
+        $status = Transaction::build()->status($response->getToken());
         $this->assertInstanceOf(TransactionStatusResponse::class, $status);
         $this->assertEquals($status->getStatus(), 'INITIALIZED');
     }
@@ -40,27 +45,25 @@ class TransbankWebpayModalTest extends \PHPUnit\Framework\TestCase
     /** @test */
     public function it_fails_when_using_invalid_credentials()
     {
-        \Transbank\Webpay\Modal\WebpayModal::setApiKey('sfaffasfa');
-        \Transbank\Webpay\Modal\WebpayModal::setCommerceCode('1233');
-
-        $this->setExpectedException(\Transbank\Webpay\Modal\Exceptions\TransactionCreateException::class, 'Not Authorized');
-        $response = Transaction::create(1500, 'BuyOrder1', 'Session2312');
+        $this->expectException(TransactionCreateException::class, 'Not Authorized');
+        $transaction = new Transaction(Options::forIntegration('commerceCode', 'fakeApiKey'));
+        $response = $transaction->create(1500, 'BuyOrder1', 'Session2312');
     }
 
     /** @test */
     public function it_cannot_commit_a_recently_created_transaction()
     {
-        \Transbank\Webpay\Modal\WebpayModal::configureForTesting();
-        $this->setExpectedException(\Transbank\Webpay\Modal\Exceptions\TransactionCommitException::class, "Invalid status '0' for transaction while authorizing");
-        $response = Transaction::create(1500, 'BuyOrder1', 'Session2312');
-        $response = Transaction::commit($response->getToken());
+        WebpayModal::configureForTesting();
+        $this->expectException(TransactionCommitException::class, "Invalid status '0' for transaction while authorizing");
+        $response = (new Transaction())->create(1500, 'BuyOrder1', 'Session2312');
+        $response = Transaction::build()->commit($response->getToken());
     }
 
     /** @test */
     public function it_cannot_refund_a_recently_created_transaction()
     {
-        $this->setExpectedException(\Transbank\Webpay\Modal\Exceptions\TransactionRefundException::class, 'Transaction is unfinished, it is not possible to refund it yet');
-        $response = Transaction::create(1500, 'BuyOrder1', 'Session2312');
-        $response = Transaction::refund($response->getToken(), 1500);
+        $this->expectException(TransactionRefundException::class, 'Transaction is unfinished, it is not possible to refund it yet');
+        $response = (new Transaction())->create(1500, 'BuyOrder1', 'Session2312');
+        $response = Transaction::build()->refund($response->getToken(), 1500);
     }
 }

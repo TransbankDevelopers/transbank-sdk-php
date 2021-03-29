@@ -7,9 +7,11 @@ namespace Transbank\Webpay\WebpayPlus\Responses;
  */
 class MallTransactionStatusResponse
 {
+    public $vci;
     public $buyOrder;
     public $sessionId;
     public $cardNumber;
+    public $cardDetail;
     public $expirationDate;
     public $accountingDate;
     public $transactionDate;
@@ -21,10 +23,11 @@ class MallTransactionStatusResponse
 
     public function __construct($json)
     {
+        $this->vci = isset($json['vci']) ? $json['vci'] : null;
         $this->buyOrder = isset($json['buy_order']) ? $json['buy_order'] : null;
         $this->sessionId = isset($json['session_id']) ? $json['session_id'] : null;
-        $this->cardNumber = isset($json['card_detail']) ? (isset($json['card_detail']['card_number']) ?
-            $json['card_detail']['card_number'] : null) : null;
+        $this->cardDetail = isset($json['card_detail']) ? $json['card_detail'] : null;
+        $this->cardNumber = isset($json['card_detail']['card_number']) ? $json['card_detail']['card_number'] : null;
         $this->expirationDate = isset($json['expiration_date']) ? $json['expiration_date'] : null;
         $this->accountingDate = isset($json['accounting_date']) ? $json['accounting_date'] : null;
         $this->transactionDate = isset($json['transaction_date']) ? $json['transaction_date'] : null;
@@ -197,5 +200,33 @@ class MallTransactionStatusResponse
         $this->details = $details;
 
         return $this;
+    }
+    /**
+     * @return mixed
+     */
+    public function getVci()
+    {
+        return $this->vci;
+    }
+    /**
+     * @param mixed $vci
+     */
+    public function setVci($vci)
+    {
+        $this->vci = $vci;
+    }
+    /**
+     * @return mixed|null
+     */
+    public function getCardDetail()
+    {
+        return $this->cardDetail;
+    }
+    /**
+     * @param mixed|null $cardDetail
+     */
+    public function setCardDetail($cardDetail)
+    {
+        $this->cardDetail = $cardDetail;
     }
 }

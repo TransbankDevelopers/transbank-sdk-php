@@ -13,6 +13,7 @@ use Transbank\Webpay\Oneclick\Responses\MallTransactionAuthorizeResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionCaptureResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionRefundResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionStatusResponse;
+use Transbank\Webpay\Options;
 
 class MallTransaction
 {
@@ -22,15 +23,12 @@ class MallTransaction
     const TRANSACTION_REFUND_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/transactions/{buy_order}/refunds';
     const TRANSACTION_CAPTURE_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/transactions/capture';
 
-    public static function authorize(
+    public function authorize(
         $userName,
         $tbkUser,
         $parentBuyOrder,
-        $details,
-        $options = null
+        $details
     ) {
-        $options = Oneclick::getDefaultOptions($options);
-
         $payload = [
             'username'  => $userName,
             'tbk_user'  => $tbkUser,
@@ -39,11 +37,10 @@ class MallTransaction
         ];
 
         try {
-            $response = static::request(
+            $response = $this->request(
                 'POST',
                 static::AUTHORIZE_TRANSACTION_ENDPOINT,
-                $payload,
-                $options
+                $payload
             );
         } catch (WebpayRequestException $e) {
             throw MallTransactionAuthorizeException::raise($e);
@@ -52,10 +49,8 @@ class MallTransaction
         return new MallTransactionAuthorizeResponse($response);
     }
 
-    public static function capture($childCommerceCode, $childBuyOrder, $authorizationCode, $amount, $options = null)
+    public function capture($childCommerceCode, $childBuyOrder, $authorizationCode, $amount)
     {
-        $options = Oneclick::getDefaultOptions($options);
-
         $payload = [
             'commerce_code'      => $childCommerceCode,
             'buy_order'          => $childBuyOrder,
@@ -64,11 +59,10 @@ class MallTransaction
         ];
 
         try {
-            $response = static::request(
+            $response = $this->request(
                 'PUT',
                 static::TRANSACTION_CAPTURE_ENDPOINT,
-                $payload,
-                $options
+                $payload
             );
         } catch (WebpayRequestException $e) {
             throw MallTransactionCaptureException::raise($e);
@@ -77,16 +71,13 @@ class MallTransaction
         return new MallTransactionCaptureResponse($response);
     }
 
-    public static function status($buyOrder, $options = null)
+    public function status($buyOrder)
     {
-        $options = Oneclick::getDefaultOptions($options);
-
         try {
-            $response = static::request(
+            $response = $this->request(
                 'GET',
                 str_replace('{buy_order}', $buyOrder, self::TRANSACTION_STATUS_ENDPOINT),
-                null,
-                $options
+                null
             );
         } catch (WebpayRequestException $e) {
             throw MallTransactionStatusException::raise($e);
@@ -95,9 +86,8 @@ class MallTransaction
         return new MallTransactionStatusResponse($response);
     }
 
-    public static function refund($buyOrder, $childCommerceCode, $childBuyOrder, $amount, $options = null)
+    public function refund($buyOrder, $childCommerceCode, $childBuyOrder, $amount, $options = null)
     {
-        $options = Oneclick::getDefaultOptions($options);
         $payload = [
             'detail_buy_order' => $childBuyOrder,
             'commerce_code'    => $childCommerceCode,
@@ -105,11 +95,10 @@ class MallTransaction
         ];
 
         try {
-            $response = static::request(
+            $response = $this->request(
                 'POST',
                 str_replace('{buy_order}', $buyOrder, self::TRANSACTION_REFUND_ENDPOINT),
-                $payload,
-                $options
+                $payload
             );
         } catch (WebpayRequestException $e) {
             throw MallRefundTransactionException::raise($e);
@@ -117,4 +106,17 @@ class MallTransaction
 
         return new MallTransactionRefundResponse($response);
     }
+    
+    public static function getDefaultOptions()
+    {
+        return Options::forIntegration(Oneclick::DEFAULT_COMMERCE_CODE);
+    }
+    
+    public static function getGlobalOptions()
+    {
+        return Oneclick::getOptions();
+    }
+    
+    
+    
 }

@@ -3,6 +3,8 @@
 namespace Transbank\Utils;
 
 use GuzzleHttp\Exception\GuzzleException;
+use http\Env\Request;
+use http\Exception\InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Transbank\Webpay\Exceptions\TransbankApiRequest;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
@@ -13,36 +15,67 @@ use Transbank\Webpay\Options;
  */
 trait InteractsWithWebpayApi
 {
-    
-    /**
-     * @var ResponseInterface|null
-     */
-    protected $lastResponse = null;
 
-    /**
-     * @var TransbankApiRequest|null
-     */
-    protected $lastRequest = null;
-    /**
-     * @var HttpClient
-     */
-    protected $httpClient;
     /**
      * @var Options
      */
     protected $options;
     /**
+     * @var RequestService|null
+     */
+    protected $requestService;
+    /**
      * Transaction constructor.
      *
      * @param Options $options
-     * @param HttpClient $httpClient
+     * @param RequestService|null $requestService
      */
     public function __construct(
         Options $options = null,
-        HttpClient $httpClient = null
+        RequestService $requestService = null
     ) {
-        $this->setOptions($options !== null ? $options : $this->getDefaultOptions());
-        $this->setHttpClient($httpClient !== null ? $httpClient : new HttpClient());
+        $this->loadOptions($options);
+        
+        $this->setRequestService($requestService !== null ? $requestService :
+            new RequestService());
+    }
+    
+    /**
+     * @param $method
+     * @param $endpoint
+     * @param array $payload
+     * @return mixed
+     * @throws GuzzleException
+     * @throws WebpayRequestException
+     */
+    public function request($method, $endpoint, $payload = [])
+    {
+        return $this->getRequestService()->request(
+            $method,
+            $endpoint,
+            $payload,
+            $this->getOptions()
+        );
+    }
+    /**
+     * @param Options $options
+     * @return $this
+     */
+    public function loadOptions(Options $options = null)
+    {
+        $defaultOptions = method_exists($this, 'getGlobalOptions') && $this::getGlobalOptions() !== null ?
+            $this::getGlobalOptions() : $this->getDefaultOptions();
+        if (!$options) {
+            $options = $defaultOptions;
+        }
+        
+        if ($options === null) {
+            throw new \InvalidArgumentException('No options configuration given');
+        }
+        
+        $this->setOptions($options);
+        
+        return $this;
     }
     /**
      * @return Options
@@ -59,103 +92,23 @@ trait InteractsWithWebpayApi
         $this->options = $options;
     }
     /**
-     * @param HttpClient $httpClient
+     * @return RequestService|null
      */
-    public function setHttpClient($httpClient)
+    public function getRequestService()
     {
-        $this->httpClient = $httpClient;
+        return $this->requestService;
     }
     /**
-     * @return HttpClient
+     * @param RequestService|null $requestService
      */
-    public function getHttpClient()
+    public function setRequestService($requestService)
     {
-        return $this->httpClient;
-    }
-    
-    /**
-     * @param $method
-     * @param $endpoint
-     * @param $payload
-     * @return mixed
-     * @throws GuzzleException
-     * @throws WebpayRequestException
-     */
-    protected function request(
-        $method,
-        $endpoint,
-        $payload
-    ) {
-        $headers = $this->getOptions()->getHeaders();
-        
-        $client = $this->httpClient;
-        if ($client == null) {
-            $client = new HttpClient();
-        }
-
-        $baseUrl = $this->getBaseUrl();
-        $request = new TransbankApiRequest($method, $baseUrl, $endpoint, $payload, $headers);
-
-        $this->setLastRequest($request);
-        $response = $client->perform($method, $baseUrl . $endpoint, $payload, ['headers' => $headers]);
-    
-        $this->setLastResponse($response);
-        $httpCode = $response->getStatusCode();
-
-        if (!in_array($httpCode, [200, 204])) {
-            $reason = $response->getReasonPhrase();
-            $message = "Could not obtain a response from Transbank API: $reason (HTTP code $httpCode)";
-            $body = json_decode($response->getBody(), true);
-            $tbkErrorMessage = null;
-            if (isset($body['error_message'])) {
-                $tbkErrorMessage = $body['error_message'];
-                $message = "Transbank API REST Error: $tbkErrorMessage | $message";
-            }
-
-            throw new WebpayRequestException($message, $tbkErrorMessage, $httpCode, $request);
-        }
-
-        return json_decode($response->getBody(), true);
-    }
-
-    /**
-     * @return ResponseInterface|null
-     */
-    public function getLastResponse()
-    {
-        return $this->lastResponse;
-    }
-
-    /**
-     * @param ResponseInterface|null $lastResponse
-     */
-    public function setLastResponse($lastResponse)
-    {
-        $this->lastResponse = $lastResponse;
-    }
-
-    /**
-     * @return TransbankApiRequest|null
-     */
-    public function getLastRequest()
-    {
-        return $this->lastRequest;
-    }
-
-    /**
-     * @param TransbankApiRequest|null $lastRequest
-     */
-    public function setLastRequest($lastRequest)
-    {
-        $this->lastRequest = $lastRequest;
+        $this->requestService = $requestService;
     }
     
-    /**
-     * @return Options
-     */
-    protected function getDefaultOptions()
+    public static function build(Options $options = null, RequestService $requestService = null)
     {
-        return Options::forIntegration(Options::DEFAULT_COMMERCE_CODE, Options::DEFAULT_API_KEY);
+        return new static($options, $requestService);
     }
     
     /**
@@ -165,5 +118,15 @@ trait InteractsWithWebpayApi
     protected function getBaseUrl()
     {
         return $this->getOptions()->getApiBaseUrl();
+    }
+    
+    public static function configureForIntegration($commerceCode, $apiKey)
+    {
+        static::setGlobalOptions(Options::forIntegration($commerceCode, $apiKey));
+    }
+    
+    public static function configureForProduction($commerceCode, $apiKey)
+    {
+        static::setGlobalOptions(Options::forProduction($commerceCode, $apiKey));
     }
 }

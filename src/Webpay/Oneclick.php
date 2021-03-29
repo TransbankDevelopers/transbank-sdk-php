@@ -2,50 +2,33 @@
 
 namespace Transbank\Webpay;
 
+use Transbank\Contracts\EnvironmentManagerContract;
 use Transbank\Utils\ConfiguresEnvironment;
+use Transbank\Utils\EnvironmentManager;
 
-class Oneclick
+class Oneclick extends EnvironmentManager
 {
-    use ConfiguresEnvironment;
-
-    private static $apiKey = Options::DEFAULT_API_KEY;
-    private static $commerceCode = Options::DEFAULT_ONECLICK_MALL_COMMERCE_CODE;
-    private static $integrationType = Options::DEFAULT_INTEGRATION_TYPE;
-
-    public static function configureOneclickMallForTesting()
+    const DEFAULT_COMMERCE_CODE = '597055555541';
+    const DEFAULT_CHILD_COMMERCE_CODE_1 = '597055555542';
+    const DEFAULT_CHILD_COMMERCE_CODE_2 = '597055555543';
+    
+    const DEFAULT_DEFERRED_COMMERCE_CODE = '597055555547';
+    const DEFAULT_DEFERRED_CHILD_COMMERCE_CODE_1 = '597055555548';
+    const DEFAULT_DEFERRED_CHILD_COMMERCE_CODE_2 = '597055555549';
+    
+    protected static $globalOptions = null;
+    
+    public static function configureForTesting()
     {
-        self::setApiKey(Options::DEFAULT_API_KEY);
-        self::setCommerceCode(Options::DEFAULT_ONECLICK_MALL_COMMERCE_CODE);
+        self::setApiKey(static::DEFAULT_API_KEY);
+        self::setCommerceCode(static::DEFAULT_COMMERCE_CODE);
         self::setIntegrationType(Options::DEFAULT_INTEGRATION_TYPE);
     }
 
-    public static function configureOneclickMallDeferredForTesting()
+    public static function configureForTestingDeferred()
     {
         self::setApiKey(Options::DEFAULT_API_KEY);
         self::setCommerceCode(Options::DEFAULT_ONECLICK_MALL_DEFERRED_COMMERCE_CODE);
         self::setIntegrationType(Options::DEFAULT_INTEGRATION_TYPE);
-    }
-
-    public static function configureOneclickMallForProduction($commerceCode, $apiKey)
-    {
-        self::setApiKey($apiKey);
-        self::setCommerceCode($commerceCode);
-        self::setIntegrationType('LIVE');
-    }
-
-    /**
-     * Get the default options if none are given.
-     *
-     * @param Options|null $options
-     *
-     * @return Options
-     */
-    public static function getDefaultOptions(Options $options = null)
-    {
-        if ($options !== null) {
-            return $options;
-        }
-
-        return new Options(static::getApiKey(), static::getCommerceCode(), static::getIntegrationType());
     }
 }

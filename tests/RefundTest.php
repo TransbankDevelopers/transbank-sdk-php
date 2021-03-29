@@ -55,7 +55,7 @@ final class RefundTest extends TestCase
         $options = new Options($apiKey, $sharedSecret);
 
         // It should raise an exception when failing
-        $this->setExpectedException(\Transbank\Onepay\Exceptions\RefundCreateException::class);
+        $this->expectException(\Transbank\Onepay\Exceptions\RefundCreateException::class);
         $httpResponse = Refund::create(
             27500,
             'INVALID OCC',

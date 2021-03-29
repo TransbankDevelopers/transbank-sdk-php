@@ -4,6 +4,7 @@ namespace Transbank\Webpay\Modal;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Transbank\Utils\InteractsWithWebpayApi;
+use Transbank\Utils\RestApiService;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Modal\Exceptions\TransactionCommitException;
 use Transbank\Webpay\Modal\Exceptions\TransactionCreateException;
@@ -28,7 +29,6 @@ class Transaction
      * @param string       $buyOrder
      * @param string       $sessionId
      * @param int          $amount
-     * @param Options|null $options
      *
      * @throws TransactionCreateException
      * @throws GuzzleException|TransactionCreateException
@@ -36,10 +36,8 @@ class Transaction
      * @return TransactionCreateResponse
      **
      */
-    public static function create($amount, $buyOrder, $sessionId = null, Options $options = null)
+    public function create($amount, $buyOrder, $sessionId = null)
     {
-        $options = WebpayModal::getDefaultOptions($options);
-
         if ($sessionId === null) {
             $sessionId = uniqid();
         }
@@ -51,7 +49,7 @@ class Transaction
         ];
 
         try {
-            $response = static::request('POST', static::CREATE_TRANSACTION_ENDPOINT, $payload, $options);
+            $response = $this->request('POST', static::CREATE_TRANSACTION_ENDPOINT, $payload);
         } catch (WebpayRequestException $exception) {
             throw TransactionCreateException::raise($exception);
         }
@@ -61,45 +59,37 @@ class Transaction
 
     /**
      * @param string       $token
-     * @param Options|null $options
      *
      * @throws TransactionCommitException|GuzzleException
      *
      * @return TransactionCommitResponse
      **
      */
-    public static function commit($token, Options $options = null)
+    public function commit($token)
     {
-        $options = WebpayModal::getDefaultOptions($options);
-
         $endpoint = str_replace('{token}', $token, static::COMMIT_TRANSACTION_ENDPOINT);
 
         try {
-            $response = static::request('PUT', $endpoint, [], $options);
+            $response = $this->request('PUT', $endpoint, []);
         } catch (WebpayRequestException $exception) {
             throw TransactionCommitException::raise($exception);
         }
 
         return new TransactionCommitResponse($response);
     }
-
+    
     /**
      * @param $token
-     * @param Options|null $options
-     *
-     * @throws TransactionStatusException
-     * @throws GuzzleException|TransactionStatusException
-     *
      * @return TransactionStatusResponse
+     * @throws GuzzleException
+     * @throws TransactionStatusException
      */
-    public static function status($token, Options $options = null)
+    public function status($token)
     {
-        $options = WebpayModal::getDefaultOptions($options);
-
         $endpoint = str_replace('{token}', $token, static::STATUS_TRANSACTION_ENDPOINT);
 
         try {
-            $response = static::request('GET', $endpoint, [], $options);
+            $response = $this->request('GET', $endpoint, []);
         } catch (WebpayRequestException $exception) {
             throw TransactionStatusException::raise($exception);
         }
@@ -116,23 +106,30 @@ class Transaction
      *
      * @return TransactionRefundResponse
      */
-    public static function refund($token, $amount, Options $options = null)
+    public function refund($token, $amount)
     {
-        $options = WebpayModal::getDefaultOptions($options);
-
         $endpoint = str_replace('{token}', $token, static::REFUND_TRANSACTION_ENDPOINT);
 
         try {
-            $response = static::request(
+            $response = $this->request(
                 'POST',
                 $endpoint,
-                ['amount' => $amount],
-                $options
+                ['amount' => $amount]
             );
         } catch (WebpayRequestException $exception) {
             throw TransactionRefundException::raise($exception);
         }
 
         return new TransactionRefundResponse($response);
+    }
+    
+    public static function getDefaultOptions()
+    {
+        return Options::forIntegration(WebpayModal::DEFAULT_COMMERCE_CODE, WebpayModal::DEFAULT_API_KEY);
+    }
+    
+    public static function getGlobalOptions()
+    {
+        return WebpayModal::getOptions();
     }
 }

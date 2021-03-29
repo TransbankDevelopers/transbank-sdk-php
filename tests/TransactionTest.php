@@ -7,9 +7,11 @@ use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/mocks/ShoppingCartMocks.php';
 require_once __DIR__.'/mocks/TransactionCreateResponseMocks.php';
+
 use Transbank\Onepay\Exceptions\SignException;
 use Transbank\Onepay\Exceptions\TransactionCommitException;
 use Transbank\Onepay\Exceptions\TransactionCreateException;
+use Transbank\Utils\HttpClient;
 
 final class TransactionTest extends TestCase
 {
@@ -27,7 +29,7 @@ final class TransactionTest extends TestCase
     {
 
         // Create a mock http client that will return Null
-        $httpClientStub = $this->getMock(HttpClient::class, ['post']);
+        $httpClientStub = $this->createMock(HttpClient::class);
         $httpClientStub->expects($this->any())->method('post')->willReturn(null);
 
         // Alter the private static property of Transaction 'httpClient'
@@ -43,7 +45,7 @@ final class TransactionTest extends TestCase
 
         // This should raise a TransactionCreateException
         try {
-            $this->setExpectedException(TransactionCreateException::class, 'Could not obtain a response from the service');
+            $this->expectException(TransactionCreateException::class, 'Could not obtain a response from the service');
             $response = Transaction::create($shoppingCart);
         } finally {
             // Reset the HttpClient static property to its original state
@@ -59,7 +61,7 @@ final class TransactionTest extends TestCase
             'result'                                => null, ]);
 
         // Create a mock http client that will return Null
-        $httpClientStub = $this->getMock(HttpClient::class, ['post']);
+        $httpClientStub = $this->createMock(HttpClient::class);
         $httpClientStub->expects($this->any())->method('post')->willReturn(new Response(200, [], $mockResponse));
 
         // Alter the private static property of Transaction 'httpClient'
@@ -75,7 +77,7 @@ final class TransactionTest extends TestCase
 
         // This should raise a TransactionCreateException
         try {
-            $this->setExpectedException(TransactionCreateException::class, 'INVALID_PARAMS : Parametros invalidos');
+            $this->expectException(TransactionCreateException::class, 'INVALID_PARAMS : Parametros invalidos');
             $response = Transaction::create($shoppingCart);
         } finally {
             $reflectedHttpClient->setValue(null);
@@ -98,7 +100,7 @@ final class TransactionTest extends TestCase
             }
         }';
         // Create a mock http client that will return Null
-        $httpClientStub = $this->getMock(HttpClient::class, ['post']);
+        $httpClientStub = $this->createMock(HttpClient::class);
         $httpClientStub->expects($this->any())->method('post')->willReturn(new Response(200, [], $mockResponse));
 
         // Alter the private static property of Transaction 'httpClient'
@@ -114,7 +116,7 @@ final class TransactionTest extends TestCase
 
         // This should raise a SignException
         try {
-            $this->setExpectedException(SignException::class, 'The response signature is not valid');
+            $this->expectException(SignException::class, 'The response signature is not valid');
             $response = Transaction::create($shoppingCart);
         } finally {
             $reflectedHttpClient->setValue(null);
@@ -216,7 +218,7 @@ final class TransactionTest extends TestCase
     public function testTransactionCommitRaisesWhenResponseIsNull()
     {
         // Create a mock http client that will return Null
-        $httpClientStub = $this->getMock(HttpClient::class, ['post']);
+        $httpClientStub = $this->createMock(HttpClient::class);
         $httpClientStub->expects($this->any())->method('post')->willReturn(null);
 
         // Alter the private static property of Transaction 'httpClient'
@@ -236,7 +238,7 @@ final class TransactionTest extends TestCase
 
         // This should raise a TransactionCommitException
         try {
-            $this->setExpectedException(TransactionCommitException::class, 'Could not obtain a response from the service');
+            $this->expectException(TransactionCommitException::class, 'Could not obtain a response from the service');
             $response = Transaction::commit(
                 self::OCC_TO_COMMIT_TRANSACTION_TEST,
                 self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
@@ -255,7 +257,7 @@ final class TransactionTest extends TestCase
             'description'                           => 'Parametros invalidos',
             'result'                                => null, ]);
         // Create a mock http client that will return Null
-        $httpClientStub = $this->getMock(HttpClient::class, ['post']);
+        $httpClientStub = $this->createMock(HttpClient::class);
         $httpClientStub->expects($this->any())->method('post')->willReturn(new Response(200, [], $mockResponse));
 
         // Alter the private static property of Transaction 'httpClient'
@@ -275,7 +277,7 @@ final class TransactionTest extends TestCase
 
         // This should raise a TransactionCommitException
         try {
-            $this->setExpectedException(TransactionCommitException::class, 'INVALID_PARAMS : Parametros invalidos');
+            $this->expectException(TransactionCommitException::class, 'INVALID_PARAMS : Parametros invalidos');
             $response = Transaction::commit(
                 self::OCC_TO_COMMIT_TRANSACTION_TEST,
                 self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
@@ -307,7 +309,7 @@ final class TransactionTest extends TestCase
         }';
 
         // Create a mock http client that will return Null
-        $httpClientStub = $this->getMock(HttpClient::class, ['post']);
+        $httpClientStub = $this->createMock(HttpClient::class);
         $httpClientStub->expects($this->any())->method('post')->willReturn(new Response(200, [], $mockResponse));
 
         // Alter the private static property of Transaction 'httpClient'
@@ -327,7 +329,7 @@ final class TransactionTest extends TestCase
 
         // This should raise a SignException
         try {
-            $this->setExpectedException(SignException::class, 'The response signature is not valid');
+            $this->expectException(SignException::class, 'The response signature is not valid');
             $response = Transaction::commit(
                 self::OCC_TO_COMMIT_TRANSACTION_TEST,
                 self::EXTERNAL_UNIQUE_NUMBER_TO_COMMIT_TRANSACTION_TEST,
@@ -344,7 +346,7 @@ final class TransactionTest extends TestCase
     {
         OnepayBase::setCallbackUrl(null);
         // Create a mock http client that will return Null
-        $httpClientStub = $this->getMock(HttpClient::class, ['post']);
+        $httpClientStub = $this->createMock(HttpClient::class);
         $httpClientStub->expects($this->any())->method('post')->willReturn(null);
 
         // Alter the private static property of Transaction 'httpClient'
@@ -360,7 +362,7 @@ final class TransactionTest extends TestCase
 
         // This should raise a TransactionCreateException
         try {
-            $this->setExpectedException(TransactionCreateException::class, 'You need to set a valid callback if you want to use the MOBILE channel');
+            $this->expectException(TransactionCreateException::class, 'You need to set a valid callback if you want to use the MOBILE channel');
             $response = Transaction::create($shoppingCart, ChannelEnum::MOBILE());
         } finally {
             // Reset the HttpClient static property to its original state
@@ -397,7 +399,7 @@ final class TransactionTest extends TestCase
     public function testTransactionFailsWhenChannelAPPAndAppSchemeNull()
     {
         // Create a mock http client that will return Null
-        $httpClientStub = $this->getMock(HttpClient::class, ['post']);
+        $httpClientStub = $this->createMock(HttpClient::class);
         $httpClientStub->expects($this->any())->method('post')->willReturn(null);
 
         // Alter the private static property of Transaction 'httpClient'
@@ -413,7 +415,7 @@ final class TransactionTest extends TestCase
 
         // This should raise a TransactionCreateException
         try {
-            $this->setExpectedException(TransactionCreateException::class, 'You need to set an appScheme if you want to use the APP channel');
+            $this->expectException(TransactionCreateException::class, 'You need to set an appScheme if you want to use the APP channel');
             $response = Transaction::create($shoppingCart, ChannelEnum::APP());
         } finally {
             // Reset the HttpClient static property to its original state
@@ -496,9 +498,5 @@ final class TransactionTest extends TestCase
         $this->assertEquals('OK', $response->getDescription());
         $this->assertNotNull($response->getQrCodeAsBase64());
         $this->assertEquals('f506a955-800c-4185-8818-4ef9fca97aae', $response->getExternalUniqueNumber());
-    }
-
-    public function testTransactionIncludesWidthHeight()
-    {
     }
 }
