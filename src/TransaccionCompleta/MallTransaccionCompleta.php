@@ -3,6 +3,7 @@
 namespace Transbank\TransaccionCompleta;
 
 use Transbank\Utils\HttpClient;
+use Transbank\Webpay\Options;
 
 class MallTransaccionCompleta
 {

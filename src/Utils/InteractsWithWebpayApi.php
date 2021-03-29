@@ -124,13 +124,13 @@ trait InteractsWithWebpayApi
         return $this->getOptions()->getApiBaseUrl();
     }
 
-    public static function configureForIntegration($commerceCode, $apiKey)
+    public function configureForIntegration($commerceCode, $apiKey)
     {
-        static::setGlobalOptions(Options::forIntegration($commerceCode, $apiKey));
+        $this->setOptions(Options::forIntegration($commerceCode, $apiKey));
     }
 
-    public static function configureForProduction($commerceCode, $apiKey)
+    public function configureForProduction($commerceCode, $apiKey)
     {
-        static::setGlobalOptions(Options::forProduction($commerceCode, $apiKey));
+        $this->setOptions(Options::forProduction($commerceCode, $apiKey));
     }
 }

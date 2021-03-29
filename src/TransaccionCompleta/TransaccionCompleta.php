@@ -9,42 +9,24 @@
 namespace Transbank\TransaccionCompleta;
 
 use Transbank\Utils\ConfiguresEnvironment;
+use Transbank\Utils\EnvironmentManager;
+use Transbank\Webpay\Options;
 
-class TransaccionCompleta
+class TransaccionCompleta extends EnvironmentManager
 {
-    use ConfiguresEnvironment;
-
-    private static $apiKey = Options::DEFAULT_API_KEY;
-    private static $commerceCode = Options::DEFAULT_TRANSACCION_COMPLETA_COMMERCE_CODE;
-    private static $integrationType = Options::DEFAULT_INTEGRATION_TYPE;
-
+    const DEFAULT_COMMERCE_CODE = '597055555532';
+    
+    const DEFAULT_MALL_COMMERCE_CODE = '597055555573';
+    const DEFAULT_MALL_CHILD_COMMERCE_CODE_1 = '597055555574';
+    const DEFAULT_MALL_CHILD_COMMERCE_CODE_2 = '597055555575';
+    
     public static function configureForTesting()
     {
-        self::$apiKey = Options::DEFAULT_API_KEY;
-        self::$commerceCode = Options::DEFAULT_TRANSACCION_COMPLETA_COMMERCE_CODE;
-        self::$integrationType = Options::DEFAULT_INTEGRATION_TYPE;
+        static::configureForIntegration(static::DEFAULT_COMMERCE_CODE);
     }
 
     public static function configureMallForTesting()
     {
-        self::$apiKey = Options::DEFAULT_API_KEY;
-        self::$commerceCode = Options::DEFAULT_TRANSACCION_COMPLETA_MALL_COMMERCE_CODE;
-        self::$integrationType = Options::DEFAULT_INTEGRATION_TYPE;
-    }
-
-    /**
-     * Get the default options if none are given.
-     *
-     * @param \Transbank\TransaccionCompleta\Options|null $options
-     *
-     * @return Options
-     */
-    public static function getDefaultOptions(Options $options = null)
-    {
-        if ($options !== null) {
-            return $options;
-        }
-
-        return new Options(static::getApiKey(), static::getCommerceCode(), static::getIntegrationType());
+        static::configureForIntegration(static::DEFAULT_MALL_COMMERCE_CODE);
     }
 }
