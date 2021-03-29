@@ -147,7 +147,17 @@ class WebpayMallTest extends TestCase
         static::assertCount(1, $this->requests);
         static::assertEquals('POST', $this->requests[0]['request']->getMethod());
 
-        static::assertApiEndpoint(Webpay::ENDPOINT_CREATE, $this->requests[0]['request']);
+        static::assertEndpointPath(Webpay::ENDPOINT_CREATE, $this->requests[0]['request']);
+
+        static::assertRequestContents(
+            [
+                'buy_order' => $buyOrder,
+                'session_id' => $sessionId,
+                'return_url' => $returnUrl,
+                'details' => $details,
+            ],
+            $this->requests[0]['request']
+        );
     }
 
     public function test_commit(): void
@@ -235,9 +245,11 @@ class WebpayMallTest extends TestCase
         static::assertCount(1, $this->requests);
         static::assertEquals('PUT', $this->requests[0]['request']->getMethod());
 
-        static::assertApiEndpoint(WebpayMall::ENDPOINT_COMMIT, $this->requests[0]['request'], [
+        static::assertEndpointPath(WebpayMall::ENDPOINT_COMMIT, $this->requests[0]['request'], [
             '{token}' => $token,
         ]);
+
+        static::assertRequestContentsEmpty($this->requests[0]['request']);
     }
 
     public function test_status(): void
@@ -316,9 +328,11 @@ class WebpayMallTest extends TestCase
         static::assertCount(1, $this->requests);
         static::assertEquals('GET', $this->requests[0]['request']->getMethod());
 
-        static::assertApiEndpoint(WebpayMall::ENDPOINT_STATUS, $this->requests[0]['request'], [
+        static::assertEndpointPath(WebpayMall::ENDPOINT_STATUS, $this->requests[0]['request'], [
             '{token}' => $token
         ]);
+
+        static::assertRequestContentsEmpty($this->requests[0]['request']);
     }
 
     public function test_refund(): void
@@ -390,9 +404,18 @@ class WebpayMallTest extends TestCase
         static::assertCount(1, $this->requests);
         static::assertEquals('POST', $this->requests[0]['request']->getMethod());
 
-        static::assertApiEndpoint(Webpay::ENDPOINT_REFUND, $this->requests[0]['request'], [
+        static::assertEndpointPath(Webpay::ENDPOINT_REFUND, $this->requests[0]['request'], [
             '{token}' => $token
         ]);
+
+        static::assertRequestContents(
+            [
+                'commerce_code' => $commerceCode,
+                'buy_order' => $buyOrder,
+                'amount' => $nullifiedAmount,
+            ],
+            $this->requests[0]['request']
+        );
     }
 
     public function test_capture(): void
@@ -453,8 +476,18 @@ class WebpayMallTest extends TestCase
         static::assertCount(1, $this->requests);
         static::assertEquals('PUT', $this->requests[0]['request']->getMethod());
 
-        static::assertApiEndpoint(WebpayMall::ENDPOINT_CAPTURE, $this->requests[0]['request'], [
+        static::assertEndpointPath(WebpayMall::ENDPOINT_CAPTURE, $this->requests[0]['request'], [
             '{token}' => $token
         ]);
+
+        static::assertRequestContents(
+            [
+                'commerce_code' => $commerceCode,
+                'buy_order' => $buyOrder,
+                'authorization_code' => $authorizationCode,
+                'capture_amount' => $captureAmount,
+            ],
+            $this->requests[0]['request']
+        );
     }
 }
