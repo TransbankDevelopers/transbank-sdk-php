@@ -183,9 +183,7 @@ class Connector
         $request = $request->withHeader('Content-Type', 'application/json');
         $request = $request->withHeader('User-Agent', 'SDK-PHP/' . Transbank::VERSION);
 
-        $request = $request->withBody($this->streamFactory->createStream($apiRequest->toJson()));
-
-        return $request;
+        return $request->withBody($this->streamFactory->createStream($apiRequest->toJson()));
     }
 
     /**
