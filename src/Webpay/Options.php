@@ -10,10 +10,10 @@ class Options
     const ENVIRONMENT_PRODUCTION = 'LIVE';
     const ENVIRONMENT_INTEGRATION = 'TEST';
     const DEFAULT_INTEGRATION_TYPE = self::ENVIRONMENT_INTEGRATION;
-    
+
     const BASE_URL_PRODUCTION = 'https://webpay3g.transbank.cl/';
     const BASE_URL_INTEGRATION = 'https://webpay3gint.transbank.cl/';
-    
+
     const DEFAULT_API_KEY = '579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C';
     const DEFAULT_PATPASS_BY_WEBPAY_COMMERCE_CODE = '597055555550';
 
@@ -39,17 +39,17 @@ class Options
         $this->setCommerceCode($commerceCode);
         $this->setIntegrationType($integrationType);
     }
-    
+
     public static function forProduction($commerceCode, $apiKey)
     {
         return new static($apiKey, $commerceCode, self::ENVIRONMENT_PRODUCTION);
     }
-    
+
     public static function forIntegration($commerceCode, $apiKey = Options::DEFAULT_API_KEY)
     {
         return new static($apiKey, $commerceCode, self::ENVIRONMENT_INTEGRATION);
     }
-    
+
     public function isProduction()
     {
         return $this->getIntegrationType() === self::ENVIRONMENT_PRODUCTION;
@@ -124,11 +124,11 @@ class Options
         if ($this->isProduction()) {
             return self::BASE_URL_PRODUCTION;
         }
+
         return self::BASE_URL_INTEGRATION;
     }
-    
+
     /**
-     *
      * @return array
      */
     public function getHeaders()

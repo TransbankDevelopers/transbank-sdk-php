@@ -23,17 +23,17 @@ trait ConfiguresEnvironment
     {
         static::setOptions(Options::forProduction($commerceCode, $apiKey));
     }
-    
+
     public static function setOptions(Options $options = null)
     {
         static::$globalOptions = $options;
     }
-    
+
     public static function getOptions()
     {
         return static::$globalOptions;
     }
-    
+
     public static function reset()
     {
         static::setOptions(null);

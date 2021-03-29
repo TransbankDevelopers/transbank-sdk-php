@@ -14,7 +14,7 @@ class RequestService
      * @var ResponseInterface|null
      */
     protected $lastResponse = null;
-    
+
     /**
      * @var TransbankApiRequest|null
      */
@@ -23,12 +23,12 @@ class RequestService
      * @var HttpClient
      */
     protected $httpClient;
-    
+
     public function __construct(HttpClient $httpClient = null)
     {
         $this->setHttpClient($httpClient !== null ? $httpClient : new HttpClient());
     }
-   
+
     /**
      * @return HttpClient
      */
@@ -36,6 +36,7 @@ class RequestService
     {
         return $this->httpClient;
     }
+
     /**
      * @param HttpClient $httpClient
      */
@@ -43,14 +44,17 @@ class RequestService
     {
         $this->httpClient = $httpClient;
     }
+
     /**
      * @param $method
      * @param $endpoint
      * @param $payload
      * @param Options $options
-     * @return array
+     *
      * @throws GuzzleException
      * @throws WebpayRequestException
+     *
+     * @return array
      */
     public function request(
         $method,
@@ -63,16 +67,16 @@ class RequestService
         if ($client == null) {
             $client = new HttpClient();
         }
-        
+
         $baseUrl = $options->getApiBaseUrl();
         $request = new TransbankApiRequest($method, $baseUrl, $endpoint, $payload, $headers);
-        
+
         $this->setLastRequest($request);
-        $response = $client->perform($method, $baseUrl . $endpoint, $payload, ['headers' => $headers]);
-        
+        $response = $client->perform($method, $baseUrl.$endpoint, $payload, ['headers' => $headers]);
+
         $this->setLastResponse($response);
         $responseStatusCode = $response->getStatusCode();
-    
+
         if (!in_array($responseStatusCode, [200, 204])) {
             $reason = $response->getReasonPhrase();
             $message = "Could not obtain a response from Transbank API: $reason (HTTP code $responseStatusCode)";
@@ -82,13 +86,13 @@ class RequestService
                 $tbkErrorMessage = $body['error_message'];
                 $message = "Transbank API REST Error: $tbkErrorMessage | $message";
             }
-            
+
             throw new WebpayRequestException($message, $tbkErrorMessage, $responseStatusCode, $request);
         }
-        
+
         return json_decode($response->getBody(), true);
     }
-    
+
     /**
      * @return ResponseInterface|null
      */
@@ -96,7 +100,7 @@ class RequestService
     {
         return $this->lastResponse;
     }
-    
+
     /**
      * @param ResponseInterface|null $lastResponse
      */
@@ -104,7 +108,7 @@ class RequestService
     {
         $this->lastResponse = $lastResponse;
     }
-    
+
     /**
      * @return TransbankApiRequest|null
      */
@@ -112,7 +116,7 @@ class RequestService
     {
         return $this->lastRequest;
     }
-    
+
     /**
      * @param TransbankApiRequest|null $lastRequest
      */

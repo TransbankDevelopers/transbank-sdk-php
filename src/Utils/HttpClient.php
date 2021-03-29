@@ -91,7 +91,7 @@ class HttpClient
             'Content-Type' => 'application/json',
             'User-Agent'   => 'SDK-PHP/'.$installedVersion,
         ];
-        
+
         $givenHeaders = isset($options['headers']) ? $options['headers'] : [];
         $headers = array_merge($basicHeader, $givenHeaders);
         if (!$data_to_send) {

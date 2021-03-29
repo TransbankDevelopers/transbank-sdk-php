@@ -27,21 +27,23 @@ use Transbank\Webpay\WebpayPlus\Responses\TransactionRefundResponse;
 class MallTransaction
 {
     use InteractsWithWebpayApi;
-    
+
     const ENDPOINT_CREATE = 'rswebpaytransaction/api/webpay/v1.2/transactions';
     const ENDPOINT_COMMIT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
     const ENDPOINT_REFUND = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
     const ENDPOINT_STATUS = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
     const ENDPOINT_CAPTURE = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/capture';
-    
+
     /**
      * @param $buyOrder
      * @param $sessionId
      * @param $returnUrl
      * @param $details
-     * @return MallTransactionCreateResponse
+     *
      * @throws TransactionCreateException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return MallTransactionCreateResponse
      */
     public function create($buyOrder, $sessionId, $returnUrl, $details)
     {
@@ -64,12 +66,14 @@ class MallTransaction
 
         return new MallTransactionCreateResponse($response);
     }
-    
+
     /**
      * @param $token
-     * @return MallTransactionCommitResponse
+     *
      * @throws TransactionCommitException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return MallTransactionCommitResponse
      */
     public function commit($token)
     {
@@ -85,15 +89,17 @@ class MallTransaction
 
         return new MallTransactionCommitResponse($response);
     }
-    
+
     /**
      * @param $token
      * @param $buyOrder
      * @param $childCommerceCode
      * @param $amount
-     * @return TransactionRefundResponse
+     *
      * @throws TransactionRefundException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return TransactionRefundResponse
      */
     public function refund($token, $buyOrder, $childCommerceCode, $amount)
     {
@@ -115,12 +121,14 @@ class MallTransaction
 
         return new MallTransactionRefundResponse($response);
     }
-    
+
     /**
      * @param $token
-     * @return MallTransactionStatusResponse
+     *
      * @throws TransactionStatusException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return MallTransactionStatusResponse
      */
     public function status($token)
     {
@@ -175,7 +183,7 @@ class MallTransaction
 
         return new MallTransactionCaptureResponse($response);
     }
-    
+
     /**
      * Get the default options if none are given.
      *
@@ -185,7 +193,7 @@ class MallTransaction
     {
         return Options::forIntegration(WebpayPlus::DEFAULT_MALL_COMMERCE_CODE);
     }
-    
+
     /**
      * Get the default options if none are given.
      *

@@ -201,6 +201,7 @@ class MallTransactionStatusResponse
 
         return $this;
     }
+
     /**
      * @return mixed
      */
@@ -208,6 +209,7 @@ class MallTransactionStatusResponse
     {
         return $this->vci;
     }
+
     /**
      * @param mixed $vci
      */
@@ -215,6 +217,7 @@ class MallTransactionStatusResponse
     {
         $this->vci = $vci;
     }
+
     /**
      * @return mixed|null
      */
@@ -222,6 +225,7 @@ class MallTransactionStatusResponse
     {
         return $this->cardDetail;
     }
+
     /**
      * @param mixed|null $cardDetail
      */

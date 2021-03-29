@@ -3,10 +3,7 @@
 namespace Transbank\Webpay\WebpayPlus;
 
 use GuzzleHttp\Exception\GuzzleException;
-use Transbank\Utils\ConfiguresEnvironment;
-use Transbank\Utils\HttpClient;
 use Transbank\Utils\InteractsWithWebpayApi;
-use Transbank\Utils\RequestService;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
 use Transbank\Webpay\WebpayPlus;
@@ -33,16 +30,17 @@ class Transaction
     const ENDPOINT_REFUND = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
     const ENDPOINT_STATUS = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
     const ENDPOINT_CAPTURE = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/capture';
-    
+
     /**
      * @param string $buyOrder
      * @param string $sessionId
-     * @param int $amount
+     * @param int    $amount
      * @param string $returnUrl
-     * @return TransactionCreateResponse
      *
      * @throws TransactionCreateException
      * @throws GuzzleException
+     *
+     * @return TransactionCreateResponse
      */
     public function create($buyOrder, $sessionId, $amount, $returnUrl)
     {
@@ -61,12 +59,14 @@ class Transaction
 
         return new TransactionCreateResponse($response);
     }
-    
+
     /**
      * @param $token
-     * @return TransactionCommitResponse
+     *
      * @throws TransactionCommitException
      * @throws GuzzleException
+     *
+     * @return TransactionCommitResponse
      */
     public function commit($token)
     {
@@ -82,13 +82,15 @@ class Transaction
 
         return new TransactionCommitResponse($response);
     }
-    
+
     /**
      * @param $token
      * @param $amount
-     * @return TransactionRefundResponse
+     *
      * @throws TransactionRefundException
      * @throws GuzzleException
+     *
+     * @return TransactionRefundResponse
      */
     public function refund($token, $amount)
     {
@@ -104,12 +106,14 @@ class Transaction
 
         return new TransactionRefundResponse($response);
     }
-    
+
     /**
      * @param $token
-     * @return TransactionStatusResponse
+     *
      * @throws TransactionStatusException
      * @throws GuzzleException
+     *
+     * @return TransactionStatusResponse
      */
     public function status($token)
     {
@@ -125,15 +129,17 @@ class Transaction
 
         return new TransactionStatusResponse($response);
     }
-    
+
     /**
      * @param $token
      * @param $buyOrder
      * @param $authorizationCode
      * @param $captureAmount
-     * @return TransactionCaptureResponse
+     *
      * @throws TransactionCaptureException
      * @throws GuzzleException
+     *
+     * @return TransactionCaptureResponse
      */
     public function capture($token, $buyOrder, $authorizationCode, $captureAmount)
     {
@@ -155,7 +161,7 @@ class Transaction
 
         return new TransactionCaptureResponse($response);
     }
-    
+
     /**
      * Get the default options if none are given.
      *
@@ -165,7 +171,7 @@ class Transaction
     {
         return Options::forIntegration(WebpayPlus::DEFAULT_COMMERCE_CODE);
     }
-    
+
     /**
      * Get the default options if none are given.
      *
@@ -175,5 +181,4 @@ class Transaction
     {
         return WebpayPlus::getOptions();
     }
-    
 }

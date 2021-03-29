@@ -12,7 +12,6 @@ use Transbank\Webpay\Oneclick\MallInscription;
 use Transbank\Webpay\Oneclick\MallTransaction;
 use Transbank\Webpay\Oneclick\Responses\InscriptionFinishResponse;
 use Transbank\Webpay\Oneclick\Responses\InscriptionStartResponse;
-use Transbank\Webpay\Options;
 
 class TransbankOneclickTest extends TestCase
 {
@@ -67,6 +66,7 @@ class TransbankOneclickTest extends TestCase
     public function it_fails_authorizing_a_transaction_with_a_fake_token()
     {
         $mallTransaction = new MallTransaction();
+
         try {
             $response = $mallTransaction->authorize($this->username, 'fakeToken', 'buyOrder2132312', [
                 [

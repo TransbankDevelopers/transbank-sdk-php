@@ -16,15 +16,15 @@ use Transbank\Webpay\Options;
 class MallInscription
 {
     use InteractsWithWebpayApi;
-    
+
     const DEFAULT_COMMERCE_CODE = '597055555541';
     const DEFAULT_CHILD_COMMERCE_CODE_1 = '597055555542';
     const DEFAULT_CHILD_COMMERCE_CODE_2 = '597055555543';
-    
+
     const DEFAULT_DEFERRED_COMMERCE_CODE = '597055555547';
     const DEFAULT_DEFERRED_CHILD_COMMERCE_CODE_1 = '597055555548';
     const DEFAULT_DEFERRED_CHILD_COMMERCE_CODE_2 = '597055555549';
-    
+
     const DEFAULT_API_KEY = Options::DEFAULT_API_KEY;
 
     const INSCRIPTION_START_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/inscriptions';
@@ -101,12 +101,12 @@ class MallInscription
 
         return new InscriptionDeleteResponse(true);
     }
-    
+
     public static function getDefaultOptions()
     {
         return Options::forIntegration(Oneclick::DEFAULT_COMMERCE_CODE);
     }
-    
+
     public static function getGlobalOptions()
     {
         return Oneclick::getOptions();

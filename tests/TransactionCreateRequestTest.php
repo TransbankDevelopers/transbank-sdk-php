@@ -17,7 +17,7 @@ class TransactionCreateRequestTest extends TestCase
     public $optionsWithCommerceLogoUrl;
     public $optionsWithQrWidthHeightAndCommerceLogoUrl;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->emptyOptions = new Options();
         $this->optionsWithApiKey = new Options('someapikey');

@@ -106,17 +106,14 @@ class MallTransaction
 
         return new MallTransactionRefundResponse($response);
     }
-    
+
     public static function getDefaultOptions()
     {
         return Options::forIntegration(Oneclick::DEFAULT_COMMERCE_CODE);
     }
-    
+
     public static function getGlobalOptions()
     {
         return Oneclick::getOptions();
     }
-    
-    
-    
 }

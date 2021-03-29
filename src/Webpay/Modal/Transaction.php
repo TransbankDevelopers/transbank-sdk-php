@@ -4,7 +4,6 @@ namespace Transbank\Webpay\Modal;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Transbank\Utils\InteractsWithWebpayApi;
-use Transbank\Utils\RestApiService;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Modal\Exceptions\TransactionCommitException;
 use Transbank\Webpay\Modal\Exceptions\TransactionCreateException;
@@ -26,9 +25,9 @@ class Transaction
     const REFUND_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
 
     /**
-     * @param string       $buyOrder
-     * @param string       $sessionId
-     * @param int          $amount
+     * @param string $buyOrder
+     * @param string $sessionId
+     * @param int    $amount
      *
      * @throws TransactionCreateException
      * @throws GuzzleException|TransactionCreateException
@@ -58,7 +57,7 @@ class Transaction
     }
 
     /**
-     * @param string       $token
+     * @param string $token
      *
      * @throws TransactionCommitException|GuzzleException
      *
@@ -77,12 +76,14 @@ class Transaction
 
         return new TransactionCommitResponse($response);
     }
-    
+
     /**
      * @param $token
-     * @return TransactionStatusResponse
+     *
      * @throws GuzzleException
      * @throws TransactionStatusException
+     *
+     * @return TransactionStatusResponse
      */
     public function status($token)
     {
@@ -122,12 +123,12 @@ class Transaction
 
         return new TransactionRefundResponse($response);
     }
-    
+
     public static function getDefaultOptions()
     {
         return Options::forIntegration(WebpayModal::DEFAULT_COMMERCE_CODE, WebpayModal::DEFAULT_API_KEY);
     }
-    
+
     public static function getGlobalOptions()
     {
         return WebpayModal::getOptions();
