@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 require_once __DIR__.'/mocks/ShoppingCartMocks.php';
 require_once __DIR__.'/mocks/TransactionCreateResponseMocks.php';
+
 use Transbank\Onepay\Exceptions\SignException;
 use Transbank\Onepay\Exceptions\TransactionCommitException;
 use Transbank\Onepay\Exceptions\TransactionCreateException;
@@ -54,9 +55,11 @@ final class TransactionTest extends TestCase
 
     public function testTransactionRaisesWhenResponseIsNotOk()
     {
-        $mockResponse = json_encode(['responseCode' => 'INVALID_PARAMS',
+        $mockResponse = json_encode([
+            'responseCode'                          => 'INVALID_PARAMS',
             'description'                           => 'Parametros invalidos',
-            'result'                                => null, ]);
+            'result'                                => null,
+        ]);
 
         // Create a mock http client that will return Null
         $httpClientStub = $this->getMock(HttpClient::class, ['post']);
@@ -251,9 +254,11 @@ final class TransactionTest extends TestCase
 
     public function testTransactionCommitRaisesWhenResponseIsNotOk()
     {
-        $mockResponse = json_encode(['responseCode' => 'INVALID_PARAMS',
+        $mockResponse = json_encode([
+            'responseCode'                          => 'INVALID_PARAMS',
             'description'                           => 'Parametros invalidos',
-            'result'                                => null, ]);
+            'result'                                => null,
+        ]);
         // Create a mock http client that will return Null
         $httpClientStub = $this->getMock(HttpClient::class, ['post']);
         $httpClientStub->expects($this->any())->method('post')->willReturn(new Response(200, [], $mockResponse));
