@@ -28,7 +28,6 @@ class TransactionRefundResponse
         $responseCode = Utils::returnValueIfExists($json, 'response_code');
         $this->setResponseCode($responseCode);
     }
-    
 
     /**
      * @return mixed

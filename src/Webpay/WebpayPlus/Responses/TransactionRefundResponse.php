@@ -45,7 +45,7 @@ class TransactionRefundResponse
         $this->balance = isset($json['balance']) ? $json['balance'] : null;
         $this->responseCode = isset($json['response_code']) ? $json['response_code'] : null;
     }
-    
+
     public function success()
     {
         if ($this->getType() === static::TYPE_REVERSED ||

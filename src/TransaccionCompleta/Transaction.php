@@ -16,9 +16,7 @@ use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
 
 /**
- * Class Transaction
- *
- * @package Transbank\TransaccionCompleta
+ * Class Transaction.
  */
 class Transaction
 {
@@ -29,7 +27,7 @@ class Transaction
     const ENDPOINT_COMMIT = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
     const ENDPOINT_REFUND = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
     const ENDPOINT_STATUS = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
-    
+
     /**
      * @param $buyOrder
      * @param $sessionId
@@ -37,9 +35,11 @@ class Transaction
      * @param $cvv
      * @param $cardNumber
      * @param $cardExpirationDate
-     * @return TransactionCreateResponse
+     *
      * @throws TransactionCreateException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return TransactionCreateResponse
      */
     public function create(
         $buyOrder,
@@ -66,13 +66,15 @@ class Transaction
 
         return new TransactionCreateResponse($response);
     }
-    
+
     /**
      * @param $token
      * @param $installmentsNumber
-     * @return TransactionInstallmentsResponse
+     *
      * @throws TransactionInstallmentsException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return TransactionInstallmentsResponse
      */
     public function installments(
         $token,
@@ -92,15 +94,17 @@ class Transaction
 
         return new TransactionInstallmentsResponse($response);
     }
-    
+
     /**
      * @param $token
      * @param $idQueryInstallments
      * @param $deferredPeriodIndex
      * @param $gracePeriod
-     * @return TransactionCommitResponse
+     *
      * @throws TransactionCommitException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return TransactionCommitResponse
      */
     public function commit(
         $token,
@@ -121,15 +125,18 @@ class Transaction
         } catch (WebpayRequestException $exception) {
             throw TransactionCommitException::raise($exception);
         }
+
         return new TransactionCommitResponse($response);
     }
-    
+
     /**
      * @param $token
      * @param $amount
-     * @return TransactionRefundResponse
+     *
      * @throws TransactionRefundException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return TransactionRefundResponse
      */
     public function refund($token, $amount)
     {
@@ -147,12 +154,14 @@ class Transaction
 
         return new TransactionRefundResponse($response);
     }
-    
+
     /**
      * @param $token
-     * @return Responses\TransactionStatusResponse
+     *
      * @throws TransactionStatusException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return Responses\TransactionStatusResponse
      */
     public function status($token)
     {
@@ -166,7 +175,7 @@ class Transaction
 
         return new \Transbank\TransaccionCompleta\Responses\TransactionStatusResponse($response);
     }
-    
+
     /**
      * Get the default options if none are given.
      *
@@ -176,7 +185,7 @@ class Transaction
     {
         return Options::forIntegration(TransaccionCompleta::DEFAULT_COMMERCE_CODE);
     }
-    
+
     /**
      * @return mixed
      */
