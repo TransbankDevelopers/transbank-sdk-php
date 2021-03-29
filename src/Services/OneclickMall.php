@@ -143,7 +143,7 @@ class OneclickMall
             ]
         );
 
-        $this->log('Deleting subscription', ['api_request' => $apiRequest,]);
+        $this->log('Deleting subscription', ['api_request' => $apiRequest]);
 
         $response = $this->send(static::SERVICE_NAME, $apiRequest, 'delete', static::ENDPOINT_DELETE, [], $options);
 
@@ -174,7 +174,7 @@ class OneclickMall
             [
                 'tbk_user' => $tbkUser,
                 'username' => $username,
-                'buy_order' => $username,
+                'buy_order' => $parentBuyOrder,
                 'details' => $details,
             ]
         );
@@ -274,8 +274,8 @@ class OneclickMall
      *
      * @param  string  $commerceCode
      * @param  string  $buyOrder
-     * @param  int  $authorizationCode
-     * @param  int|float  $amount
+     * @param  string|int  $authorizationCode
+     * @param  int|float  $captureAmount
      * @param  array  $options
      *
      * @return \Transbank\Sdk\Services\Transactions\Transaction
@@ -284,8 +284,8 @@ class OneclickMall
     public function capture(
         string $commerceCode,
         string $buyOrder,
-        int $authorizationCode,
-        int|float $amount,
+        string|int $authorizationCode,
+        int|float $captureAmount,
         array $options = []
     ): Transactions\Transaction {
         $apiRequest = new ApiRequest(
@@ -294,11 +294,11 @@ class OneclickMall
                 'commerce_code' => $commerceCode,
                 'buy_order' => $buyOrder,
                 'authorization_code' => $authorizationCode,
-                'amount' => $amount,
+                'capture_amount' => $captureAmount,
             ]
         );
 
-        $this->log('Capturing transaction', ['api_request' => $apiRequest,]);
+        $this->log('Capturing transaction', ['api_request' => $apiRequest]);
 
         // If we are on integration, we need to override the credentials.
         $serviceName = $this->transbank->isIntegration() ? static::ACTION_CAPTURE : static::SERVICE_NAME;
