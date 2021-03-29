@@ -26,6 +26,10 @@ class ApiRequest implements JsonSerializable, ArrayAccess
      */
     public function toJson(): string
     {
+        if (empty($this->attributes)) {
+            return '';
+        }
+
         return json_encode($this->jsonSerialize(), JSON_ERROR_NONE);
     }
 
