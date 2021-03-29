@@ -47,7 +47,7 @@ class WebpayMall
      * @param  string|null  $sessionId
      * @param  array  $options
      *
-     * @return \Transbank\Sdk\Services\Transactions\Transaction
+     * @return \Transbank\Sdk\Services\Transactions\Response
      * @throws \Transbank\Sdk\Exceptions\TransbankException
      */
     public function create(
@@ -56,7 +56,7 @@ class WebpayMall
         array $transactionDetails,
         string $sessionId = null,
         array $options = []
-    ): Transactions\Transaction {
+    ): Transactions\Response {
         $apiRequest = new ApiRequest(
             static::ACTION_CREATE,
             [
@@ -85,7 +85,7 @@ class WebpayMall
             ]
         );
 
-        return new Transactions\Transaction(static::ACTION_CREATE, $response);
+        return new Transactions\Response($response['token'], $response['url']);
     }
 
     /**
@@ -244,7 +244,7 @@ class WebpayMall
         string|int $commerceCode,
         string $token,
         string $buyOrder,
-        int $authorizationCode,
+        int|string $authorizationCode,
         int|float $captureAmount,
         array $options = []
     ): Transactions\Transaction {
