@@ -24,7 +24,7 @@ Para usar el SDK en tu proyecto **debes** usar [Composer](https://getcomposer.or
 
     composer require transbank/transbank-sdk:>=2.0
 
-> Nota: Si usas un hosting compartido o un ambiente donde no tienes acceso para instalar Composer, tendrás que instalar el SDK en tu propio computador, y luego subir todos los archivos a tu aplicación por FTP, SSH, u otro. Quizás también tengas que instalar un [Cliente HTTP](#cliente-http) antes de subir todo.
+> Nota: Si usas un hosting compartido o un ambiente donde no tienes acceso para instalar Composer, tendrás que instalar el SDK en tu propio computador, y luego subir todos los archivos a tu aplicación por FTP, SSH, u otro. Quizás tengas que instalar un [Cliente HTTP](#cliente-http) antes de subir todo.
 
 ## Documentación 
 
@@ -32,13 +32,10 @@ Puedes encontrar toda la documentación de cómo usar este SDK en el sitio de [T
 
 La documentación relevante para usar este SDK es:
 
-- Primeros pasos con [Webpay](https://www.transbankdevelopers.cl/documentacion/webpay) y [Onepay](https://www.transbankdevelopers.cl/documentacion/onepay).
+- Primeros pasos con [Webpay](https://www.transbankdevelopers.cl/documentacion/webpay).
 - Documentación sobre [ambientes, deberes del comercio, puesta en producción, etc](https://www.transbankdevelopers.cl/documentacion/como_empezar#ambientes).
   
-También puedes encontrar:
-
-- Documentación general sobre los productos y sus diferencias, como [Webpay](https://www.transbankdevelopers.cl/producto/webpay) y [Onepay](https://www.transbankdevelopers.cl/producto/onepay).
-- Referencia detallada sobre [Webpay](https://www.transbankdevelopers.cl/referencia/webpay) y [Onepay](https://www.transbankdevelopers.cl/referencia/onepay).
+También puedes encontrar la documentación general sobre los productos y sus diferencias, como [Webpay](https://www.transbankdevelopers.cl/producto/webpay), y la referencia detallada sobre [Webpay](https://www.transbankdevelopers.cl/referencia/webpay).
 
 ## Comienzo rápido
 
@@ -149,6 +146,8 @@ Todas las excepciones contienen:
 Las excepciones son geniales para identificar qué pasó, dónde, y por qué. Por ejemplo, si la Internet _se cae_, recibirás un `CommunicationException`, así que podrás decirle a tus clientes que intenten nuevamente más tarde.
 
 > Las excepciones **NO** son [_loggeadas_](#logger-opcional), eso es trabajo de tu aplicación.
+
+## [Probar localmente](examples/README.md)
 
 ## Información para contribuir y desarrollar este SDK
 
