@@ -163,13 +163,7 @@ class WebpayMall
     {
         $apiRequest = new ApiRequest(static::ACTION_STATUS);
 
-        $this->log(
-            'ApiRequest status',
-            [
-                'token' => $token,
-                'api_request' => $apiRequest,
-            ]
-        );
+        $this->log('Retrieving transaction status', ['token' => $token, 'api_request' => $apiRequest]);
 
         $response = $this->send(
             static::SERVICE_NAME,
@@ -182,14 +176,7 @@ class WebpayMall
             $options
         );
 
-        $this->log(
-            'Response received',
-            [
-                'token' => $this,
-                'api_request' => $apiRequest,
-                'response' => $response,
-            ]
-        );
+        $this->log('Response received', ['token' => $this, 'api_request' => $apiRequest, 'response' => $response]);
 
         return Transactions\Transaction::createWithDetails(static::ACTION_STATUS, $response);
     }
@@ -273,7 +260,7 @@ class WebpayMall
             ]
         );
 
-        $this->log('Capturing transaction', ['token' => $token, 'api_request' => $apiRequest,]);
+        $this->log('Capturing transaction', ['token' => $token, 'api_request' => $apiRequest]);
 
         // If we are on integration, we need to override the credentials.
         $serviceName = $this->transbank->isIntegration() ? static::ACTION_CAPTURE : static::SERVICE_NAME;

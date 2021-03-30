@@ -220,7 +220,7 @@ class OneclickMall
     {
         $apiRequest = new ApiRequest(static::ACTION_STATUS);
 
-        $this->log('Authorizing transaction', ['buy_order' => $buyOrder, 'api_request' => $apiRequest,]);
+        $this->log('Retrieving transaction status', ['buy_order' => $buyOrder, 'api_request' => $apiRequest]);
 
         $response = $this->send(
             static::SERVICE_NAME,

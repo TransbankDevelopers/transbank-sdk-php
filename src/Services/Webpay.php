@@ -144,7 +144,7 @@ class Webpay
     {
         $apiRequest = new ApiRequest(self::ACTION_STATUS);
 
-        $this->log('Transaction status', ['token' => $token, 'api_request' => $apiRequest,]);
+        $this->log('Retrieving transaction status', ['token' => $token, 'api_request' => $apiRequest]);
 
         $response = $this->send(
             self::SERVICE_NAME,

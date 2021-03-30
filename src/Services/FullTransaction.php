@@ -193,7 +193,7 @@ class FullTransaction
     {
         $apiRequest = new ApiRequest(static::ACTION_STATUS);
 
-        $this->log('Getting transaction', ['token' => $token, 'api_request' => $apiRequest]);
+        $this->log('Retrieving transaction status', ['token' => $token, 'api_request' => $apiRequest]);
 
         $response = $this->send(
             static::SERVICE_NAME,
