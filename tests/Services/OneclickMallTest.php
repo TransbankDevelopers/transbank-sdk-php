@@ -444,7 +444,7 @@ class OneclickMallTest extends TestCase
         $this->dispatcher->shouldNotReceive('dispatch');
 
         $this->logger->shouldReceive('debug')->withArgs(function (string $action, array $context) use ($buyOrder) {
-            static::assertEquals('Authorizing transaction', $action);
+            static::assertEquals('Retrieving transaction status', $action);
             static::assertEquals('oneclickMall.status', $context['api_request']->serviceAction);
             static::assertEquals($buyOrder, $context['buy_order']);
 
@@ -517,7 +517,8 @@ class OneclickMallTest extends TestCase
             $amount,
             $childBuyOrder,
             $childCommerceCode,
-            $buyOrder) {
+            $buyOrder
+        ) {
             static::assertEquals('Refunding transaction', $action);
 
             static::assertEquals($buyOrder, $context['buy_order']);

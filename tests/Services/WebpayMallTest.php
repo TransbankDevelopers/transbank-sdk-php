@@ -294,7 +294,7 @@ class WebpayMallTest extends TestCase
         $this->dispatcher->shouldNotReceive('dispatch');
 
         $this->logger->shouldReceive('debug', function(string $action, array $context) use ($token) {
-            static::assertEquals('Transaction status', $action);
+            static::assertEquals('Retrieving transaction status', $action);
             static::assertEquals($token, $context['token']);
             static::assertEquals('webpayMall.status', $context['api_request']->serviceAction);
 
