@@ -154,11 +154,19 @@ class Connector
             $response = $this->client->sendRequest($request);
         } catch (NetworkExceptionInterface $exception) {
             throw new NetworkException(
-                'Could not establish connection with Transbank.', $apiRequest, $request, null, $exception
+                'Could not establish connection with Transbank.',
+                $apiRequest,
+                $request,
+                null,
+                $exception
             );
         } catch (Throwable $exception) {
             throw new UnknownException(
-                'An error occurred when trying to communicate with Transbank.', $apiRequest, $request, null, $exception
+                'An error occurred when trying to communicate with Transbank.',
+                $apiRequest,
+                $request,
+                null,
+                $exception
             );
         }
 

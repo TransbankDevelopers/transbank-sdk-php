@@ -120,10 +120,10 @@ class Transbank
 
         // Get one of the two clients HTTP Clients and try to use them if they're installed.
         switch (true) {
-            case class_exists(\GuzzleHttp\Client::class) :
+            case class_exists(\GuzzleHttp\Client::class):
                 $client = new \GuzzleHttp\Client();
                 break;
-            case class_exists(\Symfony\Component\HttpClient\Psr18Client::class) :
+            case class_exists(\Symfony\Component\HttpClient\Psr18Client::class):
                 $client = new \Symfony\Component\HttpClient\Psr18Client();
                 break;
             default:
