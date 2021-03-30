@@ -62,21 +62,21 @@ class Connector
      *
      * @var \Psr\Http\Client\ClientInterface
      */
-    protected ClientInterface $client;
+    protected $client;
 
     /**
      * PSR-17 Request factory.
      *
      * @var \Psr\Http\Message\ServerRequestFactoryInterface
      */
-    protected ServerRequestFactoryInterface $requestFactory;
+    protected $requestFactory;
 
     /**
      * PSR-17 (Message) Stream factory.
      *
      * @var \Psr\Http\Message\StreamFactoryInterface
      */
-    protected StreamFactoryInterface $streamFactory;
+    protected $streamFactory;
 
     /**
      * Connector constructor.

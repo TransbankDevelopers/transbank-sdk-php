@@ -35,14 +35,14 @@ class FullTransactionMall
      *
      * @var \Transbank\Sdk\Transbank
      */
-    protected Transbank $transbank;
+    protected $transbank;
 
     /**
      * Credential Container instance.
      *
      * @var \Transbank\Sdk\Credentials\Container
      */
-    protected Container $container;
+    protected $container;
 
     /**
      * Webpay constructor.
@@ -88,7 +88,7 @@ class FullTransactionMall
                 'session_id' => $sessionId,
                 'card_number' => $cardNumber,
                 'card_expiration_date' => $expiration,
-                'details' => $details
+                'details' => $details,
             ]
         );
 
@@ -290,7 +290,7 @@ class FullTransactionMall
             'put',
             static::ENDPOINT_CAPTURE,
             [
-                '{token}' => $token
+                '{token}' => $token,
             ],
             $options
         );

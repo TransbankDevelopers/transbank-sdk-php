@@ -24,19 +24,19 @@ class ConnectorTest extends TestCase
     /**
      * @var \Mockery\LegacyMockInterface|\Mockery\MockInterface|\Psr\Http\Client\ClientInterface
      */
-    protected ClientInterface $client;
+    protected $client;
     /**
      * @var \Nyholm\Psr7\Factory\Psr17Factory
      */
-    protected Psr17Factory $requestFactory;
+    protected $requestFactory;
     /**
      * @var \Nyholm\Psr7\Factory\Psr17Factory
      */
-    protected Psr17Factory $streamFactory;
+    protected $streamFactory;
     /**
      * @var \Transbank\Sdk\Http\Connector
      */
-    protected Connector $conector;
+    protected $conector;
 
     protected function setUp(): void
     {

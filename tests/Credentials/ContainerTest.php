@@ -10,7 +10,10 @@ use PHPUnit\Framework\TestCase;
 
 class ContainerTest extends TestCase
 {
-    protected Container $container;
+    /**
+     * @var \Transbank\Sdk\Credentials\Container
+     */
+    protected $container;
 
     protected function setUp(): void
     {

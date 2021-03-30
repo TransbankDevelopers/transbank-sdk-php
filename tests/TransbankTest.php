@@ -99,7 +99,9 @@ class TransbankTest extends TestCase
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Closure must declare returning a Transbank object instance.');
 
-        Transbank::singletonBuilder(fn() => 'not transbank');
+        Transbank::singletonBuilder(function() {
+            return 'not transbank';
+        });
 
         Transbank::singleton();
     }
@@ -109,7 +111,9 @@ class TransbankTest extends TestCase
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Closure must declare returning a Transbank object instance.');
 
-        Transbank::singletonBuilder(fn() : string => 'not transbank');
+        Transbank::singletonBuilder(function() : string {
+            return 'not transbank';
+        });
     }
 
     public function test_exception_when_build_callable_not_registered(): void

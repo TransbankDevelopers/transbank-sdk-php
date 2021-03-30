@@ -13,14 +13,14 @@ class ApiRequest implements JsonSerializable, ArrayAccess
      * @var string
      * @example "webpay.create"
      */
-    public string $serviceAction;
+    public $serviceAction;
 
     /**
      * Key-value array to send to Transbank as JSON.
      *
      * @var array
      */
-    public array $attributes = [];
+    public $attributes = [];
 
     /**
      * ApiRequest constructor.

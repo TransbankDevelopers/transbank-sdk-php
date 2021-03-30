@@ -12,14 +12,14 @@ class TransactionCompleted
      * @var \Transbank\Sdk\ApiRequest
      * @example Creation, refunds, captures.
      */
-    public ApiRequest $apiRequest;
+    public $apiRequest;
 
     /**
      * Raw response from Transbank.
      *
      * @var array
      */
-    public array $response;
+    public $response;
 
     /**
      * TransactionCompleted constructor.

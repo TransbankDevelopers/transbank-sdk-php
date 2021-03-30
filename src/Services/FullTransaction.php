@@ -35,14 +35,14 @@ class FullTransaction
      *
      * @var \Transbank\Sdk\Transbank
      */
-    protected Transbank $transbank;
+    protected $transbank;
 
     /**
      * Credential Container instance.
      *
      * @var \Transbank\Sdk\Credentials\Container
      */
-    protected Container $container;
+    protected $container;
 
     /**
      * Webpay constructor.
@@ -282,7 +282,7 @@ class FullTransaction
             'put',
             static::ENDPOINT_CAPTURE,
             [
-                '{token}' => $token
+                '{token}' => $token,
             ],
             $options
         );

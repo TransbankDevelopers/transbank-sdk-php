@@ -9,9 +9,9 @@ use Transbank\Sdk\ApiRequest;
 
 trait HandlesException
 {
-    protected ?ApiRequest $apiRequest = null;
-    protected ?ServerRequestInterface $request = null;
-    protected ?ResponseInterface $response = null;
+    protected $apiRequest = null;
+    protected $request = null;
+    protected $response = null;
 
     /**
      * Transbank Exception constructor.

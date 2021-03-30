@@ -35,14 +35,14 @@ class Transaction implements ArrayAccess, JsonSerializable
      *
      * @var string
      */
-    public string $serviceAction;
+    public $serviceAction;
 
     /**
      * The data of the transaction.
      *
      * @var array
      */
-    protected array $data;
+    protected $data;
 
     /**
      * ApiRequest constructor.
@@ -114,7 +114,7 @@ class Transaction implements ArrayAccess, JsonSerializable
      */
     public function getCreditCardNumber(): ?int
     {
-        if (! isset($this->data['card_detail']['card_number'])) {
+        if (!isset($this->data['card_detail']['card_number'])) {
             return null;
         }
 

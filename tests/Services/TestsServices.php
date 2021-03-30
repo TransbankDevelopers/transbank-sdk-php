@@ -16,12 +16,12 @@ use Transbank\Sdk\Transbank;
 
 trait TestsServices
 {
-    protected Transbank $transbank;
-    protected HandlerStack $handlerStack;
-    protected LoggerInterface $logger;
-    protected EventDispatcherInterface $dispatcher;
+    protected $transbank;
+    protected $handlerStack;
+    protected $logger;
+    protected $dispatcher;
     /** @var array<array<\GuzzleHttp\Psr7\ServerRequest>> */
-    protected array $requests;
+    protected $requests;
 
     protected function setUp(): void
     {

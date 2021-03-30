@@ -28,63 +28,65 @@ class Transbank
      *
      * @var null|Closure(): Transbank
      */
-    protected static ?Closure $builder = null;
+    protected static $builder = null;
 
     /**
      * Transbank instance singleton helper.
      *
      * @var Transbank|null
      */
-    protected static ?Transbank $singleton = null;
-
-    /**
-     * Credentials container.
-     *
-     * @var \Transbank\Sdk\Credentials\Container
-     */
-    protected Container $credentials;
-
+    protected static $singleton = null;
     /**
      * Logger instance.
      *
      * @var \Psr\Log\LoggerInterface
      */
-    public LoggerInterface $logger;
-
+    public $logger;
     /**
      * Event dispatcher instance.
      *
      * @var \Psr\EventDispatcher\EventDispatcherInterface
      */
-    public EventDispatcherInterface $event;
-
+    public $event;
     /**
      * HTTP Connector to prepare and communicate to Transbank Servers.
      *
      * @var \Transbank\Sdk\Http\Connector
      */
-    public Connector $connector;
-
+    public $connector;
+    /**
+     * Credentials container.
+     *
+     * @var \Transbank\Sdk\Credentials\Container
+     */
+    protected $credentials;
     /**
      * The current environment for all Transbank services.
      *
      * @var bool
      */
-    protected bool $production = false;
+    protected $production = false;
 
     /**
      * Webpay service instance.
      *
      * @var \Transbank\Sdk\Services\Webpay
      */
-    protected Services\Webpay $webpay;
+    protected $webpay;
 
     /**
      * Webpay Mall service instance.
      *
      * @var \Transbank\Sdk\Services\WebpayMall
      */
-    protected Services\WebpayMall $webpayMall;
+    protected $webpayMall;
+
+    /**
+     * Oneclick Mall service instance.
+     *
+     * @var \Transbank\Sdk\Services\OneclickMall
+     */
+    private $oneclickMall;
 
     /**
      * Transbank constructor.
@@ -250,7 +252,7 @@ class Transbank
      */
     public function webpay(): Services\Webpay
     {
-        return $this->webpay ??= new Services\Webpay($this, $this->credentials);
+        return $this->webpay ?? $this->webpay = new Services\Webpay($this, $this->credentials);
     }
 
     /**
@@ -260,7 +262,7 @@ class Transbank
      */
     public function webpayMall(): Services\WebpayMall
     {
-        return $this->webpayMall ??= new Services\WebpayMall($this, $this->credentials);
+        return $this->webpayMall ?? $this->webpayMall = new Services\WebpayMall($this, $this->credentials);
     }
 
     /**
@@ -270,6 +272,6 @@ class Transbank
      */
     public function oneclickMall(): Services\OneclickMall
     {
-        return $this->oneclickMall ??= new Services\OneclickMall($this, $this->credentials);
+        return $this->oneclickMall ?? $this->oneclickMall = new Services\OneclickMall($this, $this->credentials);
     }
 }

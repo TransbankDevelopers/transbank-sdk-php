@@ -14,7 +14,7 @@ class TransactionDetail implements ArrayAccess, JsonSerializable
      *
      * @var array
      */
-    protected array $data;
+    protected $data;
 
     /**
      * ApiRequest constructor.

@@ -12,7 +12,7 @@ class TransactionCreating
      * @var \Transbank\Sdk\ApiRequest
      * @example Creation, refunds, captures.
      */
-    public ApiRequest $apiRequest;
+    public $apiRequest;
 
     /**
      * TransactionStarted constructor.

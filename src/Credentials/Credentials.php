@@ -35,14 +35,14 @@ class Credentials
      *
      * @var string|null
      */
-    public ?string $key = null;
+    public $key = null;
 
     /**
      * Service shared secret.
      *
      * @var string|null
      */
-    public ?string $secret = null;
+    public $secret = null;
 
     /**
      * Credentials constructor.

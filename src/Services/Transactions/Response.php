@@ -9,14 +9,14 @@ class Response
      *
      * @var string
      */
-    protected string $url;
+    protected $url;
 
     /**
      * The token value that POST request should contain.
      *
      * @var string
      */
-    protected string $token;
+    protected $token;
 
     /**
      * Response constructor.
