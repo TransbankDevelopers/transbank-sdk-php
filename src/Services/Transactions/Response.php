@@ -5,15 +5,29 @@ namespace Transbank\Sdk\Services\Transactions;
 class Response
 {
     /**
+     * Redirection URL where the user should send a POST request.
+     *
+     * @var string
+     */
+    protected string $url;
+
+    /**
+     * The token value that POST request should contain.
+     *
+     * @var string
+     */
+    protected string $token;
+
+    /**
      * Response constructor.
      *
      * @param  string  $token
      * @param  string  $url
      */
-    public function __construct(
-        protected string $token,
-        protected string $url
-    ) {
+    public function __construct(string $token, string $url)
+    {
+        $this->token = $token;
+        $this->url = $url;
     }
 
     /**

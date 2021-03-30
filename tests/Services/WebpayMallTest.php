@@ -19,7 +19,7 @@ use Transbank\Sdk\Credentials\Credentials;
 use Transbank\Sdk\Events\TransactionCompleted;
 use Transbank\Sdk\Events\TransactionCreating;
 use Transbank\Sdk\Http\Connector;
-use Transbank\Sdk\Services\Transactions\Detail;
+use Transbank\Sdk\Services\Transactions\TransactionDetail;
 use Transbank\Sdk\Services\Webpay;
 use Transbank\Sdk\Services\WebpayMall;
 use Transbank\Sdk\Transbank;
@@ -238,7 +238,7 @@ class WebpayMallTest extends TestCase
         }
 
         foreach ($response->details as $detail) {
-            static::assertInstanceOf(Detail::class, $detail);
+            static::assertInstanceOf(TransactionDetail::class, $detail);
             static::assertTrue($detail->isSuccessful());
         }
 
@@ -321,7 +321,7 @@ class WebpayMallTest extends TestCase
         }
 
         foreach ($response->details as $detail) {
-            static::assertInstanceOf(Detail::class, $detail);
+            static::assertInstanceOf(TransactionDetail::class, $detail);
             static::assertFalse($detail->isSuccessful());
         }
 

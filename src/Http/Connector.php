@@ -58,6 +58,27 @@ class Connector
     public const INTEGRATION_ENDPOINT = 'https://webpay3gint.transbank.cl/';
 
     /**
+     * PSR-18 HTTP Client
+     *
+     * @var \Psr\Http\Client\ClientInterface
+     */
+    protected ClientInterface $client;
+
+    /**
+     * PSR-17 Request factory.
+     *
+     * @var \Psr\Http\Message\ServerRequestFactoryInterface
+     */
+    protected ServerRequestFactoryInterface $requestFactory;
+
+    /**
+     * PSR-17 (Message) Stream factory.
+     *
+     * @var \Psr\Http\Message\StreamFactoryInterface
+     */
+    protected StreamFactoryInterface $streamFactory;
+
+    /**
      * Connector constructor.
      *
      * @param  \Psr\Http\Client\ClientInterface  $client
@@ -65,10 +86,13 @@ class Connector
      * @param  \Psr\Http\Message\StreamFactoryInterface  $streamFactory
      */
     public function __construct(
-        protected ClientInterface $client,
-        protected ServerRequestFactoryInterface $requestFactory,
-        protected StreamFactoryInterface $streamFactory
+        ClientInterface $client,
+        ServerRequestFactoryInterface $requestFactory,
+        StreamFactoryInterface $streamFactory
     ) {
+        $this->streamFactory = $streamFactory;
+        $this->requestFactory = $requestFactory;
+        $this->client = $client;
     }
 
     /**
@@ -130,19 +154,11 @@ class Connector
             $response = $this->client->sendRequest($request);
         } catch (NetworkExceptionInterface $exception) {
             throw new NetworkException(
-                'Could not establish connection with Transbank.',
-                $apiRequest,
-                $request,
-                null,
-                $exception
+                'Could not establish connection with Transbank.', $apiRequest, $request, null, $exception
             );
         } catch (Throwable $exception) {
             throw new UnknownException(
-                'An error occurred when trying to communicate with Transbank.',
-                $apiRequest,
-                $request,
-                null,
-                $exception
+                'An error occurred when trying to communicate with Transbank.', $apiRequest, $request, null, $exception
             );
         }
 

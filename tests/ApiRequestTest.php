@@ -38,7 +38,7 @@ class ApiRequestTest extends TestCase
     public function test_exception_on_non_existent_key(): void
     {
         $this->expectError();
-        $this->expectErrorMessage('Undefined array key "bar"');
+        $this->expectErrorMessage('Undefined index: bar');
 
         $request = new ApiRequest('foo', [
             'foo' => 'bar'

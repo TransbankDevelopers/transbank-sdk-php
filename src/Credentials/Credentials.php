@@ -31,15 +31,29 @@ class Credentials
     public const INTEGRATION_SECRET = '579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C';
 
     /**
+     * Service key, usually the Commerce Code.
+     *
+     * @var string|null
+     */
+    public ?string $key = null;
+
+    /**
+     * Service shared secret.
+     *
+     * @var string|null
+     */
+    public ?string $secret = null;
+
+    /**
      * Credentials constructor.
      *
      * @param  string|null  $key
      * @param  string|null  $secret
      */
-    public function __construct(
-        public string|null $key = null,
-        public string|null $secret = null,
-    ) {
+    public function __construct(?string $key = null, ?string $secret = null)
+    {
+        $this->secret = $secret;
+        $this->key = $key;
     }
 
     /**

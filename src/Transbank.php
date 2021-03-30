@@ -17,7 +17,7 @@ use Transbank\Sdk\Http\Connector;
 class Transbank
 {
     /**
-     * Current Transbank SDK for PHP version.
+     * Current SDK version.
      *
      * @var string
      */
@@ -28,14 +28,42 @@ class Transbank
      *
      * @var null|Closure(): Transbank
      */
-    protected static Closure|null $builder = null;
+    protected static ?Closure $builder = null;
 
     /**
      * Transbank instance singleton helper.
      *
      * @var Transbank|null
      */
-    protected static Transbank|null $singleton = null;
+    protected static ?Transbank $singleton = null;
+
+    /**
+     * Credentials container.
+     *
+     * @var \Transbank\Sdk\Credentials\Container
+     */
+    protected Container $credentials;
+
+    /**
+     * Logger instance.
+     *
+     * @var \Psr\Log\LoggerInterface
+     */
+    public LoggerInterface $logger;
+
+    /**
+     * Event dispatcher instance.
+     *
+     * @var \Psr\EventDispatcher\EventDispatcherInterface
+     */
+    public EventDispatcherInterface $event;
+
+    /**
+     * HTTP Connector to prepare and communicate to Transbank Servers.
+     *
+     * @var \Transbank\Sdk\Http\Connector
+     */
+    public Connector $connector;
 
     /**
      * The current environment for all Transbank services.
@@ -67,11 +95,15 @@ class Transbank
      * @param  \Transbank\Sdk\Http\Connector  $connector
      */
     public function __construct(
-        protected Container $credentials,
-        public LoggerInterface $logger,
-        public EventDispatcherInterface $event,
-        public Connector $connector,
+        Container $credentials,
+        LoggerInterface $logger,
+        EventDispatcherInterface $event,
+        Connector $connector
     ) {
+        $this->connector = $connector;
+        $this->event = $event;
+        $this->logger = $logger;
+        $this->credentials = $credentials;
     }
 
     /**
@@ -80,18 +112,23 @@ class Transbank
      * @return static
      * @codeCoverageIgnore
      */
-    public static function make(): static
+    public static function make(): Transbank
     {
+        $client = null;
+
         // Get one of the two clients HTTP Clients and try to use them if they're installed.
-        $client = match (true) {
-            class_exists(\GuzzleHttp\Client::class) => new \GuzzleHttp\Client(),
-            class_exists(
-                \Symfony\Component\HttpClient\Psr18Client::class
-            ) => new \Symfony\Component\HttpClient\Psr18Client(),
-            default => throw new RuntimeException(
-                'The "guzzlehttp/guzzle" or "symfony/http-client" libraries are not present. Install one or use your own PSR-18 HTTP Client.'
-            ),
-        };
+        switch (true) {
+            case class_exists(\GuzzleHttp\Client::class) :
+                $client = new \GuzzleHttp\Client();
+                break;
+            case class_exists(\Symfony\Component\HttpClient\Psr18Client::class) :
+                $client = new \Symfony\Component\HttpClient\Psr18Client();
+                break;
+            default:
+                throw new RuntimeException(
+                    'The "guzzlehttp/guzzle" or "symfony/http-client" libraries are not present. Install one or use your own PSR-18 HTTP Client.'
+                );
+        }
 
         return new static(
             new Container(),
@@ -111,7 +148,9 @@ class Transbank
      */
     public static function singletonBuilder(Closure $constructor): void
     {
-        if ((string)(new ReflectionFunction($constructor))->getReturnType() !== __CLASS__) {
+        $return = (new ReflectionFunction($constructor))->getReturnType();
+
+        if (!$return || $return->getName() !== __CLASS__) {
             throw new LogicException('Closure must declare returning a Transbank object instance.');
         }
 
@@ -145,14 +184,14 @@ class Transbank
      *      - webpay
      *      - webpayMall
      *      - oneclickMall
-     *      - patpass
      *      - fullTransaction
+     *      - fullTransactionMall
      *
      * @param  array<array<string,string>>  $credentials
      *
      * @return $this
      */
-    public function toProduction(array $credentials): static
+    public function toProduction(array $credentials): Transbank
     {
         if (empty($credentials)) {
             throw new LogicException('Cannot set empty credentials for production environment.');
@@ -164,9 +203,7 @@ class Transbank
 
         $this->logger->debug(
             'Transbank has been set to production environment.',
-            [
-                'credentials' => array_keys($credentials),
-            ]
+            ['credentials' => array_keys($credentials)]
         );
 
         return $this;
@@ -177,7 +214,7 @@ class Transbank
      *
      * @return $this
      */
-    public function toIntegration(): static
+    public function toIntegration(): Transbank
     {
         $this->production = false;
 

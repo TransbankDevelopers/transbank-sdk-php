@@ -13,7 +13,7 @@ use Transbank\Sdk\Events\TransactionCompleted;
 use Transbank\Sdk\Events\TransactionCreating;
 use Transbank\Sdk\Http\Connector;
 use Transbank\Sdk\Services\OneclickMall;
-use Transbank\Sdk\Services\Transactions\Detail;
+use Transbank\Sdk\Services\Transactions\TransactionDetail;
 
 class OneclickMallTest extends TestCase
 {
@@ -383,7 +383,7 @@ class OneclickMallTest extends TestCase
         static::assertEquals($response->getTransactionDate(), $transbankResponse['transaction_date']);
 
         foreach ($transbankResponse['details'] as $index => $detail) {
-            static::assertInstanceOf(Detail::class, $response->details[$index]);
+            static::assertInstanceOf(TransactionDetail::class, $response->details[$index]);
 
             static::assertEquals($detail['amount'], $response->details[$index]['amount']);
             static::assertEquals($detail['status'], $response->details[$index]['status']);
@@ -471,7 +471,7 @@ class OneclickMallTest extends TestCase
         }
 
         foreach ($transbankResponse['details'] as $index => $detail) {
-            static::assertInstanceOf(Detail::class, $response->details[$index]);
+            static::assertInstanceOf(TransactionDetail::class, $response->details[$index]);
 
             foreach ($transbankResponse['details'][$index] as $key => $value) {
                 static::assertEquals(

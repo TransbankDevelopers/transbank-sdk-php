@@ -24,7 +24,7 @@ class ConnectorTest extends TestCase
     /**
      * @var \Mockery\LegacyMockInterface|\Mockery\MockInterface|\Psr\Http\Client\ClientInterface
      */
-    protected Mockery\MockInterface|Mockery\LegacyMockInterface|ClientInterface $client;
+    protected ClientInterface $client;
     /**
      * @var \Nyholm\Psr7\Factory\Psr17Factory
      */

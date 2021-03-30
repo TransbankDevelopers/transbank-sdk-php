@@ -18,8 +18,8 @@ trait TestsServices
 {
     protected Transbank $transbank;
     protected HandlerStack $handlerStack;
-    protected LoggerInterface|MockInterface $logger;
-    protected EventDispatcherInterface|MockInterface $dispatcher;
+    protected LoggerInterface $logger;
+    protected EventDispatcherInterface $dispatcher;
     /** @var array<array<\GuzzleHttp\Psr7\ServerRequest>> */
     protected array $requests;
 

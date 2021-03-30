@@ -5,18 +5,25 @@ namespace Transbank\Sdk\Services\Transactions;
 use ArrayAccess;
 use JsonSerializable;
 
-class Detail implements ArrayAccess, JsonSerializable
+class TransactionDetail implements ArrayAccess, JsonSerializable
 {
     use DynamicallyAccess;
+
+    /**
+     * Transaction detail data.
+     *
+     * @var array
+     */
+    protected array $data;
 
     /**
      * ApiRequest constructor.
      *
      * @param  array  $data
      */
-    public function __construct(
-        protected array $data
-    ) {
+    public function __construct(array $data)
+    {
+        $this->data = $data;
     }
 
     /**

@@ -14,19 +14,19 @@ interface TransbankException extends Throwable
      *
      * @return \Transbank\Sdk\ApiRequest|null
      */
-    public function getApiRequest(): ApiRequest|null;
+    public function getApiRequest(): ?ApiRequest;
 
     /**
      * Returns the Server Request sent to Transbank, if any.
      *
      * @return \Psr\Http\Message\ServerRequestInterface|null
      */
-    public function getServerRequest(): ServerRequestInterface|null;
+    public function getServerRequest(): ?ServerRequestInterface;
 
     /**
      * Returns the Response from Transbank, if any.
      *
      * @return \Psr\Http\Message\ResponseInterface|null
      */
-    public function getResponse(): ResponseInterface|null;
+    public function getResponse(): ?ResponseInterface;
 }

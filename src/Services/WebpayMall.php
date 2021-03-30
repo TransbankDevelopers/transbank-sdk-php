@@ -28,15 +28,29 @@ class WebpayMall
     public const ENDPOINT_CAPTURE = Webpay::ENDPOINT_CAPTURE;
 
     /**
+     * Transbank instance.
+     *
+     * @var \Transbank\Sdk\Transbank
+     */
+    protected Transbank $transbank;
+
+    /**
+     * Credential Container instance.
+     *
+     * @var \Transbank\Sdk\Credentials\Container
+     */
+    protected Container $container;
+
+    /**
      * Webpay constructor.
      *
      * @param  \Transbank\Sdk\Transbank  $transbank
      * @param  \Transbank\Sdk\Credentials\Container  $container
      */
-    public function __construct(
-        protected Transbank $transbank,
-        protected Container $container,
-    ) {
+    public function __construct(Transbank $transbank, Container $container)
+    {
+        $this->container = $container;
+        $this->transbank = $transbank;
     }
 
     /**
@@ -193,10 +207,10 @@ class WebpayMall
      * @throws \Transbank\Sdk\Exceptions\TransbankException
      */
     public function refund(
-        string|int $commerceCode,
+        $commerceCode,
         string $token,
         string $buyOrder,
-        int|float $amount,
+        $amount,
         array $options = []
     ): Transactions\Transaction {
         $apiRequest = new ApiRequest(
@@ -242,11 +256,11 @@ class WebpayMall
      * @throws \Transbank\Sdk\Exceptions\TransbankException
      */
     public function capture(
-        string|int $commerceCode,
+        $commerceCode,
         string $token,
         string $buyOrder,
-        int|string $authorizationCode,
-        int|float $captureAmount,
+        $authorizationCode,
+        $captureAmount,
         array $options = []
     ): Transactions\Transaction {
         $apiRequest = new ApiRequest(

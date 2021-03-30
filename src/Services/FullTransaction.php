@@ -31,15 +31,29 @@ class FullTransaction
     public const ENDPOINT_INSTALLMENTS = self::ENDPOINT_STATUS . '/installments';
 
     /**
-     * Full Transaction constructor.
+     * Transbank instance.
+     *
+     * @var \Transbank\Sdk\Transbank
+     */
+    protected Transbank $transbank;
+
+    /**
+     * Credential Container instance.
+     *
+     * @var \Transbank\Sdk\Credentials\Container
+     */
+    protected Container $container;
+
+    /**
+     * Webpay constructor.
      *
      * @param  \Transbank\Sdk\Transbank  $transbank
      * @param  \Transbank\Sdk\Credentials\Container  $container
      */
-    public function __construct(
-        protected Transbank $transbank,
-        protected Container $container,
-    ) {
+    public function __construct(Transbank $transbank, Container $container)
+    {
+        $this->container = $container;
+        $this->transbank = $transbank;
     }
 
     /**
@@ -59,10 +73,10 @@ class FullTransaction
     public function create(
         string $buyOrder,
         string $sessionId,
-        int|float $amount,
+        $amount,
         int $ccv,
-        int|string $cardNumber,
-        string|DateTime $expiration,
+        $cardNumber,
+        $expiration,
         array $options = []
     ): Transactions\Response {
         if ($expiration instanceof DateTime) {
@@ -205,7 +219,7 @@ class FullTransaction
      * @return \Transbank\Sdk\Services\Transactions\Transaction
      * @throws \Transbank\Sdk\Exceptions\TransbankException
      */
-    public function refund(string $token, int|float $amount, array $options = []): Transactions\Transaction
+    public function refund(string $token, $amount, array $options = []): Transactions\Transaction
     {
         $apiRequest = new ApiRequest(static::ACTION_REFUND, ['amount' => $amount]);
 
@@ -245,7 +259,7 @@ class FullTransaction
         string $token,
         string $buyOrder,
         int $authorizationCode,
-        int|float $captureAmount,
+        $captureAmount,
         array $options = []
     ): Transactions\Transaction {
         $apiRequest = new ApiRequest(

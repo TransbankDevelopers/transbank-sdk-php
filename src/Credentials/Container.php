@@ -21,28 +21,28 @@ class Container
      *
      * @var Credentials|null
      */
-    protected Credentials|null $webpay = null;
+    protected ?Credentials $webpay = null;
 
     /**
      * Credentials for Webpay Mall.
      *
      * @var Credentials|null
      */
-    protected Credentials|null $webpayMall = null;
+    protected ?Credentials $webpayMall = null;
 
     /**
      * Credentials for Oneclick Mall.
      *
      * @var Credentials|null
      */
-    protected Credentials|null $oneclickMall = null;
+    protected ?Credentials $oneclickMall = null;
 
     /**
      * Credentials for Full ApiRequest.
      *
      * @var Credentials|null
      */
-    protected Credentials|null $fullTransaction = null;
+    protected ?Credentials $fullTransaction = null;
 
     /**
      * Fills the credentials for each service.

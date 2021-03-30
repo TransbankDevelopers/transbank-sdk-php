@@ -4,6 +4,8 @@ namespace Transbank\Sdk\Services\Transactions;
 
 use BadMethodCallException;
 
+use function strlen;
+
 trait DynamicallyAccess
 {
     /**
@@ -14,10 +16,10 @@ trait DynamicallyAccess
      *
      * @return mixed
      */
-    public function __call(string $method, array $arguments): mixed
+    public function __call(string $method, array $arguments)
     {
         // If the call starts with "get", the developer is getting a property.
-        if (strlen($method) > 3 && str_starts_with($method, 'get') && ctype_upper($method[3])) {
+        if (strlen($method) > 3 && 0 === strncmp($method, 'get', strlen('get')) && ctype_upper($method[3])) {
             $name = substr($method, 3);
 
             // The name of the method could be "camelCase" so let's try that
@@ -51,13 +53,13 @@ trait DynamicallyAccess
      *
      * @return mixed
      */
-    public function __get(string $name): mixed
+    public function __get(string $name)
     {
         if (isset($this->data[$name])) {
             return $this->data[$name];
         }
 
-        // Use a different IF block to keep the original property call.
+        // Lets try to use camelCase.
         if (ctype_lower($name[0]) && isset($this->data[$snake = self::toSnakeCase($name)])) {
             return $this->data[$snake];
         }
@@ -72,7 +74,7 @@ trait DynamicallyAccess
      * @param  string  $name
      * @param  mixed  $value
      */
-    public function __set(string $name, mixed $value): void
+    public function __set(string $name, $value): void
     {
         // Immutable
     }
@@ -86,7 +88,7 @@ trait DynamicallyAccess
      */
     public function __isset(string $name): bool
     {
-        return isset($this->data[$name]) || isset($this->data[self::toSnakeCase($name)]);
+        return $this->offsetExists($name) || isset($this->data[self::toSnakeCase($name)]);
     }
 
     /**
@@ -96,7 +98,7 @@ trait DynamicallyAccess
      *
      * @return bool
      */
-    public function offsetExists(mixed $offset): bool
+    public function offsetExists($offset): bool
     {
         return isset($this->data[$offset]);
     }
@@ -108,7 +110,7 @@ trait DynamicallyAccess
      *
      * @return mixed
      */
-    public function offsetGet(mixed $offset): mixed
+    public function offsetGet($offset)
     {
         return $this->data[$offset];
     }
@@ -121,7 +123,7 @@ trait DynamicallyAccess
      *
      * @return void
      */
-    public function offsetSet(mixed $offset, mixed $value): void
+    public function offsetSet($offset, $value): void
     {
         // Immutable.
     }
@@ -133,7 +135,7 @@ trait DynamicallyAccess
      *
      * @return void
      */
-    public function offsetUnset(mixed $offset): void
+    public function offsetUnset($offset): void
     {
         // Immutable
     }

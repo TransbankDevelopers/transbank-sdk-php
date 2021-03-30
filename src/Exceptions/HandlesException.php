@@ -9,6 +9,10 @@ use Transbank\Sdk\ApiRequest;
 
 trait HandlesException
 {
+    protected ?ApiRequest $apiRequest = null;
+    protected ?ServerRequestInterface $request = null;
+    protected ?ResponseInterface $response = null;
+
     /**
      * Transbank Exception constructor.
      *
@@ -20,11 +24,15 @@ trait HandlesException
      */
     public function __construct(
         string $message = '',
-        protected ApiRequest|null $apiRequest = null,
-        protected ServerRequestInterface|null $request = null,
-        protected ResponseInterface|null $response = null,
-        Throwable|null $previous = null
+        ?ApiRequest $apiRequest = null,
+        ?ServerRequestInterface $request = null,
+        ?ResponseInterface $response = null,
+        ?Throwable $previous = null
     ) {
+        $this->response = $response;
+        $this->request = $request;
+        $this->apiRequest = $apiRequest;
+
         parent::__construct($message, static::LOG_LEVEL, $previous);
     }
 
@@ -33,7 +41,7 @@ trait HandlesException
      *
      * @return \Transbank\Sdk\ApiRequest|null
      */
-    public function getApiRequest(): ApiRequest|null
+    public function getApiRequest(): ?ApiRequest
     {
         return $this->apiRequest;
     }
@@ -43,7 +51,7 @@ trait HandlesException
      *
      * @return \Psr\Http\Message\ServerRequestInterface|null
      */
-    public function getServerRequest(): ServerRequestInterface|null
+    public function getServerRequest(): ?ServerRequestInterface
     {
         return $this->request;
     }
@@ -53,7 +61,7 @@ trait HandlesException
      *
      * @return \Psr\Http\Message\ResponseInterface|null
      */
-    public function getResponse(): ResponseInterface|null
+    public function getResponse(): ?ResponseInterface
     {
         return $this->response;
     }

@@ -42,15 +42,29 @@ class OneclickMall
     public const ENDPOINT_CAPTURE = '/rswebpaytransaction/api/oneclick/mall/{api_version}/transactions/capture';
 
     /**
-     * Oneclick Mall constructor.
+     * Transbank instance.
+     *
+     * @var \Transbank\Sdk\Transbank
+     */
+    protected Transbank $transbank;
+
+    /**
+     * Credential Container instance.
+     *
+     * @var \Transbank\Sdk\Credentials\Container
+     */
+    protected Container $container;
+
+    /**
+     * Webpay constructor.
      *
      * @param  \Transbank\Sdk\Transbank  $transbank
      * @param  \Transbank\Sdk\Credentials\Container  $container
      */
-    public function __construct(
-        protected Transbank $transbank,
-        protected Container $container,
-    ) {
+    public function __construct(Transbank $transbank, Container $container)
+    {
+        $this->container = $container;
+        $this->transbank = $transbank;
     }
 
     /**
@@ -238,7 +252,7 @@ class OneclickMall
         string $buyOrder,
         string $childCommerceCode,
         string $childBuyOrder,
-        int|float $amount,
+        $amount,
         array $options = []
     ): Transactions\Transaction {
         $apiRequest = new ApiRequest(
@@ -285,8 +299,8 @@ class OneclickMall
     public function capture(
         string $commerceCode,
         string $buyOrder,
-        string|int $authorizationCode,
-        int|float $captureAmount,
+        $authorizationCode,
+        $captureAmount,
         array $options = []
     ): Transactions\Transaction {
         $apiRequest = new ApiRequest(
