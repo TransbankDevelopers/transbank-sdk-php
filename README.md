@@ -49,7 +49,7 @@ $transbank = Transbank::make();
 
 Como es un objeto, te recomendamos guardarlo en algún lugar para no tener que crear una instancia nueva cada vez que necesites usar el SDK de Transbank.
 
-También puedes usar el método `singletonBuilder()` para registrar una función que construya la instancia de `Transbank`, y luego usar `singleton()` para recuperarla -- ésta ejecuta la función sólo una vez si la instancia existe.
+También puedes usar el método `singletonBuilder()` para registrar una función que construya la instancia de `Transbank`, y luego usar `singleton()` para recuperarla -- ésta ejecuta la función sólo una vez si la instancia no existe.
 
 ```php
 use Transbank\Sdk\Transbank;
@@ -67,7 +67,7 @@ $tbk = Transbank::singleton();
 
 Por defecto, el SDK opera en modo **integración**, o sea, todas las transacciones son falsas.
 
-Cuando quieras pasar a producción, necesitarás credenciales. Puedes hacerlo usando `toProduction()` usando un `array` con el nombre de los servicios y las credenciales de cada uno: `webpay`, `webpayMall`, `oneclickMall`, `fullTransaction` y `patpass`.
+Cuando quieras pasar a producción, necesitarás credenciales. Puedes hacerlo usando `toProduction()` usando un `array` con el nombre de los servicios y las credenciales de cada uno: `webpay`, `webpayMall`, `oneclickMall` o `fullTransaction`.
 
 ```php
 $transbank->toProduction([
@@ -79,7 +79,7 @@ $transbank->toProduction([
 
 ### Servicios
 
-Para usar los servicios Webpay, Webpay Mall, Oneclick Mall, Transacción Completa y Patpass, simplemente llama el nombre del servicio desde la instancia de Transbank:
+Para usar los servicios Webpay, Webpay Mall, Oneclick Mall, y Transacción Completa, simplemente llama el nombre del servicio desde la instancia de Transbank:
 
 ```php
 use Transbank\Sdk\Transbank;
@@ -115,7 +115,7 @@ El SDK de Transbank escribe como `debug` todas las transacciones enviadas y resp
 
 ### Eventos (opcional)
 
-Este paquete es compatible con cualquier Despachador de Eventos PSR-14, por lo que podrás _oír_ transacciones.
+Este paquete es compatible con cualquier Despachador de Eventos PSR-14, por lo que podrás _oír_ transacciones en tu aplicación.
 
 > Si no tienes uno, te recomendamos usar [Symfony Event Dispatcher](https://github.com/symfony/event-dispatcher)
 >
@@ -127,12 +127,12 @@ El SDK despacha eventos cada vez que una transacción se crea y se completa, ind
 
 Todas las excepciones de este SDK implementan `TransbankException`, por lo que podrás identificar fácilmente cualquier error desde tu aplicación y capturarla.
 
-> Transacciones rechazadas no elevan excepciones.
+> Transacciones rechazadas por la entidad bancaria no elevan excepciones.
 
 Existen 3 tipos de excepciones en este SDK:
 
 * `ClientException`: Cualquier error cometido por una transacción mal echa o mala configuración, como
-  un monto negativo, o credenciales erróneas.
+  un monto negativo, o credenciales erróneas, timeouts, o un aborto de transacción.
 * `NetworkException`: Cualquier error producto de comunicación errónea con Transbank, como cuando se cae la Internet.
 * `ServerException`: Cualquier error anormal desde Transbank que no sea tu culpa.
 * `UnknownException`: Cualquier error desconocido.
