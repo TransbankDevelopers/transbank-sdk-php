@@ -11,6 +11,7 @@ class WebpayMall
     use FiresEvents;
     use DebugsTransactions;
     use SendsRequests;
+    use WrapsDetail;
 
     protected const SERVICE_NAME = 'webpayMall';
     protected const ACTION_CREATE = self::SERVICE_NAME . '.create';
@@ -43,8 +44,8 @@ class WebpayMall
      *
      * @param  string  $buyOrder
      * @param  string  $returnUrl
-     * @param  array  $transactionDetails
-     * @param  string|null  $sessionId
+     * @param  string  $sessionId
+     * @param  array  $details
      * @param  array  $options
      *
      * @return \Transbank\Sdk\Services\Transactions\Response
@@ -53,8 +54,8 @@ class WebpayMall
     public function create(
         string $buyOrder,
         string $returnUrl,
-        array $transactionDetails,
-        string $sessionId = null,
+        string $sessionId,
+        array $details,
         array $options = []
     ): Transactions\Response {
         $apiRequest = new ApiRequest(
@@ -63,7 +64,7 @@ class WebpayMall
                 'buy_order' => $buyOrder,
                 'session_id' => $sessionId,
                 'return_url' => $returnUrl,
-                'details' => $transactionDetails,
+                'details' => static::wrapDetails($details),
             ]
         );
 
@@ -207,7 +208,7 @@ class WebpayMall
             ]
         );
 
-        $this->log('Refunding transaction', ['token' => $token, 'api_request' => $apiRequest,]);
+        $this->log('Refunding transaction', ['token' => $token, 'api_request' => $apiRequest]);
 
         $this->fireStarted($apiRequest);
 
@@ -233,7 +234,7 @@ class WebpayMall
      * @param  string|int  $commerceCode
      * @param  string  $token
      * @param  string  $buyOrder
-     * @param  int  $authorizationCode
+     * @param  int|string  $authorizationCode
      * @param  int|float  $captureAmount
      * @param  array  $options
      *

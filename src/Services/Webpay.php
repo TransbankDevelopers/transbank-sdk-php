@@ -62,7 +62,7 @@ class Webpay
         string $buyOrder,
         int|float $amount,
         string $returnUrl,
-        string $sessionId = null,
+        string $sessionId,
         array $options = []
     ): Transactions\Response {
         $apiRequest = new ApiRequest(
