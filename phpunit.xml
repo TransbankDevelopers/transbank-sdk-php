@@ -1,21 +1,18 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd" backupGlobals="true" bootstrap="./vendor/autoload.php" colors="true">
 <testsuites>
-        <testsuite name="Transbank SDK Test Suite">
-            <directory>tests</directory>
-        </testsuite>
-    </testsuites>
-    <logging>
-        <log type="coverage-clover" target="clover.xml"/>
-    </logging>
-    <coverage processUncoveredFiles="true">
-        <include>
-            <directory suffix=".php">src</directory>
-        </include>
-        <exclude>
-            <file>src/Events/NullDispatcher.php</file>
-        </exclude>
-        <report>
-            <clover outputFile="build/logs/clover.xml"/>
-        </report>
-    </coverage>
+    <testsuite name="Transbank SDK Test Suite">
+        <directory>tests</directory>
+    </testsuite>
+</testsuites>
+<coverage processUncoveredFiles="true">
+    <include>
+        <directory suffix=".php">src</directory>
+    </include>
+    <exclude>
+        <file>src/Events/NullDispatcher.php</file>
+    </exclude>
+    <report>
+        <clover outputFile="build/logs/clover.xml"/>
+    </report>
+</coverage>
 </phpunit>
