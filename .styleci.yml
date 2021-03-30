@@ -6,4 +6,3 @@ use-tabs: false
 finder:
   exclude:
     - "tests"
-    - "examples"
