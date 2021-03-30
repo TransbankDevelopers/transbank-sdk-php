@@ -30,7 +30,7 @@ class OneclickMallTest extends TestCase
                 static::assertEquals('test_secret', $credentials->secret);
                 return true;
             }
-        )->times(6)->andReturn(['token' => 'test_token', 'url' => 'test_url']);
+        )->times(6)->andReturn(['token' => 'test_token', 'url_webpay' => 'test_url']);
 
         $this->logger->shouldReceive('debug')->withAnyArgs()->zeroOrMoreTimes()->andReturnNull();
         $this->dispatcher->shouldReceive('dispatch')->withAnyArgs()->zeroOrMoreTimes()->andReturnNull();
@@ -58,7 +58,7 @@ class OneclickMallTest extends TestCase
                 static::assertEquals(Credentials::INTEGRATION_SECRET, $credentials->secret);
                 return true;
             }
-        )->times(6)->andReturn(['token' => 'test_token', 'url' => 'test_url']);
+        )->times(6)->andReturn(['token' => 'test_token', 'url_webpay' => 'test_url']);
 
         $this->logger->shouldReceive('debug')->withAnyArgs()->zeroOrMoreTimes()->andReturnNull();
         $this->dispatcher->shouldReceive('dispatch')->withAnyArgs()->zeroOrMoreTimes()->andReturnNull();
@@ -82,7 +82,7 @@ class OneclickMallTest extends TestCase
                 'content-type' => 'application/json',
             ], json_encode([
                'token' => $token = '01ab1cc073c91fe5fc08a1b3b00ac3f63033a0e3dbdfdb1fde55c044ed8161b6',
-               'url' => $url = 'https://webpay3g.transbank.cl/webpayserver/initTransaction',
+               'url_webpay' => $url = 'https://webpay3g.transbank.cl/webpayserver/initTransaction',
            ], JSON_THROW_ON_ERROR)),
         ]));
 
@@ -119,7 +119,7 @@ class OneclickMallTest extends TestCase
                 static::assertEquals($email, $context['api_request']['email']);
                 static::assertEquals($responseUrl, $context['api_request']['response_url']);
                 static::assertEquals($token, $context['response']['token']);
-                static::assertEquals($url, $context['response']['url']);
+                static::assertEquals($url, $context['response']['url_webpay']);
             return true;
         })->once()->andReturnNull();
 

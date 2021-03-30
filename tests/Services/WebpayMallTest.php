@@ -48,7 +48,7 @@ class WebpayMallTest extends TestCase
             'webpayMall' => ['key' => 'test_key', 'secret' => 'test_secret']
         ]);
 
-        $this->transbank->webpayMall()->create('test_buy_order', 'test_return_url', [], 'test_session_id');
+        $this->transbank->webpayMall()->create('test_buy_order', 'test_return_url', 'test_session_id', []);
         $this->transbank->webpayMall()->status('test_token');
         $this->transbank->webpayMall()->commit('test_token');
         $this->transbank->webpayMall()->refund('childCommerceCode', 'test_token', 'test_buy_order', 1000);
@@ -73,7 +73,7 @@ class WebpayMallTest extends TestCase
         $this->logger->shouldReceive('debug')->withAnyArgs()->zeroOrMoreTimes()->andReturnNull();
         $this->dispatcher->shouldReceive('dispatch')->withAnyArgs()->zeroOrMoreTimes()->andReturnNull();
 
-        $this->transbank->webpayMall()->create('test_buy_order', 'test_return_url', [], 'test_session_id');
+        $this->transbank->webpayMall()->create('test_buy_order', 'test_return_url', 'test_session_id', []);
         $this->transbank->webpayMall()->status('test_token');
         $this->transbank->webpayMall()->commit('test_token');
         $this->transbank->webpayMall()->refund('childCommerceCode', 'test_token', 'test_buy_order', 1000);
@@ -139,7 +139,7 @@ class WebpayMallTest extends TestCase
             return true;
         })->once()->andReturnNull();
 
-        $response = $this->transbank->webpayMall()->create($buyOrder, $returnUrl, $details, $sessionId);
+        $response = $this->transbank->webpayMall()->create($buyOrder, $returnUrl, $sessionId, $details);
 
         static::assertEquals($response->getToken(), $token);
         static::assertEquals($response->getUrl(), $url);

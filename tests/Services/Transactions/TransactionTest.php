@@ -184,11 +184,27 @@ class TransactionTest extends TestCase
     {
         $transaction = new Transaction('foo', [
             'card_detail' => [
-                'card_number' => '1234'
+                'card_number' => 'XXXXXXXXXXXX6623'
             ]
         ]);
 
-        static::assertEquals('1234', $transaction->getCreditCardNumber());
+        static::assertEquals(6623, $transaction->getCreditCardNumber());
+
+        $transaction = new Transaction('foo', [
+            'card_detail' => [
+                'card_number' => '6623'
+            ]
+        ]);
+
+        static::assertEquals(6623, $transaction->getCreditCardNumber());
+
+        $transaction = new Transaction('foo', [
+            'card_detail' => [
+                'card_number' => 6623
+            ]
+        ]);
+
+        static::assertEquals(6623, $transaction->getCreditCardNumber());
     }
 
     public function test_serializes_to_json(): void
