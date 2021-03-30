@@ -11,6 +11,7 @@ class OneclickMall
     use FiresEvents;
     use DebugsTransactions;
     use SendsRequests;
+    use WrapsDetail;
 
     // Services names.
     protected const SERVICE_NAME = 'oneclickMall';
@@ -86,7 +87,7 @@ class OneclickMall
 
         $this->logResponse(['api_request' => $apiRequest, 'response' => $response]);
 
-        return new Transactions\Response($response['token'], $response['url']);
+        return new Transactions\Response($response['token'], $response['url_webpay']);
     }
 
     /**
@@ -155,7 +156,7 @@ class OneclickMall
      *
      * @param  string  $tbkUser
      * @param  string  $username
-     * @param  string  $parentBuyOrder
+     * @param  string  $buyOrder
      * @param  array  $details
      * @param  array  $options
      *
@@ -165,7 +166,7 @@ class OneclickMall
     public function authorize(
         string $tbkUser,
         string $username,
-        string $parentBuyOrder,
+        string $buyOrder,
         array $details,
         array $options = []
     ): Transactions\Transaction {
@@ -174,12 +175,12 @@ class OneclickMall
             [
                 'tbk_user' => $tbkUser,
                 'username' => $username,
-                'buy_order' => $parentBuyOrder,
-                'details' => $details,
+                'buy_order' => $buyOrder,
+                'details' => static::wrapDetails($details),
             ]
         );
 
-        $this->log('Authorizing transaction', ['api_request' => $apiRequest,]);
+        $this->log('Authorizing transaction', ['api_request' => $apiRequest]);
 
         $this->fireStarted($apiRequest);
 
