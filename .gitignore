@@ -4,3 +4,4 @@
 .bundled
 composer.lock
 /.phpunit.result.cache
+/examples/webpay-oneclick/username.txt
