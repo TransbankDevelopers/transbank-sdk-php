@@ -197,8 +197,8 @@ class Connector
      */
     protected function throwExceptionOnResponseError(ApiRequest $apiRequest, Request $request, Response $response): void
     {
-        // The first barrier is a JSON response.
-        if (!in_array('application/json', $response->getHeader('Content-Type'))) {
+        // Bail out if the response is present but is not JSON.
+        if ($response->getBody()->getSize() && !in_array('application/json', $response->getHeader('Content-Type'))) {
             throw new ServerException('Non-JSON response received.', $apiRequest, $request, $response);
         }
 
