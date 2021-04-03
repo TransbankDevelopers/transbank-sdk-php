@@ -7,7 +7,7 @@ SDK Oficial de Transbank
 
 ## Requisitos:
 
-- PHP 5.6+
+- PHP 7.0+
 
 ## Dependencias
 En caso de instalar con Composer las siguientes dependencias deberían instalarse
