@@ -3,7 +3,7 @@
 
 # Transbank PHP SDK
 
-SDK Oficial de Transbank
+![transbank-php-sdk](https://user-images.githubusercontent.com/1103494/113464583-14856a80-9404-11eb-947e-dd4dd4ff6510.png)
 
 ## Requisitos:
 
