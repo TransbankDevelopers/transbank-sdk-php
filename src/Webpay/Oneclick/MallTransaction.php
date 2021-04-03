@@ -37,7 +37,7 @@ class MallTransaction
         ];
 
         try {
-            $response = $this->request(
+            $response = $this->sendRequest(
                 'POST',
                 static::AUTHORIZE_TRANSACTION_ENDPOINT,
                 $payload
@@ -59,7 +59,7 @@ class MallTransaction
         ];
 
         try {
-            $response = $this->request(
+            $response = $this->sendRequest(
                 'PUT',
                 static::TRANSACTION_CAPTURE_ENDPOINT,
                 $payload
@@ -74,7 +74,7 @@ class MallTransaction
     public function status($buyOrder)
     {
         try {
-            $response = $this->request(
+            $response = $this->sendRequest(
                 'GET',
                 str_replace('{buy_order}', $buyOrder, self::TRANSACTION_STATUS_ENDPOINT),
                 null
@@ -95,7 +95,7 @@ class MallTransaction
         ];
 
         try {
-            $response = $this->request(
+            $response = $this->sendRequest(
                 'POST',
                 str_replace('{buy_order}', $buyOrder, self::TRANSACTION_REFUND_ENDPOINT),
                 $payload

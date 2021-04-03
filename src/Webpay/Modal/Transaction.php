@@ -48,7 +48,7 @@ class Transaction
         ];
 
         try {
-            $response = $this->request('POST', static::CREATE_TRANSACTION_ENDPOINT, $payload);
+            $response = $this->sendRequest('POST', static::CREATE_TRANSACTION_ENDPOINT, $payload);
         } catch (WebpayRequestException $exception) {
             throw TransactionCreateException::raise($exception);
         }
@@ -69,7 +69,7 @@ class Transaction
         $endpoint = str_replace('{token}', $token, static::COMMIT_TRANSACTION_ENDPOINT);
 
         try {
-            $response = $this->request('PUT', $endpoint, []);
+            $response = $this->sendRequest('PUT', $endpoint, []);
         } catch (WebpayRequestException $exception) {
             throw TransactionCommitException::raise($exception);
         }
@@ -90,7 +90,7 @@ class Transaction
         $endpoint = str_replace('{token}', $token, static::STATUS_TRANSACTION_ENDPOINT);
 
         try {
-            $response = $this->request('GET', $endpoint, []);
+            $response = $this->sendRequest('GET', $endpoint, []);
         } catch (WebpayRequestException $exception) {
             throw TransactionStatusException::raise($exception);
         }
@@ -112,7 +112,7 @@ class Transaction
         $endpoint = str_replace('{token}', $token, static::REFUND_TRANSACTION_ENDPOINT);
 
         try {
-            $response = $this->request(
+            $response = $this->sendRequest(
                 'POST',
                 $endpoint,
                 ['amount' => $amount]

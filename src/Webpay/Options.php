@@ -122,10 +122,10 @@ class Options
     public function getApiBaseUrl()
     {
         if ($this->isProduction()) {
-            return self::BASE_URL_PRODUCTION;
+            return static::BASE_URL_PRODUCTION;
         }
 
-        return self::BASE_URL_INTEGRATION;
+        return static::BASE_URL_INTEGRATION;
     }
 
     /**

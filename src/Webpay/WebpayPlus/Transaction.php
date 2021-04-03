@@ -52,7 +52,7 @@ class Transaction
         ];
 
         try {
-            $response = $this->request('POST', static::ENDPOINT_CREATE, $payload);
+            $response = $this->sendRequest('POST', static::ENDPOINT_CREATE, $payload);
         } catch (WebpayRequestException $exception) {
             throw TransactionCreateException::raise($exception);
         }
@@ -71,7 +71,7 @@ class Transaction
     public function commit($token)
     {
         try {
-            $response = $this->request(
+            $response = $this->sendRequest(
                 'PUT',
                 str_replace('{token}', $token, static::ENDPOINT_COMMIT),
                 null
@@ -95,7 +95,7 @@ class Transaction
     public function refund($token, $amount)
     {
         try {
-            $response = $this->request(
+            $response = $this->sendRequest(
                 'POST',
                 str_replace('{token}', $token, static::ENDPOINT_REFUND),
                 ['amount' => $amount]
@@ -118,7 +118,7 @@ class Transaction
     public function status($token)
     {
         try {
-            $response = $this->request(
+            $response = $this->sendRequest(
                 'GET',
                 str_replace('{token}', $token, static::ENDPOINT_STATUS),
                 null
@@ -150,7 +150,7 @@ class Transaction
         ];
 
         try {
-            $response = $this->request(
+            $response = $this->sendRequest(
                 'PUT',
                 str_replace('{token}', $token, static::ENDPOINT_CAPTURE),
                 $payload

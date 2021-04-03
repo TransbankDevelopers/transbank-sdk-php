@@ -47,7 +47,7 @@ trait InteractsWithWebpayApi
      *
      * @return mixed
      */
-    public function request($method, $endpoint, $payload = [])
+    public function sendRequest($method, $endpoint, $payload = [])
     {
         return $this->getRequestService()->request(
             $method,
@@ -93,6 +93,8 @@ trait InteractsWithWebpayApi
     public function setOptions(Options $options)
     {
         $this->options = $options;
+
+        return $this;
     }
 
     /**
@@ -109,6 +111,8 @@ trait InteractsWithWebpayApi
     public function setRequestService($requestService)
     {
         $this->requestService = $requestService;
+
+        return $this;
     }
 
     public static function build(Options $options = null, RequestService $requestService = null)
@@ -127,10 +131,13 @@ trait InteractsWithWebpayApi
     public function configureForIntegration($commerceCode, $apiKey)
     {
         $this->setOptions(Options::forIntegration($commerceCode, $apiKey));
+        return $this;
     }
 
     public function configureForProduction($commerceCode, $apiKey)
     {
         $this->setOptions(Options::forProduction($commerceCode, $apiKey));
+
+        return $this;
     }
 }

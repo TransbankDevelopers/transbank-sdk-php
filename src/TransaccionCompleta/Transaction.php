@@ -2,6 +2,7 @@
 
 namespace Transbank\TransaccionCompleta;
 
+use Transbank\TransaccionCompleta\Exceptions\TransactionCaptureException;
 use Transbank\TransaccionCompleta\Exceptions\TransactionCommitException;
 use Transbank\TransaccionCompleta\Exceptions\TransactionCreateException;
 use Transbank\TransaccionCompleta\Exceptions\TransactionInstallmentsException;
@@ -27,6 +28,7 @@ class Transaction
     const ENDPOINT_COMMIT = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
     const ENDPOINT_REFUND = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
     const ENDPOINT_STATUS = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
+    const ENDPOINT_CAPTURE = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}/capture';
 
     /**
      * @param $buyOrder
@@ -59,7 +61,7 @@ class Transaction
         ];
 
         try {
-            $response = $this->request('POST', static::ENDPOINT_CREATE, $payload);
+            $response = $this->sendRequest('POST', static::ENDPOINT_CREATE, $payload);
         } catch (WebpayRequestException $exception) {
             throw TransactionCreateException::raise($exception);
         }
@@ -87,7 +89,7 @@ class Transaction
         $endpoint = str_replace('{token}', $token, self::ENDPOINT_INSTALLMENTS);
 
         try {
-            $response = $this->request('POST', $endpoint, $payload);
+            $response = $this->sendRequest('POST', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {
             throw TransactionInstallmentsException::raise($exception);
         }
@@ -121,7 +123,7 @@ class Transaction
         $endpoint = str_replace('{token}', $token, self::ENDPOINT_COMMIT);
 
         try {
-            $response = $this->request('PUT', $endpoint, $payload);
+            $response = $this->sendRequest('PUT', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {
             throw TransactionCommitException::raise($exception);
         }
@@ -147,7 +149,7 @@ class Transaction
         $endpoint = str_replace('{token}', $token, self::ENDPOINT_REFUND);
 
         try {
-            $response = $this->request('POST', $endpoint, $payload);
+            $response = $this->sendRequest('POST', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {
             throw TransactionRefundException::raise($exception);
         }
@@ -168,12 +170,39 @@ class Transaction
         $endpoint = str_replace('{token}', $token, self::ENDPOINT_STATUS);
 
         try {
-            $response = $this->request('GET', $endpoint, null);
+            $response = $this->sendRequest('GET', $endpoint, null);
         } catch (WebpayRequestException $exception) {
             throw TransactionStatusException::raise($exception);
         }
 
         return new \Transbank\TransaccionCompleta\Responses\TransactionStatusResponse($response);
+    }
+
+    /**
+     * @param $token
+     * @param $buyOrder
+     * @param $authorizationCode
+     * @param $captureAmount
+     * @return Responses\TransactionCaptureResponse
+     * @throws TransactionCaptureException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function capture($token, $buyOrder, $authorizationCode, $captureAmount)
+    {
+        $endpoint = str_replace('{token}', $token, self::ENDPOINT_CAPTURE);
+
+        $payload = [
+            'buy_order' => $buyOrder,
+            'authorization_code' => $authorizationCode,
+            'capture_amount' => (int) $captureAmount,
+        ];
+        try {
+            $response = $this->sendRequest('PUT', $endpoint, $payload);
+        } catch (WebpayRequestException $exception) {
+            throw TransactionCaptureException::raise($exception);
+        }
+
+        return new Responses\TransactionCaptureResponse($response);
     }
 
     /**

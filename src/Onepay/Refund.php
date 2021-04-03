@@ -33,9 +33,8 @@ class Refund
         $http = new HttpClient();
         $path = self::TRANSACTION_BASE_PATH.self::REFUND_TRANSACTION;
 
-        $httpResponse = $http->post(
-            OnepayBase::getCurrentIntegrationTypeUrl(),
-            $path,
+        $httpResponse = $http->request('POST',
+            OnepayBase::getCurrentIntegrationTypeUrl() . $path,
             $jsonRequest
         );
 

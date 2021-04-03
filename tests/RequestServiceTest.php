@@ -22,7 +22,7 @@ class RequestServiceTest extends TestCase
         $httpClientMock = $this->createMock(HttpClient::class);
         $httpClientMock
             ->expects($this->once())
-            ->method('perform')
+            ->method('request')
             ->with($this->anything(), $this->anything(), $this->anything(), $this->equalTo([
                 'headers' => $expectedHeaders,
             ]))
@@ -51,7 +51,7 @@ class RequestServiceTest extends TestCase
         $httpClientMock = $this->createMock(HttpClient::class);
         $httpClientMock
             ->expects($this->once())
-            ->method('perform')
+            ->method('request')
             ->with($this->anything(), $expectedBaseUrl.$endpoint, $this->anything())
             ->willReturn(
                 new Response(200, [], json_encode([

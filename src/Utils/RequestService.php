@@ -4,6 +4,7 @@ namespace Transbank\Utils;
 
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
+use Transbank\Contracts\HttpClientInterface;
 use Transbank\Webpay\Exceptions\TransbankApiRequest;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
@@ -20,17 +21,17 @@ class RequestService
      */
     protected $lastRequest = null;
     /**
-     * @var HttpClient
+     * @var HttpClientInterface
      */
     protected $httpClient;
 
-    public function __construct(HttpClient $httpClient = null)
+    public function __construct(HttpClientInterface $httpClient = null)
     {
         $this->setHttpClient($httpClient !== null ? $httpClient : new HttpClient());
     }
 
     /**
-     * @return HttpClient
+     * @return HttpClientInterface
      */
     public function getHttpClient()
     {
@@ -38,7 +39,7 @@ class RequestService
     }
 
     /**
-     * @param HttpClient $httpClient
+     * @param HttpClientInterface $httpClient
      */
     public function setHttpClient($httpClient)
     {
@@ -72,7 +73,7 @@ class RequestService
         $request = new TransbankApiRequest($method, $baseUrl, $endpoint, $payload, $headers);
 
         $this->setLastRequest($request);
-        $response = $client->perform($method, $baseUrl.$endpoint, $payload, ['headers' => $headers]);
+        $response = $client->request($method, $baseUrl.$endpoint, $payload, ['headers' => $headers]);
 
         $this->setLastResponse($response);
         $responseStatusCode = $response->getStatusCode();

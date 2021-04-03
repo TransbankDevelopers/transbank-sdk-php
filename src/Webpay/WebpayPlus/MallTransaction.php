@@ -55,7 +55,7 @@ class MallTransaction
         ];
 
         try {
-            $response = $this->request(
+            $response = $this->sendRequest(
                 'POST',
                 static::ENDPOINT_CREATE,
                 $payload
@@ -78,7 +78,7 @@ class MallTransaction
     public function commit($token)
     {
         try {
-            $response = $this->request(
+            $response = $this->sendRequest(
                 'PUT',
                 str_replace('{token}', $token, static::ENDPOINT_COMMIT),
                 null
@@ -110,7 +110,7 @@ class MallTransaction
         ];
 
         try {
-            $response = $this->request(
+            $response = $this->sendRequest(
                 'POST',
                 str_replace('{token}', $token, static::ENDPOINT_REFUND),
                 $payload
@@ -133,7 +133,7 @@ class MallTransaction
     public function status($token)
     {
         try {
-            $response = $this->request(
+            $response = $this->sendRequest(
                 'GET',
                 str_replace('{token}', $token, static::ENDPOINT_STATUS),
                 null
@@ -172,7 +172,7 @@ class MallTransaction
         ];
 
         try {
-            $response = $this->request(
+            $response = $this->sendRequest(
                 'PUT',
                 str_replace('{token}', $token, static::ENDPOINT_CAPTURE),
                 $payload

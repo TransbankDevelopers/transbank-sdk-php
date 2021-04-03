@@ -30,7 +30,7 @@ final class TransactionTest extends TestCase
 
         // Create a mock http client that will return Null
         $httpClientStub = $this->createMock(HttpClient::class);
-        $httpClientStub->expects($this->any())->method('post')->willReturn(null);
+        $httpClientStub->expects($this->any())->method('request')->willReturn(null);
 
         // Alter the private static property of Transaction 'httpClient'
         // to be the httpClientStub
@@ -62,7 +62,7 @@ final class TransactionTest extends TestCase
 
         // Create a mock http client that will return Null
         $httpClientStub = $this->createMock(HttpClient::class);
-        $httpClientStub->expects($this->any())->method('post')->willReturn(new Response(200, [], $mockResponse));
+        $httpClientStub->expects($this->any())->method('request')->willReturn(new Response(200, [], $mockResponse));
 
         // Alter the private static property of Transaction 'httpClient'
         // to be the httpClientStub
@@ -101,7 +101,7 @@ final class TransactionTest extends TestCase
         }';
         // Create a mock http client that will return Null
         $httpClientStub = $this->createMock(HttpClient::class);
-        $httpClientStub->expects($this->any())->method('post')->willReturn(new Response(200, [], $mockResponse));
+        $httpClientStub->expects($this->any())->method('request')->willReturn(new Response(200, [], $mockResponse));
 
         // Alter the private static property of Transaction 'httpClient'
         // to be the httpClientStub
@@ -219,7 +219,7 @@ final class TransactionTest extends TestCase
     {
         // Create a mock http client that will return Null
         $httpClientStub = $this->createMock(HttpClient::class);
-        $httpClientStub->expects($this->any())->method('post')->willReturn(null);
+        $httpClientStub->expects($this->any())->method('request')->willReturn(null);
 
         // Alter the private static property of Transaction 'httpClient'
         // to be the httpClientStub
@@ -258,7 +258,7 @@ final class TransactionTest extends TestCase
             'result'                                => null, ]);
         // Create a mock http client that will return Null
         $httpClientStub = $this->createMock(HttpClient::class);
-        $httpClientStub->expects($this->any())->method('post')->willReturn(new Response(200, [], $mockResponse));
+        $httpClientStub->expects($this->any())->method('request')->willReturn(new Response(200, [], $mockResponse));
 
         // Alter the private static property of Transaction 'httpClient'
         // to be the httpClientStub
@@ -310,7 +310,7 @@ final class TransactionTest extends TestCase
 
         // Create a mock http client that will return Null
         $httpClientStub = $this->createMock(HttpClient::class);
-        $httpClientStub->expects($this->any())->method('post')->willReturn(new Response(200, [], $mockResponse));
+        $httpClientStub->expects($this->any())->method('request')->willReturn(new Response(200, [], $mockResponse));
 
         // Alter the private static property of Transaction 'httpClient'
         // to be the httpClientStub
@@ -347,7 +347,7 @@ final class TransactionTest extends TestCase
         OnepayBase::setCallbackUrl(null);
         // Create a mock http client that will return Null
         $httpClientStub = $this->createMock(HttpClient::class);
-        $httpClientStub->expects($this->any())->method('post')->willReturn(null);
+        $httpClientStub->expects($this->any())->method('request')->willReturn(null);
 
         // Alter the private static property of Transaction 'httpClient'
         // to be the httpClientStub
@@ -400,7 +400,7 @@ final class TransactionTest extends TestCase
     {
         // Create a mock http client that will return Null
         $httpClientStub = $this->createMock(HttpClient::class);
-        $httpClientStub->expects($this->any())->method('post')->willReturn(null);
+        $httpClientStub->expects($this->any())->method('request')->willReturn(null);
 
         // Alter the private static property of Transaction 'httpClient'
         // to be the httpClientStub

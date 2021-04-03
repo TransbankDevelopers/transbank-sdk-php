@@ -51,7 +51,7 @@ class MallInscription
         ];
 
         try {
-            $response = $this->request(
+            $response = $this->sendRequest(
                 'POST',
                 static::INSCRIPTION_START_ENDPOINT,
                 $payload
@@ -66,7 +66,7 @@ class MallInscription
     public function finish($token)
     {
         try {
-            $response = $this->request(
+            $response = $this->sendRequest(
                 'PUT',
                 str_replace('{token}', $token, static::INSCRIPTION_FINISH_ENDPOINT),
                 null
@@ -86,7 +86,7 @@ class MallInscription
         ];
 
         try {
-            $this->request(
+            $this->sendRequest(
                 'DELETE',
                 static::INSCRIPTION_DELETE_ENDPOINT,
                 $payload,

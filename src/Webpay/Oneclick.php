@@ -18,15 +18,11 @@ class Oneclick extends EnvironmentManager
 
     public static function configureForTesting()
     {
-        self::setApiKey(static::DEFAULT_API_KEY);
-        self::setCommerceCode(static::DEFAULT_COMMERCE_CODE);
-        self::setIntegrationType(Options::DEFAULT_INTEGRATION_TYPE);
+        self::configureForIntegration(static::DEFAULT_COMMERCE_CODE, static::DEFAULT_API_KEY);
     }
 
     public static function configureForTestingDeferred()
     {
-        self::setApiKey(Options::DEFAULT_API_KEY);
-        self::setCommerceCode(Options::DEFAULT_ONECLICK_MALL_DEFERRED_COMMERCE_CODE);
-        self::setIntegrationType(Options::DEFAULT_INTEGRATION_TYPE);
+        self::configureForIntegration(static::DEFAULT_DEFERRED_COMMERCE_CODE, static::DEFAULT_API_KEY);
     }
 }
