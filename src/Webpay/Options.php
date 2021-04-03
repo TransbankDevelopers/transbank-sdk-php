@@ -15,7 +15,7 @@ class Options
     const BASE_URL_INTEGRATION = 'https://webpay3gint.transbank.cl/';
 
     const DEFAULT_API_KEY = '579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C';
-    const DEFAULT_PATPASS_BY_WEBPAY_COMMERCE_CODE = '597055555550';
+
 
     /**
      * @var string Your api key, given by Transbank.Sent as a header when

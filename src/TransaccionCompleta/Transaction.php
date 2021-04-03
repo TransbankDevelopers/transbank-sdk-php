@@ -219,7 +219,7 @@ class Transaction
     }
 
     /**
-     * @return mixed
+     * @return Options|null
      */
     public static function getGlobalOptions()
     {
