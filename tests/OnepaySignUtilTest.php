@@ -3,6 +3,7 @@
 namespace Transbank\Onepay;
 
 use PHPUnit\Framework\TestCase;
+use Transbank\Onepay\Utils\OnepaySignUtil;
 
 require_once __DIR__.'/mocks/TransactionCreateRequestMocks.php';
 require_once __DIR__.'/mocks/TransactionCommitRequestMocks.php';

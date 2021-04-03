@@ -2,6 +2,8 @@
 
 namespace Transbank\Onepay;
 
+use Transbank\Onepay\Utils\OnepayRequestBuilder;
+
 require_once __DIR__.'/ShoppingCartMocks.php';
 
 class TransactionCreateRequestMocks

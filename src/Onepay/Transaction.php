@@ -13,6 +13,8 @@ use Transbank\Contracts\HttpClientInterface;
 use Transbank\Onepay\Exceptions\SignException;
 use Transbank\Onepay\Exceptions\TransactionCommitException;
 use Transbank\Onepay\Exceptions\TransactionCreateException;
+use Transbank\Onepay\Utils\OnepayRequestBuilder;
+use Transbank\Onepay\Utils\OnepaySignUtil;
 use Transbank\Utils\HttpClient;
 
 /**
@@ -111,10 +113,10 @@ class Transaction
         $transactionCreateResponse = new TransactionCreateResponse($responseJson);
 
         $signatureIsValid = OnepaySignUtil::getInstance()
-                            ->validate(
-                                $transactionCreateResponse,
-                                $options->getSharedSecret()
-                            );
+            ->validate(
+                $transactionCreateResponse,
+                $options->getSharedSecret()
+            );
         if (!$signatureIsValid) {
             throw new SignException('The response signature is not valid.', -1);
         }
@@ -156,10 +158,10 @@ class Transaction
 
         $transactionCommitResponse = new TransactionCommitResponse($responseJson);
         $signatureIsValid = OnepaySignUtil::getInstance()
-                                          ->validate(
-                                              $transactionCommitResponse,
-                                              $options->getSharedSecret()
-                                          );
+            ->validate(
+                $transactionCommitResponse,
+                $options->getSharedSecret()
+            );
         if (!$signatureIsValid) {
             throw new SignException('The response signature is not valid', -1);
         }

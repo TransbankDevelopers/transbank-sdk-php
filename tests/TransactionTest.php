@@ -56,9 +56,11 @@ final class TransactionTest extends TestCase
 
     public function testTransactionRaisesWhenResponseIsNotOk()
     {
-        $mockResponse = json_encode(['responseCode' => 'INVALID_PARAMS',
+        $mockResponse = json_encode([
+            'responseCode'                          => 'INVALID_PARAMS',
             'description'                           => 'Parametros invalidos',
-            'result'                                => null, ]);
+            'result'                                => null,
+        ]);
 
         // Create a mock http client that will return Null
         $httpClientStub = $this->createMock(HttpClient::class);
@@ -253,9 +255,11 @@ final class TransactionTest extends TestCase
 
     public function testTransactionCommitRaisesWhenResponseIsNotOk()
     {
-        $mockResponse = json_encode(['responseCode' => 'INVALID_PARAMS',
+        $mockResponse = json_encode([
+            'responseCode'                          => 'INVALID_PARAMS',
             'description'                           => 'Parametros invalidos',
-            'result'                                => null, ]);
+            'result'                                => null,
+        ]);
         // Create a mock http client that will return Null
         $httpClientStub = $this->createMock(HttpClient::class);
         $httpClientStub->expects($this->any())->method('request')->willReturn(new Response(200, [], $mockResponse));
