@@ -16,7 +16,6 @@ use Transbank\Patpass\PatpassComercio\Responses\InscriptionStartResponse;
 use Transbank\Patpass\PatpassComercio\Responses\InscriptionStatusResponse;
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
-use Transbank\Webpay\Modal\WebpayModal;
 use Transbank\Webpay\Options;
 
 class Inscription

@@ -9,6 +9,7 @@ class Options extends \Transbank\Webpay\Options
 {
     const BASE_URL_PRODUCTION = 'https://www.pagoautomaticocontarjetas.cl/';
     const BASE_URL_INTEGRATION = 'https://pagoautomaticocontarjetasint.transbank.cl/';
+
     /**
      * @return array
      */
@@ -16,7 +17,7 @@ class Options extends \Transbank\Webpay\Options
     {
         return [
             'commercecode'     => $this->getCommerceCode(),
-            'Authorization' => $this->getApiKey(),
+            'Authorization'    => $this->getApiKey(),
         ];
     }
 }

@@ -31,25 +31,27 @@ class Transaction
         } catch (WebpayRequestException $exception) {
             throw TransactionCreateException::raise($exception);
         }
-        return new TransactionCreateResponse($response);
 
+        return new TransactionCreateResponse($response);
     }
 
     public function commit($token)
     {
         $endpoint = str_replace('{token}', $token, self::COMMIT_TRANSACTION_ENDPOINT);
-      try {
-        $response = $this->sendRequest('PUT', $endpoint, null);
-      } catch (WebpayRequestException $exception) {
-          throw TransactionCommitException::raise($exception);
-      }
 
-      return new TransactionCommitResponse($response);
+        try {
+            $response = $this->sendRequest('PUT', $endpoint, null);
+        } catch (WebpayRequestException $exception) {
+            throw TransactionCommitException::raise($exception);
+        }
+
+        return new TransactionCommitResponse($response);
     }
 
     public function getStatus($token)
     {
         $endpoint = str_replace('{token}', $token, self::GET_TRANSACTION_STATUS_ENDPOINT);
+
         try {
             $response = $this->sendRequest('GET', $endpoint, null);
         } catch (WebpayRequestException $exception) {
@@ -57,6 +59,5 @@ class Transaction
         }
 
         return new TransactionStatusResponse($response);
-
     }
 }

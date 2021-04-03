@@ -13,7 +13,6 @@ use Transbank\TransaccionCompleta\Exceptions\MallTransactionCommitException;
 use Transbank\TransaccionCompleta\Exceptions\MallTransactionCreateException;
 use Transbank\TransaccionCompleta\Exceptions\MallTransactionRefundException;
 use Transbank\TransaccionCompleta\Exceptions\MallTransactionStatusException;
-use Transbank\TransaccionCompleta\Exceptions\TransactionCaptureException;
 use Transbank\TransaccionCompleta\Exceptions\TransactionInstallmentsException;
 use Transbank\TransaccionCompleta\Responses\MallTransactionCommitResponse;
 use Transbank\TransaccionCompleta\Responses\MallTransactionCreateResponse;
@@ -22,7 +21,6 @@ use Transbank\TransaccionCompleta\Responses\MallTransactionRefundResponse;
 use Transbank\TransaccionCompleta\Responses\MallTransactionStatusResponse;
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
-use Transbank\Webpay\Oneclick;
 use Transbank\Webpay\Options;
 
 class MallTransaction
@@ -107,7 +105,6 @@ class MallTransaction
         $commerceCodeChild,
         $amount
     ) {
-
         $payload = [
             'buy_order'     => $buyOrder,
             'commerce_code' => $commerceCodeChild,
@@ -125,8 +122,8 @@ class MallTransaction
         return new MallTransactionRefundResponse($response);
     }
 
-    public function status($token) {
-
+    public function status($token)
+    {
         $endpoint = str_replace('{token}', $token, static::ENDPOINT_STATUS);
 
         try {
@@ -144,20 +141,23 @@ class MallTransaction
      * @param $buyOrder
      * @param $authorizationCode
      * @param $captureAmount
-     * @return Responses\MallTransactionCaptureResponse
+     *
      * @throws MallTransactionCaptureException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return Responses\MallTransactionCaptureResponse
      */
     public function capture($token, $commerceCode, $buyOrder, $authorizationCode, $captureAmount)
     {
         $endpoint = str_replace('{token}', $token, self::ENDPOINT_CAPTURE);
 
         $payload = [
-            'buy_order' => $buyOrder,
-            'commerce_code' => $commerceCode,
+            'buy_order'          => $buyOrder,
+            'commerce_code'      => $commerceCode,
             'authorization_code' => $authorizationCode,
-            'capture_amount' => (int) $captureAmount,
+            'capture_amount'     => (int) $captureAmount,
         ];
+
         try {
             $response = $this->sendRequest('PUT', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {

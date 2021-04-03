@@ -5,9 +5,7 @@ namespace Transbank\Utils;
 use Transbank\Webpay\Options;
 
 /**
- * Trait ConfiguresEnvironment
- *
- * @package Transbank\Utils
+ * Trait ConfiguresEnvironment.
  */
 trait ConfiguresEnvironment
 {
@@ -53,9 +51,6 @@ trait ConfiguresEnvironment
         return static::$globalOptions;
     }
 
-    /**
-     *
-     */
     public static function reset()
     {
         static::setOptions(null);

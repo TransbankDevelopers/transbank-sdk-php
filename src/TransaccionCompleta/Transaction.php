@@ -183,19 +183,22 @@ class Transaction
      * @param $buyOrder
      * @param $authorizationCode
      * @param $captureAmount
-     * @return Responses\TransactionCaptureResponse
+     *
      * @throws TransactionCaptureException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return Responses\TransactionCaptureResponse
      */
     public function capture($token, $buyOrder, $authorizationCode, $captureAmount)
     {
         $endpoint = str_replace('{token}', $token, self::ENDPOINT_CAPTURE);
 
         $payload = [
-            'buy_order' => $buyOrder,
+            'buy_order'          => $buyOrder,
             'authorization_code' => $authorizationCode,
-            'capture_amount' => (int) $captureAmount,
+            'capture_amount'     => (int) $captureAmount,
         ];
+
         try {
             $response = $this->sendRequest('PUT', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {

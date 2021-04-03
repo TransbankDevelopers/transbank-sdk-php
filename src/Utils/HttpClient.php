@@ -4,14 +4,11 @@ namespace Transbank\Utils;
 
 use Composer\InstalledVersions;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Psr7\Request;
 use Transbank\Contracts\HttpClientInterface;
-use Transbank\Exceptions\NetworkException;
 
 class HttpClient implements HttpClientInterface
 {
-
     /**
      * @param $url
      * @param $path
@@ -19,9 +16,9 @@ class HttpClient implements HttpClientInterface
      * @param $method
      * @param $payload
      *
-     * @return \Psr\Http\Message\ResponseInterface
      *@throws \GuzzleHttp\Exception\GuzzleException
      *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function request($method, $url, $payload = [], $options = null)
     {
@@ -49,16 +46,19 @@ class HttpClient implements HttpClientInterface
         if (defined('\GuzzleHttp\Client::VERSION') && version_compare(Client::VERSION, '6', '<')) {
             return $this->sendGuzzle5Request($method, $url, $headers, $payload);
         }
-        return $this->sendGuzzleRequest($method, $url, $headers, $payload);
 
+        return $this->sendGuzzleRequest($method, $url, $headers, $payload);
     }
+
     /**
      * @param $method
      * @param $url
      * @param array $headers
      * @param array $payload
-     * @return \Psr\Http\Message\ResponseInterface
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     protected function sendGuzzle5Request($method, $url, array $headers, $payload)
     {
@@ -66,18 +66,21 @@ class HttpClient implements HttpClientInterface
 
         return $client->request($method, $url, [
             'headers' => $headers,
-            'body' => $payload,
+            'body'    => $payload,
         ]);
     }
+
     /**
      * @param $method
      * @param $url
      * @param array $headers
      * @param array $payload
-     * @return \Psr\Http\Message\ResponseInterface
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    protected function  sendGuzzleRequest($method, $url, array $headers, $payload)
+    protected function sendGuzzleRequest($method, $url, array $headers, $payload)
     {
         $request = new Request($method, $url, $headers, $payload);
 

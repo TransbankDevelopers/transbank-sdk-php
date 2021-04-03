@@ -39,5 +39,4 @@ class PatpassComercio extends EnvironmentManager
     {
         static::setOptions(Options::forProduction($commerceCode, $apiKey));
     }
-
 }

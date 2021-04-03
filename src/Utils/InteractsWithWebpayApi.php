@@ -3,7 +3,6 @@
 namespace Transbank\Utils;
 
 use GuzzleHttp\Exception\GuzzleException;
-use http\Env\Request;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
 
@@ -131,6 +130,7 @@ trait InteractsWithWebpayApi
     public function configureForIntegration($commerceCode, $apiKey)
     {
         $this->setOptions(Options::forIntegration($commerceCode, $apiKey));
+
         return $this;
     }
 
