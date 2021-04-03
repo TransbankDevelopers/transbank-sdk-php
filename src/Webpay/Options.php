@@ -16,7 +16,6 @@ class Options
 
     const DEFAULT_API_KEY = '579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C';
 
-
     /**
      * @var string Your api key, given by Transbank.Sent as a header when
      *             making requests to Transbank on a field called "Tbk-Api-Key-Secret"
