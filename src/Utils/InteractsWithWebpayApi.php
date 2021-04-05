@@ -24,7 +24,7 @@ trait InteractsWithWebpayApi
     /**
      * Transaction constructor.
      *
-     * @param Options             $options
+     * @param Options              $options
      * @param RequestService |null $requestService
      */
     public function __construct(
@@ -116,8 +116,9 @@ trait InteractsWithWebpayApi
     }
 
     /**
-     * @param Options|null $options
+     * @param Options|null        $options
      * @param RequestService|null $requestService
+     *
      * @return static
      */
     public static function build(Options $options = null, RequestService $requestService = null)
@@ -136,6 +137,7 @@ trait InteractsWithWebpayApi
     /**
      * @param $commerceCode
      * @param $apiKey
+     *
      * @return $this
      */
     public function configureForIntegration($commerceCode, $apiKey)
@@ -148,6 +150,7 @@ trait InteractsWithWebpayApi
     /**
      * @param $commerceCode
      * @param $apiKey
+     *
      * @return $this
      */
     public function configureForProduction($commerceCode, $apiKey)

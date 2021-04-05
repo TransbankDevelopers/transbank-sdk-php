@@ -9,8 +9,7 @@ use Transbank\Patpass\PatpassByWebpay\Exceptions\TransactionStatusException;
 use Transbank\Patpass\PatpassByWebpay\Responses\TransactionCommitResponse;
 use Transbank\Patpass\PatpassByWebpay\Responses\TransactionCreateResponse;
 use Transbank\Patpass\PatpassByWebpay\Responses\TransactionStatusResponse;
-use Transbank\Webpay\Exceptions\WebpayRequestException;
-use Transbank\Webpay\Options;
+
 class Transaction
 {
     const CREATE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions';

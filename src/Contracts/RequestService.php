@@ -7,7 +7,6 @@ use Transbank\Webpay\Options;
 
 interface RequestService
 {
-
     /**
      * @param $method
      * @param $endpoint
