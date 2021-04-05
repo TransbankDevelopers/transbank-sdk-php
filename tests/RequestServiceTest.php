@@ -3,7 +3,7 @@
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Transbank\Utils\HttpClient;
-use Transbank\Utils\RequestService;
+use Transbank\Utils\HttpClientRequestService;
 use Transbank\Webpay\Options;
 
 class RequestServiceTest extends TestCase
@@ -33,7 +33,7 @@ class RequestServiceTest extends TestCase
                 ]))
             );
 
-        $request = (new RequestService($httpClientMock))->request('POST', '/transactions', [], $optionsMock);
+        $request = (new HttpClientRequestService($httpClientMock))->request('POST', '/transactions', [], $optionsMock);
     }
 
     /** @test */
@@ -60,7 +60,7 @@ class RequestServiceTest extends TestCase
                 ]))
             );
 
-        $request = (new RequestService($httpClientMock))
+        $request = (new HttpClientRequestService($httpClientMock))
             ->request('POST', $endpoint, [], $optionsMock);
     }
 }

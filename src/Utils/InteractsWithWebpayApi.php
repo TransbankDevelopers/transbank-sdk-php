@@ -3,6 +3,7 @@
 namespace Transbank\Utils;
 
 use GuzzleHttp\Exception\GuzzleException;
+use Transbank\Contracts\RequestService;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
 
@@ -16,7 +17,7 @@ trait InteractsWithWebpayApi
      */
     protected $options;
     /**
-     * @var RequestService|null
+     * @var RequestService |null
      */
     protected $requestService;
 
@@ -24,7 +25,7 @@ trait InteractsWithWebpayApi
      * Transaction constructor.
      *
      * @param Options             $options
-     * @param RequestService|null $requestService
+     * @param RequestService |null $requestService
      */
     public function __construct(
         Options $options = null,
@@ -33,7 +34,7 @@ trait InteractsWithWebpayApi
         $this->loadOptions($options);
 
         $this->setRequestService($requestService !== null ? $requestService :
-            new RequestService());
+            new HttpClientRequestService());
     }
 
     /**
@@ -97,7 +98,7 @@ trait InteractsWithWebpayApi
     }
 
     /**
-     * @return RequestService|null
+     * @return RequestService |null
      */
     public function getRequestService()
     {
@@ -105,28 +106,38 @@ trait InteractsWithWebpayApi
     }
 
     /**
-     * @param RequestService|null $requestService
+     * @param RequestService |null $requestService
      */
-    public function setRequestService($requestService)
+    public function setRequestService(RequestService $requestService = null)
     {
         $this->requestService = $requestService;
 
         return $this;
     }
 
+    /**
+     * @param Options|null $options
+     * @param RequestService|null $requestService
+     * @return static
+     */
     public static function build(Options $options = null, RequestService $requestService = null)
     {
         return new static($options, $requestService);
     }
 
     /**
-     * @return mixed|string
+     * @return string
      */
     protected function getBaseUrl()
     {
         return $this->getOptions()->getApiBaseUrl();
     }
 
+    /**
+     * @param $commerceCode
+     * @param $apiKey
+     * @return $this
+     */
     public function configureForIntegration($commerceCode, $apiKey)
     {
         $this->setOptions(Options::forIntegration($commerceCode, $apiKey));
@@ -134,6 +145,11 @@ trait InteractsWithWebpayApi
         return $this;
     }
 
+    /**
+     * @param $commerceCode
+     * @param $apiKey
+     * @return $this
+     */
     public function configureForProduction($commerceCode, $apiKey)
     {
         $this->setOptions(Options::forProduction($commerceCode, $apiKey));

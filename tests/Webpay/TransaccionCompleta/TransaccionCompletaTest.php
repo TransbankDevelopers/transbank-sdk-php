@@ -14,7 +14,7 @@ use Transbank\TransaccionCompleta\Responses\TransactionInstallmentsResponse;
 use Transbank\TransaccionCompleta\Responses\TransactionStatusResponse;
 use Transbank\TransaccionCompleta\TransaccionCompleta;
 use Transbank\TransaccionCompleta\Transaction;
-use Transbank\Utils\RequestService;
+use Transbank\Utils\HttpClientRequestService;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
 
@@ -44,7 +44,7 @@ class TransaccionCompletaTest extends TestCase
      */
     protected $mockBaseUrl;
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|RequestService
+     * @var \PHPUnit\Framework\MockObject\MockObject|HttpClientRequestService
      */
     protected $requestServiceMock;
     /**
@@ -62,7 +62,7 @@ class TransaccionCompletaTest extends TestCase
 
     public function setBaseMocks()
     {
-        $this->requestServiceMock = $this->createMock(RequestService::class);
+        $this->requestServiceMock = $this->createMock(HttpClientRequestService::class);
         $this->optionsMock = $this->createMock(Options::class);
 
         $this->headersMock = ['header_1' => uniqid()];
