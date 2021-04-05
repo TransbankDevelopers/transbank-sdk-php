@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 final class ShoppingCartTest extends TestCase
 {
-    protected function setup()
+    protected function setUp(): void
     {
         $this->cartString = '{"items": [{"amount": 100, "quantity": 10, "description": "something"}, {"amount": 200, "quantity": 20, "description": "something else"}, {"amount": 300, "quantity": 30, "description": "third element"}]}';
     }
@@ -14,7 +14,7 @@ final class ShoppingCartTest extends TestCase
     public function testShoppingCartFromJSONThrowsIfParamIsNotJSON()
     {
         $randomString = 'definitely not json';
-        $this->setExpectedException(\Exception::class, 'Shopping Cart must be a JSON string or an associative array that is transformable to an associative array using json_decode');
+        $this->expectException(\Exception::class, 'Shopping Cart must be a JSON string or an associative array that is transformable to an associative array using json_decode');
         $item = ShoppingCart::fromJSON($randomString);
     }
 
@@ -82,7 +82,7 @@ final class ShoppingCartTest extends TestCase
         $secondItem = Item::fromJSON('{"amount": -201, "quantity": 1, "description": "discount"}');
 
         $cart->add($firstItem);
-        $this->setExpectedException(\Exception::class, 'Total amount cannot be less than zero.');
+        $this->expectException(\Exception::class, 'Total amount cannot be less than zero.');
         $cart->add($secondItem);
     }
 
@@ -162,7 +162,7 @@ final class ShoppingCartTest extends TestCase
         $cart = ShoppingCart::fromJSON($this->cartString);
         $thirdItem = $cart->getItems()[2];
         $cart->remove($thirdItem);
-        $this->setExpectedException(\Exception::class, 'Item not found.');
+        $this->expectException(\Exception::class, 'Item not found.');
         $cart->remove($thirdItem);
     }
 
@@ -192,7 +192,7 @@ final class ShoppingCartTest extends TestCase
 
         // Remove the first item a fourth time, which should fail since there are
         // no more $firstItem instances on the ShoppingCart
-        $this->setExpectedException(\Exception::class, 'Item not found.');
+        $this->expectException(\Exception::class, 'Item not found.');
         $cart->remove($firstItem);
     }
 
@@ -207,7 +207,7 @@ final class ShoppingCartTest extends TestCase
         $firstItem->setAmount(200);
         $this->assertEquals($firstItem->getAmount(), 200);
 
-        $this->setExpectedException(\Exception::class, 'Item not found.');
+        $this->expectException(\Exception::class, 'Item not found.');
         $cart->remove($firstItem);
     }
 }

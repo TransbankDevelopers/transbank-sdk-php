@@ -28,8 +28,8 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable
         $callbackUrl = null,
         $channel = 'WEB',
         $appScheme = null,
-        $widthHeight,
-        $commerceLogoUrl
+        $widthHeight = '',
+        $commerceLogoUrl = ''
     ) {
         if (!$externalUniqueNumber) {
             throw new \Exception('External unique number cannot be null.');

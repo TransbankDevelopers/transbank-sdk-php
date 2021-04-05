@@ -8,6 +8,7 @@
 
 namespace Transbank\Patpass\PatpassComercio;
 
+use GuzzleHttp\Exception\GuzzleException;
 use Transbank\Patpass\PatpassComercio;
 use Transbank\Patpass\PatpassComercio\Exceptions\InscriptionStartException;
 use Transbank\Patpass\PatpassComercio\Exceptions\InscriptionStatusException;
@@ -22,19 +23,6 @@ class Inscription
     use InteractsWithWebpayApi;
     const INSCRIPTION_START_ENDPOINT = 'restpatpass/v1/services/patInscription';
     const INSCRIPTION_STATUS_ENDPOINT = 'restpatpass/v1/services/status';
-
-    /**
-     * @param Options $options
-     *
-     * @return array
-     */
-    public static function getHeaders(Options $options)
-    {
-        return [
-            'commercecode'  => $options->getCommerceCode(),
-            'Authorization' => $options->getApiKey(),
-        ];
-    }
 
     /**
      * @param $url
@@ -52,14 +40,13 @@ class Inscription
      * @param $commerceEmail
      * @param $address
      * @param $city
-     * @param null $options
      *
      * @throws InscriptionStartException
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      *
      * @return InscriptionStartResponse
      */
-    public static function start(
+    public function start(
         $url,
         $name,
         $lastName,
@@ -74,11 +61,8 @@ class Inscription
         $personEmail,
         $commerceEmail,
         $address,
-        $city,
-        $options = null
+        $city
     ) {
-        $options = PatpassComercio::getDefaultOptions($options);
-
         $payload = [
             'url'             => $url,
             'nombre'          => $name,
@@ -87,7 +71,7 @@ class Inscription
             'rut'             => $rut,
             'serviceId'       => $serviceId,
             'finalUrl'        => $finalUrl,
-            'commerceCode'    => $options->getCommerceCode(),
+            'commerceCode'    => $this->getOptions()->getCommerceCode(),
             'montoMaximo'     => $maxAmount,
             'telefonoFijo'    => $phone,
             'telefonoCelular' => $cellPhone,
@@ -100,7 +84,7 @@ class Inscription
         $endpoint = self::INSCRIPTION_START_ENDPOINT;
 
         try {
-            $response = static::request('POST', $endpoint, $payload, $options);
+            $response = $this->sendRequest('POST', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {
             throw InscriptionStartException::raise($exception);
         }
@@ -113,14 +97,12 @@ class Inscription
      * @param null $options
      *
      * @throws InscriptionStatusException
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      *
      * @return InscriptionStatusResponse
      */
-    public static function status($token, $options = null)
+    public function status($token)
     {
-        $options = PatpassComercio::getDefaultOptions($options);
-
         $payload = [
             'token' => $token,
         ];
@@ -128,7 +110,7 @@ class Inscription
         $endpoint = str_replace('{token}', $token, self::INSCRIPTION_STATUS_ENDPOINT);
 
         try {
-            $response = static::request('POST', $endpoint, $payload, $options);
+            $response = $this->sendRequest('POST', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {
             throw InscriptionStatusException::raise($exception);
         }
@@ -136,13 +118,13 @@ class Inscription
         return new InscriptionStatusResponse($response);
     }
 
-    /**
-     * @param $integrationEnvironment
-     *
-     * @return mixed|string
-     */
-    public static function getBaseUrl($integrationEnvironment)
+    public static function getDefaultOptions()
     {
-        return PatpassComercio::getIntegrationTypeUrl($integrationEnvironment);
+        return Options::forIntegration(PatpassComercio::DEFAULT_COMMERCE_CODE, PatpassComercio::DEFAULT_API_KEY);
+    }
+
+    public static function getGlobalOptions()
+    {
+        return PatpassComercio::getOptions();
     }
 }

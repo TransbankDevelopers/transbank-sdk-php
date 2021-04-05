@@ -11,10 +11,21 @@ use Transbank\Webpay\Oneclick\Exceptions\InscriptionStartException;
 use Transbank\Webpay\Oneclick\Responses\InscriptionDeleteResponse;
 use Transbank\Webpay\Oneclick\Responses\InscriptionFinishResponse;
 use Transbank\Webpay\Oneclick\Responses\InscriptionStartResponse;
+use Transbank\Webpay\Options;
 
 class MallInscription
 {
     use InteractsWithWebpayApi;
+
+    const DEFAULT_COMMERCE_CODE = '597055555541';
+    const DEFAULT_CHILD_COMMERCE_CODE_1 = '597055555542';
+    const DEFAULT_CHILD_COMMERCE_CODE_2 = '597055555543';
+
+    const DEFAULT_DEFERRED_COMMERCE_CODE = '597055555547';
+    const DEFAULT_DEFERRED_CHILD_COMMERCE_CODE_1 = '597055555548';
+    const DEFAULT_DEFERRED_CHILD_COMMERCE_CODE_2 = '597055555549';
+
+    const DEFAULT_API_KEY = Options::DEFAULT_API_KEY;
 
     const INSCRIPTION_START_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/inscriptions';
     const INSCRIPTION_FINISH_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/inscriptions/{token}';
@@ -31,10 +42,8 @@ class MallInscription
      *
      * @return InscriptionStartResponse
      */
-    public static function start($username, $email, $responseUrl, $options = null)
+    public function start($username, $email, $responseUrl)
     {
-        $options = Oneclick::getDefaultOptions($options);
-
         $payload = [
             'username'     => $username,
             'email'        => $email,
@@ -42,11 +51,10 @@ class MallInscription
         ];
 
         try {
-            $response = static::request(
+            $response = $this->sendRequest(
                 'POST',
                 static::INSCRIPTION_START_ENDPOINT,
-                $payload,
-                $options
+                $payload
             );
         } catch (WebpayRequestException $e) {
             throw InscriptionStartException::raise($e);
@@ -55,16 +63,13 @@ class MallInscription
         return new InscriptionStartResponse($response);
     }
 
-    public static function finish($token, $options = null)
+    public function finish($token)
     {
-        $options = Oneclick::getDefaultOptions($options);
-
         try {
-            $response = static::request(
+            $response = $this->sendRequest(
                 'PUT',
                 str_replace('{token}', $token, static::INSCRIPTION_FINISH_ENDPOINT),
-                null,
-                $options
+                null
             );
         } catch (WebpayRequestException $e) {
             throw InscriptionFinishException::raise($e);
@@ -73,21 +78,18 @@ class MallInscription
         return new InscriptionFinishResponse($response);
     }
 
-    public static function delete($tbkUser, $username, $options = null)
+    public function delete($tbkUser, $username)
     {
-        $options = Oneclick::getDefaultOptions($options);
-
         $payload = [
             'tbk_user' => $tbkUser,
             'username' => $username,
         ];
 
         try {
-            $response = static::request(
+            $this->sendRequest(
                 'DELETE',
                 static::INSCRIPTION_DELETE_ENDPOINT,
                 $payload,
-                $options
             );
         } catch (WebpayRequestException $e) {
             if ($e->getHttpCode() !== 204) {
@@ -98,5 +100,15 @@ class MallInscription
         }
 
         return new InscriptionDeleteResponse(true);
+    }
+
+    public static function getDefaultOptions()
+    {
+        return Options::forIntegration(Oneclick::DEFAULT_COMMERCE_CODE);
+    }
+
+    public static function getGlobalOptions()
+    {
+        return Oneclick::getOptions();
     }
 }

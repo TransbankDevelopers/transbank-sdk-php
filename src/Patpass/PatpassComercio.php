@@ -8,40 +8,35 @@
 
 namespace Transbank\Patpass;
 
-use Transbank\Patpass\PatpassComercio\BasePatpassComercio;
+use Transbank\Utils\EnvironmentManager;
 
-class PatpassComercio extends BasePatpassComercio
+class PatpassComercio extends EnvironmentManager
 {
-    public static $INTEGRATION_TYPES = [
-        Options::ENVIRONMENT_LIVE => 'https://www.pagoautomaticocontarjetas.cl/',
-        Options::ENVIRONMENT_TEST => 'https://pagoautomaticocontarjetasint.transbank.cl/',
-        Options::ENVIRONMENT_MOCK => '',
-    ];
+    const DEFAULT_API_KEY = 'cxxXQgGD9vrVe4M41FIt';
+    const DEFAULT_COMMERCE_CODE = '28299257';
 
-    protected static $apiKey = Options::DEFAULT_PATPASS_COMERCIO_API_KEY;
-    protected static $commerceCode = Options::DEFAULT_PATPASS_COMERCIO_COMMERCE_CODE;
-    protected static $integrationType = Options::DEFAULT_INTEGRATION_TYPE;
+    protected static $globalOptions = null;
 
     public static function configureForTesting()
     {
-        self::setApiKey(Options::DEFAULT_PATPASS_COMERCIO_API_KEY);
-        self::setCommerceCode(Options::DEFAULT_PATPASS_COMERCIO_COMMERCE_CODE);
-        self::setIntegrationType('TEST');
+        self::configureForIntegration(static::DEFAULT_COMMERCE_CODE, static::DEFAULT_API_KEY);
     }
 
     /**
-     * Get the default options if none are given.
-     *
-     * @param Options|null $options
-     *
-     * @return Options
+     * @param $commerceCode
+     * @param string $apiKey
      */
-    public static function getDefaultOptions(Options $options = null)
+    public static function configureForIntegration($commerceCode, $apiKey = Options::DEFAULT_API_KEY)
     {
-        if ($options !== null) {
-            return $options;
-        }
+        static::setOptions(Options::forIntegration($commerceCode, $apiKey));
+    }
 
-        return new Options(static::getApiKey(), static::getCommerceCode(), static::getIntegrationType());
+    /**
+     * @param $commerceCode
+     * @param $apiKey
+     */
+    public static function configureForProduction($commerceCode, $apiKey)
+    {
+        static::setOptions(Options::forProduction($commerceCode, $apiKey));
     }
 }

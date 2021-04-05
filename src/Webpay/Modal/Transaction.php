@@ -25,10 +25,9 @@ class Transaction
     const REFUND_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
 
     /**
-     * @param string       $buyOrder
-     * @param string       $sessionId
-     * @param int          $amount
-     * @param Options|null $options
+     * @param string $buyOrder
+     * @param string $sessionId
+     * @param int    $amount
      *
      * @throws TransactionCreateException
      * @throws GuzzleException|TransactionCreateException
@@ -36,10 +35,8 @@ class Transaction
      * @return TransactionCreateResponse
      **
      */
-    public static function create($amount, $buyOrder, $sessionId = null, Options $options = null)
+    public function create($amount, $buyOrder, $sessionId = null)
     {
-        $options = WebpayModal::getDefaultOptions($options);
-
         if ($sessionId === null) {
             $sessionId = uniqid();
         }
@@ -51,7 +48,7 @@ class Transaction
         ];
 
         try {
-            $response = static::request('POST', static::CREATE_TRANSACTION_ENDPOINT, $payload, $options);
+            $response = $this->sendRequest('POST', static::CREATE_TRANSACTION_ENDPOINT, $payload);
         } catch (WebpayRequestException $exception) {
             throw TransactionCreateException::raise($exception);
         }
@@ -60,22 +57,19 @@ class Transaction
     }
 
     /**
-     * @param string       $token
-     * @param Options|null $options
+     * @param string $token
      *
      * @throws TransactionCommitException|GuzzleException
      *
      * @return TransactionCommitResponse
      **
      */
-    public static function commit($token, Options $options = null)
+    public function commit($token)
     {
-        $options = WebpayModal::getDefaultOptions($options);
-
         $endpoint = str_replace('{token}', $token, static::COMMIT_TRANSACTION_ENDPOINT);
 
         try {
-            $response = static::request('PUT', $endpoint, [], $options);
+            $response = $this->sendRequest('PUT', $endpoint, []);
         } catch (WebpayRequestException $exception) {
             throw TransactionCommitException::raise($exception);
         }
@@ -85,21 +79,18 @@ class Transaction
 
     /**
      * @param $token
-     * @param Options|null $options
      *
+     * @throws GuzzleException
      * @throws TransactionStatusException
-     * @throws GuzzleException|TransactionStatusException
      *
      * @return TransactionStatusResponse
      */
-    public static function status($token, Options $options = null)
+    public function status($token)
     {
-        $options = WebpayModal::getDefaultOptions($options);
-
         $endpoint = str_replace('{token}', $token, static::STATUS_TRANSACTION_ENDPOINT);
 
         try {
-            $response = static::request('GET', $endpoint, [], $options);
+            $response = $this->sendRequest('GET', $endpoint, []);
         } catch (WebpayRequestException $exception) {
             throw TransactionStatusException::raise($exception);
         }
@@ -116,23 +107,30 @@ class Transaction
      *
      * @return TransactionRefundResponse
      */
-    public static function refund($token, $amount, Options $options = null)
+    public function refund($token, $amount)
     {
-        $options = WebpayModal::getDefaultOptions($options);
-
         $endpoint = str_replace('{token}', $token, static::REFUND_TRANSACTION_ENDPOINT);
 
         try {
-            $response = static::request(
+            $response = $this->sendRequest(
                 'POST',
                 $endpoint,
-                ['amount' => $amount],
-                $options
+                ['amount' => $amount]
             );
         } catch (WebpayRequestException $exception) {
             throw TransactionRefundException::raise($exception);
         }
 
         return new TransactionRefundResponse($response);
+    }
+
+    public static function getDefaultOptions()
+    {
+        return Options::forIntegration(WebpayModal::DEFAULT_COMMERCE_CODE, WebpayModal::DEFAULT_API_KEY);
+    }
+
+    public static function getGlobalOptions()
+    {
+        return WebpayModal::getOptions();
     }
 }

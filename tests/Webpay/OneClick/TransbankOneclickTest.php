@@ -2,21 +2,25 @@
 
 namespace webpay_rest\OneClick;
 
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 use PHPUnit\Framework\TestCase;
+use Transbank\Patpass\PatpassComercio\Inscription;
+use Transbank\Webpay\Oneclick;
 use Transbank\Webpay\Oneclick\Exceptions\InscriptionStartException;
 use Transbank\Webpay\Oneclick\Exceptions\MallTransactionAuthorizeException;
 use Transbank\Webpay\Oneclick\MallInscription;
 use Transbank\Webpay\Oneclick\MallTransaction;
 use Transbank\Webpay\Oneclick\Responses\InscriptionFinishResponse;
 use Transbank\Webpay\Oneclick\Responses\InscriptionStartResponse;
-use Transbank\Webpay\Options;
 
 class TransbankOneclickTest extends TestCase
 {
+    use ArraySubsetAsserts;
     public $username;
     public $email;
+    public $responseUrl;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->createDemoData();
     }
@@ -24,34 +28,34 @@ class TransbankOneclickTest extends TestCase
     /** @test */
     public function it_creates_an_inscription()
     {
-        $response = MallInscription::start($this->username, $this->email, 'http://demo.cl/return');
+        $response = MallInscription::build()->start($this->username, $this->email, $this->responseUrl);
         $this->assertInstanceOf(InscriptionStartResponse::class, $response);
         $this->assertNotEmpty($response->getToken());
         $this->assertNotEmpty($response->getUrlWebpay());
-        $this->assertContains($response->getToken(), $response->getRedirectUrl());
-        $this->assertContains($response->getUrlWebpay(), $response->getRedirectUrl());
+        $this->assertStringContainsString($response->getToken(), $response->getRedirectUrl());
+        $this->assertStringContainsString($response->getUrlWebpay(), $response->getRedirectUrl());
     }
 
     /** @test */
     public function it_fails_creating_an_inscription_with_invalid_email()
     {
-        $this->setExpectedException(InscriptionStartException::class, 'Invalid value for parameter: email');
-        $response = MallInscription::start($this->username, 'not_an_email', 'http://demo.cl/return');
+        $this->expectException(InscriptionStartException::class, 'Invalid value for parameter: email');
+        $response = MallInscription::build()->start($this->username, 'not_an_email', $this->responseUrl);
     }
 
     /** @test */
     public function it_fails_creating_an_inscription_with_invalid_data()
     {
-        $this->setExpectedException(InscriptionStartException::class, 'username is required');
-        $response = MallInscription::start('', $this->email, 'http://demo.cl/return');
+        $this->expectException(InscriptionStartException::class, 'username is required');
+        $response = MallInscription::build()->start('', $this->email, $this->responseUrl);
     }
 
     /** @test */
     public function it_fails_trying_to_finish_inscription()
     {
         $this->createDemoData();
-        $startResponse = MallInscription::start($this->username, $this->email, 'http://demo.cl/return');
-        $response = MallInscription::finish($startResponse->getToken());
+        $startResponse = MallInscription::build()->start($this->username, $this->email, $this->responseUrl);
+        $response = MallInscription::build()->finish($startResponse->getToken());
         $this->assertInstanceOf(InscriptionFinishResponse::class, $response);
 
         // -96 means the inscription has not finished yet.
@@ -61,19 +65,21 @@ class TransbankOneclickTest extends TestCase
     /** @test */
     public function it_fails_authorizing_a_transaction_with_a_fake_token()
     {
+        $mallTransaction = new MallTransaction();
+
         try {
-            $response = MallTransaction::authorize($this->username, 'fakeToken', 'buyOrder2132312', [
+            $response = $mallTransaction->authorize($this->username, 'fakeToken', 'buyOrder2132312', [
                 [
-                    'commerce_code'       => Options::DEFAULT_ONECLICK_MALL_CHILD_COMMERCE_CODE_1,
+                    'commerce_code'       => MallInscription::DEFAULT_CHILD_COMMERCE_CODE_1,
                     'buy_order'           => 'buyOrder122412',
                     'amount'              => 1000,
                     'installments_number' => 1,
                 ],
             ]);
-            $this->assertFalse(true, 'Should not be executed this line');
+            $this->assertTrue(false, 'Should not be executed this line');
         } catch (MallTransactionAuthorizeException $exception) {
-            $lastResponse = MallTransaction::getLastResponse();
-            $lastRequest = MallTransaction::getLastRequest();
+            $lastResponse = $mallTransaction->getRequestService()->getLastResponse();
+            $lastRequest = $mallTransaction->getRequestService()->getLastRequest();
             $this->assertNotNull($lastResponse);
             $this->assertEquals($exception->getFailedRequest(), $lastRequest);
             $this->assertEquals(500, $lastResponse->getStatusCode());
@@ -83,7 +89,7 @@ class TransbankOneclickTest extends TestCase
                 'buy_order' => 'buyOrder2132312',
                 'details'   => [
                     [
-                        'commerce_code' => Options::DEFAULT_ONECLICK_MALL_CHILD_COMMERCE_CODE_1,
+                        'commerce_code' => MallInscription::DEFAULT_CHILD_COMMERCE_CODE_1,
                         'amount'        => 1000,
                         'buy_order'     => 'buyOrder122412',
                     ],
@@ -95,10 +101,10 @@ class TransbankOneclickTest extends TestCase
     /** @test */
     public function it_fails_authorizing_a_transaction_with_no_username()
     {
-        $this->setExpectedException(MallTransactionAuthorizeException::class, 'username is required');
-        $response = MallTransaction::authorize('', 'fakeToken', 'buyOrder2132312', [
+        $this->expectException(MallTransactionAuthorizeException::class, 'username is required');
+        $response = MallTransaction::build()->authorize('', 'fakeToken', 'buyOrder2132312', [
             [
-                'commerce_code'       => Options::DEFAULT_ONECLICK_MALL_CHILD_COMMERCE_CODE_1,
+                'commerce_code'       => Oneclick::DEFAULT_CHILD_COMMERCE_CODE_1,
                 'buy_order'           => 'buyOrder122412',
                 'amount'              => 1000,
                 'installments_number' => 1,
@@ -110,5 +116,6 @@ class TransbankOneclickTest extends TestCase
     {
         $this->username = 'demo_'.rand(100000, 999999);
         $this->email = 'demo_'.rand(100000, 999999).'@demo.cl';
+        $this->responseUrl = 'http://demo.cl/return';
     }
 }

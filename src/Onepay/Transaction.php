@@ -9,6 +9,7 @@ namespace Transbank\Onepay;
  * package @transbank;
  */
 
+use Transbank\Contracts\HttpClientInterface;
 use Transbank\Onepay\Exceptions\SignException;
 use Transbank\Onepay\Exceptions\TransactionCommitException;
 use Transbank\Onepay\Exceptions\TransactionCreateException;
@@ -16,19 +17,35 @@ use Transbank\Onepay\Utils\OnepayRequestBuilder;
 use Transbank\Onepay\Utils\OnepaySignUtil;
 use Transbank\Utils\HttpClient;
 
+/**
+ * Class Transaction.
+ */
 class Transaction
 {
     const SEND_TRANSACTION = 'sendtransaction';
+
     const COMMIT_TRANSACTION = 'gettransactionnumber';
+
     const TRANSACTION_BASE_PATH = '/ewallet-plugin-api-services/services/transactionservice/';
 
+    /**
+     * @var HttpClientInterface|null
+     */
     private static $httpClient = null;
 
+    /**
+     * @throws \Exception
+     *
+     * @return string
+     */
     public static function getServiceUrl()
     {
         return OnepayBase::getIntegrationTypeUrl('TEST').'/ewallet-plugin-api-services/services/transactionservice';
     }
 
+    /**
+     * @return HttpClient|null
+     */
     private static function getHttpClient()
     {
         if (!isset(self::$httpClient) || self::$httpClient == null) {
@@ -78,7 +95,7 @@ class Transaction
         $request = json_encode(OnepayRequestBuilder::getInstance()->buildCreateRequest($shoppingCart, $channel, $externalUniqueNumber, $options), JSON_UNESCAPED_SLASHES);
         $path = self::TRANSACTION_BASE_PATH.self::SEND_TRANSACTION;
 
-        $httpResponse = $http->post(OnepayBase::getCurrentIntegrationTypeUrl(), $path, $request);
+        $httpResponse = $http->request('POST', OnepayBase::getCurrentIntegrationTypeUrl().$path, $request);
         if ($httpResponse === null) {
             throw new TransactionCreateException('Could not obtain a response from the service', -1);
         }
@@ -107,6 +124,17 @@ class Transaction
         return $transactionCreateResponse;
     }
 
+    /**
+     * @param $occ
+     * @param $externalUniqueNumber
+     * @param null $options
+     *
+     * @throws SignException
+     * @throws TransactionCommitException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return TransactionCommitResponse
+     */
     public static function commit($occ, $externalUniqueNumber, $options = null)
     {
         $http = self::getHttpClient();
@@ -114,7 +142,7 @@ class Transaction
         $request = json_encode(OnepayRequestBuilder::getInstance()->buildCommitRequest($occ, $externalUniqueNumber, $options), JSON_UNESCAPED_SLASHES);
         $path = self::TRANSACTION_BASE_PATH.self::COMMIT_TRANSACTION;
 
-        $httpResponse = $http->post(OnepayBase::getCurrentIntegrationTypeUrl(), $path, $request);
+        $httpResponse = $http->request('POST', OnepayBase::getCurrentIntegrationTypeUrl().$path, $request);
         if ($httpResponse === null) {
             throw new TransactionCommitException('Could not obtain a response from the service', -1);
         }

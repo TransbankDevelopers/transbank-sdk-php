@@ -8,6 +8,7 @@
 
 namespace Transbank\TransaccionCompleta;
 
+use Transbank\TransaccionCompleta\Exceptions\MallTransactionCaptureException;
 use Transbank\TransaccionCompleta\Exceptions\MallTransactionCommitException;
 use Transbank\TransaccionCompleta\Exceptions\MallTransactionCreateException;
 use Transbank\TransaccionCompleta\Exceptions\MallTransactionRefundException;
@@ -20,27 +21,26 @@ use Transbank\TransaccionCompleta\Responses\MallTransactionRefundResponse;
 use Transbank\TransaccionCompleta\Responses\MallTransactionStatusResponse;
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
+use Transbank\Webpay\Options;
 
 class MallTransaction
 {
     use InteractsWithWebpayApi;
 
-    const CREATE_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.2/transactions';
-    const INSTALLMENTS_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}/installments';
-    const COMMIT_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
-    const REFUND_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
-    const STATUS_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
+    const ENDPOINT_CREATE = '/rswebpaytransaction/api/webpay/v1.2/transactions';
+    const ENDPOINT_INSTALLMENTS = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}/installments';
+    const ENDPOINT_COMMIT = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
+    const ENDPOINT_REFUND = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
+    const ENDPOINT_STATUS = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
+    const ENDPOINT_CAPTURE = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}/capture';
 
-    public static function create(
+    public function create(
         $buyOrder,
         $sessionId,
         $cardNumber,
         $cardExpirationDate,
-        $details,
-        $options = null
+        $details
     ) {
-        $options = MallTransaccionCompleta::getDefaultOptions($options);
-
         $payload = [
             'buy_order'            => $buyOrder,
             'session_id'           => $sessionId,
@@ -50,7 +50,7 @@ class MallTransaction
         ];
 
         try {
-            $response = static::request('POST', static::CREATE_TRANSACTION_ENDPOINT, $payload, $options);
+            $response = $this->sendRequest('POST', static::ENDPOINT_CREATE, $payload);
         } catch (WebpayRequestException $exception) {
             throw MallTransactionCreateException::raise($exception);
         }
@@ -58,23 +58,20 @@ class MallTransaction
         return new MallTransactionCreateResponse($response);
     }
 
-    public static function installments(
+    public function installments(
         $token,
-        $details,
-        $options = null
+        $details
     ) {
-        $options = MallTransaccionCompleta::getDefaultOptions($options);
-
-        $endpoint = str_replace('{token}', $token, self::INSTALLMENTS_TRANSACTION_ENDPOINT);
+        $endpoint = str_replace('{token}', $token, self::ENDPOINT_INSTALLMENTS);
 
         try {
-            return array_map(function ($detail) use ($endpoint, $options) {
+            return array_map(function ($detail) use ($endpoint) {
                 $payload = [
                     'commerce_code'       => $detail['commerce_code'],
                     'buy_order'           => $detail['buy_order'],
                     'installments_number' => $detail['installments_number'],
                 ];
-                $response = static::request('POST', $endpoint, $payload, $options);
+                $response = $this->sendRequest('POST', $endpoint, $payload);
 
                 return new MallTransactionInstallmentsResponse($response);
             }, $details);
@@ -83,21 +80,18 @@ class MallTransaction
         }
     }
 
-    public static function commit(
+    public function commit(
         $token,
-        $details,
-        $options = null
+        $details
     ) {
-        $options = MallTransaccionCompleta::getDefaultOptions($options);
-
         $payload = [
             'details' => $details,
         ];
 
-        $endpoint = str_replace('{token}', $token, static::COMMIT_TRANSACTION_ENDPOINT);
+        $endpoint = str_replace('{token}', $token, static::ENDPOINT_COMMIT);
 
         try {
-            $response = static::request('PUT', $endpoint, $payload, $options);
+            $response = $this->sendRequest('PUT', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {
             throw MallTransactionCommitException::raise($exception);
         }
@@ -105,25 +99,22 @@ class MallTransaction
         return new MallTransactionCommitResponse($response);
     }
 
-    public static function refund(
+    public function refund(
         $token,
         $buyOrder,
         $commerceCodeChild,
-        $amount,
-        $options = null
+        $amount
     ) {
-        $options = MallTransaccionCompleta::getDefaultOptions($options);
-
         $payload = [
             'buy_order'     => $buyOrder,
             'commerce_code' => $commerceCodeChild,
             'amount'        => $amount,
         ];
 
-        $endpoint = str_replace('{token}', $token, static::REFUND_TRANSACTION_ENDPOINT);
+        $endpoint = str_replace('{token}', $token, static::ENDPOINT_REFUND);
 
         try {
-            $response = static::request('POST', $endpoint, $payload, $options);
+            $response = $this->sendRequest('POST', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {
             throw MallTransactionRefundException::raise($exception);
         }
@@ -131,16 +122,12 @@ class MallTransaction
         return new MallTransactionRefundResponse($response);
     }
 
-    public static function status(
-        $token,
-        $options = null
-    ) {
-        $options = MallTransaccionCompleta::getDefaultOptions($options);
-
-        $endpoint = str_replace('{token}', $token, static::STATUS_TRANSACTION_ENDPOINT);
+    public function status($token)
+    {
+        $endpoint = str_replace('{token}', $token, static::ENDPOINT_STATUS);
 
         try {
-            $response = static::request('GET', $endpoint, null, $options);
+            $response = $this->sendRequest('GET', $endpoint, null);
         } catch (WebpayRequestException $exception) {
             throw MallTransactionStatusException::raise($exception);
         }
@@ -149,12 +136,44 @@ class MallTransaction
     }
 
     /**
-     * @param $integrationEnvironment
+     * @param $token
+     * @param $commerceCode
+     * @param $buyOrder
+     * @param $authorizationCode
+     * @param $captureAmount
      *
-     * @return mixed|string
+     * @throws MallTransactionCaptureException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return Responses\MallTransactionCaptureResponse
      */
-    public static function getBaseUrl($integrationEnvironment)
+    public function capture($token, $commerceCode, $buyOrder, $authorizationCode, $captureAmount)
     {
-        return MallTransaccionCompleta::getIntegrationTypeUrl($integrationEnvironment);
+        $endpoint = str_replace('{token}', $token, self::ENDPOINT_CAPTURE);
+
+        $payload = [
+            'buy_order'          => $buyOrder,
+            'commerce_code'      => $commerceCode,
+            'authorization_code' => $authorizationCode,
+            'capture_amount'     => (int) $captureAmount,
+        ];
+
+        try {
+            $response = $this->sendRequest('PUT', $endpoint, $payload);
+        } catch (WebpayRequestException $exception) {
+            throw MallTransactionCaptureException::raise($exception);
+        }
+
+        return new Responses\MallTransactionCaptureResponse($response);
+    }
+
+    public static function getDefaultOptions()
+    {
+        return Options::forIntegration(TransaccionCompleta::DEFAULT_MALL_COMMERCE_CODE);
+    }
+
+    public static function getGlobalOptions()
+    {
+        return TransaccionCompleta::getOptions();
     }
 }

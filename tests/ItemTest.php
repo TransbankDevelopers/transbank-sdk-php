@@ -9,7 +9,7 @@ final class ItemTest extends TestCase
     public function testFromJSONThrowsIfParamIsNotJSON()
     {
         $randomString = 'definitely not json';
-        $this->setExpectedException(\Exception::class, 'Item must be a JSON string or an associative array that is transformable to an associative array using json_decode');
+        $this->expectException(\Exception::class, 'Item must be a JSON string or an associative array that is transformable to an associative array using json_decode');
         $item = Item::fromJSON($randomString);
     }
 
@@ -104,63 +104,63 @@ final class ItemTest extends TestCase
     public function testThrowsIfDescriptionIsNotGiven()
     {
         $aJSONStringWithoutDescription = '{"amount": 5000, "quantity": 5}';
-        $this->setExpectedException(\Exception::class, 'Description is not a string');
+        $this->expectException(\Exception::class, 'Description is not a string');
         $item = Item::fromJSON($aJSONStringWithoutDescription);
     }
 
     public function testThrowsIfDescriptionIsNull()
     {
         $aJSONStringWithoutDescription = '{"amount": 5000, "quantity": 5, "description": null}';
-        $this->setExpectedException(\Exception::class, 'Description is not a string');
+        $this->expectException(\Exception::class, 'Description is not a string');
         $item = Item::fromJSON($aJSONStringWithoutDescription);
     }
 
     public function testThrowsIfAmountIsNotGiven()
     {
         $aJSONStringWithoutDescription = '{"description": "something pretty", "quantity": 5}';
-        $this->setExpectedException(\Exception::class, 'amount must be an Integer');
+        $this->expectException(\Exception::class, 'amount must be an Integer');
         $item = Item::fromJSON($aJSONStringWithoutDescription);
     }
 
     public function testThrowsIfAmountIsNull()
     {
         $aJSONStringWithoutDescription = '{"amount": null, "quantity": 5, "description": "something pretty"}';
-        $this->setExpectedException(\Exception::class, 'amount must be an Integer');
+        $this->expectException(\Exception::class, 'amount must be an Integer');
         $item = Item::fromJSON($aJSONStringWithoutDescription);
     }
 
     public function testThrowsIfAmountIsString()
     {
         $aJSONStringWithoutDescription = '{"amount": "55", "quantity": 5, "description": "something pretty"}';
-        $this->setExpectedException(\Exception::class, 'amount must be an Integer');
+        $this->expectException(\Exception::class, 'amount must be an Integer');
         $item = Item::fromJSON($aJSONStringWithoutDescription);
     }
 
     public function testThrowsIfQuantityIsNotGiven()
     {
         $aJSONStringWithoutDescription = '{"description": "something pretty", "amount": 5000}';
-        $this->setExpectedException(\Exception::class, 'quantity must be an Integer');
+        $this->expectException(\Exception::class, 'quantity must be an Integer');
         $item = Item::fromJSON($aJSONStringWithoutDescription);
     }
 
     public function testThrowsIfQuantityIsNull()
     {
         $aJSONStringWithoutDescription = '{"amount": 5000, "quantity": null, "description": "something pretty"}';
-        $this->setExpectedException(\Exception::class, 'quantity must be an Integer');
+        $this->expectException(\Exception::class, 'quantity must be an Integer');
         $item = Item::fromJSON($aJSONStringWithoutDescription);
     }
 
     public function testThrowsIfQuantityIsString()
     {
         $aJSONStringWithoutDescription = '{"amount": 66, "quantity": "5", "description": "something pretty"}';
-        $this->setExpectedException(\Exception::class, 'quantity must be an Integer');
+        $this->expectException(\Exception::class, 'quantity must be an Integer');
         $item = Item::fromJSON($aJSONStringWithoutDescription);
     }
 
     public function testThrowsIfQuantityIsLessThanZero()
     {
         $aJSONStringContainingAnItem = '{"amount": 2000, "quantity": -5, "description": "something valuable"}';
-        $this->setExpectedException(\Exception::class, 'quantity cannot be less than zero');
+        $this->expectException(\Exception::class, 'quantity cannot be less than zero');
         $item = Item::fromJSON($aJSONStringContainingAnItem);
     }
 }

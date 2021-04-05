@@ -13,7 +13,7 @@ require_once __DIR__.'/mocks/TransactionCommitResponseMocks.php';
 
 final class OnepaySignUtilTest extends TestCase
 {
-    protected function setup()
+    protected function setUp(): void
     {
         OnepayBase::setSharedSecret('P4DCPS55QB2QLT56SQH6#W#LV76IAPYX');
         OnepayBase::setApiKey('mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg');
@@ -77,7 +77,7 @@ final class OnepaySignUtilTest extends TestCase
 
     public function testTryingToSignWhateverElseShouldRaiseSignException()
     {
-        $this->setExpectedException(\Transbank\Onepay\Exceptions\SignException::class);
+        $this->expectException(\Transbank\Onepay\Exceptions\SignException::class);
         OnepaySignUtil::getInstance()->sign('a string', $this->secret);
     }
 

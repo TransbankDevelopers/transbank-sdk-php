@@ -2,6 +2,7 @@
 
 namespace Transbank\TransaccionCompleta;
 
+use Transbank\TransaccionCompleta\Exceptions\TransactionCaptureException;
 use Transbank\TransaccionCompleta\Exceptions\TransactionCommitException;
 use Transbank\TransaccionCompleta\Exceptions\TransactionCreateException;
 use Transbank\TransaccionCompleta\Exceptions\TransactionInstallmentsException;
@@ -11,31 +12,45 @@ use Transbank\TransaccionCompleta\Responses\TransactionCommitResponse;
 use Transbank\TransaccionCompleta\Responses\TransactionCreateResponse;
 use Transbank\TransaccionCompleta\Responses\TransactionInstallmentsResponse;
 use Transbank\TransaccionCompleta\Responses\TransactionRefundResponse;
-use Transbank\TransaccionCompleta\Responses\TransactionStatusResponse;
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
+use Transbank\Webpay\Options;
 
+/**
+ * Class Transaction.
+ */
 class Transaction
 {
     use InteractsWithWebpayApi;
 
-    const CREATE_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.2/transactions';
-    const INSTALLMENTS_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}/installments';
-    const COMMIT_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
-    const REFUND_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
-    const STATUS_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
+    const ENDPOINT_CREATE = '/rswebpaytransaction/api/webpay/v1.2/transactions';
+    const ENDPOINT_INSTALLMENTS = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}/installments';
+    const ENDPOINT_COMMIT = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
+    const ENDPOINT_REFUND = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
+    const ENDPOINT_STATUS = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
+    const ENDPOINT_CAPTURE = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}/capture';
 
-    public static function create(
+    /**
+     * @param $buyOrder
+     * @param $sessionId
+     * @param $amount
+     * @param $cvv
+     * @param $cardNumber
+     * @param $cardExpirationDate
+     *
+     * @throws TransactionCreateException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return TransactionCreateResponse
+     */
+    public function create(
         $buyOrder,
         $sessionId,
         $amount,
         $cvv,
         $cardNumber,
-        $cardExpirationDate,
-        $options = null
+        $cardExpirationDate
     ) {
-        $options = TransaccionCompleta::getDefaultOptions($options);
-
         $payload = [
             'buy_order'            => $buyOrder,
             'session_id'           => $sessionId,
@@ -46,7 +61,7 @@ class Transaction
         ];
 
         try {
-            $response = static::request('POST', static::CREATE_TRANSACTION_ENDPOINT, $payload, $options);
+            $response = $this->sendRequest('POST', static::ENDPOINT_CREATE, $payload);
         } catch (WebpayRequestException $exception) {
             throw TransactionCreateException::raise($exception);
         }
@@ -54,21 +69,27 @@ class Transaction
         return new TransactionCreateResponse($response);
     }
 
-    public static function installments(
+    /**
+     * @param $token
+     * @param $installmentsNumber
+     *
+     * @throws TransactionInstallmentsException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return TransactionInstallmentsResponse
+     */
+    public function installments(
         $token,
-        $installmentsNumber,
-        $options = null
+        $installmentsNumber
     ) {
-        $options = TransaccionCompleta::getDefaultOptions($options);
-
         $payload = [
             'installments_number' => $installmentsNumber,
         ];
 
-        $endpoint = str_replace('{token}', $token, self::INSTALLMENTS_TRANSACTION_ENDPOINT);
+        $endpoint = str_replace('{token}', $token, self::ENDPOINT_INSTALLMENTS);
 
         try {
-            $response = static::request('POST', $endpoint, $payload, $options);
+            $response = $this->sendRequest('POST', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {
             throw TransactionInstallmentsException::raise($exception);
         }
@@ -76,25 +97,33 @@ class Transaction
         return new TransactionInstallmentsResponse($response);
     }
 
-    public static function commit(
+    /**
+     * @param $token
+     * @param $idQueryInstallments
+     * @param $deferredPeriodIndex
+     * @param $gracePeriod
+     *
+     * @throws TransactionCommitException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return TransactionCommitResponse
+     */
+    public function commit(
         $token,
-        $idQueryInstallments,
-        $deferredPeriodIndex,
-        $gracePeriod,
-        $options = null
+        $idQueryInstallments = null,
+        $deferredPeriodIndex = null,
+        $gracePeriod = null
     ) {
-        $options = TransaccionCompleta::getDefaultOptions($options);
-
         $payload = [
             'id_query_installments' => $idQueryInstallments,
             'deferred_period_index' => $deferredPeriodIndex,
             'grace_period'          => $gracePeriod,
         ];
 
-        $endpoint = str_replace('{token}', $token, self::COMMIT_TRANSACTION_ENDPOINT);
+        $endpoint = str_replace('{token}', $token, self::ENDPOINT_COMMIT);
 
         try {
-            $response = static::request('PUT', $endpoint, $payload, $options);
+            $response = $this->sendRequest('PUT', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {
             throw TransactionCommitException::raise($exception);
         }
@@ -102,21 +131,25 @@ class Transaction
         return new TransactionCommitResponse($response);
     }
 
-    public static function refund(
-        $token,
-        $amount,
-        $options = null
-    ) {
-        $options = TransaccionCompleta::getDefaultOptions($options);
-
+    /**
+     * @param $token
+     * @param $amount
+     *
+     * @throws TransactionRefundException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return TransactionRefundResponse
+     */
+    public function refund($token, $amount)
+    {
         $payload = [
             'amount' => $amount,
         ];
 
-        $endpoint = str_replace('{token}', $token, self::REFUND_TRANSACTION_ENDPOINT);
+        $endpoint = str_replace('{token}', $token, self::ENDPOINT_REFUND);
 
         try {
-            $response = static::request('POST', $endpoint, $payload, $options);
+            $response = $this->sendRequest('POST', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {
             throw TransactionRefundException::raise($exception);
         }
@@ -124,30 +157,72 @@ class Transaction
         return new TransactionRefundResponse($response);
     }
 
-    public static function status(
-        $token,
-        $options = null
-    ) {
-        $options = TransaccionCompleta::getDefaultOptions($options);
-
-        $endpoint = str_replace('{token}', $token, self::STATUS_TRANSACTION_ENDPOINT);
+    /**
+     * @param $token
+     *
+     * @throws TransactionStatusException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return Responses\TransactionStatusResponse
+     */
+    public function status($token)
+    {
+        $endpoint = str_replace('{token}', $token, self::ENDPOINT_STATUS);
 
         try {
-            $response = static::request('GET', $endpoint, null, $options);
+            $response = $this->sendRequest('GET', $endpoint, null);
         } catch (WebpayRequestException $exception) {
             throw TransactionStatusException::raise($exception);
         }
 
-        return new TransactionStatusResponse($response);
+        return new \Transbank\TransaccionCompleta\Responses\TransactionStatusResponse($response);
     }
 
     /**
-     * @param $integrationEnvironment
+     * @param $token
+     * @param $buyOrder
+     * @param $authorizationCode
+     * @param $captureAmount
      *
-     * @return mixed|string
+     * @throws TransactionCaptureException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return Responses\TransactionCaptureResponse
      */
-    public static function getBaseUrl($integrationEnvironment)
+    public function capture($token, $buyOrder, $authorizationCode, $captureAmount)
     {
-        return TransaccionCompleta::getIntegrationTypeUrl($integrationEnvironment);
+        $endpoint = str_replace('{token}', $token, self::ENDPOINT_CAPTURE);
+
+        $payload = [
+            'buy_order'          => $buyOrder,
+            'authorization_code' => $authorizationCode,
+            'capture_amount'     => (int) $captureAmount,
+        ];
+
+        try {
+            $response = $this->sendRequest('PUT', $endpoint, $payload);
+        } catch (WebpayRequestException $exception) {
+            throw TransactionCaptureException::raise($exception);
+        }
+
+        return new Responses\TransactionCaptureResponse($response);
+    }
+
+    /**
+     * Get the default options if none are given.
+     *
+     * @return Options
+     */
+    public static function getDefaultOptions()
+    {
+        return Options::forIntegration(TransaccionCompleta::DEFAULT_COMMERCE_CODE);
+    }
+
+    /**
+     * @return Options|null
+     */
+    public static function getGlobalOptions()
+    {
+        return TransaccionCompleta::getOptions();
     }
 }

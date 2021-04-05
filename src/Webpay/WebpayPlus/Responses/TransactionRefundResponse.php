@@ -4,6 +4,8 @@ namespace Transbank\Webpay\WebpayPlus\Responses;
 
 class TransactionRefundResponse
 {
+    const TYPE_REVERSED = 'REVERSED';
+    const TYPE_NULLIFY = 'NULLIFY';
     /**
      * @var mixed|null
      */
@@ -42,6 +44,12 @@ class TransactionRefundResponse
         $this->nullifiedAmount = isset($json['nullified_amount']) ? $json['nullified_amount'] : null;
         $this->balance = isset($json['balance']) ? $json['balance'] : null;
         $this->responseCode = isset($json['response_code']) ? $json['response_code'] : null;
+    }
+
+    public function success()
+    {
+        if ($this->getType() === static::TYPE_REVERSED ||
+            ($this->getType() === self::TYPE_NULLIFY && $this->getResponseCode() === 0));
     }
 
     /**

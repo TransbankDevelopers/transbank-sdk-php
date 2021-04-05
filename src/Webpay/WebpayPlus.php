@@ -2,75 +2,106 @@
 
 namespace Transbank\Webpay;
 
-use Transbank\Utils\ConfiguresEnvironment;
+use Transbank\Utils\EnvironmentManager;
+use Transbank\Utils\HttpClient;
+use Transbank\Webpay\WebpayPlus\MallTransaction;
+use Transbank\Webpay\WebpayPlus\Transaction;
 
 /**
  * Class WebpayPlus.
  */
-class WebpayPlus
+class WebpayPlus extends EnvironmentManager
 {
-    use ConfiguresEnvironment;
+    const DEFAULT_COMMERCE_CODE = '597055555532';
+    const DEFAULT_DEFERRED_COMMERCE_CODE = '597055555540';
 
-    const ENVIRONMENT_LIVE = Options::ENVIRONMENT_LIVE;
+    const DEFAULT_MALL_COMMERCE_CODE = '597055555535';
+    const DEFAULT_MALL_CHILD_COMMERCE_CODE_1 = '597055555536';
+    const DEFAULT_MALL_CHILD_COMMERCE_CODE_2 = '597055555537';
 
-    const ENVIRONMENT_TEST = Options::ENVIRONMENT_TEST;
+    const DEFAULT_MALL_DEFERRED_COMMERCE_CODE = '597055555581';
+    const DEFAULT_MALL_DEFERRED_CHILD_COMMERCE_CODE_1 = '597055555582';
+    const DEFAULT_MALL_DEFERRED_CHILD_COMMERCE_CODE_2 = '597055555583';
 
-    const ENVIRONMENT_MOCK = Options::ENVIRONMENT_MOCK;
+    const DEFAULT_API_KEY = Options::DEFAULT_API_KEY;
 
+    protected static $globalOptions = null;
+
+    /*
+    |--------------------------------------------------------------------------
+    | Public Facade
+    |--------------------------------------------------------------------------
+    */
     /**
      * @var string
      */
-    private static $apiKey = Options::DEFAULT_API_KEY;
+    protected static $transactionClass = Transaction::class;
     /**
      * @var string
      */
-    private static $commerceCode = Options::DEFAULT_COMMERCE_CODE;
+    protected static $mallTransactionClass = MallTransaction::class;
+
     /**
-     * @var string
+     * @param Options|null    $options
+     * @param HttpClient|null $httpClient
+     *
+     * @return Transaction
      */
-    private static $integrationType = Options::DEFAULT_INTEGRATION_TYPE;
+    public static function transaction(Options $options = null, HttpClient $httpClient = null)
+    {
+        return new self::$transactionClass($options, $httpClient);
+    }
+
+    /**
+     * @param Options|null    $options
+     * @param HttpClient|null $httpClient
+     *
+     * @return MallTransaction
+     */
+    public static function mallTransaction(Options $options = null, HttpClient $httpClient = null)
+    {
+        return new self::$mallTransactionClass($options, $httpClient);
+    }
+
+    /**
+     * @param string $transactionClass
+     */
+    public static function setTransactionClass($transactionClass)
+    {
+        self::$transactionClass = $transactionClass;
+    }
+
+    /**
+     * @param string $mallTransactionClass
+     */
+    public static function setMallTransactionClass($mallTransactionClass)
+    {
+        self::$mallTransactionClass = $mallTransactionClass;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Environment Configuration
+    |--------------------------------------------------------------------------
+    */
 
     public static function configureForTesting()
     {
-        self::setApiKey(Options::DEFAULT_API_KEY);
-        self::setCommerceCode(Options::DEFAULT_COMMERCE_CODE);
-        self::setIntegrationType(self::ENVIRONMENT_TEST);
+        self::configureForIntegration(static::DEFAULT_COMMERCE_CODE);
     }
 
-    public static function configureMallForTesting()
+    public static function configureForTestingDeferred()
     {
-        self::setApiKey(Options::DEFAULT_API_KEY);
-        self::setCommerceCode(Options::DEFAULT_WEBPAY_PLUS_MALL_COMMERCE_CODE);
-        self::setIntegrationType(self::ENVIRONMENT_TEST);
+        self::configureForIntegration(static::DEFAULT_DEFERRED_COMMERCE_CODE);
     }
 
-    public static function configureMallDeferredForTesting()
+    public static function configureForTestingMall()
     {
-        self::setApiKey(Options::DEFAULT_API_KEY);
-        self::setCommerceCode(Options::DEFAULT_WEBPAY_PLUS_MALL_DEFERRED_COMMERCE_CODE);
-        self::setIntegrationType(self::ENVIRONMENT_TEST);
+        self::configureForIntegration(static::DEFAULT_MALL_COMMERCE_CODE);
     }
 
-    public static function configureDeferredForTesting()
+    public static function configureForTestingMallDeferred()
     {
-        self::setApiKey(Options::DEFAULT_API_KEY);
-        self::setCommerceCode(Options::DEFAULT_DEFERRED_COMMERCE_CODE);
-        self::setIntegrationType(self::ENVIRONMENT_TEST);
-    }
-
-    /**
-     * Get the default options if none are given.
-     *
-     * @param Options|null $options
-     *
-     * @return Options
-     */
-    public static function getDefaultOptions(Options $options = null)
-    {
-        if ($options !== null) {
-            return $options;
-        }
-
-        return new Options(static::getApiKey(), static::getCommerceCode(), static::getIntegrationType());
+        self::configureForIntegration(static::DEFAULT_MALL_DEFERRED_COMMERCE_CODE);
     }
 }

@@ -8,43 +8,70 @@
 
 namespace Transbank\TransaccionCompleta;
 
-use Transbank\Utils\ConfiguresEnvironment;
+use Transbank\Utils\EnvironmentManager;
 
-class TransaccionCompleta
+class TransaccionCompleta extends EnvironmentManager
 {
-    use ConfiguresEnvironment;
+    const DEFAULT_COMMERCE_CODE = '597055555530';
+    const DEFAULT_DEFERRED_COMMERCE_CODE = '597055555531';
+    const DEFAULT_NO_CVV_COMMERCE_CODE = '597055555557';
+    const DEFAULT_DEFERRED_NO_CVV_COMMERCE_CODE = '597055555556';
 
-    private static $apiKey = Options::DEFAULT_API_KEY;
-    private static $commerceCode = Options::DEFAULT_TRANSACCION_COMPLETA_COMMERCE_CODE;
-    private static $integrationType = Options::DEFAULT_INTEGRATION_TYPE;
+    const DEFAULT_MALL_COMMERCE_CODE = '597055555573';
+    const DEFAULT_MALL_CHILD_COMMERCE_CODE_1 = '597055555574';
+    const DEFAULT_MALL_CHILD_COMMERCE_CODE_2 = '597055555575';
+
+    const DEFAULT_MALL_NO_CVV_COMMERCE_CODE = '597055555551';
+    const DEFAULT_MALL_NO_CVV_CHILD_COMMERCE_CODE_1 = '597055555552';
+    const DEFAULT_MALL_NO_CVV_CHILD_COMMERCE_CODE_2 = '597055555553';
+
+    const DEFAULT_MALL_DEFERRED_COMMERCE_CODE = '597055555576';
+    const DEFAULT_MALL_DEFERRED_CHILD_COMMERCE_CODE_1 = '597055555577';
+    const DEFAULT_MALL_DEFERRED_CHILD_COMMERCE_CODE_2 = '597055555578';
+
+    const DEFAULT_MALL_DEFERRED_NO_CVV_COMMERCE_CODE = '597055555561';
+    const DEFAULT_MALL_DEFERRED_NO_CVV_CHILD_COMMERCE_CODE_1 = '597055555562';
+    const DEFAULT_MALL_DEFERRED_NO_CVV_CHILD_COMMERCE_CODE_2 = '597055555564';
+
+    protected static $globalOptions = null;
 
     public static function configureForTesting()
     {
-        self::$apiKey = Options::DEFAULT_API_KEY;
-        self::$commerceCode = Options::DEFAULT_TRANSACCION_COMPLETA_COMMERCE_CODE;
-        self::$integrationType = Options::DEFAULT_INTEGRATION_TYPE;
+        static::configureForIntegration(static::DEFAULT_COMMERCE_CODE);
     }
 
-    public static function configureMallForTesting()
+    public static function configureForTestingNoCVV()
     {
-        self::$apiKey = Options::DEFAULT_API_KEY;
-        self::$commerceCode = Options::DEFAULT_TRANSACCION_COMPLETA_MALL_COMMERCE_CODE;
-        self::$integrationType = Options::DEFAULT_INTEGRATION_TYPE;
+        static::configureForIntegration(static::DEFAULT_NO_CVV_COMMERCE_CODE);
     }
 
-    /**
-     * Get the default options if none are given.
-     *
-     * @param \Transbank\TransaccionCompleta\Options|null $options
-     *
-     * @return Options
-     */
-    public static function getDefaultOptions(Options $options = null)
+    public static function configureForTestingDeferred()
     {
-        if ($options !== null) {
-            return $options;
-        }
+        static::configureForIntegration(static::DEFAULT_DEFERRED_COMMERCE_CODE);
+    }
 
-        return new Options(static::getApiKey(), static::getCommerceCode(), static::getIntegrationType());
+    public static function configureForTestingDeferredNoCVV()
+    {
+        static::configureForIntegration(static::DEFAULT_DEFERRED_NO_CVV_COMMERCE_CODE);
+    }
+
+    public static function configureForTestingMall()
+    {
+        static::configureForIntegration(static::DEFAULT_MALL_COMMERCE_CODE);
+    }
+
+    public static function configureForTestingMallNoCVV()
+    {
+        static::configureForIntegration(static::DEFAULT_MALL_NO_CVV_COMMERCE_CODE);
+    }
+
+    public static function configureForTestingMallDeferred()
+    {
+        static::configureForIntegration(static::DEFAULT_MALL_DEFERRED_COMMERCE_CODE);
+    }
+
+    public static function configureForTestingMallDeferredNoCVV()
+    {
+        static::configureForIntegration(static::DEFAULT_MALL_DEFERRED_NO_CVV_COMMERCE_CODE);
     }
 }
