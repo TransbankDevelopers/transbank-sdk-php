@@ -1,15 +1,11 @@
 <?php
 
-
 namespace Transbank\Webpay;
 
 use Transbank\Utils\HttpClient;
 
 /**
- * Class WebpayPlus
- *
- * @package Transbank\Webpay
- *
+ * Class WebpayPlus.
  */
 class WebpayPlus
 {
@@ -17,19 +13,18 @@ class WebpayPlus
     const ENVIRONMENT_TEST = 'TEST';
     const ENVIRONMENT_MOCK = 'MOCK';
 
-
     /**
-     * @var array $INTEGRATION_TYPES contains key-value pairs of
-     * integration_type => url_of_that_integration
+     * @var array contains key-value pairs of
+     *            integration_type => url_of_that_integration
      */
     public static $INTEGRATION_TYPES = [
-        self::ENVIRONMENT_LIVE => "https://webpay3g.transbank.cl/",
-        self::ENVIRONMENT_TEST => "https://webpay3gint.transbank.cl/",
-        self::ENVIRONMENT_MOCK => ""
+        self::ENVIRONMENT_LIVE => 'https://webpay3g.transbank.cl/',
+        self::ENVIRONMENT_TEST => 'https://webpay3gint.transbank.cl/',
+        self::ENVIRONMENT_MOCK => '',
 
     ];
     /**
-     * @var $httpClient HttpClient|null
+     * @var HttpClient|null
      */
     public static $httpClient = null;
     private static $apiKey = Options::DEFAULT_API_KEY;
@@ -92,6 +87,7 @@ class WebpayPlus
         if (!isset(self::$httpClient) || self::$httpClient == null) {
             self::$httpClient = new HttpClient();
         }
+
         return self::$httpClient;
     }
 

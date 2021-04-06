@@ -1,16 +1,12 @@
 <?php
+
 namespace Transbank\Webpay\Exceptions;
 
-/**
- * class TransbankException
- *
- *   basic class for Transbank related exceptions
- *
- * @package Transbank
- *
- *
- */
-
+ /**
+  * class TransbankException.
+  *
+  *   basic class for Transbank related exceptions
+  */
  class TransbankException extends \Exception
  {
      const DEFAULT_MESSAGE = 'An error has happened, verify given parameters and try again.';

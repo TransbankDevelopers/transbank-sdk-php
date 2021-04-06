@@ -1,13 +1,10 @@
 <?php
 
 /**
- * Class MallTransaction
+ * Class MallTransaction.
  *
  * @category
- * @package Transbank\TransaccionCompleta
- *
  */
-
 
 namespace Transbank\TransaccionCompleta;
 
@@ -19,7 +16,7 @@ use Transbank\TransaccionCompleta\Exceptions\MallTransactionStatusException;
 
 class MallTransaction
 {
-    const CREATE_TRANSACTION_ENDPOINT  = '/rswebpaytransaction/api/webpay/v1.0/transactions';
+    const CREATE_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions';
     const INSTALLMENTS_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$/installments';
     const COMMIT_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$';
     const REFUND_TRANSACTION_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$/refunds';
@@ -44,16 +41,16 @@ class MallTransaction
         }
 
         $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+            'Tbk-Api-Key-Id'     => $commerceCode,
+            'Tbk-Api-Key-Secret' => $apiKey,
         ];
 
         $payload = json_encode([
-           "buy_order" => $buyOrder,
-            "session_id" => $sessionId,
-            "card_number" => $cardNumber,
-            "card_expiration_date" => $cardExpirationDate,
-            "details" => $details
+            'buy_order'            => $buyOrder,
+            'session_id'           => $sessionId,
+            'card_number'          => $cardNumber,
+            'card_expiration_date' => $cardExpirationDate,
+            'details'              => $details,
         ]);
 
         $http = MallTransaccionCompleta::getHttpClient();
@@ -62,7 +59,7 @@ class MallTransaction
             $baseUrl,
             self::CREATE_TRANSACTION_ENDPOINT,
             $payload,
-            [ 'headers' => $headers ]
+            ['headers' => $headers]
         );
 
         $httpCode = $httpResponse->getStatusCode();
@@ -72,8 +69,8 @@ class MallTransaction
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
+            if (isset($body['error_message'])) {
+                $tbkErrorMessage = $body['error_message'];
                 $message = "$message. Details: $tbkErrorMessage";
             }
 
@@ -102,8 +99,8 @@ class MallTransaction
         }
 
         $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+            'Tbk-Api-Key-Id'     => $commerceCode,
+            'Tbk-Api-Key-Secret' => $apiKey,
         ];
 
         $url = str_replace('$TOKEN$', $token, self::INSTALLMENTS_TRANSACTION_ENDPOINT);
@@ -111,15 +108,15 @@ class MallTransaction
 
         $resp = array_map(function ($det) use ($baseUrl, $url, $headers, $http) {
             $payload = json_encode([
-                "commerce_code" => $det["commerce_code"],
-                "buy_order" => $det["buy_order"],
-                "installments_number" => $det["installments_number"],
+                'commerce_code'       => $det['commerce_code'],
+                'buy_order'           => $det['buy_order'],
+                'installments_number' => $det['installments_number'],
             ]);
             $httpResponse = $http->post(
                 $baseUrl,
                 $url,
                 $payload,
-                [ 'headers' => $headers ]
+                ['headers' => $headers]
             );
             $httpCode = $httpResponse->getStatusCode();
 
@@ -128,8 +125,8 @@ class MallTransaction
                 $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
                 $body = json_decode($httpResponse->getBody(), true);
 
-                if (isset($body["error_message"])) {
-                    $tbkErrorMessage = $body["error_message"];
+                if (isset($body['error_message'])) {
+                    $tbkErrorMessage = $body['error_message'];
                     $message = "$message. Details: $tbkErrorMessage";
                 }
 
@@ -161,14 +158,14 @@ class MallTransaction
         }
 
         $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+            'Tbk-Api-Key-Id'     => $commerceCode,
+            'Tbk-Api-Key-Secret' => $apiKey,
         ];
 
         $url = str_replace('$TOKEN$', $token, self::COMMIT_TRANSACTION_ENDPOINT);
 
         $payload = json_encode([
-           "details" => $details
+            'details' => $details,
         ]);
         $http = MallTransaccionCompleta::getHttpClient();
 
@@ -176,7 +173,7 @@ class MallTransaction
             $baseUrl,
             $url,
             $payload,
-            [ 'headers' => $headers ]
+            ['headers' => $headers]
         );
 
         $httpCode = $httpResponse->getStatusCode();
@@ -186,8 +183,8 @@ class MallTransaction
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
+            if (isset($body['error_message'])) {
+                $tbkErrorMessage = $body['error_message'];
                 $message = "$message. Details: $tbkErrorMessage";
             }
 
@@ -219,15 +216,15 @@ class MallTransaction
         }
 
         $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+            'Tbk-Api-Key-Id'     => $commerceCode,
+            'Tbk-Api-Key-Secret' => $apiKey,
         ];
         $url = str_replace('$TOKEN$', $token, self::REFUND_TRANSACTION_ENDPOINT);
 
         $payload = json_encode([
-            "buy_order" => $buyOrder,
-            "commerce_code" => $commerceCodeChild,
-            "amount" => $amount
+            'buy_order'     => $buyOrder,
+            'commerce_code' => $commerceCodeChild,
+            'amount'        => $amount,
         ]);
 
         $http = MallTransaccionCompleta::getHttpClient();
@@ -236,7 +233,7 @@ class MallTransaction
             $baseUrl,
             $url,
             $payload,
-            [ 'headers' => $headers ]
+            ['headers' => $headers]
         );
 
         $httpCode = $httpResponse->getStatusCode();
@@ -246,8 +243,8 @@ class MallTransaction
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
+            if (isset($body['error_message'])) {
+                $tbkErrorMessage = $body['error_message'];
                 $message = "$message. Details: $tbkErrorMessage";
             }
 
@@ -276,8 +273,8 @@ class MallTransaction
         }
 
         $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+            'Tbk-Api-Key-Id'     => $commerceCode,
+            'Tbk-Api-Key-Secret' => $apiKey,
         ];
         $url = str_replace('$TOKEN$', $token, self::STATUS_TRANSACTION_ENDPOINT);
 
@@ -286,7 +283,7 @@ class MallTransaction
         $httpResponse = $http->get(
             $baseUrl,
             $url,
-            [ 'headers' => $headers ]
+            ['headers' => $headers]
         );
 
         $httpCode = $httpResponse->getStatusCode();
@@ -296,8 +293,8 @@ class MallTransaction
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
+            if (isset($body['error_message'])) {
+                $tbkErrorMessage = $body['error_message'];
                 $message = "$message. Details: $tbkErrorMessage";
             }
 

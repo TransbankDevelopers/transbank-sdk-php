@@ -1,15 +1,12 @@
 <?php
+
 namespace Transbank\Onepay;
 
 /**
- *
  *  @class TransactionCreateResponse
  *  Instances of this class represent the response from Transbank's servers
  *  to a TransactionCreateRequest
- *  @package Transbank;
- *
-*/
-
+ */
 class TransactionCreateResponse extends BaseResponse implements \JsonSerializable
 {
     private $occ;
@@ -18,6 +15,7 @@ class TransactionCreateResponse extends BaseResponse implements \JsonSerializabl
     private $qrCodeAsBase64;
     private $issuedAt;
     private $signature;
+
     public function __construct($json)
     {
         $this->fromJSON($json);
@@ -56,6 +54,7 @@ class TransactionCreateResponse extends BaseResponse implements \JsonSerializabl
     public function setOcc($occ)
     {
         $this->occ = $occ;
+
         return $this;
     }
 
@@ -67,6 +66,7 @@ class TransactionCreateResponse extends BaseResponse implements \JsonSerializabl
     public function setOtt($ott)
     {
         $this->ott = $ott;
+
         return $this;
     }
 
@@ -78,6 +78,7 @@ class TransactionCreateResponse extends BaseResponse implements \JsonSerializabl
     public function setExternalUniqueNumber($externalUniqueNumber)
     {
         $this->externalUniqueNumber = $externalUniqueNumber;
+
         return $this;
     }
 
@@ -89,6 +90,7 @@ class TransactionCreateResponse extends BaseResponse implements \JsonSerializabl
     public function setQrCodeAsBase64($qrCodeAsBase64)
     {
         $this->qrCodeAsBase64 = $qrCodeAsBase64;
+
         return $this;
     }
 
@@ -100,6 +102,7 @@ class TransactionCreateResponse extends BaseResponse implements \JsonSerializabl
     public function setIssuedAt($issuedAt)
     {
         $this->issuedAt = $issuedAt;
+
         return $this;
     }
 
@@ -107,9 +110,11 @@ class TransactionCreateResponse extends BaseResponse implements \JsonSerializabl
     {
         return $this->signature;
     }
+
     public function setSignature($signature)
     {
         $this->signature = $signature;
+
         return $this;
     }
 }

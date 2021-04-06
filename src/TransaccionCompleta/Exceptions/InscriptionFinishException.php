@@ -1,17 +1,12 @@
 <?php
 
 /**
- * Class InscriptionFinishException
+ * Class InscriptionFinishException.
  *
  * @category
- * @package Transbank\TransaccionCompleta\TransaccionCompletaException
- *
  */
 
-
 namespace Transbank\TransaccionCompleta\Exceptions;
-
-use Transbank\TransaccionCompleta\Exceptions\TransaccionCompletaException;
 
 class InscriptionFinishException extends TransaccionCompletaException
 {

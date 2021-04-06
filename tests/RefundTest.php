@@ -1,4 +1,5 @@
 <?php
+
 namespace Transbank\Onepay;
 
 use PHPUnit\Framework\TestCase;
@@ -7,12 +8,12 @@ final class RefundTest extends TestCase
 {
     protected function setup()
     {
-        OnepayBase::setSharedSecret("P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
-        OnepayBase::setApiKey("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg");
-        OnepayBase::setCurrentIntegrationType("MOCK");
-        $this->externalUniqueNumber = "1532376544050";
-        $this->occ = "1807829988419927";
-        $this->authorizationCode = "497490";
+        OnepayBase::setSharedSecret('P4DCPS55QB2QLT56SQH6#W#LV76IAPYX');
+        OnepayBase::setApiKey('mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg');
+        OnepayBase::setCurrentIntegrationType('MOCK');
+        $this->externalUniqueNumber = '1532376544050';
+        $this->occ = '1807829988419927';
+        $this->authorizationCode = '497490';
     }
 
     public function testRefundWithOptionsWorks()
@@ -57,9 +58,9 @@ final class RefundTest extends TestCase
         $this->setExpectedException(\Transbank\Onepay\Exceptions\RefundCreateException::class);
         $httpResponse = Refund::create(
             27500,
-            "INVALID OCC",
-            "12345someextuniqnum",
-            "f506a955-800c-4185-8818-4ef9fca97aae",
+            'INVALID OCC',
+            '12345someextuniqnum',
+            'f506a955-800c-4185-8818-4ef9fca97aae',
             $options
         );
 

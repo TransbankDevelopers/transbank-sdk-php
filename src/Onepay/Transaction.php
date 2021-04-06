@@ -1,28 +1,29 @@
 <?php
+
 namespace Transbank\Onepay;
 
 /**
  *  Class Transaction
- *  This class creates or commits a transaction (that is, a purchase);
+ *  This class creates or commits a transaction (that is, a purchase);.
  *
  * package @transbank;
- *
  */
-use Transbank\Onepay\Exceptions\TransactionCreateException;
-use Transbank\Onepay\Exceptions\TransactionCommitException;
 use Transbank\Onepay\Exceptions\SignException;
+use Transbank\Onepay\Exceptions\TransactionCommitException;
+use Transbank\Onepay\Exceptions\TransactionCreateException;
 use Transbank\Utils\HttpClient;
 
  class Transaction
  {
-     const SEND_TRANSACTION = "sendtransaction";
-     const COMMIT_TRANSACTION = "gettransactionnumber";
+     const SEND_TRANSACTION = 'sendtransaction';
+     const COMMIT_TRANSACTION = 'gettransactionnumber';
      const TRANSACTION_BASE_PATH = '/ewallet-plugin-api-services/services/transactionservice/';
 
      private static $httpClient = null;
+
      public static function getServiceUrl()
      {
-         return OnepayBase::getIntegrationTypeUrl("TEST") . "/ewallet-plugin-api-services/services/transactionservice";
+         return OnepayBase::getIntegrationTypeUrl('TEST').'/ewallet-plugin-api-services/services/transactionservice';
      }
 
      private static function getHttpClient()
@@ -30,6 +31,7 @@ use Transbank\Utils\HttpClient;
          if (!isset(self::$httpClient) || self::$httpClient == null) {
              self::$httpClient = new HttpClient();
          }
+
          return self::$httpClient;
      }
 
@@ -38,10 +40,12 @@ use Transbank\Utils\HttpClient;
       * @param ChannelEnum|null $channel
       * @param null $externalUniqueNumber
       * @param null $options
-      * @return TransactionCreateResponse
+      *
       * @throws SignException
       * @throws TransactionCreateException
       * @throws \Exception
+      *
+      * @return TransactionCreateResponse
       */
      public static function create($shoppingCart, $channel = null, $externalUniqueNumber = null, $options = null)
      {
@@ -64,30 +68,30 @@ use Transbank\Utils\HttpClient;
          }
 
          if (!$shoppingCart instanceof ShoppingCart) {
-             throw new \Exception("Shopping cart is null or empty");
+             throw new \Exception('Shopping cart is null or empty');
          }
          $http = self::getHttpClient();
          $options = OnepayRequestBuilder::getInstance()->buildOptions($options);
          $request = json_encode(OnepayRequestBuilder::getInstance()->buildCreateRequest($shoppingCart, $channel, $externalUniqueNumber, $options), JSON_UNESCAPED_SLASHES);
-         $path = self::TRANSACTION_BASE_PATH . self::SEND_TRANSACTION;
+         $path = self::TRANSACTION_BASE_PATH.self::SEND_TRANSACTION;
 
          $httpResponse = $http->post(OnepayBase::getCurrentIntegrationTypeUrl(), $path, $request);
          if ($httpResponse === null) {
              throw new TransactionCreateException('Could not obtain a response from the service', -1);
          }
-        
+
          $httpCode = $httpResponse->getStatusCode();
          $responseJson = json_decode($httpResponse->getBody(), true);
 
          if ($httpCode != 200 && $httpCode != 204) {
              throw new TransactionCreateException('Could not obtain a response from the service', -1);
          }
-         if ($responseJson['responseCode'] != "OK") {
-             throw new TransactionCreateException($responseJson['responseCode'] . " : " . $responseJson['description'], -1);
+         if ($responseJson['responseCode'] != 'OK') {
+             throw new TransactionCreateException($responseJson['responseCode'].' : '.$responseJson['description'], -1);
          }
 
-         $transactionCreateResponse =  new TransactionCreateResponse($responseJson);
-        
+         $transactionCreateResponse = new TransactionCreateResponse($responseJson);
+
          $signatureIsValid = OnepaySignUtil::getInstance()
                             ->validate(
                                 $transactionCreateResponse,
@@ -96,6 +100,7 @@ use Transbank\Utils\HttpClient;
          if (!$signatureIsValid) {
              throw new SignException('The response signature is not valid.', -1);
          }
+
          return $transactionCreateResponse;
      }
 
@@ -104,7 +109,7 @@ use Transbank\Utils\HttpClient;
          $http = self::getHttpClient();
          $options = OnepayRequestBuilder::getInstance()->buildOptions($options);
          $request = json_encode(OnepayRequestBuilder::getInstance()->buildCommitRequest($occ, $externalUniqueNumber, $options), JSON_UNESCAPED_SLASHES);
-         $path = self::TRANSACTION_BASE_PATH . self::COMMIT_TRANSACTION;
+         $path = self::TRANSACTION_BASE_PATH.self::COMMIT_TRANSACTION;
 
          $httpResponse = $http->post(OnepayBase::getCurrentIntegrationTypeUrl(), $path, $request);
          if ($httpResponse === null) {
@@ -116,8 +121,8 @@ use Transbank\Utils\HttpClient;
          if ($httpCode != 200 && $httpCode != 204) {
              throw new TransactionCommitException('Could not obtain a response from the service', -1);
          }
-         if ($responseJson['responseCode'] != "OK") {
-             throw new TransactionCommitException($responseJson['responseCode'] . " : " . $responseJson['description'], -1);
+         if ($responseJson['responseCode'] != 'OK') {
+             throw new TransactionCommitException($responseJson['responseCode'].' : '.$responseJson['description'], -1);
          }
 
          $transactionCommitResponse = new TransactionCommitResponse($responseJson);
@@ -129,6 +134,7 @@ use Transbank\Utils\HttpClient;
          if (!$signatureIsValid) {
              throw new SignException('The response signature is not valid', -1);
          }
+
          return $transactionCommitResponse;
      }
  }

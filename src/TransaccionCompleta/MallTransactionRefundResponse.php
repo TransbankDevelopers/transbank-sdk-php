@@ -1,13 +1,10 @@
 <?php
 
 /**
- * Class MallTransactionRefundResponse
+ * Class MallTransactionRefundResponse.
  *
  * @category
- * @package Transbank\TransaccionCompleta
- *
  */
-
 
 namespace Transbank\TransaccionCompleta;
 
@@ -24,17 +21,17 @@ class MallTransactionRefundResponse
 
     public function __construct($json)
     {
-        $type = Utils::returnValueIfExists($json, "type");
+        $type = Utils::returnValueIfExists($json, 'type');
         $this->setType($type);
-        $authorizationCode =  Utils::returnValueIfExists($json, "authorization_code");
+        $authorizationCode = Utils::returnValueIfExists($json, 'authorization_code');
         $this->setAuthorizationCode($authorizationCode);
-        $authorizationDate =  Utils::returnValueIfExists($json, "authorization_date");
+        $authorizationDate = Utils::returnValueIfExists($json, 'authorization_date');
         $this->setAuthorizationDate($authorizationDate);
-        $nullifiedAmount =  Utils::returnValueIfExists($json, "nullified_amount");
+        $nullifiedAmount = Utils::returnValueIfExists($json, 'nullified_amount');
         $this->setNullifiedAmount($nullifiedAmount);
-        $balance =  Utils::returnValueIfExists($json, "balance");
+        $balance = Utils::returnValueIfExists($json, 'balance');
         $this->setBalance($balance);
-        $responseCode =  Utils::returnValueIfExists($json, "response_code");
+        $responseCode = Utils::returnValueIfExists($json, 'response_code');
         $this->setResponseCode($responseCode);
     }
 
@@ -48,11 +45,13 @@ class MallTransactionRefundResponse
 
     /**
      * @param mixed $type
+     *
      * @return MallTransactionRefundResponse
      */
     public function setType($type)
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -66,11 +65,13 @@ class MallTransactionRefundResponse
 
     /**
      * @param mixed $authorizationCode
+     *
      * @return MallTransactionRefundResponse
      */
     public function setAuthorizationCode($authorizationCode)
     {
         $this->authorizationCode = $authorizationCode;
+
         return $this;
     }
 
@@ -84,11 +85,13 @@ class MallTransactionRefundResponse
 
     /**
      * @param mixed $authorizationDate
+     *
      * @return MallTransactionRefundResponse
      */
     public function setAuthorizationDate($authorizationDate)
     {
         $this->authorizationDate = $authorizationDate;
+
         return $this;
     }
 
@@ -102,11 +105,13 @@ class MallTransactionRefundResponse
 
     /**
      * @param mixed $nullifiedAmount
+     *
      * @return MallTransactionRefundResponse
      */
     public function setNullifiedAmount($nullifiedAmount)
     {
         $this->nullifiedAmount = $nullifiedAmount;
+
         return $this;
     }
 
@@ -120,11 +125,13 @@ class MallTransactionRefundResponse
 
     /**
      * @param mixed $balance
+     *
      * @return MallTransactionRefundResponse
      */
     public function setBalance($balance)
     {
         $this->balance = $balance;
+
         return $this;
     }
 
@@ -139,12 +146,12 @@ class MallTransactionRefundResponse
     /**
      * @param mixed $responseCode
      *
-     *
      * @return MallTransactionRefundResponse
      */
     public function setResponseCode($responseCode)
     {
         $this->responseCode = $responseCode;
+
         return $this;
     }
 }

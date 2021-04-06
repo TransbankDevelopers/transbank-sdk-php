@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Transbank\Webpay\Oneclick;
 
 class MallTransactionCaptureResponse
@@ -12,10 +11,10 @@ class MallTransactionCaptureResponse
 
     public function __construct($json)
     {
-        $this->setAuthorizationCode(isset($json["authorization_code"]) ? $json["authorization_code"] : null);
-        $this->setAuthorizationDate(isset($json["authorization_date"]) ? $json["authorization_date"] : null);
-        $this->setCapturedAmount(isset($json["captured_amount"]) ? $json["captured_amount"]  : null);
-        $this->setResponseCode(isset($json["response_code"]) ? $json["response_code"] : null);
+        $this->setAuthorizationCode(isset($json['authorization_code']) ? $json['authorization_code'] : null);
+        $this->setAuthorizationDate(isset($json['authorization_date']) ? $json['authorization_date'] : null);
+        $this->setCapturedAmount(isset($json['captured_amount']) ? $json['captured_amount'] : null);
+        $this->setResponseCode(isset($json['response_code']) ? $json['response_code'] : null);
     }
 
     public function getAuthorizationCode()
@@ -26,6 +25,7 @@ class MallTransactionCaptureResponse
     public function setAuthorizationCode($authorizationCode)
     {
         $this->authorizationCode = $authorizationCode;
+
         return $this;
     }
 
@@ -37,6 +37,7 @@ class MallTransactionCaptureResponse
     public function setAuthorizationDate($authorizationDate)
     {
         $this->authorizationDate = $authorizationDate;
+
         return $this;
     }
 
@@ -48,6 +49,7 @@ class MallTransactionCaptureResponse
     public function setCapturedAmount($capturedAmount)
     {
         $this->capturedAmount = $capturedAmount;
+
         return $this;
     }
 
@@ -59,6 +61,7 @@ class MallTransactionCaptureResponse
     public function setResponseCode($reponseCode)
     {
         $this->reponseCode = $reponseCode;
+
         return $this;
     }
 }

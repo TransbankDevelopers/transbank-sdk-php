@@ -2,19 +2,18 @@
 
 namespace Transbank\Webpay\WebpayPlus;
 
+use Transbank\Webpay\Options;
+use Transbank\Webpay\WebpayPlus;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCaptureException;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCommitException;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCreateException;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionRefundException;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionStatusException;
-use Transbank\Webpay\Options;
-use Transbank\Webpay\WebpayPlus;
 
 class Transaction
 {
-
     /**
-     * Path used for the 'create' endpoint
+     * Path used for the 'create' endpoint.
      */
     const CREATE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/webpay/v1.0/transactions';
 
@@ -27,14 +26,15 @@ class Transaction
     const CAPTURE_ENDPOINT = '/rswebpaytransaction/api/webpay/v1.0/transactions/$TOKEN$/capture';
 
     /**
-     * @param string $buyOrder
-     * @param string $sessionId
-     * @param integer $amount
-     * @param string $returnUrl
+     * @param string       $buyOrder
+     * @param string       $sessionId
+     * @param int          $amount
+     * @param string       $returnUrl
      * @param Options|null $options
      *
-     * @return TransactionCreateResponse
      * @throws TransactionCreateException
+     *
+     * @return TransactionCreateResponse
      **
      */
     public static function create(
@@ -55,15 +55,15 @@ class Transaction
         }
 
         $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+            'Tbk-Api-Key-Id'     => $commerceCode,
+            'Tbk-Api-Key-Secret' => $apiKey,
         ];
 
         $payload = json_encode([
-            "buy_order" => $buyOrder,
-            "session_id" => $sessionId,
-            "amount" => $amount,
-            "return_url" => $returnUrl
+            'buy_order'  => $buyOrder,
+            'session_id' => $sessionId,
+            'amount'     => $amount,
+            'return_url' => $returnUrl,
         ]);
 
         $http = WebpayPlus::getHttpClient();
@@ -81,10 +81,11 @@ class Transaction
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
+            if (isset($body['error_message'])) {
+                $tbkErrorMessage = $body['error_message'];
                 $message = "$message. Details: $tbkErrorMessage";
             }
+
             throw new TransactionCreateException($message, $httpCode);
         }
 
@@ -107,14 +108,14 @@ class Transaction
         }
 
         $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+            'Tbk-Api-Key-Id'     => $commerceCode,
+            'Tbk-Api-Key-Secret' => $apiKey,
         ];
 
         $http = WebpayPlus::getHttpClient();
         $httpResponse = $http->put(
             $baseUrl,
-            self::COMMIT_TRANSACTION_ENDPOINT . "/" . $token,
+            self::COMMIT_TRANSACTION_ENDPOINT.'/'.$token,
             null,
             ['headers' => $headers]
         );
@@ -125,10 +126,11 @@ class Transaction
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
+            if (isset($body['error_message'])) {
+                $tbkErrorMessage = $body['error_message'];
                 $message = "$message. Details: $tbkErrorMessage";
             }
+
             throw new TransactionCommitException($message, $httpCode);
         }
 
@@ -151,12 +153,12 @@ class Transaction
         }
 
         $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+            'Tbk-Api-Key-Id'     => $commerceCode,
+            'Tbk-Api-Key-Secret' => $apiKey,
         ];
 
         $payload = json_encode([
-            "amount" => $amount
+            'amount' => $amount,
         ]);
 
         $url = str_replace('$TOKEN$', $token, self::REFUND_TRANSACTION_ENDPOINT);
@@ -175,10 +177,11 @@ class Transaction
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
+            if (isset($body['error_message'])) {
+                $tbkErrorMessage = $body['error_message'];
                 $message = "$message. Details: $tbkErrorMessage";
             }
+
             throw new TransactionRefundException($message, $httpCode);
         }
 
@@ -202,8 +205,8 @@ class Transaction
         }
 
         $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+            'Tbk-Api-Key-Id'     => $commerceCode,
+            'Tbk-Api-Key-Secret' => $apiKey,
         ];
 
         $http = WebpayPlus::getHttpClient();
@@ -213,17 +216,17 @@ class Transaction
             ['headers' => $headers]
         );
 
-
         $httpCode = $httpResponse->getStatusCode();
         if ($httpCode != 200 && $httpCode != 204) {
             $reason = $httpResponse->getReasonPhrase();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
+            if (isset($body['error_message'])) {
+                $tbkErrorMessage = $body['error_message'];
                 $message = "$message. Details: $tbkErrorMessage";
             }
+
             throw new TransactionStatusException($message, $httpCode);
         }
 
@@ -252,15 +255,15 @@ class Transaction
         }
 
         $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+            'Tbk-Api-Key-Id'     => $commerceCode,
+            'Tbk-Api-Key-Secret' => $apiKey,
         ];
 
         $payload = json_encode([
-            "buy_order" => $buyOrder,
-            "session_id" => $sessionId,
-            "details" => $details,
-            "return_url" => $returnUrl
+            'buy_order'  => $buyOrder,
+            'session_id' => $sessionId,
+            'details'    => $details,
+            'return_url' => $returnUrl,
         ]);
 
         $http = WebpayPlus::getHttpClient();
@@ -278,10 +281,11 @@ class Transaction
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
+            if (isset($body['error_message'])) {
+                $tbkErrorMessage = $body['error_message'];
                 $message = "$message. Details: $tbkErrorMessage";
             }
+
             throw new TransactionCreateException($message, $httpCode);
         }
 
@@ -304,14 +308,14 @@ class Transaction
         }
 
         $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+            'Tbk-Api-Key-Id'     => $commerceCode,
+            'Tbk-Api-Key-Secret' => $apiKey,
         ];
 
         $http = WebpayPlus::getHttpClient();
         $httpResponse = $http->put(
             $baseUrl,
-            self::COMMIT_TRANSACTION_ENDPOINT . "/" . $token,
+            self::COMMIT_TRANSACTION_ENDPOINT.'/'.$token,
             null,
             ['headers' => $headers]
         );
@@ -322,10 +326,11 @@ class Transaction
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
+            if (isset($body['error_message'])) {
+                $tbkErrorMessage = $body['error_message'];
                 $message = "$message. Details: $tbkErrorMessage";
             }
+
             throw new TransactionCommitException($message, $httpCode);
         }
 
@@ -349,15 +354,15 @@ class Transaction
         }
 
         $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+            'Tbk-Api-Key-Id'     => $commerceCode,
+            'Tbk-Api-Key-Secret' => $apiKey,
         ];
 
         $payload = json_encode(
             [
-                "buy_order" => $buyOrder,
-                "commerce_code" => $childCommerceCode,
-                "amount" => $amount
+                'buy_order'     => $buyOrder,
+                'commerce_code' => $childCommerceCode,
+                'amount'        => $amount,
             ]
         );
 
@@ -382,10 +387,11 @@ class Transaction
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
+            if (isset($body['error_message'])) {
+                $tbkErrorMessage = $body['error_message'];
                 $message = "$message. Details: $tbkErrorMessage";
             }
+
             throw new TransactionRefundException($message, $httpCode);
         }
 
@@ -410,8 +416,8 @@ class Transaction
         }
 
         $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+            'Tbk-Api-Key-Id'     => $commerceCode,
+            'Tbk-Api-Key-Secret' => $apiKey,
         ];
 
         $http = WebpayPlus::getHttpClient();
@@ -421,17 +427,17 @@ class Transaction
             ['headers' => $headers]
         );
 
-
         $httpCode = $httpResponse->getStatusCode();
         if ($httpCode != 200 && $httpCode != 204) {
             $reason = $httpResponse->getReasonPhrase();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
+            if (isset($body['error_message'])) {
+                $tbkErrorMessage = $body['error_message'];
                 $message = "$message. Details: $tbkErrorMessage";
             }
+
             throw new TransactionStatusException($message, $httpCode);
         }
 
@@ -455,15 +461,15 @@ class Transaction
         }
 
         $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+            'Tbk-Api-Key-Id'     => $commerceCode,
+            'Tbk-Api-Key-Secret' => $apiKey,
         ];
 
         $payload = json_encode([
-            "commerce_code" => $childCommerceCode,
-            "buy_order" => $buyOrder,
-            "authorization_code" => $authorizationCode,
-            "capture_amount" => $captureAmount
+            'commerce_code'      => $childCommerceCode,
+            'buy_order'          => $buyOrder,
+            'authorization_code' => $authorizationCode,
+            'capture_amount'     => $captureAmount,
         ]);
 
         $http = WebpayPlus::getHttpClient();
@@ -480,8 +486,8 @@ class Transaction
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
+            if (isset($body['error_message'])) {
+                $tbkErrorMessage = $body['error_message'];
                 $message = "$message. Details: $tbkErrorMessage";
             }
 
@@ -508,14 +514,14 @@ class Transaction
         }
 
         $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+            'Tbk-Api-Key-Id'     => $commerceCode,
+            'Tbk-Api-Key-Secret' => $apiKey,
         ];
 
         $payload = json_encode([
-            "buy_order" => $buyOrder,
-            "authorization_code" => $authorizationCode,
-            "capture_amount" => $captureAmount
+            'buy_order'          => $buyOrder,
+            'authorization_code' => $authorizationCode,
+            'capture_amount'     => $captureAmount,
         ]);
 
         $http = WebpayPlus::getHttpClient();
@@ -532,8 +538,8 @@ class Transaction
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
+            if (isset($body['error_message'])) {
+                $tbkErrorMessage = $body['error_message'];
                 $message = "$message. Details: $tbkErrorMessage";
             }
 

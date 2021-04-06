@@ -1,19 +1,16 @@
 <?php
 
 /**
- * Class Inscription
+ * Class Inscription.
  *
  * @category
- * @package Transbank\TransaccionCompleta
- *
  */
-
 
 namespace Transbank\TransaccionCompleta;
 
 use Transbank\TransaccionCompleta;
-use Transbank\TransaccionCompleta\Exceptions\InscriptionStartException;
 use Transbank\TransaccionCompleta\Exceptions\InscriptionFinishException;
+use Transbank\TransaccionCompleta\Exceptions\InscriptionStartException;
 
 class Inscription
 {
@@ -31,11 +28,12 @@ class Inscription
             $apiKey = $options->getApiKey();
             $baseUrl = TransaccionCompleta::getIntegrationTypeUrl($options->getIntegrationType());
         }
-        return array(
+
+        return [
             $commerceCode,
             $apiKey,
             $baseUrl,
-        );
+        ];
     }
 
     public static function start(
@@ -47,11 +45,11 @@ class Inscription
         list($commerceCode, $apiKey, $baseUrl) = Inscription::getCommerceIdentifier($options);
         $http = TransaccionCompleta::getHttpClient();
         $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+            'Tbk-Api-Key-Id'     => $commerceCode,
+            'Tbk-Api-Key-Secret' => $apiKey,
         ];
 
-        $payload = json_encode(["username" => $userName, "email" => $email, "response_url" => $responseUrl]);
+        $payload = json_encode(['username' => $userName, 'email' => $email, 'response_url' => $responseUrl]);
 
         $httpResponse = $http->post(
             $baseUrl,
@@ -64,15 +62,17 @@ class Inscription
             $reason = $httpResponse->getReasonPhrase();
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
+            if (isset($body['error_message'])) {
+                $tbkErrorMessage = $body['error_message'];
                 $message = "$message. Details: $tbkErrorMessage";
             }
+
             throw new InscriptionStartException($message, $httpCode);
         }
         $responseJson = json_decode($httpResponse->getBody(), true);
 
         $inscriptionStartResponse = new InscriptionStartResponse($responseJson);
+
         return $inscriptionStartResponse;
     }
 
@@ -82,8 +82,8 @@ class Inscription
 
         $http = TransaccionCompleta::getHttpClient();
         $headers = [
-            "Tbk-Api-Key-Id" => $commerceCode,
-            "Tbk-Api-Key-Secret" => $apiKey
+            'Tbk-Api-Key-Id'     => $commerceCode,
+            'Tbk-Api-Key-Secret' => $apiKey,
         ];
 
         $url = str_replace('$TOKEN$', $token, self::INSCRIPTION_FINISH_ENDPOINT);
@@ -101,10 +101,11 @@ class Inscription
             $message = "Could not obtain a response from the service: $reason (HTTP code $httpCode)";
             $body = json_decode($httpResponse->getBody(), true);
 
-            if (isset($body["error_message"])) {
-                $tbkErrorMessage = $body["error_message"];
+            if (isset($body['error_message'])) {
+                $tbkErrorMessage = $body['error_message'];
                 $message = "$message. Details: $tbkErrorMessage";
             }
+
             throw new InscriptionFinishException($message, $httpCode);
         }
 

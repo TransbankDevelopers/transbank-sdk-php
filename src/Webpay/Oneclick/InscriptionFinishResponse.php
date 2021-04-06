@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Transbank\Webpay\Oneclick;
 
 class InscriptionFinishResponse
@@ -13,19 +12,19 @@ class InscriptionFinishResponse
 
     public function __construct($json)
     {
-        $responseCode = isset($json["response_code"]) ? $json["response_code"] : null;
+        $responseCode = isset($json['response_code']) ? $json['response_code'] : null;
         $this->setResponseCode($responseCode);
 
-        $tbkUser = isset($json["tbk_user"]) ? $json["tbk_user"] : null;
+        $tbkUser = isset($json['tbk_user']) ? $json['tbk_user'] : null;
         $this->setTbkUser($tbkUser);
 
-        $authorizationCode = isset($json["authorization_code"]) ? $json["authorization_code"] : null;
+        $authorizationCode = isset($json['authorization_code']) ? $json['authorization_code'] : null;
         $this->setAuthorizationCode($authorizationCode);
 
-        $cardType = isset($json["card_type"]) ? $json["card_type"] : null;
+        $cardType = isset($json['card_type']) ? $json['card_type'] : null;
         $this->setCardType($cardType);
 
-        $cardNumber = isset($json["card_number"]) ? $json["card_number"] : null;
+        $cardNumber = isset($json['card_number']) ? $json['card_number'] : null;
         $this->setCardNumber($cardNumber);
     }
 
@@ -45,6 +44,7 @@ class InscriptionFinishResponse
     public function setResponseCode($responseCode)
     {
         $this->responseCode = $responseCode;
+
         return $this;
     }
 
@@ -64,6 +64,7 @@ class InscriptionFinishResponse
     public function setTbkUser($tbkUser)
     {
         $this->tbkUser = $tbkUser;
+
         return $this;
     }
 
@@ -83,6 +84,7 @@ class InscriptionFinishResponse
     public function setAuthorizationCode($authorizationCode)
     {
         $this->authorizationCode = $authorizationCode;
+
         return $this;
     }
 
@@ -102,6 +104,7 @@ class InscriptionFinishResponse
     public function setCardType($cardType)
     {
         $this->cardType = $cardType;
+
         return $this;
     }
 
@@ -121,6 +124,7 @@ class InscriptionFinishResponse
     public function setCardNumber($cardNumber)
     {
         $this->cardNumber = $cardNumber;
+
         return $this;
     }
 }

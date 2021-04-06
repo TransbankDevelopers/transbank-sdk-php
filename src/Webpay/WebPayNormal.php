@@ -1,4 +1,5 @@
 <?php
+
 namespace Transbank\Webpay;
 
 use Transbank\Webpay\Exceptions\InvalidAmountException;
@@ -16,41 +17,41 @@ class WebPayNormal
     public $config;
 
     /** Configuración de URL según Ambiente */
-    private static $WSDL_URL_NORMAL = array(
-        "INTEGRACION" => "https://webpay3gint.transbank.cl/WSWebpayTransaction/cxf/WSWebpayService?wsdl",
-        "CERTIFICACION" => "https://webpay3gint.transbank.cl/WSWebpayTransaction/cxf/WSWebpayService?wsdl",
-        "TEST" => "https://webpay3gint.transbank.cl/WSWebpayTransaction/cxf/WSWebpayService?wsdl",
-        "LIVE" => "https://webpay3g.transbank.cl/WSWebpayTransaction/cxf/WSWebpayService?wsdl",
-        "PRODUCCION" => "https://webpay3g.transbank.cl/WSWebpayTransaction/cxf/WSWebpayService?wsdl",
-    );
+    private static $WSDL_URL_NORMAL = [
+        'INTEGRACION'   => 'https://webpay3gint.transbank.cl/WSWebpayTransaction/cxf/WSWebpayService?wsdl',
+        'CERTIFICACION' => 'https://webpay3gint.transbank.cl/WSWebpayTransaction/cxf/WSWebpayService?wsdl',
+        'TEST'          => 'https://webpay3gint.transbank.cl/WSWebpayTransaction/cxf/WSWebpayService?wsdl',
+        'LIVE'          => 'https://webpay3g.transbank.cl/WSWebpayTransaction/cxf/WSWebpayService?wsdl',
+        'PRODUCCION'    => 'https://webpay3g.transbank.cl/WSWebpayTransaction/cxf/WSWebpayService?wsdl',
+    ];
 
     /** Descripción de codigos de resultado */
-    public static $RESULT_CODES = array(
-        "0" => "Transacción aprobada",
-        "-1" => "Rechazo de transacción",
-        "-2" => "Transacción debe reintentarse",
-        "-3" => "Error en transacción",
-        "-4" => "Rechazo de transacción",
-        "-5" => "Rechazo por error de tasa",
-        "-6" => "Excede cupo máximo mensual",
-        "-7" => "Excede límite diario por transacción",
-        "-8" => "Rubro no autorizado",
-    );
+    public static $RESULT_CODES = [
+        '0'  => 'Transacción aprobada',
+        '-1' => 'Rechazo de transacción',
+        '-2' => 'Transacción debe reintentarse',
+        '-3' => 'Error en transacción',
+        '-4' => 'Rechazo de transacción',
+        '-5' => 'Rechazo por error de tasa',
+        '-6' => 'Excede cupo máximo mensual',
+        '-7' => 'Excede límite diario por transacción',
+        '-8' => 'Rubro no autorizado',
+    ];
 
     private static $classmap = [
-        'getTransactionResult' => 'Transbank\Webpay\getTransactionResult',
-        'getTransactionResultResponse' => 'Transbank\Webpay\getTransactionResultResponse',
-        'transactionResultOutput' => 'Transbank\Webpay\transactionResultOutput',
-        'cardDetail' => 'Transbank\Webpay\cardDetail',
-        'wsTransactionDetailOutput' => 'Transbank\Webpay\wsTransactionDetailOutput',
-        'wsTransactionDetail' => 'Transbank\Webpay\wsTransactionDetail',
-        'acknowledgeTransaction' => 'Transbank\Webpay\acknowledgeTransaction',
+        'getTransactionResult'           => 'Transbank\Webpay\getTransactionResult',
+        'getTransactionResultResponse'   => 'Transbank\Webpay\getTransactionResultResponse',
+        'transactionResultOutput'        => 'Transbank\Webpay\transactionResultOutput',
+        'cardDetail'                     => 'Transbank\Webpay\cardDetail',
+        'wsTransactionDetailOutput'      => 'Transbank\Webpay\wsTransactionDetailOutput',
+        'wsTransactionDetail'            => 'Transbank\Webpay\wsTransactionDetail',
+        'acknowledgeTransaction'         => 'Transbank\Webpay\acknowledgeTransaction',
         'acknowledgeTransactionResponse' => 'Transbank\Webpay\acknowledgeTransactionResponse',
-        'initTransaction' => 'Transbank\Webpay\initTransaction',
-        'wsInitTransactionInput' => 'Transbank\Webpay\wsInitTransactionInput',
-        'wpmDetailInput' => 'Transbank\Webpay\wpmDetailInput',
-        'initTransactionResponse' => 'Transbank\Webpay\initTransactionResponse',
-        'wsInitTransactionOutput' => 'Transbank\Webpay\initTransactionResponse'
+        'initTransaction'                => 'Transbank\Webpay\initTransaction',
+        'wsInitTransactionInput'         => 'Transbank\Webpay\wsInitTransactionInput',
+        'wpmDetailInput'                 => 'Transbank\Webpay\wpmDetailInput',
+        'initTransactionResponse'        => 'Transbank\Webpay\initTransactionResponse',
+        'wsInitTransactionOutput'        => 'Transbank\Webpay\initTransactionResponse',
     ];
 
     public function __construct($config)
@@ -63,17 +64,18 @@ class WebPayNormal
 
         $url = WebPayNormal::$WSDL_URL_NORMAL[$modo];
 
-        $this->soapClient = new WSSecuritySoapClient($url, $privateKey, $publicCert, array(
-            "classmap" => self::$classmap,
-            "trace" => true,
-            "exceptions" => true
-        ));
+        $this->soapClient = new WSSecuritySoapClient($url, $privateKey, $publicCert, [
+            'classmap'   => self::$classmap,
+            'trace'      => true,
+            'exceptions' => true,
+        ]);
     }
 
     /** Obtiene resultado desde Webpay */
     public function _getTransactionResult($getTransactionResult)
     {
         $getTransactionResultResponse = $this->soapClient->getTransactionResult($getTransactionResult);
+
         return $getTransactionResultResponse;
     }
 
@@ -81,6 +83,7 @@ class WebPayNormal
     public function _acknowledgeTransaction($acknowledgeTransaction)
     {
         $acknowledgeTransactionResponse = $this->soapClient->acknowledgeTransaction($acknowledgeTransaction);
+
         return $acknowledgeTransactionResponse;
     }
 
@@ -88,6 +91,7 @@ class WebPayNormal
     public function _initTransaction($initTransaction)
     {
         $initTransactionResponse = $this->soapClient->initTransaction($initTransaction);
+
         return $initTransactionResponse;
     }
 
@@ -110,16 +114,16 @@ class WebPayNormal
         if (!is_numeric($amount)) {
             throw new InvalidAmountException(InvalidAmountException::NOT_NUMERIC_MESSAGE);
         }
-        if ((float)$amount != (int)$amount) {
+        if ((float) $amount != (int) $amount) {
             throw new InvalidAmountException(InvalidAmountException::HAS_DECIMALS_MESSAGE);
         }
 
         try {
-            $error = array();
+            $error = [];
 
             $wsInitTransactionInput = new wsInitTransactionInput();
 
-            $wsInitTransactionInput->wSTransactionType = "TR_NORMAL_WS";
+            $wsInitTransactionInput->wSTransactionType = 'TR_NORMAL_WS';
             $wsInitTransactionInput->sessionId = $sessionId;
             $wsInitTransactionInput->buyOrder = $buyOrder;
             $wsInitTransactionInput->returnURL = $urlReturn;
@@ -133,7 +137,7 @@ class WebPayNormal
             $wsInitTransactionInput->transactionDetails = $wsTransactionDetail;
 
             $initTransactionResponse = $this->_initTransaction(
-                array("wsInitTransactionInput" => $wsInitTransactionInput)
+                ['wsInitTransactionInput' => $wsInitTransactionInput]
             );
 
             /** Validación de firma del requerimiento de respuesta enviado por Webpay */
@@ -144,16 +148,17 @@ class WebPayNormal
             /** Valida conexion a Webpay. Caso correcto retorna URL y Token */
             if ($validationResult === true) {
                 $wsInitTransactionOutput = $initTransactionResponse->return;
+
                 return $wsInitTransactionOutput;
             } else {
-                $error["error"] = "Error validando conexi&oacute;n a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
-                $error["detail"] = "No se pudo completar la conexi&oacute;n con Webpay";
+                $error['error'] = 'Error validando conexi&oacute;n a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)';
+                $error['detail'] = 'No se pudo completar la conexi&oacute;n con Webpay';
             }
         } catch (\Exception $e) {
-            $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
+            $error['error'] = 'Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)';
 
-            $replaceArray = array('<!--' => '', '-->' => '');
-            $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
+            $replaceArray = ['<!--' => '', '-->' => ''];
+            $error['detail'] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
         }
 
         return $error;
@@ -188,25 +193,26 @@ class WebPayNormal
                         return $transactionResultOutput;
                     } else {
                         $transactionResultOutput->detailOutput->responseDescription = $this->_getReason($resultCode);
+
                         return $transactionResultOutput;
                     }
                 } else {
-                    $error["error"] = "Error validando conexi&oacute;n a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
-                    $error["detail"] = "No se pudo completar la conexi&oacute;n con Webpay";
+                    $error['error'] = 'Error validando conexi&oacute;n a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)';
+                    $error['detail'] = 'No se pudo completar la conexi&oacute;n con Webpay';
                 }
             }
         } catch (\Exception $e) {
-            $error["error"] = "Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)";
+            $error['error'] = 'Error conectando a Webpay (Verificar que la informaci&oacute;n del certificado sea correcta)';
 
-            $replaceArray = array('<!--' => '', '-->' => '');
-            $error["detail"] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
+            $replaceArray = ['<!--' => '', '-->' => ''];
+            $error['detail'] = str_replace(array_keys($replaceArray), array_values($replaceArray), $e->getMessage());
         }
 
         return $error;
     }
 
     /**
-     * Indica  a Webpay que se ha recibido conforme el resultado de la transacción
+     * Indica  a Webpay que se ha recibido conforme el resultado de la transacción.
      * */
     public function acknowledgeTransaction($token)
     {
@@ -217,6 +223,7 @@ class WebPayNormal
         $xmlResponse = $this->soapClient->__getLastResponse();
         $soapValidation = new SoapValidation($xmlResponse, $this->config->getWebpayCert());
         $validationResult = $soapValidation->getValidationResult();
+
         return $validationResult === true;
     }
 }

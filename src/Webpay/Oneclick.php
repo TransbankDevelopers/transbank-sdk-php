@@ -1,24 +1,22 @@
 <?php
 
-
 namespace Transbank\Webpay;
 
 use Transbank\Utils\HttpClient;
 
 class Oneclick
 {
-
     /**
-     * @var array $INTEGRATION_TYPES contains key-value pairs of
-     * integration_type => url_of_that_integration
+     * @var array contains key-value pairs of
+     *            integration_type => url_of_that_integration
      */
     public static $INTEGRATION_TYPES = [
-        "LIVE" => "https://webpay3g.transbank.cl/",
-        "TEST" => "https://webpay3gint.transbank.cl/",
-        "MOCK" => ""
+        'LIVE' => 'https://webpay3g.transbank.cl/',
+        'TEST' => 'https://webpay3gint.transbank.cl/',
+        'MOCK' => '',
     ];
     /**
-     * @var $httpClient HttpClient|null
+     * @var HttpClient|null
      */
     public static $httpClient = null;
     private static $apiKey = Options::DEFAULT_API_KEY;
@@ -81,6 +79,7 @@ class Oneclick
         if (!isset(self::$httpClient) || self::$httpClient == null) {
             self::$httpClient = new HttpClient();
         }
+
         return self::$httpClient;
     }
 
@@ -100,7 +99,8 @@ class Oneclick
         self::setIntegrationType(Options::DEFAULT_INTEGRATION_TYPE);
     }
 
-    public static function configureOneclickMallDeferredForTesting(){
+    public static function configureOneclickMallDeferredForTesting()
+    {
         self::setApiKey(Options::DEFAULT_API_KEY);
         self::setCommerceCode(Options::DEFAULT_ONECLICK_MALL_DEFERRED_COMMERCE_CODE);
         self::setIntegrationType(Options::DEFAULT_INTEGRATION_TYPE);
@@ -110,6 +110,6 @@ class Oneclick
     {
         self::setApiKey($apiKey);
         self::setCommerceCode($commerceCode);
-        self::setIntegrationType("LIVE");
+        self::setIntegrationType('LIVE');
     }
 }

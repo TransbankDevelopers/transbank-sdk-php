@@ -1,15 +1,11 @@
 <?php
+
 namespace Transbank\Webpay\Exceptions;
 
 /**
  * class AmountException
- *   Happens when the amount of something is invalid
- *
- * @package Transbank
- *
- *
+ *   Happens when the amount of something is invalid.
  */
-
 class InvalidAmountException extends TransbankException
 {
     const DEFAULT_MESSAGE = 'Invalid amount given.';

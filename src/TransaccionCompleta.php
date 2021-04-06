@@ -1,32 +1,29 @@
 <?php
 
 /**
- * Class TransaccionCompleta
+ * Class TransaccionCompleta.
  *
  * @category
- * @package Transbank\TransaccionCompleta
- *
  */
-
 
 namespace Transbank;
 
-use Transbank\Utils\HttpClient;
 use Transbank\TransaccionCompleta\Options;
+use Transbank\Utils\HttpClient;
 
 class TransaccionCompleta
 {
     /**
-     * @var array $INTEGRATION_TYPES contains key-value pairs of
-     * integration_type => url_of_that_integration
+     * @var array contains key-value pairs of
+     *            integration_type => url_of_that_integration
      */
     public static $INTEGRATION_TYPES = [
-        "LIVE" => "https://wwww.pagoautomaticocontarjetas.cl/",
-        "TEST" => "https://webpay3gint.transbank.cl/",
-        "MOCK" => ""
+        'LIVE' => 'https://wwww.pagoautomaticocontarjetas.cl/',
+        'TEST' => 'https://webpay3gint.transbank.cl/',
+        'MOCK' => '',
     ];
     /**
-     * @var $httpClient HttpClient|null
+     * @var HttpClient|null
      */
     public static $httpClient = null;
     private static $apiKey = Options::DEFAULT_API_KEY;
@@ -89,6 +86,7 @@ class TransaccionCompleta
         if (!isset(self::$httpClient) || self::$httpClient == null) {
             self::$httpClient = new HttpClient();
         }
+
         return self::$httpClient;
     }
 

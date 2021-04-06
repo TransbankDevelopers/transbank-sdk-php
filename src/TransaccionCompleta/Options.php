@@ -1,13 +1,10 @@
 <?php
 
 /**
- * Class Options
+ * Class Options.
  *
  * @category
- * @package Transbank\TransaccionCompleta
- *
  */
-
 
 namespace Transbank\TransaccionCompleta;
 
@@ -16,8 +13,8 @@ class Options
     const DEFAULT_API_KEY = '579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C';
     const DEFAULT_TRANSACCION_COMPLETA_COMMERCE_CODE = '597055555530';
     const DEFAULT_TRANSACCION_COMPLETA_MALL_COMMERCE_CODE = '597055555551';
-    const DEFAULT_TRANSACCION_COMPLETA_MALL_CHILD_COMMERCE_CODE = array('597055555552', '597055555553');
-    const DEFAULT_INTEGRATION_TYPE = "TEST";
+    const DEFAULT_TRANSACCION_COMPLETA_MALL_CHILD_COMMERCE_CODE = ['597055555552', '597055555553'];
+    const DEFAULT_INTEGRATION_TYPE = 'TEST';
 
     public $apiKey = null;
     public $commerceCode = null;
@@ -45,11 +42,13 @@ class Options
 
     /**
      * @param null $apiKey
+     *
      * @return Options
      */
     public function setApiKey($apiKey)
     {
         $this->apiKey = $apiKey;
+
         return $this;
     }
 
@@ -63,11 +62,13 @@ class Options
 
     /**
      * @param null $commerceCode
+     *
      * @return Options
      */
     public function setCommerceCode($commerceCode)
     {
         $this->commerceCode = $commerceCode;
+
         return $this;
     }
 
@@ -81,11 +82,13 @@ class Options
 
     /**
      * @param string $integrationType
+     *
      * @return Options
      */
     public function setIntegrationType($integrationType)
     {
         $this->integrationType = $integrationType;
+
         return $this;
     }
 }

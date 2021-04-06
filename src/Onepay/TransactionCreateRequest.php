@@ -1,22 +1,21 @@
 <?php
+
 namespace Transbank\Onepay;
 
 /**
  *  @class TransactionRequest
  *  Creates an object to be used when making a transaction request to Onepay
- * @package Transbank;
  */
-
 class TransactionCreateRequest extends BaseRequest implements \JsonSerializable
 {
-    private $externalUniqueNumber; # Number not null
-    private $total; # Number not null
-    private $itemsQuantity; # Number not null
-    private $items; # Array not null
-    private $callbackUrl; # String not null
-    private $channel; # String not null
+    private $externalUniqueNumber; // Number not null
+    private $total; // Number not null
+    private $itemsQuantity; // Number not null
+    private $items; // Array not null
+    private $callbackUrl; // String not null
+    private $channel; // String not null
     private $appScheme;
-    private $signature; # String
+    private $signature; // String
     private $generateOttQrCode = true;
     private $commerceLogoUrl;
 
@@ -31,8 +30,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable
         $appScheme = null,
         $widthHeight,
         $commerceLogoUrl
-    )
-    {
+    ) {
         if (!$externalUniqueNumber) {
             throw new \Exception('External unique number cannot be null.');
         }
@@ -114,6 +112,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable
             throw new \Exception('Total cannot be less than zero.');
         }
         $this->total = $total;
+
         return $this;
     }
 
@@ -131,6 +130,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable
             throw new \Exception('Items quantity cannot be less than zero.');
         }
         $this->itemsQuantity = $itemsQuantity;
+
         return $this;
     }
 
@@ -147,6 +147,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable
     public function setIssuedAt($issuedAt)
     {
         $this->issuedAt = $issuedAt;
+
         return $this;
     }
 
@@ -160,6 +161,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable
         }
 
         $this->items = $items;
+
         return $this;
     }
 
@@ -174,6 +176,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable
             throw new \Exception('url cannot be null');
         }
         $this->callbackUrl = $url;
+
         return $this;
     }
 
@@ -188,6 +191,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable
             throw new \Exception('channel cannot be null.');
         }
         $this->channel = $channel;
+
         return $this;
     }
 
@@ -206,18 +210,20 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable
 
     /**
      * @param null|string $appScheme
+     *
      * @return TransactionCreateRequest
      */
     public function setAppScheme($appScheme)
     {
         $this->appScheme = $appScheme;
+
         return $this;
     }
-
 
     public function setSignature($signature)
     {
         $this->signature = $signature;
+
         return $this;
     }
 
@@ -230,6 +236,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable
     {
         if ($widthHeight != null) {
             $this->widthHeight = $widthHeight;
+
             return $this;
         } else {
             throw new \Exception('WidthHeight cannot be null.');
@@ -248,6 +255,7 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable
     public function setCommerceLogoUrl($commerceLogoUrl)
     {
         $this->commerceLogoUrl = $commerceLogoUrl;
+
         return $this;
     }
 

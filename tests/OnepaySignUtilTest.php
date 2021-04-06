@@ -4,18 +4,18 @@ namespace Transbank\Onepay;
 
 use PHPUnit\Framework\TestCase;
 
-require_once(__DIR__ . '/mocks/TransactionCreateRequestMocks.php');
-require_once(__DIR__ . '/mocks/TransactionCommitRequestMocks.php');
-require_once(__DIR__ . '/mocks/ShoppingCartMocks.php');
-require_once(__DIR__ . '/mocks/TransactionCreateResponseMocks.php');
-require_once(__DIR__ . '/mocks/TransactionCommitResponseMocks.php');
+require_once __DIR__.'/mocks/TransactionCreateRequestMocks.php';
+require_once __DIR__.'/mocks/TransactionCommitRequestMocks.php';
+require_once __DIR__.'/mocks/ShoppingCartMocks.php';
+require_once __DIR__.'/mocks/TransactionCreateResponseMocks.php';
+require_once __DIR__.'/mocks/TransactionCommitResponseMocks.php';
 
 final class OnepaySignUtilTest extends TestCase
 {
     protected function setup()
     {
-        OnepayBase::setSharedSecret("P4DCPS55QB2QLT56SQH6#W#LV76IAPYX");
-        OnepayBase::setApiKey("mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg");
+        OnepayBase::setSharedSecret('P4DCPS55QB2QLT56SQH6#W#LV76IAPYX');
+        OnepayBase::setApiKey('mUc0GxYGor6X8u-_oB3e-HWJulRG01WoC96-_tUA3Bg');
         $this->secret = OnepayBase::getSharedSecret();
 
         $this->transactionCreateRequestTestObject = TransactionCreateRequestMocks::get();
@@ -27,13 +27,12 @@ final class OnepaySignUtilTest extends TestCase
         $this->shoppingCartTestObject = ShoppingCartMocks::get();
     }
 
-
     public function testCreatesOrReturnsSingleton()
     {
         $refClass = new \ReflectionClass(OnepaySignUtil::class);
 
         $this->assertTrue($refClass->hasProperty('instance'));
-    
+
         $singleton = OnepaySignUtil::getInstance();
 
         $this->assertTrue($singleton instanceof OnepaySignUtil);
@@ -78,7 +77,7 @@ final class OnepaySignUtilTest extends TestCase
     public function testTryingToSignWhateverElseShouldRaiseSignException()
     {
         $this->setExpectedException(\Transbank\Onepay\Exceptions\SignException::class);
-        OnepaySignUtil::getInstance()->sign("a string", $this->secret);
+        OnepaySignUtil::getInstance()->sign('a string', $this->secret);
     }
 
     public function testValidatesValidSignatureOnTransactionCreateResponse()
@@ -95,7 +94,6 @@ final class OnepaySignUtilTest extends TestCase
         $signatureIsValid = OnepaySignUtil::getInstance()->validate($transactionCreateResponse, $this->secret);
         $this->assertFalse($signatureIsValid);
     }
-
 
     public function testValidatesValidSignatureOnTransactionCommitResponse()
     {

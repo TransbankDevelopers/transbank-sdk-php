@@ -1,14 +1,12 @@
 <?php
+
 namespace Transbank\Onepay;
 
-/**
- *
- * class TransactionCommitRequest
- * Commits a request to actually execute.
- * If not done transaction will reverse itself after some time.
- *
- */
-
+ /**
+  * class TransactionCommitRequest
+  * Commits a request to actually execute.
+  * If not done transaction will reverse itself after some time.
+  */
  class TransactionCommitRequest extends BaseRequest implements \JsonSerializable
  {
      private $occ;
@@ -29,7 +27,7 @@ namespace Transbank\Onepay;
      {
          return get_object_vars($this);
      }
-    
+
      public function getOcc()
      {
          return $this->occ;
@@ -40,8 +38,9 @@ namespace Transbank\Onepay;
          if (!$occ) {
              throw new \Exception('Occ cannot be set to null.');
          }
-        
+
          $this->occ = $occ;
+
          return $this;
      }
 
@@ -56,6 +55,7 @@ namespace Transbank\Onepay;
              throw new \Exception('externalUniqueNumber cannot be null.');
          }
          $this->externalUniqueNumber = $externalUniqueNumber;
+
          return $this;
      }
 
@@ -70,6 +70,7 @@ namespace Transbank\Onepay;
              throw new \Exception('issuedAt cannot be null.');
          }
          $this->issuedAt = $issuedAt;
+
          return $this;
      }
 
@@ -81,6 +82,7 @@ namespace Transbank\Onepay;
      public function setSignature($signature)
      {
          $this->signature = $signature;
+
          return $this;
      }
  }

@@ -1,11 +1,10 @@
 <?php
+
 namespace Transbank\Onepay;
 
 /**
  * class RefundCreateResponse
  * Model object for the response to a Refund creation attempt.
- *
- * @package Transbank;
  */
 class RefundCreateResponse extends BaseResponse implements \JsonSerializable
 {
@@ -33,6 +32,7 @@ class RefundCreateResponse extends BaseResponse implements \JsonSerializable
     public function setOcc($occ)
     {
         $this->occ = $occ;
+
         return $this;
     }
 
@@ -44,6 +44,7 @@ class RefundCreateResponse extends BaseResponse implements \JsonSerializable
     public function setExternalUniqueNumber($externalUniqueNumber)
     {
         $this->externalUniqueNumber = $externalUniqueNumber;
+
         return $this;
     }
 
@@ -55,6 +56,7 @@ class RefundCreateResponse extends BaseResponse implements \JsonSerializable
     public function setReverseCode($reverseCode)
     {
         $this->reverseCode = $reverseCode;
+
         return $this;
     }
 
@@ -66,6 +68,7 @@ class RefundCreateResponse extends BaseResponse implements \JsonSerializable
     public function setIssuedAt($issuedAt)
     {
         $this->issuedAt = $issuedAt;
+
         return $this;
     }
 
@@ -77,6 +80,7 @@ class RefundCreateResponse extends BaseResponse implements \JsonSerializable
     public function setSignature($signature)
     {
         $this->signature = $signature;
+
         return $this;
     }
 
@@ -88,7 +92,6 @@ class RefundCreateResponse extends BaseResponse implements \JsonSerializable
         if (!is_array($json)) {
             throw new \Exception('Given value must be an associative array or a string that can be converted to an associative array with json_decode()');
         }
-
 
         $this->setResponseCode($json['responseCode']);
         $this->setDescription($json['description']);

@@ -4,7 +4,7 @@ namespace Transbank\Onepay;
 
 use PHPUnit\Framework\TestCase;
 
-require_once(__DIR__ . '/mocks/ShoppingCartMocks.php');
+require_once __DIR__.'/mocks/ShoppingCartMocks.php';
 
 class TransactionCreateRequestTest extends TestCase
 {
@@ -20,11 +20,11 @@ class TransactionCreateRequestTest extends TestCase
     protected function setup()
     {
         $this->emptyOptions = new Options();
-        $this->optionsWithApiKey = new Options("someapikey");
+        $this->optionsWithApiKey = new Options('someapikey');
         $this->optionsWithDefaultValues = new Options(null, null);
         $this->optionsWithQrWidthHeight = new Options(null, null, 150);
-        $this->optionsWithCommerceLogoUrl = new Options(null, null, null, "http://falseaddress.cl/image.jpg");
-        $this->optionsWithQrWidthHeightAndCommerceLogoUrl = new Options(null, null, 180, "http://fakeaddr.cl/imagen.jpg");
+        $this->optionsWithCommerceLogoUrl = new Options(null, null, null, 'http://falseaddress.cl/image.jpg');
+        $this->optionsWithQrWidthHeightAndCommerceLogoUrl = new Options(null, null, 180, 'http://fakeaddr.cl/imagen.jpg');
         $this->shoppingCart = ShoppingCartMocks::get();
         $this->builder = OnepayRequestBuilder::getInstance();
     }
@@ -34,9 +34,8 @@ class TransactionCreateRequestTest extends TestCase
         $transactionCreateRequest = $this->builder->buildCreateRequest($this->shoppingCart, 'WEB', '1231245', $this->optionsWithApiKey);
 
         $this->assertTrue($transactionCreateRequest instanceof TransactionCreateRequest);
-        $this->assertEquals("someapikey", $transactionCreateRequest->getApiKey());
+        $this->assertEquals('someapikey', $transactionCreateRequest->getApiKey());
     }
-
 
     public function testTransactionCreateRequestCreatedWithEmptyOptions()
     {
@@ -56,7 +55,6 @@ class TransactionCreateRequestTest extends TestCase
         $this->assertEquals(OnepayBase::getCommerceLogoUrl(), $transactionCreateRequest->getCommerceLogoUrl());
     }
 
-
     public function testTransactionCreateRequestCreatedWithQrWidthHeight()
     {
         $transactionCreateRequest = $this->builder->buildCreateRequest($this->shoppingCart, 'WEB', '1231245', $this->optionsWithQrWidthHeight);
@@ -72,7 +70,7 @@ class TransactionCreateRequestTest extends TestCase
 
         $this->assertTrue($transactionCreateRequest instanceof TransactionCreateRequest);
         $this->assertEquals(OnepayBase::getQrWidthHeight(), $transactionCreateRequest->getWidthHeight());
-        $this->assertEquals("http://falseaddress.cl/image.jpg", $transactionCreateRequest->getCommerceLogoUrl());
+        $this->assertEquals('http://falseaddress.cl/image.jpg', $transactionCreateRequest->getCommerceLogoUrl());
     }
 
     public function testTransactionCreateRequestCreatedWithQrWidthHeightAndCommerceLogoUrl()
@@ -81,7 +79,7 @@ class TransactionCreateRequestTest extends TestCase
 
         $this->assertTrue($transactionCreateRequest instanceof TransactionCreateRequest);
         $this->assertEquals(180, $transactionCreateRequest->getWidthHeight());
-        $this->assertEquals("http://fakeaddr.cl/imagen.jpg", $transactionCreateRequest->getCommerceLogoUrl());
+        $this->assertEquals('http://fakeaddr.cl/imagen.jpg', $transactionCreateRequest->getCommerceLogoUrl());
     }
 
     public function testTransactionCreateRequestShouldRaiseIfWidthHeightIsAttemptedToBeSetAsNull()
@@ -98,11 +96,11 @@ class TransactionCreateRequestTest extends TestCase
         $itemsQuantity = $this->shoppingCart->getItemQuantity();
         $issuedAt = time();
         $items = $this->shoppingCart->getItems();
-        $callbackUrl = "http://url.com";
+        $callbackUrl = 'http://url.com';
         $channel = 'WEB';
         $appScheme = null;
         $widthHeight = null;
-        $commerceLogoUrl = "http://logo.url";
+        $commerceLogoUrl = 'http://logo.url';
 
         $tcr = new TransactionCreateRequest(
             $externalUniqueNumber,

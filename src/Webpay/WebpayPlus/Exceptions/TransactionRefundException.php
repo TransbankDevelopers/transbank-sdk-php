@@ -1,14 +1,11 @@
 <?php
 
-
 namespace Transbank\Webpay\WebpayPlus\Exceptions;
 
 use Transbank\Webpay\Exceptions\WebpayException;
 
 /**
- * Class TransactionRefundException
- *
- * @package Transbank\Webpay\exceptions
+ * Class TransactionRefundException.
  */
 class TransactionRefundException extends WebpayException
 {

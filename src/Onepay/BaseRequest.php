@@ -1,15 +1,11 @@
 <?php
+
 namespace Transbank\Onepay;
 
-/**
- * @class BaseRequest
- * Basic request class that includes commonly used members
- *
- * @package Transbank;
- *
- *
- */
-
+ /**
+  * @class BaseRequest
+  * Basic request class that includes commonly used members
+  */
  class BaseRequest
  {
      public function __construct()
@@ -27,6 +23,7 @@ namespace Transbank\Onepay;
      public function setApiKey($apiKey)
      {
          $this->apiKey = $apiKey;
+
          return $this;
      }
 
@@ -38,6 +35,7 @@ namespace Transbank\Onepay;
      public function setAppKey($appKey)
      {
          $this->appKey = $appKey;
+
          return $this;
      }
  }

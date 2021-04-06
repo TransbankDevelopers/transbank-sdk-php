@@ -1,13 +1,10 @@
 <?php
 
 /**
- * Class Utils
+ * Class Utils.
  *
  * @category
- * @package Transbank\Utils
- *
  */
-
 
 namespace Transbank\Utils;
 

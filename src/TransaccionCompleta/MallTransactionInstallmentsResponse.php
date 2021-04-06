@@ -1,13 +1,10 @@
 <?php
 
 /**
- * Class MallTransactionInstallmentsResponse
+ * Class MallTransactionInstallmentsResponse.
  *
  * @category
- * @package Transbank\TransaccionCompleta
- *
  */
-
 
 namespace Transbank\TransaccionCompleta;
 
@@ -21,11 +18,11 @@ class MallTransactionInstallmentsResponse
 
     public function __construct($json)
     {
-        $installmentsAmount = Utils::returnValueIfExists($json, "installments_amount");
+        $installmentsAmount = Utils::returnValueIfExists($json, 'installments_amount');
         $this->setInstallmentsAmount($installmentsAmount);
-        $idQueryInstallments = Utils::returnValueIfExists($json, "id_query_installments");
+        $idQueryInstallments = Utils::returnValueIfExists($json, 'id_query_installments');
         $this->setIdQueryInstallments($idQueryInstallments);
-        $deferredPeriods = Utils::returnValueIfExists($json, "deferred_periods");
+        $deferredPeriods = Utils::returnValueIfExists($json, 'deferred_periods');
         $this->setDeferredPeriods($deferredPeriods);
     }
 
@@ -43,6 +40,7 @@ class MallTransactionInstallmentsResponse
     public function setInstallmentsAmount($installmentsAmount)
     {
         $this->installmentsAmount = $installmentsAmount;
+
         return $this;
     }
 
@@ -60,6 +58,7 @@ class MallTransactionInstallmentsResponse
     public function setIdQueryInstallments($idQueryInstallments)
     {
         $this->idQueryInstallments = $idQueryInstallments;
+
         return $this;
     }
 
@@ -77,6 +76,7 @@ class MallTransactionInstallmentsResponse
     public function setDeferredPeriods($deferredPeriods)
     {
         $this->deferredPeriods = $deferredPeriods;
+
         return $this;
     }
 }

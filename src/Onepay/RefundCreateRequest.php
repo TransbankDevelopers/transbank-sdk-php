@@ -1,14 +1,10 @@
 <?php
+
 namespace Transbank\Onepay;
 
 /**
- *
  * class RefundCreateRequest
- * Creates a request object to be sent to Transbank to attempt a refund
- *
- * @package Transbank;
- *
- *
+ * Creates a request object to be sent to Transbank to attempt a refund.
  */
 class RefundCreateRequest extends BaseRequest implements \JsonSerializable
 {
@@ -26,8 +22,7 @@ class RefundCreateRequest extends BaseRequest implements \JsonSerializable
         $authorizationCode = null,
         $issuedAt = null,
         $signature = null
-    )
-    {
+    ) {
         $this->nullifyAmount = $nullifyAmount;
 
         $this->occ = $occ;
@@ -46,11 +41,14 @@ class RefundCreateRequest extends BaseRequest implements \JsonSerializable
     {
         return $this->nullifyAmount;
     }
+
     public function setnullifyAmount($nullifyAmount)
     {
         $this->nullifyAmount = $nullifyAmount;
+
         return $this;
     }
+
     public function getOcc()
     {
         return $this->occ;
@@ -59,6 +57,7 @@ class RefundCreateRequest extends BaseRequest implements \JsonSerializable
     public function setOcc($occ)
     {
         $this->occ = $occ;
+
         return $this;
     }
 
@@ -70,6 +69,7 @@ class RefundCreateRequest extends BaseRequest implements \JsonSerializable
     public function setExternalUniqueNumber($externalUniqueNumber)
     {
         $this->externalUniqueNumber = $externalUniqueNumber;
+
         return $this;
     }
 
@@ -81,6 +81,7 @@ class RefundCreateRequest extends BaseRequest implements \JsonSerializable
     public function setAuthorizationCode($authorizationCode)
     {
         $this->authorizationCode = $authorizationCode;
+
         return $this;
     }
 
@@ -92,6 +93,7 @@ class RefundCreateRequest extends BaseRequest implements \JsonSerializable
     public function setIssuedAt($issuedAt)
     {
         $this->issuedAt = $issuedAt;
+
         return $this;
     }
 
@@ -103,6 +105,7 @@ class RefundCreateRequest extends BaseRequest implements \JsonSerializable
     public function setSignature($signature)
     {
         $this->signature = $signature;
+
         return $this;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Transbank\TransaccionCompleta\Exceptions;
 
 class InscriptionStartException extends TransaccionCompletaException
