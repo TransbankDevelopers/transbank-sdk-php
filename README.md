@@ -23,7 +23,7 @@ automáticamente, pero si usas el SDK de manera directa requerirás también:
 Para usar el SDK en tu proyecto **debes** usar Composer (si no lo tienes instalado, puedes instalarlo [acá](https://getcomposer.org/)), añadiendo el SDK como dependencia a tu proyecto:
 ```json
     "require": {
-        "transbank/transbank-sdk": "^1.10"
+        "transbank/transbank-sdk": "2.0-beta"
     }
 ```
 
@@ -34,7 +34,7 @@ composer update
 
 También puedes instalarlo directamente desde la consola:
 ```bash
-composer require transbank/transbank-sdk:^1.10
+composer require transbank/transbank-sdk:2.0-beta
 ```
 
 Si es primera vez que usas composer en tu proyecto, se creará una carpeta `vendor/` con el SDK y todo lo necesario.
