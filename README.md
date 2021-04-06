@@ -10,8 +10,7 @@
 - PHP 7.0+
 
 ## Dependencias
-En caso de instalar con Composer las siguientes dependencias deberían instalarse
-automáticamente, pero si usas el SDK de manera directa requerirás también: 
+Para utilizar este SDK, debes tener las siguientes extensiones de PHP instaladas: 
 - ext-curl
 - ext-json
 - ext-mbstring
