@@ -17,7 +17,7 @@ y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.ht
 - Se añade soporte para el producto "Webpay Modal".
 - Los productos que devuelven transaciones del tipo Mall, ahora cada detalle es un objeto `TransactionDetail` en vez de un array. 
 - Se crea interfaz que permite cambiar la implementación del HttpClient, en caso de no querer utilizar Guzzle. 
-- Se renombre en todos lados de `getStatus` a solo `status` en los métodos de los productos. 
+- Se renombra en todos lados de `getStatus` a solo `status` en los métodos de los productos. 
 - Ahora cada método si falla, llama a su propia excepción. Todas las exepciones relacionadas con unn falló en algún método y que el API responda con un error, heredan de la clase `WebpayRequestException`. 
 - Ahora las excepciones contienen el detalle del request que se envió para poder "debugear" de mejor forma. 
 - Ahora cada excepción devuelve el mensaje de error más ordenado, con el detalle de la respuesta del API de Transbank.
