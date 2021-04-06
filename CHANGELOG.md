@@ -5,7 +5,7 @@ El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [2.0-beta] - 2020-12-21
-- Se elimina el uso de métodos estáticos, en reemplazo de el manejo de instancias de cada clase, para mejorar el testing e implementar un mejor patrón de diseño del código. Más detalles en [acá](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/182)
+- Se elimina el uso de métodos estáticos, en reemplazo de el manejo de instancias de cada clase, para mejorar el testing e implementar un mejor patrón de diseño del código. Más detalles [aquí](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/182)
 - Se separa clase de Webpay Plus Mall. Ahora existe `WebpayPlus\Transaction` y `WebpayPlus\MallTransaction` 
 - Se mejoran los tests internos del código. 
 - El no uso de clases estáticas ahora permite mejorar la implementación de tests dentro del código donde se use, simulando el API de Transbank sin realizar las llamadas realmente (Mock)
