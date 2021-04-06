@@ -5,11 +5,12 @@ namespace Transbank\Utils;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 use Transbank\Contracts\HttpClientInterface;
+use Transbank\Contracts\RequestService;
 use Transbank\Webpay\Exceptions\TransbankApiRequest;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
 
-class RequestService
+class HttpClientRequestService implements RequestService
 {
     /**
      * @var ResponseInterface|null

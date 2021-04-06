@@ -83,6 +83,7 @@ class TransbankOneclickTest extends TestCase
             $this->assertNotNull($lastResponse);
             $this->assertEquals($exception->getFailedRequest(), $lastRequest);
             $this->assertEquals(500, $lastResponse->getStatusCode());
+
             $this->assertArraySubset([
                 'username'  => $this->username,
                 'tbk_user'  => 'fakeToken',

@@ -3,7 +3,7 @@
 namespace Webpay\WebpayPlus;
 
 use PHPUnit\Framework\TestCase;
-use Transbank\Utils\RequestService;
+use Transbank\Utils\HttpClientRequestService;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
 use Transbank\Webpay\WebpayPlus;
@@ -39,7 +39,7 @@ class WebpayPlusTransactionTest extends TestCase
      */
     protected $mockBaseUrl;
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|RequestService
+     * @var \PHPUnit\Framework\MockObject\MockObject|HttpClientRequestService
      */
     protected $requestServiceMock;
     /**
@@ -53,7 +53,7 @@ class WebpayPlusTransactionTest extends TestCase
 
     public function setBaseMocks()
     {
-        $this->requestServiceMock = $this->createMock(RequestService::class);
+        $this->requestServiceMock = $this->createMock(HttpClientRequestService::class);
         $this->optionsMock = $this->createMock(Options::class);
 
         $this->headersMock = ['header_1' => uniqid()];
@@ -102,7 +102,7 @@ class WebpayPlusTransactionTest extends TestCase
     /** @test */
     public function it_can_change_the_request_service()
     {
-        $requestServiceMock = $this->createMock(RequestService::class);
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
         $requestServiceMock->expects($this->once())->method('request')->willReturn(
             [
                 'token' => 'mock',
@@ -118,7 +118,7 @@ class WebpayPlusTransactionTest extends TestCase
     /** @test */
     public function it_creates_a_transaction()
     {
-        $requestServiceMock = $this->createMock(RequestService::class);
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
         $optionsMock = $this->createMock(Options::class);
 
         $tokenMock = uniqid();

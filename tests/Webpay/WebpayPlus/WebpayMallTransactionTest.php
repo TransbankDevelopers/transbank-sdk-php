@@ -3,7 +3,7 @@
 namespace Webpay\WebpayPlus;
 
 use PHPUnit\Framework\TestCase;
-use Transbank\Utils\RequestService;
+use Transbank\Utils\HttpClientRequestService;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
 use Transbank\Webpay\WebpayPlus;
@@ -40,7 +40,7 @@ class WebpayMallTransactionTest extends TestCase
      */
     protected $mockBaseUrl;
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|RequestService
+     * @var \PHPUnit\Framework\MockObject\MockObject|HttpClientRequestService
      */
     protected $requestServiceMock;
     /**
@@ -54,7 +54,7 @@ class WebpayMallTransactionTest extends TestCase
 
     public function setBaseMocks()
     {
-        $this->requestServiceMock = $this->createMock(RequestService::class);
+        $this->requestServiceMock = $this->createMock(HttpClientRequestService::class);
         $this->optionsMock = $this->createMock(Options::class);
 
         $this->headersMock = ['header_1' => uniqid()];
