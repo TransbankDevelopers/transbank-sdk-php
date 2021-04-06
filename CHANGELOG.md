@@ -14,7 +14,7 @@ y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.ht
 - Se optimiza y ordena mejor el código internamente
 - Se aplica _coding style_ de StyleCI en todo el respositorio. 
 - Se eliminan y dependencias relacionadas al API SOAP de Transbank. 
-- Se añade soporte para el producto "Webpay Modal"
+- Se añade soporte para el producto "Webpay Modal".
 - Los productos que devuelven transaciones del tipo Mall, ahora cada detalle es un objeto `TransactionDetail` en vez de un array. 
 - Se crea interfaz que permite cambiar la implementación del HttpClient, en caso de no querer utilizar Guzzle. 
 - Se renombre en todos lados de `getStatus` a solo `status` en los métodos de los productos. 
