@@ -11,7 +11,7 @@ y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.ht
 - El no uso de clases estáticas ahora permite mejorar la implementación de tests dentro del código donde se use, simulando el API de Transbank sin realizar las llamadas realmente (Mock)
 - Todos los métodos apuntan a la versión 1.2 del API de Transbank, por lo que ahora las redirecciones de vuelta en el returnUrl serán por GET en vez de POST. 
 - Se mejoran los namespaces de las clases de Respuesta que devuelen los métodos. 
-- Se optimiza y ordena mejor el código internamente
+- Se optimiza y ordena mejor el código internamente.
 - Se aplica _coding style_ de StyleCI en todo el respositorio. 
 - Se eliminan y dependencias relacionadas al API SOAP de Transbank. 
 - Se añade soporte para el producto "Webpay Modal".
