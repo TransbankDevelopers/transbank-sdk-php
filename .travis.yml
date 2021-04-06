@@ -17,4 +17,4 @@ deploy:
   on:
     repo: TransbankDevelopers/transbank-sdk-php
     tags: true
-    php: 7.4
+    php: 8.0
