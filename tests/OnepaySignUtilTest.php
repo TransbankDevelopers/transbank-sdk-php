@@ -4,13 +4,12 @@ namespace Tests;
 
 use PHPUnit\Framework\TestCase;
 use Tests\Mocks\ShoppingCartMocks;
-use Transbank\Onepay\Utils\OnepaySignUtil;
 use Tests\Mocks\TransactionCommitRequestMocks;
 use Tests\Mocks\TransactionCommitResponseMocks;
 use Tests\Mocks\TransactionCreateRequestMocks;
 use Tests\Mocks\TransactionCreateResponseMocks;
 use Transbank\Onepay\OnepayBase;
-
+use Transbank\Onepay\Utils\OnepaySignUtil;
 
 final class OnepaySignUtilTest extends TestCase
 {
