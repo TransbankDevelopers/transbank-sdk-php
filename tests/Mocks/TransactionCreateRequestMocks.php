@@ -4,7 +4,6 @@ namespace Tests\Mocks;
 
 
 use Transbank\Onepay\Utils\OnepayRequestBuilder;
-
  
 class TransactionCreateRequestMocks
 {

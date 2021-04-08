@@ -115,8 +115,8 @@ class TransbankOneclickTest extends TestCase
 
     protected function createDemoData()
     {
-        $this->username = 'demo_' . rand(100000, 999999);
-        $this->email = 'demo_' . rand(100000, 999999) . '@demo.cl';
+        $this->username = 'demo_'.rand(100000, 999999);
+        $this->email = 'demo_'.rand(100000, 999999).'@demo.cl';
         $this->responseUrl = 'http://demo.cl/return';
     }
 }

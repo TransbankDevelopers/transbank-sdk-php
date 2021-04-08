@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tests;
 
 use PHPUnit\Framework\TestCase;
@@ -10,8 +9,6 @@ use GuzzleHttp\Psr7\Response;
 use Transbank\Onepay\ChannelEnum;
 use Transbank\Onepay\Transaction;
 use Transbank\Onepay\Item;
-
-
 use Transbank\Onepay\Exceptions\SignException;
 use Transbank\Onepay\Exceptions\TransactionCommitException;
 use Transbank\Onepay\Exceptions\TransactionCreateException;
@@ -148,8 +145,8 @@ final class TransactionTest extends TestCase
         $this->assertNull($nullApiKey);
         $this->assertNull($nullSharedSecret);
 
-        putenv('ONEPAY_API_KEY=' . $originalApiKey);
-        putenv('ONEPAY_SHARED_SECRET=' . $originalSharedSecret);
+        putenv('ONEPAY_API_KEY='.$originalApiKey);
+        putenv('ONEPAY_SHARED_SECRET='.$originalSharedSecret);
 
         $this->assertEquals(OnepayBase::getApiKey(), getenv('ONEPAY_API_KEY'));
         $this->assertEquals(OnepayBase::getSharedSecret(), getenv('ONEPAY_SHARED_SECRET'));
