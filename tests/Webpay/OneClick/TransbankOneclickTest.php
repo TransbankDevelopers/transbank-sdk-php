@@ -20,7 +20,7 @@ class TransbankOneclickTest extends TestCase
     public $email;
     public $responseUrl;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->createDemoData();
     }

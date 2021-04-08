@@ -1,11 +1,13 @@
 <?php
 
-namespace Transbank\Onepay;
+namespace Tests;
 
 use PHPUnit\Framework\TestCase;
+use Tests\Mocks\ShoppingCartMocks;
+use Transbank\Onepay\OnepayBase;
+use Transbank\Onepay\Options;
+use Transbank\Onepay\TransactionCreateRequest;
 use Transbank\Onepay\Utils\OnepayRequestBuilder;
-
-require_once __DIR__.'/mocks/ShoppingCartMocks.php';
 
 class TransactionCreateRequestTest extends TestCase
 {

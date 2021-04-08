@@ -22,5 +22,12 @@
         ]
       }
     },
+    "autoload-dev": {
+      "psr-4": {
+        "Tests\\": [
+          "tests/"
+        ]
+      }
+    },
     "license": "BSD-3-Clause"
 }

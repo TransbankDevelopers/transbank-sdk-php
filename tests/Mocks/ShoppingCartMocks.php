@@ -1,6 +1,9 @@
 <?php
 
-namespace Transbank\Onepay;
+namespace Tests\Mocks;
+
+use Transbank\Onepay\Item;
+use Transbank\Onepay\ShoppingCart;
 
 class ShoppingCartMocks
 {

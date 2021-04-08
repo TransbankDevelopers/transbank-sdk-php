@@ -1,16 +1,21 @@
 <?php
 
-namespace Transbank\Onepay;
+namespace Tests;
 
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
-
-require_once __DIR__.'/mocks/ShoppingCartMocks.php';
-require_once __DIR__.'/mocks/TransactionCreateResponseMocks.php';
-
+use Tests\Mocks\ShoppingCartMocks;
+use Transbank\Onepay\ChannelEnum;
 use Transbank\Onepay\Exceptions\SignException;
 use Transbank\Onepay\Exceptions\TransactionCommitException;
 use Transbank\Onepay\Exceptions\TransactionCreateException;
+use Transbank\Onepay\Item;
+use Transbank\Onepay\OnepayBase;
+use Transbank\Onepay\Options;
+use Transbank\Onepay\ShoppingCart;
+use Transbank\Onepay\Transaction;
+use Transbank\Onepay\TransactionCommitResponse;
+use Transbank\Onepay\TransactionCreateResponse;
 use Transbank\Utils\HttpClient;
 
 final class TransactionTest extends TestCase
