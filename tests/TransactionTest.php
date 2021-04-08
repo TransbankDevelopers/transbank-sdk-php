@@ -1,17 +1,25 @@
 <?php
 
-namespace Transbank\Onepay;
 
-use GuzzleHttp\Psr7\Response;
+namespace Tests;
+
 use PHPUnit\Framework\TestCase;
+use Tests\Mocks\ShoppingCartMocks;
+use Transbank\Onepay\OnepayBase;
+use GuzzleHttp\Psr7\Response;
+use Transbank\Onepay\ChannelEnum;
+use Transbank\Onepay\Transaction;
+use Transbank\Onepay\Item;
 
-require_once __DIR__.'/mocks/ShoppingCartMocks.php';
-require_once __DIR__.'/mocks/TransactionCreateResponseMocks.php';
 
 use Transbank\Onepay\Exceptions\SignException;
 use Transbank\Onepay\Exceptions\TransactionCommitException;
 use Transbank\Onepay\Exceptions\TransactionCreateException;
 use Transbank\Utils\HttpClient;
+use Transbank\Onepay\Options;
+use Transbank\Onepay\ShoppingCart;
+use Transbank\Onepay\TransactionCommitResponse;
+use Transbank\Onepay\TransactionCreateResponse;
 
 final class TransactionTest extends TestCase
 {
@@ -140,8 +148,8 @@ final class TransactionTest extends TestCase
         $this->assertNull($nullApiKey);
         $this->assertNull($nullSharedSecret);
 
-        putenv('ONEPAY_API_KEY='.$originalApiKey);
-        putenv('ONEPAY_SHARED_SECRET='.$originalSharedSecret);
+        putenv('ONEPAY_API_KEY=' . $originalApiKey);
+        putenv('ONEPAY_SHARED_SECRET=' . $originalSharedSecret);
 
         $this->assertEquals(OnepayBase::getApiKey(), getenv('ONEPAY_API_KEY'));
         $this->assertEquals(OnepayBase::getSharedSecret(), getenv('ONEPAY_SHARED_SECRET'));

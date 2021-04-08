@@ -1,26 +1,38 @@
 {
   "name": "transbank/transbank-sdk",
   "description": "Transbank SDK",
-  "keywords": ["payments", "transbank", "api", "sdk"],
+  "keywords": [
+    "payments",
+    "transbank",
+    "api",
+    "sdk"
+  ],
   "require": {
-      "php": ">=5.6.0",
-      "ext-curl": "*",
-      "ext-json": "*",
-      "ext-mbstring": "*",
-      "guzzlehttp/guzzle":"^5|^6|^7"
+    "php": ">=5.6.0",
+    "ext-curl": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "guzzlehttp/guzzle": "^5|^6|^7"
   },
-    "require-dev": {
-      "phpunit/phpunit": "^9",
-      "satooshi/php-coveralls": "~0.6.1",
-      "squizlabs/php_codesniffer": "~2.0",
+  "require-dev": {
+    "phpunit/phpunit": "^9",
+    "satooshi/php-coveralls": "~0.6.1",
+    "squizlabs/php_codesniffer": "~2.0",
     "dms/phpunit-arraysubset-asserts": "^0.2.1"
-    },
-    "autoload": {
-      "psr-4": {
-        "Transbank\\": [
-          "src/"
-        ]
-      }
-    },
-    "license": "BSD-3-Clause"
+  },
+  "autoload": {
+    "psr-4": {
+      "Transbank\\": [
+        "src/"
+      ]
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": [
+        "tests/"
+      ]
+    }
+  },
+  "license": "BSD-3-Clause"
 }

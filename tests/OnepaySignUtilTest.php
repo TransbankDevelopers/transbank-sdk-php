@@ -1,15 +1,16 @@
 <?php
 
-namespace Transbank\Onepay;
+namespace Tests;
 
 use PHPUnit\Framework\TestCase;
+use Tests\Mocks\ShoppingCartMocks;
 use Transbank\Onepay\Utils\OnepaySignUtil;
+use Tests\Mocks\TransactionCommitRequestMocks;
+use Tests\Mocks\TransactionCommitResponseMocks;
+use Tests\Mocks\TransactionCreateRequestMocks;
+use Tests\Mocks\TransactionCreateResponseMocks;
+use Transbank\Onepay\OnepayBase;
 
-require_once __DIR__.'/mocks/TransactionCreateRequestMocks.php';
-require_once __DIR__.'/mocks/TransactionCommitRequestMocks.php';
-require_once __DIR__.'/mocks/ShoppingCartMocks.php';
-require_once __DIR__.'/mocks/TransactionCreateResponseMocks.php';
-require_once __DIR__.'/mocks/TransactionCommitResponseMocks.php';
 
 final class OnepaySignUtilTest extends TestCase
 {
