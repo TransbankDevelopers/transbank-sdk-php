@@ -2,6 +2,7 @@
 
 namespace Transbank\Webpay;
 
+use Transbank\Contracts\RequestService;
 use Transbank\Utils\EnvironmentManager;
 use Transbank\Utils\HttpClient;
 use Transbank\Webpay\WebpayPlus\MallTransaction;
@@ -42,25 +43,25 @@ class WebpayPlus extends EnvironmentManager
     protected static $mallTransactionClass = MallTransaction::class;
 
     /**
-     * @param Options|null    $options
-     * @param HttpClient|null $httpClient
+     * @param Options|null $options
+     * @param RequestService|null $requestService
      *
      * @return Transaction
      */
-    public static function transaction(Options $options = null, HttpClient $httpClient = null)
+    public static function transaction(Options $options = null, RequestService $requestService = null)
     {
-        return new self::$transactionClass($options, $httpClient);
+        return new self::$transactionClass($options, $requestService);
     }
 
     /**
-     * @param Options|null    $options
-     * @param HttpClient|null $httpClient
+     * @param Options|null $options
+     * @param RequestService|null $requestService
      *
      * @return MallTransaction
      */
-    public static function mallTransaction(Options $options = null, HttpClient $httpClient = null)
+    public static function mallTransaction(Options $options = null, RequestService $requestService = null)
     {
-        return new self::$mallTransactionClass($options, $httpClient);
+        return new self::$mallTransactionClass($options, $requestService);
     }
 
     /**
