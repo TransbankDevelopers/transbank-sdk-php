@@ -2,7 +2,6 @@
 
 namespace Transbank\Utils;
 
-use GuzzleHttp\Exception\GuzzleException;
 use Transbank\Contracts\RequestService;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;

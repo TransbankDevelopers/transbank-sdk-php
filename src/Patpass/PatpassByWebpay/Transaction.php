@@ -2,7 +2,6 @@
 
 namespace Transbank\Patpass\PatpassByWebpay;
 
-use Transbank\Patpass\PatpassByWebpay;
 use Transbank\Patpass\PatpassByWebpay\Exceptions\TransactionCommitException;
 use Transbank\Patpass\PatpassByWebpay\Exceptions\TransactionCreateException;
 use Transbank\Patpass\PatpassByWebpay\Exceptions\TransactionStatusException;
@@ -46,6 +45,7 @@ class Transaction
     {
         $payload = [];
         $endpoint = static::COMMIT_TRANSACTION_ENDPOINT;
+
         try {
             $response = $this->sendRequest('PUT', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {
@@ -59,6 +59,7 @@ class Transaction
     {
         $payload = [];
         $endpoint = str_replace('{token}', $token, self::GET_TRANSACTION_STATUS_ENDPOINT);
+
         try {
             $response = $this->sendRequest('GET', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {
