@@ -4,7 +4,6 @@ namespace Transbank\Webpay;
 
 use Transbank\Contracts\RequestService;
 use Transbank\Utils\EnvironmentManager;
-use Transbank\Utils\HttpClient;
 use Transbank\Webpay\WebpayPlus\MallTransaction;
 use Transbank\Webpay\WebpayPlus\Transaction;
 
@@ -43,7 +42,7 @@ class WebpayPlus extends EnvironmentManager
     protected static $mallTransactionClass = MallTransaction::class;
 
     /**
-     * @param Options|null $options
+     * @param Options|null        $options
      * @param RequestService|null $requestService
      *
      * @return Transaction
@@ -54,7 +53,7 @@ class WebpayPlus extends EnvironmentManager
     }
 
     /**
-     * @param Options|null $options
+     * @param Options|null        $options
      * @param RequestService|null $requestService
      *
      * @return MallTransaction
