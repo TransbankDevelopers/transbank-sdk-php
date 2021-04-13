@@ -42,7 +42,6 @@ trait InteractsWithWebpayApi
      * @param $endpoint
      * @param array $payload
      *
-     * @throws GuzzleException
      * @throws WebpayRequestException
      *
      * @return mixed
