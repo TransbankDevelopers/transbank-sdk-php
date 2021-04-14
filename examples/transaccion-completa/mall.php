@@ -1,4 +1,5 @@
 <?php
+
 require 'vendor/autoload.php';
 
 use Transbank\TransaccionCompleta\MallTransaction;
@@ -11,14 +12,14 @@ use Transbank\TransaccionCompleta\TransaccionCompleta;
 */
 $transaction_details = [
     [
-        'amount' => 10000,
+        'amount'        => 10000,
         'commerce_code' => TransaccionCompleta::DEFAULT_MALL_CHILD_COMMERCE_CODE_1,
-        'buy_order' => '123456789'
+        'buy_order'     => '123456789',
     ],
     [
-        'amount' => 12000,
+        'amount'        => 12000,
         'commerce_code' => TransaccionCompleta::DEFAULT_MALL_CHILD_COMMERCE_CODE_2,
-        'buy_order' => '123456790'
+        'buy_order'     => '123456790',
     ],
 ];
 $cardNumber = '4051885600446623';
@@ -32,7 +33,7 @@ $response = $transaction->create('buyOrder1',                         // ordenCo
     $cardExpirationDate,              // 22/10
     $transaction_details, $cvv);
 
-echo 'Create transaction' . "\n";
+echo 'Create transaction'."\n";
 print_r($response);
 
 $token = $response->getToken();
@@ -44,19 +45,19 @@ $token = $response->getToken();
 
 $installments_details = [
     [
-        'commerce_code' => TransaccionCompleta::DEFAULT_MALL_CHILD_COMMERCE_CODE_1,
-        'buy_order' => '123456789',
-        'installments_number' => 2
+        'commerce_code'       => TransaccionCompleta::DEFAULT_MALL_CHILD_COMMERCE_CODE_1,
+        'buy_order'           => '123456789',
+        'installments_number' => 2,
     ],
     [
-        'commerce_code' => TransaccionCompleta::DEFAULT_MALL_CHILD_COMMERCE_CODE_2,
-        'buy_order' => '123456790',
-        'installments_number' => 2
+        'commerce_code'       => TransaccionCompleta::DEFAULT_MALL_CHILD_COMMERCE_CODE_2,
+        'buy_order'           => '123456790',
+        'installments_number' => 2,
     ],
 ];
 
 $response = $transaction->installments($token, $installments_details);
-echo 'Installments' . "\n";
+echo 'Installments'."\n";
 print_r($response);
 
 $firstInstallmentResponse = $response[0];
@@ -78,23 +79,23 @@ if (isset($deferredPeriods[0])) {
 
 $details = [
     [
-        'commerce_code' => TransaccionCompleta::DEFAULT_MALL_CHILD_COMMERCE_CODE_1,
-        'buy_order' => '123456789',
+        'commerce_code'         => TransaccionCompleta::DEFAULT_MALL_CHILD_COMMERCE_CODE_1,
+        'buy_order'             => '123456789',
         'id_query_installments' => $firstInstallmentResponse->getIdQueryInstallments(),
         'deferred_period_index' => null,
-        'grace_period' => false
+        'grace_period'          => false,
     ],
     [
-        'commerce_code' => TransaccionCompleta::DEFAULT_MALL_CHILD_COMMERCE_CODE_2,
-        'buy_order' => '123456790',
+        'commerce_code'         => TransaccionCompleta::DEFAULT_MALL_CHILD_COMMERCE_CODE_2,
+        'buy_order'             => '123456790',
         'id_query_installments' => $secondInstallmentResponse->getIdQueryInstallments(),
         'deferred_period_index' => null,
-        'grace_period' => false
-    ]
+        'grace_period'          => false,
+    ],
 ];
 
 $response = $transaction->commit($token, $details);
-echo 'Commit ' . "\n";
+echo 'Commit '."\n";
 print_r($response);
 
 $response->getBuyOrder();
@@ -120,7 +121,7 @@ $detail->getStatus();
 
 $response = $transaction->refund($token, '123456789', TransaccionCompleta::DEFAULT_MALL_CHILD_COMMERCE_CODE_1, 10000);
 
-echo 'Refund ' . "\n";
+echo 'Refund '."\n";
 print_r($response);
 
 $response->getType();
@@ -138,5 +139,5 @@ $response->getResponseCode();
 
 $response = $transaction->status($token);
 
-echo 'Status ' . "\n";
+echo 'Status '."\n";
 print_r($response);
