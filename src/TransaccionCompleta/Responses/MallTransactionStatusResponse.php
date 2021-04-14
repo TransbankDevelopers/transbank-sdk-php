@@ -54,7 +54,6 @@ class MallTransactionStatusResponse
         return $this->accountingDate;
     }
 
-
     /**
      * @return mixed
      */
@@ -62,7 +61,6 @@ class MallTransactionStatusResponse
     {
         return $this->transactionDate;
     }
-
 
     /**
      * @return mixed
@@ -72,7 +70,6 @@ class MallTransactionStatusResponse
         return $this->details;
     }
 
-
     /**
      * @return mixed|null
      */
@@ -80,5 +77,4 @@ class MallTransactionStatusResponse
     {
         return $this->cardNumber;
     }
-
 }
