@@ -4,6 +4,11 @@ Todos los cambios notables a este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2021-04-14
+- Se agrega campo CVV a creación de transacción completa mall
+- Se mejora respuesta de Commit y Succes de Transacción Completa
+- Se define PHP 7.0 como versión mínima en composer.json
+
 ## [2.0] - 2021-04-13
 - Se elimina el uso de métodos estáticos, en reemplazo del manejo de instancias de cada clase, para mejorar el testing e implementar un mejor patrón de diseño del código. Más detalles [aquí](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/182)
 - Se separa clase de Webpay Plus Mall. Ahora existe `WebpayPlus\Transaction` y `WebpayPlus\MallTransaction`
