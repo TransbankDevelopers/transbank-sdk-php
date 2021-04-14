@@ -1,9 +1,6 @@
 name: PHPUnit
 
 on:
-  push:
-    branches:
-      - develop
   pull_request:
     branches:
       - master
@@ -29,10 +26,13 @@ jobs:
         php-version: ${{ matrix.php-versions }}
         extensions: ${{ env.PHP_EXTENSIONS }}
         key: ${{ env.key }}
+        tools: composer-v2
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
+        tools: composer:v2
+        coverage: none
       env:
         runner: ubuntu-latest # Specify the runner.
     - name: Get composer cache directory
