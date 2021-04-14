@@ -39,7 +39,8 @@ class MallTransaction
         $sessionId,
         $cardNumber,
         $cardExpirationDate,
-        $details
+        $details,
+        $cvv = null
     ) {
         $payload = [
             'buy_order'            => $buyOrder,
@@ -48,6 +49,9 @@ class MallTransaction
             'card_expiration_date' => $cardExpirationDate,
             'details'              => $details,
         ];
+        if ($cvv) {
+            $payload['cvv'] = $cvv;
+        }
 
         try {
             $response = $this->sendRequest('POST', static::ENDPOINT_CREATE, $payload);
