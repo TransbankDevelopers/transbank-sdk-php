@@ -86,7 +86,7 @@ class Transaction
             'installments_number' => $installmentsNumber,
         ];
 
-        $endpoint = str_replace('{token}', $token, self::ENDPOINT_INSTALLMENTS);
+        $endpoint = str_replace('{token}', $token, static::ENDPOINT_INSTALLMENTS);
 
         try {
             $response = $this->sendRequest('POST', $endpoint, $payload);
@@ -120,7 +120,7 @@ class Transaction
             'grace_period'          => $gracePeriod,
         ];
 
-        $endpoint = str_replace('{token}', $token, self::ENDPOINT_COMMIT);
+        $endpoint = str_replace('{token}', $token, static::ENDPOINT_COMMIT);
 
         try {
             $response = $this->sendRequest('PUT', $endpoint, $payload);
@@ -146,7 +146,7 @@ class Transaction
             'amount' => $amount,
         ];
 
-        $endpoint = str_replace('{token}', $token, self::ENDPOINT_REFUND);
+        $endpoint = str_replace('{token}', $token, static::ENDPOINT_REFUND);
 
         try {
             $response = $this->sendRequest('POST', $endpoint, $payload);
@@ -167,7 +167,7 @@ class Transaction
      */
     public function status($token)
     {
-        $endpoint = str_replace('{token}', $token, self::ENDPOINT_STATUS);
+        $endpoint = str_replace('{token}', $token, static::ENDPOINT_STATUS);
 
         try {
             $response = $this->sendRequest('GET', $endpoint, null);
@@ -191,7 +191,7 @@ class Transaction
      */
     public function capture($token, $buyOrder, $authorizationCode, $captureAmount)
     {
-        $endpoint = str_replace('{token}', $token, self::ENDPOINT_CAPTURE);
+        $endpoint = str_replace('{token}', $token, static::ENDPOINT_CAPTURE);
 
         $payload = [
             'buy_order'          => $buyOrder,

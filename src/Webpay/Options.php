@@ -41,17 +41,17 @@ class Options
 
     public static function forProduction($commerceCode, $apiKey)
     {
-        return new static($apiKey, $commerceCode, self::ENVIRONMENT_PRODUCTION);
+        return new static($apiKey, $commerceCode, static::ENVIRONMENT_PRODUCTION);
     }
 
     public static function forIntegration($commerceCode, $apiKey = Options::DEFAULT_API_KEY)
     {
-        return new static($apiKey, $commerceCode, self::ENVIRONMENT_INTEGRATION);
+        return new static($apiKey, $commerceCode, static::ENVIRONMENT_INTEGRATION);
     }
 
     public function isProduction()
     {
-        return $this->getIntegrationType() === self::ENVIRONMENT_PRODUCTION;
+        return $this->getIntegrationType() === static::ENVIRONMENT_PRODUCTION;
     }
 
     /**

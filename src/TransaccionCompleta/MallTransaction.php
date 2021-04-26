@@ -66,7 +66,7 @@ class MallTransaction
         $token,
         $details
     ) {
-        $endpoint = str_replace('{token}', $token, self::ENDPOINT_INSTALLMENTS);
+        $endpoint = str_replace('{token}', $token, static::ENDPOINT_INSTALLMENTS);
 
         try {
             return array_map(function ($detail) use ($endpoint) {
@@ -153,7 +153,7 @@ class MallTransaction
      */
     public function capture($token, $commerceCode, $buyOrder, $authorizationCode, $captureAmount)
     {
-        $endpoint = str_replace('{token}', $token, self::ENDPOINT_CAPTURE);
+        $endpoint = str_replace('{token}', $token, static::ENDPOINT_CAPTURE);
 
         $payload = [
             'buy_order'          => $buyOrder,

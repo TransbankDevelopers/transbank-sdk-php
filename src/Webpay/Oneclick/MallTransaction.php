@@ -76,7 +76,7 @@ class MallTransaction
         try {
             $response = $this->sendRequest(
                 'GET',
-                str_replace('{buy_order}', $buyOrder, self::TRANSACTION_STATUS_ENDPOINT),
+                str_replace('{buy_order}', $buyOrder, static::TRANSACTION_STATUS_ENDPOINT),
                 null
             );
         } catch (WebpayRequestException $e) {
@@ -97,7 +97,7 @@ class MallTransaction
         try {
             $response = $this->sendRequest(
                 'POST',
-                str_replace('{buy_order}', $buyOrder, self::TRANSACTION_REFUND_ENDPOINT),
+                str_replace('{buy_order}', $buyOrder, static::TRANSACTION_REFUND_ENDPOINT),
                 $payload
             );
         } catch (WebpayRequestException $e) {

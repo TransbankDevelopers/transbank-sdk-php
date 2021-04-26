@@ -81,7 +81,7 @@ class Inscription
             'direccion'       => $address,
             'ciudad'          => $city,
         ];
-        $endpoint = self::INSCRIPTION_START_ENDPOINT;
+        $endpoint = static::INSCRIPTION_START_ENDPOINT;
 
         try {
             $response = $this->sendRequest('POST', $endpoint, $payload);
@@ -107,7 +107,7 @@ class Inscription
             'token' => $token,
         ];
 
-        $endpoint = str_replace('{token}', $token, self::INSCRIPTION_STATUS_ENDPOINT);
+        $endpoint = str_replace('{token}', $token, static::INSCRIPTION_STATUS_ENDPOINT);
 
         try {
             $response = $this->sendRequest('POST', $endpoint, $payload);
