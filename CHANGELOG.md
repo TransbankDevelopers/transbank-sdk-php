@@ -4,9 +4,13 @@ Todos los cambios notables a este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.0.2] - 2021-04-26
+- Se arregla error cuando la clase 'InstalledVersion' de composer no existe
+- Cambia self:: por static:: para mejorar extensión de clases a través de herencia. 
+
 ## [2.0.1] - 2021-04-14
 - Se agrega campo CVV a creación de transacción completa mall
-- Se mejora respuesta de Commit y Succes de Transacción Completa
+- Se mejora respuesta de Commit y Success de Transacción Completa
 - Se define PHP 7.0 como versión mínima en composer.json
 
 ## [2.0] - 2021-04-13
@@ -15,7 +19,7 @@ y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.ht
 - Se mejoran los tests internos del código.
 - Al no usar clases estáticas, permite mejorar la implementación de tests dentro del código donde se use, simulando el API de Transbank sin realizar las llamadas realmente (Mock)
 - Todos los métodos apuntan a la versión 1.2 del API de Transbank, por lo que ahora las redirecciones de vuelta en el returnUrl serán por GET en vez de POST.
-- Se mejoran los namespaces de las clases de Respuesta que devuelen los métodos.
+- Se mejoran los namespaces de las clases de respuesta que devuelven los métodos.
 - Se optimiza y ordena mejor el código internamente.
 - Se aplica _coding style_ de StyleCI en todo el repositorio.
 - Se eliminan y dependencias relacionadas a la API SOAP de Transbank.
