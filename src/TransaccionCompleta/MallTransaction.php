@@ -27,12 +27,12 @@ class MallTransaction
 {
     use InteractsWithWebpayApi;
 
-    const ENDPOINT_CREATE = '/rswebpaytransaction/api/webpay/v1.2/transactions';
-    const ENDPOINT_INSTALLMENTS = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}/installments';
-    const ENDPOINT_COMMIT = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
-    const ENDPOINT_REFUND = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
-    const ENDPOINT_STATUS = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
-    const ENDPOINT_CAPTURE = '/rswebpaytransaction/api/webpay/v1.2/transactions/{token}/capture';
+    const ENDPOINT_CREATE = 'rswebpaytransaction/api/webpay/v1.2/transactions';
+    const ENDPOINT_INSTALLMENTS = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/installments';
+    const ENDPOINT_COMMIT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
+    const ENDPOINT_REFUND = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
+    const ENDPOINT_STATUS = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
+    const ENDPOINT_CAPTURE = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/capture';
 
     public function create(
         $buyOrder,
