@@ -1,6 +1,6 @@
 <?php
 
-require 'vendor/autoload.php';
+require '../../vendor/autoload.php';
 
 use Transbank\TransaccionCompleta\MallTransaction;
 use Transbank\TransaccionCompleta\TransaccionCompleta;
