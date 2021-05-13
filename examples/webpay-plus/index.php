@@ -1,4 +1,5 @@
 <?php
+
 require '../../vendor/autoload.php';
 
 /*
@@ -11,7 +12,7 @@ $transaction = new \Transbank\Webpay\WebpayPlus\Transaction();
 // Por simplicidad de este ejemplo, este es nuestro "controlador" que define que vamos a hacer dependiendo del parametro ?action= de la URL.
 $action = $_GET['action'] ?? null;
 if (!$action) {
-    die('Debe indicar la acción a realizar');
+    exit('Debe indicar la acción a realizar');
 }
 
 /*
@@ -27,8 +28,8 @@ if ($_GET['action'] === 'create') {
     // lo que se esté pagando en tu sistema
 
     //Redirigimos al formulario de Webpay por GET, enviando a la URL recibida con el token recibido.
-    $redirectUrl = $createResponse->getUrl() . '?token_ws=' . $createResponse->getToken();
-    header('Location: ' . $redirectUrl, true, 302);
+    $redirectUrl = $createResponse->getUrl().'?token_ws='.$createResponse->getToken();
+    header('Location: '.$redirectUrl, true, 302);
     exit;
 }
 /*
@@ -40,20 +41,20 @@ if ($_GET['action'] === 'create') {
 if ($_GET['action'] === 'result') {
     if (userAbortedOnWebpayForm()) {
         cancelOrder();
-        die('Has cancelado la transacción en el formulario de pago. Intenta nuevamente');
+        exit('Has cancelado la transacción en el formulario de pago. Intenta nuevamente');
     }
     if (anErrorOcurredOnWebpayForm()) {
         cancelOrder();
-        die('Al parecer ocurrió un error en el formulario de pago. Intenta nuevamente');
+        exit('Al parecer ocurrió un error en el formulario de pago. Intenta nuevamente');
     }
     if (theUserWasRedirectedBecauseWasIdleFor10MinutesOnWebapayForm()) {
         cancelOrder();
-        die('Superaste el tiempo máximo que puedes estar en el formulario de pago (10 minutos). La transacción fue cancelada por Webpay. ');
+        exit('Superaste el tiempo máximo que puedes estar en el formulario de pago (10 minutos). La transacción fue cancelada por Webpay. ');
     }
     //Por último, verificamos que solo tengamos un token_ws. Si no es así, es porque algo extraño ocurre.
     if (!isANormalPaymentFlow()) { // Notar que dice ! al principio.
         cancelOrder();
-        die('En este punto, si NO es un flujo de pago normal es porque hay algo extraño y es mejor abortar. Quizás alguien intenta llamar a esta URL directamente o algo así...');
+        exit('En este punto, si NO es un flujo de pago normal es porque hay algo extraño y es mejor abortar. Quizás alguien intenta llamar a esta URL directamente o algo así...');
     }
 
     // Acá ya estamos seguros de que tenemos un flujo de pago normal. Si no, habría "muerto" en los checks anteriores.
@@ -67,24 +68,28 @@ if ($_GET['action'] === 'result') {
     } else {
         cancelOrder();
     }
+
     return;
 }
 
-function cancelOrder($response = null) {
+function cancelOrder($response = null)
+{
     // Acá has lo que tangas que hacer para marcar la orden como fallida o cancelada
     if ($response) {
-        echo '<pre>' . print_r($response, true) . '</pre>';
+        echo '<pre>'.print_r($response, true).'</pre>';
     }
     echo 'La orden ha sido RECHAZADA';
 }
 
-function approveOrder($response) {
+function approveOrder($response)
+{
     // Acá has lo que tangas que hacer para marcar la orden como aprobada o finalizada o lo que necesites en tu negocio.,
     echo 'La orden ha sido APROBADA';
-    echo '<pre>' . print_r($response,true) . '</pre>';
+    echo '<pre>'.print_r($response, true).'</pre>';
 }
 
-function userAbortedOnWebpayForm() {
+function userAbortedOnWebpayForm()
+{
     $tokenWs = $_GET['token_ws'] ?? $_POST['token_ws'] ?? null;
     $tbkToken = $_GET['TBK_TOKEN'] ?? $_POST['TBK_TOKEN'] ?? null;
     $ordenCompra = $_GET['TBK_ORDEN_COMPRA'] ?? $_POST['TBK_ORDEN_COMPRA'] ?? null;
@@ -94,7 +99,8 @@ function userAbortedOnWebpayForm() {
     return $tbkToken && $ordenCompra && $idSesion && !$tokenWs;
 }
 
-function anErrorOcurredOnWebpayForm() {
+function anErrorOcurredOnWebpayForm()
+{
     $tokenWs = $_GET['token_ws'] ?? $_POST['token_ws'] ?? null;
     $tbkToken = $_GET['TBK_TOKEN'] ?? $_POST['TBK_TOKEN'] ?? null;
     $ordenCompra = $_GET['TBK_ORDEN_COMPRA'] ?? $_POST['TBK_ORDEN_COMPRA'] ?? null;
@@ -104,7 +110,8 @@ function anErrorOcurredOnWebpayForm() {
     return $tokenWs && $ordenCompra && $idSesion && $tbkToken;
 }
 
-function theUserWasRedirectedBecauseWasIdleFor10MinutesOnWebapayForm() {
+function theUserWasRedirectedBecauseWasIdleFor10MinutesOnWebapayForm()
+{
     $tokenWs = $_GET['token_ws'] ?? $_POST['token_ws'] ?? null;
     $tbkToken = $_GET['TBK_TOKEN'] ?? $_POST['TBK_TOKEN'] ?? null;
     $ordenCompra = $_GET['TBK_ORDEN_COMPRA'] ?? $_POST['TBK_ORDEN_COMPRA'] ?? null;
@@ -115,7 +122,8 @@ function theUserWasRedirectedBecauseWasIdleFor10MinutesOnWebapayForm() {
     return $ordenCompra && $idSesion && !$tokenWs && !$tbkToken;
 }
 
-function isANormalPaymentFlow(){
+function isANormalPaymentFlow()
+{
     $tokenWs = $_GET['token_ws'] ?? $_POST['token_ws'] ?? null;
     $tbkToken = $_GET['TBK_TOKEN'] ?? $_POST['TBK_TOKEN'] ?? null;
     $ordenCompra = $_GET['TBK_ORDEN_COMPRA'] ?? $_POST['TBK_ORDEN_COMPRA'] ?? null;
@@ -124,4 +132,3 @@ function isANormalPaymentFlow(){
     // Si viene solo token_ws es porque es un flujo de pago normal
     return $tokenWs && !$ordenCompra && !$idSesion && !$tbkToken;
 }
-
