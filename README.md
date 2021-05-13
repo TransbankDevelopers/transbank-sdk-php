@@ -22,6 +22,7 @@ Para utilizar este SDK, debes tener las siguientes extensiones de PHP instaladas
 Para usar el SDK en tu proyecto **debes** usar Composer (si no lo tienes instalado, puedes instalarlo [acá](https://getcomposer.org/)), añadiendo el SDK como dependencia a tu proyecto:
 ```json
     "require": {
+        ...
         "transbank/transbank-sdk": "~2.0"
     }
 ```
@@ -36,6 +37,7 @@ También puedes instalarlo directamente desde la consola:
 composer require transbank/transbank-sdk:~2.0
 ```
 
+#### Despues de instalar... 
 Si es primera vez que usas composer en tu proyecto, se creará una carpeta `vendor/` con el SDK y todo lo necesario.
 Te recomendamos leer como funciona Composer, pero para comentar un punto importante, ahora asegúrate de que se incluye 
 el archivo `vendor/autoload.php` en tu proyecto, idealmente al inicio de todo tu código. 
@@ -43,18 +45,32 @@ el archivo `vendor/autoload.php` en tu proyecto, idealmente al inicio de todo tu
 Si tu proyecto ya usa composer, la librería ya estará disponible para ser usaada sin que tengas que hacer nada 
 adicional. 
 
-Nota: Si usas un hosting compartido o un ambiente donde no tienes acceso para instalar Composer, no te preocupes: Puedes 
+#### Hosting compartido (no recomendado)
+Si usas un hosting compartido o un ambiente donde no tienes acceso para instalar Composer, no te preocupes: Puedes 
 instalar composer en tu propio computador, instalar el paquete como se indica anteriormente, y luego subir por FTP, SSH 
 o como sea, todos los archivos del proyecto. No es necesario tener instalado composer en el servidor. Solo es necesario 
 que los archivos generados tras la instalación de composer si estén. 
+De todas formas, te recomendamos usar algún servidor VPS o dedicado, donde tendrás mas control de tu sistema.
 
-## Documentación 
+## Ejemplos de código básicos
+Dejamos **algunos** ejemplos básicos de código en la carpeta `examples` de este repositorio que te recomendamos revisar. 
+Puedes ejecutar este ejemplo entrando a esta carpeta en tu terminal y ejecutando un servidor de PHP: 
+```bash 
+cd /path/to/this/sdk
+cd examples
+php -S 127.0.0.1:8000
+```
+Luego, solo abre [http://127.0.0.1:8000] en tu navegador web. 
 
+## Proyecto de ejemplo completo
+Adicionalmente, creamos un proyecto de ejemplo donde se implementan todos los productos y modalidades acá: https://github.com/TransbankDevelopers/transbank-sdk-php-webpay-rest-example/
+
+## Documentación Transbank Developers
 Puedes encontrar toda la documentación de cómo usar este SDK en el sitio https://www.transbankdevelopers.cl.
 
 La documentación relevante para usar este SDK es:
 
-- Primeros pasos con [Webpay](https://www.transbankdevelopers.cl/documentacion/webpay) y [Onepay](https://www.transbankdevelopers.cl/documentacion/onepay).
+- Primeros pasos con [Webpay](https://www.transbankdevelopers.cl/documentacion/webpay)
 - Documentación sobre [ambientes, deberes del comercio, puesta en producción,
   etc](https://www.transbankdevelopers.cl/documentacion/como_empezar#ambientes).
   
