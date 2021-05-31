@@ -163,7 +163,7 @@ $response = $transaction->capture(
     $secondStoreCommerceCode,
     $secondBuyOrder,
     $authorizationCode,
-    20000
+    10000
 );
 
 echo 'Capture: '."\n";
