@@ -32,11 +32,14 @@ $cardExpirationDate = '22/12';
 $cvv = '123';
 
 $transaction = new MallTransaction();
-$response = $transaction->create('buyOrder1',
+$response = $transaction->create(
+    'buyOrder1',
     'sessionId',
     $cardNumber,                       // 4239000000000000
     $cardExpirationDate,              // 22/10
-    $transaction_details, $cvv);
+    $transaction_details,
+    $cvv
+);
 
 echo 'Create transaction'."\n";
 print_r($response);
@@ -118,7 +121,6 @@ $detail->getCommerceCode();
 $detail->getBuyOrder();
 $detail->getStatus();
 
-
 $secondDetail = $response->getDetails()[0];
 $authorizationCode = $secondDetail->getAuthorizationCode();
 /*
@@ -138,7 +140,6 @@ $response->getAuthorizationDate();
 $response->getNullifiedAmount();
 $response->getBalance();
 $response->getResponseCode();
-
 
 /*
 |--------------------------------------------------------------------------
@@ -178,4 +179,3 @@ $response = $transaction->status($token);
 
 echo 'Status '."\n";
 print_r($response);
-
