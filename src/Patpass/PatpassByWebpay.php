@@ -2,7 +2,6 @@
 
 namespace Transbank\Patpass;
 
-use Transbank\Webpay\Options;
 
 use Transbank\Utils\EnvironmentManager;
 

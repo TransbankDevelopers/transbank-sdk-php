@@ -33,6 +33,8 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable
         $widthHeight = '',
         $commerceLogoUrl = ''
     ) {
+        $this->generateOttQrCode = true;
+
         if (!$externalUniqueNumber) {
             throw new \Exception('External unique number cannot be null.');
         }

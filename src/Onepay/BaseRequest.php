@@ -15,7 +15,6 @@ class BaseRequest
     {
         $this->apiKey = null;
         $this->appKey = null;
-        $this->generateOttQrCode = true;
     }
 
     public function getApiKey()

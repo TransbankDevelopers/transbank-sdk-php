@@ -2,7 +2,7 @@
 
 namespace Transbank\Patpass\PatpassByWebpay;
 
-use Transbank\Patpass\PatpassByWebpay as PatpassByWebpayMain;
+use Transbank\Patpass\PatpassByWebpay;
 use Transbank\Patpass\PatpassByWebpay\Exceptions\TransactionCommitException;
 use Transbank\Patpass\PatpassByWebpay\Exceptions\TransactionCreateException;
 use Transbank\Patpass\PatpassByWebpay\Exceptions\TransactionStatusException;
@@ -77,10 +77,10 @@ class Transaction
      */
     public static function getGlobalOptions()
     {
-        return PatpassByWebpayMain::getOptions();
+        return PatpassByWebpay::getOptions();
     }
     public static  function getDefaultOptions()
     {
-        return PatpassByWebpayMain::getDefaultOptions();
+        return PatpassByWebpay::getDefaultOptions();
     }
 }
