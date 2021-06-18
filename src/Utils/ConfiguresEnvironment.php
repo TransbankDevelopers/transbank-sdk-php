@@ -9,13 +9,6 @@ use Transbank\Webpay\Options;
  */
 trait ConfiguresEnvironment
 {
-    /**
-     * @return string
-     */
-    public static function getIntegrationType()
-    {
-        return static::$integrationType;
-    }
 
     /**
      * @param $commerceCode

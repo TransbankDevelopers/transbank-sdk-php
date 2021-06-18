@@ -2,39 +2,41 @@
 
 namespace Transbank\Onepay;
 
- /**
-  * @class BaseResponse
-  * Basic response class that includes commonly used members
-  */
- class BaseResponse
- {
-     public function __construct()
-     {
-         $this->responseCode = null;
-         $this->description = null;
-     }
+/**
+ * @class BaseResponse
+ * Basic response class that includes commonly used members
+ */
+class BaseResponse
+{
+    private $responseCode;
+    private $description;
+    public function __construct()
+    {
+        $this->responseCode = null;
+        $this->description = null;
+    }
 
-     public function getResponseCode()
-     {
-         return $this->responseCode;
-     }
+    public function getResponseCode()
+    {
+        return $this->responseCode;
+    }
 
-     public function setResponseCode($responseCode)
-     {
-         $this->responseCode = $responseCode;
+    public function setResponseCode($responseCode)
+    {
+        $this->responseCode = $responseCode;
 
-         return $this;
-     }
+        return $this;
+    }
 
-     public function getDescription()
-     {
-         return $this->description;
-     }
+    public function getDescription()
+    {
+        return $this->description;
+    }
 
-     public function setDescription($appKey)
-     {
-         $this->description = $appKey;
+    public function setDescription($appKey)
+    {
+        $this->description = $appKey;
 
-         return $this;
-     }
- }
+        return $this;
+    }
+}

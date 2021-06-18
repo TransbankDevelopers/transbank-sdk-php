@@ -18,6 +18,8 @@ class TransactionCreateRequest extends BaseRequest implements \JsonSerializable
     private $signature; // String
     private $generateOttQrCode = true;
     private $commerceLogoUrl;
+    private $issuedAt;
+    private $widthHeight;
 
     public function __construct(
         $externalUniqueNumber,
