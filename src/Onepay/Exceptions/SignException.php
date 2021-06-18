@@ -10,7 +10,7 @@ namespace Transbank\Onepay\Exceptions;
  {
      const DEFAULT_MESSAGE = 'Signature does not match';
 
-     public function __construc($message = self::DEFAULT_MESSAGE, $code = 0, $previous = null)
+     public function __construct($message = self::DEFAULT_MESSAGE, $code = 0, $previous = null)
      {
          parent::__construct($message, $code, $previous);
      }
