@@ -2,6 +2,7 @@
 
 namespace Transbank\Patpass\PatpassByWebpay;
 
+use Transbank\Patpass\Options;
 use Transbank\Patpass\PatpassByWebpay;
 use Transbank\Patpass\PatpassByWebpay\Exceptions\TransactionCommitException;
 use Transbank\Patpass\PatpassByWebpay\Exceptions\TransactionCreateException;
@@ -11,7 +12,6 @@ use Transbank\Patpass\PatpassByWebpay\Responses\TransactionCreateResponse;
 use Transbank\Patpass\PatpassByWebpay\Responses\TransactionStatusResponse;
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
-use Transbank\Patpass\Options;
 
 class Transaction
 {
@@ -70,6 +70,7 @@ class Transaction
 
         return new TransactionStatusResponse($response);
     }
+
     /**
      * Get the default options if none are given.
      *
@@ -79,7 +80,8 @@ class Transaction
     {
         return PatpassByWebpay::getOptions();
     }
-    public static  function getDefaultOptions()
+
+    public static function getDefaultOptions()
     {
         return PatpassByWebpay::getDefaultOptions();
     }

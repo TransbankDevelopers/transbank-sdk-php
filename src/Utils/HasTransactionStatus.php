@@ -2,8 +2,6 @@
 
 namespace Transbank\Utils;
 
-use Transbank\Webpay\WebpayPlus\Responses\TransactionStatusResponse;
-
 trait HasTransactionStatus
 {
     public $status;

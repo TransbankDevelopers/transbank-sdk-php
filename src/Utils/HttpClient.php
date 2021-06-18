@@ -30,7 +30,7 @@ class HttpClient implements HttpClientInterface
 
         $baseHeaders = [
             'Content-Type' => 'application/json',
-            'User-Agent'   => 'SDK-PHP/' . $installedVersion,
+            'User-Agent'   => 'SDK-PHP/'.$installedVersion,
         ];
 
         $givenHeaders = isset($options['headers']) ? $options['headers'] : [];
@@ -72,7 +72,7 @@ class HttpClient implements HttpClientInterface
     /**
      * @param $method
      * @param $url
-     * @param array $headers
+     * @param array       $headers
      * @param string|null $payload
      *
      * @throws \GuzzleHttp\Exception\GuzzleException

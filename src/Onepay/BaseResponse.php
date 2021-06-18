@@ -10,6 +10,7 @@ class BaseResponse
 {
     private $responseCode;
     private $description;
+
     public function __construct()
     {
         $this->responseCode = null;

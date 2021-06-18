@@ -9,7 +9,6 @@ use Transbank\Webpay\Options;
  */
 trait ConfiguresEnvironment
 {
-
     /**
      * @param $commerceCode
      * @param string $apiKey
