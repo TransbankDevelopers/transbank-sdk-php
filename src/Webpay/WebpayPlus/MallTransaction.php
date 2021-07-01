@@ -204,7 +204,7 @@ class MallTransaction
     /**
      * Get the default options if none are given.
      *
-     * @return Options
+     * @return Options|null
      */
     public static function getGlobalOptions()
     {

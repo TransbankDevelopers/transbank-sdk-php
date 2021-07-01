@@ -39,7 +39,7 @@ trait InteractsWithWebpayApi
     /**
      * @param $method
      * @param $endpoint
-     * @param array $payload
+     * @param array|null $payload
      *
      * @throws WebpayRequestException
      *

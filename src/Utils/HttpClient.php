@@ -72,8 +72,8 @@ class HttpClient implements HttpClientInterface
     /**
      * @param $method
      * @param $url
-     * @param array $headers
-     * @param array $payload
+     * @param array       $headers
+     * @param string|null $payload
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      *

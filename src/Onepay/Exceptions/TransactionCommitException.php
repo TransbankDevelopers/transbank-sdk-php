@@ -10,8 +10,8 @@ namespace Transbank\Onepay\Exceptions;
  {
      const DEFAULT_MESSAGE = 'Error when commiting Transaction. Please verify the given parameters.';
 
-     public function __construc($message = self::DEFAULT_MESSAGE, $code = 0, $previous = null)
+     public function __construct($message = self::DEFAULT_MESSAGE, $code = 0, $previous = null)
      {
-         parent::_construct($message, $code, $previous);
+         parent::__construct($message, $code, $previous);
      }
  }
