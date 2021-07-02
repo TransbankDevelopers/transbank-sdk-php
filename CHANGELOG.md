@@ -6,7 +6,7 @@ y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.ht
 
 ## [2.0.4] - 2021-07-01
 ### Added
-- Se agrega validación al parámetro de los métodos `Webpay/WebpayPlus/Transaction::commit($token)` y `Webpay/WebpayPlus/MallTransaction::commit($token)` para  evitar que lleguen token nulos, vacios o distintos a string, en caso de no cumplir lanza la excepción `InvalidArgumentException`. 
+- Se agrega validación al parámetro de los métodos `Webpay/WebpayPlus/Transaction::commit($token)` y `Webpay/WebpayPlus/MallTransaction::commit($token)` para  evitar que lleguen token nulos, vacíos o distintos a string, en caso de no cumplir lanza la excepción `InvalidArgumentException`. 
 
 ### Fixed
 - Se corrije parametro de redireccion `Webpay/Oneclick/Responses/InscriptionStartResponse::getRedirectUrl()`
