@@ -4,6 +4,21 @@ Todos los cambios notables a este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.0.4] - 2021-07-01
+### Added
+- Se agrega validación al parámetro de los métodos `Webpay/WebpayPlus/Transaction::commit($token)` y `Webpay/WebpayPlus/MallTransaction::commit($token)` para  evitar que lleguen token nulos, vacíos o distintos a string, en caso de no cumplir lanza la excepción `InvalidArgumentException`. 
+
+### Fixed
+- Se corrige parámetro de redirección `Webpay/Oneclick/Responses/InscriptionStartResponse::getRedirectUrl()`
+- Se reordena el código en la clase `Onepay/BaseRequest`, declarando los atributos "$apiKey" y "$appKey"  como privados y se elimina el atributo "$generateOttQrCode" que ya existe en su clase hija `Onepay/BaseResponse`.
+- Se reordena el código de la clase `Onepay/BaseResponse`, declarando los atributos "$responseCode" y "$description" como privados.
+- Se reordena el código de la clase `Onepay/TransactionCreateRequest`, declarando los atributos "$issuedAt" y "$widthHeight" como privados.
+- Se corrige el nombramiento del constructor `TransbankException` y la invocación del constructor del padre.
+- Se corrige la invocación del constructor padre en las clases `Onepay/Exceptions/SignException`, `Onepay/Exceptions/TransactionCommitException`, `Onepay/Exceptions/TransactionCreateException`.
+- Se elimina la coma sobrante en los arrays y se corrige el uso de la función `join` en el tratamiento de errores de la clase `Onepay/OnepayBase`.
+- Se corrige comentarios en la clase `Utils/HasTransactionStatus` 
+- Se corrige el trait ConfiguresEnvironment 
+
 ## [2.0.3] - 2021-05-10
 - Se arreglan URL de Transacción Completa con un `/` extra.
 
