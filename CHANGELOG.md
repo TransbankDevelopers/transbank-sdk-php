@@ -17,7 +17,7 @@ y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.ht
 - Se corrige la invocación del constructor padre en las clases `Onepay/Exceptions/SignException`, `Onepay/Exceptions/TransactionCommitException`, `Onepay/Exceptions/TransactionCreateException`.
 - Se elimina la coma sobrante en los arryas y se corrije el uso de la funcion `join` en el tratamiento de errores de la clase `Onepay/OnepayBase`.
 - Se corrije comentarios en la clase `Utils/HasTransactionStatus` 
-- Se corrije el trait ConfiguresEnvironment 
+- Se corrige el trait ConfiguresEnvironment 
 
 ## [2.0.3] - 2021-05-10
 - Se arreglan URL de Transacción Completa con un `/` extra.
