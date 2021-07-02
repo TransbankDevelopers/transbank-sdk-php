@@ -14,7 +14,7 @@ y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.ht
 - Se reordena el codigo de la clase `Onepay/BaseResponse`, declarando los atributos "$responseCode" y "$description" como privados.
 - Se reordena el codigo de la clase `Onepay/TransactionCreateRequest`, declarando los atributos "$issuedAt" y "$widthHeight" como privados.
 - Se corrije el nombramiento del constructor `TransbankException` y la invocacion del constructor del padre.
-- Se corrije la invocacion del constructor padre en las clases `Onepay/Exceptions/SignException`, `Onepay/Exceptions/TransactionCommitException`, `Onepay/Exceptions/TransactionCreateException`.
+- Se corrige la invocación del constructor padre en las clases `Onepay/Exceptions/SignException`, `Onepay/Exceptions/TransactionCommitException`, `Onepay/Exceptions/TransactionCreateException`.
 - Se elimina la coma sobrante en los arryas y se corrije el uso de la funcion `join` en el tratamiento de errores de la clase `Onepay/OnepayBase`.
 - Se corrije comentarios en la clase `Utils/HasTransactionStatus` 
 - Se corrije el trait ConfiguresEnvironment 
