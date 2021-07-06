@@ -89,7 +89,7 @@ class MallInscription
             $this->sendRequest(
                 'DELETE',
                 static::INSCRIPTION_DELETE_ENDPOINT,
-                $payload,
+                $payload
             );
         } catch (WebpayRequestException $e) {
             if ($e->getHttpCode() !== 204) {
