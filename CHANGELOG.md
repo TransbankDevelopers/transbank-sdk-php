@@ -6,7 +6,7 @@ y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.ht
 
 ## [2.0.5] - 2021-07-06
 ### Fixed
-- Se arregla _trailing comma_ al final de un método de Oneclick que provocaba problemas de compatibilidad con PHP 7.0 [(PR #216)](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/216) 
+- Se arregla _trailing comma_ al final de un método de Oneclick que provocaba problemas de compatibilidad con PHP 7.0 [PR #216](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/216) 
 
 ## [2.0.4] - 2021-07-01
 ### Added
