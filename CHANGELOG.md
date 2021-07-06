@@ -4,6 +4,10 @@ Todos los cambios notables a este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.0.5] - 2021-07-06
+### Fixed
+- Se arregla _trailing comma_ al final de un método de Oneclick que provocaba problemas de compatibilidad con PHP 7.0 [(PR #216)](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/216) 
+
 ## [2.0.4] - 2021-07-01
 ### Added
 - Se agrega validación al parámetro de los métodos `Webpay/WebpayPlus/Transaction::commit($token)` y `Webpay/WebpayPlus/MallTransaction::commit($token)` para  evitar que lleguen token nulos, vacíos o distintos a string, en caso de no cumplir lanza la excepción `InvalidArgumentException`. 
