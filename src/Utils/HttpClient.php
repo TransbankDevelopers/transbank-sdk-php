@@ -25,7 +25,10 @@ class HttpClient implements HttpClientInterface
         $installedVersion = 'unknown';
 
         if (class_exists('\Composer\InstalledVersions')) {
-            $installedVersion = InstalledVersions::getVersion('transbank/transbank-sdk');
+            try {
+                $installedVersion = InstalledVersions::getVersion('transbank/transbank-sdk');
+            } catch (\Exception $e) {
+            }
         }
 
         $baseHeaders = [
