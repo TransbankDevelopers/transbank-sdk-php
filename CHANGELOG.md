@@ -4,6 +4,10 @@ Todos los cambios notables a este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.0.6] - 2021-07-12
+### Fixed
+- Si no se puede obtener la versión instalada del paquete a través de composer, el proceso ya no lanza una excepción. [PR #218](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/218)
+
 ## [2.0.5] - 2021-07-06
 ### Fixed
 - Se arregla _trailing comma_ al final de un método de Oneclick que provocaba problemas de compatibilidad con PHP 7.0 [PR #216](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/216) 
