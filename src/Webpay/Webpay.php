@@ -38,29 +38,23 @@ class Webpay
             }
         }
 
-        return "-----BEGIN CERTIFICATE-----\n".
-            "MIIEDzCCAvegAwIBAgIJAMaH4DFTKdnJMA0GCSqGSIb3DQEBCwUAMIGdMQswCQYD\n".
-            "VQQGEwJDTDERMA8GA1UECAwIU2FudGlhZ28xETAPBgNVBAcMCFNhbnRpYWdvMRcw\n".
-            "FQYDVQQKDA5UUkFOU0JBTksgUy5BLjESMBAGA1UECwwJU2VndXJpZGFkMQswCQYD\n".
-            "VQQDDAIyMDEuMCwGCSqGSIb3DQEJARYfc2VndXJpZGFkb3BlcmF0aXZhQHRyYW5z\n".
-            "YmFuay5jbDAeFw0xODA4MjQxOTU2MDlaFw0yMTA4MjMxOTU2MDlaMIGdMQswCQYD\n".
-            "VQQGEwJDTDERMA8GA1UECAwIU2FudGlhZ28xETAPBgNVBAcMCFNhbnRpYWdvMRcw\n".
-            "FQYDVQQKDA5UUkFOU0JBTksgUy5BLjESMBAGA1UECwwJU2VndXJpZGFkMQswCQYD\n".
-            "VQQDDAIyMDEuMCwGCSqGSIb3DQEJARYfc2VndXJpZGFkb3BlcmF0aXZhQHRyYW5z\n".
-            "YmFuay5jbDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJN+OJgQQqMb\n".
-            "iRZDb3x+JoTfSjyYsRc5k2CWvLpTPFxXuhDyp6mbdIpWIiNYEC4vufVZo5A3THar\n".
-            "cbnJRlW/4NVv5QM3gHN9WJ4QeIsrTLtvcIPlfUJNPLNeDqy84zum2YqAFmX5LWsp\n".
-            "SF1Ls6n7el8KNJAceaU+2ooN8QZdFZ3RnMc2vrHY7EU6wYGmf/VCEaDZCKqY6ElY\n".
-            "mt6/9b2lkhpQLdBn01IqqFpGrD+5DLmYrQur4/1BDVtdNLggX0K7kPk/mkPDq4ME\n".
-            "ytkc9/RI5HfJWoQ4EDQF6qcqPqxlMFDf5KEaoLVL230EdwOl0UyvlF25S9ubRyHy\n".
-            "mKWIEFSSXe0CAwEAAaNQME4wHQYDVR0OBBYEFP3nYSPX3YKF11RArC09hxjEMMBv\n".
-            "MB8GA1UdIwQYMBaAFP3nYSPX3YKF11RArC09hxjEMMBvMAwGA1UdEwQFMAMBAf8w\n".
-            "DQYJKoZIhvcNAQELBQADggEBAFHqOPGeg5IpeKz9LviiBGsJDReGVkQECXHp1QP4\n".
-            "8RpWDdXBKQqKUi7As97wmVksweaasnGlgL4YHShtJVPFbYG9COB+ElAaaiOoELsy\n".
-            "kjF3tyb0EgZ0Z3QIKabwxsxdBXmVyHjd13w6XGheca9QFane4GaqVhPVJJIH/zD2\n".
-            "mSc1boVSpaRc1f0oiMtiZf/rcY1/IyMXA9RVxtOtNs87Wjnwq6AiMjB15fLHfT7d\n".
-            "R48O6P0ZpWLlZwScyqDWcsg/4wNCL5Kaa5VgM03SKM6XoWTzkT7p0t0FPZVoGCyG\n".
-            "MX5lzVXafBH/sPd545fBH2J3xAY3jtP764G4M8JayOFzGB0=\n".
+        return "-----BEGIN CERTIFICATE-----\n" .
+            "MIIC8jCCAdoCCQDZgAhqEGGRFjANBgkqhkiG9w0BAQsFADA7MQswCQYDVQQGEwJD\n" .
+            "TDERMA8GA1UEBwwIU0FOVElBR08xDDAKBgNVBAoMA1RCSzELMAkGA1UEAwwCMjAw\n" .
+            "HhcNMjEwODI1MTMyMjE2WhcNMzEwODIzMTMyMjE2WjA7MQswCQYDVQQGEwJDTDER\n" .
+            "MA8GA1UEBwwIU0FOVElBR08xDDAKBgNVBAoMA1RCSzELMAkGA1UEAwwCMjAwggEi\n" .
+            "MA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDTJsqnb+tzqySZikBaqGs9t2qV\n" .
+            "Rg9c8wjPGLPJcHsjk/+K+u8G23CNH+kWyCabI6MXMZ0YdzXP/oiEM1orpCNxuKVN\n" .
+            "nDkdiae4nbGNo54PbZyBH7bmKgjrZovQZq8sVdjXsXqAAeEQ08Ne3RET3w7s+TDZ\n" .
+            "x1ZBe+OJ/HONTMbNDGDSDdjCS/VmZlP6xvNDhphC7R8vyBcEo9m/Q3ZuW9lRa+rR\n" .
+            "5AOvw4RLzwWuJApg03FutQbu2MihnlbxHYuTHsnj0uFT+1Lm2LSqU+WRPnfKH6Gu\n" .
+            "6j1sb9CiYCczPkSFXYGyNMvSSy6D+0Yd67hmELJ1iPR8vV9vSUflveiMOsfHAgMB\n" .
+            "AAEwDQYJKoZIhvcNAQELBQADggEBAGTWW5W4+PDSncJgmxS6kJ5WY8Dtx2k+Hzm2\n" .
+            "J6GsiW8zwuN06Ptw4PbsVlcHcCfBewIMM4YJHuoFh0uMg9C+zPUQQnKHsIUlMCvw\n" .
+            "sz49WH3fgPpolfMScEgEuo7I9IHxBxILXUA6RScDNjFZpkwpntgT/M0CX0bZt8lA\n" .
+            "L6SbCGqMu4KhaS+I9oVc9TLMaYZdMnpRBMYx7FyxTWvwfp+r1gKm4SRjt3QMO9gI\n" .
+            "CmTrfnWrhCeHQen1atuRWm8Q674DzFMdcdEhbexgZsMJXI8TFdpB+FfFT86POJWo\n" .
+            "a8KTXjkncYkTaOnpMEz+H+xF0fnJ/y9A/A9FgqVhOJIuzPSzBYI=\n" .
             "-----END CERTIFICATE-----\n";
     }
 
