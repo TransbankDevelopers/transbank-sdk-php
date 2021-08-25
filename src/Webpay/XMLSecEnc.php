@@ -226,7 +226,6 @@ class XMLSecEnc
                 $dataRef->setAttribute('URI', '#'.$refuri);
             }
         }
-
     }
 
     public function decryptKey($encKey)
