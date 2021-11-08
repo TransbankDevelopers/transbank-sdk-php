@@ -33,7 +33,7 @@ class HttpClient implements HttpClientInterface
 
         $baseHeaders = [
             'Content-Type' => 'application/json',
-            'User-Agent'   => 'SDK-PHP/'.$installedVersion,
+            'User-Agent'   => 'SDK-PHP/' . $installedVersion,
         ];
 
         $givenHeaders = isset($options['headers']) ? $options['headers'] : [];
@@ -66,10 +66,12 @@ class HttpClient implements HttpClientInterface
     {
         $client = new Client();
 
-        return $client->request($method, $url, [
+        $request = $client->createRequest($method, $url, [
             'headers' => $headers,
             'body'    => $payload,
         ]);
+
+        return $client->send($request);
     }
 
     /**
