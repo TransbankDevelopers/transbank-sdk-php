@@ -66,10 +66,12 @@ class HttpClient implements HttpClientInterface
     {
         $client = new Client();
 
-        return $client->request($method, $url, [
+        $request = $client->createRequest($method, $url, [
             'headers' => $headers,
             'body'    => $payload,
         ]);
+
+        return $client->send($request);
     }
 
     /**
