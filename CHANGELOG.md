@@ -4,6 +4,10 @@ Todos los cambios notables a este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.0.7] - 2021-11-09
+### Fixed
+- Se arreglan llamadas a Guzzle en versión 5. [PR #222](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/222)
+
 ## [2.0.6] - 2021-07-12
 ### Fixed
 - Si no se puede obtener la versión instalada del paquete a través de composer, el proceso ya no lanza una excepción. [PR #218](https://github.com/TransbankDevelopers/transbank-sdk-php/pull/218)
