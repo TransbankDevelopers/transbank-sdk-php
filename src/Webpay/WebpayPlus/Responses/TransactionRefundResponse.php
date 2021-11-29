@@ -48,7 +48,7 @@ class TransactionRefundResponse
 
     public function success()
     {
-        if ($this->getType() === static::TYPE_REVERSED ||
+        return ($this->getType() === static::TYPE_REVERSED ||
             ($this->getType() === self::TYPE_NULLIFY && $this->getResponseCode() === 0));
     }
 
