@@ -5,7 +5,7 @@ namespace Transbank\Webpay\WebpayPlus\Responses;
 class TransactionRefundResponse
 {
     const TYPE_REVERSED = 'REVERSED';
-    const TYPE_NULLIFY = 'NULLIFY';
+    const TYPE_NULLIFY = 'NULLIFIED';
     /**
      * @var mixed|null
      */
