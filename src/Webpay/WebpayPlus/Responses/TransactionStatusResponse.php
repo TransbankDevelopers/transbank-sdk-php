@@ -24,8 +24,12 @@ class TransactionStatusResponse
      */
     public function isApproved()
     {
-        return $this->getResponseCode() === ResponseCodesEnum::RESPONSE_CODE_APPROVED &&
-            $this->getStatus() !== TransactionStatusEnum::STATUS_FAILED;
+        if ($this->getResponseCode() !== ResponseCodesEnum::RESPONSE_CODE_APPROVED) {
+            return false;
+        }
+        
+        // Check the status is always not-null and is not a failure status.
+        return null !== $this->getStatus() && $this->getStatus() !== TransactionStatusEnum::STATUS_FAILED;
     }
 
     /**
