@@ -92,7 +92,7 @@ trait HasTransactionStatus
      */
     public function getResponseCode()
     {
-        return (int) $this->responseCode;
+        return $this->responseCode;
     }
 
     /**
