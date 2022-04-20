@@ -197,6 +197,29 @@ class WebpayPlusTransactionTest extends TestCase
     }
 
     /** @test */
+    public function it_commits_a_transaction_with_response_null()
+    {
+        $this->setBaseMocks();
+
+        $tokenMock = uniqid();
+
+        $expectedUrl = str_replace(
+            '{token}',
+            $tokenMock,
+            Transaction::ENDPOINT_COMMIT
+        );
+
+        $this->requestServiceMock->method('request')
+            ->with('PUT', $expectedUrl, null)
+            ->willReturn(null);
+
+        $transaction = new Transaction($this->optionsMock, $this->requestServiceMock);
+        $response = $transaction->commit($tokenMock);
+        $this->assertInstanceOf(TransactionCommitResponse::class, $response);
+        $this->assertSame($response->isApproved(), false);
+    }
+
+    /** @test */
     public function it_returns_the_default_options()
     {
         $options = Transaction::getDefaultOptions();
