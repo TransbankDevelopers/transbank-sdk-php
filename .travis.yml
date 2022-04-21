@@ -11,8 +11,7 @@ script: "./sdktest.sh"
 deploy:
   provider: releases
   name: "$TRAVIS_TAG"
-  api_key:
-    secure: $GITHUB_TOKEN
+  api_key: $GITHUB_TOKEN
   skip_cleanup: true
   on:
     repo: TransbankDevelopers/transbank-sdk-php
