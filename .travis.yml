@@ -12,7 +12,7 @@ deploy:
   provider: releases
   name: "$TRAVIS_TAG"
   api_key:
-    secure: kwsEZ8iFhSzF2Bmk+wA5mjf9UGQ24U5yonZgWwmT05JuxM5JbeKVVEGfrbdfrT4qqksh3LamDvhbnug8qT1EWCOfXdPiYJj16fJR9HJpx7iUwjp+rulGpusfLrZoFu1gyXXMGfsmlTSdYn4jDN22wQgAZtiGD1L/nLHlTSM6fWPAThtF3ySLdqAbNGzIDYxTP+XI/PI91/DaM+EH88eww6bKVTOShGXHbVDu57BHo20RWEpN2KRjDPt/7QvvMUF5YzNNYlZb0WK61vZKwdKPD3f8+ZcqA9g4N6xodnpNbc/h/toh8CeayWNGOwV3pSmVabBiFi0MNoSgTtCFACBdvWpV8AwLOv6+zLyo2rIYJ7AWoDrtRZXqSZ+Qmk7HLoWNWMtH9MMyXuVzJkrWFauKtE7aX5B75xTWpZVQZSUk2lxesz9zmyZ1eViEfBzegAFbMFOK/P7J6bZFOhYEqCGP0+GGQOh8+pvolyEM+U0GHl6VOOgJ8s7XpBdVLw4urfzOUyqeh7lW+MJDDba9SKGO7j9PRyMILPT3K+0Oqtset3ByQZG5VHQlp1V5SxeiAtsF8aLZMmvTFQQMHG97t/FJ72teS2+3OeQ4m4GknA+c1MYcnGb20fLABC6SbWEnBhQcre8o+imyavuAQkHq/Hn7MU19wF7CGmb3pFTJuhGRRvI=
+    secure: $GITHUB_TOKEN
   skip_cleanup: true
   on:
     repo: TransbankDevelopers/transbank-sdk-php
