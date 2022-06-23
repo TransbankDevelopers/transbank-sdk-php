@@ -4,6 +4,10 @@ Todos los cambios notables a este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.10.0] - 2022-06-23
+### Changed
+- Se actualiza por seguridad las versiones minimas de la libreria 'guzzle' hacia '^5.3.1|^6.5.8|^7.4.5'
+
 ## [2.0.9] - 2022-04-20
 ### Fixed
 - Se arregla retorno de método isApproved cuando la respuesta de la API es null
