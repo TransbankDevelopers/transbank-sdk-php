@@ -3,7 +3,15 @@
 namespace Transbank\Webpay\WebpayPlus;
 
 use GuzzleHttp\Exception\GuzzleException;
+use Transbank\Common\Responses\DeferredCaptureHistoryResponse;
+use Transbank\Common\Responses\IncreaseAmountResponse;
+use Transbank\Common\Responses\IncreaseAuthorizationDateResponse;
+use Transbank\Common\Responses\ReversePreAuthorizedAmountResponse;
 use Transbank\Utils\InteractsWithWebpayApi;
+use Transbank\Webpay\Exceptions\DeferredCaptureHistoryException;
+use Transbank\Webpay\Exceptions\IncreaseAmountException;
+use Transbank\Webpay\Exceptions\IncreaseAuthorizationDateException;
+use Transbank\Webpay\Exceptions\ReversePreAuthorizedAmountException;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
 use Transbank\Webpay\WebpayPlus;
@@ -25,11 +33,15 @@ class Transaction
 {
     use InteractsWithWebpayApi;
 
-    const ENDPOINT_CREATE = 'rswebpaytransaction/api/webpay/v1.2/transactions';
-    const ENDPOINT_COMMIT = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
-    const ENDPOINT_REFUND = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
-    const ENDPOINT_STATUS = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
-    const ENDPOINT_CAPTURE = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/capture';
+    const ENDPOINT_CREATE = 'rswebpaytransaction/api/webpay/v1.3/transactions';
+    const ENDPOINT_COMMIT = 'rswebpaytransaction/api/webpay/v1.3/transactions/{token}';
+    const ENDPOINT_REFUND = 'rswebpaytransaction/api/webpay/v1.3/transactions/{token}/refunds';
+    const ENDPOINT_STATUS = 'rswebpaytransaction/api/webpay/v1.3/transactions/{token}';
+    const ENDPOINT_CAPTURE = 'rswebpaytransaction/api/webpay/v1.3/transactions/{token}/capture';
+    const ENDPOINT_INCREASE_AMOUNT = 'rswebpaytransaction/api/webpay/v1.3/transactions/{token}/amount';
+    const ENDPOINT_INCREASE_AUTHORIZATION_DATE = 'rswebpaytransaction/api/webpay/v1.3/transactions/{token}/authorization_date';
+    const ENDPOINT_REVERSE_PRE_AUTHORIZE_AMOUNT = 'rswebpaytransaction/api/webpay/v1.3/transactions/{token}/reverse/amount';
+    const ENDPOINT_DEFERRED_CAPTURE_HISTORY = 'rswebpaytransaction/api/webpay/v1.3/transactions/{token}/details';
 
     /**
      * @param string $buyOrder
@@ -167,6 +179,136 @@ class Transaction
         }
 
         return new TransactionCaptureResponse($response);
+    }
+
+    /**
+     * @param $token
+     * @param $buyOrder
+     * @param $authorizationCode
+     * @param $amount
+     * @param $commerceCode
+     *
+     * @throws IncreaseAmountException
+     * @throws GuzzleException
+     *
+     * @return IncreaseAmountResponse
+     */
+    public function increaseAmount($token, $buyOrder, $authorizationCode, $amount, $commerceCode)
+    {
+        $payload = [
+            'buy_order'          => $buyOrder,
+            'authorization_code' => $authorizationCode,
+            'capture_amount'     => $amount,
+            'commerce_code'      => $commerceCode,
+        ];
+
+        try {
+            $response = $this->sendRequest(
+                'PUT',
+                str_replace('{token}', $token, static::ENDPOINT_INCREASE_AMOUNT),
+                $payload
+            );
+        } catch (WebpayRequestException $e) {
+            throw IncreaseAmountException::raise($e);
+        }
+
+        return new IncreaseAmountResponse($response);
+    }
+
+    /**
+     * @param $token
+     * @param $buyOrder
+     * @param $authorizationCode
+     * @param $commerceCode
+     *
+     * @throws IncreaseAuthorizationDateException
+     * @throws GuzzleException
+     *
+     * @return IncreaseAuthorizationDateResponse
+     */
+    public function increaseAuthorizationDate($token, $buyOrder, $authorizationCode, $commerceCode)
+    {
+        $payload = [
+            'buy_order'          => $buyOrder,
+            'authorization_code' => $authorizationCode,
+            'commerce_code'      => $commerceCode,
+        ];
+
+        try {
+            $response = $this->sendRequest(
+                'PUT',
+                str_replace('{token}', $token, static::ENDPOINT_INCREASE_AUTHORIZATION_DATE),
+                $payload
+            );
+        } catch (WebpayRequestException $e) {
+            throw IncreaseAuthorizationDateException::raise($e);
+        }
+
+        return new IncreaseAuthorizationDateResponse($response);
+    }
+
+    /**
+     * @param $token
+     * @param $buyOrder
+     * @param $authorizationCode
+     * @param $amount
+     * @param $commerceCode
+     *
+     * @throws ReversePreAuthorizedAmountException
+     * @throws GuzzleException
+     *
+     * @return ReversePreAuthorizedAmountResponse
+     */
+    public function reversePreAuthorizedAmount($token, $buyOrder, $authorizationCode, $amount, $commerceCode)
+    {
+        $payload = [
+            'buy_order'          => $buyOrder,
+            'authorization_code' => $authorizationCode,
+            'amount'             => $amount,
+            'commerce_code'      => $commerceCode,
+        ];
+
+        try {
+            $response = $this->sendRequest(
+                'PUT',
+                str_replace('{token}', $token, static::ENDPOINT_REVERSE_PRE_AUTHORIZE_AMOUNT),
+                $payload
+            );
+        } catch (WebpayRequestException $e) {
+            throw ReversePreAuthorizedAmountException::raise($e);
+        }
+
+        return new ReversePreAuthorizedAmountResponse($response);
+    }
+
+    /**
+     * @param $token
+     * @param $buyOrder
+     * @param $commerceCode
+     *
+     * @throws DeferredCaptureHistoryException
+     * @throws GuzzleException
+     *
+     * @return DeferredCaptureHistoryResponse
+     */
+    public function deferredCaptureHistory($token, $buyOrder, $commerceCode)
+    {
+        $payload = [
+            'buy_order'          => $buyOrder,
+            'commerce_code'      => $commerceCode,
+        ];
+
+        try {
+            $response = $this->sendRequest(
+                'PUT',
+                str_replace('{token}', $token, static::ENDPOINT_DEFERRED_CAPTURE_HISTORY),
+                $payload
+            );
+        } catch (WebpayRequestException $e) {
+            throw DeferredCaptureHistoryException::raise($e);
+        }
+
+        return new DeferredCaptureHistoryResponse($response);
     }
 
     /**
