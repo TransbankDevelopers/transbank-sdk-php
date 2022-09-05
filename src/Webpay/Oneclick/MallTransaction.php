@@ -30,10 +30,10 @@ class MallTransaction
     const TRANSACTION_STATUS_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.3/transactions/{buy_order}';
     const TRANSACTION_REFUND_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.3/transactions/{buy_order}/refunds';
     const TRANSACTION_CAPTURE_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.3/transactions/capture';
-    const ENDPOINT_INCREASE_AMOUNT = 'rswebpaytransaction/api/webpay/v1.3/transactions/{token}/amount';
-    const ENDPOINT_INCREASE_AUTHORIZATION_DATE = 'rswebpaytransaction/api/webpay/v1.3/transactions/{token}/authorization_date';
-    const ENDPOINT_REVERSE_PRE_AUTHORIZE_AMOUNT = 'rswebpaytransaction/api/webpay/v1.3/transactions/{token}/reverse/amount';
-    const ENDPOINT_DEFERRED_CAPTURE_HISTORY = 'rswebpaytransaction/api/webpay/v1.3/oneclick/{token}/details';
+    const ENDPOINT_INCREASE_AMOUNT = 'rswebpaytransaction/api/oneclick/v1.3/transactions/amount';
+    const ENDPOINT_INCREASE_AUTHORIZATION_DATE = 'rswebpaytransaction/api/oneclick/v1.3/transactions/authorization_date';
+    const ENDPOINT_REVERSE_PRE_AUTHORIZE_AMOUNT = 'rswebpaytransaction/api/oneclick/v1.3/transactions/{token}/reverse/amount';
+    const ENDPOINT_DEFERRED_CAPTURE_HISTORY = '/rswebpaytransaction/api/oneclick/v1.3/transactions/details';
 
     public function authorize(
         $userName,
@@ -120,7 +120,6 @@ class MallTransaction
     }
 
     /**
-     * @param $token
      * @param $buyOrder
      * @param $authorizationCode
      * @param $amount
@@ -131,19 +130,19 @@ class MallTransaction
      *
      * @return MallIncreaseAmountResponse
      */
-    public function increaseAmount($token, $buyOrder, $authorizationCode, $amount, $commerceCode)
+    public function increaseAmount($buyOrder, $authorizationCode, $amount, $commerceCode)
     {
         $payload = [
             'buy_order'          => $buyOrder,
             'authorization_code' => $authorizationCode,
-            'capture_amount'     => $amount,
+            'amount'             => $amount,
             'commerce_code'      => $commerceCode,
         ];
 
         try {
             $response = $this->sendRequest(
                 'PUT',
-                str_replace('{token}', $token, static::ENDPOINT_INCREASE_AMOUNT),
+                static::ENDPOINT_INCREASE_AMOUNT,
                 $payload
             );
         } catch (WebpayRequestException $e) {
@@ -164,7 +163,7 @@ class MallTransaction
      *
      * @return MallIncreaseAuthorizationDateResponse
      */
-    public function increaseAuthorizationDate($token, $buyOrder, $authorizationCode, $commerceCode)
+    public function increaseAuthorizationDate($buyOrder, $authorizationCode, $commerceCode)
     {
         $payload = [
             'buy_order'          => $buyOrder,
@@ -175,7 +174,7 @@ class MallTransaction
         try {
             $response = $this->sendRequest(
                 'PUT',
-                str_replace('{token}', $token, static::ENDPOINT_INCREASE_AUTHORIZATION_DATE),
+                static::ENDPOINT_INCREASE_AUTHORIZATION_DATE,
                 $payload
             );
         } catch (WebpayRequestException $e) {
@@ -229,22 +228,24 @@ class MallTransaction
      *
      * @return MallDeferredCaptureHistoryResponse
      */
-    public function deferredCaptureHistory($token, $buyOrder, $commerceCode)
+    public function deferredCaptureHistory($authorizationCode, $buyOrder, $commerceCode)
     {
         $payload = [
+            'authorization_code'  => $authorizationCode,
             'buy_order'          => $buyOrder,
             'commerce_code'      => $commerceCode,
         ];
 
         try {
             $response = $this->sendRequest(
-                'PUT',
-                str_replace('{token}', $token, static::ENDPOINT_DEFERRED_CAPTURE_HISTORY),
+                'POST',
+                static::ENDPOINT_DEFERRED_CAPTURE_HISTORY,
                 $payload
             );
         } catch (WebpayRequestException $e) {
             throw MallDeferredCaptureHistoryException::raise($e);
         }
+        var_dump($response);
 
         return new MallDeferredCaptureHistoryResponse($response);
     }

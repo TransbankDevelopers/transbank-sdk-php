@@ -215,13 +215,13 @@ class MallTransaction
      *
      * @return MallIncreaseAmountResponse
      */
-    public function increaseAmount($token, $buyOrder, $authorizationCode, $amount, $commerceCode)
+    public function increaseAmount($token, $buyOrder, $authorizationCode, $amount, $childCommerceCode)
     {
         $payload = [
             'buy_order'          => $buyOrder,
             'authorization_code' => $authorizationCode,
-            'capture_amount'     => $amount,
-            'commerce_code'      => $commerceCode,
+            'amount'             => $amount,
+            'commerce_code'      => $childCommerceCode,
         ];
 
         try {
@@ -322,7 +322,7 @@ class MallTransaction
 
         try {
             $response = $this->sendRequest(
-                'PUT',
+                'POST',
                 str_replace('{token}', $token, static::ENDPOINT_DEFERRED_CAPTURE_HISTORY),
                 $payload
             );

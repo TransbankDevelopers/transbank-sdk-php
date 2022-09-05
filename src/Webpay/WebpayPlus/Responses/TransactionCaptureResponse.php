@@ -11,7 +11,7 @@ class TransactionCaptureResponse
      *
      * @param mixed $responseJson
      */
-    public $token;
+    //public $token;
     public $authorizationCode;
     public $authorizationDate;
     public $capturedAmount;
@@ -19,7 +19,7 @@ class TransactionCaptureResponse
 
     public function __construct($json)
     {
-        $this->token = isset($json['token']) ? $json['token'] : null;
+        //$this->token = isset($json['token']) ? $json['token'] : null;
         $this->authorizationCode = isset($json['authorization_code']) ? $json['authorization_code'] : null;
         $this->authorizationDate = isset($json['authorization_date']) ? $json['authorization_date'] : null;
         $this->capturedAmount = isset($json['captured_amount']) ? $json['captured_amount'] : null;

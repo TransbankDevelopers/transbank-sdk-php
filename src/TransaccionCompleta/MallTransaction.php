@@ -200,7 +200,7 @@ class MallTransaction
         $payload = [
             'buy_order'          => $buyOrder,
             'authorization_code' => $authorizationCode,
-            'capture_amount'     => $amount,
+            'amount'             => $amount,
             'commerce_code'      => $commerceCode,
         ];
 
@@ -302,10 +302,11 @@ class MallTransaction
 
         try {
             $response = $this->sendRequest(
-                'PUT',
+                'POST',
                 str_replace('{token}', $token, static::ENDPOINT_DEFERRED_CAPTURE_HISTORY),
                 $payload
             );
+            var_dump($response);
         } catch (WebpayRequestException $e) {
             throw MallDeferredCaptureHistoryException::raise($e);
         }

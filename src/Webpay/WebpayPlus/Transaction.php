@@ -198,7 +198,7 @@ class Transaction
         $payload = [
             'buy_order'          => $buyOrder,
             'authorization_code' => $authorizationCode,
-            'capture_amount'     => $amount,
+            'amount'             => $amount,
             'commerce_code'      => $commerceCode,
         ];
 
@@ -291,18 +291,20 @@ class Transaction
      *
      * @return DeferredCaptureHistoryResponse
      */
-    public function deferredCaptureHistory($token, $buyOrder, $commerceCode)
+    public function deferredCaptureHistory($token)
     {
-        $payload = [
-            'buy_order'          => $buyOrder,
-            'commerce_code'      => $commerceCode,
-        ];
+        if (!is_string($token)) {
+            throw new InvalidArgumentException('Token parameter given is not string.');
+        }
+        if (!isset($token) || trim($token) === '') {
+            throw new InvalidArgumentException('Token parameter given is empty.');
+        }
 
         try {
             $response = $this->sendRequest(
-                'PUT',
+                'GET',
                 str_replace('{token}', $token, static::ENDPOINT_DEFERRED_CAPTURE_HISTORY),
-                $payload
+                null
             );
         } catch (WebpayRequestException $e) {
             throw DeferredCaptureHistoryException::raise($e);

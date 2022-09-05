@@ -25,4 +25,39 @@ class MallIncreaseAmountResponse
         $responseCode = Utils::returnValueIfExists($json, 'response_code');
         $this->setResponseCode($responseCode);
     }
+
+    public function setAuthorizationCode($authorizationCode)
+    {
+        $this->authorizationCode = $authorizationCode;
+
+        return $this;
+    }
+
+    public function setAuthorizationDate($authorizationDate)
+    {
+        $this->authorizationDate = $authorizationDate;
+
+        return $this;
+    }
+
+    public function setTotalAmount($totalAmount)
+    {
+        $this->totalAmount = $totalAmount;
+
+        return $this;
+    }
+
+    public function setExpirationDate($expirationDate)
+    {
+        $this->expirationDate = $expirationDate;
+
+        return $this;
+    }
+
+    public function setResponseCode($responseCode)
+    {
+        $this->responseCode = $responseCode;
+
+        return $this;
+    }
 }
