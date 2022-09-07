@@ -11,7 +11,6 @@ class TransactionCaptureResponse
      *
      * @param mixed $responseJson
      */
-    public $token;
     public $authorizationCode;
     public $authorizationDate;
     public $capturedAmount;
@@ -19,7 +18,6 @@ class TransactionCaptureResponse
 
     public function __construct($json)
     {
-        $this->token = isset($json['token']) ? $json['token'] : null;
         $this->authorizationCode = isset($json['authorization_code']) ? $json['authorization_code'] : null;
         $this->authorizationDate = isset($json['authorization_date']) ? $json['authorization_date'] : null;
         $this->capturedAmount = isset($json['captured_amount']) ? $json['captured_amount'] : null;
@@ -29,26 +27,6 @@ class TransactionCaptureResponse
     public function isApproved()
     {
         return $this->responseCode === ResponseCodesEnum::RESPONSE_CODE_APPROVED;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getToken()
-    {
-        return $this->token;
-    }
-
-    /**
-     * @param mixed $token
-     *
-     * @return TransactionCaptureResponse
-     */
-    public function setToken($token)
-    {
-        $this->token = $token;
-
-        return $this;
     }
 
     /**
