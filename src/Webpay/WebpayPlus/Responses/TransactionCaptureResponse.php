@@ -32,26 +32,6 @@ class TransactionCaptureResponse
     /**
      * @return mixed
      */
-    public function getToken()
-    {
-        return $this->token;
-    }
-
-    /**
-     * @param mixed $token
-     *
-     * @return TransactionCaptureResponse
-     */
-    public function setToken($token)
-    {
-        $this->token = $token;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getAuthorizationCode()
     {
         return $this->authorizationCode;

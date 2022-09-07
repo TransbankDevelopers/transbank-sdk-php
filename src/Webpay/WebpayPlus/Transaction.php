@@ -3,10 +3,10 @@
 namespace Transbank\Webpay\WebpayPlus;
 
 use GuzzleHttp\Exception\GuzzleException;
-use Transbank\Common\Responses\DeferredCaptureHistoryResponse;
-use Transbank\Common\Responses\IncreaseAmountResponse;
-use Transbank\Common\Responses\IncreaseAuthorizationDateResponse;
-use Transbank\Common\Responses\ReversePreAuthorizedAmountResponse;
+use Transbank\Webpay\WebpayPlus\Responses\DeferredCaptureHistoryResponse;
+use Transbank\Webpay\WebpayPlus\Responses\IncreaseAmountResponse;
+use Transbank\Webpay\WebpayPlus\Responses\IncreaseAuthorizationDateResponse;
+use Transbank\Webpay\WebpayPlus\Responses\ReversePreAuthorizedAmountResponse;
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\DeferredCaptureHistoryException;
 use Transbank\Webpay\Exceptions\IncreaseAmountException;

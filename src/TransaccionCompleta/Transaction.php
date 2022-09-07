@@ -2,10 +2,10 @@
 
 namespace Transbank\TransaccionCompleta;
 
-use Transbank\Common\Responses\DeferredCaptureHistoryResponse;
-use Transbank\Common\Responses\IncreaseAmountResponse;
-use Transbank\Common\Responses\IncreaseAuthorizationDateResponse;
-use Transbank\Common\Responses\ReversePreAuthorizedAmountResponse;
+use Transbank\TransaccionCompleta\Responses\DeferredCaptureHistoryResponse;
+use Transbank\TransaccionCompleta\Responses\IncreaseAmountResponse;
+use Transbank\TransaccionCompleta\Responses\IncreaseAuthorizationDateResponse;
+use Transbank\TransaccionCompleta\Responses\ReversePreAuthorizedAmountResponse;
 use Transbank\TransaccionCompleta\Exceptions\TransactionCaptureException;
 use Transbank\TransaccionCompleta\Exceptions\TransactionCommitException;
 use Transbank\TransaccionCompleta\Exceptions\TransactionCreateException;

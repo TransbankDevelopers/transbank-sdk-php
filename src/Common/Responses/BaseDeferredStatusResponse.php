@@ -4,7 +4,7 @@ namespace Transbank\Common\Responses;
 
 use Transbank\Utils\Utils;
 
-class ReversePreAuthorizedAmountResponse
+class BaseDeferredStatusResponse
 {
     public $authorizationCode;
     public $authorizationDate;
@@ -60,5 +60,4 @@ class ReversePreAuthorizedAmountResponse
 
         return $this;
     }
-
 }

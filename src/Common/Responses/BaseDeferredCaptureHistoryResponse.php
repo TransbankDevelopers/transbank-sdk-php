@@ -2,7 +2,7 @@
 
 namespace Transbank\Common\Responses;
 
-class MallDeferredCaptureHistoryResponse
+class BaseDeferredCaptureHistoryResponse
 {
     public $operations;
 

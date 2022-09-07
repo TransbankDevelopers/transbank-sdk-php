@@ -2,10 +2,10 @@
 
 namespace Transbank\Webpay\WebpayPlus;
 
-use Transbank\Common\Responses\MallDeferredCaptureHistoryResponse;
-use Transbank\Common\Responses\MallIncreaseAmountResponse;
-use Transbank\Common\Responses\MallIncreaseAuthorizationDateResponse;
-use Transbank\Common\Responses\MallReversePreAuthorizedAmountResponse;
+use Transbank\Webpay\WebpayPlus\Responses\MallDeferredCaptureHistoryResponse;
+use Transbank\Webpay\WebpayPlus\Responses\MallIncreaseAmountResponse;
+use Transbank\Webpay\WebpayPlus\Responses\MallIncreaseAuthorizationDateResponse;
+use Transbank\Webpay\WebpayPlus\Responses\MallReversePreAuthorizedAmountResponse;
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\MallDeferredCaptureHistoryException;
 use Transbank\Webpay\Exceptions\MallIncreaseAmountException;

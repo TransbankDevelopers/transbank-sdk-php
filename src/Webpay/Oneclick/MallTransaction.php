@@ -2,10 +2,10 @@
 
 namespace Transbank\Webpay\Oneclick;
 
-use Transbank\Common\Responses\MallDeferredCaptureHistoryResponse;
-use Transbank\Common\Responses\MallIncreaseAmountResponse;
-use Transbank\Common\Responses\MallIncreaseAuthorizationDateResponse;
-use Transbank\Common\Responses\MallReversePreAuthorizedAmountResponse;
+use Transbank\Webpay\Oneclick\Responses\MallDeferredCaptureHistoryResponse;
+use Transbank\Webpay\Oneclick\Responses\MallIncreaseAmountResponse;
+use Transbank\Webpay\Oneclick\Responses\MallIncreaseAuthorizationDateResponse;
+use Transbank\Webpay\Oneclick\Responses\MallReversePreAuthorizedAmountResponse;
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\MallDeferredCaptureHistoryException;
 use Transbank\Webpay\Exceptions\MallIncreaseAmountException;
@@ -32,7 +32,7 @@ class MallTransaction
     const TRANSACTION_CAPTURE_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.3/transactions/capture';
     const ENDPOINT_INCREASE_AMOUNT = 'rswebpaytransaction/api/oneclick/v1.3/transactions/amount';
     const ENDPOINT_INCREASE_AUTHORIZATION_DATE = 'rswebpaytransaction/api/oneclick/v1.3/transactions/authorization_date';
-    const ENDPOINT_REVERSE_PRE_AUTHORIZE_AMOUNT = 'rswebpaytransaction/api/oneclick/v1.3/transactions/{token}/reverse/amount';
+    const ENDPOINT_REVERSE_PRE_AUTHORIZE_AMOUNT = 'rswebpaytransaction/api/oneclick/v1.3/transactions/reverse/amount';
     const ENDPOINT_DEFERRED_CAPTURE_HISTORY = '/rswebpaytransaction/api/oneclick/v1.3/transactions/details';
 
     public function authorize(
@@ -196,7 +196,7 @@ class MallTransaction
      *
      * @return MallReversePreAuthorizedAmountResponse
      */
-    public function reversePreAuthorizedAmount($token, $buyOrder, $authorizationCode, $amount, $commerceCode)
+    public function reversePreAuthorizedAmount($buyOrder, $authorizationCode, $amount, $commerceCode)
     {
         $payload = [
             'buy_order'          => $buyOrder,
@@ -208,7 +208,7 @@ class MallTransaction
         try {
             $response = $this->sendRequest(
                 'PUT',
-                str_replace('{token}', $token, static::ENDPOINT_REVERSE_PRE_AUTHORIZE_AMOUNT),
+                static::ENDPOINT_REVERSE_PRE_AUTHORIZE_AMOUNT,
                 $payload
             );
         } catch (WebpayRequestException $e) {
@@ -245,7 +245,6 @@ class MallTransaction
         } catch (WebpayRequestException $e) {
             throw MallDeferredCaptureHistoryException::raise($e);
         }
-        var_dump($response);
 
         return new MallDeferredCaptureHistoryResponse($response);
     }

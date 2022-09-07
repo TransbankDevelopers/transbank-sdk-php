@@ -16,6 +16,7 @@ class TransactionDetail
     public $installmentsAmount;
     public $commerceCode;
     public $buyOrder;
+    public $captureExpirationDate;
 
     /**
      * TransactionDetail constructor.
@@ -28,6 +29,7 @@ class TransactionDetail
      * @param $installmentsNumber
      * @param $commerceCode
      * @param $buyOrder
+     * @param $captureExpirationDate
      */
     public function __construct(
         $amount,
@@ -38,7 +40,8 @@ class TransactionDetail
         $installmentsNumber,
         $installmentsAmount,
         $commerceCode,
-        $buyOrder
+        $buyOrder,
+        $captureExpirationDate
     ) {
         $this->amount = $amount;
         $this->status = $status;
@@ -49,6 +52,10 @@ class TransactionDetail
         $this->installmentsAmount = $installmentsAmount;
         $this->commerceCode = $commerceCode;
         $this->buyOrder = $buyOrder;
+        $this->captureExpirationDate = $captureExpirationDate;
+        if (is_null($captureExpirationDate)) {
+            unset($this->captureExpirationDate);
+        }
     }
 
     public static function createFromArray(array $array)
@@ -62,9 +69,10 @@ class TransactionDetail
         $installmentsAmount = isset($array['installments_amount']) ? $array['installments_amount'] : null;
         $commerceCode = isset($array['commerce_code']) ? $array['commerce_code'] : null;
         $buyOrder = isset($array['buy_order']) ? $array['buy_order'] : null;
+        $captureExpirationDate = isset($array['capture_expiration_date']) ? $array['capture_expiration_date'] : null;
 
         return new static($amount, $status, $authorizationCode, $paymentTypeCode, $responseCode, $installmentsNumber,
-            $installmentsAmount, $commerceCode, $buyOrder);
+            $installmentsAmount, $commerceCode, $buyOrder, $captureExpirationDate);
     }
 
     public function isApproved()
