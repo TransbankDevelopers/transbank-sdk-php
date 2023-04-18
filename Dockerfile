@@ -1,4 +1,4 @@
-FROM php:8-apache-buster
+FROM php:8-fpm
 RUN apt-get update && apt-get install -y zip unzip libxml2-dev libzip-dev
 RUN mkdir -p /sdk
 WORKDIR /sdk
