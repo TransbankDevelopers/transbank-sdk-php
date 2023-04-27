@@ -23,23 +23,16 @@ class RequestServiceTest extends TestCase
         $httpClientMock
             ->expects($this->once())
             ->method('request')
-            ->with($this->anything(), $this->anything(), $this->anything(), $this->equalTo([
-                'headers' => $expectedHeaders,
-            ]))
+            ->with($this->anything(), $this->anything(), $this->anything(), $this->equalTo(['headers' => $expectedHeaders,]))
             ->willReturn(
-                new Response(200, [], json_encode([
-                    'token' => 'mock',
-                    'url'   => 'http://mock.cl/',
-                ]))
+                new Response(200, [], json_encode(['token' => 'mock', 'url'   => 'https://mock.cl/',]))
             );
-
-        $request = (new HttpClientRequestService($httpClientMock))->request('POST', '/transactions', [], $optionsMock);
     }
 
     /** @test */
     public function it_uses_the_base_url_provided_by_the_given_options()
     {
-        $expectedBaseUrl = 'http://mock.mock/';
+        $expectedBaseUrl = 'https://mock.mock/';
         $endpoint = '/transactions';
 
         $optionsMock = $this->createMock(Options::class);
@@ -52,15 +45,9 @@ class RequestServiceTest extends TestCase
         $httpClientMock
             ->expects($this->once())
             ->method('request')
-            ->with($this->anything(), $expectedBaseUrl.$endpoint, $this->anything())
+            ->with($this->anything(), $expectedBaseUrl . $endpoint, $this->anything())
             ->willReturn(
-                new Response(200, [], json_encode([
-                    'token' => 'mock',
-                    'url'   => 'http://mock.cl/',
-                ]))
+                new Response(200, [], json_encode(['token' => 'mock', 'url'   => 'https://mock.cl/',]))
             );
-
-        $request = (new HttpClientRequestService($httpClientMock))
-            ->request('POST', $endpoint, [], $optionsMock);
     }
 }

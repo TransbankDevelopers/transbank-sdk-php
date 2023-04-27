@@ -9,9 +9,9 @@ class OptionsTest extends TestCase
     public function it_assign_contructor_params_to_their_corresponding_properties()
     {
         $options = new Options('a', 'b', 'c');
-        $this->assertSame($options->getApiKey(), 'a');
-        $this->assertSame($options->getCommerceCode(), 'b');
-        $this->assertSame($options->getIntegrationType(), 'c');
+        $this->assertSame('a', $options->getApiKey());
+        $this->assertSame('b', $options->getCommerceCode());
+        $this->assertSame('c', $options->getIntegrationType());
     }
 
     /** @test */
