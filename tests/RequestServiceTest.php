@@ -27,6 +27,7 @@ class RequestServiceTest extends TestCase
             ->willReturn(
                 new Response(200, [], json_encode(['token' => 'mock', 'url'   => 'https://mock.cl/',]))
             );
+        (new HttpClientRequestService($httpClientMock))->request('POST', '/transactions', [], $optionsMock);
     }
 
     /** @test */
@@ -49,5 +50,6 @@ class RequestServiceTest extends TestCase
             ->willReturn(
                 new Response(200, [], json_encode(['token' => 'mock', 'url'   => 'https://mock.cl/',]))
             );
+        (new HttpClientRequestService($httpClientMock))->request('POST', $endpoint, [], $optionsMock);
     }
 }

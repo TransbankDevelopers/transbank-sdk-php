@@ -30,6 +30,7 @@ class TransbankWebpayModalTest extends \PHPUnit\Framework\TestCase
     public function it_fails_when_creates_a_modal_transaction_with_invalid_data()
     {
         $this->expectException(TransactionCreateException::class);
+        (new Transaction())->create('hola', '');
     }
 
     /** @test */
@@ -46,6 +47,7 @@ class TransbankWebpayModalTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(TransactionCreateException::class, 'Not Authorized');
         $transaction = new Transaction(Options::forIntegration('commerceCode', 'fakeApiKey'));
+        $transaction->create(1500, 'BuyOrder1', 'Session2312');
     }
 
     /** @test */
