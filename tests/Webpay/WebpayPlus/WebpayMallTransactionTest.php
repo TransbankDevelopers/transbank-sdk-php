@@ -65,10 +65,10 @@ class WebpayMallTransactionTest extends TestCase
     protected function setUp(): void
     {
         $this->amount = 1000;
-        $this->sessionId = 'some_session_id_'.uniqid();
+        $this->sessionId = 'some_session_id_' . uniqid();
         $this->buyOrder = '123999555';
         $this->returnUrl = 'https://comercio.cl/callbacks/transaccion_finalizada';
-        $this->mockBaseUrl = 'http://mockurl.cl';
+        $this->mockBaseUrl = 'https://mockurl.cl';
     }
 
     /** @test */
@@ -132,7 +132,7 @@ class WebpayMallTransactionTest extends TestCase
             ->willReturn(
                 [
                     'token' => $tokenMock,
-                    'url'   => 'http://mock.cl/',
+                    'url'   => 'https://mock.cl/',
                 ]
             );
 
@@ -140,7 +140,7 @@ class WebpayMallTransactionTest extends TestCase
         $response = $transaction->create($this->buyOrder, $this->sessionId, $this->returnUrl, $details);
         $this->assertInstanceOf(MallTransactionCreateResponse::class, $response);
         $this->assertEquals($response->getToken(), $tokenMock);
-        $this->assertEquals($response->getUrl(), 'http://mock.cl/');
+        $this->assertEquals('https://mock.cl/', $response->getUrl());
     }
 
     /** @test */
@@ -199,31 +199,31 @@ class WebpayMallTransactionTest extends TestCase
         $secondDetail = $response->getDetails()[1];
         $this->assertNotNull($firstDetail);
         $this->assertNotNull($secondDetail);
-        $this->assertSame($response->getVci(), 'TSY');
-        $this->assertSame($response->getSessionId(), 'session1234564');
-        $this->assertSame($response->getBuyOrder(), 'OrdenCompra36271');
-        $this->assertSame($response->getCardNumber(), '6623');
-        $this->assertSame($response->getCardDetail(), ['card_number' => '6623']);
-        $this->assertSame($response->getAccountingDate(), '0329');
-        $this->assertSame($response->getTransactionDate(), '2021-03-29T04:47:19.885Z');
-        $this->assertSame($firstDetail->getResponseCode(), 0);
-        $this->assertSame($firstDetail->getStatus(), 'AUTHORIZED');
-        $this->assertSame($firstDetail->getAmount(), 1000);
-        $this->assertSame($firstDetail->getAuthorizationCode(), '1213');
-        $this->assertSame($firstDetail->getPaymentTypeCode(), 'VN');
-        $this->assertSame($firstDetail->getInstallmentsNumber(), 0);
-        $this->assertSame($firstDetail->getInstallmentsAmount(), null);
-        $this->assertSame($firstDetail->getCommerceCode(), '597055555536');
-        $this->assertSame($firstDetail->getBuyOrder(), 'OrdenCompraChild_66986_1');
-        $this->assertSame($secondDetail->getResponseCode(), 0);
-        $this->assertSame($secondDetail->getStatus(), 'AUTHORIZED');
-        $this->assertSame($secondDetail->getAmount(), 2000);
-        $this->assertSame($secondDetail->getAuthorizationCode(), '1213');
-        $this->assertSame($secondDetail->getPaymentTypeCode(), 'VN');
-        $this->assertSame($secondDetail->getInstallmentsNumber(), 0);
-        $this->assertSame($secondDetail->getInstallmentsAmount(), null);
-        $this->assertSame($secondDetail->getCommerceCode(), '597055555537');
-        $this->assertSame($secondDetail->getBuyOrder(), 'OrdenCompraChild_66986_2');
+        $this->assertSame('TSY', $response->getVci());
+        $this->assertSame('session1234564', $response->getSessionId());
+        $this->assertSame('OrdenCompra36271', $response->getBuyOrder());
+        $this->assertSame('6623', $response->getCardNumber());
+        $this->assertSame(['card_number' => '6623'], $response->getCardDetail());
+        $this->assertSame('0329', $response->getAccountingDate());
+        $this->assertSame('2021-03-29T04:47:19.885Z', $response->getTransactionDate());
+        $this->assertSame(0, $firstDetail->getResponseCode());
+        $this->assertSame('AUTHORIZED', $firstDetail->getStatus());
+        $this->assertSame(1000, $firstDetail->getAmount());
+        $this->assertSame('1213', $firstDetail->getAuthorizationCode());
+        $this->assertSame('VN', $firstDetail->getPaymentTypeCode());
+        $this->assertSame(0, $firstDetail->getInstallmentsNumber());
+        $this->assertSame(null, $firstDetail->getInstallmentsAmount());
+        $this->assertSame('597055555536', $firstDetail->getCommerceCode());
+        $this->assertSame('OrdenCompraChild_66986_1', $firstDetail->getBuyOrder());
+        $this->assertSame(0, $secondDetail->getResponseCode());
+        $this->assertSame('AUTHORIZED', $secondDetail->getStatus());
+        $this->assertSame(2000, $secondDetail->getAmount());
+        $this->assertSame('1213', $secondDetail->getAuthorizationCode());
+        $this->assertSame('VN', $secondDetail->getPaymentTypeCode());
+        $this->assertSame(0, $secondDetail->getInstallmentsNumber());
+        $this->assertSame(null, $secondDetail->getInstallmentsAmount());
+        $this->assertSame('597055555537', $secondDetail->getCommerceCode());
+        $this->assertSame('OrdenCompraChild_66986_2', $secondDetail->getBuyOrder());
     }
 
     /*

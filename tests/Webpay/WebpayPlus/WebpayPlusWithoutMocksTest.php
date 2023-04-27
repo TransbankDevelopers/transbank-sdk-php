@@ -34,7 +34,7 @@ class WebpayPlusWithoutMocksTest extends TestCase
         $this->sessionId = 'some_session_id_'.uniqid();
         $this->buyOrder = '123999555';
         $this->returnUrl = 'https://comercio.cl/callbacks/transaccion_creada_exitosamente';
-        $this->mockBaseUrl = 'http://mockurl.cl';
+        $this->mockBaseUrl = 'https://mockurl.cl';
     }
 
     /** @test */

@@ -11,7 +11,7 @@ class TransactionCommitRequestMocks
     public static function transactionCreateRequestMocks()
     {
         if (empty(self::$transactionCommitRequestMocks)) {
-            $cart = ShoppingCartMocks::get();
+            ShoppingCartMocks::get();
             $transactionCommitRequest = OnepayRequestBuilder::getInstance()
                 ->buildCommitRequest(
                     '1807419329781765',

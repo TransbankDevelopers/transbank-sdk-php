@@ -67,7 +67,7 @@ class WebpayPlusTransactionTest extends TestCase
         $this->sessionId = 'some_session_id_'.uniqid();
         $this->buyOrder = '123999555';
         $this->returnUrl = 'https://comercio.cl/callbacks/transaccion_finalizada';
-        $this->mockBaseUrl = 'http://mockurl.cl';
+        $this->mockBaseUrl = 'https://mockurl.cl';
     }
 
     /** @test */
@@ -106,7 +106,7 @@ class WebpayPlusTransactionTest extends TestCase
         $requestServiceMock->expects($this->once())->method('request')->willReturn(
             [
                 'token' => 'mock',
-                'url'   => 'http://mock.cl/',
+                'url'   => 'https://mock.cl/',
             ]
         );
 
@@ -135,7 +135,7 @@ class WebpayPlusTransactionTest extends TestCase
             ->willReturn(
                 [
                     'token' => $tokenMock,
-                    'url'   => 'http://mock.cl/',
+                    'url'   => 'https://mock.cl/',
                 ]
             );
 
@@ -143,7 +143,7 @@ class WebpayPlusTransactionTest extends TestCase
         $response = $transaction->create($this->buyOrder, $this->sessionId, $this->amount, $this->returnUrl);
         $this->assertInstanceOf(TransactionCreateResponse::class, $response);
         $this->assertEquals($response->getToken(), $tokenMock);
-        $this->assertEquals($response->getUrl(), 'http://mock.cl/');
+        $this->assertEquals($response->getUrl(), 'https://mock.cl/');
     }
 
     /** @test */

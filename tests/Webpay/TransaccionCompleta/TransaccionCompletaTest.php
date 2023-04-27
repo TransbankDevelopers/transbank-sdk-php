@@ -73,9 +73,9 @@ class TransaccionCompletaTest extends TestCase
     protected function setUp(): void
     {
         $this->amount = 1000;
-        $this->sessionId = 'some_session_id_'.uniqid();
+        $this->sessionId = 'some_session_id_' . uniqid();
         $this->buyOrder = '123999555';
-        $this->mockBaseUrl = 'http://mockurl.cl';
+        $this->mockBaseUrl = 'https://mockurl.cl';
         $this->cvv = '123';
         $this->cardNumber = '4051885600446623';
         $this->cardExpiration = '12/24';
@@ -174,9 +174,9 @@ class TransaccionCompletaTest extends TestCase
         $transaction = new Transaction($this->optionsMock, $this->requestServiceMock);
         $response = $transaction->installments($tokenMock, 2);
         $this->assertInstanceOf(TransactionInstallmentsResponse::class, $response);
-        $this->assertEquals($response->getInstallmentsAmount(), 1000);
-        $this->assertEquals($response->getIdQueryInstallments(), 33189687);
-        $this->assertEquals($response->getDeferredPeriods(), []);
+        $this->assertEquals(1000, $response->getInstallmentsAmount());
+        $this->assertEquals(33189687, $response->getIdQueryInstallments());
+        $this->assertEquals([], $response->getDeferredPeriods());
     }
 
     /** @test */
@@ -214,19 +214,19 @@ class TransaccionCompletaTest extends TestCase
         $transaction = new Transaction($this->optionsMock, $this->requestServiceMock);
         $response = $transaction->commit($tokenMock);
         $this->assertInstanceOf(TransactionCommitResponse::class, $response);
-        $this->assertSame($response->getVci(), null);
-        $this->assertSame($response->getSessionId(), 'sesion1234564');
-        $this->assertSame($response->getStatus(), 'AUTHORIZED');
-        $this->assertSame($response->getAmount(), 10000);
-        $this->assertSame($response->getBuyOrder(), 'OrdenCompra55886');
-        $this->assertSame($response->getCardNumber(), '6623');
-        $this->assertSame($response->getCardDetail(), ['card_number' => '6623']);
-        $this->assertSame($response->getAuthorizationCode(), '1213');
-        $this->assertSame($response->getPaymentTypeCode(), 'NC');
-        $this->assertSame($response->getInstallmentsNumber(), 10);
-        $this->assertSame($response->getInstallmentsAmount(), 1000);
-        $this->assertSame($response->getTransactionDate(), '2021-03-29T06:33:32.954Z');
-        $this->assertSame($response->getAccountingDate(), '0329');
+        $this->assertSame(null, $response->getVci());
+        $this->assertSame('sesion1234564', $response->getSessionId());
+        $this->assertSame('AUTHORIZED', $response->getStatus());
+        $this->assertSame(10000, $response->getAmount());
+        $this->assertSame('OrdenCompra55886', $response->getBuyOrder());
+        $this->assertSame('6623', $response->getCardNumber());
+        $this->assertSame(['card_number' => '6623'], $response->getCardDetail());
+        $this->assertSame('1213', $response->getAuthorizationCode());
+        $this->assertSame('NC', $response->getPaymentTypeCode());
+        $this->assertSame(10, $response->getInstallmentsNumber());
+        $this->assertSame(1000, $response->getInstallmentsAmount());
+        $this->assertSame('2021-03-29T06:33:32.954Z', $response->getTransactionDate());
+        $this->assertSame('0329', $response->getAccountingDate());
     }
 
     /** @test */
@@ -264,19 +264,19 @@ class TransaccionCompletaTest extends TestCase
         $transaction = new Transaction($this->optionsMock, $this->requestServiceMock);
         $response = $transaction->status($tokenMock);
         $this->assertInstanceOf(TransactionStatusResponse::class, $response);
-        $this->assertSame($response->getVci(), null);
-        $this->assertSame($response->getSessionId(), 'sesion1234564');
-        $this->assertSame($response->getStatus(), 'AUTHORIZED');
-        $this->assertSame($response->getAmount(), 10000);
-        $this->assertSame($response->getBuyOrder(), 'OrdenCompra55886');
-        $this->assertSame($response->getCardNumber(), '6623');
-        $this->assertSame($response->getCardDetail(), ['card_number' => '6623']);
-        $this->assertSame($response->getAuthorizationCode(), '1213');
-        $this->assertSame($response->getPaymentTypeCode(), 'NC');
-        $this->assertSame($response->getInstallmentsNumber(), 10);
-        $this->assertSame($response->getInstallmentsAmount(), 1000);
-        $this->assertSame($response->getTransactionDate(), '2021-03-29T06:33:32.954Z');
-        $this->assertSame($response->getAccountingDate(), '0329');
+        $this->assertSame(null, $response->getVci());
+        $this->assertSame('sesion1234564', $response->getSessionId());
+        $this->assertSame('AUTHORIZED', $response->getStatus());
+        $this->assertSame(10000, $response->getAmount());
+        $this->assertSame('OrdenCompra55886', $response->getBuyOrder());
+        $this->assertSame('6623', $response->getCardNumber());
+        $this->assertSame(['card_number' => '6623'], $response->getCardDetail());
+        $this->assertSame('1213', $response->getAuthorizationCode());
+        $this->assertSame('NC', $response->getPaymentTypeCode());
+        $this->assertSame(10, $response->getInstallmentsNumber());
+        $this->assertSame(1000, $response->getInstallmentsAmount());
+        $this->assertSame('2021-03-29T06:33:32.954Z', $response->getTransactionDate());
+        $this->assertSame('0329', $response->getAccountingDate());
     }
 
     /*
