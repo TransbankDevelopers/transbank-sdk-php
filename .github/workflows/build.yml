@@ -1,6 +1,10 @@
 name: Build
 
 on:
+  workflow_dispatch:
+  push:
+    tags:
+      - '*'
   pull_request:
     types:
       - opened
@@ -30,4 +34,3 @@ jobs:
         with:
           args: >
             -Dsonar.branch.name=${{ env.GITHUB_REF_NAME }}
-            
