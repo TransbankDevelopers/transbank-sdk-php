@@ -26,14 +26,10 @@ use Transbank\Webpay\Options;
 class MallTransaction
 {
     use InteractsWithWebpayApi;
-    const AUTHORIZE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.3/transactions';
-    const TRANSACTION_STATUS_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.3/transactions/{buy_order}';
-    const TRANSACTION_REFUND_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.3/transactions/{buy_order}/refunds';
-    const TRANSACTION_CAPTURE_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.3/transactions/capture';
-    const ENDPOINT_INCREASE_AMOUNT = 'rswebpaytransaction/api/oneclick/v1.3/transactions/amount';
-    const ENDPOINT_INCREASE_AUTHORIZATION_DATE = 'rswebpaytransaction/api/oneclick/v1.3/transactions/authorization_date';
-    const ENDPOINT_REVERSE_PRE_AUTHORIZE_AMOUNT = 'rswebpaytransaction/api/oneclick/v1.3/transactions/reverse/amount';
-    const ENDPOINT_DEFERRED_CAPTURE_HISTORY = '/rswebpaytransaction/api/oneclick/v1.3/transactions/details';
+    const AUTHORIZE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/transactions';
+    const TRANSACTION_STATUS_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/transactions/{buy_order}';
+    const TRANSACTION_REFUND_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/transactions/{buy_order}/refunds';
+    const TRANSACTION_CAPTURE_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/transactions/capture';
 
     public function authorize(
         $userName,
