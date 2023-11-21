@@ -27,9 +27,9 @@ class MallInscription
 
     const DEFAULT_API_KEY = Options::DEFAULT_API_KEY;
 
-    const INSCRIPTION_START_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.3/inscriptions';
-    const INSCRIPTION_FINISH_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.3/inscriptions/{token}';
-    const INSCRIPTION_DELETE_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.3/inscriptions';
+    const INSCRIPTION_START_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/inscriptions';
+    const INSCRIPTION_FINISH_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/inscriptions/{token}';
+    const INSCRIPTION_DELETE_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/inscriptions';
 
     /**
      * @param $username

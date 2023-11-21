@@ -26,14 +26,10 @@ use Transbank\Webpay\Options;
 class MallTransaction
 {
     use InteractsWithWebpayApi;
-    const AUTHORIZE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.3/transactions';
-    const TRANSACTION_STATUS_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.3/transactions/{buy_order}';
-    const TRANSACTION_REFUND_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.3/transactions/{buy_order}/refunds';
-    const TRANSACTION_CAPTURE_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.3/transactions/capture';
-    const ENDPOINT_INCREASE_AMOUNT = 'rswebpaytransaction/api/oneclick/v1.3/transactions/amount';
-    const ENDPOINT_INCREASE_AUTHORIZATION_DATE = 'rswebpaytransaction/api/oneclick/v1.3/transactions/authorization_date';
-    const ENDPOINT_REVERSE_PRE_AUTHORIZE_AMOUNT = 'rswebpaytransaction/api/oneclick/v1.3/transactions/reverse/amount';
-    const ENDPOINT_DEFERRED_CAPTURE_HISTORY = '/rswebpaytransaction/api/oneclick/v1.3/transactions/details';
+    const AUTHORIZE_TRANSACTION_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/transactions';
+    const TRANSACTION_STATUS_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/transactions/{buy_order}';
+    const TRANSACTION_REFUND_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/transactions/{buy_order}/refunds';
+    const TRANSACTION_CAPTURE_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/transactions/capture';
 
     public function authorize(
         $userName,
@@ -117,136 +113,6 @@ class MallTransaction
         }
 
         return new MallTransactionRefundResponse($response);
-    }
-
-    /**
-     * @param $buyOrder
-     * @param $authorizationCode
-     * @param $amount
-     * @param $commerceCode
-     *
-     * @throws MallIncreaseAmountException
-     * @throws GuzzleException
-     *
-     * @return MallIncreaseAmountResponse
-     */
-    public function increaseAmount($buyOrder, $authorizationCode, $amount, $commerceCode)
-    {
-        $payload = [
-            'buy_order'          => $buyOrder,
-            'authorization_code' => $authorizationCode,
-            'amount'             => $amount,
-            'commerce_code'      => $commerceCode,
-        ];
-
-        try {
-            $response = $this->sendRequest(
-                'PUT',
-                static::ENDPOINT_INCREASE_AMOUNT,
-                $payload
-            );
-        } catch (WebpayRequestException $e) {
-            throw MallIncreaseAmountException::raise($e);
-        }
-
-        return new MallIncreaseAmountResponse($response);
-    }
-
-    /**
-     * @param $token
-     * @param $buyOrder
-     * @param $authorizationCode
-     * @param $commerceCode
-     *
-     * @throws MallIncreaseAuthorizationDateException
-     * @throws GuzzleException
-     *
-     * @return MallIncreaseAuthorizationDateResponse
-     */
-    public function increaseAuthorizationDate($buyOrder, $authorizationCode, $commerceCode)
-    {
-        $payload = [
-            'buy_order'          => $buyOrder,
-            'authorization_code' => $authorizationCode,
-            'commerce_code'      => $commerceCode,
-        ];
-
-        try {
-            $response = $this->sendRequest(
-                'PUT',
-                static::ENDPOINT_INCREASE_AUTHORIZATION_DATE,
-                $payload
-            );
-        } catch (WebpayRequestException $e) {
-            throw MallIncreaseAuthorizationDateException::raise($e);
-        }
-
-        return new MallIncreaseAuthorizationDateResponse($response);
-    }
-
-    /**
-     * @param $token
-     * @param $buyOrder
-     * @param $authorizationCode
-     * @param $amount
-     * @param $commerceCode
-     *
-     * @throws MallReversePreAuthorizedAmountException
-     * @throws GuzzleException
-     *
-     * @return MallReversePreAuthorizedAmountResponse
-     */
-    public function reversePreAuthorizedAmount($buyOrder, $authorizationCode, $amount, $commerceCode)
-    {
-        $payload = [
-            'buy_order'          => $buyOrder,
-            'authorization_code' => $authorizationCode,
-            'amount'             => $amount,
-            'commerce_code'      => $commerceCode,
-        ];
-
-        try {
-            $response = $this->sendRequest(
-                'PUT',
-                static::ENDPOINT_REVERSE_PRE_AUTHORIZE_AMOUNT,
-                $payload
-            );
-        } catch (WebpayRequestException $e) {
-            throw MallReversePreAuthorizedAmountException::raise($e);
-        }
-
-        return new MallReversePreAuthorizedAmountResponse($response);
-    }
-
-    /**
-     * @param $token
-     * @param $buyOrder
-     * @param $commerceCode
-     *
-     * @throws MallDeferredCaptureHistoryException
-     * @throws GuzzleException
-     *
-     * @return MallDeferredCaptureHistoryResponse
-     */
-    public function deferredCaptureHistory($authorizationCode, $buyOrder, $commerceCode)
-    {
-        $payload = [
-            'authorization_code'  => $authorizationCode,
-            'buy_order'          => $buyOrder,
-            'commerce_code'      => $commerceCode,
-        ];
-
-        try {
-            $response = $this->sendRequest(
-                'POST',
-                static::ENDPOINT_DEFERRED_CAPTURE_HISTORY,
-                $payload
-            );
-        } catch (WebpayRequestException $e) {
-            throw MallDeferredCaptureHistoryException::raise($e);
-        }
-
-        return new MallDeferredCaptureHistoryResponse($response);
     }
 
     public static function getDefaultOptions()
