@@ -18,7 +18,6 @@ trait HasTransactionStatus
     public $cardDetail;
     public $transactionDate;
     public $balance;
-    public $captureExpirationDate;
 
     /**
      * @param mixed $amount
@@ -203,10 +202,7 @@ trait HasTransactionStatus
         $this->installmentsAmount = isset($json['installments_amount']) ? $json['installments_amount'] : null;
         $this->installmentsNumber = isset($json['installments_number']) ? $json['installments_number'] : null;
         $this->balance = isset($json['balance']) ? $json['balance'] : null;
-        $this->captureExpirationDate = isset($json['capture_expiration_date']) ? $json['capture_expiration_date'] : null;
-        if (is_null($this->captureExpirationDate)) {
-            unset($this->captureExpirationDate);
-        }
+
     }
 
     /**
