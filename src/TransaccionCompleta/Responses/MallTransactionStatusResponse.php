@@ -13,7 +13,6 @@ class MallTransactionStatusResponse
 
     public function __construct($json)
     {
-        print_r($json);
         $this->buyOrder = $json['buy_order'] ?? null;
         $this->cardDetail = $json['card_detail'] ?? null;
         $this->cardNumber = $json['card_detail']['card_number'] ?? null;
