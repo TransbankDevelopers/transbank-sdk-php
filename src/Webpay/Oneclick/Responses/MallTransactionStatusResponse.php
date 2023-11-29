@@ -2,6 +2,8 @@
 
 namespace Transbank\Webpay\Oneclick\Responses;
 
+use Transbank\Utils\Utils;
+
 class MallTransactionStatusResponse
 {
     public $buyOrder;
@@ -18,27 +20,15 @@ class MallTransactionStatusResponse
 
     public function __construct($json)
     {
-        $buyOrder = isset($json['buy_order']) ? $json['buy_order'] : null;
-        $this->setBuyOrder($buyOrder);
-
-        $sessionId = isset($json['session_id']) ? $json['session_id'] : null;
-        $this->setSessionId($sessionId);
-
-        $cardNumber = isset($json['card_detail']) ? isset($json['card_detail']['card_number']) ?
-            $json['card_detail']['card_number'] : null : null;
-        $this->setCardNumber($cardNumber);
-
-        $expirationDate = isset($json['expiration_date']) ? $json['expiration_date'] : null;
-        $this->setExpirationDate($expirationDate);
-
-        $accountingDate = isset($json['accounting_date']) ? $json['accounting_date'] : null;
-        $this->setAccountingDate($accountingDate);
-
-        $transactionDate = isset($json['transaction_date']) ? $json['transaction_date'] : null;
-        $this->setTransactionDate($transactionDate);
-
-        $details = isset($json['details']) ? $json['details'] : null;
-
+        $this->buyOrder = Utils::returnValueIfExists($json, 'buy_order');
+        $this->sessionId = Utils::returnValueIfExists($json, 'session_id');
+        $this->expirationDate = Utils::returnValueIfExists($json, 'expiration_date');
+        $this->accountingDate = Utils::returnValueIfExists($json, 'accounting_date');
+        $this->transactionDate = Utils::returnValueIfExists($json, 'transaction_date');
+        $cardDetail = Utils::returnValueIfExists($json, 'card_detail');
+        $this->cardNumber = Utils::returnValueIfExists($cardDetail, 'card_number');
+        
+        $details = Utils::returnValueIfExists($json, 'details');
         $detailsObjectArray = [];
         if (is_array($details)) {
             foreach ($details as $detail) {

@@ -4,6 +4,7 @@ namespace Transbank\Webpay\WebpayPlus\Responses;
 
 use Transbank\Utils\ResponseCodesEnum;
 use Transbank\Utils\TransactionStatusEnum;
+use Transbank\Utils\Utils;
 
 class TransactionDetail
 {
@@ -26,6 +27,7 @@ class TransactionDetail
      * @param $paymentTypeCode
      * @param $responseCode
      * @param $installmentsNumber
+     * @param $installmentsAmount
      * @param $commerceCode
      * @param $buyOrder
      */
@@ -53,15 +55,15 @@ class TransactionDetail
 
     public static function createFromArray(array $array)
     {
-        $amount = isset($array['amount']) ? $array['amount'] : null;
-        $status = isset($array['status']) ? $array['status'] : null;
-        $authorizationCode = isset($array['authorization_code']) ? $array['authorization_code'] : null;
-        $paymentTypeCode = isset($array['payment_type_code']) ? $array['payment_type_code'] : null;
-        $responseCode = isset($array['response_code']) ? $array['response_code'] : null;
-        $installmentsNumber = isset($array['installments_number']) ? $array['installments_number'] : null;
-        $installmentsAmount = isset($array['installments_amount']) ? $array['installments_amount'] : null;
-        $commerceCode = isset($array['commerce_code']) ? $array['commerce_code'] : null;
-        $buyOrder = isset($array['buy_order']) ? $array['buy_order'] : null;
+        $amount = Utils::returnValueIfExists($array, 'amount');
+        $status = Utils::returnValueIfExists($array, 'status');
+        $authorizationCode = Utils::returnValueIfExists($array, 'authorization_code');
+        $paymentTypeCode = Utils::returnValueIfExists($array, 'payment_type_code');
+        $responseCode = Utils::returnValueIfExists($array, 'response_code');
+        $installmentsNumber = Utils::returnValueIfExists($array, 'installments_number');
+        $installmentsAmount = Utils::returnValueIfExists($array, 'installments_amount');
+        $commerceCode = Utils::returnValueIfExists($array, 'commerce_code');
+        $buyOrder = Utils::returnValueIfExists($array, 'buy_order');
 
         return new static($amount, $status, $authorizationCode, $paymentTypeCode, $responseCode, $installmentsNumber,
             $installmentsAmount, $commerceCode, $buyOrder);

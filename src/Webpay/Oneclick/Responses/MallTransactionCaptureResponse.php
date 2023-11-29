@@ -2,6 +2,8 @@
 
 namespace Transbank\Webpay\Oneclick\Responses;
 
+use Transbank\Utils\Utils;
+
 class MallTransactionCaptureResponse
 {
     public $authorizationCode;
@@ -11,10 +13,10 @@ class MallTransactionCaptureResponse
 
     public function __construct($json)
     {
-        $this->setAuthorizationCode(isset($json['authorization_code']) ? $json['authorization_code'] : null);
-        $this->setAuthorizationDate(isset($json['authorization_date']) ? $json['authorization_date'] : null);
-        $this->setCapturedAmount(isset($json['captured_amount']) ? $json['captured_amount'] : null);
-        $this->setResponseCode(isset($json['response_code']) ? $json['response_code'] : null);
+        $this->authorizationCode = Utils::returnValueIfExists($json, 'authorization_code');
+        $this->authorizationDate = Utils::returnValueIfExists($json, 'authorization_date');
+        $this->capturedAmount = Utils::returnValueIfExists($json, 'captured_amount');
+        $this->responseCode = Utils::returnValueIfExists($json, 'response_code');
     }
 
     public function getAuthorizationCode()

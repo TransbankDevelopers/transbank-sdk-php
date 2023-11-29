@@ -3,6 +3,7 @@
 namespace Transbank\Webpay\Oneclick\Responses;
 
 use Transbank\Utils\ResponseCodesEnum;
+use Transbank\Utils\Utils;
 
 class InscriptionFinishResponse
 {
@@ -14,20 +15,11 @@ class InscriptionFinishResponse
 
     public function __construct($json)
     {
-        $responseCode = isset($json['response_code']) ? $json['response_code'] : null;
-        $this->setResponseCode($responseCode);
-
-        $tbkUser = isset($json['tbk_user']) ? $json['tbk_user'] : null;
-        $this->setTbkUser($tbkUser);
-
-        $authorizationCode = isset($json['authorization_code']) ? $json['authorization_code'] : null;
-        $this->setAuthorizationCode($authorizationCode);
-
-        $cardType = isset($json['card_type']) ? $json['card_type'] : null;
-        $this->setCardType($cardType);
-
-        $cardNumber = isset($json['card_number']) ? $json['card_number'] : null;
-        $this->setCardNumber($cardNumber);
+        $this->responseCode = Utils::returnValueIfExists($json, 'response_code');
+        $this->tbkUser = Utils::returnValueIfExists($json, 'tbk_user');
+        $this->authorizationCode = Utils::returnValueIfExists($json, 'authorization_code');
+        $this->cardType = Utils::returnValueIfExists($json, 'card_type');
+        $this->cardNumber = Utils::returnValueIfExists($json, 'card_number');
     }
 
     public function isApproved()
