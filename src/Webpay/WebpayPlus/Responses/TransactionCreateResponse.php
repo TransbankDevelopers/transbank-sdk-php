@@ -27,7 +27,8 @@ class TransactionCreateResponse
      */
     public function __construct($json)
     {
-        $this->fromJSON($json);
+        $this->token = Utils::returnValueIfExists($json, 'token');
+        $this->url = Utils::returnValueIfExists($json, 'url');
     }
 
     /**

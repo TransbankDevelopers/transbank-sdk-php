@@ -35,7 +35,7 @@ class MallTransactionStatusResponse
                 $detailsObjectArray[] = TransactionDetail::createFromArray($detail);
             }
         }
-        $this->setDetails($detailsObjectArray);
+        $this->details = $detailsObjectArray;
     }
 
     /**

@@ -15,7 +15,7 @@ class InscriptionFinishResponse
 
     public function __construct($httpCode)
     {
-        $this->setCode($httpCode);
+        $this->code = $httpCode;
 
         if ($httpCode == 204) {
             $this->status = 'OK';
