@@ -78,10 +78,10 @@ class MallTransaction
     public function commit($token)
     {
         if (!is_string($token)) {
-            throw new InvalidArgumentException('Token parameter given is not string.');
+            throw new \InvalidArgumentException('Token parameter given is not string.');
         }
         if (!isset($token) || trim($token) === '') {
-            throw new InvalidArgumentException('Token parameter given is empty.');
+            throw new \InvalidArgumentException('Token parameter given is empty.');
         }
 
         try {
