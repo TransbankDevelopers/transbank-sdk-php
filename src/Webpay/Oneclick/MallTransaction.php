@@ -86,7 +86,7 @@ class MallTransaction
         return new MallTransactionStatusResponse($response);
     }
 
-    public function refund($buyOrder, $childCommerceCode, $childBuyOrder, $amount, $options = null)
+    public function refund($buyOrder, $childCommerceCode, $childBuyOrder, $amount)
     {
         $payload = [
             'detail_buy_order' => $childBuyOrder,
