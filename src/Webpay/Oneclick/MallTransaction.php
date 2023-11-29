@@ -2,15 +2,7 @@
 
 namespace Transbank\Webpay\Oneclick;
 
-use Transbank\Webpay\Oneclick\Responses\MallDeferredCaptureHistoryResponse;
-use Transbank\Webpay\Oneclick\Responses\MallIncreaseAmountResponse;
-use Transbank\Webpay\Oneclick\Responses\MallIncreaseAuthorizationDateResponse;
-use Transbank\Webpay\Oneclick\Responses\MallReversePreAuthorizedAmountResponse;
 use Transbank\Utils\InteractsWithWebpayApi;
-use Transbank\Webpay\Exceptions\MallDeferredCaptureHistoryException;
-use Transbank\Webpay\Exceptions\MallIncreaseAmountException;
-use Transbank\Webpay\Exceptions\MallIncreaseAuthorizationDateException;
-use Transbank\Webpay\Exceptions\MallReversePreAuthorizedAmountException;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Oneclick;
 use Transbank\Webpay\Oneclick\Exceptions\MallRefundTransactionException;
