@@ -3,15 +3,7 @@
 namespace Transbank\Webpay\WebpayPlus;
 
 use GuzzleHttp\Exception\GuzzleException;
-use Transbank\Webpay\WebpayPlus\Responses\DeferredCaptureHistoryResponse;
-use Transbank\Webpay\WebpayPlus\Responses\IncreaseAmountResponse;
-use Transbank\Webpay\WebpayPlus\Responses\IncreaseAuthorizationDateResponse;
-use Transbank\Webpay\WebpayPlus\Responses\ReversePreAuthorizedAmountResponse;
 use Transbank\Utils\InteractsWithWebpayApi;
-use Transbank\Webpay\Exceptions\DeferredCaptureHistoryException;
-use Transbank\Webpay\Exceptions\IncreaseAmountException;
-use Transbank\Webpay\Exceptions\IncreaseAuthorizationDateException;
-use Transbank\Webpay\Exceptions\ReversePreAuthorizedAmountException;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
 use Transbank\Webpay\WebpayPlus;
@@ -79,10 +71,10 @@ class Transaction
     public function commit($token)
     {
         if (!is_string($token)) {
-            throw new InvalidArgumentException('Token parameter given is not string.');
+            throw new \InvalidArgumentException('Token parameter given is not string.');
         }
         if (!isset($token) || trim($token) === '') {
-            throw new InvalidArgumentException('Token parameter given is empty.');
+            throw new \InvalidArgumentException('Token parameter given is empty.');
         }
 
         try {

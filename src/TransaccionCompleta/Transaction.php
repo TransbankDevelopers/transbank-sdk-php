@@ -2,10 +2,6 @@
 
 namespace Transbank\TransaccionCompleta;
 
-use Transbank\TransaccionCompleta\Responses\DeferredCaptureHistoryResponse;
-use Transbank\TransaccionCompleta\Responses\IncreaseAmountResponse;
-use Transbank\TransaccionCompleta\Responses\IncreaseAuthorizationDateResponse;
-use Transbank\TransaccionCompleta\Responses\ReversePreAuthorizedAmountResponse;
 use Transbank\TransaccionCompleta\Exceptions\TransactionCaptureException;
 use Transbank\TransaccionCompleta\Exceptions\TransactionCommitException;
 use Transbank\TransaccionCompleta\Exceptions\TransactionCreateException;
@@ -18,10 +14,6 @@ use Transbank\TransaccionCompleta\Responses\TransactionInstallmentsResponse;
 use Transbank\TransaccionCompleta\Responses\TransactionRefundResponse;
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
-use Transbank\Webpay\Exceptions\DeferredCaptureHistoryException;
-use Transbank\Webpay\Exceptions\IncreaseAmountException;
-use Transbank\Webpay\Exceptions\IncreaseAuthorizationDateException;
-use Transbank\Webpay\Exceptions\ReversePreAuthorizedAmountException;
 use Transbank\Webpay\Options;
 
 /**

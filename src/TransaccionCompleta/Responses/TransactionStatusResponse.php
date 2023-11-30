@@ -3,6 +3,7 @@
 namespace Transbank\TransaccionCompleta\Responses;
 
 use Transbank\Utils\HasTransactionStatus;
+use Transbank\Utils\Utils;
 
 class TransactionStatusResponse
 {
@@ -12,7 +13,7 @@ class TransactionStatusResponse
 
     public function __construct($json)
     {
-        $this->vci = isset($json['vci']) ? $json['vci'] : null;
+        $this->vci = Utils::returnValueIfExists($json, 'vci');
         $this->setTransactionStatusFields($json);
     }
 

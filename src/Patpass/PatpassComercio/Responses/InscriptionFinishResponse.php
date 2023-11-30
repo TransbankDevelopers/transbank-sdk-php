@@ -15,17 +15,13 @@ class InscriptionFinishResponse
 
     public function __construct($httpCode)
     {
-        $this->setCode($httpCode);
+        $this->code = $httpCode;
 
         if ($httpCode == 204) {
-            $this->setStatus('OK');
-
-            return;
+            $this->status = 'OK';
         }
         if ($httpCode == 404) {
-            $this->setStatus('Not Found');
-
-            return;
+            $this->status = 'Not Found';
         }
     }
 

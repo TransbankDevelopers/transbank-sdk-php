@@ -2,6 +2,8 @@
 
 namespace Transbank\Patpass\PatpassByWebpay\Responses;
 
+use Transbank\Utils\Utils;
+
 class TransactionCommitResponse
 {
     private $vci;
@@ -22,23 +24,18 @@ class TransactionCommitResponse
      */
     public function __construct($json)
     {
-        $this->setVci($this->returnValueIfExists($json, 'vci'));
-        $this->setAmount($this->returnValueIfExists($json, 'amount'));
-        $this->setStatus($this->returnValueIfExists($json, 'status'));
-        $this->setBuyOrder($this->returnValueIfExists($json, 'buy_order'));
-        $this->setSessionId($this->returnValueIfExists($json, 'session_id'));
-        $this->setCardDetail($this->returnValueIfExists($json, 'card_detail'));
-        $this->setAccountingDate($this->returnValueIfExists($json, 'accounting_date'));
-        $this->setTransactionDate($this->returnValueIfExists($json, 'transaction_date'));
-        $this->setAuthorizationCode($this->returnValueIfExists($json, 'authorization_code'));
-        $this->setPaymentTypeCode($this->returnValueIfExists($json, 'payment_type_code'));
-        $this->setResponseCode($this->returnValueIfExists($json, 'response_code'));
-        $this->setInstallmentsNumber($this->returnValueIfExists($json, 'installments_number'));
-    }
-
-    public function returnValueIfExists($json, $key)
-    {
-        return isset($json[$key]) ? $json[$key] : null;
+        $this->vci = Utils::returnValueIfExists($json, 'vci');
+        $this->amount = Utils::returnValueIfExists($json, 'amount');
+        $this->status = Utils::returnValueIfExists($json, 'status');
+        $this->buyOrder = Utils::returnValueIfExists($json, 'buy_order');
+        $this->sessionId = Utils::returnValueIfExists($json, 'session_id');
+        $this->cardDetail = Utils::returnValueIfExists($json, 'card_detail');
+        $this->accountingDate = Utils::returnValueIfExists($json, 'accounting_date');
+        $this->transactionDate = Utils::returnValueIfExists($json, 'transaction_date');
+        $this->authorizationCode = Utils::returnValueIfExists($json, 'authorization_code');
+        $this->paymentTypeCode = Utils::returnValueIfExists($json, 'payment_type_code');
+        $this->responseCode = Utils::returnValueIfExists($json, 'response_code');
+        $this->installmentsNumber = Utils::returnValueIfExists($json, 'installments_number');
     }
 
     /**

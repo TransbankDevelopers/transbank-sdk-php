@@ -2,6 +2,8 @@
 
 namespace Transbank\Webpay\WebpayPlus\Responses;
 
+use Transbank\Utils\Utils;
+
 class TransactionRefundResponse
 {
     const TYPE_REVERSED = 'REVERSED';
@@ -38,12 +40,12 @@ class TransactionRefundResponse
      */
     public function __construct($json)
     {
-        $this->type = isset($json['type']) ? $json['type'] : null;
-        $this->authorizationCode = isset($json['authorization_code']) ? $json['authorization_code'] : null;
-        $this->authorizationDate = isset($json['authorization_date']) ? $json['authorization_date'] : null;
-        $this->nullifiedAmount = isset($json['nullified_amount']) ? $json['nullified_amount'] : null;
-        $this->balance = isset($json['balance']) ? $json['balance'] : null;
-        $this->responseCode = isset($json['response_code']) ? $json['response_code'] : null;
+        $this->type = Utils::returnValueIfExists($json, 'type');
+        $this->authorizationCode = Utils::returnValueIfExists($json, 'authorization_code');
+        $this->authorizationDate = Utils::returnValueIfExists($json, 'authorization_date');
+        $this->nullifiedAmount = Utils::returnValueIfExists($json, 'nullified_amount');
+        $this->balance = Utils::returnValueIfExists($json, 'balance');
+        $this->responseCode = Utils::returnValueIfExists($json, 'response_code');
     }
 
     public function success()

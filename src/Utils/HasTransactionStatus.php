@@ -188,20 +188,20 @@ trait HasTransactionStatus
      */
     public function setTransactionStatusFields($json)
     {
-        $this->amount = isset($json['amount']) ? $json['amount'] : null;
-        $this->status = isset($json['status']) ? $json['status'] : null;
-        $this->buyOrder = isset($json['buy_order']) ? $json['buy_order'] : null;
-        $this->sessionId = isset($json['session_id']) ? $json['session_id'] : null;
-        $this->cardDetail = isset($json['card_detail']) ? $json['card_detail'] : null;
-        $this->cardNumber = isset($json['card_detail']['card_number']) ? $json['card_detail']['card_number'] : null;
-        $this->accountingDate = isset($json['accounting_date']) ? $json['accounting_date'] : null;
-        $this->transactionDate = isset($json['transaction_date']) ? $json['transaction_date'] : null;
-        $this->authorizationCode = isset($json['authorization_code']) ? $json['authorization_code'] : null;
-        $this->paymentTypeCode = isset($json['payment_type_code']) ? $json['payment_type_code'] : null;
-        $this->responseCode = isset($json['response_code']) ? $json['response_code'] : null;
-        $this->installmentsAmount = isset($json['installments_amount']) ? $json['installments_amount'] : null;
-        $this->installmentsNumber = isset($json['installments_number']) ? $json['installments_number'] : null;
-        $this->balance = isset($json['balance']) ? $json['balance'] : null;
+        $this->amount =  Utils::returnValueIfExists($json, 'amount');
+        $this->status = Utils::returnValueIfExists($json, 'status');
+        $this->buyOrder = Utils::returnValueIfExists($json, 'buy_order');
+        $this->sessionId = Utils::returnValueIfExists($json, 'session_id');
+        $this->cardDetail = Utils::returnValueIfExists($json, 'card_detail');
+        $this->cardNumber = Utils::returnValueIfExists($this->cardDetail, 'card_number');
+        $this->accountingDate = Utils::returnValueIfExists($json, 'accounting_date');
+        $this->transactionDate = Utils::returnValueIfExists($json, 'transaction_date');
+        $this->authorizationCode = Utils::returnValueIfExists($json, 'authorization_code');
+        $this->paymentTypeCode = Utils::returnValueIfExists($json, 'payment_type_code');
+        $this->responseCode = Utils::returnValueIfExists($json, 'response_code');
+        $this->installmentsAmount = Utils::returnValueIfExists($json, 'installments_amount');
+        $this->installmentsNumber = Utils::returnValueIfExists($json, 'installments_number');
+        $this->balance = Utils::returnValueIfExists($json, 'balance');
 
     }
 

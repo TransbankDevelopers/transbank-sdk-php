@@ -10,8 +10,7 @@ class MallTransactionCreateResponse
 
     public function __construct($json)
     {
-        $token = Utils::returnValueIfExists($json, 'token');
-        $this->setToken($token);
+        $this->token = Utils::returnValueIfExists($json, 'token');
     }
 
     /**

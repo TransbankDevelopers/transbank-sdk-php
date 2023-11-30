@@ -2,15 +2,7 @@
 
 namespace Transbank\Webpay\WebpayPlus;
 
-use Transbank\Webpay\WebpayPlus\Responses\MallDeferredCaptureHistoryResponse;
-use Transbank\Webpay\WebpayPlus\Responses\MallIncreaseAmountResponse;
-use Transbank\Webpay\WebpayPlus\Responses\MallIncreaseAuthorizationDateResponse;
-use Transbank\Webpay\WebpayPlus\Responses\MallReversePreAuthorizedAmountResponse;
 use Transbank\Utils\InteractsWithWebpayApi;
-use Transbank\Webpay\Exceptions\MallDeferredCaptureHistoryException;
-use Transbank\Webpay\Exceptions\MallIncreaseAmountException;
-use Transbank\Webpay\Exceptions\MallIncreaseAuthorizationDateException;
-use Transbank\Webpay\Exceptions\MallReversePreAuthorizedAmountException;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
 use Transbank\Webpay\WebpayPlus;
@@ -19,11 +11,6 @@ use Transbank\Webpay\WebpayPlus\Exceptions\MallTransactionCommitException;
 use Transbank\Webpay\WebpayPlus\Exceptions\MallTransactionCreateException;
 use Transbank\Webpay\WebpayPlus\Exceptions\MallTransactionRefundException;
 use Transbank\Webpay\WebpayPlus\Exceptions\MallTransactionStatusException;
-use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCaptureException;
-use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCommitException;
-use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCreateException;
-use Transbank\Webpay\WebpayPlus\Exceptions\TransactionRefundException;
-use Transbank\Webpay\WebpayPlus\Exceptions\TransactionStatusException;
 use Transbank\Webpay\WebpayPlus\Responses\MallTransactionCaptureResponse;
 use Transbank\Webpay\WebpayPlus\Responses\MallTransactionCommitResponse;
 use Transbank\Webpay\WebpayPlus\Responses\MallTransactionCreateResponse;
@@ -48,7 +35,7 @@ class MallTransaction
      * @param $returnUrl
      * @param $details
      *
-     * @throws TransactionCreateException
+     * @throws MallTransactionCreateException
      * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return MallTransactionCreateResponse
@@ -78,7 +65,7 @@ class MallTransaction
     /**
      * @param $token
      *
-     * @throws TransactionCommitException
+     * @throws MallTransactionCommitException
      * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return MallTransactionCommitResponse
@@ -86,10 +73,10 @@ class MallTransaction
     public function commit($token)
     {
         if (!is_string($token)) {
-            throw new InvalidArgumentException('Token parameter given is not string.');
+            throw new \InvalidArgumentException('Token parameter given is not string.');
         }
         if (!isset($token) || trim($token) === '') {
-            throw new InvalidArgumentException('Token parameter given is empty.');
+            throw new \InvalidArgumentException('Token parameter given is empty.');
         }
 
         try {
@@ -111,7 +98,7 @@ class MallTransaction
      * @param $childCommerceCode
      * @param $amount
      *
-     * @throws TransactionRefundException
+     * @throws MallTransactionRefundException
      * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return TransactionRefundResponse
@@ -140,7 +127,7 @@ class MallTransaction
     /**
      * @param $token
      *
-     * @throws TransactionStatusException
+     * @throws MallTransactionStatusException
      * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return MallTransactionStatusResponse
@@ -167,7 +154,7 @@ class MallTransaction
      * @param $authorizationCode
      * @param null $captureAmount
      *
-     * @throws TransactionCaptureException
+     * @throws MallTransactionCaptureException
      * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return TransactionCaptureResponse
