@@ -48,7 +48,7 @@ class Transaction
         $endpoint = static::COMMIT_TRANSACTION_ENDPOINT;
 
         try {
-            $response = $this->sendRequest('PUT', $endpoint, $payload);
+            $response = $this->sendRequest('PUT', $endpoint.'/'.$token, $payload);
         } catch (WebpayRequestException $exception) {
             throw TransactionCommitException::raise($exception);
         }
