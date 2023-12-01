@@ -4,7 +4,6 @@ namespace webpay_rest\OneClick;
 
 use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 use PHPUnit\Framework\TestCase;
-use Transbank\Patpass\PatpassComercio\Inscription;
 use Transbank\Webpay\Oneclick;
 use Transbank\Webpay\Oneclick\Exceptions\InscriptionStartException;
 use Transbank\Webpay\Oneclick\Exceptions\MallTransactionAuthorizeException;
