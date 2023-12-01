@@ -2,8 +2,6 @@
 
 namespace Transbank\Utils;
 
-use GuzzleHttp\Exception\GuzzleException;
-use Psr\Http\Message\ResponseInterface;
 use Transbank\Contracts\HttpClientInterface;
 use Transbank\Contracts\RequestService;
 use Transbank\Webpay\Exceptions\TransbankApiRequest;
@@ -13,7 +11,7 @@ use Transbank\Webpay\Options;
 class HttpClientRequestService implements RequestService
 {
     /**
-     * @var ResponseInterface|null
+     * @var Psr\Http\Message\ResponseInterface|null
      */
     protected $lastResponse = null;
 
@@ -53,7 +51,7 @@ class HttpClientRequestService implements RequestService
      * @param $payload
      * @param Options $options
      *
-     * @throws GuzzleException
+     * @throws GuzzleHttp\Exception\GuzzleException
      * @throws WebpayRequestException
      *
      * @return array
@@ -96,7 +94,7 @@ class HttpClientRequestService implements RequestService
     }
 
     /**
-     * @return ResponseInterface|null
+     * @return Psr\Http\Message\ResponseInterface|null
      */
     public function getLastResponse()
     {
@@ -104,7 +102,7 @@ class HttpClientRequestService implements RequestService
     }
 
     /**
-     * @param ResponseInterface|null $lastResponse
+     * @param Psr\Http\Message\ResponseInterface|null $lastResponse
      */
     protected function setLastResponse($lastResponse)
     {

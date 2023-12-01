@@ -2,7 +2,6 @@
 
 namespace Transbank\Webpay\Modal;
 
-use GuzzleHttp\Exception\GuzzleException;
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Modal\Exceptions\TransactionCommitException;
@@ -30,7 +29,7 @@ class Transaction
      * @param int    $amount
      *
      * @throws TransactionCreateException
-     * @throws GuzzleException|TransactionCreateException
+     * @throws GuzzleHttp\Exception\GuzzleException|TransactionCreateException
      *
      * @return TransactionCreateResponse
      **
@@ -59,7 +58,7 @@ class Transaction
     /**
      * @param string $token
      *
-     * @throws TransactionCommitException|GuzzleException
+     * @throws TransactionCommitException|GuzzleHttp\Exception\GuzzleException
      *
      * @return TransactionCommitResponse
      **
@@ -80,7 +79,7 @@ class Transaction
     /**
      * @param $token
      *
-     * @throws GuzzleException
+     * @throws GuzzleHttp\Exception\GuzzleException
      * @throws TransactionStatusException
      *
      * @return TransactionStatusResponse
@@ -103,7 +102,7 @@ class Transaction
      * @param $amount
      * @param Options|null $options
      *
-     * @throws GuzzleException|TransactionRefundException
+     * @throws GuzzleHttp\Exception\GuzzleException|TransactionRefundException
      *
      * @return TransactionRefundResponse
      */
