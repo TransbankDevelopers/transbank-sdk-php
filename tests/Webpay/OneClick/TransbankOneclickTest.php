@@ -4,7 +4,6 @@ namespace webpay_rest\OneClick;
 
 use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 use PHPUnit\Framework\TestCase;
-use Transbank\Patpass\PatpassComercio\Inscription;
 use Transbank\Webpay\Oneclick;
 use Transbank\Webpay\Oneclick\Exceptions\InscriptionStartException;
 use Transbank\Webpay\Oneclick\Exceptions\MallTransactionAuthorizeException;
@@ -40,14 +39,14 @@ class TransbankOneclickTest extends TestCase
     public function it_fails_creating_an_inscription_with_invalid_email()
     {
         $this->expectException(InscriptionStartException::class, 'Invalid value for parameter: email');
-        $response = MallInscription::build()->start($this->username, 'not_an_email', $this->responseUrl);
+        MallInscription::build()->start($this->username, 'not_an_email', $this->responseUrl);
     }
 
     /** @test */
     public function it_fails_creating_an_inscription_with_invalid_data()
     {
         $this->expectException(InscriptionStartException::class, 'username is required');
-        $response = MallInscription::build()->start('', $this->email, $this->responseUrl);
+        MallInscription::build()->start('', $this->email, $this->responseUrl);
     }
 
     /** @test */
@@ -68,7 +67,7 @@ class TransbankOneclickTest extends TestCase
         $mallTransaction = new MallTransaction();
 
         try {
-            $response = $mallTransaction->authorize($this->username, 'fakeToken', 'buyOrder2132312', [
+            $mallTransaction->authorize($this->username, 'fakeToken', 'buyOrder2132312', [
                 [
                     'commerce_code'       => MallInscription::DEFAULT_CHILD_COMMERCE_CODE_1,
                     'buy_order'           => 'buyOrder122412',
@@ -103,7 +102,7 @@ class TransbankOneclickTest extends TestCase
     public function it_fails_authorizing_a_transaction_with_no_username()
     {
         $this->expectException(MallTransactionAuthorizeException::class, 'username is required');
-        $response = MallTransaction::build()->authorize('', 'fakeToken', 'buyOrder2132312', [
+        MallTransaction::build()->authorize('', 'fakeToken', 'buyOrder2132312', [
             [
                 'commerce_code'       => Oneclick::DEFAULT_CHILD_COMMERCE_CODE_1,
                 'buy_order'           => 'buyOrder122412',

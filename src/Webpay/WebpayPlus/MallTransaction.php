@@ -16,8 +16,6 @@ use Transbank\Webpay\WebpayPlus\Responses\MallTransactionCommitResponse;
 use Transbank\Webpay\WebpayPlus\Responses\MallTransactionCreateResponse;
 use Transbank\Webpay\WebpayPlus\Responses\MallTransactionRefundResponse;
 use Transbank\Webpay\WebpayPlus\Responses\MallTransactionStatusResponse;
-use Transbank\Webpay\WebpayPlus\Responses\TransactionCaptureResponse;
-use Transbank\Webpay\WebpayPlus\Responses\TransactionRefundResponse;
 
 class MallTransaction
 {
@@ -101,7 +99,7 @@ class MallTransaction
      * @throws MallTransactionRefundException
      * @throws \GuzzleHttp\Exception\GuzzleException
      *
-     * @return TransactionRefundResponse
+     * @return MallTransactionRefundResponse
      */
     public function refund($token, $buyOrder, $childCommerceCode, $amount)
     {
@@ -157,7 +155,7 @@ class MallTransaction
      * @throws MallTransactionCaptureException
      * @throws \GuzzleHttp\Exception\GuzzleException
      *
-     * @return TransactionCaptureResponse
+     * @return MallTransactionCaptureResponse
      */
     public function capture(
         $childCommerceCode,

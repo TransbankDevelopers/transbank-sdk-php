@@ -2,7 +2,6 @@
 
 namespace Transbank\Patpass\PatpassByWebpay;
 
-use Transbank\Patpass\Options;
 use Transbank\Patpass\PatpassByWebpay;
 use Transbank\Patpass\PatpassByWebpay\Exceptions\TransactionCommitException;
 use Transbank\Patpass\PatpassByWebpay\Exceptions\TransactionCreateException;
@@ -49,7 +48,7 @@ class Transaction
         $endpoint = static::COMMIT_TRANSACTION_ENDPOINT;
 
         try {
-            $response = $this->sendRequest('PUT', $endpoint, $payload);
+            $response = $this->sendRequest('PUT', $endpoint.'/'.$token, $payload);
         } catch (WebpayRequestException $exception) {
             throw TransactionCommitException::raise($exception);
         }
@@ -74,7 +73,7 @@ class Transaction
     /**
      * Get the default options if none are given.
      *
-     * @return Options|null
+     * @return Transbank\Patpass\Options|null
      */
     public static function getGlobalOptions()
     {

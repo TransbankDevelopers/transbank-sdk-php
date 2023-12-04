@@ -3,7 +3,6 @@
 namespace Transbank\Utils;
 
 use Transbank\Contracts\RequestService;
-use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
 
 /**
@@ -41,7 +40,7 @@ trait InteractsWithWebpayApi
      * @param $endpoint
      * @param array|null $payload
      *
-     * @throws WebpayRequestException
+     * @throws Transbank\Webpay\Exceptions\WebpayRequestException
      *
      * @return mixed
      */
