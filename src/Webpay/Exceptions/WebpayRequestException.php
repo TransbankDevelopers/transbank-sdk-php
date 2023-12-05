@@ -114,22 +114,7 @@ class WebpayRequestException extends WebpayException
             $theMessage = 'API Response: "'.$tbkErrorMessage.'" ['.$httpCode.'] - '.static::$defaultMessage;
         }
 
-        if ($possibleCause = $this->getPossibleCause($httpCode, $tbkErrorMessage, $failedRequestCapturedData)) {
-            return $theMessage.' - '.$possibleCause;
-        }
-
         return $theMessage;
     }
 
-    /**
-     * @param $httpCode
-     * @param $tbkErrorMessage
-     * @param TransbankApiRequest|null $failedRequestCapturedData
-     *
-     * @return null
-     */
-    protected function getPossibleCause($httpCode, $tbkErrorMessage, TransbankApiRequest $failedRequestCapturedData = null)
-    {
-        return null;
-    }
 }
