@@ -56,8 +56,6 @@ trait InteractsWithWebpayApi
 
     /**
      * @param Options $options
-     *
-     * @return $this
      */
     public function loadOptions(Options $options = null)
     {
