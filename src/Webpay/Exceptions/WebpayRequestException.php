@@ -48,7 +48,7 @@ class WebpayRequestException extends WebpayException
     ) {
         $theMessage = isset($tbkErrorMessage) ? $tbkErrorMessage : $message;
         if ($failedRequest !== null) {
-            $theMessage = $this->getExceptionMessage($message, $tbkErrorMessage, $httpCode, $failedRequest);
+            $theMessage = $this->getExceptionMessage($message, $tbkErrorMessage, $httpCode);
         }
 
         $this->message = $theMessage;
@@ -98,15 +98,13 @@ class WebpayRequestException extends WebpayException
      * @param $message
      * @param $tbkErrorMessage
      * @param $httpCode
-     * @param TransbankApiRequest|null $failedRequestCapturedData
      *
      * @return string
      */
     protected function getExceptionMessage(
         $message,
         $tbkErrorMessage,
-        $httpCode,
-        TransbankApiRequest $failedRequestCapturedData = null
+        $httpCode
     ) {
         if (!$tbkErrorMessage) {
             $theMessage = $message;
