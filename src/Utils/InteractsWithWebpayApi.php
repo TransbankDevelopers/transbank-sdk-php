@@ -72,8 +72,6 @@ trait InteractsWithWebpayApi
         }
 
         $this->setOptions($options);
-
-        return $this;
     }
 
     /**
@@ -90,8 +88,6 @@ trait InteractsWithWebpayApi
     public function setOptions(Options $options)
     {
         $this->options = $options;
-
-        return $this;
     }
 
     /**
@@ -108,8 +104,6 @@ trait InteractsWithWebpayApi
     public function setRequestService(RequestService $requestService = null)
     {
         $this->requestService = $requestService;
-
-        return $this;
     }
 
     /**
