@@ -42,8 +42,13 @@ class MallTransaction
                 static::AUTHORIZE_TRANSACTION_ENDPOINT,
                 $payload
             );
-        } catch (WebpayRequestException $e) {
-            throw MallTransactionAuthorizeException::raise($e);
+        } catch (WebpayRequestException $exception) {
+            throw new MallTransactionAuthorizeException($exception->getMessage(),
+                $exception->getTransbankErrorMessage(),
+                $exception->getHttpCode(),
+                $exception->getFailedRequest(),
+                $exception
+            );
         }
 
         return new MallTransactionAuthorizeResponse($response);
@@ -64,8 +69,13 @@ class MallTransaction
                 static::TRANSACTION_CAPTURE_ENDPOINT,
                 $payload
             );
-        } catch (WebpayRequestException $e) {
-            throw MallTransactionCaptureException::raise($e);
+        } catch (WebpayRequestException $exception) {
+            throw new MallTransactionCaptureException($exception->getMessage(),
+                $exception->getTransbankErrorMessage(),
+                $exception->getHttpCode(),
+                $exception->getFailedRequest(),
+                $exception
+            );
         }
 
         return new MallTransactionCaptureResponse($response);
@@ -79,8 +89,13 @@ class MallTransaction
                 str_replace('{buy_order}', $buyOrder, static::TRANSACTION_STATUS_ENDPOINT),
                 null
             );
-        } catch (WebpayRequestException $e) {
-            throw MallTransactionStatusException::raise($e);
+        } catch (WebpayRequestException $exception) {
+            throw new MallTransactionStatusException($exception->getMessage(),
+                $exception->getTransbankErrorMessage(),
+                $exception->getHttpCode(),
+                $exception->getFailedRequest(),
+                $exception
+            );
         }
 
         return new MallTransactionStatusResponse($response);
@@ -100,8 +115,13 @@ class MallTransaction
                 str_replace('{buy_order}', $buyOrder, static::TRANSACTION_REFUND_ENDPOINT),
                 $payload
             );
-        } catch (WebpayRequestException $e) {
-            throw MallRefundTransactionException::raise($e);
+        } catch (WebpayRequestException $exception) {
+            throw new MallRefundTransactionException($exception->getMessage(),
+                $exception->getTransbankErrorMessage(),
+                $exception->getHttpCode(),
+                $exception->getFailedRequest(),
+                $exception
+            );
         }
 
         return new MallTransactionRefundResponse($response);
