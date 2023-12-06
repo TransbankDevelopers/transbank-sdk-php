@@ -53,7 +53,12 @@ class Transaction
         try {
             $response = $this->sendRequest('POST', static::ENDPOINT_CREATE, $payload);
         } catch (WebpayRequestException $exception) {
-            throw TransactionCreateException::raise($exception);
+            throw new TransactionCreateException($exception->getMessage(),
+                $exception->getTransbankErrorMessage(),
+                $exception->getHttpCode(),
+                $exception->getFailedRequest(),
+                $exception
+            );
         }
 
         return new TransactionCreateResponse($response);
@@ -82,8 +87,13 @@ class Transaction
                 str_replace('{token}', $token, static::ENDPOINT_COMMIT),
                 null
             );
-        } catch (WebpayRequestException $e) {
-            throw TransactionCommitException::raise($e);
+        } catch (WebpayRequestException $exception) {
+            throw new TransactionCommitException($exception->getMessage(),
+                $exception->getTransbankErrorMessage(),
+                $exception->getHttpCode(),
+                $exception->getFailedRequest(),
+                $exception
+            );
         }
 
         return new TransactionCommitResponse($response);
@@ -106,8 +116,13 @@ class Transaction
                 str_replace('{token}', $token, static::ENDPOINT_REFUND),
                 ['amount' => $amount]
             );
-        } catch (WebpayRequestException $e) {
-            throw TransactionRefundException::raise($e);
+        } catch (WebpayRequestException $exception) {
+            throw new TransactionRefundException($exception->getMessage(),
+                $exception->getTransbankErrorMessage(),
+                $exception->getHttpCode(),
+                $exception->getFailedRequest(),
+                $exception
+            );
         }
 
         return new TransactionRefundResponse($response);
@@ -129,8 +144,13 @@ class Transaction
                 str_replace('{token}', $token, static::ENDPOINT_STATUS),
                 null
             );
-        } catch (WebpayRequestException $e) {
-            throw TransactionStatusException::raise($e);
+        } catch (WebpayRequestException $exception) {
+            throw new TransactionStatusException($exception->getMessage(),
+                $exception->getTransbankErrorMessage(),
+                $exception->getHttpCode(),
+                $exception->getFailedRequest(),
+                $exception
+            );
         }
 
         return new TransactionStatusResponse($response);
@@ -161,8 +181,13 @@ class Transaction
                 str_replace('{token}', $token, static::ENDPOINT_CAPTURE),
                 $payload
             );
-        } catch (WebpayRequestException $e) {
-            throw TransactionCaptureException::raise($e);
+        } catch (WebpayRequestException $exception) {
+            throw new TransactionCaptureException($exception->getMessage(),
+                $exception->getTransbankErrorMessage(),
+                $exception->getHttpCode(),
+                $exception->getFailedRequest(),
+                $exception
+            );
         }
 
         return new TransactionCaptureResponse($response);

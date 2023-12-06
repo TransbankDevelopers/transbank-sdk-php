@@ -43,11 +43,12 @@ class WebpayRequestException extends WebpayException
         $message,
         $tbkErrorMessage = null,
         $httpCode = null,
-        TransbankApiRequest $failedRequest = null
+        TransbankApiRequest $failedRequest = null,
+        \Exception $previous = null
     ) {
         $theMessage = isset($tbkErrorMessage) ? $tbkErrorMessage : $message;
         if ($failedRequest !== null) {
-            $theMessage = $this->getExceptionMessage($message, $tbkErrorMessage, $httpCode, $failedRequest);
+            $theMessage = $this->getExceptionMessage($message, $tbkErrorMessage, $httpCode);
         }
 
         $this->message = $theMessage;
@@ -55,7 +56,7 @@ class WebpayRequestException extends WebpayException
         $this->httpCode = $httpCode;
         $this->failedRequest = $failedRequest;
 
-        parent::__construct($theMessage, $httpCode);
+        parent::__construct($theMessage, $httpCode, $previous);
     }
 
     /**
@@ -74,7 +75,7 @@ class WebpayRequestException extends WebpayException
     public static function raise(WebpayRequestException $exception)
     {
         return new static($exception->getMessage(), $exception->getTransbankErrorMessage(), $exception->getHttpCode(),
-            $exception->getFailedRequest());
+            $exception->getFailedRequest(), $exception);
     }
 
     /**
@@ -97,15 +98,13 @@ class WebpayRequestException extends WebpayException
      * @param $message
      * @param $tbkErrorMessage
      * @param $httpCode
-     * @param TransbankApiRequest|null $failedRequestCapturedData
      *
      * @return string
      */
     protected function getExceptionMessage(
         $message,
         $tbkErrorMessage,
-        $httpCode,
-        TransbankApiRequest $failedRequestCapturedData = null
+        $httpCode
     ) {
         if (!$tbkErrorMessage) {
             $theMessage = $message;
@@ -113,22 +112,7 @@ class WebpayRequestException extends WebpayException
             $theMessage = 'API Response: "'.$tbkErrorMessage.'" ['.$httpCode.'] - '.static::$defaultMessage;
         }
 
-        if ($possibleCause = $this->getPossibleCause($httpCode, $tbkErrorMessage, $failedRequestCapturedData)) {
-            return $theMessage.' - '.$possibleCause;
-        }
-
         return $theMessage;
     }
 
-    /**
-     * @param $httpCode
-     * @param $tbkErrorMessage
-     * @param TransbankApiRequest|null $failedRequestCapturedData
-     *
-     * @return null
-     */
-    protected function getPossibleCause($httpCode, $tbkErrorMessage, TransbankApiRequest $failedRequestCapturedData = null)
-    {
-        return null;
-    }
 }

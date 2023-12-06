@@ -18,55 +18,20 @@ class TransactionDetail
     public $commerceCode;
     public $buyOrder;
 
-    /**
-     * TransactionDetail constructor.
-     *
-     * @param $amount
-     * @param $status
-     * @param $authorizationCode
-     * @param $paymentTypeCode
-     * @param $responseCode
-     * @param $installmentsNumber
-     * @param $installmentsAmount
-     * @param $commerceCode
-     * @param $buyOrder
-     */
-    public function __construct(
-        $amount,
-        $status,
-        $authorizationCode,
-        $paymentTypeCode,
-        $responseCode,
-        $installmentsNumber,
-        $installmentsAmount,
-        $commerceCode,
-        $buyOrder
-    ) {
-        $this->amount = $amount;
-        $this->status = $status;
-        $this->authorizationCode = $authorizationCode;
-        $this->paymentTypeCode = $paymentTypeCode;
-        $this->responseCode = $responseCode;
-        $this->installmentsNumber = $installmentsNumber;
-        $this->installmentsAmount = $installmentsAmount;
-        $this->commerceCode = $commerceCode;
-        $this->buyOrder = $buyOrder;
-    }
-
     public static function createFromArray(array $array)
     {
-        $amount = Utils::returnValueIfExists($array, 'amount');
-        $status = Utils::returnValueIfExists($array, 'status');
-        $authorizationCode = Utils::returnValueIfExists($array, 'authorization_code');
-        $paymentTypeCode = Utils::returnValueIfExists($array, 'payment_type_code');
-        $responseCode = Utils::returnValueIfExists($array, 'response_code');
-        $installmentsNumber = Utils::returnValueIfExists($array, 'installments_number');
-        $installmentsAmount = Utils::returnValueIfExists($array, 'installments_amount');
-        $commerceCode = Utils::returnValueIfExists($array, 'commerce_code');
-        $buyOrder = Utils::returnValueIfExists($array, 'buy_order');
+        $result = new TransactionDetail();
+        $result->amount = Utils::returnValueIfExists($array, 'amount');
+        $result->status = Utils::returnValueIfExists($array, 'status');
+        $result->authorizationCode = Utils::returnValueIfExists($array, 'authorization_code');
+        $result->paymentTypeCode = Utils::returnValueIfExists($array, 'payment_type_code');
+        $result->responseCode = Utils::returnValueIfExists($array, 'response_code');
+        $result->installmentsNumber = Utils::returnValueIfExists($array, 'installments_number');
+        $result->installmentsAmount = Utils::returnValueIfExists($array, 'installments_amount');
+        $result->commerceCode = Utils::returnValueIfExists($array, 'commerce_code');
+        $result->buyOrder = Utils::returnValueIfExists($array, 'buy_order');
 
-        return new static($amount, $status, $authorizationCode, $paymentTypeCode, $responseCode, $installmentsNumber,
-            $installmentsAmount, $commerceCode, $buyOrder);
+        return $result;
     }
 
     public function isApproved()

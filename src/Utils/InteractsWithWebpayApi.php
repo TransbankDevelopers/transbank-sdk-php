@@ -56,8 +56,6 @@ trait InteractsWithWebpayApi
 
     /**
      * @param Options $options
-     *
-     * @return $this
      */
     public function loadOptions(Options $options = null)
     {
@@ -72,8 +70,6 @@ trait InteractsWithWebpayApi
         }
 
         $this->setOptions($options);
-
-        return $this;
     }
 
     /**
@@ -90,8 +86,6 @@ trait InteractsWithWebpayApi
     public function setOptions(Options $options)
     {
         $this->options = $options;
-
-        return $this;
     }
 
     /**
@@ -108,8 +102,6 @@ trait InteractsWithWebpayApi
     public function setRequestService(RequestService $requestService = null)
     {
         $this->requestService = $requestService;
-
-        return $this;
     }
 
     /**

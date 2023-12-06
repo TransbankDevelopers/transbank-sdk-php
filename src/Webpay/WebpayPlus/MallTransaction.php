@@ -54,7 +54,12 @@ class MallTransaction
                 $payload
             );
         } catch (WebpayRequestException $exception) {
-            throw MallTransactionCreateException::raise($exception);
+            throw new MallTransactionCreateException($exception->getMessage(),
+                $exception->getTransbankErrorMessage(),
+                $exception->getHttpCode(),
+                $exception->getFailedRequest(),
+                $exception
+            );
         }
 
         return new MallTransactionCreateResponse($response);
@@ -83,8 +88,13 @@ class MallTransaction
                 str_replace('{token}', $token, static::ENDPOINT_COMMIT),
                 null
             );
-        } catch (WebpayRequestException $e) {
-            throw MallTransactionCommitException::raise($e);
+        } catch (WebpayRequestException $exception) {
+            throw new MallTransactionCommitException($exception->getMessage(),
+                $exception->getTransbankErrorMessage(),
+                $exception->getHttpCode(),
+                $exception->getFailedRequest(),
+                $exception
+            );
         }
 
         return new MallTransactionCommitResponse($response);
@@ -115,8 +125,13 @@ class MallTransaction
                 str_replace('{token}', $token, static::ENDPOINT_REFUND),
                 $payload
             );
-        } catch (WebpayRequestException $e) {
-            throw MallTransactionRefundException::raise($e);
+        } catch (WebpayRequestException $exception) {
+            throw new MallTransactionRefundException($exception->getMessage(),
+                $exception->getTransbankErrorMessage(),
+                $exception->getHttpCode(),
+                $exception->getFailedRequest(),
+                $exception
+            );
         }
 
         return new MallTransactionRefundResponse($response);
@@ -138,8 +153,13 @@ class MallTransaction
                 str_replace('{token}', $token, static::ENDPOINT_STATUS),
                 null
             );
-        } catch (WebpayRequestException $e) {
-            throw MallTransactionStatusException::raise($e);
+        } catch (WebpayRequestException $exception) {
+            throw new MallTransactionStatusException($exception->getMessage(),
+                $exception->getTransbankErrorMessage(),
+                $exception->getHttpCode(),
+                $exception->getFailedRequest(),
+                $exception
+            );
         }
 
         return new MallTransactionStatusResponse($response);
@@ -177,8 +197,13 @@ class MallTransaction
                 str_replace('{token}', $token, static::ENDPOINT_CAPTURE),
                 $payload
             );
-        } catch (WebpayRequestException $e) {
-            throw MallTransactionCaptureException::raise($e);
+        } catch (WebpayRequestException $exception) {
+            throw new MallTransactionCaptureException($exception->getMessage(),
+                $exception->getTransbankErrorMessage(),
+                $exception->getHttpCode(),
+                $exception->getFailedRequest(),
+                $exception
+            );
         }
 
         return new MallTransactionCaptureResponse($response);

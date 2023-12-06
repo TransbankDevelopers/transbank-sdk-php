@@ -85,7 +85,12 @@ class Inscription
         try {
             $response = $this->sendRequest('POST', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {
-            throw InscriptionStartException::raise($exception);
+            throw new InscriptionStartException($exception->getMessage(),
+                $exception->getTransbankErrorMessage(),
+                $exception->getHttpCode(),
+                $exception->getFailedRequest(),
+                $exception
+            );
         }
 
         return new InscriptionStartResponse($response);
@@ -111,7 +116,12 @@ class Inscription
         try {
             $response = $this->sendRequest('POST', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {
-            throw InscriptionStatusException::raise($exception);
+            throw new InscriptionStatusException($exception->getMessage(),
+                $exception->getTransbankErrorMessage(),
+                $exception->getHttpCode(),
+                $exception->getFailedRequest(),
+                $exception
+            );
         }
 
         return new InscriptionStatusResponse($response);

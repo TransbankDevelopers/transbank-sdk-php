@@ -56,7 +56,12 @@ class MallTransaction
         try {
             $response = $this->sendRequest('POST', static::ENDPOINT_CREATE, $payload);
         } catch (WebpayRequestException $exception) {
-            throw MallTransactionCreateException::raise($exception);
+            throw new MallTransactionCreateException($exception->getMessage(),
+                $exception->getTransbankErrorMessage(),
+                $exception->getHttpCode(),
+                $exception->getFailedRequest(),
+                $exception
+            );
         }
 
         return new MallTransactionCreateResponse($response);
@@ -80,7 +85,12 @@ class MallTransaction
                 return new MallTransactionInstallmentsResponse($response);
             }, $details);
         } catch (WebpayRequestException $exception) {
-            throw TransactionInstallmentsException::raise($exception);
+            throw new TransactionInstallmentsException($exception->getMessage(),
+                $exception->getTransbankErrorMessage(),
+                $exception->getHttpCode(),
+                $exception->getFailedRequest(),
+                $exception
+            );
         }
     }
 
@@ -97,7 +107,12 @@ class MallTransaction
         try {
             $response = $this->sendRequest('PUT', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {
-            throw MallTransactionCommitException::raise($exception);
+            throw new MallTransactionCommitException($exception->getMessage(),
+                $exception->getTransbankErrorMessage(),
+                $exception->getHttpCode(),
+                $exception->getFailedRequest(),
+                $exception
+            );
         }
 
         return new MallTransactionCommitResponse($response);
@@ -120,7 +135,12 @@ class MallTransaction
         try {
             $response = $this->sendRequest('POST', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {
-            throw MallTransactionRefundException::raise($exception);
+            throw new MallTransactionRefundException($exception->getMessage(),
+                $exception->getTransbankErrorMessage(),
+                $exception->getHttpCode(),
+                $exception->getFailedRequest(),
+                $exception
+            );
         }
 
         return new MallTransactionRefundResponse($response);
@@ -133,7 +153,12 @@ class MallTransaction
         try {
             $response = $this->sendRequest('GET', $endpoint, null);
         } catch (WebpayRequestException $exception) {
-            throw MallTransactionStatusException::raise($exception);
+            throw new MallTransactionStatusException($exception->getMessage(),
+                $exception->getTransbankErrorMessage(),
+                $exception->getHttpCode(),
+                $exception->getFailedRequest(),
+                $exception
+            );
         }
 
         return new MallTransactionStatusResponse($response);
@@ -165,7 +190,12 @@ class MallTransaction
         try {
             $response = $this->sendRequest('PUT', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {
-            throw MallTransactionCaptureException::raise($exception);
+            throw new MallTransactionCaptureException($exception->getMessage(),
+                $exception->getTransbankErrorMessage(),
+                $exception->getHttpCode(),
+                $exception->getFailedRequest(),
+                $exception
+            );
         }
 
         return new Responses\MallTransactionCaptureResponse($response);
