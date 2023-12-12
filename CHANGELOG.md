@@ -4,6 +4,19 @@ Todos los cambios notables a este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [4.0.0] - 2023-12-12
+
+### Changed
+- Se hace el downgrade a la versión del API 1.2
+- Se eliminan los métodos 'increaseAmount', 'increaseAuthorizationDate', 'reversePreAuthorizedAmount', 'deferredCaptureHistory' a las versiones diferidas de WebpayPlus, WebpayPlus Mall, Oneclick Mall, Transaccion Completa y Transaccion Completa Mall
+- Se elimina el campo 'captureExpirationDate'
+
+### Added
+- Se agrega un párametro al constructor de la clase `WebpayRequestException`
+
+### Fixed
+- Se corrige el namespace en la clase `InscriptionStartException` 
+
 ## [3.0.0] - 2022-09-07
 ### Changed
 - Se migra el API desde la versión 1.2 a la versión 1.3
