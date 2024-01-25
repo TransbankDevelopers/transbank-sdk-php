@@ -17,23 +17,26 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-versions: [7.3, 7.4, 8.0]
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-
     - name: Set up PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.0'
+        php-version: ${{ matrix.php-versions }}
         extensions: mbstring, xml, ctype, iconv, pcov
         coverage: pcov
-
+    - name: Validate composer.json and composer.lock
+      run: composer validate
     - name: Install dependencies
       run: composer install --no-interaction --no-progress --prefer-dist
-
     - name: Run PHPUnit tests
       run: vendor/bin/phpunit --coverage-clover build/logs/clover.xml
-
+    - name: Run Tests
+      run: ./sdktest.sh
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
       env:
