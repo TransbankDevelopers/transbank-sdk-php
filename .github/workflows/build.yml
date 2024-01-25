@@ -24,8 +24,8 @@ jobs:
       uses: shivammathur/cache-extensions@v1
       with:
         php-version: ${{ matrix.php-versions }}
-        extensions: ${{ env.PHP_EXTENSIONS }}
-        key: ${{ env.key }}
+        extensions: mbstring, xml, ctype, iconv, pcov
+        key: cache-v1
     - name: Set up PHP
       uses: shivammathur/setup-php@v2
       with:
