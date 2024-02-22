@@ -7,9 +7,7 @@ use Transbank\Utils\Utils;
 class MallTransactionStatusResponse
 {
     public $buyOrder;
-    public $sessionId;
     public $cardNumber;
-    public $expirationDate;
     public $accountingDate;
     public $transactionDate;
 
@@ -21,8 +19,6 @@ class MallTransactionStatusResponse
     public function __construct($json)
     {
         $this->buyOrder = Utils::returnValueIfExists($json, 'buy_order');
-        $this->sessionId = Utils::returnValueIfExists($json, 'session_id');
-        $this->expirationDate = Utils::returnValueIfExists($json, 'expiration_date');
         $this->accountingDate = Utils::returnValueIfExists($json, 'accounting_date');
         $this->transactionDate = Utils::returnValueIfExists($json, 'transaction_date');
         $cardDetail = Utils::returnValueIfExists($json, 'card_detail');

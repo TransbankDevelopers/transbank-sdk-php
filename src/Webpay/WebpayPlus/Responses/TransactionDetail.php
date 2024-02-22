@@ -17,6 +17,7 @@ class TransactionDetail
     public $installmentsAmount;
     public $commerceCode;
     public $buyOrder;
+    public $balance;
 
     public static function createFromArray(array $array)
     {
@@ -30,6 +31,7 @@ class TransactionDetail
         $result->installmentsAmount = Utils::returnValueIfExists($array, 'installments_amount');
         $result->commerceCode = Utils::returnValueIfExists($array, 'commerce_code');
         $result->buyOrder = Utils::returnValueIfExists($array, 'buy_order');
+        $result->balance = Utils::returnValueIfExists($array, 'balance');
 
         return $result;
     }
