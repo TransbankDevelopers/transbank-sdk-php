@@ -197,4 +197,20 @@ class TransactionDetail
     {
         $this->installmentsAmount = $installmentsAmount;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getBalance()
+    {
+        return $this->balance;
+    }
+
+    /**
+     * @param mixed $balance
+     */
+    public function setBalance($balance)
+    {
+        $this->balance = $balance;
+    }
 }
