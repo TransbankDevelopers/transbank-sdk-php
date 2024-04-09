@@ -4,4 +4,4 @@
 .bundled
 composer.lock
 .phpunit.result.cache
-/coverage
+/build
