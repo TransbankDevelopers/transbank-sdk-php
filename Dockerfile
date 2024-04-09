@@ -1,5 +1,9 @@
 FROM php:8-fpm
 RUN apt-get update && apt-get install -y zip unzip libxml2-dev libzip-dev
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+RUN pecl install pcov \
+&& docker-php-ext-enable pcov
 RUN mkdir -p /sdk
 WORKDIR /sdk
 COPY . /sdk
