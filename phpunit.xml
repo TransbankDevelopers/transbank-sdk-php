@@ -4,11 +4,21 @@
         <include>
             <directory suffix=".php">src</directory>
         </include>
-    </coverage>
+        <report>
+          <clover outputFile="coverage/clover.xml"/>
+          <html outputDirectory="coverage/html"/>
+        </report>
+  </coverage>
   <testsuites>
     <testsuite name="Transbank Onepay SDK Test Suite">
       <directory suffix="Test.php">tests</directory>
     </testsuite>
   </testsuites>
-  <logging/>
+  <logging>
+    <log type="coverage-html" target="/coverage" title="Transbank SDK PHP"
+        charset="UTF-8" yui="true" highlight="true"
+        lowUpperBound="50" highLowerBound="80"/>
+    <log type="coverage-clover" target="/coverage/clover.xml"/>
+    <log type="coverage-text" target="php://stdout" showUncoveredFiles="true"/>
+  </logging>
 </phpunit>
