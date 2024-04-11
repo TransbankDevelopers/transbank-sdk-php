@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use Transbank\Patpass\PatpassComercio\Responses\InscriptionFinishResponse;
 
-class InscriptionFinishResponseTest extends TestCase
+class PatpassInscriptionFinishResponseTest extends TestCase
 {
     /** @test */
     public function it_sets_status_to_ok_when_http_code_is_204()
