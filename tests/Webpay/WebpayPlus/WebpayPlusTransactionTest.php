@@ -194,6 +194,9 @@ class WebpayPlusTransactionTest extends TestCase
         $this->assertSame($response->getInstallmentsNumber(), 0);
         $this->assertSame($response->getInstallmentsAmount(), null);
         $this->assertSame($response->getTransactionDate(), '2021-03-22T21:01:20.374Z');
+        echo("############################################");
+        echo($response->isApproved());
+        $this->assertSame($response->isApproved(), true);
     }
 
     /** @test */
