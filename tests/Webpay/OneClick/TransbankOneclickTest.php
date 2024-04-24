@@ -118,4 +118,24 @@ class TransbankOneclickTest extends TestCase
         $this->email = 'demo_' . rand(100000, 999999) . '@demo.cl';
         $this->responseUrl = 'http://demo.cl/return';
     }
+
+    /** @test */
+    public function it_configures_for_testing()
+    {
+        Oneclick::configureForTesting();
+        $options = Oneclick::getOptions();
+
+        $this->assertSame(Oneclick::DEFAULT_COMMERCE_CODE, $options->getCommerceCode());
+        $this->assertSame(Oneclick::DEFAULT_API_KEY, $options->getApiKey());
+    }
+
+    /** @test */
+    public function it_configures_for_testing_deferred()
+    {
+        Oneclick::configureForTestingDeferred();
+        $options = Oneclick::getOptions();
+
+        $this->assertSame(Oneclick::DEFAULT_DEFERRED_COMMERCE_CODE, $options->getCommerceCode());
+        $this->assertSame(Oneclick::DEFAULT_API_KEY, $options->getApiKey());
+    }
 }
