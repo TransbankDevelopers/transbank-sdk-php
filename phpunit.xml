@@ -10,7 +10,7 @@
         </report>
   </coverage>
   <testsuites>
-    <testsuite name="Transbank Onepay SDK Test Suite">
+    <testsuite name="Transbank SDK Test Suite">
       <directory suffix="Test.php">tests</directory>
     </testsuite>
   </testsuites>
