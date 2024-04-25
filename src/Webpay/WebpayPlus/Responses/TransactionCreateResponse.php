@@ -57,18 +57,6 @@ class TransactionCreateResponse
     }
 
     /**
-     * @param string|null $token
-     *
-     * @return TransactionCreateResponse
-     */
-    public function setToken($token)
-    {
-        $this->token = $token;
-
-        return $this;
-    }
-
-    /**
      * @return string|null
      */
     public function getUrl()
@@ -76,15 +64,4 @@ class TransactionCreateResponse
         return $this->url;
     }
 
-    /**
-     * @param string|null $url
-     *
-     * @return TransactionCreateResponse
-     */
-    public function setUrl($url)
-    {
-        $this->url = $url;
-
-        return $this;
-    }
 }

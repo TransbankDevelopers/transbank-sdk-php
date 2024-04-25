@@ -39,35 +39,11 @@ class TransactionCaptureResponse
     }
 
     /**
-     * @param mixed $authorizationCode
-     *
-     * @return TransactionCaptureResponse
-     */
-    public function setAuthorizationCode($authorizationCode)
-    {
-        $this->authorizationCode = $authorizationCode;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getAuthorizationDate()
     {
         return $this->authorizationDate;
-    }
-
-    /**
-     * @param mixed $authorizationDate
-     *
-     * @return TransactionCaptureResponse
-     */
-    public function setAuthorizationDate($authorizationDate)
-    {
-        $this->authorizationDate = $authorizationDate;
-
-        return $this;
     }
 
     /**
@@ -79,18 +55,6 @@ class TransactionCaptureResponse
     }
 
     /**
-     * @param mixed $capturedAmount
-     *
-     * @return TransactionCaptureResponse
-     */
-    public function setCapturedAmount($capturedAmount)
-    {
-        $this->capturedAmount = $capturedAmount;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getResponseCode()
@@ -98,15 +62,4 @@ class TransactionCaptureResponse
         return $this->responseCode;
     }
 
-    /**
-     * @param mixed $responseCode
-     *
-     * @return TransactionCaptureResponse
-     */
-    public function setResponseCode($responseCode)
-    {
-        $this->responseCode = $responseCode;
-
-        return $this;
-    }
 }
