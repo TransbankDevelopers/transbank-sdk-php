@@ -10,15 +10,8 @@
         </report>
   </coverage>
   <testsuites>
-    <testsuite name="Transbank Onepay SDK Test Suite">
+    <testsuite name="Transbank SDK Test Suite">
       <directory suffix="Test.php">tests</directory>
     </testsuite>
   </testsuites>
-  <logging>
-    <log type="coverage-html" target="/build/logs" title="Transbank SDK PHP"
-        charset="UTF-8" yui="true" highlight="true"
-        lowUpperBound="50" highLowerBound="80"/>
-    <log type="coverage-clover" target="/build/logs/clover.xml"/>
-    <log type="coverage-text" target="php://stdout" showUncoveredFiles="true"/>
-  </logging>
 </phpunit>
