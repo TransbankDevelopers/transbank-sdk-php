@@ -3,11 +3,10 @@
 namespace Transbank\Webpay\WebpayPlus\Responses;
 
 use Transbank\Utils\Utils;
+use Transbank\Utils\TransactionStatusEnum;
 
 class TransactionRefundResponse
 {
-    const TYPE_REVERSED = 'REVERSED';
-    const TYPE_NULLIFY = 'NULLIFIED';
     /**
      * @var mixed|null
      */
@@ -50,8 +49,8 @@ class TransactionRefundResponse
 
     public function success()
     {
-        return $this->getType() === static::TYPE_REVERSED ||
-            ($this->getType() === self::TYPE_NULLIFY && $this->getResponseCode() === 0);
+        return $this->getType() === TransactionStatusEnum::STATUS_REVERSED ||
+            ($this->getType() === TransactionStatusEnum::STATUS_NULLIFIED && $this->getResponseCode() === 0);
     }
 
     /**
