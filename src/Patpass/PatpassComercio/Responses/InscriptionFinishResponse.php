@@ -34,16 +34,6 @@ class InscriptionFinishResponse
     }
 
     /**
-     * @param mixed $status
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getCode()
@@ -51,13 +41,4 @@ class InscriptionFinishResponse
         return $this->code;
     }
 
-    /**
-     * @param mixed $code
-     */
-    public function setCode($code)
-    {
-        $this->code = $code;
-
-        return $this;
-    }
 }

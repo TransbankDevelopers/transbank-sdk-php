@@ -35,18 +35,6 @@ class InscriptionStartResponse
     }
 
     /**
-     * @param mixed $token
-     *
-     * @return InscriptionStartResponse
-     */
-    public function setToken($token)
-    {
-        $this->token = $token;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getUrlWebpay()
@@ -54,15 +42,4 @@ class InscriptionStartResponse
         return $this->urlWebpay;
     }
 
-    /**
-     * @param mixed $url
-     *
-     * @return InscriptionStartResponse
-     */
-    public function setUrlWebpay($url)
-    {
-        $this->urlWebpay = $url;
-
-        return $this;
-    }
 }
