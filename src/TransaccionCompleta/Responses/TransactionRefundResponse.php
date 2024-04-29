@@ -32,35 +32,11 @@ class TransactionRefundResponse
     }
 
     /**
-     * @param mixed $type
-     *
-     * @return TransactionRefundResponse
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getAuthorizationCode()
     {
         return $this->authorizationCode;
-    }
-
-    /**
-     * @param mixed $authorizationCode
-     *
-     * @return TransactionRefundResponse
-     */
-    public function setAuthorizationCode($authorizationCode)
-    {
-        $this->authorizationCode = $authorizationCode;
-
-        return $this;
     }
 
     /**
@@ -72,35 +48,11 @@ class TransactionRefundResponse
     }
 
     /**
-     * @param mixed $authorizationDate
-     *
-     * @return TransactionRefundResponse
-     */
-    public function setAuthorizationDate($authorizationDate)
-    {
-        $this->authorizationDate = $authorizationDate;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getNullifiedAmount()
     {
         return $this->nullifiedAmount;
-    }
-
-    /**
-     * @param mixed $nullifiedAmount
-     *
-     * @return TransactionRefundResponse
-     */
-    public function setNullifiedAmount($nullifiedAmount)
-    {
-        $this->nullifiedAmount = $nullifiedAmount;
-
-        return $this;
     }
 
     /**
@@ -112,18 +64,6 @@ class TransactionRefundResponse
     }
 
     /**
-     * @param mixed $balance
-     *
-     * @return TransactionRefundResponse
-     */
-    public function setBalance($balance)
-    {
-        $this->balance = $balance;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getResponseCode()
@@ -131,15 +71,4 @@ class TransactionRefundResponse
         return (int) $this->responseCode;
     }
 
-    /**
-     * @param mixed $responseCode
-     *
-     * @return TransactionRefundResponse
-     */
-    public function setResponseCode($responseCode)
-    {
-        $this->responseCode = $responseCode;
-
-        return $this;
-    }
 }

@@ -26,31 +26,11 @@ class MallTransactionInstallmentsResponse
     }
 
     /**
-     * @param mixed $installmentsAmount
-     */
-    public function setInstallmentsAmount($installmentsAmount)
-    {
-        $this->installmentsAmount = $installmentsAmount;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getIdQueryInstallments()
     {
         return $this->idQueryInstallments;
-    }
-
-    /**
-     * @param mixed $idQueryInstallments
-     */
-    public function setIdQueryInstallments($idQueryInstallments)
-    {
-        $this->idQueryInstallments = $idQueryInstallments;
-
-        return $this;
     }
 
     /**
@@ -61,13 +41,4 @@ class MallTransactionInstallmentsResponse
         return $this->deferredPeriods;
     }
 
-    /**
-     * @param mixed $deferredPeriods
-     */
-    public function setDeferredPeriods($deferredPeriods)
-    {
-        $this->deferredPeriods = $deferredPeriods;
-
-        return $this;
-    }
 }
