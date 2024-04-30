@@ -26,27 +26,30 @@ class MallTransactionRefundResponseTest extends TestCase
         $this->assertSame('testResponseCode', $response->responseCode);
     }
 
-    public function testGettersAndSetters()
+    public function testGetters()
     {
-        $response = new MallTransactionRefundResponse([]);
+        $json = [
+            'type' => 'testType',
+            'authorization_code' => 'testAuthorizationCode',
+            'authorization_date' => 'testAuthorizationDate',
+            'nullified_amount' => 'testNullifiedAmount',
+            'balance' => 'testBalance',
+            'response_code' => 10,
+        ];
 
-        $response->setType('testType');
+        $response = new MallTransactionRefundResponse($json);
+
         $this->assertSame('testType', $response->getType());
 
-        $response->setAuthorizationCode('testAuthorizationCode');
         $this->assertSame('testAuthorizationCode', $response->getAuthorizationCode());
 
-        $response->setAuthorizationDate('testAuthorizationDate');
         $this->assertSame('testAuthorizationDate', $response->getAuthorizationDate());
 
-        $response->setNullifiedAmount('testNullifiedAmount');
         $this->assertSame('testNullifiedAmount', $response->getNullifiedAmount());
 
-        $response->setBalance('testBalance');
         $this->assertSame('testBalance', $response->getBalance());
 
-        $response->setResponseCode(200);
-        $this->assertSame(200, $response->getResponseCode());
-        
+        $this->assertSame(10, $response->getResponseCode());
+
     }
 }
