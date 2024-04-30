@@ -6,7 +6,7 @@ use Transbank\TransaccionCompleta\Responses\TransactionCreateResponse;
 class TransactionCompletareateResponseTest extends TestCase
 {
     /** @test */
-    public function it_can_create_instance_from_json()
+    public function it_can_get_token()
     {
         $json = [
             'token' => 'testToken',
@@ -27,12 +27,4 @@ class TransactionCompletareateResponseTest extends TestCase
         $this->assertNull($response->getToken());
     }
 
-    /** @test */
-    public function it_can_set_and_get_token()
-    {
-        $response = new \Transbank\TransaccionCompleta\Responses\TransactionCreateResponse([]);
-        $response->setToken('testToken');
-
-        $this->assertSame('testToken', $response->getToken());
-    }
 }
