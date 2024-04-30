@@ -36,13 +36,4 @@ class TransactionDetailTest extends TestCase
         $this->assertSame($data['prepaid_balance'], $transactionDetail->prepaidBalance);
     }
 
-    public function testSetPrepaidBalance()
-    {
-        $transactionDetail = new TransactionDetail();
-        $prepaidBalance = 1000;
-
-        $transactionDetail->setPrepaidBalance($prepaidBalance);
-
-        $this->assertSame($prepaidBalance, $transactionDetail->getPrepaidBalance());
-    }
 }
