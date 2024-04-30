@@ -5,20 +5,25 @@ use Transbank\TransaccionCompleta\Responses\TransactionStatusResponse;
 
 class TransactionStatusResponseTest extends TestCase
 {
-    /** @test */
-    public function it_can_set_and_get_prepaid_balance()
+    protected $json;
+    protected $response;
+    public function setUp(): void
     {
-        $response = new TransactionStatusResponse(200);
-        $response->setPrepaidBalance(100.00);
-
-        $this->assertSame(100.00, $response->getPrepaidBalance());
+        $this->json = [
+        'vci' => 'Some VCI',
+        'prepaid_balance' => 100.00
+        ];
+        $this->response = new TransactionStatusResponse($this->json);
+    }
+    /** @test */
+    public function it_can_get_prepaid_balance()
+    {
+        $this->assertSame(100.00, $this->response->getPrepaidBalance());
     }
 
-    public function it_can_set_and_get_vci()
+    /** @test */
+    public function it_can_get_vci()
     {
-        $response = new TransactionStatusResponse(200);
-        $response->setVci('Some VCI');
-
-        $this->assertSame('Some VCI', $response->getVci());
+        $this->assertSame('Some VCI', $this->response->getVci());
     }
 }
