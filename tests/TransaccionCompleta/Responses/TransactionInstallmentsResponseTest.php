@@ -5,34 +5,32 @@ use Transbank\TransaccionCompleta\Responses\TransactionInstallmentsResponse;
 
 class TransactionInstallmentsResponseTest extends TestCase
 {
-    public function testSetIdQueryInstallments()
+
+    protected $json;
+    protected $transactionInstallmentsResponse;
+
+    public function setUp(): void
     {
-        $transactionInstallmentsResponse = new TransactionInstallmentsResponse(200);
-        $idQueryInstallments = '123456';
+        $this->json = [
+            'installments_amount' => 1000,
+            'id_query_installments' => '123456',
+            'deferred_periods' => ['period1', 'period2'],
+        ];
 
-        $transactionInstallmentsResponse->setIdQueryInstallments($idQueryInstallments);
-
-        $this->assertSame($idQueryInstallments, $transactionInstallmentsResponse->idQueryInstallments);
+        $this->transactionInstallmentsResponse = new TransactionInstallmentsResponse($this->json);
+    }
+    public function testGetIdQueryInstallments()
+    {
+        $this->assertSame('123456', $this->transactionInstallmentsResponse->idQueryInstallments);
     }
 
     public function testGetDeferredPeriods()
     {
-        $transactionInstallmentsResponse = new TransactionInstallmentsResponse(200);
-        $deferredPeriods = ['period1', 'period2'];
-
-        // Assuming you have a setter for deferredPeriods
-        $transactionInstallmentsResponse->setDeferredPeriods($deferredPeriods);
-
-        $this->assertSame($deferredPeriods, $transactionInstallmentsResponse->getDeferredPeriods());
+        $this->assertSame(['period1', 'period2'], $this->transactionInstallmentsResponse->getDeferredPeriods());
     }
 
-    public function testSetInstallmentsAmount()
+    public function testGetInstallmentsAmount()
     {
-        $transactionInstallmentsResponse = new TransactionInstallmentsResponse(200);
-        $installmentsAmount = 1000;
-
-        $transactionInstallmentsResponse->setInstallmentsAmount($installmentsAmount);
-
-        $this->assertSame($installmentsAmount, $transactionInstallmentsResponse->getInstallmentsAmount());
+        $this->assertSame(1000, $this->transactionInstallmentsResponse->getInstallmentsAmount());
     }
 }

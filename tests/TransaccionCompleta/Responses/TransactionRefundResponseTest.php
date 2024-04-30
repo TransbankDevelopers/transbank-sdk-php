@@ -5,47 +5,50 @@ use Transbank\TransaccionCompleta\Responses\TransactionRefundResponse;
 
 class TransactionRefundResponseTest extends TestCase
 {
-    public function testConstructor()
+
+    protected $json;
+    protected $refundResponse;
+
+    public function setUp(): void
     {
-        $json = [
+        $this->json = [
             'type' => 'testType',
             'authorization_code' => 'testAuthorizationCode',
             'authorization_date' => 'testAuthorizationDate',
             'nullified_amount' => 'testNullifiedAmount',
             'balance' => 'testBalance',
-            'response_code' => 'testResponseCode',
+            'response_code' => 200,
         ];
 
-        $response = new TransactionRefundResponse($json);
+        $this->refundResponse = new TransactionRefundResponse($this->json);
+
+    }
+    public function testConstructor()
+    {
+
+        $response = new TransactionRefundResponse($this->json);
 
         $this->assertEquals('testType', $response->type);
         $this->assertEquals('testAuthorizationCode', $response->authorizationCode);
         $this->assertEquals('testAuthorizationDate', $response->authorizationDate);
         $this->assertEquals('testNullifiedAmount', $response->nullifiedAmount);
         $this->assertEquals('testBalance', $response->balance);
-        $this->assertEquals('testResponseCode', $response->responseCode);
+        $this->assertEquals(200, $response->responseCode);
     }
 
-    public function testGettersAndSetters()
+    public function testGetters()
     {
-        $response = new TransactionRefundResponse([]);
+        $this->assertEquals('testType', $this->refundResponse->getType());
 
-        $response->setType('testType');
-        $this->assertEquals('testType', $response->getType());
+        $this->assertEquals('testAuthorizationCode', $this->refundResponse->getAuthorizationCode());
 
-        $response->setAuthorizationCode('testAuthorizationCode');
-        $this->assertEquals('testAuthorizationCode', $response->getAuthorizationCode());
+        $this->assertEquals('testAuthorizationDate', $this->refundResponse->getAuthorizationDate());
 
-        $response->setAuthorizationDate('testAuthorizationDate');
-        $this->assertEquals('testAuthorizationDate', $response->getAuthorizationDate());
+        $this->assertEquals('testNullifiedAmount', $this->refundResponse->getNullifiedAmount());
 
-        $response->setNullifiedAmount('testNullifiedAmount');
-        $this->assertEquals('testNullifiedAmount', $response->getNullifiedAmount());
+        $this->assertEquals('testBalance', $this->refundResponse->getBalance());
 
-        $response->setBalance('testBalance');
-        $this->assertEquals('testBalance', $response->getBalance());
-
-        $response->setResponseCode(200);
-        $this->assertEquals(200, $response->getResponseCode());        
+        $this->assertEquals(200, $this->refundResponse->getResponseCode());
     }
+
 }

@@ -5,80 +5,79 @@ use Transbank\Patpass\PatpassByWebpay\Responses\TransactionCommitResponse;
 
 class TransactionCommitResponseTest extends TestCase
 {
+
+    protected $commitResponse;
+
+    public function setUp(): void
+    {
+       $json = [
+        'vci' => 'testVci',
+        'amount' => 100,
+        'status' => 'testStatus',
+        'buy_order' => 'testBuyOrder',
+        'session_id' => 'testSessionId',
+        'card_detail' => 'testCardDetail',
+        'accounting_date' => 'testAccountingDate',
+        'transaction_date' => 'testTransactionDate',
+        'authorization_code' => 'testAuthorizationCode',
+        'payment_type_code' => 'testPaymentTypeCode',
+        'installments_number' => 3
+        ];
+
+        $this->commitResponse = new TransactionCommitResponse($json);
+    }
     public function testSetAndGetVci()
     {
-        $transactionCommitResponse = new TransactionCommitResponse([]);
-        $transactionCommitResponse->setVci('testVci');
-        $this->assertSame('testVci', $transactionCommitResponse->getVci());
+        $this->assertSame('testVci', $this->commitResponse->getVci());
     }
 
     public function testSetAndGetAmount()
     {
-        $transactionCommitResponse = new TransactionCommitResponse([]);
-        $transactionCommitResponse->setAmount(100);
-        $this->assertSame(100, $transactionCommitResponse->getAmount());
+        $this->assertSame(100, $this->commitResponse->getAmount());
     }
 
     public function testSetAndGetStatus()
     {
-        $transactionCommitResponse = new TransactionCommitResponse([]);
-        $transactionCommitResponse->setStatus('testStatus');
-        $this->assertSame('testStatus', $transactionCommitResponse->getStatus());
+        $this->assertSame('testStatus', $this->commitResponse->getStatus());
     }
 
     public function testSetAndGetBuyOrder()
     {
-        $transactionCommitResponse = new TransactionCommitResponse([]);
-        $transactionCommitResponse->setBuyOrder('testBuyOrder');
-        $this->assertSame('testBuyOrder', $transactionCommitResponse->getBuyOrder());
+        $this->assertSame('testBuyOrder', $this->commitResponse->getBuyOrder());
     }
 
     public function testSetAndGetSessionId()
     {
-        $transactionCommitResponse = new TransactionCommitResponse([]);
-        $transactionCommitResponse->setSessionId('testSessionId');
-        $this->assertSame('testSessionId', $transactionCommitResponse->getSessionId());
+        $this->assertSame('testSessionId', $this->commitResponse->getSessionId());
     }
 
     public function testSetAndGetCardDetail()
     {
-        $transactionCommitResponse = new TransactionCommitResponse([]);
-        $transactionCommitResponse->setCardDetail('testCardDetail');
-        $this->assertSame('testCardDetail', $transactionCommitResponse->getCardDetail());
+        $this->assertSame('testCardDetail', $this->commitResponse->getCardDetail());
     }
 
     public function testSetAndGetAccountingDate()
     {
-        $transactionCommitResponse = new TransactionCommitResponse([]);
-        $transactionCommitResponse->setAccountingDate('testAccountingDate');
-        $this->assertSame('testAccountingDate', $transactionCommitResponse->getAccountingDate());
+        $this->assertSame('testAccountingDate', $this->commitResponse->getAccountingDate());
     }
 
     public function testSetAndGetTransactionDate()
     {
-        $transactionCommitResponse = new TransactionCommitResponse([]);
-        $transactionCommitResponse->setTransactionDate('testTransactionDate');
-        $this->assertSame('testTransactionDate', $transactionCommitResponse->getTransactionDate());
+        $this->assertSame('testTransactionDate', $this->commitResponse->getTransactionDate());
     }
-    
+
     public function testSetAndGetAuthorizationCode()
     {
-        $transactionCommitResponse = new TransactionCommitResponse([]);
-        $transactionCommitResponse->setAuthorizationCode('testAuthorizationCode');
-        $this->assertSame('testAuthorizationCode', $transactionCommitResponse->getAuthorizationCode());
+        $this->assertSame('testAuthorizationCode', $this->commitResponse->getAuthorizationCode());
     }
 
     public function testSetAndGetPaymentTypeCode()
     {
-        $transactionCommitResponse = new TransactionCommitResponse([]);
-        $transactionCommitResponse->setPaymentTypeCode('testPaymentTypeCode');
-        $this->assertSame('testPaymentTypeCode', $transactionCommitResponse->getPaymentTypeCode());
+        $this->assertSame('testPaymentTypeCode', $this->commitResponse->getPaymentTypeCode());
     }
 
     public function testSetAndGetInstallmentsNumber()
     {
-        $transactionCommitResponse = new TransactionCommitResponse([]);
-        $transactionCommitResponse->setInstallmentsNumber(3);
-        $this->assertSame(3, $transactionCommitResponse->getInstallmentsNumber());
+        $this->assertSame(3, $this->commitResponse->getInstallmentsNumber());
     }
 }

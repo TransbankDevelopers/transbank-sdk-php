@@ -34,13 +34,4 @@ class TransactionDetail extends \Transbank\Webpay\WebpayPlus\Responses\Transacti
         return $this->prepaidBalance;
     }
 
-    /**
-     * @param mixed $balance
-     */
-    public function setPrepaidBalance($prepaidBalance)
-    {
-        $this->prepaidBalance = $prepaidBalance;
-    }
-
-
 }

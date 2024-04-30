@@ -21,13 +21,4 @@ class TransactionCreateResponse
         return $this->token;
     }
 
-    /**
-     * @param mixed $token
-     */
-    public function setToken($token)
-    {
-        $this->token = $token;
-
-        return $this;
-    }
 }

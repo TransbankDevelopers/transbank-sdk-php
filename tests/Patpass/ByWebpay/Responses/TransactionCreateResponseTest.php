@@ -31,22 +31,4 @@ class TransactionCreateResponseTest extends TestCase
         $this->assertSame('testToken', $response->getToken());
         $this->assertNull($response->getUrl());
     }
-
-     /** @test */
-     public function it_can_set_and_get_token()
-     {
-         $response = new TransactionCreateResponse([]);
-         $response->setToken('testToken');
- 
-         $this->assertSame('testToken', $response->getToken());
-     }
- 
-     /** @test */
-     public function it_can_set_and_get_url()
-     {
-         $response = new TransactionCreateResponse([]);
-         $response->setUrl('testUrl');
- 
-         $this->assertSame('testUrl', $response->getUrl());
-     }
 }

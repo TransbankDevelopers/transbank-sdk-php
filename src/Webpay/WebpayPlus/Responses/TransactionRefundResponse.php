@@ -3,11 +3,10 @@
 namespace Transbank\Webpay\WebpayPlus\Responses;
 
 use Transbank\Utils\Utils;
+use Transbank\Utils\TransactionStatusEnum;
 
 class TransactionRefundResponse
 {
-    const TYPE_REVERSED = 'REVERSED';
-    const TYPE_NULLIFY = 'NULLIFIED';
     /**
      * @var mixed|null
      */
@@ -50,8 +49,8 @@ class TransactionRefundResponse
 
     public function success()
     {
-        return $this->getType() === static::TYPE_REVERSED ||
-            ($this->getType() === self::TYPE_NULLIFY && $this->getResponseCode() === 0);
+        return $this->getType() === TransactionStatusEnum::STATUS_REVERSED ||
+            ($this->getType() === TransactionStatusEnum::STATUS_NULLIFIED && $this->getResponseCode() === 0);
     }
 
     /**
@@ -63,35 +62,11 @@ class TransactionRefundResponse
     }
 
     /**
-     * @param mixed|null $nullifiedAmount
-     *
-     * @return TransactionRefundResponse
-     */
-    public function setNullifiedAmount($nullifiedAmount)
-    {
-        $this->nullifiedAmount = $nullifiedAmount;
-
-        return $this;
-    }
-
-    /**
      * @return mixed|null
      */
     public function getBalance()
     {
         return $this->balance;
-    }
-
-    /**
-     * @param mixed|null $balance
-     *
-     * @return TransactionRefundResponse
-     */
-    public function setBalance($balance)
-    {
-        $this->balance = $balance;
-
-        return $this;
     }
 
     /**
@@ -103,35 +78,11 @@ class TransactionRefundResponse
     }
 
     /**
-     * @param mixed|null $responseCode
-     *
-     * @return TransactionRefundResponse
-     */
-    public function setResponseCode($responseCode)
-    {
-        $this->responseCode = $responseCode;
-
-        return $this;
-    }
-
-    /**
      * @return mixed|null
      */
     public function getType()
     {
         return $this->type;
-    }
-
-    /**
-     * @param mixed|null $type
-     *
-     * @return TransactionRefundResponse
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
     }
 
     /**
@@ -143,18 +94,6 @@ class TransactionRefundResponse
     }
 
     /**
-     * @param mixed|null $authorizationCode
-     *
-     * @return TransactionRefundResponse
-     */
-    public function setAuthorizationCode($authorizationCode)
-    {
-        $this->authorizationCode = $authorizationCode;
-
-        return $this;
-    }
-
-    /**
      * @return mixed|null
      */
     public function getAuthorizationDate()
@@ -162,15 +101,4 @@ class TransactionRefundResponse
         return $this->authorizationDate;
     }
 
-    /**
-     * @param mixed|null $authorizationDate
-     *
-     * @return TransactionRefundResponse
-     */
-    public function setAuthorizationDate($authorizationDate)
-    {
-        $this->authorizationDate = $authorizationDate;
-
-        return $this;
-    }
 }

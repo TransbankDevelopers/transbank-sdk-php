@@ -23,7 +23,7 @@ class MallTransactionStatusResponse
         $this->transactionDate = Utils::returnValueIfExists($json, 'transaction_date');
         $cardDetail = Utils::returnValueIfExists($json, 'card_detail');
         $this->cardNumber = Utils::returnValueIfExists($cardDetail, 'card_number');
-        
+
         $details = Utils::returnValueIfExists($json, 'details');
         $detailsObjectArray = [];
         if (is_array($details)) {
@@ -63,75 +63,11 @@ class MallTransactionStatusResponse
     }
 
     /**
-     * @param mixed $transactionDate
-     *
-     * @return MallTransactionStatusResponse
-     */
-    public function setTransactionDate($transactionDate)
-    {
-        $this->transactionDate = $transactionDate;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSessionId()
-    {
-        return $this->sessionId;
-    }
-
-    /**
-     * @param mixed $sessionId
-     *
-     * @return MallTransactionStatusResponse
-     */
-    public function setSessionId($sessionId)
-    {
-        $this->sessionId = $sessionId;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getCardNumber()
     {
         return $this->cardNumber;
-    }
-
-    /**
-     * @param mixed $cardNumber
-     *
-     * @return MallTransactionStatusResponse
-     */
-    public function setCardNumber($cardNumber)
-    {
-        $this->cardNumber = $cardNumber;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getExpirationDate()
-    {
-        return $this->expirationDate;
-    }
-
-    /**
-     * @param mixed $expirationDate
-     *
-     * @return MallTransactionStatusResponse
-     */
-    public function setExpirationDate($expirationDate)
-    {
-        $this->expirationDate = $expirationDate;
-
-        return $this;
     }
 
     /**
@@ -143,35 +79,11 @@ class MallTransactionStatusResponse
     }
 
     /**
-     * @param mixed $accountingDate
-     *
-     * @return MallTransactionStatusResponse
-     */
-    public function setAccountingDate($accountingDate)
-    {
-        $this->accountingDate = $accountingDate;
-
-        return $this;
-    }
-
-    /**
      * @return TransactionDetail[]
      */
     public function getDetails()
     {
         return $this->details;
-    }
-
-    /**
-     * @param mixed $details
-     *
-     * @return MallTransactionStatusResponse
-     */
-    public function setDetails(array $details)
-    {
-        $this->details = $details;
-
-        return $this;
     }
 
     /**
@@ -182,15 +94,4 @@ class MallTransactionStatusResponse
         return $this->buyOrder;
     }
 
-    /**
-     * @param mixed $buyOrder
-     *
-     * @return MallTransactionStatusResponse
-     */
-    public function setBuyOrder($buyOrder)
-    {
-        $this->buyOrder = $buyOrder;
-
-        return $this;
-    }
 }

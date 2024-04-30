@@ -21,15 +21,4 @@ class MallTransactionCreateResponse
         return $this->token;
     }
 
-    /**
-     * @param mixed $token
-     *
-     * @return MallTransactionCreateResponse
-     */
-    public function setToken($token)
-    {
-        $this->token = $token;
-
-        return $this;
-    }
 }

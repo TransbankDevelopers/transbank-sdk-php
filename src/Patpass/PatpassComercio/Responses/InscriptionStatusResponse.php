@@ -30,18 +30,6 @@ class InscriptionStatusResponse
     }
 
     /**
-     * @param mixed $status
-     *
-     * @return InscriptionStatusResponse
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getUrlVoucher()
@@ -49,15 +37,4 @@ class InscriptionStatusResponse
         return $this->urlVoucher;
     }
 
-    /**
-     * @param mixed $urlVoucher
-     *
-     * @return InscriptionStatusResponse
-     */
-    public function setUrlVoucher($urlVoucher)
-    {
-        $this->urlVoucher = $urlVoucher;
-
-        return $this;
-    }
 }

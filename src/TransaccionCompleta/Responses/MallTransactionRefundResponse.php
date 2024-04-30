@@ -32,35 +32,11 @@ class MallTransactionRefundResponse
     }
 
     /**
-     * @param mixed $type
-     *
-     * @return MallTransactionRefundResponse
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getAuthorizationCode()
     {
         return $this->authorizationCode;
-    }
-
-    /**
-     * @param mixed $authorizationCode
-     *
-     * @return MallTransactionRefundResponse
-     */
-    public function setAuthorizationCode($authorizationCode)
-    {
-        $this->authorizationCode = $authorizationCode;
-
-        return $this;
     }
 
     /**
@@ -72,35 +48,11 @@ class MallTransactionRefundResponse
     }
 
     /**
-     * @param mixed $authorizationDate
-     *
-     * @return MallTransactionRefundResponse
-     */
-    public function setAuthorizationDate($authorizationDate)
-    {
-        $this->authorizationDate = $authorizationDate;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getNullifiedAmount()
     {
         return $this->nullifiedAmount;
-    }
-
-    /**
-     * @param mixed $nullifiedAmount
-     *
-     * @return MallTransactionRefundResponse
-     */
-    public function setNullifiedAmount($nullifiedAmount)
-    {
-        $this->nullifiedAmount = $nullifiedAmount;
-
-        return $this;
     }
 
     /**
@@ -112,18 +64,6 @@ class MallTransactionRefundResponse
     }
 
     /**
-     * @param mixed $balance
-     *
-     * @return MallTransactionRefundResponse
-     */
-    public function setBalance($balance)
-    {
-        $this->balance = $balance;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getResponseCode()
@@ -131,15 +71,4 @@ class MallTransactionRefundResponse
         return (int) $this->responseCode;
     }
 
-    /**
-     * @param mixed $responseCode
-     *
-     * @return MallTransactionRefundResponse
-     */
-    public function setResponseCode($responseCode)
-    {
-        $this->responseCode = $responseCode;
-
-        return $this;
-    }
 }

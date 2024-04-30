@@ -36,35 +36,11 @@ class InscriptionFinishResponse
     }
 
     /**
-     * @param mixed $responseCode
-     *
-     * @return InscriptionFinishResponse
-     */
-    public function setResponseCode($responseCode)
-    {
-        $this->responseCode = $responseCode;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getTbkUser()
     {
         return $this->tbkUser;
-    }
-
-    /**
-     * @param mixed $tbkUser
-     *
-     * @return InscriptionFinishResponse
-     */
-    public function setTbkUser($tbkUser)
-    {
-        $this->tbkUser = $tbkUser;
-
-        return $this;
     }
 
     /**
@@ -76,35 +52,11 @@ class InscriptionFinishResponse
     }
 
     /**
-     * @param mixed $authorizationCode
-     *
-     * @return InscriptionFinishResponse
-     */
-    public function setAuthorizationCode($authorizationCode)
-    {
-        $this->authorizationCode = $authorizationCode;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getCardType()
     {
         return $this->cardType;
-    }
-
-    /**
-     * @param mixed $cardType
-     *
-     * @return InscriptionFinishResponse
-     */
-    public function setCardType($cardType)
-    {
-        $this->cardType = $cardType;
-
-        return $this;
     }
 
     /**
@@ -115,15 +67,4 @@ class InscriptionFinishResponse
         return $this->cardNumber;
     }
 
-    /**
-     * @param mixed $cardNumber
-     *
-     * @return InscriptionFinishResponse
-     */
-    public function setCardNumber($cardNumber)
-    {
-        $this->cardNumber = $cardNumber;
-
-        return $this;
-    }
 }

@@ -5,15 +5,23 @@ use Transbank\Patpass\PatpassComercio\Responses\InscriptionStatusResponse;
 
 class InscriptionStatusResponseTest extends TestCase
 {
+    protected $inscriptionResponse;
+    protected $json;
+
+    public function setUp(): void
+    {
+        $this->json = [
+            'authorized' => 'status',
+            'voucherUrl' => 'urlVoucher'
+        ];
+
+        $this->inscriptionResponse = new InscriptionStatusResponse($this->json);
+    }
+
     /** @test */
     public function it_can_be_created_from_json()
     {
-        $json = [
-            'authorized' => 'status',
-            'voucherUrl' => 'urlVoucher',
-        ];
-
-        $response = new InscriptionStatusResponse($json);
+        $response = new InscriptionStatusResponse($this->json);
 
         $this->assertSame('status', $response->status);
         $this->assertSame('urlVoucher', $response->urlVoucher);
@@ -31,18 +39,14 @@ class InscriptionStatusResponseTest extends TestCase
     }
 
     /** @test */
-    public function it_can_set_and_get_status()
+    public function it_can_get_status()
     {
-        $response = new InscriptionStatusResponse([]);
-        $response->setStatus('testStatus');
-        $this->assertSame('testStatus', $response->getStatus());
+        $this->assertSame('status', $this->inscriptionResponse->getStatus());
     }
 
     /** @test */
     public function it_can_set_and_get_url_voucher()
     {
-        $response = new InscriptionStatusResponse([]);
-        $response->setUrlVoucher('testUrl');
-        $this->assertSame('testUrl', $response->getUrlVoucher());
+        $this->assertSame('urlVoucher', $this->inscriptionResponse->getUrlVoucher());
     }
 }

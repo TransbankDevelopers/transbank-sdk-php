@@ -63,27 +63,11 @@ class TransactionDetail
     }
 
     /**
-     * @param mixed $amount
-     */
-    public function setAmount($amount)
-    {
-        $this->amount = $amount;
-    }
-
-    /**
      * @return mixed
      */
     public function getStatus()
     {
         return $this->status;
-    }
-
-    /**
-     * @param mixed $status
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
     }
 
     /**
@@ -95,27 +79,11 @@ class TransactionDetail
     }
 
     /**
-     * @param mixed $authorizationCode
-     */
-    public function setAuthorizationCode($authorizationCode)
-    {
-        $this->authorizationCode = $authorizationCode;
-    }
-
-    /**
      * @return mixed
      */
     public function getPaymentTypeCode()
     {
         return $this->paymentTypeCode;
-    }
-
-    /**
-     * @param mixed $paymentTypeCode
-     */
-    public function setPaymentTypeCode($paymentTypeCode)
-    {
-        $this->paymentTypeCode = $paymentTypeCode;
     }
 
     /**
@@ -127,27 +95,11 @@ class TransactionDetail
     }
 
     /**
-     * @param mixed $responseCode
-     */
-    public function setResponseCode($responseCode)
-    {
-        $this->responseCode = $responseCode;
-    }
-
-    /**
      * @return mixed
      */
     public function getInstallmentsNumber()
     {
         return $this->installmentsNumber;
-    }
-
-    /**
-     * @param mixed $installmentsNumber
-     */
-    public function setInstallmentsNumber($installmentsNumber)
-    {
-        $this->installmentsNumber = $installmentsNumber;
     }
 
     /**
@@ -159,27 +111,11 @@ class TransactionDetail
     }
 
     /**
-     * @param mixed $commerceCode
-     */
-    public function setCommerceCode($commerceCode)
-    {
-        $this->commerceCode = $commerceCode;
-    }
-
-    /**
      * @return mixed
      */
     public function getBuyOrder()
     {
         return $this->buyOrder;
-    }
-
-    /**
-     * @param mixed $buyOrder
-     */
-    public function setBuyOrder($buyOrder)
-    {
-        $this->buyOrder = $buyOrder;
     }
 
     /**
@@ -191,14 +127,6 @@ class TransactionDetail
     }
 
     /**
-     * @param mixed $installmentsAmount
-     */
-    public function setInstallmentsAmount($installmentsAmount)
-    {
-        $this->installmentsAmount = $installmentsAmount;
-    }
-
-    /**
      * @return mixed
      */
     public function getBalance()
@@ -206,11 +134,4 @@ class TransactionDetail
         return $this->balance;
     }
 
-    /**
-     * @param mixed $balance
-     */
-    public function setBalance($balance)
-    {
-        $this->balance = $balance;
-    }
 }

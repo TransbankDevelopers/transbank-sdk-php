@@ -20,17 +20,20 @@ class MallTransactionInstallmentsResponseTest extends TestCase
         $this->assertSame($json['deferred_periods'], $response->deferredPeriods);
     }
 
-    public function testGettersAndSetters()
+    public function testGetters()
     {
-        $response = new MallTransactionInstallmentsResponse([]);
+        $json = [
+            'installments_amount' => 2000,
+            'id_query_installments' => '123456',
+            'deferred_periods' => 12,
+        ];
 
-        $response->setInstallmentsAmount(2000);
+        $response = new MallTransactionInstallmentsResponse($json);
+
         $this->assertSame(2000, $response->getInstallmentsAmount());
 
-        $response->setIdQueryInstallments('654321');
-        $this->assertSame('654321', $response->getIdQueryInstallments());
+        $this->assertSame('123456', $response->getIdQueryInstallments());
 
-        $response->setDeferredPeriods(24);
-        $this->assertSame(24, $response->getDeferredPeriods());
+        $this->assertSame(12, $response->getDeferredPeriods());
     }
 }

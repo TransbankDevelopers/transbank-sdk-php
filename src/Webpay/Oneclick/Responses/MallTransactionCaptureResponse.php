@@ -24,23 +24,9 @@ class MallTransactionCaptureResponse
         return $this->authorizationCode;
     }
 
-    public function setAuthorizationCode($authorizationCode)
-    {
-        $this->authorizationCode = $authorizationCode;
-
-        return $this;
-    }
-
     public function getAuthorizationDate()
     {
         return $this->authorizationDate;
-    }
-
-    public function setAuthorizationDate($authorizationDate)
-    {
-        $this->authorizationDate = $authorizationDate;
-
-        return $this;
     }
 
     public function getCapturedAmount()
@@ -48,22 +34,9 @@ class MallTransactionCaptureResponse
         return $this->capturedAmount;
     }
 
-    public function setCapturedAmount($capturedAmount)
-    {
-        $this->capturedAmount = $capturedAmount;
-
-        return $this;
-    }
-
     public function getResponseCode()
     {
         return $this->responseCode;
     }
 
-    public function setResponseCode($responseCode)
-    {
-        $this->responseCode = $responseCode;
-
-        return $this;
-    }
 }

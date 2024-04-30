@@ -27,17 +27,6 @@ class TransactionStatusResponse
         return $this->vci;
     }
 
-    /**
-     * @param mixed $vci
-     *
-     * @return TransactionStatusResponse
-     */
-    public function setVci($vci)
-    {
-        $this->vci = $vci;
-
-        return $this;
-    }
      /**
      * @return mixed
      */
@@ -46,15 +35,4 @@ class TransactionStatusResponse
         return $this->prepaidBalance;
     }
 
-    /**
-     * @param mixed $prepaidBalance
-     *
-     * @return TransactionStatusResponse
-     */
-    public function setPrepaidBalance($prepaidBalance)
-    {
-        $this->prepaidBalance = $prepaidBalance;
-
-        return $this;
-    }
 }

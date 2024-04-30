@@ -5,19 +5,28 @@ use Transbank\Patpass\PatpassComercio\Responses\InscriptionStartResponse;
 
 class InscriptionStartResponseTest extends TestCase
 {
+    protected $inscriptionStartResponse;
+
+    public function setUp(): void
+    {
+        $json = [
+            'token' => 'testToken',
+            'url' => 'testUrl'
+            ];
+
+        $this->inscriptionStartResponse = new InscriptionStartResponse($json);
+
+    }
+
     /** @test */
     public function it_can_set_and_get_token()
     {
-        $response = new InscriptionStartResponse([]);
-        $response->setToken('testToken');
-        $this->assertSame('testToken', $response->getToken());
+        $this->assertSame('testToken', $this->inscriptionStartResponse->getToken());
     }
 
     /** @test */
     public function it_can_set_and_get_url_webpay()
     {
-        $response = new InscriptionStartResponse([]);
-        $response->setUrlWebpay('testUrl');
-        $this->assertSame('testUrl', $response->getUrlWebpay());
+        $this->assertSame('testUrl', $this->inscriptionStartResponse->getUrlWebpay());
     }
 }

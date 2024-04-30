@@ -20,30 +20,6 @@ trait HasTransactionStatus
     public $balance;
 
     /**
-     * @param mixed $amount
-     *
-     * @return static
-     */
-    public function setAmount($amount)
-    {
-        $this->amount = $amount;
-
-        return $this;
-    }
-
-    /**
-     * @param mixed $buyOrder
-     *
-     * @return static
-     */
-    public function setBuyOrder($buyOrder)
-    {
-        $this->buyOrder = $buyOrder;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getBalance()
@@ -57,18 +33,6 @@ trait HasTransactionStatus
     public function getStatus()
     {
         return $this->status;
-    }
-
-    /**
-     * @param mixed $cardNumber
-     *
-     * @return static
-     */
-    public function setCardNumber($cardNumber)
-    {
-        $this->cardNumber = $cardNumber;
-
-        return $this;
     }
 
     /**
@@ -96,83 +60,11 @@ trait HasTransactionStatus
     }
 
     /**
-     * @param mixed $status
-     *
-     * @return static
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * @param mixed $sessionId
-     *
-     * @return static
-     */
-    public function setSessionId($sessionId)
-    {
-        $this->sessionId = $sessionId;
-
-        return $this;
-    }
-
-    /**
-     * @param mixed $paymentTypeCode
-     *
-     * @return static
-     */
-    public function setPaymentTypeCode($paymentTypeCode)
-    {
-        $this->paymentTypeCode = $paymentTypeCode;
-
-        return $this;
-    }
-
-    /**
-     * @param mixed $installmentsAmount
-     *
-     * @return static
-     */
-    public function setInstallmentsAmount($installmentsAmount)
-    {
-        $this->installmentsAmount = $installmentsAmount;
-
-        return $this;
-    }
-
-    /**
-     * @param mixed $accountingDate
-     *
-     * @return static
-     */
-    public function setAccountingDate($accountingDate)
-    {
-        $this->accountingDate = $accountingDate;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getBuyOrder()
     {
         return $this->buyOrder;
-    }
-
-    /**
-     * @param mixed $responseCode
-     *
-     * @return static
-     */
-    public function setResponseCode($responseCode)
-    {
-        $this->responseCode = $responseCode;
-
-        return $this;
     }
 
     /**
@@ -222,18 +114,6 @@ trait HasTransactionStatus
     }
 
     /**
-     * @param mixed $transactionDate
-     *
-     * @return static
-     */
-    public function setTransactionDate($transactionDate)
-    {
-        $this->transactionDate = $transactionDate;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getPaymentTypeCode()
@@ -247,14 +127,6 @@ trait HasTransactionStatus
     public function getInstallmentsAmount()
     {
         return $this->installmentsAmount;
-    }
-
-    /**
-     * @param mixed|null $cardDetail
-     */
-    public function setCardDetail($cardDetail)
-    {
-        $this->cardDetail = $cardDetail;
     }
 
     /**
@@ -274,18 +146,6 @@ trait HasTransactionStatus
     }
 
     /**
-     * @param mixed $installmentsNumber
-     *
-     * @return static
-     */
-    public function setInstallmentsNumber($installmentsNumber)
-    {
-        $this->installmentsNumber = $installmentsNumber;
-
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getTransactionDate()
@@ -293,27 +153,4 @@ trait HasTransactionStatus
         return $this->transactionDate;
     }
 
-    /**
-     * @param mixed $balance
-     *
-     * @return static
-     */
-    public function setBalance($balance)
-    {
-        $this->balance = $balance;
-
-        return $this;
-    }
-
-    /**
-     * @param mixed $authorizationCode
-     *
-     * @return static
-     */
-    public function setAuthorizationCode($authorizationCode)
-    {
-        $this->authorizationCode = $authorizationCode;
-
-        return $this;
-    }
 }
