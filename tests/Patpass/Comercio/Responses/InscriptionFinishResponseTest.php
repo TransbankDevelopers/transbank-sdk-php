@@ -30,18 +30,16 @@ class PatpassInscriptionFinishResponseTest extends TestCase
     }
 
     /** @test */
-    public function it_can_set_and_get_status()
+    public function it_can_get_status()
     {
-        $response = new InscriptionFinishResponse(200);
-        $response->setStatus('OK');
+        $response = new InscriptionFinishResponse(204);
         $this->assertSame('OK', $response->getStatus());
     }
 
     /** @test */
-    public function it_can_set_and_get_code()
+    public function it_can_get_code()
     {
         $response = new InscriptionFinishResponse(204);
-        $response->setCode(204);
         $this->assertSame(204, $response->getCode());
     }
 }
