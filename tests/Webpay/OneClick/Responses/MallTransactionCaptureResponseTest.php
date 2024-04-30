@@ -22,10 +22,12 @@ class MallTransactionCaptureResponseTest extends TestCase
         $this->assertSame(200, $response->responseCode);
     }
 
-    public function testSetAndGetAuthorizationCode()
+    public function testGetAuthorizationCode()
     {
-        $response = new MallTransactionCaptureResponse([]);
-        $response->setAuthorizationCode('456');
+        $json = [
+            'authorization_code' => '456'
+        ];
+        $response = new MallTransactionCaptureResponse($json);
 
         $this->assertSame('456', $response->getAuthorizationCode());
     }
