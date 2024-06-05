@@ -16,6 +16,13 @@ class Options
 
     const DEFAULT_API_KEY = '579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C';
 
+    const DEFAULT_TIMEOUT = 60 * 10;
+
+    /**
+     * @var int Timeout for requests in seconds
+     */
+    protected $timeout;
+
     /**
      * @var string Your api key, given by Transbank.Sent as a header when
      *             making requests to Transbank on a field called "Tbk-Api-Key-Secret"
@@ -32,11 +39,12 @@ class Options
      */
     public $integrationType = self::ENVIRONMENT_INTEGRATION;
 
-    public function __construct($apiKey, $commerceCode, $integrationType = self::ENVIRONMENT_INTEGRATION)
+    public function __construct($apiKey, $commerceCode, $integrationType = self::ENVIRONMENT_INTEGRATION, $timeout = self::DEFAULT_TIMEOUT)
     {
         $this->apiKey = $apiKey;
         $this->commerceCode = $commerceCode;
         $this->integrationType = $integrationType;
+        $this->timeout = $timeout;
     }
 
     public static function forProduction($commerceCode, $apiKey)
@@ -136,5 +144,25 @@ class Options
             'Tbk-Api-Key-Id'     => $this->getCommerceCode(),
             'Tbk-Api-Key-Secret' => $this->getApiKey(),
         ];
+    }
+
+    /**
+     * @return int
+     */
+    public function getTimeout()
+    {
+        return $this->timeout;
+    }
+
+    /**
+     * @param int $timeout
+     *
+     * @return Options
+     */
+    public function setTimeout($timeout)
+    {
+        $this->timeout = $timeout;
+
+        return $this;
     }
 }
