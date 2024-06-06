@@ -12,18 +12,23 @@ class RequestServiceTest extends TestCase
     public function it_send_the_headers_provided_by_the_given_options()
     {
         $expectedHeaders = ['api_key' => 'commerce_code', 'api_secret' => 'fakeApiKey'];
-
+        $timeOut = 10;
         $optionsMock = $this->createMock(Options::class);
         $optionsMock
             ->expects($this->once())
             ->method('getHeaders')
             ->willReturn($expectedHeaders);
+        $optionsMock
+            ->expects($this->once())
+            ->method('getTimeout')
+            ->willReturn($timeOut);
 
         $httpClientMock = $this->createMock(HttpClient::class);
         $httpClientMock
             ->expects($this->once())
             ->method('request')
-            ->with($this->anything(), $this->anything(), $this->anything(), $this->equalTo(['headers' => $expectedHeaders,]))
+            ->with($this->anything(), $this->anything(), $this->anything(), $this->equalTo(['headers' => $expectedHeaders,
+                                                                                            'timeout' => $timeOut]))
             ->willReturn(
                 new Response(200, [], json_encode(['token' => 'mock', 'url'   => 'https://mock.cl/',]))
             );
