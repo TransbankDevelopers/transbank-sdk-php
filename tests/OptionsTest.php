@@ -8,10 +8,11 @@ class OptionsTest extends TestCase
     /** @test */
     public function it_assign_contructor_params_to_their_corresponding_properties()
     {
-        $options = new Options('a', 'b', 'c');
+        $options = new Options('a', 'b', 'c', 10);
         $this->assertSame('a', $options->getApiKey());
         $this->assertSame('b', $options->getCommerceCode());
         $this->assertSame('c', $options->getIntegrationType());
+        $this->assertSame(10, $options->getTimeout());
     }
 
     /** @test */
@@ -59,5 +60,13 @@ class OptionsTest extends TestCase
     {
         $options = Options::forIntegration('CommerceCode', 'ApiKey');
         $this->assertSame(Options::BASE_URL_INTEGRATION, $options->getApiBaseUrl());
+    }
+
+    /** @test */
+    public function it_return_default_values()
+    {
+        $options = new Options('apiKey', 'commerceCode');
+        $this->assertSame(Options::DEFAULT_INTEGRATION_TYPE, $options->getIntegrationType());
+        $this->assertSame(Options::DEFAULT_TIMEOUT, $options->getTimeout());
     }
 }

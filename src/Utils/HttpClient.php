@@ -45,11 +45,13 @@ class HttpClient implements HttpClientInterface
             $payload = json_encode($payload);
         }
 
+        $requestTimeout = $options['timeout'] ?? 0;
+
         if (defined('\GuzzleHttp\Client::VERSION') && version_compare(Client::VERSION, '6', '<')) {
-            return $this->sendGuzzle5Request($method, $url, $headers, $payload);
+            return $this->sendGuzzle5Request($method, $url, $headers, $payload, $requestTimeout);
         }
 
-        return $this->sendGuzzleRequest($method, $url, $headers, $payload);
+        return $this->sendGuzzleRequest($method, $url, $headers, $payload, $requestTimeout);
     }
 
     /**
@@ -62,9 +64,11 @@ class HttpClient implements HttpClientInterface
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    protected function sendGuzzle5Request($method, $url, array $headers, $payload)
+    protected function sendGuzzle5Request($method, $url, array $headers, $payload, $timeout)
     {
-        $client = new Client();
+        $client = new Client(['timeout' => $timeout,
+                            'read_timeout' => $timeout,
+                            'connect_timeout' => $timeout]);
 
         $request = $client->createRequest($method, $url, [
             'headers' => $headers,
@@ -84,11 +88,15 @@ class HttpClient implements HttpClientInterface
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    protected function sendGuzzleRequest($method, $url, array $headers, $payload)
+    protected function sendGuzzleRequest($method, $url, array $headers, $payload, $timeout)
     {
         $request = new Request($method, $url, $headers, $payload);
 
-        $client = new Client(['http_errors' => false]);
+        $client = new Client(['http_errors' => false,
+                            'timeout' => $timeout,
+                            'read_timeout' => $timeout,
+                            'connect_timeout' => $timeout],
+                        );
 
         return $client->send($request);
     }
