@@ -87,17 +87,6 @@ trait InteractsWithWebpayApi
     }
 
     /**
-     * @param Options|null        $options
-     * @param RequestService|null $requestService
-     *
-     * @return static
-     */
-    public static function build(Options $options = null, RequestService $requestService = null)
-    {
-        return new static($options, $requestService);
-    }
-
-    /**
      * @return string
      */
     protected function getBaseUrl()
@@ -111,11 +100,9 @@ trait InteractsWithWebpayApi
      *
      * @return $this
      */
-    public function configureForIntegration($commerceCode, $apiKey)
+    public static function buildForIntegration($commerceCode, $apiKey)
     {
-        $this->setOptions(Options::forIntegration($commerceCode, $apiKey));
-
-        return $this;
+        return new static(new Options($apiKey, $commerceCode, Options::ENVIRONMENT_INTEGRATION));
     }
 
     /**
@@ -124,10 +111,8 @@ trait InteractsWithWebpayApi
      *
      * @return $this
      */
-    public function configureForProduction($commerceCode, $apiKey)
+    public static function buildForProduction($commerceCode, $apiKey)
     {
-        $this->setOptions(Options::forProduction($commerceCode, $apiKey));
-
-        return $this;
+        return new static(new Options($apiKey, $commerceCode, Options::ENVIRONMENT_PRODUCTION));
     }
 }
