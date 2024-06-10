@@ -71,32 +71,12 @@ class WebpayPlusTransactionTest extends TestCase
     }
 
     /** @test */
-    public function it_uses_the_default_configuration_if_none_given()
-    {
-        WebpayPlus::reset();
-        $transaction = (new Transaction());
-        $this->assertEquals($transaction->getOptions(), $transaction->getDefaultOptions());
-    }
-
-    /** @test */
     public function it_can_set_a_specific_option()
     {
         $options = Options::forProduction('597012345678', 'fakeApiKey');
 
         $transaction = (new Transaction($options));
         $this->assertSame($transaction->getOptions(), $options);
-    }
-
-    /** @test */
-    public function it_can_set_a_specific_option_globally()
-    {
-        WebpayPlus::configureForProduction('597012345678', 'fakeApiKey');
-        $options = WebpayPlus::getOptions();
-
-        $transaction = (new Transaction());
-        $this->assertSame($transaction->getOptions(), $options);
-
-        WebpayPlus::setOptions(null);
     }
 
     /** @test */
@@ -109,8 +89,8 @@ class WebpayPlusTransactionTest extends TestCase
                 'url'   => 'https://mock.cl/',
             ]
         );
-
-        $transaction = (new Transaction(null, $requestServiceMock));
+        $options = new Options(WebpayPlus::INTEGRATION_API_KEY, WebpayPlus::INTEGRATION_COMMERCE_CODE, Options::ENVIRONMENT_INTEGRATION);
+        $transaction = (new Transaction($options, $requestServiceMock));
         $this->assertSame($transaction->getRequestService(), $requestServiceMock);
         $transaction->create($this->buyOrder, $this->sessionId, $this->amount, $this->returnUrl);
     }
@@ -181,22 +161,20 @@ class WebpayPlusTransactionTest extends TestCase
         $transaction = new Transaction($this->optionsMock, $this->requestServiceMock);
         $response = $transaction->commit($tokenMock);
         $this->assertInstanceOf(TransactionCommitResponse::class, $response);
-        $this->assertSame($response->getResponseCode(), 0);
-        $this->assertSame($response->getVci(), 'TSY');
-        $this->assertSame($response->getSessionId(), 'session1234564');
-        $this->assertSame($response->getStatus(), 'AUTHORIZED');
-        $this->assertSame($response->getAmount(), 1000);
-        $this->assertSame($response->getBuyOrder(), 'OrdenCompra36271');
-        $this->assertSame($response->getCardNumber(), '6623');
-        $this->assertSame($response->getCardDetail(), ['card_number' => '6623']);
-        $this->assertSame($response->getAuthorizationCode(), '1213');
-        $this->assertSame($response->getPaymentTypeCode(), 'VN');
-        $this->assertSame($response->getInstallmentsNumber(), 0);
-        $this->assertSame($response->getInstallmentsAmount(), null);
-        $this->assertSame($response->getTransactionDate(), '2021-03-22T21:01:20.374Z');
-        echo("############################################");
-        echo($response->isApproved());
-        $this->assertSame($response->isApproved(), true);
+        $this->assertSame(0, $response->getResponseCode());
+        $this->assertSame('TSY', $response->getVci());
+        $this->assertSame('session1234564', $response->getSessionId());
+        $this->assertSame('AUTHORIZED', $response->getStatus());
+        $this->assertSame(1000, $response->getAmount());
+        $this->assertSame('OrdenCompra36271', $response->getBuyOrder());
+        $this->assertSame('6623', $response->getCardNumber());
+        $this->assertSame(['card_number' => '6623'], $response->getCardDetail());
+        $this->assertSame('1213', $response->getAuthorizationCode());
+        $this->assertSame('VN', $response->getPaymentTypeCode());
+        $this->assertSame(0, $response->getInstallmentsNumber());
+        $this->assertSame(null, $response->getInstallmentsAmount());
+        $this->assertSame('2021-03-22T21:01:20.374Z', $response->getTransactionDate());
+        $this->assertSame(true, $response->isApproved());
     }
 
     /** @test */
@@ -219,31 +197,7 @@ class WebpayPlusTransactionTest extends TestCase
         $transaction = new Transaction($this->optionsMock, $this->requestServiceMock);
         $response = $transaction->commit($tokenMock);
         $this->assertInstanceOf(TransactionCommitResponse::class, $response);
-        $this->assertSame($response->isApproved(), false);
-    }
-
-    /** @test */
-    public function it_returns_the_default_options()
-    {
-        $options = Transaction::getDefaultOptions();
-        $this->assertSame($options->getCommerceCode(), WebpayPlus::DEFAULT_COMMERCE_CODE);
-        $this->assertSame($options->getApiKey(), WebpayPlus::DEFAULT_API_KEY);
-        $this->assertSame($options->getIntegrationType(), Options::ENVIRONMENT_INTEGRATION);
-    }
-
-    /** @test */
-    public function it_uses_the_given_options_and_not_global_ones()
-    {
-        WebpayPlus::configureForProduction('597012345678', 'fakeApiKey');
-        $globalOptions = WebpayPlus::getOptions();
-
-        $options = Options::forProduction('597087654321', 'fakeApiKey2');
-
-        $transaction = (new Transaction($options));
-        $this->assertSame($transaction->getOptions(), $options);
-        $this->assertNotSame($transaction->getOptions(), $globalOptions);
-
-        WebpayPlus::setOptions(null);
+        $this->assertSame(false, $response->isApproved());
     }
 
     /** @test */
