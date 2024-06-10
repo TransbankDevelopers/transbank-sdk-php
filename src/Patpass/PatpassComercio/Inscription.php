@@ -8,14 +8,12 @@
 
 namespace Transbank\Patpass\PatpassComercio;
 
-use Transbank\Patpass\PatpassComercio;
 use Transbank\Patpass\PatpassComercio\Exceptions\InscriptionStartException;
 use Transbank\Patpass\PatpassComercio\Exceptions\InscriptionStatusException;
 use Transbank\Patpass\PatpassComercio\Responses\InscriptionStartResponse;
 use Transbank\Patpass\PatpassComercio\Responses\InscriptionStatusResponse;
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
-use Transbank\Webpay\Options;
 
 class Inscription
 {
@@ -125,15 +123,5 @@ class Inscription
         }
 
         return new InscriptionStatusResponse($response);
-    }
-
-    public static function getDefaultOptions()
-    {
-        return Options::forIntegration(PatpassComercio::DEFAULT_COMMERCE_CODE, PatpassComercio::DEFAULT_API_KEY);
-    }
-
-    public static function getGlobalOptions()
-    {
-        return PatpassComercio::getOptions();
     }
 }
