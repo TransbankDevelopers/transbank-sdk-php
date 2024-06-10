@@ -11,8 +11,8 @@ namespace Transbank\Patpass;
 
 class PatpassComercio
 {
-    const DEFAULT_API_KEY = 'cxxXQgGD9vrVe4M41FIt';
-    const DEFAULT_COMMERCE_CODE = '28299257';
+    const INTEGRATION_API_KEY = 'cxxXQgGD9vrVe4M41FIt';
+    const INTEGRATION_COMMERCE_CODE = '28299257';
 
     protected static $globalOptions = null;
 
