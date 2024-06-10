@@ -4,8 +4,6 @@ namespace Transbank\Webpay\WebpayPlus;
 
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
-use Transbank\Webpay\Options;
-use Transbank\Webpay\WebpayPlus;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCaptureException;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCommitException;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCreateException;
@@ -193,23 +191,4 @@ class Transaction
         return new TransactionCaptureResponse($response);
     }
 
-    /**
-     * Get the default options if none are given.
-     *
-     * @return Options
-     */
-    public static function getDefaultOptions()
-    {
-        return Options::forIntegration(WebpayPlus::DEFAULT_COMMERCE_CODE);
-    }
-
-    /**
-     * Get the default options if none are given.
-     *
-     * @return Options|null
-     */
-    public static function getGlobalOptions()
-    {
-        return WebpayPlus::getOptions();
-    }
 }
