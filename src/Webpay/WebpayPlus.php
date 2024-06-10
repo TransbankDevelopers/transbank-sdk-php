@@ -24,8 +24,6 @@ class WebpayPlus
 
     const INTEGRATION_API_KEY = Options::INTEGRATION_API_KEY;
 
-    protected static $globalOptions = null;
-
     /*
     |--------------------------------------------------------------------------
     | Public Facade
@@ -76,31 +74,5 @@ class WebpayPlus
     public static function setMallTransactionClass($mallTransactionClass)
     {
         static::$mallTransactionClass = $mallTransactionClass;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Environment Configuration
-    |--------------------------------------------------------------------------
-    */
-
-    public static function configureForTesting()
-    {
-        static::configureForIntegration(static::DEFAULT_COMMERCE_CODE);
-    }
-
-    public static function configureForTestingDeferred()
-    {
-        static::configureForIntegration(static::DEFAULT_DEFERRED_COMMERCE_CODE);
-    }
-
-    public static function configureForTestingMall()
-    {
-        static::configureForIntegration(static::DEFAULT_MALL_COMMERCE_CODE);
-    }
-
-    public static function configureForTestingMallDeferred()
-    {
-        static::configureForIntegration(static::DEFAULT_MALL_DEFERRED_COMMERCE_CODE);
     }
 }
