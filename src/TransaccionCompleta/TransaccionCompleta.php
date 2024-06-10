@@ -31,45 +31,4 @@ class TransaccionCompleta
     const INTEGRATION_MALL_DEFERRED_NO_CVV_CHILD_COMMERCE_CODE_1 = '597055555562';
     const INTEGRATION_MALL_DEFERRED_NO_CVV_CHILD_COMMERCE_CODE_2 = '597055555564';
 
-    protected static $globalOptions = null;
-
-    public static function configureForTesting()
-    {
-        static::configureForIntegration(static::DEFAULT_COMMERCE_CODE);
-    }
-
-    public static function configureForTestingNoCVV()
-    {
-        static::configureForIntegration(static::DEFAULT_NO_CVV_COMMERCE_CODE);
-    }
-
-    public static function configureForTestingDeferred()
-    {
-        static::configureForIntegration(static::DEFAULT_DEFERRED_COMMERCE_CODE);
-    }
-
-    public static function configureForTestingDeferredNoCVV()
-    {
-        static::configureForIntegration(static::DEFAULT_DEFERRED_NO_CVV_COMMERCE_CODE);
-    }
-
-    public static function configureForTestingMall()
-    {
-        static::configureForIntegration(static::DEFAULT_MALL_COMMERCE_CODE);
-    }
-
-    public static function configureForTestingMallNoCVV()
-    {
-        static::configureForIntegration(static::DEFAULT_MALL_NO_CVV_COMMERCE_CODE);
-    }
-
-    public static function configureForTestingMallDeferred()
-    {
-        static::configureForIntegration(static::DEFAULT_MALL_DEFERRED_COMMERCE_CODE);
-    }
-
-    public static function configureForTestingMallDeferredNoCVV()
-    {
-        static::configureForIntegration(static::DEFAULT_MALL_DEFERRED_NO_CVV_COMMERCE_CODE);
-    }
 }
