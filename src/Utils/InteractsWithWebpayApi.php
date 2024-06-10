@@ -26,10 +26,10 @@ trait InteractsWithWebpayApi
      * @param RequestService |null $requestService
      */
     public function __construct(
-        Options $options = null,
+        Options $options,
         RequestService $requestService = null
     ) {
-        $this->loadOptions($options);
+        $this->options = $options;
 
         $this->setRequestService($requestService !== null ? $requestService :
             new HttpClientRequestService());
@@ -40,7 +40,7 @@ trait InteractsWithWebpayApi
      * @param $endpoint
      * @param array|null $payload
      *
-     * @throws Transbank\Webpay\Exceptions\WebpayRequestException
+     * @throws \Transbank\Webpay\Exceptions\WebpayRequestException
      *
      * @return mixed
      */
@@ -52,24 +52,6 @@ trait InteractsWithWebpayApi
             $payload,
             $this->getOptions()
         );
-    }
-
-    /**
-     * @param Options $options
-     */
-    public function loadOptions(Options $options = null)
-    {
-        $defaultOptions = method_exists($this, 'getGlobalOptions') && $this::getGlobalOptions() !== null ?
-            $this::getGlobalOptions() : $this->getDefaultOptions();
-        if (!$options) {
-            $options = $defaultOptions;
-        }
-
-        if ($options === null) {
-            throw new \InvalidArgumentException('No options configuration given');
-        }
-
-        $this->setOptions($options);
     }
 
     /**
