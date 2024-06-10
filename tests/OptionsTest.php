@@ -25,19 +25,21 @@ class OptionsTest extends TestCase
         ]);
     }
 
+    /** @test */
     public function it_creates_an_option_using_static_factory_method_for_integration_credentials()
     {
         $options = Options::forIntegration('commerceCode', 'ApiKey');
-        $this->assertSame($options->getCommerceCode(), 'commerceCode');
-        $this->assertSame($options->getApiKey(), 'ApiKey');
+        $this->assertSame('commerceCode', $options->getCommerceCode());
+        $this->assertSame('ApiKey', $options->getApiKey());
         $this->assertSame($options->getIntegrationType(), Options::ENVIRONMENT_INTEGRATION);
     }
 
+    /** @test */
     public function it_creates_an_option_using_static_factory_method_for_production_credentials()
     {
         $options = Options::forProduction('commerceCode', 'ApiKey');
-        $this->assertSame($options->getCommerceCode(), 'commerceCode');
-        $this->assertSame($options->getApiKey(), 'ApiKey');
+        $this->assertSame('commerceCode', $options->getCommerceCode());
+        $this->assertSame('ApiKey', $options->getApiKey());
         $this->assertSame($options->getIntegrationType(), Options::ENVIRONMENT_PRODUCTION);
     }
 
@@ -65,7 +67,7 @@ class OptionsTest extends TestCase
     /** @test */
     public function it_return_default_values()
     {
-        $options = new Options('apiKey', 'commerceCode');
+        $options = Options::forIntegration('commerceCode', 'apiKey');
         $this->assertSame(Options::DEFAULT_INTEGRATION_TYPE, $options->getIntegrationType());
         $this->assertSame(Options::DEFAULT_TIMEOUT, $options->getTimeout());
     }
