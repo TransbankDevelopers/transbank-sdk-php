@@ -8,9 +8,8 @@
 
 namespace Transbank\Patpass;
 
-use Transbank\Utils\EnvironmentManager;
 
-class PatpassComercio extends EnvironmentManager
+class PatpassComercio
 {
     const DEFAULT_API_KEY = 'cxxXQgGD9vrVe4M41FIt';
     const DEFAULT_COMMERCE_CODE = '28299257';

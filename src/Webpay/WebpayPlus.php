@@ -3,14 +3,13 @@
 namespace Transbank\Webpay;
 
 use Transbank\Contracts\RequestService;
-use Transbank\Utils\EnvironmentManager;
 use Transbank\Webpay\WebpayPlus\MallTransaction;
 use Transbank\Webpay\WebpayPlus\Transaction;
 
 /**
  * Class WebpayPlus.
  */
-class WebpayPlus extends EnvironmentManager
+class WebpayPlus
 {
     const DEFAULT_COMMERCE_CODE = '597055555532';
     const DEFAULT_DEFERRED_COMMERCE_CODE = '597055555540';

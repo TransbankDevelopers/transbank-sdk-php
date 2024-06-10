@@ -8,9 +8,7 @@
 
 namespace Transbank\TransaccionCompleta;
 
-use Transbank\Utils\EnvironmentManager;
-
-class TransaccionCompleta extends EnvironmentManager
+class TransaccionCompleta
 {
     const DEFAULT_COMMERCE_CODE = '597055555530';
     const DEFAULT_DEFERRED_COMMERCE_CODE = '597055555531';

@@ -2,9 +2,8 @@
 
 namespace Transbank\Webpay;
 
-use Transbank\Utils\EnvironmentManager;
 
-class Oneclick extends EnvironmentManager
+class Oneclick
 {
     const DEFAULT_COMMERCE_CODE = '597055555541';
     const DEFAULT_CHILD_COMMERCE_CODE_1 = '597055555542';
