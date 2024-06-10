@@ -14,7 +14,6 @@ use Transbank\TransaccionCompleta\Responses\TransactionInstallmentsResponse;
 use Transbank\TransaccionCompleta\Responses\TransactionRefundResponse;
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
-use Transbank\Webpay\Options;
 
 /**
  * Class Transaction.
@@ -236,23 +235,5 @@ class Transaction
         }
 
         return new Responses\TransactionCaptureResponse($response);
-    }
-
-    /**
-     * Get the default options if none are given.
-     *
-     * @return Options
-     */
-    public static function getDefaultOptions()
-    {
-        return Options::forIntegration(TransaccionCompleta::DEFAULT_COMMERCE_CODE);
-    }
-
-    /**
-     * @return Options|null
-     */
-    public static function getGlobalOptions()
-    {
-        return TransaccionCompleta::getOptions();
     }
 }
