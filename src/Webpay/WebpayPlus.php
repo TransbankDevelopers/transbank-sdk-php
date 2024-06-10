@@ -46,7 +46,7 @@ class WebpayPlus
      *
      * @return Transaction
      */
-    public static function transaction(Options $options = null, RequestService $requestService = null)
+    public static function transaction(Options $options, RequestService $requestService = null)
     {
         return new static::$transactionClass($options, $requestService);
     }
@@ -57,7 +57,7 @@ class WebpayPlus
      *
      * @return MallTransaction
      */
-    public static function mallTransaction(Options $options = null, RequestService $requestService = null)
+    public static function mallTransaction(Options $options, RequestService $requestService = null)
     {
         return new static::$mallTransactionClass($options, $requestService);
     }
