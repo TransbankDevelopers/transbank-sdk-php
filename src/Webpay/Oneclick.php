@@ -13,15 +13,4 @@ class Oneclick
     const INTEGRATION_DEFERRED_CHILD_COMMERCE_CODE_1 = '597055555548';
     const INTEGRATION_DEFERRED_CHILD_COMMERCE_CODE_2 = '597055555549';
 
-    protected static $globalOptions = null;
-
-    public static function configureForTesting()
-    {
-        self::configureForIntegration(static::DEFAULT_COMMERCE_CODE, static::DEFAULT_API_KEY);
-    }
-
-    public static function configureForTestingDeferred()
-    {
-        self::configureForIntegration(static::DEFAULT_DEFERRED_COMMERCE_CODE, static::DEFAULT_API_KEY);
-    }
 }
