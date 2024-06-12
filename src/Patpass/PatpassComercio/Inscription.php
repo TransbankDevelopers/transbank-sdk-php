@@ -14,12 +14,37 @@ use Transbank\Patpass\PatpassComercio\Responses\InscriptionStartResponse;
 use Transbank\Patpass\PatpassComercio\Responses\InscriptionStatusResponse;
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
+use Transbank\Utils\HttpClientRequestService;
+use Transbank\Utils\RequestServiceTrait;
+use Transbank\Contracts\RequestService;
+use Transbank\Patpass\Options;
 
 class Inscription
 {
     use InteractsWithWebpayApi;
     const INSCRIPTION_START_ENDPOINT = 'restpatpass/v1/services/patInscription';
     const INSCRIPTION_STATUS_ENDPOINT = 'restpatpass/v1/services/status';
+
+    /**
+     * @var Options
+     */
+    protected $options;
+
+    /**
+     * Transaction constructor.
+     *
+     * @param Options              $options
+     * @param RequestService |null $requestService
+     */
+    public function __construct(
+        Options $options,
+        RequestService $requestService = null
+    ) {
+        $this->options = $options;
+
+        $this->setRequestService($requestService !== null ? $requestService :
+            new HttpClientRequestService());
+    }
 
     /**
      * @param $url
