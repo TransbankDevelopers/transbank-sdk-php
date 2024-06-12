@@ -176,4 +176,19 @@ class TransbankOneclickTest extends TestCase
         $this->assertSame(Options::ENVIRONMENT_PRODUCTION, $inscriptionOptions->getIntegrationType());
         $this->assertSame(Options::BASE_URL_PRODUCTION, $inscriptionOptions->getApiBaseUrl());
     }
+
+    /** @test */
+    public function it_configures_transaction_for_integration()
+    {
+        $commerceCode = 'testCommerceCode';
+        $apiKey = 'testApiKey';
+
+        $inscription = MallTransaction::buildForIntegration($commerceCode, $apiKey);
+        $inscriptionOptions = $inscription->getOptions();
+
+        $this->assertSame($commerceCode, $inscriptionOptions->getCommerceCode());
+        $this->assertSame($apiKey, $inscriptionOptions->getApiKey());
+        $this->assertSame(Options::ENVIRONMENT_INTEGRATION, $inscriptionOptions->getIntegrationType());
+        $this->assertSame(Options::BASE_URL_INTEGRATION, $inscriptionOptions->getApiBaseUrl());
+    }
 }
