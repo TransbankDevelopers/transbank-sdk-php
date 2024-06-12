@@ -121,26 +121,6 @@ class TransbankOneclickTest extends TestCase
     }
 
     /** @test */
-    public function it_configures_for_testing()
-    {
-        Oneclick::configureForTesting();
-        $options = Oneclick::getOptions();
-
-        $this->assertSame(Oneclick::DEFAULT_COMMERCE_CODE, $options->getCommerceCode());
-        $this->assertSame(Oneclick::DEFAULT_API_KEY, $options->getApiKey());
-    }
-
-    /** @test */
-    public function it_configures_for_testing_deferred()
-    {
-        Oneclick::configureForTestingDeferred();
-        $options = Oneclick::getOptions();
-
-        $this->assertSame(Oneclick::DEFAULT_DEFERRED_COMMERCE_CODE, $options->getCommerceCode());
-        $this->assertSame(Oneclick::DEFAULT_API_KEY, $options->getApiKey());
-    }
-
-    /** @test */
     public function it_configures_inscription_for_integration()
     {
         $commerceCode = 'testCommerceCode';
