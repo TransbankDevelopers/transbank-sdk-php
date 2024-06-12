@@ -12,7 +12,6 @@ use Transbank\Patpass\PatpassComercio\Exceptions\InscriptionStartException;
 use Transbank\Patpass\PatpassComercio\Exceptions\InscriptionStatusException;
 use Transbank\Patpass\PatpassComercio\Responses\InscriptionStartResponse;
 use Transbank\Patpass\PatpassComercio\Responses\InscriptionStatusResponse;
-use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Utils\HttpClientRequestService;
 use Transbank\Utils\RequestServiceTrait;
@@ -21,7 +20,7 @@ use Transbank\Patpass\Options;
 
 class Inscription
 {
-    use InteractsWithWebpayApi;
+    use RequestServiceTrait;
     const INSCRIPTION_START_ENDPOINT = 'restpatpass/v1/services/patInscription';
     const INSCRIPTION_STATUS_ENDPOINT = 'restpatpass/v1/services/status';
 
@@ -108,7 +107,8 @@ class Inscription
         try {
             $response = $this->sendRequest('POST', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {
-            throw new InscriptionStartException($exception->getMessage(),
+            throw new InscriptionStartException(
+                $exception->getMessage(),
                 $exception->getTransbankErrorMessage(),
                 $exception->getHttpCode(),
                 $exception->getFailedRequest(),
@@ -139,7 +139,8 @@ class Inscription
         try {
             $response = $this->sendRequest('POST', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {
-            throw new InscriptionStatusException($exception->getMessage(),
+            throw new InscriptionStatusException(
+                $exception->getMessage(),
                 $exception->getTransbankErrorMessage(),
                 $exception->getHttpCode(),
                 $exception->getFailedRequest(),
@@ -172,5 +173,27 @@ class Inscription
     protected function getBaseUrl()
     {
         return $this->getOptions()->getApiBaseUrl();
+    }
+
+    /**
+     * @param $commerceCode
+     * @param $apiKey
+     *
+     * @return $this
+     */
+    public static function buildForIntegration($commerceCode, $apiKey)
+    {
+        return new static(new Options($apiKey, $commerceCode, Options::ENVIRONMENT_INTEGRATION));
+    }
+
+    /**
+     * @param $commerceCode
+     * @param $apiKey
+     *
+     * @return $this
+     */
+    public static function buildForProduction($commerceCode, $apiKey)
+    {
+        return new static(new Options($apiKey, $commerceCode, Options::ENVIRONMENT_PRODUCTION));
     }
 }
