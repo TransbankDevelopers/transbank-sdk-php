@@ -223,19 +223,19 @@ class TransbankOneclickTest extends TestCase
         $this->assertSame(Options::BASE_URL_PRODUCTION, $transactionOptions->getApiBaseUrl());
     }
 
-        /** @test */
-        public function it_configures_transaction_with_options()
-        {
-            $commerceCode = 'testCommerceCode';
-            $apiKey = 'testApiKey';
+    /** @test */
+    public function it_configures_transaction_with_options()
+    {
+        $commerceCode = 'testCommerceCode';
+        $apiKey = 'testApiKey';
 
-            $options = new Options($apiKey, $commerceCode, Options::ENVIRONMENT_PRODUCTION);
-            $transaction = new MallTransaction($options);
-            $transactionOptions = $transaction->getOptions();
+        $options = new Options($apiKey, $commerceCode, Options::ENVIRONMENT_PRODUCTION);
+        $transaction = new MallTransaction($options);
+        $transactionOptions = $transaction->getOptions();
 
-            $this->assertSame($commerceCode, $transactionOptions->getCommerceCode());
-            $this->assertSame($apiKey, $transactionOptions->getApiKey());
-            $this->assertSame(Options::ENVIRONMENT_PRODUCTION, $transactionOptions->getIntegrationType());
-            $this->assertSame(Options::BASE_URL_PRODUCTION, $transactionOptions->getApiBaseUrl());
-        }
+        $this->assertSame($commerceCode, $transactionOptions->getCommerceCode());
+        $this->assertSame($apiKey, $transactionOptions->getApiKey());
+        $this->assertSame(Options::ENVIRONMENT_PRODUCTION, $transactionOptions->getIntegrationType());
+        $this->assertSame(Options::BASE_URL_PRODUCTION, $transactionOptions->getApiBaseUrl());
+    }
 }
