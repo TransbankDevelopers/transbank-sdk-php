@@ -149,4 +149,28 @@ class Inscription
 
         return new InscriptionStatusResponse($response);
     }
+
+    /**
+     * @return Options
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * @param Options $options
+     */
+    public function setOptions(Options $options)
+    {
+        $this->options = $options;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getBaseUrl()
+    {
+        return $this->getOptions()->getApiBaseUrl();
+    }
 }
