@@ -43,7 +43,9 @@ class TransbankOneclickTest extends TestCase
     /** @test */
     public function it_fails_creating_an_inscription_with_invalid_email()
     {
-        $this->expectException(InscriptionStartException::class, 'Invalid value for parameter: email');
+        $this->expectException(InscriptionStartException::class);
+        $this->expectExceptionMessage('Invalid value for parameter: email');
+
         MallInscription::buildForIntegration(
             Oneclick::INTEGRATION_COMMERCE_CODE,
             Oneclick::INTEGRATION_API_KEY
@@ -53,7 +55,9 @@ class TransbankOneclickTest extends TestCase
     /** @test */
     public function it_fails_creating_an_inscription_with_invalid_data()
     {
-        $this->expectException(InscriptionStartException::class, 'username is required');
+        $this->expectException(InscriptionStartException::class);
+        $this->expectExceptionMessage('username is required');
+
         MallInscription::buildForIntegration(
             Oneclick::INTEGRATION_COMMERCE_CODE,
             Oneclick::INTEGRATION_API_KEY
