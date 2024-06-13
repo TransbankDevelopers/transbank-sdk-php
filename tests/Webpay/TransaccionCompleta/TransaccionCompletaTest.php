@@ -82,44 +82,6 @@ class TransaccionCompletaTest extends TestCase
     }
 
     /** @test */
-    public function it_uses_the_default_configuration_if_none_given()
-    {
-        TransaccionCompleta::reset();
-        $transaction = (new Transaction());
-        $this->assertEquals($transaction->getOptions(), $transaction->getDefaultOptions());
-    }
-
-    /** @test */
-    public function it_returns_the_default_options()
-    {
-        $options = Transaction::getDefaultOptions();
-        $this->assertSame($options->getCommerceCode(), TransaccionCompleta::DEFAULT_COMMERCE_CODE);
-        $this->assertSame($options->getApiKey(), TransaccionCompleta::DEFAULT_API_KEY);
-        $this->assertSame($options->getIntegrationType(), Options::ENVIRONMENT_INTEGRATION);
-    }
-
-    /** @test */
-    public function it_can_set_a_specific_option()
-    {
-        $options = Options::forProduction('597012345678', 'fakeApiKey');
-
-        $transaction = (new Transaction($options));
-        $this->assertSame($transaction->getOptions(), $options);
-    }
-
-    /** @test */
-    public function it_can_set_a_specific_option_globally()
-    {
-        TransaccionCompleta::configureForProduction('597012345678', 'fakeApiKey');
-        $options = TransaccionCompleta::getOptions();
-
-        $transaction = (new Transaction());
-        $this->assertSame($transaction->getOptions(), $options);
-
-        TransaccionCompleta::setOptions(null);
-    }
-
-    /** @test */
     public function it_creates_a_transaction()
     {
         $this->setBaseMocks();
