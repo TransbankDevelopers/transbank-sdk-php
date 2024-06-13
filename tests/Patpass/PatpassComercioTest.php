@@ -18,7 +18,7 @@ class PatpassComercioTest extends TestCase
 
         $this->assertSame($commerceCode, $inscriptionOptions->getCommerceCode());
         $this->assertSame($apiKey, $inscriptionOptions->getApiKey());
-        $this->assertSame(Options::ENVIRONMENT_INTEGRATION, $inscriptionOptions->getIntegrationType());
+        $this->assertSame(Options::ENVIRONMENT_PRODUCTION, $inscriptionOptions->getIntegrationType());
         $this->assertSame(Options::BASE_URL_PRODUCTION, $inscriptionOptions->getApiBaseUrl());
     }
 
