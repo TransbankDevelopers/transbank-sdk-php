@@ -72,6 +72,52 @@ class WebpayMallTransactionTest extends TestCase
     }
 
     /** @test */
+    public function it_configures_for_integration()
+    {
+        $commerceCode = 'testCommerceCode';
+        $apiKey = 'testApiKey';
+
+        $transaction = MallTransaction::buildForIntegration($commerceCode, $apiKey);
+        $transactionOptions = $transaction->getOptions();
+
+        $this->assertSame($commerceCode, $transactionOptions->getCommerceCode());
+        $this->assertSame($apiKey, $transactionOptions->getApiKey());
+        $this->assertSame(Options::ENVIRONMENT_INTEGRATION, $transactionOptions->getIntegrationType());
+        $this->assertSame(Options::BASE_URL_INTEGRATION, $transactionOptions->getApiBaseUrl());
+    }
+
+    /** @test */
+    public function it_configures_for_production()
+    {
+        $commerceCode = 'testCommerceCode';
+        $apiKey = 'testApiKey';
+
+        $transaction = MallTransaction::buildForProduction($commerceCode, $apiKey);
+        $transactionOptions = $transaction->getOptions();
+
+        $this->assertSame($commerceCode, $transactionOptions->getCommerceCode());
+        $this->assertSame($apiKey, $transactionOptions->getApiKey());
+        $this->assertSame(Options::ENVIRONMENT_PRODUCTION, $transactionOptions->getIntegrationType());
+        $this->assertSame(Options::BASE_URL_PRODUCTION, $transactionOptions->getApiBaseUrl());
+    }
+
+    /** @test */
+    public function it_configures_with_options()
+    {
+        $commerceCode = 'testCommerceCode';
+        $apiKey = 'testApiKey';
+
+        $options = new Options($apiKey, $commerceCode, Options::ENVIRONMENT_PRODUCTION);
+        $transaction = new MallTransaction($options);
+        $transactionOptions = $transaction->getOptions();
+
+        $this->assertSame($commerceCode, $transactionOptions->getCommerceCode());
+        $this->assertSame($apiKey, $transactionOptions->getApiKey());
+        $this->assertSame(Options::ENVIRONMENT_PRODUCTION, $transactionOptions->getIntegrationType());
+        $this->assertSame(Options::BASE_URL_PRODUCTION, $transactionOptions->getApiBaseUrl());
+    }
+
+    /** @test */
     public function it_creates_a_transaction()
     {
         $this->setBaseMocks();
@@ -115,7 +161,7 @@ class WebpayMallTransactionTest extends TestCase
         $expectedUrl = str_replace(
             '{token}',
             $tokenMock,
-            Transaction::ENDPOINT_COMMIT
+            MallTransaction::ENDPOINT_COMMIT
         );
 
         $this->requestServiceMock->method('request')
