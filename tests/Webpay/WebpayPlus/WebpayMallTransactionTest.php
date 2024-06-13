@@ -80,7 +80,7 @@ class WebpayMallTransactionTest extends TestCase
 
         $details = [
             'amount'        => $this->amount,
-            'commerce_code' => WebpayPlus::DEFAULT_MALL_CHILD_COMMERCE_CODE_1,
+            'commerce_code' => WebpayPlus::INTEGRATION_MALL_CHILD_COMMERCE_CODE_1,
             'buy_order'     => 'BuyOrderChild',
         ];
 
