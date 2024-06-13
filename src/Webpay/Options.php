@@ -47,16 +47,6 @@ class Options
         $this->timeout = $timeout;
     }
 
-    public static function forProduction($commerceCode, $apiKey)
-    {
-        return new static($apiKey, $commerceCode, static::ENVIRONMENT_PRODUCTION);
-    }
-
-    public static function forIntegration($commerceCode, $apiKey)
-    {
-        return new static($apiKey, $commerceCode, static::ENVIRONMENT_INTEGRATION);
-    }
-
     public function isProduction()
     {
         return $this->getIntegrationType() === static::ENVIRONMENT_PRODUCTION;
