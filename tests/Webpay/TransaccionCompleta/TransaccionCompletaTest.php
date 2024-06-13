@@ -82,6 +82,52 @@ class TransaccionCompletaTest extends TestCase
     }
 
     /** @test */
+    public function it_configures_for_integration()
+    {
+        $commerceCode = 'testCommerceCode';
+        $apiKey = 'testApiKey';
+
+        $transaction = Transaction::buildForIntegration($commerceCode, $apiKey);
+        $transactionOptions = $transaction->getOptions();
+
+        $this->assertSame($commerceCode, $transactionOptions->getCommerceCode());
+        $this->assertSame($apiKey, $transactionOptions->getApiKey());
+        $this->assertSame(Options::ENVIRONMENT_INTEGRATION, $transactionOptions->getIntegrationType());
+        $this->assertSame(Options::BASE_URL_INTEGRATION, $transactionOptions->getApiBaseUrl());
+    }
+
+    /** @test */
+    public function it_configures_for_production()
+    {
+        $commerceCode = 'testCommerceCode';
+        $apiKey = 'testApiKey';
+
+        $transaction = Transaction::buildForProduction($commerceCode, $apiKey);
+        $transactionOptions = $transaction->getOptions();
+
+        $this->assertSame($commerceCode, $transactionOptions->getCommerceCode());
+        $this->assertSame($apiKey, $transactionOptions->getApiKey());
+        $this->assertSame(Options::ENVIRONMENT_PRODUCTION, $transactionOptions->getIntegrationType());
+        $this->assertSame(Options::BASE_URL_PRODUCTION, $transactionOptions->getApiBaseUrl());
+    }
+
+    /** @test */
+    public function it_configures_with_options()
+    {
+        $commerceCode = 'testCommerceCode';
+        $apiKey = 'testApiKey';
+
+        $options = new Options($apiKey, $commerceCode, Options::ENVIRONMENT_PRODUCTION);
+        $transaction = new Transaction($options);
+        $transactionOptions = $transaction->getOptions();
+
+        $this->assertSame($commerceCode, $transactionOptions->getCommerceCode());
+        $this->assertSame($apiKey, $transactionOptions->getApiKey());
+        $this->assertSame(Options::ENVIRONMENT_PRODUCTION, $transactionOptions->getIntegrationType());
+        $this->assertSame(Options::BASE_URL_PRODUCTION, $transactionOptions->getApiBaseUrl());
+    }
+
+    /** @test */
     public function it_creates_a_transaction()
     {
         $this->setBaseMocks();
