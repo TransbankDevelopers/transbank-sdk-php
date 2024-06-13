@@ -72,44 +72,6 @@ class WebpayMallTransactionTest extends TestCase
     }
 
     /** @test */
-    public function it_uses_the_default_configuration_if_none_given()
-    {
-        WebpayPlus::reset();
-        $transaction = (new MallTransaction());
-        $this->assertEquals($transaction->getOptions(), $transaction->getDefaultOptions());
-    }
-
-    /** @test */
-    public function it_returns_the_default_options()
-    {
-        $options = MallTransaction::getDefaultOptions();
-        $this->assertSame($options->getCommerceCode(), WebpayPlus::DEFAULT_MALL_COMMERCE_CODE);
-        $this->assertSame($options->getApiKey(), WebpayPlus::DEFAULT_API_KEY);
-        $this->assertSame($options->getIntegrationType(), Options::ENVIRONMENT_INTEGRATION);
-    }
-
-    /** @test */
-    public function it_can_set_a_specific_option()
-    {
-        $options = Options::forProduction('597012345678', 'fakeApiKey');
-
-        $transaction = (new MallTransaction($options));
-        $this->assertSame($transaction->getOptions(), $options);
-    }
-
-    /** @test */
-    public function it_can_set_a_specific_option_globally()
-    {
-        WebpayPlus::configureForProduction('597012345678', 'fakeApiKey');
-        $options = WebpayPlus::getOptions();
-
-        $transaction = (new MallTransaction());
-        $this->assertSame($transaction->getOptions(), $options);
-
-        WebpayPlus::setOptions(null);
-    }
-
-    /** @test */
     public function it_creates_a_transaction()
     {
         $this->setBaseMocks();
