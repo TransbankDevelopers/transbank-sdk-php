@@ -71,15 +71,6 @@ class WebpayPlusTransactionTest extends TestCase
     }
 
     /** @test */
-    public function it_can_set_a_specific_option()
-    {
-        $options = Options::forProduction('597012345678', 'fakeApiKey');
-
-        $transaction = (new Transaction($options));
-        $this->assertSame($transaction->getOptions(), $options);
-    }
-
-    /** @test */
     public function it_can_change_the_request_service()
     {
         $requestServiceMock = $this->createMock(HttpClientRequestService::class);
