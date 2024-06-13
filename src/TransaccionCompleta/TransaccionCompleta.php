@@ -8,6 +8,8 @@
 
 namespace Transbank\TransaccionCompleta;
 
+use Transbank\Webpay\Options;
+
 class TransaccionCompleta
 {
     const INTEGRATION_COMMERCE_CODE = '597055555530';
@@ -31,4 +33,5 @@ class TransaccionCompleta
     const INTEGRATION_MALL_DEFERRED_NO_CVV_CHILD_COMMERCE_CODE_1 = '597055555562';
     const INTEGRATION_MALL_DEFERRED_NO_CVV_CHILD_COMMERCE_CODE_2 = '597055555564';
 
+    const INTEGRATION_API_KEY = Options::INTEGRATION_API_KEY;
 }
