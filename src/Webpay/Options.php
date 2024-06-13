@@ -9,8 +9,6 @@ class Options
 {
     const ENVIRONMENT_PRODUCTION = 'LIVE';
     const ENVIRONMENT_INTEGRATION = 'TEST';
-    const DEFAULT_INTEGRATION_TYPE = self::ENVIRONMENT_INTEGRATION;
-
     const BASE_URL_PRODUCTION = 'https://webpay3g.transbank.cl/';
     const BASE_URL_INTEGRATION = 'https://webpay3gint.transbank.cl/';
 
