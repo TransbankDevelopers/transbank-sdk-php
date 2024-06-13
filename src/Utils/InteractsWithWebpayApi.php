@@ -10,14 +10,12 @@ use Transbank\Webpay\Options;
  */
 trait InteractsWithWebpayApi
 {
+    use RequestServiceTrait;
+
     /**
      * @var Options
      */
     protected $options;
-    /**
-     * @var RequestService |null
-     */
-    protected $requestService;
 
     /**
      * Transaction constructor.
@@ -26,50 +24,13 @@ trait InteractsWithWebpayApi
      * @param RequestService |null $requestService
      */
     public function __construct(
-        Options $options = null,
+        Options $options,
         RequestService $requestService = null
     ) {
-        $this->loadOptions($options);
+        $this->options = $options;
 
         $this->setRequestService($requestService !== null ? $requestService :
             new HttpClientRequestService());
-    }
-
-    /**
-     * @param $method
-     * @param $endpoint
-     * @param array|null $payload
-     *
-     * @throws Transbank\Webpay\Exceptions\WebpayRequestException
-     *
-     * @return mixed
-     */
-    public function sendRequest($method, $endpoint, $payload = [])
-    {
-        return $this->getRequestService()->request(
-            $method,
-            $endpoint,
-            $payload,
-            $this->getOptions()
-        );
-    }
-
-    /**
-     * @param Options $options
-     */
-    public function loadOptions(Options $options = null)
-    {
-        $defaultOptions = method_exists($this, 'getGlobalOptions') && $this::getGlobalOptions() !== null ?
-            $this::getGlobalOptions() : $this->getDefaultOptions();
-        if (!$options) {
-            $options = $defaultOptions;
-        }
-
-        if ($options === null) {
-            throw new \InvalidArgumentException('No options configuration given');
-        }
-
-        $this->setOptions($options);
     }
 
     /**
@@ -89,33 +50,6 @@ trait InteractsWithWebpayApi
     }
 
     /**
-     * @return RequestService |null
-     */
-    public function getRequestService()
-    {
-        return $this->requestService;
-    }
-
-    /**
-     * @param RequestService |null $requestService
-     */
-    public function setRequestService(RequestService $requestService = null)
-    {
-        $this->requestService = $requestService;
-    }
-
-    /**
-     * @param Options|null        $options
-     * @param RequestService|null $requestService
-     *
-     * @return static
-     */
-    public static function build(Options $options = null, RequestService $requestService = null)
-    {
-        return new static($options, $requestService);
-    }
-
-    /**
      * @return string
      */
     protected function getBaseUrl()
@@ -129,11 +63,9 @@ trait InteractsWithWebpayApi
      *
      * @return $this
      */
-    public function configureForIntegration($commerceCode, $apiKey)
+    public static function buildForIntegration($commerceCode, $apiKey)
     {
-        $this->setOptions(Options::forIntegration($commerceCode, $apiKey));
-
-        return $this;
+        return new static(new Options($apiKey, $commerceCode, Options::ENVIRONMENT_INTEGRATION));
     }
 
     /**
@@ -142,10 +74,8 @@ trait InteractsWithWebpayApi
      *
      * @return $this
      */
-    public function configureForProduction($commerceCode, $apiKey)
+    public static function buildForProduction($commerceCode, $apiKey)
     {
-        $this->setOptions(Options::forProduction($commerceCode, $apiKey));
-
-        return $this;
+        return new static(new Options($apiKey, $commerceCode, Options::ENVIRONMENT_PRODUCTION));
     }
 }

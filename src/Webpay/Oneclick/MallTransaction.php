@@ -4,7 +4,6 @@ namespace Transbank\Webpay\Oneclick;
 
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
-use Transbank\Webpay\Oneclick;
 use Transbank\Webpay\Oneclick\Exceptions\MallRefundTransactionException;
 use Transbank\Webpay\Oneclick\Exceptions\MallTransactionAuthorizeException;
 use Transbank\Webpay\Oneclick\Exceptions\MallTransactionCaptureException;
@@ -13,7 +12,6 @@ use Transbank\Webpay\Oneclick\Responses\MallTransactionAuthorizeResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionCaptureResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionRefundResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionStatusResponse;
-use Transbank\Webpay\Options;
 
 class MallTransaction
 {
@@ -125,15 +123,5 @@ class MallTransaction
         }
 
         return new MallTransactionRefundResponse($response);
-    }
-
-    public static function getDefaultOptions()
-    {
-        return Options::forIntegration(Oneclick::DEFAULT_COMMERCE_CODE);
-    }
-
-    public static function getGlobalOptions()
-    {
-        return Oneclick::getOptions();
     }
 }

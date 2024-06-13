@@ -208,24 +208,4 @@ class MallTransaction
 
         return new MallTransactionCaptureResponse($response);
     }
-
-    /**
-     * Get the default options if none are given.
-     *
-     * @return Options
-     */
-    public static function getDefaultOptions()
-    {
-        return Options::forIntegration(WebpayPlus::DEFAULT_MALL_COMMERCE_CODE);
-    }
-
-    /**
-     * Get the default options if none are given.
-     *
-     * @return Options|null
-     */
-    public static function getGlobalOptions()
-    {
-        return WebpayPlus::getOptions();
-    }
 }

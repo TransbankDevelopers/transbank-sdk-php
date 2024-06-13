@@ -82,41 +82,49 @@ class TransaccionCompletaTest extends TestCase
     }
 
     /** @test */
-    public function it_uses_the_default_configuration_if_none_given()
+    public function it_configures_for_integration()
     {
-        TransaccionCompleta::reset();
-        $transaction = (new Transaction());
-        $this->assertEquals($transaction->getOptions(), $transaction->getDefaultOptions());
+        $commerceCode = 'testCommerceCode';
+        $apiKey = 'testApiKey';
+
+        $transaction = Transaction::buildForIntegration($commerceCode, $apiKey);
+        $transactionOptions = $transaction->getOptions();
+
+        $this->assertSame($commerceCode, $transactionOptions->getCommerceCode());
+        $this->assertSame($apiKey, $transactionOptions->getApiKey());
+        $this->assertSame(Options::ENVIRONMENT_INTEGRATION, $transactionOptions->getIntegrationType());
+        $this->assertSame(Options::BASE_URL_INTEGRATION, $transactionOptions->getApiBaseUrl());
     }
 
     /** @test */
-    public function it_returns_the_default_options()
+    public function it_configures_for_production()
     {
-        $options = Transaction::getDefaultOptions();
-        $this->assertSame($options->getCommerceCode(), TransaccionCompleta::DEFAULT_COMMERCE_CODE);
-        $this->assertSame($options->getApiKey(), TransaccionCompleta::DEFAULT_API_KEY);
-        $this->assertSame($options->getIntegrationType(), Options::ENVIRONMENT_INTEGRATION);
+        $commerceCode = 'testCommerceCode';
+        $apiKey = 'testApiKey';
+
+        $transaction = Transaction::buildForProduction($commerceCode, $apiKey);
+        $transactionOptions = $transaction->getOptions();
+
+        $this->assertSame($commerceCode, $transactionOptions->getCommerceCode());
+        $this->assertSame($apiKey, $transactionOptions->getApiKey());
+        $this->assertSame(Options::ENVIRONMENT_PRODUCTION, $transactionOptions->getIntegrationType());
+        $this->assertSame(Options::BASE_URL_PRODUCTION, $transactionOptions->getApiBaseUrl());
     }
 
     /** @test */
-    public function it_can_set_a_specific_option()
+    public function it_configures_with_options()
     {
-        $options = Options::forProduction('597012345678', 'fakeApiKey');
+        $commerceCode = 'testCommerceCode';
+        $apiKey = 'testApiKey';
 
-        $transaction = (new Transaction($options));
-        $this->assertSame($transaction->getOptions(), $options);
-    }
+        $options = new Options($apiKey, $commerceCode, Options::ENVIRONMENT_PRODUCTION);
+        $transaction = new Transaction($options);
+        $transactionOptions = $transaction->getOptions();
 
-    /** @test */
-    public function it_can_set_a_specific_option_globally()
-    {
-        TransaccionCompleta::configureForProduction('597012345678', 'fakeApiKey');
-        $options = TransaccionCompleta::getOptions();
-
-        $transaction = (new Transaction());
-        $this->assertSame($transaction->getOptions(), $options);
-
-        TransaccionCompleta::setOptions(null);
+        $this->assertSame($commerceCode, $transactionOptions->getCommerceCode());
+        $this->assertSame($apiKey, $transactionOptions->getApiKey());
+        $this->assertSame(Options::ENVIRONMENT_PRODUCTION, $transactionOptions->getIntegrationType());
+        $this->assertSame(Options::BASE_URL_PRODUCTION, $transactionOptions->getApiBaseUrl());
     }
 
     /** @test */

@@ -72,41 +72,49 @@ class WebpayMallTransactionTest extends TestCase
     }
 
     /** @test */
-    public function it_uses_the_default_configuration_if_none_given()
+    public function it_configures_for_integration()
     {
-        WebpayPlus::reset();
-        $transaction = (new MallTransaction());
-        $this->assertEquals($transaction->getOptions(), $transaction->getDefaultOptions());
+        $commerceCode = 'testCommerceCode';
+        $apiKey = 'testApiKey';
+
+        $transaction = MallTransaction::buildForIntegration($commerceCode, $apiKey);
+        $transactionOptions = $transaction->getOptions();
+
+        $this->assertSame($commerceCode, $transactionOptions->getCommerceCode());
+        $this->assertSame($apiKey, $transactionOptions->getApiKey());
+        $this->assertSame(Options::ENVIRONMENT_INTEGRATION, $transactionOptions->getIntegrationType());
+        $this->assertSame(Options::BASE_URL_INTEGRATION, $transactionOptions->getApiBaseUrl());
     }
 
     /** @test */
-    public function it_returns_the_default_options()
+    public function it_configures_for_production()
     {
-        $options = MallTransaction::getDefaultOptions();
-        $this->assertSame($options->getCommerceCode(), WebpayPlus::DEFAULT_MALL_COMMERCE_CODE);
-        $this->assertSame($options->getApiKey(), WebpayPlus::DEFAULT_API_KEY);
-        $this->assertSame($options->getIntegrationType(), Options::ENVIRONMENT_INTEGRATION);
+        $commerceCode = 'testCommerceCode';
+        $apiKey = 'testApiKey';
+
+        $transaction = MallTransaction::buildForProduction($commerceCode, $apiKey);
+        $transactionOptions = $transaction->getOptions();
+
+        $this->assertSame($commerceCode, $transactionOptions->getCommerceCode());
+        $this->assertSame($apiKey, $transactionOptions->getApiKey());
+        $this->assertSame(Options::ENVIRONMENT_PRODUCTION, $transactionOptions->getIntegrationType());
+        $this->assertSame(Options::BASE_URL_PRODUCTION, $transactionOptions->getApiBaseUrl());
     }
 
     /** @test */
-    public function it_can_set_a_specific_option()
+    public function it_configures_with_options()
     {
-        $options = Options::forProduction('597012345678', 'fakeApiKey');
+        $commerceCode = 'testCommerceCode';
+        $apiKey = 'testApiKey';
 
-        $transaction = (new MallTransaction($options));
-        $this->assertSame($transaction->getOptions(), $options);
-    }
+        $options = new Options($apiKey, $commerceCode, Options::ENVIRONMENT_PRODUCTION);
+        $transaction = new MallTransaction($options);
+        $transactionOptions = $transaction->getOptions();
 
-    /** @test */
-    public function it_can_set_a_specific_option_globally()
-    {
-        WebpayPlus::configureForProduction('597012345678', 'fakeApiKey');
-        $options = WebpayPlus::getOptions();
-
-        $transaction = (new MallTransaction());
-        $this->assertSame($transaction->getOptions(), $options);
-
-        WebpayPlus::setOptions(null);
+        $this->assertSame($commerceCode, $transactionOptions->getCommerceCode());
+        $this->assertSame($apiKey, $transactionOptions->getApiKey());
+        $this->assertSame(Options::ENVIRONMENT_PRODUCTION, $transactionOptions->getIntegrationType());
+        $this->assertSame(Options::BASE_URL_PRODUCTION, $transactionOptions->getApiBaseUrl());
     }
 
     /** @test */
@@ -118,7 +126,7 @@ class WebpayMallTransactionTest extends TestCase
 
         $details = [
             'amount'        => $this->amount,
-            'commerce_code' => WebpayPlus::DEFAULT_MALL_CHILD_COMMERCE_CODE_1,
+            'commerce_code' => WebpayPlus::INTEGRATION_MALL_CHILD_COMMERCE_CODE_1,
             'buy_order'     => 'BuyOrderChild',
         ];
 
@@ -153,7 +161,7 @@ class WebpayMallTransactionTest extends TestCase
         $expectedUrl = str_replace(
             '{token}',
             $tokenMock,
-            Transaction::ENDPOINT_COMMIT
+            MallTransaction::ENDPOINT_COMMIT
         );
 
         $this->requestServiceMock->method('request')

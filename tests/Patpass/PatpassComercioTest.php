@@ -1,20 +1,25 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Transbank\Patpass\PatpassComercio;
 use Transbank\Patpass\Options;
+use Transbank\Patpass\PatpassComercio\Inscription;
 
 class PatpassComercioTest extends TestCase
 {
     /** @test */
-    public function it_configures_for_testing()
+    public function it_configures_with_options()
     {
-        PatpassComercio::configureForTesting();
-        $options = PatpassComercio::getOptions();
+        $commerceCode = 'testCommerceCode';
+        $apiKey = 'testApiKey';
 
-        $this->assertSame(PatpassComercio::DEFAULT_COMMERCE_CODE, $options->getCommerceCode());
-        $this->assertSame(PatpassComercio::DEFAULT_API_KEY, $options->getApiKey());
-        $this->assertSame(Options::ENVIRONMENT_INTEGRATION, $options->getIntegrationType());
+        $options = new Options($apiKey, $commerceCode, Options::ENVIRONMENT_PRODUCTION);
+        $inscription = new Inscription($options);
+        $inscriptionOptions = $inscription->getOptions();
+
+        $this->assertSame($commerceCode, $inscriptionOptions->getCommerceCode());
+        $this->assertSame($apiKey, $inscriptionOptions->getApiKey());
+        $this->assertSame(Options::ENVIRONMENT_PRODUCTION, $inscriptionOptions->getIntegrationType());
+        $this->assertSame(Options::BASE_URL_PRODUCTION, $inscriptionOptions->getApiBaseUrl());
     }
 
     /** @test */
@@ -23,12 +28,13 @@ class PatpassComercioTest extends TestCase
         $commerceCode = 'testCommerceCode';
         $apiKey = 'testApiKey';
 
-        PatpassComercio::configureForIntegration($commerceCode, $apiKey);
-        $options = PatpassComercio::getOptions();
+        $inscription = Inscription::buildForIntegration($commerceCode, $apiKey);
+        $options = $inscription->getOptions();
 
         $this->assertSame($commerceCode, $options->getCommerceCode());
         $this->assertSame($apiKey, $options->getApiKey());
         $this->assertSame(Options::ENVIRONMENT_INTEGRATION, $options->getIntegrationType());
+        $this->assertSame(Options::BASE_URL_INTEGRATION, $options->getApiBaseUrl());
     }
 
     /** @test */
@@ -37,11 +43,12 @@ class PatpassComercioTest extends TestCase
         $commerceCode = 'testCommerceCode';
         $apiKey = 'testApiKey';
 
-        PatpassComercio::configureForProduction($commerceCode, $apiKey);
-        $options = PatpassComercio::getOptions();
+        $inscription = Inscription::buildForProduction($commerceCode, $apiKey);
+        $options = $inscription->getOptions();
 
         $this->assertSame($commerceCode, $options->getCommerceCode());
         $this->assertSame($apiKey, $options->getApiKey());
         $this->assertSame(Options::ENVIRONMENT_PRODUCTION, $options->getIntegrationType());
+        $this->assertSame(Options::BASE_URL_PRODUCTION, $options->getApiBaseUrl());
     }
 }

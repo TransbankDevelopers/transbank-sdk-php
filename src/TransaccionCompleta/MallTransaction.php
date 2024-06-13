@@ -200,14 +200,4 @@ class MallTransaction
 
         return new Responses\MallTransactionCaptureResponse($response);
     }
-
-    public static function getDefaultOptions()
-    {
-        return Options::forIntegration(TransaccionCompleta::DEFAULT_MALL_COMMERCE_CODE);
-    }
-
-    public static function getGlobalOptions()
-    {
-        return TransaccionCompleta::getOptions();
-    }
 }
