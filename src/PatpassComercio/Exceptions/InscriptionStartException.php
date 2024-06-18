@@ -6,10 +6,10 @@
  * @category
  */
 
-namespace Transbank\Patpass\PatpassComercio\Exceptions;
+namespace Transbank\PatpassComercio\Exceptions;
 
-use Transbank\Patpass\Exceptions\PatpassException;
+use Transbank\Webpay\Exceptions\WebpayRequestException;
 
-class InscriptionStartException extends PatpassException
+class InscriptionStartException extends WebpayRequestException
 {
 }

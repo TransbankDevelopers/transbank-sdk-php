@@ -6,7 +6,7 @@
  * @category
  */
 
-namespace Transbank\Patpass\PatpassComercio\Responses;
+namespace Transbank\PatpassComercio\Responses;
 
 class InscriptionFinishResponse
 {

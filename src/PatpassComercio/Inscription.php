@@ -6,17 +6,17 @@
  * @category
  */
 
-namespace Transbank\Patpass\PatpassComercio;
+namespace Transbank\PatpassComercio;
 
-use Transbank\Patpass\PatpassComercio\Exceptions\InscriptionStartException;
-use Transbank\Patpass\PatpassComercio\Exceptions\InscriptionStatusException;
-use Transbank\Patpass\PatpassComercio\Responses\InscriptionStartResponse;
-use Transbank\Patpass\PatpassComercio\Responses\InscriptionStatusResponse;
+use Transbank\PatpassComercio\Exceptions\InscriptionStartException;
+use Transbank\PatpassComercio\Exceptions\InscriptionStatusException;
+use Transbank\PatpassComercio\Responses\InscriptionStartResponse;
+use Transbank\PatpassComercio\Responses\InscriptionStatusResponse;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Utils\HttpClientRequestService;
 use Transbank\Utils\RequestServiceTrait;
 use Transbank\Contracts\RequestService;
-use Transbank\Patpass\Options;
+use Transbank\PatpassComercio\Options;
 
 class Inscription
 {

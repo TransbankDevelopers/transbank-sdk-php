@@ -6,7 +6,7 @@
  * @category
  */
 
-namespace Transbank\Patpass;
+ namespace Transbank\PatpassComercio;
 
 
 class PatpassComercio
