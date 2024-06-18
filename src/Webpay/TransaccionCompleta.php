@@ -6,7 +6,7 @@
  * @category
  */
 
-namespace Transbank\TransaccionCompleta;
+namespace Transbank\Webpay;
 
 use Transbank\Webpay\Options;
 
