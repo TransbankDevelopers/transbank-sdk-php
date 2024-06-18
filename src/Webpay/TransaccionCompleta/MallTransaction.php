@@ -6,19 +6,19 @@
  * @category
  */
 
-namespace Transbank\TransaccionCompleta;
+namespace Transbank\Webpay\TransaccionCompleta;
 
-use Transbank\TransaccionCompleta\Exceptions\MallTransactionCaptureException;
-use Transbank\TransaccionCompleta\Exceptions\MallTransactionCommitException;
-use Transbank\TransaccionCompleta\Exceptions\MallTransactionCreateException;
-use Transbank\TransaccionCompleta\Exceptions\MallTransactionRefundException;
-use Transbank\TransaccionCompleta\Exceptions\MallTransactionStatusException;
-use Transbank\TransaccionCompleta\Exceptions\TransactionInstallmentsException;
-use Transbank\TransaccionCompleta\Responses\MallTransactionCommitResponse;
-use Transbank\TransaccionCompleta\Responses\MallTransactionCreateResponse;
-use Transbank\TransaccionCompleta\Responses\MallTransactionInstallmentsResponse;
-use Transbank\TransaccionCompleta\Responses\MallTransactionRefundResponse;
-use Transbank\TransaccionCompleta\Responses\MallTransactionStatusResponse;
+use Transbank\Webpay\TransaccionCompleta\Exceptions\MallTransactionCaptureException;
+use Transbank\Webpay\TransaccionCompleta\Exceptions\MallTransactionCommitException;
+use Transbank\Webpay\TransaccionCompleta\Exceptions\MallTransactionCreateException;
+use Transbank\Webpay\TransaccionCompleta\Exceptions\MallTransactionRefundException;
+use Transbank\Webpay\TransaccionCompleta\Exceptions\MallTransactionStatusException;
+use Transbank\Webpay\TransaccionCompleta\Exceptions\TransactionInstallmentsException;
+use Transbank\Webpay\TransaccionCompleta\Responses\MallTransactionCommitResponse;
+use Transbank\Webpay\TransaccionCompleta\Responses\MallTransactionCreateResponse;
+use Transbank\Webpay\TransaccionCompleta\Responses\MallTransactionInstallmentsResponse;
+use Transbank\Webpay\TransaccionCompleta\Responses\MallTransactionRefundResponse;
+use Transbank\Webpay\TransaccionCompleta\Responses\MallTransactionStatusResponse;
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;

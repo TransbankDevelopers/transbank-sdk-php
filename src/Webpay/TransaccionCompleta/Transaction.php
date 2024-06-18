@@ -1,17 +1,18 @@
 <?php
 
-namespace Transbank\TransaccionCompleta;
+namespace Transbank\Webpay\TransaccionCompleta;
 
-use Transbank\TransaccionCompleta\Exceptions\TransactionCaptureException;
-use Transbank\TransaccionCompleta\Exceptions\TransactionCommitException;
-use Transbank\TransaccionCompleta\Exceptions\TransactionCreateException;
-use Transbank\TransaccionCompleta\Exceptions\TransactionInstallmentsException;
-use Transbank\TransaccionCompleta\Exceptions\TransactionRefundException;
-use Transbank\TransaccionCompleta\Exceptions\TransactionStatusException;
-use Transbank\TransaccionCompleta\Responses\TransactionCommitResponse;
-use Transbank\TransaccionCompleta\Responses\TransactionCreateResponse;
-use Transbank\TransaccionCompleta\Responses\TransactionInstallmentsResponse;
-use Transbank\TransaccionCompleta\Responses\TransactionRefundResponse;
+use Transbank\Webpay\TransaccionCompleta\Exceptions\TransactionCaptureException;
+use Transbank\Webpay\TransaccionCompleta\Exceptions\TransactionCommitException;
+use Transbank\Webpay\TransaccionCompleta\Exceptions\TransactionCreateException;
+use Transbank\Webpay\TransaccionCompleta\Exceptions\TransactionInstallmentsException;
+use Transbank\Webpay\TransaccionCompleta\Exceptions\TransactionRefundException;
+use Transbank\Webpay\TransaccionCompleta\Exceptions\TransactionStatusException;
+use Transbank\Webpay\TransaccionCompleta\Responses\TransactionCommitResponse;
+use Transbank\Webpay\TransaccionCompleta\Responses\TransactionCreateResponse;
+use Transbank\Webpay\TransaccionCompleta\Responses\TransactionInstallmentsResponse;
+use Transbank\Webpay\TransaccionCompleta\Responses\TransactionRefundResponse;
+use Transbank\Webpay\TransaccionCompleta\Responses\TransactionStatusResponse;
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 
@@ -199,7 +200,7 @@ class Transaction
             );
         }
 
-        return new \Transbank\TransaccionCompleta\Responses\TransactionStatusResponse($response);
+        return new TransactionStatusResponse($response);
     }
 
     /**

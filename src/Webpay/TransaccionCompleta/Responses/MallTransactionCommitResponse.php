@@ -1,6 +1,6 @@
 <?php
 
-namespace Transbank\TransaccionCompleta\Responses;
+namespace Transbank\Webpay\TransaccionCompleta\Responses;
 
 class MallTransactionCommitResponse extends MallTransactionStatusResponse
 {

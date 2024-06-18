@@ -1,10 +1,11 @@
 <?php
 
-namespace Transbank\TransaccionCompleta\Responses;
+namespace Transbank\Webpay\TransaccionCompleta\Responses;
 
 use Transbank\Utils\Utils;
+use Transbank\Webpay\WebpayPlus\Responses\TransactionDetail as BaseTransactionDetail;
 
-class TransactionDetail extends \Transbank\Webpay\WebpayPlus\Responses\TransactionDetail
+class TransactionDetail extends BaseTransactionDetail
 {
     public $prepaidBalance;
 

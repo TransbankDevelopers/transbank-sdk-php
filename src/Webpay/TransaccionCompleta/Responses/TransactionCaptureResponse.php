@@ -1,7 +1,9 @@
 <?php
 
-namespace Transbank\TransaccionCompleta\Responses;
+namespace Transbank\Webpay\TransaccionCompleta\Responses;
 
-class TransactionCaptureResponse extends \Transbank\Webpay\WebpayPlus\Responses\TransactionCaptureResponse
+use Transbank\Webpay\WebpayPlus\Responses\TransactionCaptureResponse as BaseTransactionCaptureResponse;
+
+class TransactionCaptureResponse extends BaseTransactionCaptureResponse
 {
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Transbank\TransaccionCompleta\Responses;
+namespace Transbank\Webpay\TransaccionCompleta\Responses;
 
 use Transbank\Utils\HasTransactionStatus;
 use Transbank\Utils\Utils;

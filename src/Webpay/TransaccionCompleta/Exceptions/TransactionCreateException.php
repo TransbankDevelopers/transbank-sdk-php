@@ -1,6 +1,6 @@
 <?php
 
-namespace Transbank\TransaccionCompleta\Exceptions;
+namespace Transbank\Webpay\TransaccionCompleta\Exceptions;
 
 class TransactionCreateException extends TransaccionCompletaException
 {
