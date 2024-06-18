@@ -13,6 +13,7 @@ use Transbank\Webpay\TransaccionCompleta\Responses\TransactionCreateResponse;
 use Transbank\Webpay\TransaccionCompleta\Responses\TransactionInstallmentsResponse;
 use Transbank\Webpay\TransaccionCompleta\Responses\TransactionRefundResponse;
 use Transbank\Webpay\TransaccionCompleta\Responses\TransactionStatusResponse;
+use Transbank\Webpay\TransaccionCompleta\Responses\TransactionCaptureResponse;
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 
@@ -183,7 +184,7 @@ class Transaction
      * @throws TransactionStatusException
      * @throws \GuzzleHttp\Exception\GuzzleException
      *
-     * @return Responses\TransactionStatusResponse
+     * @return TransactionStatusResponse
      */
     public function status($token)
     {
@@ -212,7 +213,7 @@ class Transaction
      * @throws TransactionCaptureException
      * @throws \GuzzleHttp\Exception\GuzzleException
      *
-     * @return Responses\TransactionCaptureResponse
+     * @return TransactionCaptureResponse
      */
     public function capture($token, $buyOrder, $authorizationCode, $captureAmount)
     {
@@ -235,6 +236,6 @@ class Transaction
             );
         }
 
-        return new Responses\TransactionCaptureResponse($response);
+        return new TransactionCaptureResponse($response);
     }
 }
