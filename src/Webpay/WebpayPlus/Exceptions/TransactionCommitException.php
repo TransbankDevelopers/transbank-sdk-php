@@ -6,5 +6,5 @@ use Transbank\Webpay\Exceptions\WebpayRequestException;
 
 class TransactionCommitException extends WebpayRequestException
 {
-    protected static $defaultMessage = 'The transaction could not be confirmed';
+    protected static string $defaultMessage = 'The transaction could not be confirmed';
 }
