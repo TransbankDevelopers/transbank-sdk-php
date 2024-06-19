@@ -10,7 +10,7 @@ class WebpayRequestException extends WebpayException
     /**
      * @var string
      */
-    protected static $defaultMessage = 'An error has happened on the request';
+    protected static string $defaultMessage = 'An error has happened on the request';
 
     /**
      * @var mixed
@@ -35,16 +35,17 @@ class WebpayRequestException extends WebpayException
      * WebpayRequestException constructor.
      *
      * @param string                   $message
-     * @param mixed|string             $tbkErrorMessage
-     * @param int                      $httpCode
+     * @param string|null              $tbkErrorMessage
+     * @param int|null                 $httpCode
      * @param TransbankApiRequest|null $failedRequest
+     * @param \Exception|null          $previous
      */
     public function __construct(
-        $message,
-        $tbkErrorMessage = null,
-        $httpCode = null,
-        TransbankApiRequest $failedRequest = null,
-        \Exception $previous = null
+        string $message,
+        ?string $tbkErrorMessage = null,
+        ?int $httpCode = null,
+        ?TransbankApiRequest $failedRequest = null,
+        ?\Exception $previous = null
     ) {
         $theMessage = isset($tbkErrorMessage) ? $tbkErrorMessage : $message;
         if ($failedRequest !== null) {
@@ -56,13 +57,13 @@ class WebpayRequestException extends WebpayException
         $this->httpCode = $httpCode;
         $this->failedRequest = $failedRequest;
 
-        parent::__construct($theMessage, $httpCode, $previous);
+        parent::__construct($theMessage, $httpCode ?? 0, $previous);
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getTransbankErrorMessage()
+    public function getTransbankErrorMessage(): ?string
     {
         return $this->transbankErrorMessage;
     }
@@ -72,7 +73,7 @@ class WebpayRequestException extends WebpayException
      *
      * @return static
      */
-    public static function raise(WebpayRequestException $exception)
+    public static function raise(WebpayRequestException $exception): self
     {
         return new static($exception->getMessage(), $exception->getTransbankErrorMessage(), $exception->getHttpCode(),
             $exception->getFailedRequest(), $exception);
@@ -81,31 +82,32 @@ class WebpayRequestException extends WebpayException
     /**
      * @return int
      */
-    public function getHttpCode()
+    public function getHttpCode(): int
     {
-        return $this->httpCode;
+        return $this->httpCode ?? 0;
     }
 
     /**
      * @return TransbankApiRequest|null
      */
-    public function getFailedRequest()
+    public function getFailedRequest(): ?TransbankApiRequest
     {
         return $this->failedRequest;
     }
 
     /**
-     * @param $message
-     * @param $tbkErrorMessage
-     * @param $httpCode
+     * @param string $message
+     * @param string|null $tbkErrorMessage
+     * @param int|null $httpCode
      *
      * @return string
      */
     protected function getExceptionMessage(
-        $message,
-        $tbkErrorMessage,
-        $httpCode
-    ) {
+        string $message,
+        ?string $tbkErrorMessage,
+        ?int $httpCode
+    ): string {
+
         if (!$tbkErrorMessage) {
             $theMessage = $message;
         } else {
