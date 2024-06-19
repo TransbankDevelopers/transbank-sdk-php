@@ -7,7 +7,7 @@
 
 ## Requisitos:
 
-- PHP 7.0+
+- PHP 8.2+
 
 ## Dependencias
 Para utilizar este SDK, debes tener las siguientes extensiones de PHP instaladas: 
