@@ -6,12 +6,12 @@ use Transbank\Utils\Utils;
 
 class MallTransactionCaptureResponse
 {
-    public $authorizationCode;
-    public $authorizationDate;
-    public $capturedAmount;
-    public $responseCode;
+    public ?string $authorizationCode;
+    public ?string $authorizationDate;
+    public ?float $capturedAmount;
+    public ?int $responseCode;
 
-    public function __construct($json)
+    public function __construct(array $json)
     {
         $this->authorizationCode = Utils::returnValueIfExists($json, 'authorization_code');
         $this->authorizationDate = Utils::returnValueIfExists($json, 'authorization_date');
@@ -19,24 +19,23 @@ class MallTransactionCaptureResponse
         $this->responseCode = Utils::returnValueIfExists($json, 'response_code');
     }
 
-    public function getAuthorizationCode()
+    public function getAuthorizationCode(): ?string
     {
         return $this->authorizationCode;
     }
 
-    public function getAuthorizationDate()
+    public function getAuthorizationDate(): ?string
     {
         return $this->authorizationDate;
     }
 
-    public function getCapturedAmount()
+    public function getCapturedAmount(): ?float
     {
         return $this->capturedAmount;
     }
 
-    public function getResponseCode()
+    public function getResponseCode(): ?int
     {
         return $this->responseCode;
     }
-
 }

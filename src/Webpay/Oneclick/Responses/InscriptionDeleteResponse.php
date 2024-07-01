@@ -4,24 +4,24 @@ namespace Transbank\Webpay\Oneclick\Responses;
 
 class InscriptionDeleteResponse
 {
-    public $success = false;
-    public $code;
+    public bool $success = false;
+    public ?int $code;
 
-    public function __construct($success, $httpCode = null)
+    public function __construct(bool $success, ?int $httpCode = null)
     {
         $this->success = $success;
         $this->code = $httpCode;
     }
 
-    public function wasSuccessfull()
+    public function wasSuccessfull(): bool
     {
         return $this->success === true;
     }
 
     /**
-     * @return mixed|null
+     * @return ?int
      */
-    public function getCode()
+    public function getCode(): ?int
     {
         return $this->code;
     }

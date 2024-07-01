@@ -6,32 +6,27 @@ use Transbank\Utils\Utils;
 
 class MallTransactionStatusResponse
 {
-    public $buyOrder;
-    public $cardNumber;
-    public $accountingDate;
-    public $transactionDate;
+    public string $buyOrder;
+    public array $cardDetail;
+    public string $cardNumber;
+    public string $accountingDate;
+    public string $transactionDate;
+    public array $details;
 
-    /**
-     * @var TransactionDetail[]
-     */
-    public $details;
-
-    public function __construct($json)
+    public function __construct(array $json)
     {
         $this->buyOrder = Utils::returnValueIfExists($json, 'buy_order');
         $this->accountingDate = Utils::returnValueIfExists($json, 'accounting_date');
         $this->transactionDate = Utils::returnValueIfExists($json, 'transaction_date');
-        $cardDetail = Utils::returnValueIfExists($json, 'card_detail');
-        $this->cardNumber = Utils::returnValueIfExists($cardDetail, 'card_number');
+        $this->cardDetail = Utils::returnValueIfExists($json, 'card_detail');
+        $this->cardNumber = Utils::returnValueIfExists($this->cardDetail, 'card_number');
 
-        $details = Utils::returnValueIfExists($json, 'details');
-        $detailsObjectArray = [];
-        if (is_array($details)) {
-            foreach ($details as $detail) {
-                $detailsObjectArray[] = TransactionDetail::createFromArray($detail);
+        $this->details = [];
+        if (is_array($json['details'])) {
+            foreach ($json['details'] as $detail) {
+                $this->details[] = TransactionDetail::createFromArray($detail);
             }
         }
-        $this->details = $detailsObjectArray;
     }
 
     /**
@@ -39,7 +34,7 @@ class MallTransactionStatusResponse
      *
      * @return bool
      */
-    public function isApproved()
+    public function isApproved(): bool
     {
         if (!$details = $this->getDetails()) {
             return false;
@@ -55,25 +50,25 @@ class MallTransactionStatusResponse
     }
 
     /**
-     * @return mixed
+     * @return ?string
      */
-    public function getTransactionDate()
+    public function getTransactionDate(): ?string
     {
         return $this->transactionDate;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getCardNumber()
+    public function getCardNumber(): string
     {
         return $this->cardNumber;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getAccountingDate()
+    public function getAccountingDate(): string
     {
         return $this->accountingDate;
     }
@@ -81,17 +76,16 @@ class MallTransactionStatusResponse
     /**
      * @return TransactionDetail[]
      */
-    public function getDetails()
+    public function getDetails(): array
     {
         return $this->details;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getBuyOrder()
+    public function getBuyOrder(): string
     {
         return $this->buyOrder;
     }
-
 }

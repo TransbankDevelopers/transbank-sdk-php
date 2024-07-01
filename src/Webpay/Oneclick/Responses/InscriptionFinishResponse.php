@@ -7,13 +7,13 @@ use Transbank\Utils\Utils;
 
 class InscriptionFinishResponse
 {
-    public $responseCode;
-    public $tbkUser;
-    public $authorizationCode;
-    public $cardType;
-    public $cardNumber;
+    public int $responseCode;
+    public string $tbkUser;
+    public string $authorizationCode;
+    public string $cardType;
+    public string $cardNumber;
 
-    public function __construct($json)
+    public function __construct(array $json)
     {
         $this->responseCode = Utils::returnValueIfExists($json, 'response_code');
         $this->tbkUser = Utils::returnValueIfExists($json, 'tbk_user');
@@ -22,49 +22,48 @@ class InscriptionFinishResponse
         $this->cardNumber = Utils::returnValueIfExists($json, 'card_number');
     }
 
-    public function isApproved()
+    public function isApproved(): bool
     {
         return $this->getResponseCode() === ResponseCodesEnum::RESPONSE_CODE_APPROVED;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getResponseCode()
+    public function getResponseCode(): int
     {
-        return (int) $this->responseCode;
+        return $this->responseCode;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getTbkUser()
+    public function getTbkUser(): string
     {
         return $this->tbkUser;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getAuthorizationCode()
+    public function getAuthorizationCode(): string
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getCardType()
+    public function getCardType(): string
     {
         return $this->cardType;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getCardNumber()
+    public function getCardNumber(): string
     {
         return $this->cardNumber;
     }
-
 }

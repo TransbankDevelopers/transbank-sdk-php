@@ -6,14 +6,14 @@ use Transbank\Utils\Utils;
 
 class MallTransactionRefundResponse
 {
-    public $type;
-    public $authorizationCode;
-    public $authorizationDate;
-    public $nullifiedAmount;
-    public $balance;
-    public $responseCode;
+    public string $type;
+    public ?string $authorizationCode;
+    public ?string $authorizationDate;
+    public ?float $nullifiedAmount;
+    public ?float $balance;
+    public ?int $responseCode;
 
-    public function __construct($json)
+    public function __construct(array $json)
     {
         $this->type = Utils::returnValueIfExists($json, 'type');
         $this->authorizationCode = Utils::returnValueIfExists($json, 'authorization_code');
@@ -24,51 +24,50 @@ class MallTransactionRefundResponse
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
 
     /**
-     * @return mixed
+     * @return ?string
      */
-    public function getAuthorizationCode()
+    public function getAuthorizationCode(): ?string
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @return mixed
+     * @return ?string
      */
-    public function getAuthorizationDate()
+    public function getAuthorizationDate(): ?string
     {
         return $this->authorizationDate;
     }
 
     /**
-     * @return mixed
+     * @return ?float
      */
-    public function getNullifiedAmount()
+    public function getNullifiedAmount(): ?float
     {
         return $this->nullifiedAmount;
     }
 
     /**
-     * @return mixed
+     * @return ?float
      */
-    public function getBalance()
+    public function getBalance(): ?float
     {
         return $this->balance;
     }
 
     /**
-     * @return mixed
+     * @return ?int
      */
-    public function getResponseCode()
+    public function getResponseCode(): ?int
     {
         return $this->responseCode;
     }
-
 }
