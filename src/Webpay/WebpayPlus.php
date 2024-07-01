@@ -2,12 +2,17 @@
 
 namespace Transbank\Webpay;
 
-use Transbank\Contracts\RequestService;
-use Transbank\Webpay\WebpayPlus\MallTransaction;
-use Transbank\Webpay\WebpayPlus\Transaction;
-
 /**
  * Class WebpayPlus.
+ * @var string INTEGRATION_COMMERCE_CODE
+ * @var string INTEGRATION_DEFERRED_COMMERCE_CODE
+ * @var string INTEGRATION_MALL_COMMERCE_CODE
+ * @var string INTEGRATION_MALL_CHILD_COMMERCE_CODE_1
+ * @var string INTEGRATION_MALL_CHILD_COMMERCE_CODE_2
+ * @var string INTEGRATION_MALL_DEFERRED_COMMERCE_CODE
+ * @var string INTEGRATION_MALL_DEFERRED_CHILD_COMMERCE_CODE_1
+ * @var string INTEGRATION_MALL_DEFERRED_CHILD_COMMERCE_CODE_2
+ * @var string INTEGRATION_API_KEY
  */
 class WebpayPlus
 {
