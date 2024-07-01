@@ -4,81 +4,81 @@ namespace Transbank\Utils;
 
 trait HasTransactionStatus
 {
-    public $status;
-    public $responseCode;
-    public $amount;
-    public $authorizationCode;
-    public $paymentTypeCode;
-    public $accountingDate;
-    public $installmentsNumber;
-    public $installmentsAmount;
-    public $sessionId;
-    public $buyOrder;
-    public $cardNumber;
-    public $cardDetail;
-    public $transactionDate;
-    public $balance;
+    public string $status;
+    public int $responseCode;
+    public float $amount;
+    public string $authorizationCode;
+    public string $paymentTypeCode;
+    public string $accountingDate;
+    public int $installmentsNumber;
+    public ?float $installmentsAmount;
+    public string $sessionId;
+    public string $buyOrder;
+    public string $cardNumber;
+    public array $cardDetail;
+    public string $transactionDate;
+    public ?float $balance;
 
     /**
-     * @return mixed
+     * @return ?float
      */
-    public function getBalance()
+    public function getBalance(): ?float
     {
         return $this->balance;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getStatus()
+    public function getStatus(): string
     {
         return $this->status;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getAuthorizationCode()
+    public function getAuthorizationCode(): string
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getInstallmentsNumber()
+    public function getInstallmentsNumber(): int
     {
         return $this->installmentsNumber;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getResponseCode()
+    public function getResponseCode(): int
     {
         return $this->responseCode;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getBuyOrder()
+    public function getBuyOrder(): string
     {
         return $this->buyOrder;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getAccountingDate()
+    public function getAccountingDate(): string
     {
         return $this->accountingDate;
     }
 
     /**
-     * @param $json
+     * @param array $json
      */
-    public function setTransactionStatusFields($json)
+    public function setTransactionStatusFields(array $json): void
     {
         $this->amount =  Utils::returnValueIfExists($json, 'amount');
         $this->status = Utils::returnValueIfExists($json, 'status');
@@ -94,63 +94,61 @@ trait HasTransactionStatus
         $this->installmentsAmount = Utils::returnValueIfExists($json, 'installments_amount');
         $this->installmentsNumber = Utils::returnValueIfExists($json, 'installments_number');
         $this->balance = Utils::returnValueIfExists($json, 'balance');
-
     }
 
     /**
-     * @return mixed|null
+     * @return ?array
      */
-    public function getCardDetail()
+    public function getCardDetail(): ?array
     {
         return $this->cardDetail;
     }
 
     /**
-     * @return mixed
+     * @return ?string
      */
-    public function getCardNumber()
+    public function getCardNumber(): ?string
     {
         return $this->cardNumber;
     }
 
     /**
-     * @return mixed
+     * @return ?string
      */
-    public function getPaymentTypeCode()
+    public function getPaymentTypeCode(): ?string
     {
         return $this->paymentTypeCode;
     }
 
     /**
-     * @return mixed
+     * @return ?float
      */
-    public function getInstallmentsAmount()
+    public function getInstallmentsAmount(): ?float
     {
         return $this->installmentsAmount;
     }
 
     /**
-     * @return mixed
+     * @return ?string
      */
-    public function getSessionId()
+    public function getSessionId(): ?string
     {
         return $this->sessionId;
     }
 
     /**
-     * @return mixed
+     * @return ?float
      */
-    public function getAmount()
+    public function getAmount(): ?float
     {
         return $this->amount;
     }
 
     /**
-     * @return mixed
+     * @return ?string
      */
-    public function getTransactionDate()
+    public function getTransactionDate(): ?string
     {
         return $this->transactionDate;
     }
-
 }
