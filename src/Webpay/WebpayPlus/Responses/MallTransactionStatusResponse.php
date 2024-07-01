@@ -9,21 +9,20 @@ use Transbank\Utils\Utils;
  */
 class MallTransactionStatusResponse
 {
-    public $vci;
-    public $buyOrder;
-    public $sessionId;
-    public $cardNumber;
-    public $cardDetail;
-    public $expirationDate;
-    public $accountingDate;
-    public $transactionDate;
+    public string $vci;
+    public string $buyOrder;
+    public string $sessionId;
+    public string $cardNumber;
+    public array $cardDetail;
+    public ?string $expirationDate;
+    public string $accountingDate;
+    public string $transactionDate;
+    public array $details;
 
     /**
      * @var TransactionDetail[]
      */
-    public $details;
-
-    public function __construct($json)
+    public function __construct(array $json)
     {
         $this->vci = Utils::returnValueIfExists($json, 'vci');
         $this->buyOrder = Utils::returnValueIfExists($json, 'buy_order');
@@ -33,12 +32,10 @@ class MallTransactionStatusResponse
         $this->expirationDate = Utils::returnValueIfExists($json, 'expiration_date');
         $this->accountingDate = Utils::returnValueIfExists($json, 'accounting_date');
         $this->transactionDate = Utils::returnValueIfExists($json, 'transaction_date');
-        $details = Utils::returnValueIfExists($json, 'details');
-        $this->details = null;
 
-        if (is_array($details)) {
-            $this->details = [];
-            foreach ($details as $detail) {
+        $this->details = [];
+        if (is_array($json['details'])) {
+            foreach ($json['details'] as $detail) {
                 $this->details[] = TransactionDetail::createFromArray($detail);
             }
         }
@@ -49,7 +46,7 @@ class MallTransactionStatusResponse
      *
      * @return bool
      */
-    public function isApproved()
+    public function isApproved(): bool
     {
         if (!$details = $this->getDetails()) {
             return false;
@@ -65,75 +62,74 @@ class MallTransactionStatusResponse
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getBuyOrder()
+    public function getBuyOrder(): string
     {
         return $this->buyOrder;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getSessionId()
+    public function getSessionId(): string
     {
         return $this->sessionId;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getCardNumber()
+    public function getCardNumber(): string
     {
         return $this->cardNumber;
     }
 
     /**
-     * @return mixed
+     * @return ?string
      */
-    public function getExpirationDate()
+    public function getExpirationDate(): ?string
     {
         return $this->expirationDate;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getAccountingDate()
+    public function getAccountingDate(): string
     {
         return $this->accountingDate;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getTransactionDate()
+    public function getTransactionDate(): string
     {
         return $this->transactionDate;
     }
 
     /**
-     * @return TransactionDetail[]|null
+     * @return ?TransactionDetail[]
      */
-    public function getDetails()
+    public function getDetails(): ?array
     {
         return $this->details;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getVci()
+    public function getVci(): string
     {
         return $this->vci;
     }
 
     /**
-     * @return mixed|null
+     * @return ?array
      */
-    public function getCardDetail()
+    public function getCardDetail(): ?array
     {
         return $this->cardDetail;
     }
-
 }

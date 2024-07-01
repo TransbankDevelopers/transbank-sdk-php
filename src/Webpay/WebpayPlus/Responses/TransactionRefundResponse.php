@@ -8,36 +8,36 @@ use Transbank\Utils\TransactionStatusEnum;
 class TransactionRefundResponse
 {
     /**
-     * @var mixed|null
+     * @var string
      */
     public $type;
     /**
-     * @var mixed|null
+     * @var ?string
      */
     public $authorizationCode;
     /**
-     * @var mixed|null
+     * @var ?string
      */
     public $authorizationDate;
     /**
-     * @var mixed|null
+     * @var ?float
      */
     public $nullifiedAmount;
     /**
-     * @var mixed|null
+     * @var ?float
      */
     public $balance;
     /**
-     * @var mixed|null
+     * @var ?int
      */
     public $responseCode;
 
     /**
      * TransactionRefundResponse constructor.
      *
-     * @param $json
+     * @param array $json
      */
-    public function __construct($json)
+    public function __construct(array $json)
     {
         $this->type = Utils::returnValueIfExists($json, 'type');
         $this->authorizationCode = Utils::returnValueIfExists($json, 'authorization_code');
@@ -47,58 +47,60 @@ class TransactionRefundResponse
         $this->responseCode = Utils::returnValueIfExists($json, 'response_code');
     }
 
-    public function success()
+    /**
+     * @return bool
+     */
+    public function success(): bool
     {
         return $this->getType() === TransactionStatusEnum::STATUS_REVERSED ||
             ($this->getType() === TransactionStatusEnum::STATUS_NULLIFIED && $this->getResponseCode() === 0);
     }
 
     /**
-     * @return mixed|null
+     * @return ?float
      */
-    public function getNullifiedAmount()
+    public function getNullifiedAmount(): ?float
     {
         return $this->nullifiedAmount;
     }
 
     /**
-     * @return mixed|null
+     * @return ?float
      */
-    public function getBalance()
+    public function getBalance(): ?float
     {
         return $this->balance;
     }
 
     /**
-     * @return mixed|null
+     * @return ?int
      */
-    public function getResponseCode()
+    public function getResponseCode(): int
     {
-        return (int) $this->responseCode;
+        return $this->responseCode;
     }
 
     /**
-     * @return mixed|null
+     * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
 
     /**
-     * @return mixed|null
+     * @return ?string
      */
-    public function getAuthorizationCode()
+    public function getAuthorizationCode(): ?string
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @return mixed|null
+     * @return ?string
      */
-    public function getAuthorizationDate()
+    public function getAuthorizationDate(): string
     {
         return $this->authorizationDate;
     }
-
 }

@@ -10,14 +10,14 @@ class TransactionCaptureResponse
     /**
      * TransactionCaptureResponse constructor.
      *
-     * @param mixed $responseJson
+     * @param array $json
      */
-    public $authorizationCode;
-    public $authorizationDate;
-    public $capturedAmount;
-    public $responseCode;
+    public string $authorizationCode;
+    public string $authorizationDate;
+    public float $capturedAmount;
+    public int $responseCode;
 
-    public function __construct($json)
+    public function __construct(array $json)
     {
         $this->authorizationCode = Utils::returnValueIfExists($json, 'authorization_code');
         $this->authorizationDate = Utils::returnValueIfExists($json, 'authorization_date');
@@ -25,41 +25,43 @@ class TransactionCaptureResponse
         $this->responseCode = Utils::returnValueIfExists($json, 'response_code');
     }
 
-    public function isApproved()
+    /**
+     * @return bool
+     */
+    public function isApproved(): bool
     {
         return $this->responseCode === ResponseCodesEnum::RESPONSE_CODE_APPROVED;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getAuthorizationCode()
+    public function getAuthorizationCode(): string
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getAuthorizationDate()
+    public function getAuthorizationDate(): string
     {
         return $this->authorizationDate;
     }
 
     /**
-     * @return mixed
+     * @return float
      */
-    public function getCapturedAmount()
+    public function getCapturedAmount(): float
     {
         return $this->capturedAmount;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getResponseCode()
+    public function getResponseCode(): int
     {
         return $this->responseCode;
     }
-
 }

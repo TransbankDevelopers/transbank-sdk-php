@@ -10,9 +10,9 @@ use Transbank\Utils\Utils;
 class TransactionStatusResponse
 {
     use HasTransactionStatus;
-    public $vci;
+    public string $vci;
 
-    public function __construct($json)
+    public function __construct(array $json)
     {
         $this->vci = Utils::returnValueIfExists($json, 'vci');
         $this->setTransactionStatusFields($json);
@@ -23,38 +23,38 @@ class TransactionStatusResponse
      *
      * @return bool
      */
-    public function isApproved()
+    public function isApproved(): bool
     {
-        if($this->getResponseCode() !== ResponseCodesEnum::RESPONSE_CODE_APPROVED) {
+        if ($this->getResponseCode() !== ResponseCodesEnum::RESPONSE_CODE_APPROVED) {
             return false;
         }
 
-        switch($this->getStatus()) {
+        switch ($this->getStatus()) {
             case TransactionStatusEnum::STATUS_CAPTURED:
             case TransactionStatusEnum::STATUS_REVERSED:
             case TransactionStatusEnum::STATUS_NULLIFIED:
             case TransactionStatusEnum::STATUS_AUTHORIZED:
             case TransactionStatusEnum::STATUS_PARTIALLY_NULLIFIED:
                 return true;
-            default :
+            default:
                 return false;
         }
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getVci()
+    public function getVci(): string
     {
         return $this->vci;
     }
 
     /**
-     * @param mixed $vci
+     * @param string $vci
      *
      * @return TransactionStatusResponse
      */
-    public function setVci($vci)
+    public function setVci(string $vci): TransactionStatusResponse
     {
         $this->vci = $vci;
 

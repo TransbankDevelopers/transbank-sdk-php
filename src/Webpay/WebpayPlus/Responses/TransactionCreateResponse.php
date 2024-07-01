@@ -7,12 +7,12 @@ use Transbank\Utils\Utils;
 class TransactionCreateResponse
 {
     /**
-     * @var string|null
+     * @var ?string
      */
     public $token;
 
     /**
-     * @var string|null
+     * @var ?string
      */
     public $url;
 
@@ -25,7 +25,7 @@ class TransactionCreateResponse
      *                    + url (string, required) - the url returned from a successful call to
      *                    'create'
      */
-    public function __construct($json)
+    public function __construct(array $json)
     {
         $this->token = Utils::returnValueIfExists($json, 'token');
         $this->url = Utils::returnValueIfExists($json, 'url');
@@ -40,7 +40,7 @@ class TransactionCreateResponse
      *
      * @return $this
      */
-    public function fromJSON($json)
+    public function fromJSON(array $json)
     {
         $this->token = Utils::returnValueIfExists($json, 'token');
         $this->url = Utils::returnValueIfExists($json, 'url');
@@ -49,19 +49,18 @@ class TransactionCreateResponse
     }
 
     /**
-     * @return string|null
+     * @return ?string
      */
-    public function getToken()
+    public function getToken(): ?string
     {
         return $this->token;
     }
 
     /**
-     * @return string|null
+     * @return ?string
      */
-    public function getUrl()
+    public function getUrl(): ?string
     {
         return $this->url;
     }
-
 }

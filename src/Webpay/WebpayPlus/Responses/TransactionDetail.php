@@ -8,16 +8,16 @@ use Transbank\Utils\Utils;
 
 class TransactionDetail
 {
-    public $amount;
-    public $status;
-    public $authorizationCode;
-    public $paymentTypeCode;
-    public $responseCode;
-    public $installmentsNumber;
-    public $installmentsAmount;
-    public $commerceCode;
-    public $buyOrder;
-    public $balance;
+    public float $amount;
+    public string $status;
+    public string $authorizationCode;
+    public string $paymentTypeCode;
+    public int $responseCode;
+    public int $installmentsNumber;
+    public ?float $installmentsAmount;
+    public ?string $commerceCode;
+    public string $buyOrder;
+    public ?float $balance;
 
     public static function createFromArray(array $array)
     {
@@ -36,102 +36,104 @@ class TransactionDetail
         return $result;
     }
 
-    public function isApproved()
+    /**
+     * @return bool
+     */
+    public function isApproved(): bool
     {
-        if($this->getResponseCode() !== ResponseCodesEnum::RESPONSE_CODE_APPROVED) {
+        if ($this->getResponseCode() !== ResponseCodesEnum::RESPONSE_CODE_APPROVED) {
             return false;
         }
 
-        switch($this->getStatus()) {
+        switch ($this->getStatus()) {
             case TransactionStatusEnum::STATUS_CAPTURED:
             case TransactionStatusEnum::STATUS_REVERSED:
             case TransactionStatusEnum::STATUS_NULLIFIED:
             case TransactionStatusEnum::STATUS_AUTHORIZED:
             case TransactionStatusEnum::STATUS_PARTIALLY_NULLIFIED:
                 return true;
-            default :
+            default:
                 return false;
         }
     }
 
     /**
-     * @return mixed
+     * @return float
      */
-    public function getAmount()
+    public function getAmount(): float
     {
         return $this->amount;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getStatus()
+    public function getStatus(): string
     {
         return $this->status;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getAuthorizationCode()
+    public function getAuthorizationCode(): string
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getPaymentTypeCode()
+    public function getPaymentTypeCode(): string
     {
         return $this->paymentTypeCode;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getResponseCode()
+    public function getResponseCode(): int
     {
         return $this->responseCode;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getInstallmentsNumber()
+    public function getInstallmentsNumber(): int
     {
         return $this->installmentsNumber;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getCommerceCode()
+    public function getCommerceCode(): string
     {
         return $this->commerceCode;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getBuyOrder()
+    public function getBuyOrder(): string
     {
         return $this->buyOrder;
     }
 
     /**
-     * @return mixed
+     * @return ?float
      */
-    public function getInstallmentsAmount()
+    public function getInstallmentsAmount(): ?float
     {
         return $this->installmentsAmount;
     }
 
     /**
-     * @return mixed
+     * @return float
      */
-    public function getBalance()
+    public function getBalance(): float
     {
         return $this->balance;
     }
-
 }
