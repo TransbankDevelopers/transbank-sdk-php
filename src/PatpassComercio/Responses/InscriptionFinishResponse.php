@@ -10,12 +10,13 @@ namespace Transbank\PatpassComercio\Responses;
 
 class InscriptionFinishResponse
 {
-    public $status;
-    public $code;
+    public ?string $status;
+    public int $code;
 
-    public function __construct($httpCode)
+    public function __construct(int $httpCode)
     {
         $this->code = $httpCode;
+        $this->status = null;
 
         if ($httpCode == 204) {
             $this->status = 'OK';
@@ -26,19 +27,18 @@ class InscriptionFinishResponse
     }
 
     /**
-     * @return mixed
+     * @return ?string
      */
-    public function getStatus()
+    public function getStatus(): string
     {
         return $this->status;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getCode()
+    public function getCode(): int
     {
         return $this->code;
     }
-
 }

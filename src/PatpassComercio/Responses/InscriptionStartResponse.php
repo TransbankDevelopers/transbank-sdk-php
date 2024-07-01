@@ -12,32 +12,32 @@ use Transbank\Utils\Utils;
 
 class InscriptionStartResponse
 {
-    public $token;
-    public $urlWebpay;
+    public ?string $token;
+    public ?string $urlWebpay;
 
     /**
      * InscriptionStartResponse constructor.
      *
-     * @param $token
+     * @param array $json
      */
-    public function __construct($json)
+    public function __construct(array $json)
     {
         $this->token = Utils::returnValueIfExists($json, 'token');
         $this->urlWebpay = Utils::returnValueIfExists($json, 'url');
     }
 
     /**
-     * @return mixed
+     * @return ?string
      */
-    public function getToken()
+    public function getToken(): ?string
     {
         return $this->token;
     }
 
     /**
-     * @return mixed
+     * @return ?string
      */
-    public function getUrlWebpay()
+    public function getUrlWebpay(): ?string
     {
         return $this->urlWebpay;
     }
