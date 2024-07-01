@@ -6,19 +6,18 @@ use Transbank\Utils\Utils;
 
 class MallTransactionCreateResponse
 {
-    public $token;
+    public string $token;
 
-    public function __construct($json)
+    public function __construct(array $json)
     {
         $this->token = Utils::returnValueIfExists($json, 'token');
     }
 
     /**
-     * @return mixed
+     * @return ?string
      */
-    public function getToken()
+    public function getToken(): ?string
     {
         return $this->token;
     }
-
 }

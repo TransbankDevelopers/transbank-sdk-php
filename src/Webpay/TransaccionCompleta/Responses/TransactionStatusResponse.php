@@ -9,10 +9,10 @@ class TransactionStatusResponse
 {
     use HasTransactionStatus;
 
-    public $vci;
-    public $prepaidBalance;
+    public ?string $vci;
+    public ?float $prepaidBalance;
 
-    public function __construct($json)
+    public function __construct(array $json)
     {
         $this->vci = Utils::returnValueIfExists($json, 'vci');
         $this->setTransactionStatusFields($json);
@@ -20,19 +20,18 @@ class TransactionStatusResponse
     }
 
     /**
-     * @return mixed
+     * @return ?string
      */
-    public function getVci()
+    public function getVci(): ?string
     {
         return $this->vci;
     }
 
-     /**
-     * @return mixed
+    /**
+     * @return ?float
      */
-    public function getPrepaidBalance()
+    public function getPrepaidBalance(): ?float
     {
         return $this->prepaidBalance;
     }
-
 }
