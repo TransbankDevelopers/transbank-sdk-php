@@ -12,6 +12,7 @@ use Transbank\Webpay\Oneclick\Responses\MallTransactionAuthorizeResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionCaptureResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionRefundResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionStatusResponse;
+use GuzzleHttp\Exception\GuzzleException;
 
 class MallTransaction
 {
@@ -21,12 +22,23 @@ class MallTransaction
     const TRANSACTION_REFUND_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/transactions/{buy_order}/refunds';
     const TRANSACTION_CAPTURE_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/transactions/capture';
 
+    /**
+     * @param string $userName
+     * @param string $tbkUser
+     * @param string $parentBuyOrder
+     * @param array  $details
+     *
+     * @return MallTransactionAuthorizeResponse
+     *
+     * @throws MallTransactionAuthorizeException
+     * @throws GuzzleException
+     */
     public function authorize(
-        $userName,
-        $tbkUser,
-        $parentBuyOrder,
-        $details
-    ) {
+        string $userName,
+        string $tbkUser,
+        string $parentBuyOrder,
+        array $details
+    ): MallTransactionAuthorizeResponse {
         $payload = [
             'username'  => $userName,
             'tbk_user'  => $tbkUser,
@@ -41,7 +53,8 @@ class MallTransaction
                 $payload
             );
         } catch (WebpayRequestException $exception) {
-            throw new MallTransactionAuthorizeException($exception->getMessage(),
+            throw new MallTransactionAuthorizeException(
+                $exception->getMessage(),
                 $exception->getTransbankErrorMessage(),
                 $exception->getHttpCode(),
                 $exception->getFailedRequest(),
@@ -52,8 +65,23 @@ class MallTransaction
         return new MallTransactionAuthorizeResponse($response);
     }
 
-    public function capture($childCommerceCode, $childBuyOrder, $authorizationCode, $amount)
-    {
+    /**
+     * @param string $childCommerceCode
+     * @param string $childBuyOrder
+     * @param string $authorizationCode
+     * @param float  $amount
+     *
+     * @return MallTransactionCaptureResponse
+     *
+     * @throws MallTransactionCaptureException
+     * @throws GuzzleException
+     */
+    public function capture(
+        string $childCommerceCode,
+        string $childBuyOrder,
+        string $authorizationCode,
+        float $amount
+    ): MallTransactionCaptureResponse {
         $payload = [
             'commerce_code'      => $childCommerceCode,
             'buy_order'          => $childBuyOrder,
@@ -68,7 +96,8 @@ class MallTransaction
                 $payload
             );
         } catch (WebpayRequestException $exception) {
-            throw new MallTransactionCaptureException($exception->getMessage(),
+            throw new MallTransactionCaptureException(
+                $exception->getMessage(),
                 $exception->getTransbankErrorMessage(),
                 $exception->getHttpCode(),
                 $exception->getFailedRequest(),
@@ -79,16 +108,25 @@ class MallTransaction
         return new MallTransactionCaptureResponse($response);
     }
 
-    public function status($buyOrder)
+    /**
+     * @param string $buyOrder
+     *
+     * @return MallTransactionStatusResponse
+     *
+     * @throws MallTransactionStatusException
+     * @throws GuzzleException
+     */
+    public function status(string $buyOrder): MallTransactionStatusResponse
     {
         try {
             $response = $this->sendRequest(
                 'GET',
                 str_replace('{buy_order}', $buyOrder, static::TRANSACTION_STATUS_ENDPOINT),
-                null
+                []
             );
         } catch (WebpayRequestException $exception) {
-            throw new MallTransactionStatusException($exception->getMessage(),
+            throw new MallTransactionStatusException(
+                $exception->getMessage(),
                 $exception->getTransbankErrorMessage(),
                 $exception->getHttpCode(),
                 $exception->getFailedRequest(),
@@ -99,8 +137,23 @@ class MallTransaction
         return new MallTransactionStatusResponse($response);
     }
 
-    public function refund($buyOrder, $childCommerceCode, $childBuyOrder, $amount)
-    {
+    /**
+     * @param string $buyOrder
+     * @param string $childCommerceCode
+     * @param string $childBuyOrder
+     * @param float $amount
+     *
+     * @return MallTransactionRefundResponse
+     *
+     * @throws MallRefundTransactionException
+     * @throws GuzzleException
+     */
+    public function refund(
+        string $buyOrder,
+        string $childCommerceCode,
+        string $childBuyOrder,
+        float $amount
+    ): MallTransactionRefundResponse {
         $payload = [
             'detail_buy_order' => $childBuyOrder,
             'commerce_code'    => $childCommerceCode,
@@ -114,7 +167,8 @@ class MallTransaction
                 $payload
             );
         } catch (WebpayRequestException $exception) {
-            throw new MallRefundTransactionException($exception->getMessage(),
+            throw new MallRefundTransactionException(
+                $exception->getMessage(),
                 $exception->getTransbankErrorMessage(),
                 $exception->getHttpCode(),
                 $exception->getFailedRequest(),

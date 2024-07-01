@@ -4,14 +4,13 @@ namespace Transbank\Webpay\Oneclick;
 
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
-use Transbank\Webpay\Oneclick;
 use Transbank\Webpay\Oneclick\Exceptions\InscriptionDeleteException;
 use Transbank\Webpay\Oneclick\Exceptions\InscriptionFinishException;
 use Transbank\Webpay\Oneclick\Exceptions\InscriptionStartException;
 use Transbank\Webpay\Oneclick\Responses\InscriptionDeleteResponse;
 use Transbank\Webpay\Oneclick\Responses\InscriptionFinishResponse;
 use Transbank\Webpay\Oneclick\Responses\InscriptionStartResponse;
-use Transbank\Webpay\Options;
+use GuzzleHttp\Exception\GuzzleException;
 
 class MallInscription
 {
@@ -22,17 +21,16 @@ class MallInscription
     const INSCRIPTION_DELETE_ENDPOINT = 'rswebpaytransaction/api/oneclick/v1.2/inscriptions';
 
     /**
-     * @param $username
-     * @param $email
-     * @param $responseUrl
-     * @param null $options
-     *
-     * @throws InscriptionStartException
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @param string    $username
+     * @param string    $email
+     * @param string    $responseUrl
      *
      * @return InscriptionStartResponse
+     *
+     * @throws InscriptionStartException
+     * @throws GuzzleException
      */
-    public function start($username, $email, $responseUrl)
+    public function start($username, $email, $responseUrl): InscriptionStartResponse
     {
         $payload = [
             'username'     => $username,
@@ -47,7 +45,8 @@ class MallInscription
                 $payload
             );
         } catch (WebpayRequestException $exception) {
-            throw new InscriptionStartException($exception->getMessage(),
+            throw new InscriptionStartException(
+                $exception->getMessage(),
                 $exception->getTransbankErrorMessage(),
                 $exception->getHttpCode(),
                 $exception->getFailedRequest(),
@@ -58,16 +57,25 @@ class MallInscription
         return new InscriptionStartResponse($response);
     }
 
-    public function finish($token)
+    /**
+     * @param string $token
+     *
+     * @return InscriptionFinishResponse
+     *
+     * @throws InscriptionFinishException
+     * @throws GuzzleException
+     */
+    public function finish($token): InscriptionFinishResponse
     {
         try {
             $response = $this->sendRequest(
                 'PUT',
                 str_replace('{token}', $token, static::INSCRIPTION_FINISH_ENDPOINT),
-                null
+                []
             );
         } catch (WebpayRequestException $exception) {
-            throw new InscriptionFinishException($exception->getMessage(),
+            throw new InscriptionFinishException(
+                $exception->getMessage(),
                 $exception->getTransbankErrorMessage(),
                 $exception->getHttpCode(),
                 $exception->getFailedRequest(),
@@ -78,7 +86,16 @@ class MallInscription
         return new InscriptionFinishResponse($response);
     }
 
-    public function delete($tbkUser, $username)
+    /**
+     * @param string $tbkUser
+     * @param string $username
+     *
+     * @return InscriptionDeleteResponse
+     *
+     * @throws InscriptionDeleteException
+     * @throws GuzzleException
+     */
+    public function delete($tbkUser, $username): InscriptionDeleteResponse
     {
         $payload = [
             'tbk_user' => $tbkUser,
@@ -96,7 +113,8 @@ class MallInscription
                 return new InscriptionDeleteResponse(false, $exception->getHttpCode());
             }
 
-            throw new InscriptionDeleteException($exception->getMessage(),
+            throw new InscriptionDeleteException(
+                $exception->getMessage(),
                 $exception->getTransbankErrorMessage(),
                 $exception->getHttpCode(),
                 $exception->getFailedRequest(),
