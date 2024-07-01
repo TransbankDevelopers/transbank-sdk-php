@@ -4,23 +4,28 @@ namespace Transbank\Webpay\Exceptions;
 
 class TransbankApiRequest
 {
-    public $method;
-    public $baseUrl;
-    public $endpoint;
-    public $payload;
-    public $headers;
+    public string $method;
+    public string $baseUrl;
+    public string $endpoint;
+    public array $payload;
+    public array $headers;
 
     /**
      * FailedRequestCapturedData constructor.
      *
-     * @param $method
-     * @param $baseUrl
-     * @param $endpoint
+     * @param string $method
+     * @param string $baseUrl
+     * @param string $endpoint
      * @param array $payload
      * @param array $headers
      */
-    public function __construct($method, $baseUrl, $endpoint, $payload = [], $headers = [])
-    {
+    public function __construct(
+        string $method,
+        string $baseUrl,
+        string $endpoint,
+        array $payload = [],
+        array $headers = []
+    ) {
         $this->method = $method;
         $this->baseUrl = $baseUrl;
         $this->endpoint = $endpoint;
@@ -29,25 +34,25 @@ class TransbankApiRequest
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getMethod()
+    public function getMethod(): string
     {
         return $this->method;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getBaseUrl()
+    public function getBaseUrl(): string
     {
         return $this->baseUrl;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getEndpoint()
+    public function getEndpoint(): string
     {
         return $this->endpoint;
     }
@@ -55,7 +60,7 @@ class TransbankApiRequest
     /**
      * @return array
      */
-    public function getPayload()
+    public function getPayload(): array
     {
         return $this->payload;
     }
@@ -63,7 +68,7 @@ class TransbankApiRequest
     /**
      * @return array
      */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return $this->headers;
     }

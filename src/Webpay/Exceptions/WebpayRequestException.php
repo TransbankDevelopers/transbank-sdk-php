@@ -13,32 +13,32 @@ class WebpayRequestException extends WebpayException
     protected static string $defaultMessage = 'An error has happened on the request';
 
     /**
-     * @var mixed
+     * @var ?string
      */
-    protected $transbankErrorMessage;
+    protected ?string $transbankErrorMessage;
     /**
-     * @var int
+     * @var ?int
      */
     protected $httpCode;
 
     /**
-     * @var
+     * @var mixed
      */
     protected $response;
 
     /**
-     * @var TransbankApiRequest|null
+     * @var ?TransbankApiRequest
      */
-    protected $failedRequest;
+    protected ?TransbankApiRequest $failedRequest;
 
     /**
      * WebpayRequestException constructor.
      *
-     * @param string                   $message
-     * @param string|null              $tbkErrorMessage
-     * @param int|null                 $httpCode
-     * @param TransbankApiRequest|null $failedRequest
-     * @param \Exception|null          $previous
+     * @param string                $message
+     * @param ?string               $tbkErrorMessage
+     * @param ?int                  $httpCode
+     * @param ?TransbankApiRequest  $failedRequest
+     * @param ?\Exception           $previous
      */
     public function __construct(
         string $message,
@@ -48,7 +48,7 @@ class WebpayRequestException extends WebpayException
         ?\Exception $previous = null
     ) {
         $theMessage = $tbkErrorMessage ?? $message;
-        
+
         if ($failedRequest !== null) {
             $theMessage = $this->getExceptionMessage($message, $tbkErrorMessage, $httpCode);
         }
@@ -62,7 +62,7 @@ class WebpayRequestException extends WebpayException
     }
 
     /**
-     * @return string|null
+     * @return ?string
      */
     public function getTransbankErrorMessage(): ?string
     {
@@ -94,7 +94,7 @@ class WebpayRequestException extends WebpayException
     }
 
     /**
-     * @return TransbankApiRequest|null
+     * @return ?TransbankApiRequest
      */
     public function getFailedRequest(): ?TransbankApiRequest
     {
@@ -102,9 +102,9 @@ class WebpayRequestException extends WebpayException
     }
 
     /**
-     * @param string $message
-     * @param string|null $tbkErrorMessage
-     * @param int|null $httpCode
+     * @param string    $message
+     * @param ?string   $tbkErrorMessage
+     * @param ?int      $httpCode
      *
      * @return string
      */
@@ -113,7 +113,6 @@ class WebpayRequestException extends WebpayException
         ?string $tbkErrorMessage,
         ?int $httpCode
     ): string {
-
         if (!$tbkErrorMessage) {
             return $message;
         }
@@ -122,8 +121,7 @@ class WebpayRequestException extends WebpayException
             'API Response: "%s" [%d] - %s',
             $tbkErrorMessage,
             $httpCode ?? 0,
-            static::$defaultMessage);
-        
+            static::$defaultMessage
+        );
     }
-
 }
