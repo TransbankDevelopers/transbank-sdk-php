@@ -27,43 +27,42 @@ class Inscription
     /**
      * @var Options
      */
-    protected $options;
+    protected Options $options;
 
     /**
      * Transaction constructor.
      *
      * @param Options              $options
-     * @param RequestService |null $requestService
+     * @param RequestService|null  $requestService
      */
     public function __construct(
         Options $options,
-        RequestService $requestService = null
+        ?RequestService $requestService = null
     ) {
         $this->options = $options;
-
         $this->setRequestService($requestService !== null ? $requestService :
             new HttpClientRequestService());
     }
 
     /**
-     * @param $url
-     * @param $name
-     * @param $lastName
-     * @param $secondLastName
-     * @param $rut
-     * @param $serviceId
-     * @param $finalUrl
-     * @param $maxAmount
-     * @param $phone
-     * @param $cellPhone
-     * @param $patpassName
-     * @param $personEmail
-     * @param $commerceEmail
-     * @param $address
-     * @param $city
+     * @param string $url
+     * @param string $name
+     * @param string $lastName
+     * @param string $secondLastName
+     * @param string $rut
+     * @param string $serviceId
+     * @param string $finalUrl
+     * @param string $maxAmount
+     * @param string $phone
+     * @param string $cellPhone
+     * @param string $patpassName
+     * @param string $personEmail
+     * @param string $commerceEmail
+     * @param string $address
+     * @param string $city
      *
      * @throws InscriptionStartException
-     * @throws GuzzleHttp\Exception\GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return InscriptionStartResponse
      */
@@ -83,7 +82,7 @@ class Inscription
         $commerceEmail,
         $address,
         $city
-    ) {
+    ): InscriptionStartResponse {
         $payload = [
             'url'             => $url,
             'nombre'          => $name,
@@ -120,15 +119,14 @@ class Inscription
     }
 
     /**
-     * @param $token
-     * @param null $options
+     * @param string $token
      *
      * @throws InscriptionStatusException
-     * @throws GuzzleHttp\Exception\GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return InscriptionStatusResponse
      */
-    public function status($token)
+    public function status(string $token): InscriptionStatusResponse
     {
         $payload = [
             'token' => $token,
@@ -154,7 +152,7 @@ class Inscription
     /**
      * @return Options
      */
-    public function getOptions()
+    public function getOptions(): Options
     {
         return $this->options;
     }
@@ -170,29 +168,29 @@ class Inscription
     /**
      * @return string
      */
-    protected function getBaseUrl()
+    protected function getBaseUrl(): string
     {
         return $this->getOptions()->getApiBaseUrl();
     }
 
     /**
-     * @param $commerceCode
-     * @param $apiKey
+     * @param string $commerceCode
+     * @param string $apiKey
      *
-     * @return $this
+     * @return static
      */
-    public static function buildForIntegration($commerceCode, $apiKey)
+    public static function buildForIntegration(string $commerceCode, string $apiKey)
     {
         return new static(new Options($apiKey, $commerceCode, Options::ENVIRONMENT_INTEGRATION));
     }
 
     /**
-     * @param $commerceCode
-     * @param $apiKey
+     * @param string $commerceCode
+     * @param string $apiKey
      *
-     * @return $this
+     * @return static
      */
-    public static function buildForProduction($commerceCode, $apiKey)
+    public static function buildForProduction(string $commerceCode, string $apiKey)
     {
         return new static(new Options($apiKey, $commerceCode, Options::ENVIRONMENT_PRODUCTION));
     }
