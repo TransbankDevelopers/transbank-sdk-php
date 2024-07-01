@@ -19,9 +19,10 @@ use Transbank\Webpay\TransaccionCompleta\Responses\MallTransactionCreateResponse
 use Transbank\Webpay\TransaccionCompleta\Responses\MallTransactionInstallmentsResponse;
 use Transbank\Webpay\TransaccionCompleta\Responses\MallTransactionRefundResponse;
 use Transbank\Webpay\TransaccionCompleta\Responses\MallTransactionStatusResponse;
+use Transbank\Webpay\TransaccionCompleta\Responses\MallTransactionCaptureResponse;
 use Transbank\Utils\InteractsWithWebpayApi;
+use GuzzleHttp\Exception\GuzzleException;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
-use Transbank\Webpay\Options;
 
 class MallTransaction
 {
@@ -33,14 +34,27 @@ class MallTransaction
     const ENDPOINT_REFUND = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
     const ENDPOINT_STATUS = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
     const ENDPOINT_CAPTURE = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/capture';
+    const SEARCH_STRING = '{token}';
 
+    /**
+     * @param string    $buyOrder
+     * @param string    $sessionId
+     * @param string    $cardNumber
+     * @param string    $cardExpirationDate
+     * @param array     $details
+     * @param ?string   $cvv
+     *
+     * @throws MallTransactionCreateException
+     *
+     * @return MallTransactionCreateResponse
+     */
     public function create(
-        $buyOrder,
-        $sessionId,
-        $cardNumber,
-        $cardExpirationDate,
-        $details,
-        $cvv = null
+        string $buyOrder,
+        string $sessionId,
+        string $cardNumber,
+        string $cardExpirationDate,
+        array $details,
+        ?string $cvv = null
     ) {
         $payload = [
             'buy_order'            => $buyOrder,
@@ -56,7 +70,8 @@ class MallTransaction
         try {
             $response = $this->sendRequest('POST', static::ENDPOINT_CREATE, $payload);
         } catch (WebpayRequestException $exception) {
-            throw new MallTransactionCreateException($exception->getMessage(),
+            throw new MallTransactionCreateException(
+                $exception->getMessage(),
                 $exception->getTransbankErrorMessage(),
                 $exception->getHttpCode(),
                 $exception->getFailedRequest(),
@@ -67,11 +82,19 @@ class MallTransaction
         return new MallTransactionCreateResponse($response);
     }
 
+    /**
+     * @param string $token
+     * @param array  $details
+     *
+     * @throws TransactionInstallmentsException
+     *
+     * @return MallTransactionInstallmentsResponse[]
+     */
     public function installments(
-        $token,
-        $details
+        string $token,
+        array $details
     ) {
-        $endpoint = str_replace('{token}', $token, static::ENDPOINT_INSTALLMENTS);
+        $endpoint = str_replace(self::SEARCH_STRING, $token, static::ENDPOINT_INSTALLMENTS);
 
         try {
             return array_map(function ($detail) use ($endpoint) {
@@ -85,7 +108,8 @@ class MallTransaction
                 return new MallTransactionInstallmentsResponse($response);
             }, $details);
         } catch (WebpayRequestException $exception) {
-            throw new TransactionInstallmentsException($exception->getMessage(),
+            throw new TransactionInstallmentsException(
+                $exception->getMessage(),
                 $exception->getTransbankErrorMessage(),
                 $exception->getHttpCode(),
                 $exception->getFailedRequest(),
@@ -94,6 +118,14 @@ class MallTransaction
         }
     }
 
+    /**
+     * @param string $token
+     * @param array  $details
+     *
+     * @throws MallTransactionCommitException
+     *
+     * @return MallTransactionCommitResponse
+     */
     public function commit(
         $token,
         $details
@@ -102,12 +134,13 @@ class MallTransaction
             'details' => $details,
         ];
 
-        $endpoint = str_replace('{token}', $token, static::ENDPOINT_COMMIT);
+        $endpoint = str_replace(self::SEARCH_STRING, $token, static::ENDPOINT_COMMIT);
 
         try {
             $response = $this->sendRequest('PUT', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {
-            throw new MallTransactionCommitException($exception->getMessage(),
+            throw new MallTransactionCommitException(
+                $exception->getMessage(),
                 $exception->getTransbankErrorMessage(),
                 $exception->getHttpCode(),
                 $exception->getFailedRequest(),
@@ -118,11 +151,21 @@ class MallTransaction
         return new MallTransactionCommitResponse($response);
     }
 
+    /**
+     * @param string $token
+     * @param string $buyOrder
+     * @param string $commerceCodeChild
+     * @param float  $amount
+     *
+     * @throws MallTransactionRefundException
+     *
+     * @return MallTransactionRefundResponse
+     */
     public function refund(
-        $token,
-        $buyOrder,
-        $commerceCodeChild,
-        $amount
+        string $token,
+        string $buyOrder,
+        string $commerceCodeChild,
+        float $amount
     ) {
         $payload = [
             'buy_order'     => $buyOrder,
@@ -130,12 +173,13 @@ class MallTransaction
             'amount'        => $amount,
         ];
 
-        $endpoint = str_replace('{token}', $token, static::ENDPOINT_REFUND);
+        $endpoint = str_replace(self::SEARCH_STRING, $token, static::ENDPOINT_REFUND);
 
         try {
             $response = $this->sendRequest('POST', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {
-            throw new MallTransactionRefundException($exception->getMessage(),
+            throw new MallTransactionRefundException(
+                $exception->getMessage(),
                 $exception->getTransbankErrorMessage(),
                 $exception->getHttpCode(),
                 $exception->getFailedRequest(),
@@ -146,14 +190,22 @@ class MallTransaction
         return new MallTransactionRefundResponse($response);
     }
 
-    public function status($token)
+    /**
+     * @param string $token
+     *
+     * @throws MallTransactionStatusException
+     *
+     * @return MallTransactionStatusResponse
+     */
+    public function status(string $token)
     {
-        $endpoint = str_replace('{token}', $token, static::ENDPOINT_STATUS);
+        $endpoint = str_replace(self::SEARCH_STRING, $token, static::ENDPOINT_STATUS);
 
         try {
-            $response = $this->sendRequest('GET', $endpoint, null);
+            $response = $this->sendRequest('GET', $endpoint, []);
         } catch (WebpayRequestException $exception) {
-            throw new MallTransactionStatusException($exception->getMessage(),
+            throw new MallTransactionStatusException(
+                $exception->getMessage(),
                 $exception->getTransbankErrorMessage(),
                 $exception->getHttpCode(),
                 $exception->getFailedRequest(),
@@ -165,20 +217,25 @@ class MallTransaction
     }
 
     /**
-     * @param $token
-     * @param $commerceCode
-     * @param $buyOrder
-     * @param $authorizationCode
-     * @param $captureAmount
+     * @param string $token
+     * @param string $commerceCode
+     * @param string $buyOrder
+     * @param string $authorizationCode
+     * @param float  $captureAmount
      *
      * @throws MallTransactionCaptureException
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      *
-     * @return Responses\MallTransactionCaptureResponse
+     * @return MallTransactionCaptureResponse
      */
-    public function capture($token, $commerceCode, $buyOrder, $authorizationCode, $captureAmount)
-    {
-        $endpoint = str_replace('{token}', $token, static::ENDPOINT_CAPTURE);
+    public function capture(
+        string $token,
+        string $commerceCode,
+        string $buyOrder,
+        string $authorizationCode,
+        float $captureAmount
+    ) {
+        $endpoint = str_replace(self::SEARCH_STRING, $token, static::ENDPOINT_CAPTURE);
 
         $payload = [
             'buy_order'          => $buyOrder,
@@ -190,7 +247,8 @@ class MallTransaction
         try {
             $response = $this->sendRequest('PUT', $endpoint, $payload);
         } catch (WebpayRequestException $exception) {
-            throw new MallTransactionCaptureException($exception->getMessage(),
+            throw new MallTransactionCaptureException(
+                $exception->getMessage(),
                 $exception->getTransbankErrorMessage(),
                 $exception->getHttpCode(),
                 $exception->getFailedRequest(),
@@ -198,6 +256,6 @@ class MallTransaction
             );
         }
 
-        return new Responses\MallTransactionCaptureResponse($response);
+        return new MallTransactionCaptureResponse($response);
     }
 }
