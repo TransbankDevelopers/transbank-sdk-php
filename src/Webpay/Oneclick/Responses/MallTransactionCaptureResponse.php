@@ -19,21 +19,33 @@ class MallTransactionCaptureResponse
         $this->responseCode = Utils::returnValueIfExists($json, 'response_code');
     }
 
+    /**
+     * @return ?string
+     */
     public function getAuthorizationCode(): ?string
     {
         return $this->authorizationCode;
     }
 
+    /**
+     * @return ?string
+     */
     public function getAuthorizationDate(): ?string
     {
         return $this->authorizationDate;
     }
 
+    /**
+     * @return ?float
+     */
     public function getCapturedAmount(): ?float
     {
         return $this->capturedAmount;
     }
 
+    /**
+     * @return ?int
+     */
     public function getResponseCode(): ?int
     {
         return $this->responseCode;

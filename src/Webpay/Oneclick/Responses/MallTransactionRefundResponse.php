@@ -6,7 +6,7 @@ use Transbank\Utils\Utils;
 
 class MallTransactionRefundResponse
 {
-    public string $type;
+    public ?string $type;
     public ?string $authorizationCode;
     public ?string $authorizationDate;
     public ?float $nullifiedAmount;
@@ -24,9 +24,9 @@ class MallTransactionRefundResponse
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }

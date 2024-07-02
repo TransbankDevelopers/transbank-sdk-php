@@ -7,7 +7,7 @@ use Transbank\Utils\Utils;
 
 class InscriptionFinishResponse
 {
-    public int $responseCode;
+    public ?int $responseCode;
     public ?string $tbkUser;
     public ?string $authorizationCode;
     public ?string $cardType;
@@ -28,9 +28,9 @@ class InscriptionFinishResponse
     }
 
     /**
-     * @return int
+     * @return ?int
      */
-    public function getResponseCode(): int
+    public function getResponseCode(): ?int
     {
         return $this->responseCode;
     }
