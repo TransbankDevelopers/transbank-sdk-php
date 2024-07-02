@@ -17,6 +17,7 @@ use Transbank\Utils\HttpClientRequestService;
 use Transbank\Utils\RequestServiceTrait;
 use Transbank\Contracts\RequestService;
 use Transbank\PatpassComercio\Options;
+use GuzzleHttp\Exception\GuzzleException;
 
 class Inscription
 {
@@ -32,8 +33,8 @@ class Inscription
     /**
      * Transaction constructor.
      *
-     * @param Options              $options
-     * @param RequestService|null  $requestService
+     * @param Options          $options
+     * @param ?RequestService  $requestService
      */
     public function __construct(
         Options $options,
@@ -62,26 +63,26 @@ class Inscription
      * @param string $city
      *
      * @throws InscriptionStartException
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      *
      * @return InscriptionStartResponse
      */
     public function start(
-        $url,
-        $name,
-        $lastName,
-        $secondLastName,
-        $rut,
-        $serviceId,
-        $finalUrl,
-        $maxAmount,
-        $phone,
-        $cellPhone,
-        $patpassName,
-        $personEmail,
-        $commerceEmail,
-        $address,
-        $city
+        string $url,
+        string $name,
+        string $lastName,
+        string $secondLastName,
+        string $rut,
+        string $serviceId,
+        string $finalUrl,
+        string $maxAmount,
+        string $phone,
+        string $cellPhone,
+        string $patpassName,
+        string $personEmail,
+        string $commerceEmail,
+        string $address,
+        string $city
     ): InscriptionStartResponse {
         $payload = [
             'url'             => $url,
@@ -122,7 +123,7 @@ class Inscription
      * @param string $token
      *
      * @throws InscriptionStatusException
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      *
      * @return InscriptionStatusResponse
      */
@@ -159,8 +160,10 @@ class Inscription
 
     /**
      * @param Options $options
+     *
+     * @return void
      */
-    public function setOptions(Options $options)
+    public function setOptions(Options $options): void
     {
         $this->options = $options;
     }
