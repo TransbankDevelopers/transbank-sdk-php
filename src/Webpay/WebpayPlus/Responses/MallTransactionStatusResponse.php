@@ -9,15 +9,15 @@ use Transbank\Utils\Utils;
  */
 class MallTransactionStatusResponse
 {
-    public string $vci;
-    public string $buyOrder;
-    public string $sessionId;
-    public string $cardNumber;
-    public array $cardDetail;
+    public ?string $vci;
+    public ?string $buyOrder;
+    public ?string $sessionId;
+    public ?string $cardNumber;
+    public ?array $cardDetail;
     public ?string $expirationDate;
-    public string $accountingDate;
-    public string $transactionDate;
-    public array $details;
+    public ?string $accountingDate;
+    public ?string $transactionDate;
+    public ?array $details;
 
     /**
      * @var TransactionDetail[]
@@ -62,25 +62,25 @@ class MallTransactionStatusResponse
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getBuyOrder(): string
+    public function getBuyOrder(): ?string
     {
         return $this->buyOrder;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getSessionId(): string
+    public function getSessionId(): ?string
     {
         return $this->sessionId;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getCardNumber(): string
+    public function getCardNumber(): ?string
     {
         return $this->cardNumber;
     }
@@ -94,17 +94,17 @@ class MallTransactionStatusResponse
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getAccountingDate(): string
+    public function getAccountingDate(): ?string
     {
         return $this->accountingDate;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getTransactionDate(): string
+    public function getTransactionDate(): ?string
     {
         return $this->transactionDate;
     }
@@ -118,9 +118,9 @@ class MallTransactionStatusResponse
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getVci(): string
+    public function getVci(): ?string
     {
         return $this->vci;
     }

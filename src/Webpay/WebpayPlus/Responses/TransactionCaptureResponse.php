@@ -12,10 +12,10 @@ class TransactionCaptureResponse
      *
      * @param array $json
      */
-    public string $authorizationCode;
-    public string $authorizationDate;
-    public float $capturedAmount;
-    public int $responseCode;
+    public ?string $authorizationCode;
+    public ?string $authorizationDate;
+    public ?float $capturedAmount;
+    public ?int $responseCode;
 
     public function __construct(array $json)
     {
@@ -34,33 +34,33 @@ class TransactionCaptureResponse
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getAuthorizationCode(): string
+    public function getAuthorizationCode(): ?string
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getAuthorizationDate(): string
+    public function getAuthorizationDate(): ?string
     {
         return $this->authorizationDate;
     }
 
     /**
-     * @return float
+     * @return ?float
      */
-    public function getCapturedAmount(): float
+    public function getCapturedAmount(): ?float
     {
         return $this->capturedAmount;
     }
 
     /**
-     * @return int
+     * @return ?int
      */
-    public function getResponseCode(): int
+    public function getResponseCode(): ?int
     {
         return $this->responseCode;
     }

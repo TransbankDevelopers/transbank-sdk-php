@@ -8,15 +8,15 @@ use Transbank\Utils\Utils;
 
 class TransactionDetail
 {
-    public float $amount;
-    public string $status;
-    public string $authorizationCode;
-    public string $paymentTypeCode;
-    public int $responseCode;
-    public int $installmentsNumber;
+    public ?float $amount;
+    public ?string $status;
+    public ?string $authorizationCode;
+    public ?string $paymentTypeCode;
+    public ?int $responseCode;
+    public ?int $installmentsNumber;
     public ?float $installmentsAmount;
     public ?string $commerceCode;
-    public string $buyOrder;
+    public ?string $buyOrder;
     public ?float $balance;
 
     public static function createFromArray(array $array)
@@ -58,65 +58,65 @@ class TransactionDetail
     }
 
     /**
-     * @return float
+     * @return ?float
      */
-    public function getAmount(): float
+    public function getAmount(): ?float
     {
         return $this->amount;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getStatus(): string
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getAuthorizationCode(): string
+    public function getAuthorizationCode(): ?string
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getPaymentTypeCode(): string
+    public function getPaymentTypeCode(): ?string
     {
         return $this->paymentTypeCode;
     }
 
     /**
-     * @return int
+     * @return ?int
      */
-    public function getResponseCode(): int
+    public function getResponseCode(): ?int
     {
         return $this->responseCode;
     }
 
     /**
-     * @return int
+     * @return ?int
      */
-    public function getInstallmentsNumber(): int
+    public function getInstallmentsNumber(): ?int
     {
         return $this->installmentsNumber;
     }
 
     /**
-     * @return int
+     * @return ?int
      */
-    public function getCommerceCode(): string
+    public function getCommerceCode(): ?string
     {
         return $this->commerceCode;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getBuyOrder(): string
+    public function getBuyOrder(): ?string
     {
         return $this->buyOrder;
     }
@@ -130,9 +130,9 @@ class TransactionDetail
     }
 
     /**
-     * @return float
+     * @return ?float
      */
-    public function getBalance(): float
+    public function getBalance(): ?float
     {
         return $this->balance;
     }

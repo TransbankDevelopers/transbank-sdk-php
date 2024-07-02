@@ -9,12 +9,12 @@ class TransactionCreateResponse
     /**
      * @var ?string
      */
-    public $token;
+    public ?string $token;
 
     /**
      * @var ?string
      */
-    public $url;
+    public ?string $url;
 
     /**
      * TransactionCreateResponse constructor.

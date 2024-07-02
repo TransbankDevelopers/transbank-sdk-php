@@ -10,7 +10,7 @@ use Transbank\Utils\Utils;
 class TransactionStatusResponse
 {
     use HasTransactionStatus;
-    public string $vci;
+    public ?string $vci;
 
     public function __construct(array $json)
     {
@@ -42,9 +42,9 @@ class TransactionStatusResponse
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getVci(): string
+    public function getVci(): ?string
     {
         return $this->vci;
     }

@@ -10,27 +10,27 @@ class TransactionRefundResponse
     /**
      * @var string
      */
-    public $type;
+    public ?string $type;
     /**
      * @var ?string
      */
-    public $authorizationCode;
+    public ?string $authorizationCode;
     /**
      * @var ?string
      */
-    public $authorizationDate;
+    public ?string $authorizationDate;
     /**
      * @var ?float
      */
-    public $nullifiedAmount;
+    public ?float $nullifiedAmount;
     /**
      * @var ?float
      */
-    public $balance;
+    public ?float $balance;
     /**
      * @var ?int
      */
-    public $responseCode;
+    public ?int $responseCode;
 
     /**
      * TransactionRefundResponse constructor.
@@ -75,15 +75,15 @@ class TransactionRefundResponse
     /**
      * @return ?int
      */
-    public function getResponseCode(): int
+    public function getResponseCode(): ?int
     {
         return $this->responseCode;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }
@@ -99,7 +99,7 @@ class TransactionRefundResponse
     /**
      * @return ?string
      */
-    public function getAuthorizationDate(): string
+    public function getAuthorizationDate(): ?string
     {
         return $this->authorizationDate;
     }
