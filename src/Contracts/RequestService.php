@@ -4,6 +4,8 @@ namespace Transbank\Contracts;
 
 use Transbank\Webpay\Options;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
+use Psr\Http\Message\ResponseInterface;
+use Transbank\Webpay\Exceptions\TransbankApiRequest;
 
 interface RequestService
 {
@@ -17,5 +19,12 @@ interface RequestService
      *
      * @return array Response from the API as json.
      */
-    public function request(string $method, string $endpoint, array $payload, Options $options);
+    public function request(
+        string $method,
+        string $endpoint,
+        array $payload,
+        Options $options
+    ): array;
+    public function getLastResponse(): ?ResponseInterface;
+    public function getLastRequest(): ?TransbankApiRequest;
 }
