@@ -25,7 +25,7 @@ class HttpClientRequestService implements RequestService
     /**
      * @var HttpClientInterface
      */
-    protected HttpClientInterface $httpClient;
+    protected ?HttpClientInterface $httpClient;
 
     public function __construct(?HttpClientInterface $httpClient = null)
     {
@@ -42,6 +42,8 @@ class HttpClientRequestService implements RequestService
 
     /**
      * @param HttpClientInterface $httpClient
+     *
+     * @return void
      */
     public function setHttpClient(HttpClientInterface $httpClient): void
     {
@@ -75,8 +77,10 @@ class HttpClientRequestService implements RequestService
         $request = new TransbankApiRequest($method, $baseUrl, $endpoint, $payload, $headers);
 
         $this->setLastRequest($request);
-        $response = $client->request($method, $baseUrl.$endpoint, $payload, ['headers' => $headers,
-                                                                            'timeout' => $options->getTimeout()]);
+        $response = $client->request($method, $baseUrl . $endpoint, $payload, [
+            'headers' => $headers,
+            'timeout' => $options->getTimeout()
+        ]);
 
         $this->setLastResponse($response);
         $responseStatusCode = $response->getStatusCode();

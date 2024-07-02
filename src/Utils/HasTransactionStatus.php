@@ -4,19 +4,19 @@ namespace Transbank\Utils;
 
 trait HasTransactionStatus
 {
-    public string $status;
-    public int $responseCode;
-    public float $amount;
-    public string $authorizationCode;
-    public string $paymentTypeCode;
-    public string $accountingDate;
-    public int $installmentsNumber;
+    public ?string $status;
+    public ?int $responseCode;
+    public ?float $amount;
+    public ?string $authorizationCode;
+    public ?string $paymentTypeCode;
+    public ?string $accountingDate;
+    public ?int $installmentsNumber;
     public ?float $installmentsAmount;
-    public string $sessionId;
-    public string $buyOrder;
-    public string $cardNumber;
-    public array $cardDetail;
-    public string $transactionDate;
+    public ?string $sessionId;
+    public ?string $buyOrder;
+    public ?string $cardNumber;
+    public ?array $cardDetail;
+    public ?string $transactionDate;
     public ?float $balance;
 
     /**
@@ -28,49 +28,49 @@ trait HasTransactionStatus
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getStatus(): string
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getAuthorizationCode(): string
+    public function getAuthorizationCode(): ?string
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @return int
+     * @return ?int
      */
-    public function getInstallmentsNumber(): int
+    public function getInstallmentsNumber(): ?int
     {
         return $this->installmentsNumber;
     }
 
     /**
-     * @return int
+     * @return ?int
      */
-    public function getResponseCode(): int
+    public function getResponseCode(): ?int
     {
         return $this->responseCode;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getBuyOrder(): string
+    public function getBuyOrder(): ?string
     {
         return $this->buyOrder;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getAccountingDate(): string
+    public function getAccountingDate(): ?string
     {
         return $this->accountingDate;
     }

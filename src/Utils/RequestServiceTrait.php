@@ -17,15 +17,15 @@ trait RequestServiceTrait
     protected ?RequestService $requestService = null;
 
     /**
-     * @param string  $method
-     * @param string  $endpoint
+     * @param string $method
+     * @param string $endpoint
      * @param array  $payload
      *
      * @throws WebpayRequestException
      *
-     * @return mixed
+     * @return array
      */
-    public function sendRequest(string $method, string $endpoint, array $payload = [])
+    public function sendRequest(string $method, string $endpoint, array $payload = []): array
     {
         return $this->getRequestService()->request(
             $method,
