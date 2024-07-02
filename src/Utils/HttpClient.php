@@ -22,8 +22,12 @@ class HttpClient implements HttpClientInterface
      *
      * @return ResponseInterface
      */
-    public function request(string $method, string $url, ?array $payload = [], ?array $options = null)
-    {
+    public function request(
+        string $method,
+        string $url,
+        ?array $payload = [],
+        ?array $options = null
+    ): ResponseInterface {
         $installedVersion = 'unknown';
 
         if (class_exists('\Composer\InstalledVersions')) {
@@ -35,7 +39,7 @@ class HttpClient implements HttpClientInterface
 
         $baseHeaders = [
             'Content-Type' => 'application/json',
-            'User-Agent'   => 'SDK-PHP/'.$installedVersion,
+            'User-Agent'   => 'SDK-PHP/' . $installedVersion,
         ];
 
         $givenHeaders = $options['headers'] ?? [];
@@ -98,8 +102,13 @@ class HttpClient implements HttpClientInterface
      *
      * @return ResponseInterface
      */
-    protected function sendGuzzleRequest(string $method, string $url, array $headers, ?string $payload, int $timeout): ResponseInterface
-    {
+    protected function sendGuzzleRequest(
+        string $method,
+        string $url,
+        array $headers,
+        ?string $payload,
+        int $timeout
+    ): ResponseInterface {
         $request = new Request($method, $url, $headers, $payload);
 
         $client = new Client([
