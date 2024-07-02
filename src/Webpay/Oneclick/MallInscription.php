@@ -30,7 +30,7 @@ class MallInscription
      * @throws InscriptionStartException
      * @throws GuzzleException
      */
-    public function start($username, $email, $responseUrl): InscriptionStartResponse
+    public function start(string $username, string $email, string $responseUrl): InscriptionStartResponse
     {
         $payload = [
             'username'     => $username,
@@ -65,7 +65,7 @@ class MallInscription
      * @throws InscriptionFinishException
      * @throws GuzzleException
      */
-    public function finish($token): InscriptionFinishResponse
+    public function finish(string $token): InscriptionFinishResponse
     {
         try {
             $response = $this->sendRequest(
@@ -95,7 +95,7 @@ class MallInscription
      * @throws InscriptionDeleteException
      * @throws GuzzleException
      */
-    public function delete($tbkUser, $username): InscriptionDeleteResponse
+    public function delete(string $tbkUser, string $username): InscriptionDeleteResponse
     {
         $payload = [
             'tbk_user' => $tbkUser,
