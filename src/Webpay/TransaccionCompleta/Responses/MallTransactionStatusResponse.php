@@ -6,12 +6,12 @@ use Transbank\Utils\Utils;
 
 class MallTransactionStatusResponse
 {
-    protected string $buyOrder;
-    protected array $cardDetail;
-    protected string $cardNumber;
-    protected string $accountingDate;
-    protected string $transactionDate;
-    protected array $details;
+    protected ?string $buyOrder;
+    protected ?array $cardDetail;
+    protected ?string $cardNumber;
+    protected ?string $accountingDate;
+    protected ?string $transactionDate;
+    protected ?array $details;
 
     public function __construct(array $json)
     {
@@ -30,49 +30,49 @@ class MallTransactionStatusResponse
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getBuyOrder(): string
+    public function getBuyOrder(): ?string
     {
         return $this->buyOrder;
     }
 
     /**
-     * @return array
+     * @return ?array
      */
-    public function getCardDetail(): array
+    public function getCardDetail(): ?array
     {
         return $this->cardDetail;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getAccountingDate(): string
+    public function getAccountingDate(): ?string
     {
         return $this->accountingDate;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getTransactionDate(): string
+    public function getTransactionDate(): ?string
     {
         return $this->transactionDate;
     }
 
     /**
-     * @return array
+     * @return ?array
      */
-    public function getDetails(): array
+    public function getDetails(): ?array
     {
         return $this->details;
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getCardNumber(): string
+    public function getCardNumber(): ?string
     {
         return $this->cardNumber;
     }

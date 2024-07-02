@@ -6,7 +6,7 @@ use Transbank\Utils\Utils;
 
 class TransactionCreateResponse
 {
-    public string $token;
+    public ?string $token;
 
     public function __construct(array $json)
     {
@@ -14,9 +14,9 @@ class TransactionCreateResponse
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getToken(): string
+    public function getToken(): ?string
     {
         return $this->token;
     }

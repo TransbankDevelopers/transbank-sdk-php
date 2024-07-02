@@ -6,12 +6,12 @@ use Transbank\Utils\Utils;
 
 class MallTransactionRefundResponse
 {
-    public string $type;
+    public ?string $type;
     public ?string $authorizationCode;
     public ?string $authorizationDate;
     public ?float $nullifiedAmount;
     public ?float $balance;
-    public int $responseCode;
+    public ?int $responseCode;
 
     public function __construct(array $json)
     {
@@ -24,9 +24,9 @@ class MallTransactionRefundResponse
     }
 
     /**
-     * @return string
+     * @return ?string
      */
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }
@@ -64,10 +64,10 @@ class MallTransactionRefundResponse
     }
 
     /**
-     * @return int
+     * @return ?int
      */
-    public function getResponseCode(): int
+    public function getResponseCode(): ?int
     {
-        return (int) $this->responseCode;
+        return $this->responseCode;
     }
 }
