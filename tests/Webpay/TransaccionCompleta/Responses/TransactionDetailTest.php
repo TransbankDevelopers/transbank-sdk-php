@@ -23,17 +23,16 @@ class TransactionDetailTest extends TestCase
 
         $transactionDetail = TransactionDetail::createFromArray($data);
 
-        $this->assertSame($data['amount'], $transactionDetail->amount);
+        $this->assertSame(1000.00, $transactionDetail->amount);
         $this->assertSame($data['status'], $transactionDetail->status);
         $this->assertSame($data['authorization_code'], $transactionDetail->authorizationCode);
         $this->assertSame($data['payment_type_code'], $transactionDetail->paymentTypeCode);
         $this->assertSame($data['response_code'], $transactionDetail->responseCode);
         $this->assertSame($data['installments_number'], $transactionDetail->installmentsNumber);
-        $this->assertSame($data['installments_amount'], $transactionDetail->installmentsAmount);
+        $this->assertSame(1000.00, $transactionDetail->installmentsAmount);
         $this->assertSame($data['commerce_code'], $transactionDetail->commerceCode);
         $this->assertSame($data['buy_order'], $transactionDetail->buyOrder);
-        $this->assertSame($data['balance'], $transactionDetail->balance);
+        $this->assertSame(0.00, $transactionDetail->balance);
         $this->assertSame($data['prepaid_balance'], $transactionDetail->prepaidBalance);
     }
-
 }
