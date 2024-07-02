@@ -17,5 +17,10 @@ interface HttpClientInterface
      *
      * @return ResponseInterface
      */
-    public function request(string $method, string $url, ?array $payload = [], ?array $options = null);
+    public function request(
+        string $method,
+        string $url,
+        ?array $payload = [],
+        ?array $options = null
+    ): ResponseInterface;
 }
