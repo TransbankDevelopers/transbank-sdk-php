@@ -41,7 +41,7 @@ class Options
      * @var string Sets the environment that the SDK is going
      *             to point to (eg. TEST, LIVE, etc).
      */
-    public string $integrationType = self::ENVIRONMENT_INTEGRATION;
+    public ?string $integrationType = null;
 
     public function __construct(
         string $apiKey,
