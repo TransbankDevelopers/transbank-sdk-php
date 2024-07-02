@@ -10,7 +10,7 @@ class MallTransactionCaptureResponseTest extends TestCase
         $json = [
             'authorization_code' => '123',
             'authorization_date' => '2022-01-01',
-            'captured_amount' => 100,
+            'captured_amount' => 100.00,
             'response_code' => 200,
         ];
 
@@ -18,7 +18,7 @@ class MallTransactionCaptureResponseTest extends TestCase
 
         $this->assertSame('123', $response->getAuthorizationCode());
         $this->assertSame('2022-01-01', $response->authorizationDate);
-        $this->assertSame(100, $response->capturedAmount);
+        $this->assertSame(100.00, $response->capturedAmount);
         $this->assertSame(200, $response->responseCode);
     }
 
