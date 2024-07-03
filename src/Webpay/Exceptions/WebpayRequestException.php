@@ -27,9 +27,9 @@ class WebpayRequestException extends WebpayException
     protected $response;
 
     /**
-     * @var ?TransbankApiRequest
+     * @var TransbankApiRequest|null
      */
-    protected ?TransbankApiRequest $failedRequest;
+    protected TransbankApiRequest|null $failedRequest;
 
     /**
      * WebpayRequestException constructor.
@@ -37,14 +37,14 @@ class WebpayRequestException extends WebpayException
      * @param string                $message
      * @param string|null               $tbkErrorMessage
      * @param int|null                  $httpCode
-     * @param ?TransbankApiRequest  $failedRequest
+     * @param TransbankApiRequest|null  $failedRequest
      * @param ?\Exception           $previous
      */
     public function __construct(
         string $message,
         string|null $tbkErrorMessage = null,
         int|null $httpCode = null,
-        ?TransbankApiRequest $failedRequest = null,
+        TransbankApiRequest|null $failedRequest = null,
         ?\Exception $previous = null
     ) {
         $theMessage = $tbkErrorMessage ?? $message;
@@ -94,9 +94,9 @@ class WebpayRequestException extends WebpayException
     }
 
     /**
-     * @return ?TransbankApiRequest
+     * @return TransbankApiRequest|null
      */
-    public function getFailedRequest(): ?TransbankApiRequest
+    public function getFailedRequest(): TransbankApiRequest|null
     {
         return $this->failedRequest;
     }

@@ -18,9 +18,9 @@ class HttpClientRequestService implements RequestService
     protected ResponseInterface|null $lastResponse = null;
 
     /**
-     * @var ?TransbankApiRequest
+     * @var TransbankApiRequest|null
      */
-    protected ?TransbankApiRequest $lastRequest = null;
+    protected TransbankApiRequest|null $lastRequest = null;
 
     /**
      * @var HttpClientInterface
@@ -114,17 +114,17 @@ class HttpClientRequestService implements RequestService
     }
 
     /**
-     * @return ?TransbankApiRequest
+     * @return TransbankApiRequest|null
      */
-    public function getLastRequest(): ?TransbankApiRequest
+    public function getLastRequest(): TransbankApiRequest|null
     {
         return $this->lastRequest;
     }
 
     /**
-     * @param ?TransbankApiRequest $lastRequest
+     * @param TransbankApiRequest|null $lastRequest
      */
-    protected function setLastRequest(?TransbankApiRequest $lastRequest): void
+    protected function setLastRequest(TransbankApiRequest|null $lastRequest): void
     {
         $this->lastRequest = $lastRequest;
     }

@@ -26,5 +26,5 @@ interface RequestService
         Options $options
     ): array;
     public function getLastResponse(): ResponseInterface|null;
-    public function getLastRequest(): ?TransbankApiRequest;
+    public function getLastRequest(): TransbankApiRequest|null;
 }
