@@ -34,18 +34,18 @@ class WebpayRequestException extends WebpayException
     /**
      * WebpayRequestException constructor.
      *
-     * @param string                $message
+     * @param string                    $message
      * @param string|null               $tbkErrorMessage
      * @param int|null                  $httpCode
      * @param TransbankApiRequest|null  $failedRequest
-     * @param ?\Exception           $previous
+     * @param \Exception|null           $previous
      */
     public function __construct(
         string $message,
         string|null $tbkErrorMessage = null,
         int|null $httpCode = null,
         TransbankApiRequest|null $failedRequest = null,
-        ?\Exception $previous = null
+        \Exception|null $previous = null
     ) {
         $theMessage = $tbkErrorMessage ?? $message;
 
