@@ -14,7 +14,7 @@ class TransactionCaptureResponse
      */
     public string|null $authorizationCode;
     public string|null $authorizationDate;
-    public ?float $capturedAmount;
+    public float|null $capturedAmount;
     public int|null $responseCode;
 
     public function __construct(array $json)
@@ -50,9 +50,9 @@ class TransactionCaptureResponse
     }
 
     /**
-     * @return ?float
+     * @return float|null
      */
-    public function getCapturedAmount(): ?float
+    public function getCapturedAmount(): float|null
     {
         return $this->capturedAmount;
     }
