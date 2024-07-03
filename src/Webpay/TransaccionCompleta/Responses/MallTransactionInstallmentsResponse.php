@@ -6,7 +6,7 @@ use Transbank\Utils\Utils;
 
 class MallTransactionInstallmentsResponse
 {
-    public float|null $installmentsAmount;
+    public int|float|null $installmentsAmount;
     public string|null $idQueryInstallments;
     public array|null $deferredPeriods;
 
@@ -18,9 +18,9 @@ class MallTransactionInstallmentsResponse
     }
 
     /**
-     * @return float|null
+     * @return int|float|null
      */
-    public function getInstallmentsAmount(): float|null
+    public function getInstallmentsAmount(): int|float|null
     {
         return $this->installmentsAmount;
     }

@@ -8,16 +8,16 @@ use Transbank\Utils\Utils;
 
 class TransactionDetail
 {
-    public float|null $amount;
+    public int|float|null $amount;
     public string|null $status;
     public string|null $authorizationCode;
     public string|null $paymentTypeCode;
     public int|null $responseCode;
     public int|null $installmentsNumber;
-    public float|null $installmentsAmount;
+    public int|float|null $installmentsAmount;
     public string|null $commerceCode;
     public string|null $buyOrder;
-    public float|null $balance;
+    public int|float|null $balance;
 
     public static function createFromArray(array $array)
     {
@@ -58,9 +58,9 @@ class TransactionDetail
     }
 
     /**
-     * @return float|null
+     * @return int|float|null
      */
-    public function getAmount(): float|null
+    public function getAmount(): int|float|null
     {
         return $this->amount;
     }
@@ -122,17 +122,17 @@ class TransactionDetail
     }
 
     /**
-     * @return float|null
+     * @return int|float|null
      */
-    public function getInstallmentsAmount(): float|null
+    public function getInstallmentsAmount(): int|float|null
     {
         return $this->installmentsAmount;
     }
 
     /**
-     * @return float|null
+     * @return int|float|null
      */
-    public function getBalance(): float|null
+    public function getBalance(): int|float|null
     {
         return $this->balance;
     }

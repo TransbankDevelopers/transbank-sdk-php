@@ -20,13 +20,13 @@ class TransactionRefundResponse
      */
     public string|null $authorizationDate;
     /**
-     * @var float|null
+     * @var int|float|null
      */
-    public float|null $nullifiedAmount;
+    public int|float|null $nullifiedAmount;
     /**
-     * @var float|null
+     * @var int|float|null
      */
-    public float|null $balance;
+    public int|float|null $balance;
     /**
      * @var int|null
      */
@@ -57,17 +57,17 @@ class TransactionRefundResponse
     }
 
     /**
-     * @return float|null
+     * @return int|float|null
      */
-    public function getNullifiedAmount(): float|null
+    public function getNullifiedAmount(): int|float|null
     {
         return $this->nullifiedAmount;
     }
 
     /**
-     * @return float|null
+     * @return int|float|null
      */
-    public function getBalance(): float|null
+    public function getBalance(): int|float|null
     {
         return $this->balance;
     }

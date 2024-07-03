@@ -7,7 +7,7 @@ use Transbank\Webpay\WebpayPlus\Responses\TransactionDetail as BaseTransactionDe
 
 class TransactionDetail extends BaseTransactionDetail
 {
-    public float|null $prepaidBalance;
+    public int|float|null $prepaidBalance;
 
     /**
      * Creates an instance of TransactionDetail from an array
@@ -35,9 +35,9 @@ class TransactionDetail extends BaseTransactionDetail
     }
 
     /**
-     * @return float|null
+     * @return int|float|null
      */
-    public function getPrepaidBalance(): float|null
+    public function getPrepaidBalance(): int|float|null
     {
         return $this->prepaidBalance;
     }

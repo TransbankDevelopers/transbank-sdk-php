@@ -6,23 +6,23 @@ trait HasTransactionStatus
 {
     public string|null $status;
     public int|null $responseCode;
-    public float|null $amount;
+    public int|float|null $amount;
     public string|null $authorizationCode;
     public string|null $paymentTypeCode;
     public string|null $accountingDate;
     public int|null $installmentsNumber;
-    public float|null $installmentsAmount;
+    public int|float|null $installmentsAmount;
     public string|null $sessionId;
     public string|null $buyOrder;
     public string|null $cardNumber;
     public array|null $cardDetail;
     public string|null $transactionDate;
-    public float|null $balance;
+    public int|float|null $balance;
 
     /**
-     * @return float|null
+     * @return int|float|null
      */
-    public function getBalance(): float|null
+    public function getBalance(): int|float|null
     {
         return $this->balance;
     }
@@ -121,9 +121,9 @@ trait HasTransactionStatus
     }
 
     /**
-     * @return float|null
+     * @return int|float|null
      */
-    public function getInstallmentsAmount(): float|null
+    public function getInstallmentsAmount(): int|float|null
     {
         return $this->installmentsAmount;
     }
@@ -137,9 +137,9 @@ trait HasTransactionStatus
     }
 
     /**
-     * @return float|null
+     * @return int|float|null
      */
-    public function getAmount(): float|null
+    public function getAmount(): int|float|null
     {
         return $this->amount;
     }

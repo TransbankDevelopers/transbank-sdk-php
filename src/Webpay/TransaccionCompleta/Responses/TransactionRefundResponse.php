@@ -9,8 +9,8 @@ class TransactionRefundResponse
     public string|null $type;
     public string|null $authorizationCode;
     public string|null $authorizationDate;
-    public float|null $nullifiedAmount;
-    public float|null $balance;
+    public int|float|null $nullifiedAmount;
+    public int|float|null $balance;
     public int|null $responseCode;
 
     public function __construct(array $json)
@@ -48,17 +48,17 @@ class TransactionRefundResponse
     }
 
     /**
-     * @return float|null
+     * @return int|float|null
      */
-    public function getNullifiedAmount(): float|null
+    public function getNullifiedAmount(): int|float|null
     {
         return $this->nullifiedAmount;
     }
 
     /**
-     * @return float|null
+     * @return int|float|null
      */
-    public function getBalance(): float|null
+    public function getBalance(): int|float|null
     {
         return $this->balance;
     }

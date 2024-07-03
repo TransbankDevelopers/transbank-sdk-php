@@ -8,7 +8,7 @@ class MallTransactionCaptureResponse
 {
     public string|null $authorizationCode;
     public string|null $authorizationDate;
-    public float|null $capturedAmount;
+    public int|float|null $capturedAmount;
     public int|null $responseCode;
 
     public function __construct(array $json)
@@ -36,9 +36,9 @@ class MallTransactionCaptureResponse
     }
 
     /**
-     * @return float|null
+     * @return int|float|null
      */
-    public function getCapturedAmount(): float|null
+    public function getCapturedAmount(): int|float|null
     {
         return $this->capturedAmount;
     }
