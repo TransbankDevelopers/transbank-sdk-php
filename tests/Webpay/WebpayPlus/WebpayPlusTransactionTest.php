@@ -235,14 +235,9 @@ class WebpayPlusTransactionTest extends TestCase
             ->willReturn([]);
 
         $transaction = new Transaction($this->optionsMock, $this->requestServiceMock);
-        $errorCaught = false;
-        try {
-            $transaction->commit($tokenMock);
-        } catch (\TypeError $e) {
-            $this->assertStringContainsString('Cannot assign null to property', $e->getMessage());
-            $errorCaught = true;
-        }
-        $this->assertTrue($errorCaught, "Expected TypeError was not caught");
+        $this->expectException(\TypeError::class);
+        $this->expectExceptionMessage('Argument #1 ($json) must be of type array');
+        $transaction->commit($tokenMock);
     }
 
     /** @test */
