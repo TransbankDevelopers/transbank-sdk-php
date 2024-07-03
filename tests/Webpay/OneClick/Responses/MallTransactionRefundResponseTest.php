@@ -21,8 +21,8 @@ class OneClickMallTransactionRefundResponseTest extends TestCase
         $this->assertSame('testType', $response->type);
         $this->assertSame('testAuthorizationCode', $response->authorizationCode);
         $this->assertSame('testAuthorizationDate', $response->authorizationDate);
-        $this->assertSame(4.0, $response->nullifiedAmount);
-        $this->assertSame(2.0, $response->balance);
+        $this->assertSame(4, $response->nullifiedAmount);
+        $this->assertSame(2, $response->balance);
         $this->assertSame(0, $response->responseCode);
     }
 

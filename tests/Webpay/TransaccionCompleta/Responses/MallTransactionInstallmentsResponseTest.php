@@ -15,7 +15,7 @@ class MallTransactionInstallmentsResponseTest extends TestCase
 
         $response = new MallTransactionInstallmentsResponse($json);
 
-        $this->assertSame(1000.0, $response->getInstallmentsAmount());
+        $this->assertSame(1000, $response->getInstallmentsAmount());
         $this->assertSame($json['id_query_installments'], $response->idQueryInstallments);
         $this->assertSame($json['deferred_periods'], $response->deferredPeriods);
     }
@@ -30,7 +30,7 @@ class MallTransactionInstallmentsResponseTest extends TestCase
 
         $response = new MallTransactionInstallmentsResponse($json);
 
-        $this->assertSame(2000.0, $response->getInstallmentsAmount());
+        $this->assertSame(2000, $response->getInstallmentsAmount());
 
         $this->assertSame('456', $response->getIdQueryInstallments());
 

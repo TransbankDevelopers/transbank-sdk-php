@@ -21,8 +21,8 @@ class MallTransactionRefundResponseTest extends TestCase
         $this->assertSame('testType', $response->type);
         $this->assertSame('testAuthorizationCode', $response->authorizationCode);
         $this->assertSame('testAuthorizationDate', $response->authorizationDate);
-        $this->assertSame(4.0, $response->nullifiedAmount);
-        $this->assertSame(2.0, $response->balance);
+        $this->assertSame(4, $response->nullifiedAmount);
+        $this->assertSame(2, $response->balance);
         $this->assertSame(0, $response->responseCode);
     }
 
@@ -45,9 +45,9 @@ class MallTransactionRefundResponseTest extends TestCase
 
         $this->assertSame('testAuthorizationDate', $response->getAuthorizationDate());
 
-        $this->assertSame(4.0, $response->getNullifiedAmount());
+        $this->assertSame(4, $response->getNullifiedAmount());
 
-        $this->assertSame(2.0, $response->getBalance());
+        $this->assertSame(2, $response->getBalance());
 
         $this->assertSame(10, $response->getResponseCode());
     }

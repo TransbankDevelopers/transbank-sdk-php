@@ -205,7 +205,7 @@ class WebpayPlusTransactionTest extends TestCase
         $this->assertSame('TSY', $response->getVci());
         $this->assertSame('session1234564', $response->getSessionId());
         $this->assertSame('AUTHORIZED', $response->getStatus());
-        $this->assertSame(1000.0, $response->getAmount());
+        $this->assertSame(1000, $response->getAmount());
         $this->assertSame('OrdenCompra36271', $response->getBuyOrder());
         $this->assertSame('6623', $response->getCardNumber());
         $this->assertSame(['card_number' => '6623'], $response->getCardDetail());

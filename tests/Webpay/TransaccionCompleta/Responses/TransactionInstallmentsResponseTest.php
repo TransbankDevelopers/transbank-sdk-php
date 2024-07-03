@@ -31,6 +31,6 @@ class TransactionInstallmentsResponseTest extends TestCase
 
     public function testGetInstallmentsAmount()
     {
-        $this->assertSame(1000.00, $this->transactionInstallmentsResponse->getInstallmentsAmount());
+        $this->assertSame(1000, $this->transactionInstallmentsResponse->getInstallmentsAmount());
     }
 }

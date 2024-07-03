@@ -74,7 +74,7 @@ class TransaccionCompletaTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->amount = 1000.0;
+        $this->amount = 1000;
         $this->sessionId = 'some_session_id_' . uniqid();
         $this->buyOrder = '123999555';
         $this->mockBaseUrl = 'https://mockurl.cl';
@@ -227,14 +227,14 @@ class TransaccionCompletaTest extends TestCase
         $this->assertSame(null, $response->getVci());
         $this->assertSame('sesion1234564', $response->getSessionId());
         $this->assertSame('AUTHORIZED', $response->getStatus());
-        $this->assertSame(10000.00, $response->getAmount());
+        $this->assertSame(10000, $response->getAmount());
         $this->assertSame('OrdenCompra55886', $response->getBuyOrder());
         $this->assertSame('6623', $response->getCardNumber());
         $this->assertSame(['card_number' => '6623'], $response->getCardDetail());
         $this->assertSame('1213', $response->getAuthorizationCode());
         $this->assertSame('NC', $response->getPaymentTypeCode());
         $this->assertSame(10, $response->getInstallmentsNumber());
-        $this->assertSame(1000.00, $response->getInstallmentsAmount());
+        $this->assertSame(1000, $response->getInstallmentsAmount());
         $this->assertSame(self::MOCK_TRANSACTION_DATE, $response->getTransactionDate());
         $this->assertSame('0329', $response->getAccountingDate());
     }
@@ -277,14 +277,14 @@ class TransaccionCompletaTest extends TestCase
         $this->assertSame(null, $response->getVci());
         $this->assertSame('sesion1234564', $response->getSessionId());
         $this->assertSame('AUTHORIZED', $response->getStatus());
-        $this->assertSame(10000.00, $response->getAmount());
+        $this->assertSame(10000, $response->getAmount());
         $this->assertSame('OrdenCompra55886', $response->getBuyOrder());
         $this->assertSame('6623', $response->getCardNumber());
         $this->assertSame(['card_number' => '6623'], $response->getCardDetail());
         $this->assertSame('1213', $response->getAuthorizationCode());
         $this->assertSame('NC', $response->getPaymentTypeCode());
         $this->assertSame(10, $response->getInstallmentsNumber());
-        $this->assertSame(1000.00, $response->getInstallmentsAmount());
+        $this->assertSame(1000, $response->getInstallmentsAmount());
         $this->assertSame(self::MOCK_TRANSACTION_DATE, $response->getTransactionDate());
         $this->assertSame('0329', $response->getAccountingDate());
     }

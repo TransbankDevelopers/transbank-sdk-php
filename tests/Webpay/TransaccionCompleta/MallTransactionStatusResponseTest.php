@@ -40,13 +40,13 @@ class MallTransactionStatusResponseTest extends TestCase
         $this->assertSame($json['card_detail']['card_number'], $response->getCardNumber());
         $jsonDetails = $response->getDetails()[0];
         $this->assertCount(1, $response->getDetails());
-        $this->assertSame(500.00, $jsonDetails->getAmount());
+        $this->assertSame(500, $jsonDetails->getAmount());
         $this->assertSame('AUTHORIZED', $jsonDetails->getStatus());
         $this->assertSame('456456', $jsonDetails->getAuthorizationCode());
         $this->assertSame('VN', $jsonDetails->getPaymentTypeCode());
         $this->assertSame(0, $jsonDetails->getResponseCode());
         $this->assertSame(1, $jsonDetails->getInstallmentsNumber());
-        $this->assertSame(500.00, $jsonDetails->getInstallmentsAmount());
+        $this->assertSame(500, $jsonDetails->getInstallmentsAmount());
         $this->assertSame('597020000540', $jsonDetails->getCommerceCode());
         $this->assertSame('567890', $jsonDetails->getBuyOrder());
     }

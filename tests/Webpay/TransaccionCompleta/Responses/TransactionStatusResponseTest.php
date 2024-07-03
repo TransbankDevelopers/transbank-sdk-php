@@ -11,7 +11,7 @@ class TransactionStatusResponseTest extends TestCase
     {
         $this->json = [
             'vci' => 'Some VCI',
-            'prepaid_balance' => 100.00,
+            'prepaid_balance' => 100,
         ];
         $this->response = $this->getMockBuilder(TransactionStatusResponse::class)
             ->setConstructorArgs([$this->json])
@@ -21,7 +21,7 @@ class TransactionStatusResponseTest extends TestCase
     /** @test */
     public function it_can_get_prepaid_balance()
     {
-        $this->assertSame(100.00, $this->response->getPrepaidBalance());
+        $this->assertSame(100, $this->response->getPrepaidBalance());
     }
 
     /** @test */

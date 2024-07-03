@@ -39,11 +39,11 @@ class HasTransactionStatusTest extends TestCase
 
         $this->assertSame(5, $transactionStatus->getInstallmentsNumber());
 
-        $this->assertSame(100.0, $transactionStatus->getAmount());
+        $this->assertSame(100, $transactionStatus->getAmount());
 
         $this->assertSame('123', $transactionStatus->getBuyOrder());
 
-        $this->assertSame(500.00, $transactionStatus->getBalance());
+        $this->assertSame(500, $transactionStatus->getBalance());
 
         $this->assertSame('AUTHORIZED', $transactionStatus->getStatus());
 
@@ -51,7 +51,7 @@ class HasTransactionStatusTest extends TestCase
 
         $this->assertSame('VD', $transactionStatus->getPaymentTypeCode());
 
-        $this->assertSame(100.00, $transactionStatus->getInstallmentsAmount());
+        $this->assertSame(100, $transactionStatus->getInstallmentsAmount());
 
         $this->assertSame(200, $transactionStatus->getResponseCode());
 

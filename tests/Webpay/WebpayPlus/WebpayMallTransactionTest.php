@@ -217,7 +217,7 @@ class WebpayMallTransactionTest extends TestCase
         $this->assertSame('2021-03-29T04:47:19.885Z', $response->getTransactionDate());
         $this->assertSame(0, $firstDetail->getResponseCode());
         $this->assertSame('AUTHORIZED', $firstDetail->getStatus());
-        $this->assertSame(1000.00, $firstDetail->getAmount());
+        $this->assertSame(1000, $firstDetail->getAmount());
         $this->assertSame('1213', $firstDetail->getAuthorizationCode());
         $this->assertSame('VN', $firstDetail->getPaymentTypeCode());
         $this->assertSame(0, $firstDetail->getInstallmentsNumber());
@@ -226,7 +226,7 @@ class WebpayMallTransactionTest extends TestCase
         $this->assertSame('OrdenCompraChild_66986_1', $firstDetail->getBuyOrder());
         $this->assertSame(0, $secondDetail->getResponseCode());
         $this->assertSame('AUTHORIZED', $secondDetail->getStatus());
-        $this->assertSame(2000.00, $secondDetail->getAmount());
+        $this->assertSame(2000, $secondDetail->getAmount());
         $this->assertSame('1213', $secondDetail->getAuthorizationCode());
         $this->assertSame('VN', $secondDetail->getPaymentTypeCode());
         $this->assertSame(0, $secondDetail->getInstallmentsNumber());
