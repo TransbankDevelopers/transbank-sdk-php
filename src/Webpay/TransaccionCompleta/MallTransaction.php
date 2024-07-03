@@ -241,7 +241,7 @@ class MallTransaction
             'buy_order'          => $buyOrder,
             'commerce_code'      => $commerceCode,
             'authorization_code' => $authorizationCode,
-            'capture_amount'     => (int) $captureAmount,
+            'capture_amount'     => (float) $captureAmount,
         ];
 
         try {

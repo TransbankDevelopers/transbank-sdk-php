@@ -229,7 +229,7 @@ class Transaction
         $payload = [
             'buy_order'          => $buyOrder,
             'authorization_code' => $authorizationCode,
-            'capture_amount'     => (int) $captureAmount,
+            'capture_amount'     => (float) $captureAmount,
         ];
 
         try {
