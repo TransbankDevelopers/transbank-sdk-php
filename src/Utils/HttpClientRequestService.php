@@ -23,11 +23,11 @@ class HttpClientRequestService implements RequestService
     protected TransbankApiRequest|null $lastRequest = null;
 
     /**
-     * @var HttpClientInterface
+     * @var HttpClientInterface|null
      */
-    protected ?HttpClientInterface $httpClient;
+    protected HttpClientInterface|null $httpClient;
 
-    public function __construct(?HttpClientInterface $httpClient = null)
+    public function __construct(HttpClientInterface|null $httpClient = null)
     {
         $this->setHttpClient($httpClient ?? new HttpClient());
     }
