@@ -110,7 +110,7 @@ class MallTransactionStatusResponse
     }
 
     /**
-     * @return ?TransactionDetail[]
+     * @return TransactionDetail[]|null
      */
     public function getDetails(): array|null
     {
