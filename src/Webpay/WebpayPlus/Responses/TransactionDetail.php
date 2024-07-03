@@ -9,14 +9,14 @@ use Transbank\Utils\Utils;
 class TransactionDetail
 {
     public ?float $amount;
-    public ?string $status;
-    public ?string $authorizationCode;
-    public ?string $paymentTypeCode;
+    public string|null $status;
+    public string|null $authorizationCode;
+    public string|null $paymentTypeCode;
     public ?int $responseCode;
     public ?int $installmentsNumber;
     public ?float $installmentsAmount;
-    public ?string $commerceCode;
-    public ?string $buyOrder;
+    public string|null $commerceCode;
+    public string|null $buyOrder;
     public ?float $balance;
 
     public static function createFromArray(array $array)
@@ -66,25 +66,25 @@ class TransactionDetail
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getStatus(): ?string
+    public function getStatus(): string|null
     {
         return $this->status;
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getAuthorizationCode(): ?string
+    public function getAuthorizationCode(): string|null
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getPaymentTypeCode(): ?string
+    public function getPaymentTypeCode(): string|null
     {
         return $this->paymentTypeCode;
     }
@@ -108,15 +108,15 @@ class TransactionDetail
     /**
      * @return ?int
      */
-    public function getCommerceCode(): ?string
+    public function getCommerceCode(): string|null
     {
         return $this->commerceCode;
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getBuyOrder(): ?string
+    public function getBuyOrder(): string|null
     {
         return $this->buyOrder;
     }

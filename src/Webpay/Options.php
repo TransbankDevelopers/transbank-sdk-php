@@ -28,20 +28,20 @@ class Options
     protected int $timeout;
 
     /**
-     * @var ?string Your api key, given by Transbank.Sent as a header when
+     * @var string|null Your api key, given by Transbank.Sent as a header when
      *             making requests to Transbank on a field called "Tbk-Api-Key-Secret"
      */
-    public ?string $apiKey = null;
+    public string|null $apiKey = null;
     /**
-     * @var ?string Your commerce code, given by Transbank. Sent as
+     * @var string|null Your commerce code, given by Transbank. Sent as
      *             a header when making requests to Transbank on a field called "Tbk-Api-Key-Id"
      */
-    public ?string $commerceCode = null;
+    public string|null $commerceCode = null;
     /**
      * @var string Sets the environment that the SDK is going
      *             to point to (eg. TEST, LIVE, etc).
      */
-    public ?string $integrationType = null;
+    public string|null $integrationType = null;
 
     public function __construct(
         string $apiKey,
@@ -64,9 +64,9 @@ class Options
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getIntegrationType(): ?string
+    public function getIntegrationType(): string|null
     {
         return $this->integrationType;
     }
@@ -84,9 +84,9 @@ class Options
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getApiKey(): ?string
+    public function getApiKey(): string|null
     {
         return $this->apiKey;
     }
@@ -104,9 +104,9 @@ class Options
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getCommerceCode(): ?string
+    public function getCommerceCode(): string|null
     {
         return $this->commerceCode;
     }

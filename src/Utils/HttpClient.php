@@ -95,7 +95,7 @@ class HttpClient implements HttpClientInterface
      * @param string  $method
      * @param string  $url
      * @param array   $headers
-     * @param ?string $payload
+     * @param string|null $payload
      * @param int     $timeout
      *
      * @throws GuzzleException
@@ -106,7 +106,7 @@ class HttpClient implements HttpClientInterface
         string $method,
         string $url,
         array $headers,
-        ?string $payload,
+        string|null $payload,
         int $timeout
     ): ResponseInterface {
         $request = new Request($method, $url, $headers, $payload);

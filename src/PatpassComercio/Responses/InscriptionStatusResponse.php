@@ -12,8 +12,8 @@ use Transbank\Utils\Utils;
 
 class InscriptionStatusResponse
 {
-    public ?string $status;
-    public ?string $urlVoucher;
+    public string|null $status;
+    public string|null $urlVoucher;
 
     /**
      * InscriptionStatusResponse constructor.
@@ -28,19 +28,18 @@ class InscriptionStatusResponse
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getStatus(): ?string
+    public function getStatus(): string|null
     {
         return $this->status;
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getUrlVoucher(): ?string
+    public function getUrlVoucher(): string|null
     {
         return $this->urlVoucher;
     }
-
 }

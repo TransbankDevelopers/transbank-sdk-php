@@ -9,14 +9,14 @@ use Transbank\Utils\Utils;
  */
 class MallTransactionStatusResponse
 {
-    public ?string $vci;
-    public ?string $buyOrder;
-    public ?string $sessionId;
-    public ?string $cardNumber;
+    public string|null $vci;
+    public string|null $buyOrder;
+    public string|null $sessionId;
+    public string|null $cardNumber;
     public ?array $cardDetail;
-    public ?string $expirationDate;
-    public ?string $accountingDate;
-    public ?string $transactionDate;
+    public string|null $expirationDate;
+    public string|null $accountingDate;
+    public string|null $transactionDate;
     public ?array $details;
 
     /**
@@ -62,49 +62,49 @@ class MallTransactionStatusResponse
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getBuyOrder(): ?string
+    public function getBuyOrder(): string|null
     {
         return $this->buyOrder;
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getSessionId(): ?string
+    public function getSessionId(): string|null
     {
         return $this->sessionId;
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getCardNumber(): ?string
+    public function getCardNumber(): string|null
     {
         return $this->cardNumber;
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getExpirationDate(): ?string
+    public function getExpirationDate(): string|null
     {
         return $this->expirationDate;
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getAccountingDate(): ?string
+    public function getAccountingDate(): string|null
     {
         return $this->accountingDate;
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getTransactionDate(): ?string
+    public function getTransactionDate(): string|null
     {
         return $this->transactionDate;
     }
@@ -118,9 +118,9 @@ class MallTransactionStatusResponse
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getVci(): ?string
+    public function getVci(): string|null
     {
         return $this->vci;
     }

@@ -13,9 +13,9 @@ class WebpayRequestException extends WebpayException
     protected static string $defaultMessage = 'An error has happened on the request';
 
     /**
-     * @var ?string
+     * @var string|null
      */
-    protected ?string $transbankErrorMessage;
+    protected string|null $transbankErrorMessage;
     /**
      * @var ?int
      */
@@ -35,14 +35,14 @@ class WebpayRequestException extends WebpayException
      * WebpayRequestException constructor.
      *
      * @param string                $message
-     * @param ?string               $tbkErrorMessage
+     * @param string|null               $tbkErrorMessage
      * @param ?int                  $httpCode
      * @param ?TransbankApiRequest  $failedRequest
      * @param ?\Exception           $previous
      */
     public function __construct(
         string $message,
-        ?string $tbkErrorMessage = null,
+        string|null $tbkErrorMessage = null,
         ?int $httpCode = null,
         ?TransbankApiRequest $failedRequest = null,
         ?\Exception $previous = null
@@ -62,9 +62,9 @@ class WebpayRequestException extends WebpayException
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getTransbankErrorMessage(): ?string
+    public function getTransbankErrorMessage(): string|null
     {
         return $this->transbankErrorMessage;
     }
@@ -103,14 +103,14 @@ class WebpayRequestException extends WebpayException
 
     /**
      * @param string    $message
-     * @param ?string   $tbkErrorMessage
+     * @param string|null   $tbkErrorMessage
      * @param ?int      $httpCode
      *
      * @return string
      */
     protected function getExceptionMessage(
         string $message,
-        ?string $tbkErrorMessage,
+        string|null $tbkErrorMessage,
         ?int $httpCode
     ): string {
         if (!$tbkErrorMessage) {

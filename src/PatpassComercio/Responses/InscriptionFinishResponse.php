@@ -10,7 +10,7 @@ namespace Transbank\PatpassComercio\Responses;
 
 class InscriptionFinishResponse
 {
-    public ?string $status;
+    public string|null $status;
     public int $code;
 
     public function __construct(int $httpCode)
@@ -27,9 +27,9 @@ class InscriptionFinishResponse
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getStatus(): ?string
+    public function getStatus(): string|null
     {
         return $this->status;
     }

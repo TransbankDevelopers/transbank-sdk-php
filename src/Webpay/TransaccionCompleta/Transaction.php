@@ -39,7 +39,7 @@ class Transaction
      * @param float     $amount
      * @param string    $cardNumber
      * @param string    $cardExpirationDate
-     * @param ?string   $cvv
+     * @param string|null   $cvv
      *
      * @throws TransactionCreateException
      * @throws GuzzleException
@@ -52,7 +52,7 @@ class Transaction
         float $amount,
         string $cardNumber,
         string $cardExpirationDate,
-        ?string $cvv = null,
+        string|null $cvv = null,
     ) {
         $payload = [
             'buy_order'            => $buyOrder,

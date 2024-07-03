@@ -7,7 +7,7 @@ use Transbank\Utils\Utils;
 class MallTransactionInstallmentsResponse
 {
     public ?float $installmentsAmount;
-    public ?string $idQueryInstallments;
+    public string|null $idQueryInstallments;
     public ?array $deferredPeriods;
 
     public function __construct(array $json)
@@ -26,9 +26,9 @@ class MallTransactionInstallmentsResponse
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getIdQueryInstallments(): ?string
+    public function getIdQueryInstallments(): string|null
     {
         return $this->idQueryInstallments;
     }

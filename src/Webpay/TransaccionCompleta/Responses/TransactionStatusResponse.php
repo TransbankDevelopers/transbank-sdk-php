@@ -9,7 +9,7 @@ class TransactionStatusResponse
 {
     use HasTransactionStatus;
 
-    public ?string $vci;
+    public string|null $vci;
     public ?float $prepaidBalance;
 
     public function __construct(array $json)
@@ -20,9 +20,9 @@ class TransactionStatusResponse
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getVci(): ?string
+    public function getVci(): string|null
     {
         return $this->vci;
     }

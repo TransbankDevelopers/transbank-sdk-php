@@ -6,8 +6,8 @@ use Transbank\Utils\Utils;
 
 class MallTransactionCaptureResponse
 {
-    public ?string $authorizationCode;
-    public ?string $authorizationDate;
+    public string|null $authorizationCode;
+    public string|null $authorizationDate;
     public ?float $capturedAmount;
     public ?int $responseCode;
 
@@ -20,17 +20,17 @@ class MallTransactionCaptureResponse
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getAuthorizationCode(): ?string
+    public function getAuthorizationCode(): string|null
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getAuthorizationDate(): ?string
+    public function getAuthorizationDate(): string|null
     {
         return $this->authorizationDate;
     }

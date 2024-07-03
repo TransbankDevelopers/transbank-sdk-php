@@ -10,15 +10,15 @@ class TransactionRefundResponse
     /**
      * @var string
      */
-    public ?string $type;
+    public string|null $type;
     /**
-     * @var ?string
+     * @var string|null
      */
-    public ?string $authorizationCode;
+    public string|null $authorizationCode;
     /**
-     * @var ?string
+     * @var string|null
      */
-    public ?string $authorizationDate;
+    public string|null $authorizationDate;
     /**
      * @var ?float
      */
@@ -81,25 +81,25 @@ class TransactionRefundResponse
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getType(): ?string
+    public function getType(): string|null
     {
         return $this->type;
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getAuthorizationCode(): ?string
+    public function getAuthorizationCode(): string|null
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getAuthorizationDate(): ?string
+    public function getAuthorizationDate(): string|null
     {
         return $this->authorizationDate;
     }

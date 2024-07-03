@@ -6,9 +6,9 @@ use Transbank\Utils\Utils;
 
 class TransactionRefundResponse
 {
-    public ?string $type;
-    public ?string $authorizationCode;
-    public ?string $authorizationDate;
+    public string|null $type;
+    public string|null $authorizationCode;
+    public string|null $authorizationDate;
     public ?float $nullifiedAmount;
     public ?float $balance;
     public ?int $responseCode;
@@ -24,25 +24,25 @@ class TransactionRefundResponse
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getType(): ?string
+    public function getType(): string|null
     {
         return $this->type;
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getAuthorizationCode(): ?string
+    public function getAuthorizationCode(): string|null
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getAuthorizationDate(): ?string
+    public function getAuthorizationDate(): string|null
     {
         return $this->authorizationDate;
     }

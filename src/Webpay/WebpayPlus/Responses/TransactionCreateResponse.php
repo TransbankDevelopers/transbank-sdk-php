@@ -7,14 +7,14 @@ use Transbank\Utils\Utils;
 class TransactionCreateResponse
 {
     /**
-     * @var ?string
+     * @var string|null
      */
-    public ?string $token;
+    public string|null $token;
 
     /**
-     * @var ?string
+     * @var string|null
      */
-    public ?string $url;
+    public string|null $url;
 
     /**
      * TransactionCreateResponse constructor.
@@ -49,17 +49,17 @@ class TransactionCreateResponse
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getToken(): ?string
+    public function getToken(): string|null
     {
         return $this->token;
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getUrl(): ?string
+    public function getUrl(): string|null
     {
         return $this->url;
     }

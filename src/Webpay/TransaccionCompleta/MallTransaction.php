@@ -42,7 +42,7 @@ class MallTransaction
      * @param string    $cardNumber
      * @param string    $cardExpirationDate
      * @param array     $details
-     * @param ?string   $cvv
+     * @param string|null   $cvv
      *
      * @throws MallTransactionCreateException
      *
@@ -54,7 +54,7 @@ class MallTransaction
         string $cardNumber,
         string $cardExpirationDate,
         array $details,
-        ?string $cvv = null
+        string|null $cvv = null
     ) {
         $payload = [
             'buy_order'            => $buyOrder,

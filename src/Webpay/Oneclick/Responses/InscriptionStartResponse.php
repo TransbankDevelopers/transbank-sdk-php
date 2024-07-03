@@ -6,8 +6,8 @@ use Transbank\Utils\Utils;
 
 class InscriptionStartResponse
 {
-    public ?string $token;
-    public ?string $urlWebpay;
+    public string|null $token;
+    public string|null $urlWebpay;
 
     public function __construct(array $json)
     {
@@ -21,17 +21,17 @@ class InscriptionStartResponse
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getToken(): ?string
+    public function getToken(): string|null
     {
         return $this->token;
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getUrlWebpay(): ?string
+    public function getUrlWebpay(): string|null
     {
         return $this->urlWebpay;
     }

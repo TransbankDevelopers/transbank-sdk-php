@@ -12,8 +12,8 @@ class TransactionCaptureResponse
      *
      * @param array $json
      */
-    public ?string $authorizationCode;
-    public ?string $authorizationDate;
+    public string|null $authorizationCode;
+    public string|null $authorizationDate;
     public ?float $capturedAmount;
     public ?int $responseCode;
 
@@ -34,17 +34,17 @@ class TransactionCaptureResponse
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getAuthorizationCode(): ?string
+    public function getAuthorizationCode(): string|null
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getAuthorizationDate(): ?string
+    public function getAuthorizationDate(): string|null
     {
         return $this->authorizationDate;
     }

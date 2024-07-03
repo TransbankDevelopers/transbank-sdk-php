@@ -8,10 +8,10 @@ use Transbank\Utils\Utils;
 class InscriptionFinishResponse
 {
     public ?int $responseCode;
-    public ?string $tbkUser;
-    public ?string $authorizationCode;
-    public ?string $cardType;
-    public ?string $cardNumber;
+    public string|null $tbkUser;
+    public string|null $authorizationCode;
+    public string|null $cardType;
+    public string|null $cardNumber;
 
     public function __construct(array $json)
     {
@@ -36,33 +36,33 @@ class InscriptionFinishResponse
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getTbkUser(): ?string
+    public function getTbkUser(): string|null
     {
         return $this->tbkUser;
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getAuthorizationCode(): ?string
+    public function getAuthorizationCode(): string|null
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getCardType(): ?string
+    public function getCardType(): string|null
     {
         return $this->cardType;
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getCardNumber(): ?string
+    public function getCardNumber(): string|null
     {
         return $this->cardNumber;
     }

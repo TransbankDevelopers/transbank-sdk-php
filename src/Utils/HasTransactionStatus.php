@@ -4,19 +4,19 @@ namespace Transbank\Utils;
 
 trait HasTransactionStatus
 {
-    public ?string $status;
+    public string|null $status;
     public ?int $responseCode;
     public ?float $amount;
-    public ?string $authorizationCode;
-    public ?string $paymentTypeCode;
-    public ?string $accountingDate;
+    public string|null $authorizationCode;
+    public string|null $paymentTypeCode;
+    public string|null $accountingDate;
     public ?int $installmentsNumber;
     public ?float $installmentsAmount;
-    public ?string $sessionId;
-    public ?string $buyOrder;
-    public ?string $cardNumber;
+    public string|null $sessionId;
+    public string|null $buyOrder;
+    public string|null $cardNumber;
     public ?array $cardDetail;
-    public ?string $transactionDate;
+    public string|null $transactionDate;
     public ?float $balance;
 
     /**
@@ -28,17 +28,17 @@ trait HasTransactionStatus
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getStatus(): ?string
+    public function getStatus(): string|null
     {
         return $this->status;
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getAuthorizationCode(): ?string
+    public function getAuthorizationCode(): string|null
     {
         return $this->authorizationCode;
     }
@@ -60,17 +60,17 @@ trait HasTransactionStatus
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getBuyOrder(): ?string
+    public function getBuyOrder(): string|null
     {
         return $this->buyOrder;
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getAccountingDate(): ?string
+    public function getAccountingDate(): string|null
     {
         return $this->accountingDate;
     }
@@ -105,17 +105,17 @@ trait HasTransactionStatus
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getCardNumber(): ?string
+    public function getCardNumber(): string|null
     {
         return $this->cardNumber;
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getPaymentTypeCode(): ?string
+    public function getPaymentTypeCode(): string|null
     {
         return $this->paymentTypeCode;
     }
@@ -129,9 +129,9 @@ trait HasTransactionStatus
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getSessionId(): ?string
+    public function getSessionId(): string|null
     {
         return $this->sessionId;
     }
@@ -145,9 +145,9 @@ trait HasTransactionStatus
     }
 
     /**
-     * @return ?string
+     * @return string|null
      */
-    public function getTransactionDate(): ?string
+    public function getTransactionDate(): string|null
     {
         return $this->transactionDate;
     }
