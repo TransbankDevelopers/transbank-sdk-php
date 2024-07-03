@@ -18,13 +18,12 @@ class TransactionCompletareateResponseTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_type_error_when_token_does_not_exist_in_json()
+    public function it_returns_null_when_key_does_not_exist_in_json()
     {
-        $this->expectException(TypeError::class);
-
         $json = [];
+
         $response = new TransactionCreateResponse($json);
 
-        $this->assertNotNull($response->getToken());
+        $this->assertNull($response->getToken());
     }
 }
