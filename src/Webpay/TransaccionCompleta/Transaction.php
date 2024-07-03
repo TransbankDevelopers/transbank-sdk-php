@@ -116,7 +116,7 @@ class Transaction
      * @param string    $token
      * @param int|null      $idQueryInstallments
      * @param int|null      $deferredPeriodIndex
-     * @param ?bool     $gracePeriod
+     * @param bool|null     $gracePeriod
      *
      * @throws TransactionCommitException
      * @throws GuzzleException
@@ -127,7 +127,7 @@ class Transaction
         string $token,
         int|null $idQueryInstallments = null,
         int|null $deferredPeriodIndex = null,
-        ?bool $gracePeriod = null
+        bool|null  $gracePeriod = null
     ) {
         $payload = [
             'id_query_installments' => $idQueryInstallments,
