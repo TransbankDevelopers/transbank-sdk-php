@@ -180,21 +180,21 @@ class Inscription
      * @param string $commerceCode
      * @param string $apiKey
      *
-     * @return static
+     * @return self
      */
-    public static function buildForIntegration(string $commerceCode, string $apiKey)
+    public static function buildForIntegration(string $commerceCode, string $apiKey): self
     {
-        return new static(new Options($apiKey, $commerceCode, Options::ENVIRONMENT_INTEGRATION));
+        return new self(new Options($apiKey, $commerceCode, Options::ENVIRONMENT_INTEGRATION));
     }
 
     /**
      * @param string $commerceCode
      * @param string $apiKey
      *
-     * @return static
+     * @return self
      */
-    public static function buildForProduction(string $commerceCode, string $apiKey)
+    public static function buildForProduction(string $commerceCode, string $apiKey): self
     {
-        return new static(new Options($apiKey, $commerceCode, Options::ENVIRONMENT_PRODUCTION));
+        return new self(new Options($apiKey, $commerceCode, Options::ENVIRONMENT_PRODUCTION));
     }
 }
