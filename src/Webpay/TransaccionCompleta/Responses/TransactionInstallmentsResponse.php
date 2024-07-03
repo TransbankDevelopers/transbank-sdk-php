@@ -8,7 +8,7 @@ class TransactionInstallmentsResponse
 {
     public ?float $installmentsAmount;
     public string|null $idQueryInstallments;
-    public ?array $deferredPeriods;
+    public array|null $deferredPeriods;
 
     public function __construct(array $json)
     {
@@ -34,9 +34,9 @@ class TransactionInstallmentsResponse
     }
 
     /**
-     * @return ?array
+     * @return array|null
      */
-    public function getDeferredPeriods(): ?array
+    public function getDeferredPeriods(): array|null
     {
         return $this->deferredPeriods;
     }

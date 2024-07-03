@@ -7,11 +7,11 @@ use Transbank\Utils\Utils;
 class MallTransactionStatusResponse
 {
     public string|null $buyOrder;
-    public ?array $cardDetail;
+    public array|null $cardDetail;
     public string|null $cardNumber;
     public string|null $accountingDate;
     public string|null $transactionDate;
-    public ?array $details;
+    public array|null $details;
 
     public function __construct(array $json)
     {
@@ -76,7 +76,7 @@ class MallTransactionStatusResponse
     /**
      * @return ?TransactionDetail[]
      */
-    public function getDetails(): ?array
+    public function getDetails(): array|null
     {
         return $this->details;
     }

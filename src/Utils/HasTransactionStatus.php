@@ -15,7 +15,7 @@ trait HasTransactionStatus
     public string|null $sessionId;
     public string|null $buyOrder;
     public string|null $cardNumber;
-    public ?array $cardDetail;
+    public array|null $cardDetail;
     public string|null $transactionDate;
     public ?float $balance;
 
@@ -97,9 +97,9 @@ trait HasTransactionStatus
     }
 
     /**
-     * @return ?array
+     * @return array|null
      */
-    public function getCardDetail(): ?array
+    public function getCardDetail(): array|null
     {
         return $this->cardDetail;
     }

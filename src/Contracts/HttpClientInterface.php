@@ -10,8 +10,8 @@ interface HttpClientInterface
     /**
      * @param string $method
      * @param string $url
-     * @param ?array $payload
-     * @param ?array $options
+     * @param array|null $payload
+     * @param array|null $options
      *
      * @throws GuzzleException
      *
@@ -20,7 +20,7 @@ interface HttpClientInterface
     public function request(
         string $method,
         string $url,
-        ?array $payload = [],
-        ?array $options = null
+        array|null $payload = [],
+        array|null $options = null
     ): ResponseInterface;
 }

@@ -13,11 +13,11 @@ class MallTransactionStatusResponse
     public string|null $buyOrder;
     public string|null $sessionId;
     public string|null $cardNumber;
-    public ?array $cardDetail;
+    public array|null $cardDetail;
     public string|null $expirationDate;
     public string|null $accountingDate;
     public string|null $transactionDate;
-    public ?array $details;
+    public array|null $details;
 
     /**
      * @var TransactionDetail[]
@@ -112,7 +112,7 @@ class MallTransactionStatusResponse
     /**
      * @return ?TransactionDetail[]
      */
-    public function getDetails(): ?array
+    public function getDetails(): array|null
     {
         return $this->details;
     }
@@ -126,9 +126,9 @@ class MallTransactionStatusResponse
     }
 
     /**
-     * @return ?array
+     * @return array|null
      */
-    public function getCardDetail(): ?array
+    public function getCardDetail(): array|null
     {
         return $this->cardDetail;
     }
