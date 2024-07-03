@@ -108,14 +108,14 @@ class MallTransaction
      * @param string $token
      * @param string $buyOrder
      * @param string $childCommerceCode
-     * @param float $amount
+     * @param int|float $amount
      *
      * @throws MallTransactionRefundException
      * @throws GuzzleException
      *
      * @return MallTransactionRefundResponse
      */
-    public function refund(string $token, string $buyOrder, string $childCommerceCode, float $amount)
+    public function refund(string $token, string $buyOrder, string $childCommerceCode, int|float $amount)
     {
         $payload = [
             'buy_order'     => $buyOrder,
@@ -176,7 +176,7 @@ class MallTransaction
      * @param string $token
      * @param string $buyOrder
      * @param string $authorizationCode
-     * @param float $captureAmount
+     * @param int|float $captureAmount
      *
      * @throws MallTransactionCaptureException
      * @throws GuzzleException
@@ -188,7 +188,7 @@ class MallTransaction
         string $token,
         string $buyOrder,
         string $authorizationCode,
-        float $captureAmount
+        int|float $captureAmount
     ) {
         $payload = [
             'commerce_code'      => $childCommerceCode,

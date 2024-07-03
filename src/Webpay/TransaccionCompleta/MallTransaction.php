@@ -155,7 +155,7 @@ class MallTransaction
      * @param string $token
      * @param string $buyOrder
      * @param string $commerceCodeChild
-     * @param float  $amount
+     * @param int|float  $amount
      *
      * @throws MallTransactionRefundException
      *
@@ -165,7 +165,7 @@ class MallTransaction
         string $token,
         string $buyOrder,
         string $commerceCodeChild,
-        float $amount
+        int|float $amount
     ) {
         $payload = [
             'buy_order'     => $buyOrder,
@@ -221,7 +221,7 @@ class MallTransaction
      * @param string $commerceCode
      * @param string $buyOrder
      * @param string $authorizationCode
-     * @param float  $captureAmount
+     * @param int|float  $captureAmount
      *
      * @throws MallTransactionCaptureException
      * @throws GuzzleException
@@ -233,7 +233,7 @@ class MallTransaction
         string $commerceCode,
         string $buyOrder,
         string $authorizationCode,
-        float $captureAmount
+        int|float $captureAmount
     ) {
         $endpoint = str_replace(self::SEARCH_STRING, $token, static::ENDPOINT_CAPTURE);
 

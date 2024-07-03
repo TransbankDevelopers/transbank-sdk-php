@@ -39,7 +39,7 @@ class Transaction
     /**
      * @param string    $buyOrder
      * @param string    $sessionId
-     * @param float     $amount
+     * @param int|float     $amount
      * @param string    $returnUrl
      *
      * @throws TransactionCreateException
@@ -50,7 +50,7 @@ class Transaction
     public function create(
         string $buyOrder,
         string $sessionId,
-        float $amount,
+        int|float $amount,
         string $returnUrl
     ): TransactionCreateResponse {
         $payload = [
@@ -113,14 +113,14 @@ class Transaction
 
     /**
      * @param string $token
-     * @param float  $amount
+     * @param int|float  $amount
      *
      * @throws TransactionRefundException
      * @throws GuzzleException
      *
      * @return TransactionRefundResponse
      */
-    public function refund(string $token, float $amount): TransactionRefundResponse
+    public function refund(string $token, int|float $amount): TransactionRefundResponse
     {
         try {
             $response = $this->sendRequest(
@@ -174,7 +174,7 @@ class Transaction
      * @param string $token
      * @param string $buyOrder
      * @param string $authorizationCode
-     * @param float  $captureAmount
+     * @param int|float  $captureAmount
      *
      * @throws TransactionCaptureException
      * @throws GuzzleException
@@ -185,7 +185,7 @@ class Transaction
         string $token,
         string $buyOrder,
         string $authorizationCode,
-        float $captureAmount
+        int|float $captureAmount
     ): TransactionCaptureResponse {
         $payload = [
             'buy_order'          => $buyOrder,

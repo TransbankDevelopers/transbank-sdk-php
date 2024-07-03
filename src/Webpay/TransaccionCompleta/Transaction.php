@@ -36,7 +36,7 @@ class Transaction
     /**
      * @param string    $buyOrder
      * @param string    $sessionId
-     * @param float     $amount
+     * @param int|float     $amount
      * @param string    $cardNumber
      * @param string    $cardExpirationDate
      * @param string|null   $cvv
@@ -49,7 +49,7 @@ class Transaction
     public function create(
         string $buyOrder,
         string $sessionId,
-        float $amount,
+        int|float $amount,
         string $cardNumber,
         string $cardExpirationDate,
         string|null $cvv = null,
@@ -154,14 +154,14 @@ class Transaction
 
     /**
      * @param string $token
-     * @param float $amount
+     * @param int|float $amount
      *
      * @throws TransactionRefundException
      * @throws GuzzleException
      *
      * @return TransactionRefundResponse
      */
-    public function refund(string $token, float $amount)
+    public function refund(string $token, int|float $amount)
     {
         $payload = [
             'amount' => $amount,
@@ -215,15 +215,19 @@ class Transaction
      * @param string $token
      * @param string $buyOrder
      * @param string $authorizationCode
-     * @param float $captureAmount
+     * @param int|float $captureAmount
      *
      * @throws TransactionCaptureException
      * @throws GuzzleException
      *
      * @return TransactionCaptureResponse
      */
-    public function capture(string $token, string $buyOrder, string $authorizationCode, float $captureAmount)
-    {
+    public function capture(
+        string $token,
+        string $buyOrder,
+        string $authorizationCode,
+        int|float $captureAmount
+    ) {
         $endpoint = str_replace(self::SEARCH_STRING, $token, static::ENDPOINT_CAPTURE);
 
         $payload = [

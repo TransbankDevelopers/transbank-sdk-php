@@ -69,7 +69,7 @@ class MallTransaction
      * @param string $childCommerceCode
      * @param string $childBuyOrder
      * @param string $authorizationCode
-     * @param float  $amount
+     * @param int|float  $amount
      *
      * @return MallTransactionCaptureResponse
      *
@@ -80,7 +80,7 @@ class MallTransaction
         string $childCommerceCode,
         string $childBuyOrder,
         string $authorizationCode,
-        float $amount
+        int|float $amount
     ): MallTransactionCaptureResponse {
         $payload = [
             'commerce_code'      => $childCommerceCode,
@@ -141,7 +141,7 @@ class MallTransaction
      * @param string $buyOrder
      * @param string $childCommerceCode
      * @param string $childBuyOrder
-     * @param float $amount
+     * @param int|float $amount
      *
      * @return MallTransactionRefundResponse
      *
@@ -152,7 +152,7 @@ class MallTransaction
         string $buyOrder,
         string $childCommerceCode,
         string $childBuyOrder,
-        float $amount
+        int|float $amount
     ): MallTransactionRefundResponse {
         $payload = [
             'detail_buy_order' => $childBuyOrder,
