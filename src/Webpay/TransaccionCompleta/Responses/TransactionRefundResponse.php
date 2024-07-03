@@ -6,14 +6,14 @@ use Transbank\Utils\Utils;
 
 class TransactionRefundResponse
 {
-    public $type;
-    public $authorizationCode;
-    public $authorizationDate;
-    public $nullifiedAmount;
-    public $balance;
-    public $responseCode;
+    public string|null $type;
+    public string|null $authorizationCode;
+    public string|null $authorizationDate;
+    public int|float|null $nullifiedAmount;
+    public int|float|null $balance;
+    public int|null $responseCode;
 
-    public function __construct($json)
+    public function __construct(array $json)
     {
         $this->type = Utils::returnValueIfExists($json, 'type');
         $this->authorizationCode = Utils::returnValueIfExists($json, 'authorization_code');
@@ -24,51 +24,50 @@ class TransactionRefundResponse
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getType()
+    public function getType(): string|null
     {
         return $this->type;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getAuthorizationCode()
+    public function getAuthorizationCode(): string|null
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getAuthorizationDate()
+    public function getAuthorizationDate(): string|null
     {
         return $this->authorizationDate;
     }
 
     /**
-     * @return mixed
+     * @return int|float|null
      */
-    public function getNullifiedAmount()
+    public function getNullifiedAmount(): int|float|null
     {
         return $this->nullifiedAmount;
     }
 
     /**
-     * @return mixed
+     * @return int|float|null
      */
-    public function getBalance()
+    public function getBalance(): int|float|null
     {
         return $this->balance;
     }
 
     /**
-     * @return mixed
+     * @return int|null
      */
-    public function getResponseCode()
+    public function getResponseCode(): int|null
     {
-        return (int) $this->responseCode;
+        return $this->responseCode;
     }
-
 }

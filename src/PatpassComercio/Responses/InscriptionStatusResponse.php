@@ -12,29 +12,34 @@ use Transbank\Utils\Utils;
 
 class InscriptionStatusResponse
 {
-    public $status;
-    public $urlVoucher;
+    public string|null $status;
+    public string|null $urlVoucher;
 
-    public function __construct($json)
+    /**
+     * InscriptionStatusResponse constructor.
+     *
+     * @param array $json
+     */
+
+    public function __construct(array $json)
     {
         $this->status = Utils::returnValueIfExists($json, 'authorized');
         $this->urlVoucher = Utils::returnValueIfExists($json, 'voucherUrl');
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getStatus()
+    public function getStatus(): string|null
     {
         return $this->status;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getUrlVoucher()
+    public function getUrlVoucher(): string|null
     {
         return $this->urlVoucher;
     }
-
 }

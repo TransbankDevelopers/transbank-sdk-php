@@ -7,13 +7,13 @@ use Transbank\Utils\Utils;
 
 class InscriptionFinishResponse
 {
-    public $responseCode;
-    public $tbkUser;
-    public $authorizationCode;
-    public $cardType;
-    public $cardNumber;
+    public int|null $responseCode;
+    public string|null $tbkUser;
+    public string|null $authorizationCode;
+    public string|null $cardType;
+    public string|null $cardNumber;
 
-    public function __construct($json)
+    public function __construct(array $json)
     {
         $this->responseCode = Utils::returnValueIfExists($json, 'response_code');
         $this->tbkUser = Utils::returnValueIfExists($json, 'tbk_user');
@@ -22,49 +22,48 @@ class InscriptionFinishResponse
         $this->cardNumber = Utils::returnValueIfExists($json, 'card_number');
     }
 
-    public function isApproved()
+    public function isApproved(): bool
     {
         return $this->getResponseCode() === ResponseCodesEnum::RESPONSE_CODE_APPROVED;
     }
 
     /**
-     * @return mixed
+     * @return int|null
      */
-    public function getResponseCode()
+    public function getResponseCode(): int|null
     {
-        return (int) $this->responseCode;
+        return $this->responseCode;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getTbkUser()
+    public function getTbkUser(): string|null
     {
         return $this->tbkUser;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getAuthorizationCode()
+    public function getAuthorizationCode(): string|null
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getCardType()
+    public function getCardType(): string|null
     {
         return $this->cardType;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getCardNumber()
+    public function getCardNumber(): string|null
     {
         return $this->cardNumber;
     }
-
 }

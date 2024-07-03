@@ -3,7 +3,7 @@
   "description": "Transbank SDK",
   "keywords": ["payments", "transbank", "api", "sdk"],
   "require": {
-      "php": ">=7.0",
+      "php": ">=8.2",
       "ext-curl": "*",
       "ext-json": "*",
       "ext-mbstring": "*",

@@ -15,17 +15,17 @@ trait InteractsWithWebpayApi
     /**
      * @var Options
      */
-    protected $options;
+    protected Options $options;
 
     /**
      * Transaction constructor.
      *
-     * @param Options              $options
-     * @param RequestService |null $requestService
+     * @param Options         $options
+     * @param RequestService|null $requestService
      */
     public function __construct(
         Options $options,
-        RequestService $requestService = null
+        RequestService|null $requestService = null
     ) {
         $this->options = $options;
 
@@ -36,7 +36,7 @@ trait InteractsWithWebpayApi
     /**
      * @return Options
      */
-    public function getOptions()
+    public function getOptions(): Options
     {
         return $this->options;
     }
@@ -44,7 +44,7 @@ trait InteractsWithWebpayApi
     /**
      * @param Options $options
      */
-    public function setOptions(Options $options)
+    public function setOptions(Options $options): void
     {
         $this->options = $options;
     }
@@ -52,29 +52,31 @@ trait InteractsWithWebpayApi
     /**
      * @return string
      */
-    protected function getBaseUrl()
+    protected function getBaseUrl(): string
     {
         return $this->getOptions()->getApiBaseUrl();
     }
 
     /**
-     * @param $commerceCode
-     * @param $apiKey
+     * Build an instance configured for integration environment.
+     * @param string $commerceCode
+     * @param string $apiKey
      *
-     * @return $this
+     * @return static
      */
-    public static function buildForIntegration($commerceCode, $apiKey)
+    public static function buildForIntegration(string $commerceCode, string $apiKey): self
     {
         return new static(new Options($apiKey, $commerceCode, Options::ENVIRONMENT_INTEGRATION));
     }
 
     /**
-     * @param $commerceCode
-     * @param $apiKey
+     * Build an instance configured for integration environment.
+     * @param string $commerceCode
+     * @param string $apiKey
      *
-     * @return $this
+     * @return static
      */
-    public static function buildForProduction($commerceCode, $apiKey)
+    public static function buildForProduction(string $commerceCode, string $apiKey): self
     {
         return new static(new Options($apiKey, $commerceCode, Options::ENVIRONMENT_PRODUCTION));
     }

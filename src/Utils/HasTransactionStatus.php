@@ -4,81 +4,81 @@ namespace Transbank\Utils;
 
 trait HasTransactionStatus
 {
-    public $status;
-    public $responseCode;
-    public $amount;
-    public $authorizationCode;
-    public $paymentTypeCode;
-    public $accountingDate;
-    public $installmentsNumber;
-    public $installmentsAmount;
-    public $sessionId;
-    public $buyOrder;
-    public $cardNumber;
-    public $cardDetail;
-    public $transactionDate;
-    public $balance;
+    public string|null $status;
+    public int|null $responseCode;
+    public int|float|null $amount;
+    public string|null $authorizationCode;
+    public string|null $paymentTypeCode;
+    public string|null $accountingDate;
+    public int|null $installmentsNumber;
+    public int|float|null $installmentsAmount;
+    public string|null $sessionId;
+    public string|null $buyOrder;
+    public string|null $cardNumber;
+    public array|null $cardDetail;
+    public string|null $transactionDate;
+    public int|float|null $balance;
 
     /**
-     * @return mixed
+     * @return int|float|null
      */
-    public function getBalance()
+    public function getBalance(): int|float|null
     {
         return $this->balance;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getStatus()
+    public function getStatus(): string|null
     {
         return $this->status;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getAuthorizationCode()
+    public function getAuthorizationCode(): string|null
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @return mixed
+     * @return int|null
      */
-    public function getInstallmentsNumber()
+    public function getInstallmentsNumber(): int|null
     {
         return $this->installmentsNumber;
     }
 
     /**
-     * @return mixed
+     * @return int|null
      */
-    public function getResponseCode()
+    public function getResponseCode(): int|null
     {
         return $this->responseCode;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getBuyOrder()
+    public function getBuyOrder(): string|null
     {
         return $this->buyOrder;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getAccountingDate()
+    public function getAccountingDate(): string|null
     {
         return $this->accountingDate;
     }
 
     /**
-     * @param $json
+     * @param array $json
      */
-    public function setTransactionStatusFields($json)
+    public function setTransactionStatusFields(array $json): void
     {
         $this->amount =  Utils::returnValueIfExists($json, 'amount');
         $this->status = Utils::returnValueIfExists($json, 'status');
@@ -94,63 +94,61 @@ trait HasTransactionStatus
         $this->installmentsAmount = Utils::returnValueIfExists($json, 'installments_amount');
         $this->installmentsNumber = Utils::returnValueIfExists($json, 'installments_number');
         $this->balance = Utils::returnValueIfExists($json, 'balance');
-
     }
 
     /**
-     * @return mixed|null
+     * @return array|null
      */
-    public function getCardDetail()
+    public function getCardDetail(): array|null
     {
         return $this->cardDetail;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getCardNumber()
+    public function getCardNumber(): string|null
     {
         return $this->cardNumber;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getPaymentTypeCode()
+    public function getPaymentTypeCode(): string|null
     {
         return $this->paymentTypeCode;
     }
 
     /**
-     * @return mixed
+     * @return int|float|null
      */
-    public function getInstallmentsAmount()
+    public function getInstallmentsAmount(): int|float|null
     {
         return $this->installmentsAmount;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getSessionId()
+    public function getSessionId(): string|null
     {
         return $this->sessionId;
     }
 
     /**
-     * @return mixed
+     * @return int|float|null
      */
-    public function getAmount()
+    public function getAmount(): int|float|null
     {
         return $this->amount;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getTransactionDate()
+    public function getTransactionDate(): string|null
     {
         return $this->transactionDate;
     }
-
 }

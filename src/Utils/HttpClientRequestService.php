@@ -7,61 +7,66 @@ use Transbank\Contracts\RequestService;
 use Transbank\Webpay\Exceptions\TransbankApiRequest;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
+use GuzzleHttp\Exception\GuzzleException;
+use Psr\Http\Message\ResponseInterface;
 
 class HttpClientRequestService implements RequestService
 {
     /**
-     * @var Psr\Http\Message\ResponseInterface|null
+     * @var ResponseInterface|null
      */
-    protected $lastResponse = null;
+    protected ResponseInterface|null $lastResponse = null;
 
     /**
      * @var TransbankApiRequest|null
      */
-    protected $lastRequest = null;
-    /**
-     * @var HttpClientInterface
-     */
-    protected $httpClient;
+    protected TransbankApiRequest|null $lastRequest = null;
 
-    public function __construct(HttpClientInterface $httpClient = null)
+    /**
+     * @var HttpClientInterface|null
+     */
+    protected HttpClientInterface|null $httpClient;
+
+    public function __construct(HttpClientInterface|null $httpClient = null)
     {
-        $this->setHttpClient($httpClient !== null ? $httpClient : new HttpClient());
+        $this->setHttpClient($httpClient ?? new HttpClient());
     }
 
     /**
      * @return HttpClientInterface
      */
-    public function getHttpClient()
+    public function getHttpClient(): HttpClientInterface
     {
         return $this->httpClient;
     }
 
     /**
      * @param HttpClientInterface $httpClient
+     *
+     * @return void
      */
-    public function setHttpClient($httpClient)
+    public function setHttpClient(HttpClientInterface $httpClient): void
     {
         $this->httpClient = $httpClient;
     }
 
     /**
-     * @param $method
-     * @param $endpoint
-     * @param $payload
+     * @param string  $method
+     * @param string  $endpoint
+     * @param array   $payload
      * @param Options $options
      *
-     * @throws GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      * @throws WebpayRequestException
      *
      * @return array
      */
     public function request(
-        $method,
-        $endpoint,
-        $payload,
+        string $method,
+        string $endpoint,
+        array $payload,
         Options $options
-    ) {
+    ): array {
         $headers = $options->getHeaders();
         $client = $this->httpClient;
         if ($client == null) {
@@ -72,8 +77,10 @@ class HttpClientRequestService implements RequestService
         $request = new TransbankApiRequest($method, $baseUrl, $endpoint, $payload, $headers);
 
         $this->setLastRequest($request);
-        $response = $client->request($method, $baseUrl.$endpoint, $payload, ['headers' => $headers,
-                                                                            'timeout' => $options->getTimeout()]);
+        $response = $client->request($method, $baseUrl . $endpoint, $payload, [
+            'headers' => $headers,
+            'timeout' => $options->getTimeout()
+        ]);
 
         $this->setLastResponse($response);
         $responseStatusCode = $response->getStatusCode();
@@ -82,11 +89,7 @@ class HttpClientRequestService implements RequestService
             $reason = $response->getReasonPhrase();
             $message = "Could not obtain a response from Transbank API: $reason (HTTP code $responseStatusCode)";
             $body = json_decode($response->getBody(), true);
-            $tbkErrorMessage = null;
-            if (isset($body['error_message'])) {
-                $tbkErrorMessage = $body['error_message'];
-                $message = "Transbank API REST Error: $tbkErrorMessage | $message";
-            }
+            $tbkErrorMessage = $body['error_message'] ?? null;
 
             throw new WebpayRequestException($message, $tbkErrorMessage, $responseStatusCode, $request);
         }
@@ -95,17 +98,17 @@ class HttpClientRequestService implements RequestService
     }
 
     /**
-     * @return Psr\Http\Message\ResponseInterface|null
+     * @return ResponseInterface|null
      */
-    public function getLastResponse()
+    public function getLastResponse(): ResponseInterface|null
     {
         return $this->lastResponse;
     }
 
     /**
-     * @param Psr\Http\Message\ResponseInterface|null $lastResponse
+     * @param ResponseInterface|null $lastResponse
      */
-    protected function setLastResponse($lastResponse)
+    protected function setLastResponse(ResponseInterface|null $lastResponse): void
     {
         $this->lastResponse = $lastResponse;
     }
@@ -113,7 +116,7 @@ class HttpClientRequestService implements RequestService
     /**
      * @return TransbankApiRequest|null
      */
-    public function getLastRequest()
+    public function getLastRequest(): TransbankApiRequest|null
     {
         return $this->lastRequest;
     }
@@ -121,7 +124,7 @@ class HttpClientRequestService implements RequestService
     /**
      * @param TransbankApiRequest|null $lastRequest
      */
-    protected function setLastRequest($lastRequest)
+    protected function setLastRequest(TransbankApiRequest|null $lastRequest): void
     {
         $this->lastRequest = $lastRequest;
     }

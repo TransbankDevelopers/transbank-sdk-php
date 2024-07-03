@@ -3,6 +3,7 @@
 namespace Transbank\Utils;
 
 use Transbank\Contracts\RequestService;
+use Transbank\Webpay\Exceptions\WebpayRequestException;
 
 /**
  * Trait RequestServiceTrait .
@@ -11,20 +12,20 @@ use Transbank\Contracts\RequestService;
 trait RequestServiceTrait
 {
     /**
-     * @var RequestService |null
+     * @var RequestService|null
      */
-    protected $requestService;
+    protected RequestService|null $requestService = null;
 
     /**
-     * @param $method
-     * @param $endpoint
-     * @param array|null $payload
+     * @param string $method
+     * @param string $endpoint
+     * @param array  $payload
      *
-     * @throws \Transbank\Webpay\Exceptions\WebpayRequestException
+     * @throws WebpayRequestException
      *
-     * @return mixed
+     * @return array
      */
-    public function sendRequest($method, $endpoint, $payload = [])
+    public function sendRequest(string $method, string $endpoint, array $payload = []): array
     {
         return $this->getRequestService()->request(
             $method,
@@ -35,17 +36,17 @@ trait RequestServiceTrait
     }
 
     /**
-     * @return RequestService |null
+     * @return RequestService|null
      */
-    public function getRequestService()
+    public function getRequestService(): RequestService|null
     {
         return $this->requestService;
     }
 
     /**
-     * @param RequestService |null $requestService
+     * @param RequestService|null $requestService
      */
-    public function setRequestService(RequestService $requestService = null)
+    public function setRequestService(RequestService|null $requestService = null): void
     {
         $this->requestService = $requestService;
     }

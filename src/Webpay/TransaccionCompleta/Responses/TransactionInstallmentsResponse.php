@@ -6,11 +6,11 @@ use Transbank\Utils\Utils;
 
 class TransactionInstallmentsResponse
 {
-    public $installmentsAmount;
-    public $idQueryInstallments;
-    public $deferredPeriods;
+    public int|float|null $installmentsAmount;
+    public string|null $idQueryInstallments;
+    public array|null $deferredPeriods;
 
-    public function __construct($json)
+    public function __construct(array $json)
     {
         $this->installmentsAmount = Utils::returnValueIfExists($json, 'installments_amount');
         $this->idQueryInstallments = Utils::returnValueIfExists($json, 'id_query_installments');
@@ -18,27 +18,26 @@ class TransactionInstallmentsResponse
     }
 
     /**
-     * @return mixed
+     * @return int|float|null
      */
-    public function getInstallmentsAmount()
+    public function getInstallmentsAmount(): int|float|null
     {
         return $this->installmentsAmount;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getIdQueryInstallments()
+    public function getIdQueryInstallments(): string|null
     {
         return $this->idQueryInstallments;
     }
 
     /**
-     * @return mixed
+     * @return array|null
      */
-    public function getDeferredPeriods()
+    public function getDeferredPeriods(): array|null
     {
         return $this->deferredPeriods;
     }
-
 }

@@ -6,34 +6,33 @@ use Transbank\Utils\Utils;
 
 class InscriptionStartResponse
 {
-    public $token;
-    public $urlWebpay;
+    public string|null $token;
+    public string|null $urlWebpay;
 
-    public function __construct($json)
+    public function __construct(array $json)
     {
         $this->token = Utils::returnValueIfExists($json, 'token');
         $this->urlWebpay = Utils::returnValueIfExists($json, 'url_webpay');
     }
 
-    public function getRedirectUrl()
+    public function getRedirectUrl(): string
     {
-        return $this->getUrlWebpay().'?TBK_TOKEN='.$this->getToken();
+        return $this->getUrlWebpay() . '?TBK_TOKEN=' . $this->getToken();
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getToken()
+    public function getToken(): string|null
     {
         return $this->token;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getUrlWebpay()
+    public function getUrlWebpay(): string|null
     {
         return $this->urlWebpay;
     }
-
 }

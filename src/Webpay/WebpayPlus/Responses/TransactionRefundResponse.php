@@ -8,36 +8,36 @@ use Transbank\Utils\TransactionStatusEnum;
 class TransactionRefundResponse
 {
     /**
-     * @var mixed|null
+     * @var string
      */
-    public $type;
+    public string|null $type;
     /**
-     * @var mixed|null
+     * @var string|null
      */
-    public $authorizationCode;
+    public string|null $authorizationCode;
     /**
-     * @var mixed|null
+     * @var string|null
      */
-    public $authorizationDate;
+    public string|null $authorizationDate;
     /**
-     * @var mixed|null
+     * @var int|float|null
      */
-    public $nullifiedAmount;
+    public int|float|null $nullifiedAmount;
     /**
-     * @var mixed|null
+     * @var int|float|null
      */
-    public $balance;
+    public int|float|null $balance;
     /**
-     * @var mixed|null
+     * @var int|null
      */
-    public $responseCode;
+    public int|null $responseCode;
 
     /**
      * TransactionRefundResponse constructor.
      *
-     * @param $json
+     * @param array $json
      */
-    public function __construct($json)
+    public function __construct(array $json)
     {
         $this->type = Utils::returnValueIfExists($json, 'type');
         $this->authorizationCode = Utils::returnValueIfExists($json, 'authorization_code');
@@ -47,58 +47,60 @@ class TransactionRefundResponse
         $this->responseCode = Utils::returnValueIfExists($json, 'response_code');
     }
 
-    public function success()
+    /**
+     * @return bool
+     */
+    public function success(): bool
     {
         return $this->getType() === TransactionStatusEnum::STATUS_REVERSED ||
             ($this->getType() === TransactionStatusEnum::STATUS_NULLIFIED && $this->getResponseCode() === 0);
     }
 
     /**
-     * @return mixed|null
+     * @return int|float|null
      */
-    public function getNullifiedAmount()
+    public function getNullifiedAmount(): int|float|null
     {
         return $this->nullifiedAmount;
     }
 
     /**
-     * @return mixed|null
+     * @return int|float|null
      */
-    public function getBalance()
+    public function getBalance(): int|float|null
     {
         return $this->balance;
     }
 
     /**
-     * @return mixed|null
+     * @return int|null
      */
-    public function getResponseCode()
+    public function getResponseCode(): int|null
     {
-        return (int) $this->responseCode;
+        return $this->responseCode;
     }
 
     /**
-     * @return mixed|null
+     * @return string|null
      */
-    public function getType()
+    public function getType(): string|null
     {
         return $this->type;
     }
 
     /**
-     * @return mixed|null
+     * @return string|null
      */
-    public function getAuthorizationCode()
+    public function getAuthorizationCode(): string|null
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @return mixed|null
+     * @return string|null
      */
-    public function getAuthorizationDate()
+    public function getAuthorizationDate(): string|null
     {
         return $this->authorizationDate;
     }
-
 }

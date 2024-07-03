@@ -6,5 +6,5 @@ use Transbank\Webpay\Exceptions\WebpayRequestException;
 
 class TransactionRefundException extends WebpayRequestException
 {
-    protected static $defaultMessage = 'The transaction could not be refunded. ';
+    protected static string $defaultMessage = 'The transaction could not be refunded.';
 }
