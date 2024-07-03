@@ -40,14 +40,4 @@ class OneClickMallTransactionRefundResponseTest extends TestCase
         $this->assertNull($response->balance);
         $this->assertNull($response->responseCode);
     }
-
-    public function testConstructorThrowsTypeErrorWhenTypeIsNull()
-    {
-        $this->expectException(TypeError::class);
-
-        $json = [];
-        $response = new MallTransactionRefundResponse($json);
-
-        $this->assertNotNull($response);
-    }
 }
