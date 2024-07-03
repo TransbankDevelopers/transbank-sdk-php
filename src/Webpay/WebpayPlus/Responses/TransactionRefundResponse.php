@@ -28,9 +28,9 @@ class TransactionRefundResponse
      */
     public ?float $balance;
     /**
-     * @var ?int
+     * @var int|null
      */
-    public ?int $responseCode;
+    public int|null $responseCode;
 
     /**
      * TransactionRefundResponse constructor.
@@ -73,9 +73,9 @@ class TransactionRefundResponse
     }
 
     /**
-     * @return ?int
+     * @return int|null
      */
-    public function getResponseCode(): ?int
+    public function getResponseCode(): int|null
     {
         return $this->responseCode;
     }

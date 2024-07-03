@@ -17,7 +17,7 @@ class WebpayRequestException extends WebpayException
      */
     protected string|null $transbankErrorMessage;
     /**
-     * @var ?int
+     * @var int|null
      */
     protected $httpCode;
 
@@ -36,14 +36,14 @@ class WebpayRequestException extends WebpayException
      *
      * @param string                $message
      * @param string|null               $tbkErrorMessage
-     * @param ?int                  $httpCode
+     * @param int|null                  $httpCode
      * @param ?TransbankApiRequest  $failedRequest
      * @param ?\Exception           $previous
      */
     public function __construct(
         string $message,
         string|null $tbkErrorMessage = null,
-        ?int $httpCode = null,
+        int|null $httpCode = null,
         ?TransbankApiRequest $failedRequest = null,
         ?\Exception $previous = null
     ) {
@@ -104,14 +104,14 @@ class WebpayRequestException extends WebpayException
     /**
      * @param string    $message
      * @param string|null   $tbkErrorMessage
-     * @param ?int      $httpCode
+     * @param int|null      $httpCode
      *
      * @return string
      */
     protected function getExceptionMessage(
         string $message,
         string|null $tbkErrorMessage,
-        ?int $httpCode
+        int|null $httpCode
     ): string {
         if (!$tbkErrorMessage) {
             return $message;

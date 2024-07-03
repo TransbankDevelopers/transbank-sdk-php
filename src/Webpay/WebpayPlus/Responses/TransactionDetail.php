@@ -12,8 +12,8 @@ class TransactionDetail
     public string|null $status;
     public string|null $authorizationCode;
     public string|null $paymentTypeCode;
-    public ?int $responseCode;
-    public ?int $installmentsNumber;
+    public int|null $responseCode;
+    public int|null $installmentsNumber;
     public ?float $installmentsAmount;
     public string|null $commerceCode;
     public string|null $buyOrder;
@@ -90,23 +90,23 @@ class TransactionDetail
     }
 
     /**
-     * @return ?int
+     * @return int|null
      */
-    public function getResponseCode(): ?int
+    public function getResponseCode(): int|null
     {
         return $this->responseCode;
     }
 
     /**
-     * @return ?int
+     * @return int|null
      */
-    public function getInstallmentsNumber(): ?int
+    public function getInstallmentsNumber(): int|null
     {
         return $this->installmentsNumber;
     }
 
     /**
-     * @return ?int
+     * @return int|null
      */
     public function getCommerceCode(): string|null
     {

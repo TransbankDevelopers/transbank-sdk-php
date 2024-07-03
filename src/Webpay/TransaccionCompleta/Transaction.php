@@ -114,8 +114,8 @@ class Transaction
 
     /**
      * @param string    $token
-     * @param ?int      $idQueryInstallments
-     * @param ?int      $deferredPeriodIndex
+     * @param int|null      $idQueryInstallments
+     * @param int|null      $deferredPeriodIndex
      * @param ?bool     $gracePeriod
      *
      * @throws TransactionCommitException
@@ -125,8 +125,8 @@ class Transaction
      */
     public function commit(
         string $token,
-        ?int $idQueryInstallments = null,
-        ?int $deferredPeriodIndex = null,
+        int|null $idQueryInstallments = null,
+        int|null $deferredPeriodIndex = null,
         ?bool $gracePeriod = null
     ) {
         $payload = [

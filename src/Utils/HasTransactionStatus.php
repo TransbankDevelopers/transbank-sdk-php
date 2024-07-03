@@ -5,12 +5,12 @@ namespace Transbank\Utils;
 trait HasTransactionStatus
 {
     public string|null $status;
-    public ?int $responseCode;
+    public int|null $responseCode;
     public ?float $amount;
     public string|null $authorizationCode;
     public string|null $paymentTypeCode;
     public string|null $accountingDate;
-    public ?int $installmentsNumber;
+    public int|null $installmentsNumber;
     public ?float $installmentsAmount;
     public string|null $sessionId;
     public string|null $buyOrder;
@@ -44,17 +44,17 @@ trait HasTransactionStatus
     }
 
     /**
-     * @return ?int
+     * @return int|null
      */
-    public function getInstallmentsNumber(): ?int
+    public function getInstallmentsNumber(): int|null
     {
         return $this->installmentsNumber;
     }
 
     /**
-     * @return ?int
+     * @return int|null
      */
-    public function getResponseCode(): ?int
+    public function getResponseCode(): int|null
     {
         return $this->responseCode;
     }

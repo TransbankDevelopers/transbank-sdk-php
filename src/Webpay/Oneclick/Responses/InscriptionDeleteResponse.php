@@ -5,9 +5,9 @@ namespace Transbank\Webpay\Oneclick\Responses;
 class InscriptionDeleteResponse
 {
     public bool $success = false;
-    public ?int $code;
+    public int|null $code;
 
-    public function __construct(bool $success, ?int $httpCode = null)
+    public function __construct(bool $success, int|null $httpCode = null)
     {
         $this->success = $success;
         $this->code = $httpCode;
@@ -19,9 +19,9 @@ class InscriptionDeleteResponse
     }
 
     /**
-     * @return ?int
+     * @return int|null
      */
-    public function getCode(): ?int
+    public function getCode(): int|null
     {
         return $this->code;
     }

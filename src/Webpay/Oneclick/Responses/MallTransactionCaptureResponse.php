@@ -9,7 +9,7 @@ class MallTransactionCaptureResponse
     public string|null $authorizationCode;
     public string|null $authorizationDate;
     public ?float $capturedAmount;
-    public ?int $responseCode;
+    public int|null $responseCode;
 
     public function __construct(array $json)
     {
@@ -44,9 +44,9 @@ class MallTransactionCaptureResponse
     }
 
     /**
-     * @return ?int
+     * @return int|null
      */
-    public function getResponseCode(): ?int
+    public function getResponseCode(): int|null
     {
         return $this->responseCode;
     }
