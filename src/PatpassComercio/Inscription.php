@@ -34,11 +34,11 @@ class Inscription
      * Transaction constructor.
      *
      * @param Options          $options
-     * @param ?RequestService  $requestService
+     * @param RequestService|null  $requestService
      */
     public function __construct(
         Options $options,
-        ?RequestService $requestService = null
+        RequestService|null $requestService = null
     ) {
         $this->options = $options;
         $this->setRequestService($requestService !== null ? $requestService :

@@ -12,9 +12,9 @@ use Transbank\Webpay\Exceptions\WebpayRequestException;
 trait RequestServiceTrait
 {
     /**
-     * @var ?RequestService
+     * @var RequestService|null
      */
-    protected ?RequestService $requestService = null;
+    protected RequestService|null $requestService = null;
 
     /**
      * @param string $method
@@ -36,17 +36,17 @@ trait RequestServiceTrait
     }
 
     /**
-     * @return ?RequestService
+     * @return RequestService|null
      */
-    public function getRequestService(): ?RequestService
+    public function getRequestService(): RequestService|null
     {
         return $this->requestService;
     }
 
     /**
-     * @param ?RequestService $requestService
+     * @param RequestService|null $requestService
      */
-    public function setRequestService(?RequestService $requestService = null): void
+    public function setRequestService(RequestService|null $requestService = null): void
     {
         $this->requestService = $requestService;
     }
