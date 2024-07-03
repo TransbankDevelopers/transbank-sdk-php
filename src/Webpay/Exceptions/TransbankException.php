@@ -11,9 +11,9 @@ class TransbankException extends \Exception
      *
      * @param string $message
      * @param int $code
-     * @param ?\Throwable $previous
+     * @param \Throwable|null $previous
      */
-    public function __construct(string $message = self::DEFAULT_MESSAGE, int $code = 0, ?\Throwable $previous = null)
+    public function __construct(string $message = self::DEFAULT_MESSAGE, int $code = 0, \Throwable|null $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }
