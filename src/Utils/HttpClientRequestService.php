@@ -13,9 +13,9 @@ use Psr\Http\Message\ResponseInterface;
 class HttpClientRequestService implements RequestService
 {
     /**
-     * @var ?ResponseInterface
+     * @var ResponseInterface|null
      */
-    protected ?ResponseInterface $lastResponse = null;
+    protected ResponseInterface|null $lastResponse = null;
 
     /**
      * @var ?TransbankApiRequest
@@ -98,17 +98,17 @@ class HttpClientRequestService implements RequestService
     }
 
     /**
-     * @return ?ResponseInterface
+     * @return ResponseInterface|null
      */
-    public function getLastResponse(): ?ResponseInterface
+    public function getLastResponse(): ResponseInterface|null
     {
         return $this->lastResponse;
     }
 
     /**
-     * @param ?ResponseInterface $lastResponse
+     * @param ResponseInterface|null $lastResponse
      */
-    protected function setLastResponse(?ResponseInterface $lastResponse): void
+    protected function setLastResponse(ResponseInterface|null $lastResponse): void
     {
         $this->lastResponse = $lastResponse;
     }

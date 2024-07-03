@@ -25,6 +25,6 @@ interface RequestService
         array $payload,
         Options $options
     ): array;
-    public function getLastResponse(): ?ResponseInterface;
+    public function getLastResponse(): ResponseInterface|null;
     public function getLastRequest(): ?TransbankApiRequest;
 }
