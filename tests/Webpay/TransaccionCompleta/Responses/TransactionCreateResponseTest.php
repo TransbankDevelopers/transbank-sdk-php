@@ -26,5 +26,4 @@ class TransactionCompletareateResponseTest extends TestCase
 
         $this->assertNull($response->getToken());
     }
-
 }

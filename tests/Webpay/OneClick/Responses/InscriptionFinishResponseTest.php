@@ -3,28 +3,29 @@
 use PHPUnit\Framework\TestCase;
 use Transbank\Webpay\Oneclick\Responses\InscriptionFinishResponse;
 
-class OneClickInscriptionFinishResponseTest extends TestCase {
+class OneClickInscriptionFinishResponseTest extends TestCase
+{
 
-    protected $json;
-    protected $inscriptionResponse;
+    protected array $json;
+    protected InscriptionFinishResponse $inscriptionResponse;
 
-    protected function setUp():void {
+    protected function setUp(): void
+    {
         $this->json = [
-            'response_code' => '00',
+            'response_code' => 0,
             'tbk_user' => '123456',
             'authorization_code' => '7890',
             'card_type' => 'Visa',
             'card_number' => '**** **** **** 1234'
         ];
         $this->inscriptionResponse = new InscriptionFinishResponse($this->json);
-
     }
     /** @test */
     public function it_can_be_initialized_from_json()
     {
         $response = new InscriptionFinishResponse($this->json);
 
-        $this->assertSame('00', $response->responseCode);
+        $this->assertSame(0, $response->responseCode);
         $this->assertSame('123456', $response->tbkUser);
         $this->assertSame('7890', $response->authorizationCode);
         $this->assertSame('Visa', $response->cardType);
@@ -40,7 +41,8 @@ class OneClickInscriptionFinishResponseTest extends TestCase {
     /** @test */
     public function it_returns_false_when_response_code_is_not_approved()
     {
-        $json = ['response_code' => '01'];
+        $json = $this->json;
+        $json['response_code'] = 1;
         $response = new InscriptionFinishResponse($json);
         $this->assertFalse($response->isApproved());
     }

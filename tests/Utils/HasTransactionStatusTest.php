@@ -3,7 +3,8 @@
 use PHPUnit\Framework\TestCase;
 use Transbank\Utils\HasTransactionStatus;
 
-class DummyClass {
+class DummyClass
+{
     use HasTransactionStatus;
 }
 
@@ -13,17 +14,19 @@ class HasTransactionStatusTest extends TestCase
     {
 
         $date = new DateTime();
+        $accountingDateFormat = $date->format('md');
+        $transactionDateFormat = $date->format('Y-m-d\TH:i:s.v\Z');
         $json = [
-            'amount' =>100,
-            'status' =>'AUTHORIZED',
-            'buy_order' =>'123',
-            'session_id' =>'123',
+            'amount' => 100,
+            'status' => 'AUTHORIZED',
+            'buy_order' => '123',
+            'session_id' => '123',
             'card_detail' => ['card_number' => '123'],
             'card_number' => '123',
-            'accounting_date' => $date,
-            'transaction_date' => $date,
+            'accounting_date' => $accountingDateFormat,
+            'transaction_date' => $transactionDateFormat,
             'authorization_code' => '123',
-            'payment_type_code' =>'VD',
+            'payment_type_code' => 'VD',
             'response_code' => 200,
             'installments_amount' => 100,
             'installments_number' => 5,
@@ -32,7 +35,7 @@ class HasTransactionStatusTest extends TestCase
 
         $transactionStatus = new DummyClass();
         $transactionStatus->setTransactionStatusFields($json);
-        $this->assertSame($date, $transactionStatus->getTransactionDate());
+        $this->assertSame($transactionDateFormat, $transactionStatus->getTransactionDate());
 
         $this->assertSame(5, $transactionStatus->getInstallmentsNumber());
 
@@ -58,6 +61,6 @@ class HasTransactionStatusTest extends TestCase
 
         $this->assertSame('123', $transactionStatus->getCardNumber());
 
-        $this->assertSame($date, $transactionStatus->getAccountingDate());
+        $this->assertSame($accountingDateFormat, $transactionStatus->getAccountingDate());
     }
 }

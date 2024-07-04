@@ -15,13 +15,12 @@ class TransactionRefundResponseTest extends TestCase
             'type' => 'testType',
             'authorization_code' => 'testAuthorizationCode',
             'authorization_date' => 'testAuthorizationDate',
-            'nullified_amount' => 'testNullifiedAmount',
-            'balance' => 'testBalance',
+            'nullified_amount' => 4,
+            'balance' => 2,
             'response_code' => 200,
         ];
 
         $this->refundResponse = new TransactionRefundResponse($this->json);
-
     }
     public function testConstructor()
     {
@@ -31,8 +30,8 @@ class TransactionRefundResponseTest extends TestCase
         $this->assertEquals('testType', $response->type);
         $this->assertEquals('testAuthorizationCode', $response->authorizationCode);
         $this->assertEquals('testAuthorizationDate', $response->authorizationDate);
-        $this->assertEquals('testNullifiedAmount', $response->nullifiedAmount);
-        $this->assertEquals('testBalance', $response->balance);
+        $this->assertEquals(4, $response->nullifiedAmount);
+        $this->assertEquals(2, $response->balance);
         $this->assertEquals(200, $response->responseCode);
     }
 
@@ -44,11 +43,10 @@ class TransactionRefundResponseTest extends TestCase
 
         $this->assertEquals('testAuthorizationDate', $this->refundResponse->getAuthorizationDate());
 
-        $this->assertEquals('testNullifiedAmount', $this->refundResponse->getNullifiedAmount());
+        $this->assertEquals(4, $this->refundResponse->getNullifiedAmount());
 
-        $this->assertEquals('testBalance', $this->refundResponse->getBalance());
+        $this->assertEquals(2, $this->refundResponse->getBalance());
 
         $this->assertEquals(200, $this->refundResponse->getResponseCode());
     }
-
 }

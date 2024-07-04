@@ -20,6 +20,9 @@ use Transbank\Webpay\Options;
 
 class TransaccionCompletaTest extends TestCase
 {
+    const MOCK_SEARCH_STRING = '{token}';
+    const MOCK_TRANSACTION_DATE = '2021-03-29T06:33:32.954Z';
+    const MOCK_ERROR_MESSAGE = 'error message';
     /**
      * @var int
      */
@@ -64,7 +67,6 @@ class TransaccionCompletaTest extends TestCase
     {
         $this->requestServiceMock = $this->createMock(HttpClientRequestService::class);
         $this->optionsMock = $this->createMock(Options::class);
-
         $this->headersMock = ['header_1' => uniqid()];
         $this->optionsMock->method('getApiBaseUrl')->willReturn($this->mockBaseUrl);
         $this->optionsMock->method('getHeaders')->willReturn($this->headersMock);
@@ -139,9 +141,9 @@ class TransaccionCompletaTest extends TestCase
                 'buy_order'            => $this->buyOrder,
                 'session_id'           => $this->sessionId,
                 'amount'               => $this->amount,
-                'cvv'                  => $this->cvv,
                 'card_number'          => $this->cardNumber,
                 'card_expiration_date' => $this->cardExpiration,
+                'cvv'                  => $this->cvv,
             ])
             ->willReturn(
                 [
@@ -154,9 +156,9 @@ class TransaccionCompletaTest extends TestCase
             $this->buyOrder,
             $this->sessionId,
             $this->amount,
-            $this->cvv,
             $this->cardNumber,
-            $this->cardExpiration
+            $this->cardExpiration,
+            $this->cvv
         );
         $this->assertInstanceOf(TransactionCreateResponse::class, $response);
         $this->assertEquals($response->getToken(), $tokenMock);
@@ -170,7 +172,7 @@ class TransaccionCompletaTest extends TestCase
         $tokenMock = uniqid();
 
         $this->requestServiceMock->method('request')
-            ->with('POST', str_replace('{token}', $tokenMock, Transaction::ENDPOINT_INSTALLMENTS), [
+            ->with('POST', str_replace(self::MOCK_SEARCH_STRING, $tokenMock, Transaction::ENDPOINT_INSTALLMENTS), [
                 'installments_number' => 2,
             ])
             ->willReturn([
@@ -195,7 +197,7 @@ class TransaccionCompletaTest extends TestCase
         $tokenMock = uniqid();
 
         $expectedUrl = str_replace(
-            '{token}',
+            self::MOCK_SEARCH_STRING,
             $tokenMock,
             Transaction::ENDPOINT_COMMIT
         );
@@ -211,7 +213,7 @@ class TransaccionCompletaTest extends TestCase
                     'card_number' => '6623',
                 ],
                 'accounting_date'     => '0329',
-                'transaction_date'    => '2021-03-29T06:33:32.954Z',
+                'transaction_date'    => self::MOCK_TRANSACTION_DATE,
                 'authorization_code'  => '1213',
                 'payment_type_code'   => 'NC',
                 'response_code'       => 0,
@@ -233,7 +235,7 @@ class TransaccionCompletaTest extends TestCase
         $this->assertSame('NC', $response->getPaymentTypeCode());
         $this->assertSame(10, $response->getInstallmentsNumber());
         $this->assertSame(1000, $response->getInstallmentsAmount());
-        $this->assertSame('2021-03-29T06:33:32.954Z', $response->getTransactionDate());
+        $this->assertSame(self::MOCK_TRANSACTION_DATE, $response->getTransactionDate());
         $this->assertSame('0329', $response->getAccountingDate());
     }
 
@@ -245,7 +247,7 @@ class TransaccionCompletaTest extends TestCase
         $tokenMock = uniqid();
 
         $expectedUrl = str_replace(
-            '{token}',
+            self::MOCK_SEARCH_STRING,
             $tokenMock,
             Transaction::ENDPOINT_STATUS
         );
@@ -261,7 +263,7 @@ class TransaccionCompletaTest extends TestCase
                     'card_number' => '6623',
                 ],
                 'accounting_date'     => '0329',
-                'transaction_date'    => '2021-03-29T06:33:32.954Z',
+                'transaction_date'    => self::MOCK_TRANSACTION_DATE,
                 'authorization_code'  => '1213',
                 'payment_type_code'   => 'NC',
                 'response_code'       => 0,
@@ -283,7 +285,7 @@ class TransaccionCompletaTest extends TestCase
         $this->assertSame('NC', $response->getPaymentTypeCode());
         $this->assertSame(10, $response->getInstallmentsNumber());
         $this->assertSame(1000, $response->getInstallmentsAmount());
-        $this->assertSame('2021-03-29T06:33:32.954Z', $response->getTransactionDate());
+        $this->assertSame(self::MOCK_TRANSACTION_DATE, $response->getTransactionDate());
         $this->assertSame('0329', $response->getAccountingDate());
     }
 
@@ -299,10 +301,10 @@ class TransaccionCompletaTest extends TestCase
         $this->setBaseMocks();
 
         $this->requestServiceMock->method('request')
-            ->willThrowException(new WebpayRequestException('error message'));
+            ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(TransactionCreateException::class);
-        $this->expectExceptionMessage('error message');
+        $this->expectExceptionMessage(self::MOCK_ERROR_MESSAGE);
         $transaction = new Transaction($this->optionsMock, $this->requestServiceMock);
         $transaction->create($this->buyOrder, $this->sessionId, $this->amount, $this->cvv, $this->cardNumber, $this->cardExpiration);
     }
@@ -313,10 +315,10 @@ class TransaccionCompletaTest extends TestCase
         $this->setBaseMocks();
 
         $this->requestServiceMock->method('request')
-            ->willThrowException(new WebpayRequestException('error message'));
+            ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(TransactionCommitException::class);
-        $this->expectExceptionMessage('error message');
+        $this->expectExceptionMessage(self::MOCK_ERROR_MESSAGE);
         $transaction = new Transaction($this->optionsMock, $this->requestServiceMock);
         $transaction->commit('fakeToken');
     }
@@ -327,10 +329,10 @@ class TransaccionCompletaTest extends TestCase
         $this->setBaseMocks();
 
         $this->requestServiceMock->method('request')
-            ->willThrowException(new WebpayRequestException('error message'));
+            ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(TransactionStatusException::class);
-        $this->expectExceptionMessage('error message');
+        $this->expectExceptionMessage(self::MOCK_ERROR_MESSAGE);
         $transaction = new Transaction($this->optionsMock, $this->requestServiceMock);
         $transaction->status('fakeToken');
     }
@@ -341,12 +343,12 @@ class TransaccionCompletaTest extends TestCase
         $this->setBaseMocks();
 
         $this->requestServiceMock->method('request')
-            ->willThrowException(new WebpayRequestException('error message'));
+            ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(TransactionRefundException::class);
-        $this->expectExceptionMessage('error message');
+        $this->expectExceptionMessage(self::MOCK_ERROR_MESSAGE);
         $transaction = new Transaction($this->optionsMock, $this->requestServiceMock);
-        $transaction->refund('fakeToken', 'buyOrder', 'comemrceCode', 1400);
+        $transaction->refund('fakeToken', 123);
     }
 
     /** @test */
@@ -355,10 +357,10 @@ class TransaccionCompletaTest extends TestCase
         $this->setBaseMocks();
 
         $this->requestServiceMock->method('request')
-            ->willThrowException(new WebpayRequestException('error message'));
+            ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(TransactionInstallmentsException::class);
-        $this->expectExceptionMessage('error message');
+        $this->expectExceptionMessage(self::MOCK_ERROR_MESSAGE);
         $transaction = new Transaction($this->optionsMock, $this->requestServiceMock);
         $transaction->installments('fakeToken', 2);
     }

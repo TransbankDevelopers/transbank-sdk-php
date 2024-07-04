@@ -11,9 +11,9 @@ class MallTransactionRefundResponseTest extends TestCase
             'type' => 'testType',
             'authorization_code' => 'testAuthorizationCode',
             'authorization_date' => 'testAuthorizationDate',
-            'nullified_amount' => 'testNullifiedAmount',
-            'balance' => 'testBalance',
-            'response_code' => 'testResponseCode',
+            'nullified_amount' => 4,
+            'balance' => 2,
+            'response_code' => 0,
         ];
 
         $response = new MallTransactionRefundResponse($json);
@@ -21,9 +21,9 @@ class MallTransactionRefundResponseTest extends TestCase
         $this->assertSame('testType', $response->type);
         $this->assertSame('testAuthorizationCode', $response->authorizationCode);
         $this->assertSame('testAuthorizationDate', $response->authorizationDate);
-        $this->assertSame('testNullifiedAmount', $response->nullifiedAmount);
-        $this->assertSame('testBalance', $response->balance);
-        $this->assertSame('testResponseCode', $response->responseCode);
+        $this->assertSame(4, $response->nullifiedAmount);
+        $this->assertSame(2, $response->balance);
+        $this->assertSame(0, $response->responseCode);
     }
 
     public function testGetters()
@@ -32,8 +32,8 @@ class MallTransactionRefundResponseTest extends TestCase
             'type' => 'testType',
             'authorization_code' => 'testAuthorizationCode',
             'authorization_date' => 'testAuthorizationDate',
-            'nullified_amount' => 'testNullifiedAmount',
-            'balance' => 'testBalance',
+            'nullified_amount' => 4,
+            'balance' => 2,
             'response_code' => 10,
         ];
 
@@ -45,11 +45,10 @@ class MallTransactionRefundResponseTest extends TestCase
 
         $this->assertSame('testAuthorizationDate', $response->getAuthorizationDate());
 
-        $this->assertSame('testNullifiedAmount', $response->getNullifiedAmount());
+        $this->assertSame(4, $response->getNullifiedAmount());
 
-        $this->assertSame('testBalance', $response->getBalance());
+        $this->assertSame(2, $response->getBalance());
 
         $this->assertSame(10, $response->getResponseCode());
-
     }
 }

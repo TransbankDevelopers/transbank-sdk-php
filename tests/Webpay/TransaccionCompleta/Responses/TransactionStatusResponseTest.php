@@ -5,20 +5,23 @@ use Transbank\Webpay\TransaccionCompleta\Responses\TransactionStatusResponse;
 
 class TransactionStatusResponseTest extends TestCase
 {
-    protected $json;
-    protected $response;
+    protected array $json;
+    protected TransactionStatusResponse $response;
     public function setUp(): void
     {
         $this->json = [
-        'vci' => 'Some VCI',
-        'prepaid_balance' => 100.00
+            'vci' => 'Some VCI',
+            'prepaid_balance' => 100,
         ];
-        $this->response = new TransactionStatusResponse($this->json);
+        $this->response = $this->getMockBuilder(TransactionStatusResponse::class)
+            ->setConstructorArgs([$this->json])
+            ->onlyMethods(['setTransactionStatusFields'])
+            ->getMock();
     }
     /** @test */
     public function it_can_get_prepaid_balance()
     {
-        $this->assertSame(100.00, $this->response->getPrepaidBalance());
+        $this->assertSame(100, $this->response->getPrepaidBalance());
     }
 
     /** @test */

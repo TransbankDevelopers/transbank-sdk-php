@@ -6,8 +6,8 @@ use Transbank\Webpay\TransaccionCompleta\Responses\TransactionInstallmentsRespon
 class TransactionInstallmentsResponseTest extends TestCase
 {
 
-    protected $json;
-    protected $transactionInstallmentsResponse;
+    protected array $json;
+    protected TransactionInstallmentsResponse $transactionInstallmentsResponse;
 
     public function setUp(): void
     {

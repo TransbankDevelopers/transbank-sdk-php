@@ -19,6 +19,7 @@ use Transbank\Webpay\WebpayPlus\Transaction;
 
 class WebpayMallTransactionTest extends TestCase
 {
+    const MOCK_ERROR_MESSAGE = 'error message';
     /**
      * @var int
      */
@@ -165,7 +166,7 @@ class WebpayMallTransactionTest extends TestCase
         );
 
         $this->requestServiceMock->method('request')
-            ->with('PUT', $expectedUrl, null)
+            ->with('PUT', $expectedUrl, [])
             ->willReturn([
                 'vci'     => 'TSY',
                 'details' => [
@@ -246,12 +247,12 @@ class WebpayMallTransactionTest extends TestCase
         $this->setBaseMocks();
 
         $this->requestServiceMock->method('request')
-            ->willThrowException(new WebpayRequestException('error message'));
+            ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(MallTransactionCreateException::class);
-        $this->expectExceptionMessage('error message');
+        $this->expectExceptionMessage(self::MOCK_ERROR_MESSAGE);
         $transaction = new MallTransaction($this->optionsMock, $this->requestServiceMock);
-        $transaction->create($this->buyOrder, $this->sessionId, $this->amount, null);
+        $transaction->create($this->buyOrder, $this->sessionId, $this->amount, []);
     }
 
     /** @test */
@@ -260,10 +261,10 @@ class WebpayMallTransactionTest extends TestCase
         $this->setBaseMocks();
 
         $this->requestServiceMock->method('request')
-            ->willThrowException(new WebpayRequestException('error message'));
+            ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(MallTransactionCommitException::class);
-        $this->expectExceptionMessage('error message');
+        $this->expectExceptionMessage(self::MOCK_ERROR_MESSAGE);
         $transaction = new MallTransaction($this->optionsMock, $this->requestServiceMock);
         $transaction->commit('fakeToken');
     }
@@ -274,10 +275,10 @@ class WebpayMallTransactionTest extends TestCase
         $this->setBaseMocks();
 
         $this->requestServiceMock->method('request')
-            ->willThrowException(new WebpayRequestException('error message'));
+            ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(MallTransactionStatusException::class);
-        $this->expectExceptionMessage('error message');
+        $this->expectExceptionMessage(self::MOCK_ERROR_MESSAGE);
         $transaction = new MallTransaction($this->optionsMock, $this->requestServiceMock);
         $transaction->status('fakeToken');
     }
@@ -288,10 +289,10 @@ class WebpayMallTransactionTest extends TestCase
         $this->setBaseMocks();
 
         $this->requestServiceMock->method('request')
-            ->willThrowException(new WebpayRequestException('error message'));
+            ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(MallTransactionRefundException::class);
-        $this->expectExceptionMessage('error message');
+        $this->expectExceptionMessage(self::MOCK_ERROR_MESSAGE);
         $transaction = new MallTransaction($this->optionsMock, $this->requestServiceMock);
         $transaction->refund('fakeToken', 'buyOrder', 'comemrceCode', 1400);
     }
@@ -302,10 +303,10 @@ class WebpayMallTransactionTest extends TestCase
         $this->setBaseMocks();
 
         $this->requestServiceMock->method('request')
-            ->willThrowException(new WebpayRequestException('error message'));
+            ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(MallTransactionCaptureException::class);
-        $this->expectExceptionMessage('error message');
+        $this->expectExceptionMessage(self::MOCK_ERROR_MESSAGE);
         $transaction = new MallTransaction($this->optionsMock, $this->requestServiceMock);
         $transaction->capture('fake', 'fake', 'fake', '1203', 1000);
     }

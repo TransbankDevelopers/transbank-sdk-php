@@ -16,9 +16,9 @@ use Transbank\Webpay\Oneclick\Responses\InscriptionStartResponse;
 class TransbankOneclickTest extends TestCase
 {
     use ArraySubsetAsserts;
-    public $username;
-    public $email;
-    public $responseUrl;
+    public string $username;
+    public string $email;
+    public string $responseUrl;
 
     protected function setUp(): void
     {
@@ -68,15 +68,17 @@ class TransbankOneclickTest extends TestCase
     public function it_fails_trying_to_finish_inscription()
     {
         $this->createDemoData();
+
         $startResponse = MallInscription::buildForIntegration(
             Oneclick::INTEGRATION_COMMERCE_CODE,
             Oneclick::INTEGRATION_API_KEY
         )->start($this->username, $this->email, $this->responseUrl);
-
+        $this->assertInstanceOf(InscriptionStartResponse::class, $startResponse);
+        $tokenResponse = $startResponse->getToken();
         $response = MallInscription::buildForIntegration(
             Oneclick::INTEGRATION_COMMERCE_CODE,
             Oneclick::INTEGRATION_API_KEY
-        )->finish($startResponse->getToken());
+        )->finish($tokenResponse);
         $this->assertInstanceOf(InscriptionFinishResponse::class, $response);
 
         // -96 means the inscription has not finished yet.
@@ -90,7 +92,7 @@ class TransbankOneclickTest extends TestCase
             Oneclick::INTEGRATION_COMMERCE_CODE,
             Oneclick::INTEGRATION_API_KEY
         );
-
+        $exception = null;
         try {
             $mallTransaction->authorize($this->username, 'fakeToken', 'buyOrder2132312', [
                 [
@@ -100,33 +102,34 @@ class TransbankOneclickTest extends TestCase
                     'installments_number' => 1,
                 ],
             ]);
-            $this->assertTrue(false, 'Should not be executed this line');
-        } catch (MallTransactionAuthorizeException $exception) {
-            $lastResponse = $mallTransaction->getRequestService()->getLastResponse();
-            $lastRequest = $mallTransaction->getRequestService()->getLastRequest();
-            $this->assertNotNull($lastResponse);
-            $this->assertEquals($exception->getFailedRequest(), $lastRequest);
-            $this->assertEquals(500, $lastResponse->getStatusCode());
-
-            $this->assertArraySubset([
-                'username'  => $this->username,
-                'tbk_user'  => 'fakeToken',
-                'buy_order' => 'buyOrder2132312',
-                'details'   => [
-                    [
-                        'commerce_code' => Oneclick::INTEGRATION_CHILD_COMMERCE_CODE_1,
-                        'amount'        => 1000,
-                        'buy_order'     => 'buyOrder122412',
-                    ],
-                ],
-            ], $lastRequest->getPayload());
+        } catch (MallTransactionAuthorizeException $e) {
+            $exception = $e;
         }
+        $this->assertInstanceOf(MallTransactionAuthorizeException::class, $exception);
+        $lastResponse = $mallTransaction->getRequestService()->getLastResponse();
+        $lastRequest = $mallTransaction->getRequestService()->getLastRequest();
+        $this->assertNotNull($lastResponse);
+        $this->assertEquals($exception->getFailedRequest(), $lastRequest);
+        $this->assertEquals(500, $lastResponse->getStatusCode());
+
+        $this->assertArraySubset([
+            'username'  => $this->username,
+            'tbk_user'  => 'fakeToken',
+            'buy_order' => 'buyOrder2132312',
+            'details'   => [
+                [
+                    'commerce_code' => Oneclick::INTEGRATION_CHILD_COMMERCE_CODE_1,
+                    'amount'        => 1000,
+                    'buy_order'     => 'buyOrder122412',
+                ],
+            ],
+        ], $lastRequest->getPayload());
     }
 
     /** @test */
     public function it_fails_authorizing_a_transaction_with_no_username()
     {
-        $this->expectException(MallTransactionAuthorizeException::class, 'username is required');
+        $this->expectException(MallTransactionAuthorizeException::class);
         MallTransaction::buildForIntegration(
             Oneclick::INTEGRATION_COMMERCE_CODE,
             Oneclick::INTEGRATION_API_KEY
