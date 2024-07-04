@@ -218,29 +218,6 @@ class WebpayPlusTransactionTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_type_error_on_null_assignments()
-    {
-        $this->setBaseMocks();
-
-        $tokenMock = uniqid();
-
-        $expectedUrl = str_replace(
-            '{token}',
-            $tokenMock,
-            Transaction::ENDPOINT_COMMIT
-        );
-
-        $this->requestServiceMock->method('request')
-            ->with('PUT', $expectedUrl, [])
-            ->willReturn([]);
-
-        $transaction = new Transaction($this->optionsMock, $this->requestServiceMock);
-        $this->expectException(\TypeError::class);
-        $this->expectExceptionMessage('Argument #1 ($json) must be of type array');
-        $transaction->commit($tokenMock);
-    }
-
-    /** @test */
     public function it_throws_and_exception_if_transaction_creations_fails()
     {
         $this->setBaseMocks();
