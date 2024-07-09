@@ -53,40 +53,7 @@ class HttpClient implements HttpClientInterface
 
         $requestTimeout = $options['timeout'] ?? 0;
 
-        if (defined('\GuzzleHttp\Client::VERSION') && version_compare(Client::VERSION, '6', '<')) {
-            return $this->sendGuzzle5Request($method, $url, $headers, $payload, $requestTimeout);
-        }
-
         return $this->sendGuzzleRequest($method, $url, $headers, $payload, $requestTimeout);
-    }
-
-    /**
-     * Sends a Guzzle 5 request.
-     *
-     * @param string $method
-     * @param string $url
-     * @param array  $headers
-     * @param array|null $payload
-     * @param int    $timeout
-     *
-     * @throws GuzzleException
-     *
-     * @return ResponseInterface
-     */
-    protected function sendGuzzle5Request($method, $url, array $headers, $payload, int $timeout): ResponseInterface
-    {
-        $client = new Client([
-            'timeout' => $timeout,
-            'read_timeout' => $timeout,
-            'connect_timeout' => $timeout,
-        ]);
-
-        $request = $client->createRequest($method, $url, [
-            'headers' => $headers,
-            'body'    => $payload,
-        ]);
-
-        return $client->send($request);
     }
 
     /**
