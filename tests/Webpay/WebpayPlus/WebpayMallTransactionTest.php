@@ -15,7 +15,6 @@ use Transbank\Webpay\WebpayPlus\Exceptions\MallTransactionStatusException;
 use Transbank\Webpay\WebpayPlus\MallTransaction;
 use Transbank\Webpay\WebpayPlus\Responses\MallTransactionCommitResponse;
 use Transbank\Webpay\WebpayPlus\Responses\MallTransactionCreateResponse;
-use Transbank\Webpay\WebpayPlus\Transaction;
 
 class WebpayMallTransactionTest extends TestCase
 {

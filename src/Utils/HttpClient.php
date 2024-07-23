@@ -5,7 +5,6 @@ namespace Transbank\Utils;
 use Composer\InstalledVersions;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Exception\GuzzleException;
 use Transbank\Contracts\HttpClientInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -18,7 +17,7 @@ class HttpClient implements HttpClientInterface
      * @param array|null $payload
      * @param array|null $options
      *
-     *@throws GuzzleException
+     *@throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return ResponseInterface
      */
@@ -65,7 +64,7 @@ class HttpClient implements HttpClientInterface
      * @param string|null $payload
      * @param int     $timeout
      *
-     * @throws GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return ResponseInterface
      */

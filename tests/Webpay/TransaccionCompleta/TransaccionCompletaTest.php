@@ -12,7 +12,6 @@ use Transbank\Webpay\TransaccionCompleta\Responses\TransactionCommitResponse;
 use Transbank\Webpay\TransaccionCompleta\Responses\TransactionCreateResponse;
 use Transbank\Webpay\TransaccionCompleta\Responses\TransactionInstallmentsResponse;
 use Transbank\Webpay\TransaccionCompleta\Responses\TransactionStatusResponse;
-use Transbank\Webpay\TransaccionCompleta\TransaccionCompleta;
 use Transbank\Webpay\TransaccionCompleta\Transaction;
 use Transbank\Utils\HttpClientRequestService;
 use Transbank\Webpay\Exceptions\WebpayRequestException;

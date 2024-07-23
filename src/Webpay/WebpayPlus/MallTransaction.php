@@ -4,8 +4,6 @@ namespace Transbank\Webpay\WebpayPlus;
 
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
-use Transbank\Webpay\Options;
-use Transbank\Webpay\WebpayPlus;
 use Transbank\Webpay\WebpayPlus\Exceptions\MallTransactionCaptureException;
 use Transbank\Webpay\WebpayPlus\Exceptions\MallTransactionCommitException;
 use Transbank\Webpay\WebpayPlus\Exceptions\MallTransactionCreateException;
@@ -16,7 +14,6 @@ use Transbank\Webpay\WebpayPlus\Responses\MallTransactionCommitResponse;
 use Transbank\Webpay\WebpayPlus\Responses\MallTransactionCreateResponse;
 use Transbank\Webpay\WebpayPlus\Responses\MallTransactionRefundResponse;
 use Transbank\Webpay\WebpayPlus\Responses\MallTransactionStatusResponse;
-use GuzzleHttp\Exception\GuzzleException;
 
 class MallTransaction
 {
@@ -36,7 +33,7 @@ class MallTransaction
      * @param array $details
      *
      * @throws MallTransactionCreateException
-     * @throws GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return MallTransactionCreateResponse
      */
@@ -72,7 +69,7 @@ class MallTransaction
      * @param string $token
      *
      * @throws MallTransactionCommitException
-     * @throws GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return MallTransactionCommitResponse
      */
@@ -111,7 +108,7 @@ class MallTransaction
      * @param int|float $amount
      *
      * @throws MallTransactionRefundException
-     * @throws GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return MallTransactionRefundResponse
      */
@@ -146,7 +143,7 @@ class MallTransaction
      * @param string $token
      *
      * @throws MallTransactionStatusException
-     * @throws GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return MallTransactionStatusResponse
      */
@@ -179,7 +176,7 @@ class MallTransaction
      * @param int|float $captureAmount
      *
      * @throws MallTransactionCaptureException
-     * @throws GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return MallTransactionCaptureResponse
      */

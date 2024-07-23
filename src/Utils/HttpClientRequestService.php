@@ -7,7 +7,6 @@ use Transbank\Contracts\RequestService;
 use Transbank\Webpay\Exceptions\TransbankApiRequest;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
-use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 
 class HttpClientRequestService implements RequestService
@@ -56,7 +55,7 @@ class HttpClientRequestService implements RequestService
      * @param array   $payload
      * @param Options $options
      *
-     * @throws GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws WebpayRequestException
      *
      * @return array
