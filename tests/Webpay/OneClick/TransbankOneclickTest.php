@@ -241,4 +241,36 @@ class TransbankOneclickTest extends TestCase
         $this->assertSame(Options::ENVIRONMENT_PRODUCTION, $transactionOptions->getIntegrationType());
         $this->assertSame(Options::BASE_URL_PRODUCTION, $transactionOptions->getApiBaseUrl());
     }
+
+    /** @test */
+    public function it_deletes_an_existing_inscription()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn([]);
+        $options = new Options('apiKey', 'commerceCode', Options::ENVIRONMENT_INTEGRATION);
+        $inscription = new MallInscription($options, $requestServiceMock);
+        $deleteResponse = $inscription->delete('tbkTestUser', 'useNameTest');
+
+        $this->assertTrue($deleteResponse->wasSuccessfull());
+        $this->assertSame(204, $deleteResponse->getCode());
+    }
+
+    /** @test */
+    public function it_deletes_an_unexisting_inscription()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willThrowException(new WebpayRequestException("Could not obtain a response from Transbank API", null, 404));
+        $options = new Options('apiKey', 'commerceCode', Options::ENVIRONMENT_INTEGRATION);
+        $inscription = new MallInscription($options, $requestServiceMock);
+        $deleteResponse = $inscription->delete('tbkTestUser', 'useNameTest');
+
+        $this->assertFalse($deleteResponse->wasSuccessfull());
+        $this->assertSame(404, $deleteResponse->getCode());
+    }
 }
