@@ -12,6 +12,8 @@ use Transbank\Webpay\Oneclick\MallInscription;
 use Transbank\Webpay\Oneclick\MallTransaction;
 use Transbank\Webpay\Oneclick\Responses\InscriptionFinishResponse;
 use Transbank\Webpay\Oneclick\Responses\InscriptionStartResponse;
+use Transbank\Utils\HttpClientRequestService;
+use Transbank\Webpay\Exceptions\WebpayRequestException;
 
 class TransbankOneclickTest extends TestCase
 {
