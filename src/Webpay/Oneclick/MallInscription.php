@@ -97,6 +97,7 @@ class MallInscription
      */
     public function delete(string $tbkUser, string $username): InscriptionDeleteResponse
     {
+        $successDeletedCode = 204;
         $payload = [
             'tbk_user' => $tbkUser,
             'username' => $username,
@@ -109,7 +110,7 @@ class MallInscription
                 $payload
             );
         } catch (WebpayRequestException $exception) {
-            if ($exception->getHttpCode() !== 204) {
+            if ($exception->getHttpCode() !== $successDeletedCode) {
                 return new InscriptionDeleteResponse(false, $exception->getHttpCode());
             }
 
@@ -122,6 +123,6 @@ class MallInscription
             );
         }
 
-        return new InscriptionDeleteResponse(true);
+        return new InscriptionDeleteResponse(true, $successDeletedCode);
     }
 }
