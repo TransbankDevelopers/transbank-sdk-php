@@ -94,7 +94,7 @@ class HttpClientRequestService implements RequestService
             throw new WebpayRequestException($message, $tbkErrorMessage, $responseStatusCode, $request);
         }
 
-        return json_decode($response->getBody(), true);
+        return json_decode($response->getBody(), true) ?? [];
     }
 
     /**
