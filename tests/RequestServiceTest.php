@@ -57,4 +57,17 @@ class RequestServiceTest extends TestCase
             );
         (new HttpClientRequestService($httpClientMock))->request('POST', $endpoint, [], $optionsMock);
     }
+
+    /** @test */
+    public function it_returns_an_empty_array()
+    {
+        $options = new Options('ApiKey', 'commerceCode', Options::ENVIRONMENT_INTEGRATION);
+        $httpClientMock = $this->createMock(HttpClient::class);
+        $httpClientMock
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn(new Response(204));
+        $response = (new HttpClientRequestService($httpClientMock))->request('DELETE', '/inscriptions', [], $options);
+        $this->assertSame([], $response);
+    }
 }
