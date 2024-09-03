@@ -153,4 +153,15 @@ class WebpayPlusWithoutMocksTest extends TestCase
 
         $this->assertTrue(true);
     }
+
+    /** @test */
+    public function it_returns_a_card_number_in_null_when_it_not_exists()
+    {
+        $transaction = new Transaction($this->options);
+        $createResponse = $transaction->create($this->buyOrder, $this->sessionId, $this->amount, $this->returnUrl);
+        $statusResponse = $transaction->status($createResponse->getToken());
+
+        $this->assertEquals(TransactionStatusResponse::class, get_class($statusResponse));
+        $this->assertEquals(null, $statusResponse->getCardNumber());
+    }
 }
