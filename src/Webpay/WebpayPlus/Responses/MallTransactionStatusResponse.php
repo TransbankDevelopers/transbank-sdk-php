@@ -28,7 +28,7 @@ class MallTransactionStatusResponse
         $this->buyOrder = Utils::returnValueIfExists($json, 'buy_order');
         $this->sessionId = Utils::returnValueIfExists($json, 'session_id');
         $this->cardDetail = Utils::returnValueIfExists($json, 'card_detail');
-        $this->cardNumber = Utils::returnValueIfExists($this->cardDetail, 'card_number');
+        $this->cardNumber = Utils::returnValueIfExists($this->cardDetail ?? [], 'card_number');
         $this->expirationDate = Utils::returnValueIfExists($json, 'expiration_date');
         $this->accountingDate = Utils::returnValueIfExists($json, 'accounting_date');
         $this->transactionDate = Utils::returnValueIfExists($json, 'transaction_date');
