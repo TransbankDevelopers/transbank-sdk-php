@@ -19,7 +19,7 @@ class MallTransactionStatusResponse
         $this->accountingDate = Utils::returnValueIfExists($json, 'accounting_date');
         $this->transactionDate = Utils::returnValueIfExists($json, 'transaction_date');
         $this->cardDetail = Utils::returnValueIfExists($json, 'card_detail');
-        $this->cardNumber = Utils::returnValueIfExists($this->cardDetail, 'card_number');
+        $this->cardNumber = Utils::returnValueIfExists($this->cardDetail ?? [], 'card_number');
 
         $this->details = [];
         if (is_array($json['details'])) {
