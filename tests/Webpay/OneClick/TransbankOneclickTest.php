@@ -429,4 +429,17 @@ class TransbankOneclickTest extends TestCase
         $mallTransaction->refund('buyOrd', 'childCommerce', 'childBuy', 12000);
     }
 
+    /** @test */
+    public function it_throws_a_finish_exception()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willThrowException(new WebpayRequestException('error', null, 404));
+        $inscription = new MallInscription(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $this->expectException(InscriptionFinishException::class);
+        $inscription->finish('fakeToken');
+    }
+
 }
