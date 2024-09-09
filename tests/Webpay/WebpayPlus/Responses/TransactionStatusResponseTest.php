@@ -24,3 +24,14 @@ class WebpayStatusResponseTest extends TestCase
         $this->transaction->setVci('newVci');
         $this->assertEquals('newVci', $this->transaction->getVci());
     }
+
+    /** @test */
+    public function it_check_is_approved()
+    {
+        $this->assertEquals(false, $this->transaction->isApproved());
+        $this->transaction->responseCode = 0;
+        $this->assertEquals(true, $this->transaction->isApproved());
+        $this->transaction->status = 'FAKE_STATE';
+        $this->assertEquals(false, $this->transaction->isApproved());
+    }
+}
