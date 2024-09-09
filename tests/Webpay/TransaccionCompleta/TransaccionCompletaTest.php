@@ -8,10 +8,12 @@ use Transbank\Webpay\TransaccionCompleta\Exceptions\TransactionCreateException;
 use Transbank\Webpay\TransaccionCompleta\Exceptions\TransactionInstallmentsException;
 use Transbank\Webpay\TransaccionCompleta\Exceptions\TransactionRefundException;
 use Transbank\Webpay\TransaccionCompleta\Exceptions\TransactionStatusException;
+use Transbank\Webpay\TransaccionCompleta\Exceptions\TransactionCaptureException;
 use Transbank\Webpay\TransaccionCompleta\Responses\TransactionCommitResponse;
 use Transbank\Webpay\TransaccionCompleta\Responses\TransactionCreateResponse;
 use Transbank\Webpay\TransaccionCompleta\Responses\TransactionInstallmentsResponse;
 use Transbank\Webpay\TransaccionCompleta\Responses\TransactionStatusResponse;
+use Transbank\Webpay\TransaccionCompleta\Responses\TransactionCaptureResponse;
 use Transbank\Webpay\TransaccionCompleta\TransaccionCompleta;
 use Transbank\Webpay\TransaccionCompleta\Transaction;
 use Transbank\Utils\HttpClientRequestService;
@@ -287,6 +289,25 @@ class TransaccionCompletaTest extends TestCase
         $this->assertSame(1000, $response->getInstallmentsAmount());
         $this->assertSame(self::MOCK_TRANSACTION_DATE, $response->getTransactionDate());
         $this->assertSame('0329', $response->getAccountingDate());
+    }
+
+    /** @test */
+    public function it_returns_capture_response()
+    {
+        $this->setBaseMocks();
+        $this->requestServiceMock->method('request')
+            ->willReturn(
+                [
+                    "token" => "e074d38c628122c63e5c0986368ece22974d6fee1440617d85873b7b4efa48a3",
+                    "authorization_code" => "123456",
+                    "authorization_date" => "2019-03-20T20:18:20Z",
+                    "captured_amount" => 1000,
+                    "response_code" => 0
+                ]
+            );
+        $transaction = new Transaction($this->optionsMock, $this->requestServiceMock);
+        $capture = $transaction->capture('token', 'buyOrder', 'authCode', 2000);
+        $this->assertInstanceOf(TransactionCaptureResponse::class, $capture);
     }
 
     /*
