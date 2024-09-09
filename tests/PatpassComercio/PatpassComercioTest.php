@@ -90,4 +90,33 @@ class PatpassComercioTest extends TestCase
         );
         $this->assertInstanceOf(InscriptionStartResponse::class, $start);
     }
+
+    /** @test */
+    public function it_throws_inscription_start_exception()
+    {
+        $options = new Options('apiKey', 'commerceCode', Options::ENVIRONMENT_PRODUCTION);
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock->method('request')
+            ->willThrowException(new WebpayRequestException('fake exception'));
+        $inscription = new Inscription($options, $requestServiceMock);
+        $this->expectException(InscriptionStartException::class);
+        $inscription->start(
+            'https://www.url.cl',
+            'Juanito',
+            'Perez',
+            'Perez',
+            '11111111-1',
+            'service',
+            'https://www.finalurl.cl',
+            '19000',
+            '545666666',
+            '5691111111',
+            'namePat',
+            'email@prueba.cl',
+            'commerce.email@prueba.cl',
+            'fakeAddress',
+            'Santiago'
+        );
+    }
+
 }
