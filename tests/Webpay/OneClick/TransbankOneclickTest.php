@@ -355,4 +355,36 @@ class TransbankOneclickTest extends TestCase
         $this->expectException(MallTransactionCaptureException::class);
         $mallTransaction->capture('commerceChild', 'buyOrdChild', 'authCode', 10000);
     }
+    /** @test */
+    public function it_returns_an_status_response()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn([
+                "buy_order" => "415034240",
+                "card_detail" =>
+                ["card_number" => "6623"],
+                "accounting_date" => "0321",
+                "transaction_date" => "2019-03-21T15:43:48.523Z",
+                "details" => [
+
+                    [
+                        "amount" => 500,
+                        "status" => "AUTHORIZED",
+                        "authorization_code" => "1213",
+                        "payment_type_code" => "VN",
+                        "response_code" => 0,
+                        "installments_number" => 0,
+                        "commerce_code" => "597055555542",
+                        "buy_order" => "505479072"
+                    ]
+                ]
+            ]);
+        $mallTransaction = new MallTransaction(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $status = $mallTransaction->status('buyOrd');
+
+        $this->assertInstanceOf(MallTransactionStatusResponse::class, $status);
+    }
 }
