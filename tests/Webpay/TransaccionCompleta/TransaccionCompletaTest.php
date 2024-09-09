@@ -385,4 +385,15 @@ class TransaccionCompletaTest extends TestCase
         $transaction = new Transaction($this->optionsMock, $this->requestServiceMock);
         $transaction->installments('fakeToken', 2);
     }
+
+    /** @test */
+    public function it_throws_capture_exception()
+    {
+        $this->setBaseMocks();
+        $this->requestServiceMock->method('request')
+            ->willThrowException(new WebpayRequestException('fake request exception'));
+        $transaction = new Transaction($this->optionsMock, $this->requestServiceMock);
+        $this->expectException(TransactionCaptureException::class);
+        $transaction->capture('token', 'buyOrder', 'authCode', 2000);
+    }
 }
