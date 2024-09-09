@@ -307,3 +307,15 @@ class TransaccionCompletaMallTest extends TestCase
         $this->assertInstanceOf(MallTransactionCaptureResponse::class, $capture);
     }
 
+    /** @test */
+    public function it_throws_capture_exception()
+    {
+        $this->setBaseMocks();
+
+        $tokenMock = uniqid();
+        $this->requestServiceMock->method('request')
+            ->willThrowException(new WebpayRequestException('Error on request', null, 404));
+        $this->expectException(MallTransactionCaptureException::class);
+        $this->mallTransaction->capture($tokenMock, 'commerceCode', 'buyOrder', 'authCode', 9800);
+    }
+}
