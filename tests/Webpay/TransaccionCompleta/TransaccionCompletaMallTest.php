@@ -287,3 +287,23 @@ class TransaccionCompletaMallTest extends TestCase
         $this->mallTransaction->status($tokenMock);
     }
 
+    /** @test */
+    public function it_returns_capture_response()
+    {
+        $this->setBaseMocks();
+
+        $tokenMock = uniqid();
+        $this->requestServiceMock->method('request')
+            ->willReturn(
+                [
+                    "token" => "e074d38c628122c63e5c0986368ece22974d6fee1440617d85873b7b4efa48a3",
+                    "authorization_code" => "123456",
+                    "authorization_date" => "2019-03-20T20:18:20Z",
+                    "captured_amount" => 1000,
+                    "response_code" => 0
+                ]
+            );
+        $capture = $this->mallTransaction->capture($tokenMock, 'commerceCode', 'buyOrder', 'authCode', 9800);
+        $this->assertInstanceOf(MallTransactionCaptureResponse::class, $capture);
+    }
+
