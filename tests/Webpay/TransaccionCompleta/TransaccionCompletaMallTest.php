@@ -242,3 +242,36 @@ class TransaccionCompletaMallTest extends TestCase
         $this->mallTransaction->refund($tokenMock, 'buyOrder', 'commerceChild', 1990);
     }
 
+    /** @test */
+    public function it_returns_status_response()
+    {
+        $this->setBaseMocks();
+
+        $tokenMock = uniqid();
+        $this->requestServiceMock->method('request')
+            ->willReturn(
+                [
+                    "buy_order" => "415034240",
+                    "card_detail" =>
+                    ["card_number" => "6623"],
+                    "accounting_date" => "0321",
+                    "transaction_date" => "2019-03-21T15:43:48.523Z",
+                    "details" => [
+                        [
+                            "amount" => 500,
+                            "status" => "AUTHORIZED",
+                            "authorization_code" => "1213",
+                            "payment_type_code" => "VN",
+                            "response_code" => 0,
+                            "installments_number" => 0,
+                            "commerce_code" => "597055555552",
+                            "buy_order" => "505479072"
+                        ]
+                    ]
+                ]
+            );
+        $status = $this->mallTransaction->status($tokenMock);
+
+        $this->assertInstanceOf(MallTransactionStatusResponse::class, $status);
+    }
+
