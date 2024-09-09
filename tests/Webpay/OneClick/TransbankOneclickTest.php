@@ -523,4 +523,25 @@ class TransbankOneclickTest extends TestCase
         $this->assertFalse($status->isApproved());
     }
 
+    /** @test */
+    public function it_can_get_data_from_capture_response()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn([
+                "authorization_code" => "authCode2",
+                "response_code" => 0,
+                "captured_amount" => 9900,
+                "authorization_date" => "2019-04-21T15:43:48.523Z"
+            ]);
+        $mallTransaction = new MallTransaction(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $capture = $mallTransaction->capture('commerceChild', 'buyOrdChild', 'authCode', 9900);
+
+        $this->assertEquals('2019-04-21T15:43:48.523Z', $capture->getAuthorizationDate());
+        $this->assertEquals(9900, $capture->getCapturedAmount());
+        $this->assertEquals(0, $capture->getResponseCode());
+    }
+
 }
