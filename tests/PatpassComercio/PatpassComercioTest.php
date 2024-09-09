@@ -136,4 +136,16 @@ class PatpassComercioTest extends TestCase
         $this->assertInstanceOf(InscriptionStatusResponse::class, $start);
     }
 
+    /** @test */
+    public function it_throws_inscription_status_exception()
+    {
+        $options = new Options('apiKey', 'commerceCode', Options::ENVIRONMENT_PRODUCTION);
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock->method('request')
+            ->willThrowException(new WebpayRequestException('fake exception'));
+        $inscription = new Inscription($options, $requestServiceMock);
+        $this->expectException(InscriptionStatusException::class);
+        $inscription->status('token');
+    }
+
 }
