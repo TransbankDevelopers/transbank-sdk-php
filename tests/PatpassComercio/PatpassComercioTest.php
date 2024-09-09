@@ -148,4 +148,13 @@ class PatpassComercioTest extends TestCase
         $inscription->status('token');
     }
 
+    /** @test */
+    public function it_can_set_options()
+    {
+        $options = new Options('apiKey', 'commerceCode', Options::ENVIRONMENT_PRODUCTION);
+        $inscription = new Inscription($options);
+        $newOptions = new Options('apiKeyNew', 'commerceCodeNew', Options::ENVIRONMENT_INTEGRATION);
+        $inscription->setOptions($newOptions);
+        $this->assertEquals(Options::BASE_URL_INTEGRATION, $inscription->getOptions()->getApiBaseUrl());
+    }
 }
