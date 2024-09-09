@@ -230,3 +230,15 @@ class TransaccionCompletaMallTest extends TestCase
         $this->assertInstanceOf(MallTransactionRefundResponse::class, $refund);
     }
 
+    /** @test */
+    public function it_throws_refund_exception()
+    {
+        $this->setBaseMocks();
+
+        $tokenMock = uniqid();
+        $this->requestServiceMock->method('request')
+            ->willThrowException(new WebpayRequestException('Error on request', null, 404));
+        $this->expectException(MallTransactionRefundException::class);
+        $this->mallTransaction->refund($tokenMock, 'buyOrder', 'commerceChild', 1990);
+    }
+
