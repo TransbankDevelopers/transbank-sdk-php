@@ -544,4 +544,29 @@ class TransbankOneclickTest extends TestCase
         $this->assertEquals(0, $capture->getResponseCode());
     }
 
+    /** @test */
+    public function it_can_get_data_from_refund_response()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn([
+                "type" => "NULLIFIED",
+                "authorization_code" => "123456",
+                "authorization_date" => "2019-03-20T20:18:20Z",
+                "nullified_amount" => 1000,
+                "balance" => 0,
+                "response_code" => 0
+            ]);
+        $mallTransaction = new MallTransaction(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $refund = $mallTransaction->refund('buyOrd', 'childCommerce', 'childBuy', 12000);
+
+        $this->assertEquals('NULLIFIED', $refund->getType());
+        $this->assertEquals('123456', $refund->getAuthorizationCode());
+        $this->assertEquals('2019-03-20T20:18:20Z', $refund->getAuthorizationDate());
+        $this->assertEquals(1000, $refund->getNullifiedAmount());
+        $this->assertEquals(0, $refund->getBalance());
+        $this->assertEquals(0, $refund->getResponseCode());
+    }
 }
