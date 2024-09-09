@@ -208,3 +208,25 @@ class TransaccionCompletaMallTest extends TestCase
         ]]);
     }
 
+    /** @test */
+    public function it_returns_refund_response()
+    {
+        $this->setBaseMocks();
+
+        $tokenMock = uniqid();
+        $this->requestServiceMock->method('request')
+            ->willReturn(
+                [
+                    "type" => "NULLIFY",
+                    "authorization_code" => "123456",
+                    "authorization_date" => "2019-03-20T20:18:20Z",
+                    "nullified_amount" => 1000,
+                    "balance" => 0,
+                    "response_code" => 0
+                ]
+            );
+        $refund = $this->mallTransaction->refund($tokenMock, 'buyOrder', 'commerceChild', 1990);
+
+        $this->assertInstanceOf(MallTransactionRefundResponse::class, $refund);
+    }
+
