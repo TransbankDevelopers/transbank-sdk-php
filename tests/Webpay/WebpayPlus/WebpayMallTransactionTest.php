@@ -342,4 +342,32 @@ class WebpayMallTransactionTest extends TestCase
         $this->assertTrue($status->isApproved());
     }
 
+    /** @test */
+    public function it_can_check_is_rejected_when_details_not_exists()
+    {
+        $this->setBaseMocks();
+        $this->requestServiceMock->method('request')
+            ->willReturn([
+                'expiration_date' => '2021-02-18',
+                'details' => []
+            ]);
+        $transaction = new MallTransaction($this->optionsMock, $this->requestServiceMock);
+        $status = $transaction->status('fakeToken');
+        $this->assertFalse($status->isApproved());
+    }
+
+    /** @test */
+    public function it_can_check_is_rejected_when_details_is_not_approved()
+    {
+        $this->setBaseMocks();
+        $this->requestServiceMock->method('request')
+            ->willReturn([
+                'expiration_date' => '2021-02-18',
+                'details' => [['response_code' => -96, 'status' => 'AUTHORIZED']]
+            ]);
+        $transaction = new MallTransaction($this->optionsMock, $this->requestServiceMock);
+        $status = $transaction->status('fakeToken');
+        $this->assertFalse($status->isApproved());
+    }
+
 }
