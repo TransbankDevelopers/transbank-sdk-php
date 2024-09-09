@@ -275,3 +275,15 @@ class TransaccionCompletaMallTest extends TestCase
         $this->assertInstanceOf(MallTransactionStatusResponse::class, $status);
     }
 
+    /** @test */
+    public function it_throws_status_exception()
+    {
+        $this->setBaseMocks();
+
+        $tokenMock = uniqid();
+        $this->requestServiceMock->method('request')
+            ->willThrowException(new WebpayRequestException('Error on request', null, 404));
+        $this->expectException(MallTransactionStatusException::class);
+        $this->mallTransaction->status($tokenMock);
+    }
+
