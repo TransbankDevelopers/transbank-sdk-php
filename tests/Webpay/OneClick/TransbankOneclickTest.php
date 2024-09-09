@@ -342,4 +342,17 @@ class TransbankOneclickTest extends TestCase
 
         $this->assertInstanceOf(MallTransactionCaptureResponse::class, $capture);
     }
+
+    /** @test */
+    public function it_throws_a_capture_exception()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willThrowException(new WebpayRequestException('error', null, 404));
+        $mallTransaction = new MallTransaction(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $this->expectException(MallTransactionCaptureException::class);
+        $mallTransaction->capture('commerceChild', 'buyOrdChild', 'authCode', 10000);
+    }
 }
