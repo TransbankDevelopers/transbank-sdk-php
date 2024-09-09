@@ -8,10 +8,19 @@ use Transbank\Webpay\Options;
 use Transbank\Webpay\Oneclick;
 use Transbank\Webpay\Oneclick\Exceptions\InscriptionStartException;
 use Transbank\Webpay\Oneclick\Exceptions\MallTransactionAuthorizeException;
+use Transbank\Webpay\Oneclick\Exceptions\MallTransactionCaptureException;
+use Transbank\Webpay\Oneclick\Exceptions\MallTransactionStatusException;
+use Transbank\Webpay\Oneclick\Exceptions\MallRefundTransactionException;
+use Transbank\Webpay\Oneclick\Exceptions\InscriptionFinishException;
+use Transbank\Webpay\Oneclick\Exceptions\InscriptionDeleteException;
 use Transbank\Webpay\Oneclick\MallInscription;
 use Transbank\Webpay\Oneclick\MallTransaction;
 use Transbank\Webpay\Oneclick\Responses\InscriptionFinishResponse;
 use Transbank\Webpay\Oneclick\Responses\InscriptionStartResponse;
+use Transbank\Webpay\Oneclick\Responses\MallTransactionAuthorizeResponse;
+use Transbank\Webpay\Oneclick\Responses\MallTransactionCaptureResponse;
+use Transbank\Webpay\Oneclick\Responses\MallTransactionStatusResponse;
+use Transbank\Webpay\Oneclick\Responses\MallTransactionRefundResponse;
 use Transbank\Utils\HttpClientRequestService;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 
@@ -274,5 +283,44 @@ class TransbankOneclickTest extends TestCase
 
         $this->assertFalse($deleteResponse->wasSuccessfull());
         $this->assertSame(404, $deleteResponse->getCode());
+    }
+
+    /** @test */
+    public function it_returns_an_authorize_response()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn([
+                "buy_order" => "415034240",
+                "card_detail" =>
+                ["card_number" => "6623"],
+                "accounting_date" => "0321",
+                "transaction_date" => "2019-03-21T15:43:48.523Z",
+                "details" => [
+                    [
+                        "amount" => 500,
+                        "status" => "AUTHORIZED",
+                        "authorization_code" => "1213",
+                        "payment_type_code" => "VN",
+                        "response_code" => 0,
+                        "installments_number" => 0,
+                        "commerce_code" => "597055555542",
+                        "buy_order" => "505479072"
+                    ]
+                ]
+            ]);
+        $mallTransaction = new MallTransaction(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $authorize = $mallTransaction->authorize($this->username, 'fakeToken', 'buyOrder2132312', [
+            [
+                'commerce_code'       => Oneclick::INTEGRATION_CHILD_COMMERCE_CODE_1,
+                'buy_order'           => 'buyOrder122412',
+                'amount'              => 1000,
+                'installments_number' => 1,
+            ],
+        ]);
+
+        $this->assertInstanceOf(MallTransactionAuthorizeResponse::class, $authorize);
     }
 }
