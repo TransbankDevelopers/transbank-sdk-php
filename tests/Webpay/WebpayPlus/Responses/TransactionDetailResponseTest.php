@@ -24,3 +24,10 @@ class WebpayDetailResponseTest extends TestCase
         $this->details->status = 'FAKE_STATUS';
         $this->assertFalse($this->details->isApproved());
     }
+
+    /** @test */
+    public function it_can_get_balance()
+    {
+        $this->assertEquals(100, $this->details->getBalance());
+    }
+}
