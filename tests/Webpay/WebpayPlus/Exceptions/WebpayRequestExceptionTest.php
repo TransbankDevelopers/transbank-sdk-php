@@ -26,13 +26,22 @@ class WebpayRequestExceptionTest extends TestCase
         $tbkErrorMessage = 'TBK Error message';
         $httpCode = 400;
         $failedRequest = $this->createMock(TransbankApiRequest::class);
-    
+
         $exception = new WebpayRequestException($message, $tbkErrorMessage, $httpCode, $failedRequest);
         $raisedException = WebpayRequestException::raise($exception);
-    
+
         $this->assertEquals($exception->getMessage(), $raisedException->getMessage());
         $this->assertEquals($exception->getTransbankErrorMessage(), $raisedException->getTransbankErrorMessage());
         $this->assertEquals($exception->getHttpCode(), $raisedException->getHttpCode());
         $this->assertEquals($exception->getFailedRequest(), $raisedException->getFailedRequest());
+    }
+
+    public function testGetExceptionMessage()
+    {
+        $errorMessage = 'error message';
+        $failedRequest = $this->createMock(TransbankApiRequest::class);
+        $exception = new WebpayRequestException($errorMessage, null, 404, $failedRequest);
+
+        $this->assertEquals($errorMessage, $exception->getMessage());
     }
 }
