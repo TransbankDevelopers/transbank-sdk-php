@@ -379,4 +379,19 @@ class WebpayMallTransactionTest extends TestCase
         $transaction->commit('');
     }
 
+    /** @test */
+    public function it_can_get_an_refund_response()
+    {
+        $this->setBaseMocks();
+        $this->requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn([
+                'type' => 'REVERSED'
+            ]);
+        $options = new Options('apiKey', 'commerceCode', Options::ENVIRONMENT_INTEGRATION);
+        $transaction = new MallTransaction($options, $this->requestServiceMock);
+        $refund = $transaction->refund('token', 'buyord', 'commerceCode', 1990);
+        $this->assertInstanceOf(MallTransactionRefundResponse::class, $refund);
+    }
 }
