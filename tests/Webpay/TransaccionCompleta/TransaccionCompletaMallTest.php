@@ -106,3 +106,33 @@ class TransaccionCompletaMallTest extends TestCase
         );
     }
 
+    /** @test */
+    public function it_returns_installments_response()
+    {
+        $this->setBaseMocks();
+
+        $tokenMock = uniqid();
+        $this->requestServiceMock->method('request')
+            ->willReturn(
+                [
+                    "installments_amount" => 3334,
+                    "id_query_installments" => 11,
+                    "deferred_periods" => [
+
+                        [
+                            "amount" => 1000,
+                            "period" => 1
+                        ]
+
+                    ]
+                ]
+            );
+        $installments = $this->mallTransaction->installments($tokenMock, [[
+            'commerce_code'       => 'commerceCode',
+            'buy_order'           => 'buyOrder',
+            'installments_number' => 3
+        ]]);
+
+        $this->assertInstanceOf(MallTransactionInstallmentsResponse::class, $installments[0]);
+    }
+
