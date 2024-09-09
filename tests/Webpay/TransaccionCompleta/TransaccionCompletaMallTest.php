@@ -136,3 +136,17 @@ class TransaccionCompletaMallTest extends TestCase
         $this->assertInstanceOf(MallTransactionInstallmentsResponse::class, $installments[0]);
     }
 
+    /** @test */
+    public function it_throws_installments_exception()
+    {
+        $this->setBaseMocks();
+        $this->requestServiceMock->method('request')
+            ->willThrowException(new WebpayRequestException('Error on request', null, 404));
+        $this->expectException(MallTransactionInstallmentsException::class);
+        $this->mallTransaction->installments('token', [[
+            'commerce_code'       => 'commerceCode',
+            'buy_order'           => 'buyOrder',
+            'installments_number' => 3
+        ]]);
+    }
+
