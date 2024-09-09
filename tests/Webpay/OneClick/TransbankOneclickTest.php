@@ -454,4 +454,42 @@ class TransbankOneclickTest extends TestCase
         $this->expectException(InscriptionDeleteException::class);
         $inscription->delete('tbkUser', 'userName');
     }
+
+    /** @test */
+    public function it_can_get_data_from_status_response()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn([
+                "buy_order" => "415034240",
+                "card_detail" =>
+                ["card_number" => "6623"],
+                "accounting_date" => "0321",
+                "transaction_date" => "2019-03-21T15:43:48.523Z",
+                "details" => [
+
+                    [
+                        "amount" => 500,
+                        "status" => "AUTHORIZED",
+                        "authorization_code" => "1213",
+                        "payment_type_code" => "VN",
+                        "response_code" => 0,
+                        "installments_number" => 0,
+                        "commerce_code" => "597055555542",
+                        "buy_order" => "505479072"
+                    ]
+                ]
+            ]);
+        $mallTransaction = new MallTransaction(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $status = $mallTransaction->status('buyOrd');
+
+        $this->assertEquals('2019-03-21T15:43:48.523Z', $status->getTransactionDate());
+        $this->assertEquals('6623', $status->getCardNumber());
+        $this->assertEquals('0321', $status->getAccountingDate());
+        $this->assertIsArray($status->getDetails());
+        $this->assertEquals('415034240', $status->getBuyOrder());
+    }
+
 }
