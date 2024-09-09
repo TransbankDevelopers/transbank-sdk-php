@@ -338,4 +338,13 @@ class WebpayPlusTransactionTest extends TestCase
         $this->assertInstanceOf(TransactionRefundResponse::class, $refund);
     }
 
+    /** @test */
+    public function it_can_set_options()
+    {
+        $options = new Options('apiKey', 'commerceCode', Options::ENVIRONMENT_INTEGRATION);
+        $transaction = new Transaction($options);
+        $optionsNew = new Options('apiKeyNew', 'commerceCodeNew', Options::ENVIRONMENT_PRODUCTION);
+        $transaction->setOptions($optionsNew);
+        $this->assertSame($optionsNew, $transaction->getOptions());
+    }
 }
