@@ -119,4 +119,21 @@ class PatpassComercioTest extends TestCase
         );
     }
 
+    /** @test */
+    public function it_returns_inscription_status_response()
+    {
+        $options = new Options('apiKey', 'commerceCode', Options::ENVIRONMENT_PRODUCTION);
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock->method('request')
+            ->willReturn(
+                [
+                    'authorized' => true,
+                    'voucherUrl' => 'http://fakeurl.cl'
+                ]
+            );
+        $inscription = new Inscription($options, $requestServiceMock);
+        $start = $inscription->status('token');
+        $this->assertInstanceOf(InscriptionStatusResponse::class, $start);
+    }
+
 }
