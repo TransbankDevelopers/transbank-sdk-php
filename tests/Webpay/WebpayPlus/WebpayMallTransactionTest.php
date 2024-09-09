@@ -15,7 +15,9 @@ use Transbank\Webpay\WebpayPlus\Exceptions\MallTransactionStatusException;
 use Transbank\Webpay\WebpayPlus\MallTransaction;
 use Transbank\Webpay\WebpayPlus\Responses\MallTransactionCommitResponse;
 use Transbank\Webpay\WebpayPlus\Responses\MallTransactionCreateResponse;
-use Transbank\Webpay\WebpayPlus\Transaction;
+use InvalidArgumentException;
+use Transbank\Webpay\WebpayPlus\Responses\MallTransactionCaptureResponse;
+use Transbank\Webpay\WebpayPlus\Responses\MallTransactionRefundResponse;
 
 class WebpayMallTransactionTest extends TestCase
 {
@@ -310,4 +312,20 @@ class WebpayMallTransactionTest extends TestCase
         $transaction = new MallTransaction($this->optionsMock, $this->requestServiceMock);
         $transaction->capture('fake', 'fake', 'fake', '1203', 1000);
     }
+
+    /** @test */
+    public function it_can_get_expiration_date_from_status()
+    {
+        $this->setBaseMocks();
+        $this->requestServiceMock->method('request')
+            ->willReturn([
+                'expiration_date' => '2021-02-16',
+                'details' => [['response_code' => -1, 'status' => 'FAILED']]
+            ]);
+
+        $transaction = new MallTransaction($this->optionsMock, $this->requestServiceMock);
+        $status = $transaction->status('fakeToken');
+        $this->assertEquals('2021-02-16', $status->getExpirationDate());
+    }
+
 }
