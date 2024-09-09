@@ -190,3 +190,21 @@ class TransaccionCompletaMallTest extends TestCase
 
         $this->assertInstanceOf(MallTransactionCommitResponse::class, $commit);
     }
+    /** @test */
+    public function it_throws_commit_exception()
+    {
+        $this->setBaseMocks();
+
+        $tokenMock = uniqid();
+        $this->requestServiceMock->method('request')
+            ->willThrowException(new WebpayRequestException('Error on request', null, 404));
+        $this->expectException(MallTransactionCommitException::class);
+        $this->mallTransaction->commit($tokenMock, [[
+            'commerce_code'       => 'commerceCode',
+            'buy_order'           => 'buyOrder',
+            'id_query_installments' => 3,
+            'deferred_period_index' => 3,
+            'grace_period' => 3
+        ]]);
+    }
+
