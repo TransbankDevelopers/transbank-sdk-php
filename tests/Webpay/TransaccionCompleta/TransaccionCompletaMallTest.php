@@ -84,3 +84,25 @@ class TransaccionCompletaMallTest extends TestCase
         $this->assertEquals($tokenMock, $create->getToken());
         $this->assertInstanceOf(MallTransactionCreateResponse::class, $create);
     }
+
+    /** @test */
+    public function it_throws_create_exception()
+    {
+        $this->setBaseMocks();
+        $this->requestServiceMock->method('request')
+            ->willThrowException(new WebpayRequestException('Error on request', null, 404));
+        $this->expectException(MallTransactionCreateException::class);
+        $this->mallTransaction->create(
+            $this->buyOrder,
+            $this->sessionId,
+            $this->cardNumber,
+            $this->cardExpiration,
+            [[
+                "amount" => 10000,
+                "commerce_code" => "597055555552",
+                "buy_order" => "123456789"
+            ]],
+            $this->cvv
+        );
+    }
+
