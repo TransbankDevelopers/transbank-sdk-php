@@ -54,4 +54,12 @@ class OptionsTest extends TestCase
         $this->assertEquals(true, $this->options->isProduction());
     }
 
+    /** @test */
+    public function it_get_base_url()
+    {
+        $this->options->setIntegrationType(Options::ENVIRONMENT_PRODUCTION);
+        $this->assertEquals(Options::BASE_URL_PRODUCTION, $this->options->getApiBaseUrl());
+        $this->options->setIntegrationType(Options::ENVIRONMENT_INTEGRATION);
+        $this->assertEquals(Options::BASE_URL_INTEGRATION, $this->options->getApiBaseUrl());
+    }
 }
