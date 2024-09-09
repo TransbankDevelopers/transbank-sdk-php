@@ -32,4 +32,19 @@ class OptionsTest extends TestCase
             'Tbk-Api-Key-Secret' => 'ApiKey',
         ]);
     }
+
+    /** @test */
+    public function it_set_properties()
+    {
+        $this->options->setIntegrationType(Options::ENVIRONMENT_PRODUCTION);
+        $this->options->setApiKey('newApiKey');
+        $this->options->setCommerceCode('newCommerceCode');
+        $this->options->setTimeout(100);
+
+        $this->assertEquals(Options::ENVIRONMENT_PRODUCTION, $this->options->integrationType);
+        $this->assertEquals('newApiKey', $this->options->apiKey);
+        $this->assertEquals('newCommerceCode', $this->options->commerceCode);
+        $this->assertEquals(100, $this->options->getTimeout());
+    }
+
 }
