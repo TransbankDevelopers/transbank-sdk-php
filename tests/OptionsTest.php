@@ -47,4 +47,11 @@ class OptionsTest extends TestCase
         $this->assertEquals(100, $this->options->getTimeout());
     }
 
+    /** @test */
+    public function it_check_if_is_production()
+    {
+        $this->options->setIntegrationType(Options::ENVIRONMENT_PRODUCTION);
+        $this->assertEquals(true, $this->options->isProduction());
+    }
+
 }
