@@ -492,4 +492,35 @@ class TransbankOneclickTest extends TestCase
         $this->assertEquals('415034240', $status->getBuyOrder());
     }
 
+    /** @test */
+    public function it_can_check_is_approved()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn(["details" => [
+
+                [
+                    "amount" => 500,
+                    "status" => "AUTHORIZED",
+                    "authorization_code" => "1213",
+                    "payment_type_code" => "VN",
+                    "response_code" => 0,
+                    "installments_number" => 0,
+                    "commerce_code" => "597055555542",
+                    "buy_order" => "505479072"
+                ]
+            ]]);
+        $mallTransaction = new MallTransaction(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $status = $mallTransaction->status('buyOrd');
+        $this->assertTrue($status->isApproved());
+
+        $status->details[0]->responseCode = -1;
+        $this->assertFalse($status->isApproved());
+
+        $status->details = [];
+        $this->assertFalse($status->isApproved());
+    }
+
 }
