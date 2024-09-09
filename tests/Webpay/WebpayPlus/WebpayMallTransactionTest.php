@@ -370,4 +370,13 @@ class WebpayMallTransactionTest extends TestCase
         $this->assertFalse($status->isApproved());
     }
 
+    /** @test */
+    public function it_can_validate_token_input()
+    {
+        $transaction = MallTransaction::buildForIntegration('commerceCode', 'apiKey');
+
+        $this->expectException(InvalidArgumentException::class);
+        $transaction->commit('');
+    }
+
 }
