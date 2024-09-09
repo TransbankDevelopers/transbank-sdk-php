@@ -328,4 +328,18 @@ class WebpayMallTransactionTest extends TestCase
         $this->assertEquals('2021-02-16', $status->getExpirationDate());
     }
 
+    /** @test */
+    public function it_can_check_is_approved()
+    {
+        $this->setBaseMocks();
+        $this->requestServiceMock->method('request')
+            ->willReturn([
+                'expiration_date' => '2021-02-18',
+                'details' => [['response_code' => 0, 'status' => 'AUTHORIZED']]
+            ]);
+        $transaction = new MallTransaction($this->optionsMock, $this->requestServiceMock);
+        $status = $transaction->status('fakeToken');
+        $this->assertTrue($status->isApproved());
+    }
+
 }
