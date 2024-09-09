@@ -322,4 +322,20 @@ class WebpayPlusTransactionTest extends TestCase
         $transaction->commit('');
     }
 
+    /** @test */
+    public function it_can_get_an_refund_response()
+    {
+        $this->setBaseMocks();
+        $this->requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn([
+                'type' => 'REVERSED'
+            ]);
+        $options = new Options('apiKey', 'commerceCode', Options::ENVIRONMENT_INTEGRATION);
+        $transaction = new Transaction($options, $this->requestServiceMock);
+        $refund = $transaction->refund('token', 1990);
+        $this->assertInstanceOf(TransactionRefundResponse::class, $refund);
+    }
+
 }
