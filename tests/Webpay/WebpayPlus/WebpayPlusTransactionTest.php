@@ -2,6 +2,7 @@
 
 namespace Webpay\WebpayPlus;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Transbank\Utils\HttpClientRequestService;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
@@ -15,6 +16,7 @@ use Transbank\Webpay\WebpayPlus\Exceptions\TransactionStatusException;
 use Transbank\Webpay\WebpayPlus\Responses\TransactionCommitResponse;
 use Transbank\Webpay\WebpayPlus\Responses\TransactionCreateResponse;
 use Transbank\Webpay\WebpayPlus\Transaction;
+use Transbank\Webpay\WebpayPlus\Responses\TransactionRefundResponse;
 
 class WebpayPlusTransactionTest extends TestCase
 {
@@ -286,4 +288,29 @@ class WebpayPlusTransactionTest extends TestCase
         $transaction = new Transaction($this->optionsMock, $this->requestServiceMock);
         $transaction->capture('fake', 'fake', 'fake', 1000);
     }
+
+    /** @test */
+    public function it_can_get_data_from_capture()
+    {
+        $this->setBaseMocks();
+        $this->requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn([
+                'authorization_code' => 'abc123',
+                'authorization_date' => '2015-02-16',
+                'captured_amount' => 1200,
+                'response_code' => 0
+            ]);
+        $options = new Options('apiKey', 'commerceCode', Options::ENVIRONMENT_INTEGRATION);
+        $transaction = new Transaction($options, $this->requestServiceMock);
+        $capture = $transaction->capture('fakeToken', 'fakeBuyOrder', 'abc123', '1200');
+
+        $this->assertTrue($capture->isApproved());
+        $this->assertEquals('abc123', $capture->getAuthorizationCode());
+        $this->assertEquals('2015-02-16', $capture->getAuthorizationDate());
+        $this->assertEquals(1200, $capture->getCapturedAmount());
+        $this->assertEquals(0, $capture->getResponseCode());
+    }
+
 }
