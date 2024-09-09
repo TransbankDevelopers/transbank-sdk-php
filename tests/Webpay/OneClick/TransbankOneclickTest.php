@@ -442,4 +442,16 @@ class TransbankOneclickTest extends TestCase
         $inscription->finish('fakeToken');
     }
 
+    /** @test */
+    public function it_throws_a_delete_exception()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willThrowException(new WebpayRequestException('error', null, 204));
+        $inscription = new MallInscription(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $this->expectException(InscriptionDeleteException::class);
+        $inscription->delete('tbkUser', 'userName');
+    }
 }
