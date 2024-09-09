@@ -387,4 +387,17 @@ class TransbankOneclickTest extends TestCase
 
         $this->assertInstanceOf(MallTransactionStatusResponse::class, $status);
     }
+
+    /** @test */
+    public function it_throws_a_status_exception()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willThrowException(new WebpayRequestException('error', null, 404));
+        $mallTransaction = new MallTransaction(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $this->expectException(MallTransactionStatusException::class);
+        $mallTransaction->status('buyOrd');
+    }
 }
