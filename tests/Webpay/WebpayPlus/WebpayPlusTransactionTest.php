@@ -313,4 +313,13 @@ class WebpayPlusTransactionTest extends TestCase
         $this->assertEquals(0, $capture->getResponseCode());
     }
 
+    /** @test */
+    public function it_can_validate_token_input()
+    {
+        $transaction = Transaction::buildForIntegration('commerceCode', 'apiKey');
+
+        $this->expectException(InvalidArgumentException::class);
+        $transaction->commit('');
+    }
+
 }
