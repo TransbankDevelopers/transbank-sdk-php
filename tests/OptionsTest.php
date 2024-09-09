@@ -5,6 +5,14 @@ use Transbank\Webpay\Options;
 
 class OptionsTest extends TestCase
 {
+    private Options $options;
+    public function setUp(): void
+    {
+        $apiKey = 'testApiKey';
+        $commerceCode = 'testCommerceCode';
+        $this->options = new Options($apiKey, $commerceCode, Options::ENVIRONMENT_INTEGRATION);
+    }
+
     /** @test */
     public function it_assign_contructor_params_to_their_corresponding_properties()
     {
