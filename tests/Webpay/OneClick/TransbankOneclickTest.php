@@ -400,4 +400,19 @@ class TransbankOneclickTest extends TestCase
         $this->expectException(MallTransactionStatusException::class);
         $mallTransaction->status('buyOrd');
     }
+    /** @test */
+    public function it_returns_an_refund_response()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn([
+                "type" => "REVERSED"
+            ]);
+        $mallTransaction = new MallTransaction(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $refund = $mallTransaction->refund('buyOrd', 'childCommerce', 'childBuy', 12000);
+
+        $this->assertInstanceOf(MallTransactionRefundResponse::class, $refund);
+    }
 }
