@@ -30,11 +30,8 @@ class HttpClient implements HttpClientInterface
     ): ResponseInterface {
         $installedVersion = 'unknown';
 
-        if (class_exists('\Composer\InstalledVersions')) {
-            try {
-                $installedVersion = InstalledVersions::getVersion('transbank/transbank-sdk');
-            } catch (\Exception $e) {
-            }
+        if (class_exists('\Composer\InstalledVersions') && InstalledVersions::isInstalled('transbank/transbank-sdk')) {
+            $installedVersion = InstalledVersions::getVersion('transbank/transbank-sdk') ?? 'unknown';
         }
 
         $baseHeaders = [
