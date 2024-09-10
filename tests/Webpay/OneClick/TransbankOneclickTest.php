@@ -8,10 +8,19 @@ use Transbank\Webpay\Options;
 use Transbank\Webpay\Oneclick;
 use Transbank\Webpay\Oneclick\Exceptions\InscriptionStartException;
 use Transbank\Webpay\Oneclick\Exceptions\MallTransactionAuthorizeException;
+use Transbank\Webpay\Oneclick\Exceptions\MallTransactionCaptureException;
+use Transbank\Webpay\Oneclick\Exceptions\MallTransactionStatusException;
+use Transbank\Webpay\Oneclick\Exceptions\MallRefundTransactionException;
+use Transbank\Webpay\Oneclick\Exceptions\InscriptionFinishException;
+use Transbank\Webpay\Oneclick\Exceptions\InscriptionDeleteException;
 use Transbank\Webpay\Oneclick\MallInscription;
 use Transbank\Webpay\Oneclick\MallTransaction;
 use Transbank\Webpay\Oneclick\Responses\InscriptionFinishResponse;
 use Transbank\Webpay\Oneclick\Responses\InscriptionStartResponse;
+use Transbank\Webpay\Oneclick\Responses\MallTransactionAuthorizeResponse;
+use Transbank\Webpay\Oneclick\Responses\MallTransactionCaptureResponse;
+use Transbank\Webpay\Oneclick\Responses\MallTransactionStatusResponse;
+use Transbank\Webpay\Oneclick\Responses\MallTransactionRefundResponse;
 use Transbank\Utils\HttpClientRequestService;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 
@@ -274,5 +283,290 @@ class TransbankOneclickTest extends TestCase
 
         $this->assertFalse($deleteResponse->wasSuccessfull());
         $this->assertSame(404, $deleteResponse->getCode());
+    }
+
+    /** @test */
+    public function it_returns_an_authorize_response()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn([
+                "buy_order" => "415034240",
+                "card_detail" =>
+                ["card_number" => "6623"],
+                "accounting_date" => "0321",
+                "transaction_date" => "2019-03-21T15:43:48.523Z",
+                "details" => [
+                    [
+                        "amount" => 500,
+                        "status" => "AUTHORIZED",
+                        "authorization_code" => "1213",
+                        "payment_type_code" => "VN",
+                        "response_code" => 0,
+                        "installments_number" => 0,
+                        "commerce_code" => "597055555542",
+                        "buy_order" => "505479072"
+                    ]
+                ]
+            ]);
+        $mallTransaction = new MallTransaction(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $authorize = $mallTransaction->authorize($this->username, 'fakeToken', 'buyOrder2132312', [
+            [
+                'commerce_code'       => Oneclick::INTEGRATION_CHILD_COMMERCE_CODE_1,
+                'buy_order'           => 'buyOrder122412',
+                'amount'              => 1000,
+                'installments_number' => 1,
+            ],
+        ]);
+
+        $this->assertInstanceOf(MallTransactionAuthorizeResponse::class, $authorize);
+    }
+
+    /** @test */
+    public function it_returns_an_capture_response()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn([
+                "authorization_code" => "authCode",
+                "response_code" => 0,
+                "captured_amount" => 10000,
+                "authorization_date" => "2019-03-21T15:43:48.523Z"
+            ]);
+        $mallTransaction = new MallTransaction(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $capture = $mallTransaction->capture('commerceChild', 'buyOrdChild', 'authCode', 10000);
+
+        $this->assertInstanceOf(MallTransactionCaptureResponse::class, $capture);
+    }
+
+    /** @test */
+    public function it_throws_a_capture_exception()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willThrowException(new WebpayRequestException('error', null, 404));
+        $mallTransaction = new MallTransaction(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $this->expectException(MallTransactionCaptureException::class);
+        $mallTransaction->capture('commerceChild', 'buyOrdChild', 'authCode', 10000);
+    }
+    /** @test */
+    public function it_returns_an_status_response()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn([
+                "buy_order" => "415034240",
+                "card_detail" =>
+                ["card_number" => "6623"],
+                "accounting_date" => "0321",
+                "transaction_date" => "2019-03-21T15:43:48.523Z",
+                "details" => [
+
+                    [
+                        "amount" => 500,
+                        "status" => "AUTHORIZED",
+                        "authorization_code" => "1213",
+                        "payment_type_code" => "VN",
+                        "response_code" => 0,
+                        "installments_number" => 0,
+                        "commerce_code" => "597055555542",
+                        "buy_order" => "505479072"
+                    ]
+                ]
+            ]);
+        $mallTransaction = new MallTransaction(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $status = $mallTransaction->status('buyOrd');
+
+        $this->assertInstanceOf(MallTransactionStatusResponse::class, $status);
+    }
+
+    /** @test */
+    public function it_throws_a_status_exception()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willThrowException(new WebpayRequestException('error', null, 404));
+        $mallTransaction = new MallTransaction(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $this->expectException(MallTransactionStatusException::class);
+        $mallTransaction->status('buyOrd');
+    }
+    /** @test */
+    public function it_returns_an_refund_response()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn([
+                "type" => "REVERSED"
+            ]);
+        $mallTransaction = new MallTransaction(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $refund = $mallTransaction->refund('buyOrd', 'childCommerce', 'childBuy', 12000);
+
+        $this->assertInstanceOf(MallTransactionRefundResponse::class, $refund);
+    }
+
+    /** @test */
+    public function it_throws_a_refund_exception()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willThrowException(new WebpayRequestException('error', null, 404));
+        $mallTransaction = new MallTransaction(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $this->expectException(MallRefundTransactionException::class);
+        $mallTransaction->refund('buyOrd', 'childCommerce', 'childBuy', 12000);
+    }
+
+    /** @test */
+    public function it_throws_a_finish_exception()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willThrowException(new WebpayRequestException('error', null, 404));
+        $inscription = new MallInscription(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $this->expectException(InscriptionFinishException::class);
+        $inscription->finish('fakeToken');
+    }
+
+    /** @test */
+    public function it_throws_a_delete_exception()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willThrowException(new WebpayRequestException('error', null, 204));
+        $inscription = new MallInscription(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $this->expectException(InscriptionDeleteException::class);
+        $inscription->delete('tbkUser', 'userName');
+    }
+
+    /** @test */
+    public function it_can_get_data_from_status_response()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn([
+                "buy_order" => "415034240",
+                "card_detail" =>
+                ["card_number" => "6623"],
+                "accounting_date" => "0321",
+                "transaction_date" => "2019-03-21T15:43:48.523Z",
+                "details" => [
+
+                    [
+                        "amount" => 500,
+                        "status" => "AUTHORIZED",
+                        "authorization_code" => "1213",
+                        "payment_type_code" => "VN",
+                        "response_code" => 0,
+                        "installments_number" => 0,
+                        "commerce_code" => "597055555542",
+                        "buy_order" => "505479072"
+                    ]
+                ]
+            ]);
+        $mallTransaction = new MallTransaction(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $status = $mallTransaction->status('buyOrd');
+
+        $this->assertEquals('2019-03-21T15:43:48.523Z', $status->getTransactionDate());
+        $this->assertEquals('6623', $status->getCardNumber());
+        $this->assertEquals('0321', $status->getAccountingDate());
+        $this->assertIsArray($status->getDetails());
+        $this->assertEquals('415034240', $status->getBuyOrder());
+    }
+
+    /** @test */
+    public function it_can_check_is_approved()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn(["details" => [
+
+                [
+                    "amount" => 500,
+                    "status" => "AUTHORIZED",
+                    "authorization_code" => "1213",
+                    "payment_type_code" => "VN",
+                    "response_code" => 0,
+                    "installments_number" => 0,
+                    "commerce_code" => "597055555542",
+                    "buy_order" => "505479072"
+                ]
+            ]]);
+        $mallTransaction = new MallTransaction(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $status = $mallTransaction->status('buyOrd');
+        $this->assertTrue($status->isApproved());
+
+        $status->details[0]->responseCode = -1;
+        $this->assertFalse($status->isApproved());
+
+        $status->details = [];
+        $this->assertFalse($status->isApproved());
+    }
+
+    /** @test */
+    public function it_can_get_data_from_capture_response()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn([
+                "authorization_code" => "authCode2",
+                "response_code" => 0,
+                "captured_amount" => 9900,
+                "authorization_date" => "2019-04-21T15:43:48.523Z"
+            ]);
+        $mallTransaction = new MallTransaction(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $capture = $mallTransaction->capture('commerceChild', 'buyOrdChild', 'authCode', 9900);
+
+        $this->assertEquals('2019-04-21T15:43:48.523Z', $capture->getAuthorizationDate());
+        $this->assertEquals(9900, $capture->getCapturedAmount());
+        $this->assertEquals(0, $capture->getResponseCode());
+    }
+
+    /** @test */
+    public function it_can_get_data_from_refund_response()
+    {
+        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn([
+                "type" => "NULLIFIED",
+                "authorization_code" => "123456",
+                "authorization_date" => "2019-03-20T20:18:20Z",
+                "nullified_amount" => 1000,
+                "balance" => 0,
+                "response_code" => 0
+            ]);
+        $mallTransaction = new MallTransaction(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
+        $refund = $mallTransaction->refund('buyOrd', 'childCommerce', 'childBuy', 12000);
+
+        $this->assertEquals('NULLIFIED', $refund->getType());
+        $this->assertEquals('123456', $refund->getAuthorizationCode());
+        $this->assertEquals('2019-03-20T20:18:20Z', $refund->getAuthorizationDate());
+        $this->assertEquals(1000, $refund->getNullifiedAmount());
+        $this->assertEquals(0, $refund->getBalance());
+        $this->assertEquals(0, $refund->getResponseCode());
     }
 }

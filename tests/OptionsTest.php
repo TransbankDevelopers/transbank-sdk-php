@@ -5,6 +5,14 @@ use Transbank\Webpay\Options;
 
 class OptionsTest extends TestCase
 {
+    private Options $options;
+    public function setUp(): void
+    {
+        $apiKey = 'testApiKey';
+        $commerceCode = 'testCommerceCode';
+        $this->options = new Options($apiKey, $commerceCode, Options::ENVIRONMENT_INTEGRATION);
+    }
+
     /** @test */
     public function it_assign_contructor_params_to_their_corresponding_properties()
     {
@@ -23,5 +31,35 @@ class OptionsTest extends TestCase
             'Tbk-Api-Key-Id'     => 'CommerceCode',
             'Tbk-Api-Key-Secret' => 'ApiKey',
         ]);
+    }
+
+    /** @test */
+    public function it_set_properties()
+    {
+        $this->options->setIntegrationType(Options::ENVIRONMENT_PRODUCTION);
+        $this->options->setApiKey('newApiKey');
+        $this->options->setCommerceCode('newCommerceCode');
+        $this->options->setTimeout(100);
+
+        $this->assertEquals(Options::ENVIRONMENT_PRODUCTION, $this->options->integrationType);
+        $this->assertEquals('newApiKey', $this->options->apiKey);
+        $this->assertEquals('newCommerceCode', $this->options->commerceCode);
+        $this->assertEquals(100, $this->options->getTimeout());
+    }
+
+    /** @test */
+    public function it_check_if_is_production()
+    {
+        $this->options->setIntegrationType(Options::ENVIRONMENT_PRODUCTION);
+        $this->assertEquals(true, $this->options->isProduction());
+    }
+
+    /** @test */
+    public function it_get_base_url()
+    {
+        $this->options->setIntegrationType(Options::ENVIRONMENT_PRODUCTION);
+        $this->assertEquals(Options::BASE_URL_PRODUCTION, $this->options->getApiBaseUrl());
+        $this->options->setIntegrationType(Options::ENVIRONMENT_INTEGRATION);
+        $this->assertEquals(Options::BASE_URL_INTEGRATION, $this->options->getApiBaseUrl());
     }
 }
