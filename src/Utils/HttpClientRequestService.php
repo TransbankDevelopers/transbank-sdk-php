@@ -69,9 +69,6 @@ class HttpClientRequestService implements RequestService
     ): array {
         $headers = $options->getHeaders();
         $client = $this->httpClient;
-        if ($client == null) {
-            $client = new HttpClient();
-        }
 
         $baseUrl = $options->getApiBaseUrl();
         $request = new TransbankApiRequest($method, $baseUrl, $endpoint, $payload, $headers);

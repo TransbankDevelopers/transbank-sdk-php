@@ -14,7 +14,7 @@ use Transbank\Webpay\TransaccionCompleta\Responses\TransactionCreateResponse;
 use Transbank\Webpay\TransaccionCompleta\Responses\TransactionInstallmentsResponse;
 use Transbank\Webpay\TransaccionCompleta\Responses\TransactionStatusResponse;
 use Transbank\Webpay\TransaccionCompleta\Responses\TransactionCaptureResponse;
-use Transbank\Webpay\TransaccionCompleta\TransaccionCompleta;
+use Transbank\Webpay\TransaccionCompleta\Responses\TransactionRefundResponse;
 use Transbank\Webpay\TransaccionCompleta\Transaction;
 use Transbank\Utils\HttpClientRequestService;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
@@ -308,6 +308,50 @@ class TransaccionCompletaTest extends TestCase
         $transaction = new Transaction($this->optionsMock, $this->requestServiceMock);
         $capture = $transaction->capture('token', 'buyOrder', 'authCode', 2000);
         $this->assertInstanceOf(TransactionCaptureResponse::class, $capture);
+    }
+
+    /** @test */
+    public function it_returns_refund_response_for_reverse()
+    {
+        $this->setBaseMocks();
+        $this->requestServiceMock->method('request')
+            ->willReturn(
+                [
+                    "type" => "REVERSE",
+                ]
+            );
+        $transaction = new Transaction($this->optionsMock, $this->requestServiceMock);
+        $refund = $transaction->refund('token', 2000);
+
+        $this->assertInstanceOf(TransactionRefundResponse::class, $refund);
+        $this->assertSame('REVERSE', $refund->getType());
+    }
+
+    /** @test */
+    public function it_returns_refund_response_for_nullify()
+    {
+        $this->setBaseMocks();
+        $this->requestServiceMock->method('request')
+            ->willReturn(
+                [
+                    "type" => "NULLIFY",
+                    "authorization_code" => "123456",
+                    "authorization_date" => "2024-09-10T12:56:20Z",
+                    "nullified_amount" => "1000.00",
+                    "balance" => "1000.00",
+                    "response_code" => 0,
+                ]
+            );
+        $transaction = new Transaction($this->optionsMock, $this->requestServiceMock);
+        $refund = $transaction->refund('token', 2000);
+
+        $this->assertInstanceOf(TransactionRefundResponse::class, $refund);
+        $this->assertSame('NULLIFY', $refund->getType());
+        $this->assertSame('123456', $refund->getAuthorizationCode());
+        $this->assertSame('2024-09-10T12:56:20Z', $refund->getAuthorizationDate());
+        $this->assertSame(1000.0, $refund->getNullifiedAmount());
+        $this->assertSame(1000.0, $refund->getBalance());
+        $this->assertSame(0, $refund->getResponseCode());
     }
 
     /*

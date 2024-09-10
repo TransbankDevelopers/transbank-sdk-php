@@ -85,9 +85,6 @@ class Transaction
      */
     public function commit(string $token): TransactionCommitResponse
     {
-        if (!is_string($token)) {
-            throw new \InvalidArgumentException('Token parameter given is not string.');
-        }
         if (!isset($token) || trim($token) === '') {
             throw new \InvalidArgumentException('Token parameter given is empty.');
         }
