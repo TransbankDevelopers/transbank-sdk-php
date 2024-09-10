@@ -157,4 +157,17 @@ class PatpassComercioTest extends TestCase
         $inscription->setOptions($newOptions);
         $this->assertEquals(Options::BASE_URL_INTEGRATION, $inscription->getOptions()->getApiBaseUrl());
     }
+
+    /** @test */
+    public function it_can_get_base_url() {
+        $options = new Options('test-api-key', 'test-commerce-code', Options::ENVIRONMENT_INTEGRATION);
+        $inscription = new Inscription($options);
+
+        $reflection = new \ReflectionClass(Inscription::class);
+        $method = $reflection->getMethod('getBaseUrl');
+        $method->setAccessible(true);
+        $baseUrl = $method->invoke($inscription);
+
+        $this->assertEquals(Options::BASE_URL_INTEGRATION, $baseUrl);
+    }
 }
