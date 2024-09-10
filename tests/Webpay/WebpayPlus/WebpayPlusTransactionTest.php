@@ -147,6 +147,10 @@ class WebpayPlusTransactionTest extends TestCase
 
         $optionsMock->method('getApiBaseUrl')->willReturn($this->mockBaseUrl);
 
+        $reflection = new \ReflectionClass(Transaction::class);
+        $method = $reflection->getMethod('getBaseUrl');
+        $method->setAccessible(true);
+
         $requestServiceMock->method('request')
             ->with('POST', Transaction::ENDPOINT_CREATE, [
                 'buy_order'  => $this->buyOrder,
@@ -163,9 +167,12 @@ class WebpayPlusTransactionTest extends TestCase
 
         $transaction = new Transaction($optionsMock, $requestServiceMock);
         $response = $transaction->create($this->buyOrder, $this->sessionId, $this->amount, $this->returnUrl);
+        $baseUrl = $method->invoke($transaction);
+
         $this->assertInstanceOf(TransactionCreateResponse::class, $response);
         $this->assertEquals($response->getToken(), $tokenMock);
         $this->assertEquals($response->getUrl(), self::MOCK_URL);
+        $this->assertEquals($this->mockBaseUrl, $baseUrl);
     }
 
     /** @test */
