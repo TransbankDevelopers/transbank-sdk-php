@@ -5,33 +5,36 @@ use Transbank\Webpay\Exceptions\TransbankException;
 
 class TransbankExceptionTest extends TestCase
 {
-    public function testConstructor()
+    /** @test */
+    public function it_can_instantiate_transbank_exception_with_default_values()
     {
-        // Arrange
-        $message = 'Test message';
-        $code = 0;
-        $previous = null;
+        $exception = new TransbankException();
 
-        // Act
-        $exception = new TransbankException($message, $code, $previous);
-
-        // Assert
-        $this->assertEquals($message, $exception->getMessage());
-        $this->assertEquals($code, $exception->getCode());
-        $this->assertEquals($previous, $exception->getPrevious());
+        $this->assertEquals('An error has happened, verify given parameters and try again.', $exception->getMessage());
+        $this->assertEquals(0, $exception->getCode());
+        $this->assertNull($exception->getPrevious());
     }
 
-    public function testDefaultMessage()
+    /** @test */
+    public function test_it_can_set_custom_message_and_code()
     {
-        // Arrange
-        $defaultMessage = TransbankException::DEFAULT_MESSAGE;
-        $code = 0;
-        $previous = null;
+        $customMessage = 'Custom error message';
+        $customCode = 123;
 
-        // Act
-        $exception = new TransbankException(null, $code, $previous);
+        $exception = new TransbankException($customMessage, $customCode);
 
-        // Assert
-        $this->assertEquals($defaultMessage, $exception->getMessage());
+        $this->assertEquals($customMessage, $exception->getMessage());
+
+        $this->assertEquals($customCode, $exception->getCode());
+    }
+
+    /** @test */
+    public function test_it_can_set_previous_exception()
+    {
+        $previousException = new \Exception('Previous exception');
+
+        $exception = new TransbankException('Custom message', 0, $previousException);
+
+        $this->assertSame($previousException, $exception->getPrevious());
     }
 }
