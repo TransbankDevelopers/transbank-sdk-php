@@ -5,7 +5,7 @@ namespace Transbank\Contracts;
 use Transbank\Webpay\Options;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Psr\Http\Message\ResponseInterface;
-use Transbank\Webpay\Exceptions\TransbankApiRequest;
+use Transbank\Utils\TransbankApiRequest;
 
 interface RequestService
 {

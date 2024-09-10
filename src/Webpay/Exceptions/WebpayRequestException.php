@@ -2,6 +2,8 @@
 
 namespace Transbank\Webpay\Exceptions;
 
+use Transbank\Utils\TransbankApiRequest;
+
 /**
  * Class WebpayRequestException.
  */

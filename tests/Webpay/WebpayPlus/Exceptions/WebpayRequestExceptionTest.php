@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
-use Transbank\Webpay\Exceptions\TransbankApiRequest;
+use Transbank\Utils\TransbankApiRequest;
 
 class WebpayRequestExceptionTest extends TestCase
 {
