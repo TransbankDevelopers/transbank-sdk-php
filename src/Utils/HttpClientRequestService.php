@@ -4,7 +4,7 @@ namespace Transbank\Utils;
 
 use Transbank\Contracts\HttpClientInterface;
 use Transbank\Contracts\RequestService;
-use Transbank\Webpay\Exceptions\TransbankApiRequest;
+use Transbank\Utils\TransbankApiRequest;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
 use GuzzleHttp\Exception\GuzzleException;

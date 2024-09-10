@@ -1,6 +1,6 @@
 <?php
 
-namespace Transbank\Webpay\Exceptions;
+namespace Transbank\Utils;
 
 class TransbankApiRequest
 {
