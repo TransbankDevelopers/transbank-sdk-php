@@ -9,7 +9,7 @@ class TransactionDetailTest extends TestCase
     {
         $data = [
             'amount' => 1000,
-            'status' => 'OK',
+            'status' => 'AUTHORIZED',
             'authorization_code' => '123456',
             'payment_type_code' => 'CC',
             'response_code' => 0,
@@ -23,16 +23,17 @@ class TransactionDetailTest extends TestCase
 
         $transactionDetail = TransactionDetail::createFromArray($data);
 
-        $this->assertSame(1000, $transactionDetail->amount);
-        $this->assertSame($data['status'], $transactionDetail->status);
-        $this->assertSame($data['authorization_code'], $transactionDetail->authorizationCode);
-        $this->assertSame($data['payment_type_code'], $transactionDetail->paymentTypeCode);
-        $this->assertSame($data['response_code'], $transactionDetail->responseCode);
-        $this->assertSame($data['installments_number'], $transactionDetail->installmentsNumber);
-        $this->assertSame(1000, $transactionDetail->installmentsAmount);
-        $this->assertSame($data['commerce_code'], $transactionDetail->commerceCode);
-        $this->assertSame($data['buy_order'], $transactionDetail->buyOrder);
-        $this->assertSame(0, $transactionDetail->balance);
-        $this->assertSame($data['prepaid_balance'], $transactionDetail->prepaidBalance);
+        $this->assertSame(1000, $transactionDetail->getAmount());
+        $this->assertSame($data['status'], $transactionDetail->getStatus());
+        $this->assertSame($data['authorization_code'], $transactionDetail->getAuthorizationCode());
+        $this->assertSame($data['payment_type_code'], $transactionDetail->getPaymentTypeCode());
+        $this->assertSame($data['response_code'], $transactionDetail->getResponseCode());
+        $this->assertSame($data['installments_number'], $transactionDetail->getInstallmentsNumber());
+        $this->assertSame(1000, $transactionDetail->getInstallmentsAmount());
+        $this->assertSame($data['commerce_code'], $transactionDetail->getCommerceCode());
+        $this->assertSame($data['buy_order'], $transactionDetail->getBuyOrder());
+        $this->assertSame(0, $transactionDetail->getBalance());
+        $this->assertSame($data['prepaid_balance'], $transactionDetail->getPrepaidBalance());
+        $this->assertSame(true, $transactionDetail->isApproved());
     }
 }
