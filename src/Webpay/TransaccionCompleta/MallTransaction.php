@@ -13,7 +13,7 @@ use Transbank\Webpay\TransaccionCompleta\Exceptions\MallTransactionCommitExcepti
 use Transbank\Webpay\TransaccionCompleta\Exceptions\MallTransactionCreateException;
 use Transbank\Webpay\TransaccionCompleta\Exceptions\MallTransactionRefundException;
 use Transbank\Webpay\TransaccionCompleta\Exceptions\MallTransactionStatusException;
-use Transbank\Webpay\TransaccionCompleta\Exceptions\TransactionInstallmentsException;
+use Transbank\Webpay\TransaccionCompleta\Exceptions\MallTransactionInstallmentsException;
 use Transbank\Webpay\TransaccionCompleta\Responses\MallTransactionCommitResponse;
 use Transbank\Webpay\TransaccionCompleta\Responses\MallTransactionCreateResponse;
 use Transbank\Webpay\TransaccionCompleta\Responses\MallTransactionInstallmentsResponse;
@@ -86,7 +86,7 @@ class MallTransaction
      * @param string $token
      * @param array  $details
      *
-     * @throws TransactionInstallmentsException
+     * @throws MallTransactionInstallmentsException
      *
      * @return MallTransactionInstallmentsResponse[]
      */
@@ -108,7 +108,7 @@ class MallTransaction
                 return new MallTransactionInstallmentsResponse($response);
             }, $details);
         } catch (WebpayRequestException $exception) {
-            throw new TransactionInstallmentsException(
+            throw new MallTransactionInstallmentsException(
                 $exception->getMessage(),
                 $exception->getTransbankErrorMessage(),
                 $exception->getHttpCode(),
