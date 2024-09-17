@@ -56,7 +56,6 @@ class WebpayPlusWithoutMocksTest extends TestCase
             Options::ENVIRONMENT_INTEGRATION
         );
         $httpClient = new HttpCurlClient();
-        // $httpClient = new HttpClient();
         $this->clientRequestService = new HttpClientRequestService($httpClient);
     }
 
