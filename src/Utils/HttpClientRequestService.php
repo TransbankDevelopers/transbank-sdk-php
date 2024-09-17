@@ -5,6 +5,7 @@ namespace Transbank\Utils;
 use Transbank\Contracts\HttpClientInterface;
 use Transbank\Contracts\RequestService;
 use Transbank\Utils\TransbankApiRequest;
+use Transbank\Utils\Curl\HttpCurlClient;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
 use GuzzleHttp\Exception\GuzzleException;
@@ -29,7 +30,7 @@ class HttpClientRequestService implements RequestService
 
     public function __construct(HttpClientInterface|null $httpClient = null)
     {
-        $this->setHttpClient($httpClient ?? new HttpClient());
+        $this->setHttpClient($httpClient ?? new HttpCurlClient());
     }
 
     /**
