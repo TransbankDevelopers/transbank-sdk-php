@@ -10,6 +10,8 @@ use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCommitException;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCreateException;
 use Transbank\Webpay\WebpayPlus\Transaction;
 use Transbank\Webpay\WebpayPlus\Responses\TransactionStatusResponse;
+use Transbank\Utils\Curl\HttpCurlClient;
+use Transbank\Utils\HttpClientRequestService;
 
 class WebpayPlusWithoutMocksTest extends TestCase
 {
@@ -39,6 +41,8 @@ class WebpayPlusWithoutMocksTest extends TestCase
      */
     public $options;
 
+    public $clientRequestService;
+
     protected function setUp(): void
     {
         $this->amount = 1000;
@@ -51,12 +55,15 @@ class WebpayPlusWithoutMocksTest extends TestCase
             WebpayPlus::INTEGRATION_COMMERCE_CODE,
             Options::ENVIRONMENT_INTEGRATION
         );
+        $httpClient = new HttpCurlClient();
+        // $httpClient = new HttpClient();
+        $this->clientRequestService = new HttpClientRequestService($httpClient);
     }
 
     /** @test */
     public function it_creates_a_real_transaction_with_options()
     {
-        $transaction = (new Transaction($this->options));
+        $transaction = (new Transaction($this->options, $this->clientRequestService));
         $transactionResult = $transaction->create(
             $this->buyOrder,
             $this->sessionId,
@@ -74,7 +81,7 @@ class WebpayPlusWithoutMocksTest extends TestCase
 
         $this->expectException(TransactionCreateException::class);
         $this->expectExceptionMessage('Not Authorized');
-        $transaction = (new Transaction($options));
+        $transaction = (new Transaction($options, $this->clientRequestService));
         $transaction->create($this->buyOrder, $this->sessionId, $this->amount, $this->returnUrl);
     }
 
@@ -107,7 +114,7 @@ class WebpayPlusWithoutMocksTest extends TestCase
     /** @test */
     public function it_can_not_commit_a_recently_created_transaction()
     {
-        $response = (new Transaction($this->options))->create(
+        $response = (new Transaction($this->options, $this->clientRequestService))->create(
             $this->buyOrder,
             $this->sessionId,
             $this->amount,
@@ -127,7 +134,7 @@ class WebpayPlusWithoutMocksTest extends TestCase
             WebpayPlus::INTEGRATION_DEFERRED_COMMERCE_CODE,
             Options::ENVIRONMENT_INTEGRATION
         );
-        $response = (new Transaction($deferredOptions))->create(
+        $response = (new Transaction($deferredOptions, $this->clientRequestService))->create(
             $this->buyOrder,
             $this->sessionId,
             $this->amount,
@@ -145,7 +152,7 @@ class WebpayPlusWithoutMocksTest extends TestCase
             WebpayPlus::INTEGRATION_API_KEY,
             WebpayPlus::INTEGRATION_COMMERCE_CODE,
             Options::ENVIRONMENT_INTEGRATION
-        ));
+        ), $this->clientRequestService);
         $response = $transaction->create($this->buyOrder, $this->sessionId, $this->amount, $this->returnUrl);
         $this->expectException(TransactionCaptureException::class);
         $this->expectExceptionMessage('Operation not allowed');
@@ -157,7 +164,7 @@ class WebpayPlusWithoutMocksTest extends TestCase
     /** @test */
     public function it_returns_a_card_number_in_null_when_it_not_exists()
     {
-        $transaction = new Transaction($this->options);
+        $transaction = new Transaction($this->options, $this->clientRequestService);
         $createResponse = $transaction->create($this->buyOrder, $this->sessionId, $this->amount, $this->returnUrl);
         $statusResponse = $transaction->status($createResponse->getToken());
 
