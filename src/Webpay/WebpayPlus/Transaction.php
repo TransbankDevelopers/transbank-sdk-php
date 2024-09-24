@@ -3,7 +3,7 @@
 namespace Transbank\Webpay\WebpayPlus;
 
 use Transbank\Utils\InteractsWithWebpayApi;
-use GuzzleHttp\Exception\GuzzleException;
+use Transbank\Utils\Curl\Exceptions\CurlRequestException;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCaptureException;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCommitException;
@@ -43,7 +43,7 @@ class Transaction
      * @param string    $returnUrl
      *
      * @throws TransactionCreateException
-     * @throws GuzzleException
+     * @throws CurlRequestException
      *
      * @return TransactionCreateResponse
      */
@@ -79,7 +79,7 @@ class Transaction
      * @param string $token
      *
      * @throws TransactionCommitException
-     * @throws GuzzleException
+     * @throws CurlRequestException
      *
      * @return TransactionCommitResponse
      */
@@ -113,7 +113,7 @@ class Transaction
      * @param int|float  $amount
      *
      * @throws TransactionRefundException
-     * @throws GuzzleException
+     * @throws CurlRequestException
      *
      * @return TransactionRefundResponse
      */
@@ -142,7 +142,7 @@ class Transaction
      * @param string $token
      *
      * @throws TransactionStatusException
-     * @throws GuzzleException
+     * @throws CurlRequestException
      *
      * @return TransactionStatusResponse
      */
@@ -174,7 +174,7 @@ class Transaction
      * @param int|float  $captureAmount
      *
      * @throws TransactionCaptureException
-     * @throws GuzzleException
+     * @throws CurlRequestException
      *
      * @return TransactionCaptureResponse
      */
