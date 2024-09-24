@@ -5,6 +5,7 @@ namespace Transbank\Utils\Curl;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\RequestInterface;
+use Transbank\Utils\Curl\Exceptions\CurlRequestException;
 
 
 class Client implements ClientInterface
@@ -19,7 +20,7 @@ class Client implements ClientInterface
         $curl = curl_init();
 
         if (!$curl) {
-            throw new \RuntimeException('Unable to initialize cURL session.');
+            throw new CurlRequestException('Unable to initialize cURL session.');
         }
 
         curl_setopt_array($curl, [
@@ -46,7 +47,10 @@ class Client implements ClientInterface
 
         $response = curl_exec($curl);
         if ($response === false) {
-            throw new \RuntimeException('cURL error: ' . curl_error($curl));
+            if (is_resource($curl)) {
+                curl_close($curl);
+            }
+            throw new CurlRequestException(curl_error($curl), curl_errno($curl));
         }
 
         $headerSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
