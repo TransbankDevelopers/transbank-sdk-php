@@ -12,8 +12,13 @@ class CurlRequestException extends \Exception
      * @param string $message
      * @param \Throwable|null $previous
      */
-    public function __construct(string $message = self::DEFAULT_MESSAGE, \Throwable|null $previous = null)
+    public function __construct(string $message = self::DEFAULT_MESSAGE, int $errorCode = 0, \Throwable|null $previous = null)
     {
-        parent::__construct($message, 0, $previous);
+        parent::__construct($message, $errorCode, $previous);
+    }
+
+    public function __toString(): string
+    {
+        return __CLASS__ . ": [error code {$this->code}]: {$this->message} in {$this->file} on line {$this->line}\n";
     }
 }
