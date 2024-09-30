@@ -7,12 +7,9 @@ use Psr\Http\Message\StreamInterface;
 
 class Response implements ResponseInterface
 {
+    use MessageTrait;
     private int $statusCode;
     private string $reasonPhrase;
-    private string $protocolVersion = '1.1';
-    private array $headers = [];
-    private StreamInterface $body;
-
     private const PHRASES = [
         200 => 'OK',
         201 => 'Created',
@@ -50,38 +47,6 @@ class Response implements ResponseInterface
         return $this->reasonPhrase;
     }
 
-    public function getProtocolVersion(): string
-    {
-        return $this->protocolVersion;
-    }
-
-    public function withProtocolVersion($version): ResponseInterface
-    {
-        $new = clone $this;
-        $new->protocolVersion = $version;
-        return $new;
-    }
-
-    public function getHeaders(): array
-    {
-        return $this->headers;
-    }
-
-    public function hasHeader($name): bool
-    {
-        return isset($this->headers[$name]);
-    }
-
-    public function getHeader($name): array
-    {
-        return isset($this->headers[$name]) ? [$this->headers[$name]] : [];
-    }
-
-    public function getHeaderLine($name): string
-    {
-        return implode(',', $this->getHeader($name));
-    }
-
     public function withHeader($name, $value): ResponseInterface
     {
         $new = clone $this;
@@ -93,25 +58,6 @@ class Response implements ResponseInterface
     {
         $new = clone $this;
         $new->headers[$name][] = $value;
-        return $new;
-    }
-
-    public function withoutHeader($name): ResponseInterface
-    {
-        $new = clone $this;
-        unset($new->headers[$name]);
-        return $new;
-    }
-
-    public function getBody(): StreamInterface
-    {
-        return $this->body;
-    }
-
-    public function withBody(StreamInterface $body): ResponseInterface
-    {
-        $new = clone $this;
-        $new->body = $body;
         return $new;
     }
 
