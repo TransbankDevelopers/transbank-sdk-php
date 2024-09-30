@@ -6,7 +6,7 @@ use Psr\Http\Message\StreamInterface;
 
 trait MessageTrait
 {
-    private string $protocolVersion = '1.1';
+    private string $protocolVersion = '';
     private array $headers = [];
     private StreamInterface $body;
 
