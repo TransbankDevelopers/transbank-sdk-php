@@ -41,4 +41,13 @@ class StreamTest extends TestCase
         $this->expectException(StreamException::class);
         $this->stream->getContents();
     }
+
+    /** @test */
+    public function it_can_detach_resource()
+    {
+        $resource = $this->stream->detach();
+        $this->assertIsResource($resource);
+        $this->expectException(StreamException::class);
+        $this->stream->getContents();
+    }
 }
