@@ -59,24 +59,24 @@ trait InteractsWithWebpayApi
 
     /**
      * Build an instance configured for integration environment.
-     * @param string $commerceCode
      * @param string $apiKey
+     * @param string $commerceCode
      *
      * @return static
      */
-    public static function buildForIntegration(string $commerceCode, string $apiKey): self
+    public static function buildForIntegration(string $apiKey, string $commerceCode): self
     {
         return new static(new Options($apiKey, $commerceCode, Options::ENVIRONMENT_INTEGRATION));
     }
 
     /**
-     * Build an instance configured for integration environment.
-     * @param string $commerceCode
+     * Build an instance configured for production environment.
      * @param string $apiKey
+     * @param string $commerceCode
      *
      * @return static
      */
-    public static function buildForProduction(string $commerceCode, string $apiKey): self
+    public static function buildForProduction(string $apiKey, string $commerceCode): self
     {
         return new static(new Options($apiKey, $commerceCode, Options::ENVIRONMENT_PRODUCTION));
     }
