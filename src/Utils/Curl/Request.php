@@ -8,11 +8,9 @@ use Psr\Http\Message\StreamInterface;
 
 class Request implements RequestInterface
 {
+    use MessageTrait;
     private string $method;
     private UriInterface|string $uri;
-    private array $headers = [];
-    private string $protocolVersion = '';
-    private StreamInterface $body;
     private string $requestTarget = '';
 
     public function __construct(string $method, UriInterface|string $uri, array $headers = [], StreamInterface|string|null $body = null, string $protocolVersion = '1.1')
@@ -72,38 +70,6 @@ class Request implements RequestInterface
         return $new;
     }
 
-    public function getProtocolVersion(): string
-    {
-        return $this->protocolVersion;
-    }
-
-    public function withProtocolVersion($version): RequestInterface
-    {
-        $new = clone $this;
-        $new->protocolVersion = $version;
-        return $new;
-    }
-
-    public function getHeaders(): array
-    {
-        return $this->headers;
-    }
-
-    public function hasHeader($name): bool
-    {
-        return isset($this->headers[$name]);
-    }
-
-    public function getHeader($name): array
-    {
-        return isset($this->headers[$name]) ? [$this->headers[$name]] : [];
-    }
-
-    public function getHeaderLine($name): string
-    {
-        return implode(',', $this->getHeader($name));
-    }
-
     public function withHeader($name, $value): RequestInterface
     {
         $new = clone $this;
@@ -113,25 +79,6 @@ class Request implements RequestInterface
     public function withAddedHeader($name, $value): RequestInterface
     {
         $new = clone $this;
-        return $new;
-    }
-
-    public function withoutHeader($name): RequestInterface
-    {
-        $new = clone $this;
-        unset($new->headers[$name]);
-        return $new;
-    }
-
-    public function getBody(): StreamInterface
-    {
-        return $this->body;
-    }
-
-    public function withBody(StreamInterface $body): RequestInterface
-    {
-        $new = clone $this;
-        $new->body = $body;
         return $new;
     }
 
