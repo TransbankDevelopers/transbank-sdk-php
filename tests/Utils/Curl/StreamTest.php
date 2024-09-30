@@ -83,4 +83,15 @@ class StreamTest extends TestCase
         $this->stream->seek(0);
     }
 
+    /** @test */
+    public function it_can_write_stream()
+    {
+        $this->assertTrue($this->stream->isWritable());
+        $this->stream->write('testWrite');
+        $this->stream->close();
+        $this->assertFalse($this->stream->isWritable());
+        $this->expectException(StreamException::class);
+        $this->stream->write('testWrite');
+    }
+
 }
