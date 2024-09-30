@@ -94,4 +94,37 @@ class StreamTest extends TestCase
         $this->stream->write('testWrite');
     }
 
+    /** @test */
+    public function it_can_check_readable_stream()
+    {
+        $this->assertTrue($this->stream->isReadable());
+        $this->stream->close();
+        $this->assertFalse($this->stream->isReadable());
+    }
+
+    /** @test */
+    public function it_can_read_stream()
+    {
+        $this->stream->rewind();
+        $this->assertEquals('this is a test data for stream', $this->stream->read($this->stream->getSize()));
+        $this->stream->close();
+        $this->expectException(StreamException::class);
+        $this->stream->read(1);
+    }
+
+    /** @test */
+    public function it_can_get_content()
+    {
+        $this->stream->rewind();
+        $this->assertEquals('this is a test data for stream', $this->stream->getContents());
+    }
+
+    /** @test */
+    public function it_can_get_metadata()
+    {
+        $this->assertEquals('TEMP', $this->stream->getMetadata('stream_type'));
+        $this->assertIsArray($this->stream->getMetadata());
+        $this->stream->close();
+        $this->assertNull($this->stream->getMetadata());
+    }
 }
