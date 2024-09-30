@@ -69,4 +69,9 @@ class StreamTest extends TestCase
         $this->stream->tell();
     }
 
+    /** @test */
+    public function it_can_get_eof()
+    {
+        $this->assertFalse($this->stream->eof());
+    }
 }
