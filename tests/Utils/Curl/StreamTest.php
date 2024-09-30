@@ -50,4 +50,13 @@ class StreamTest extends TestCase
         $this->expectException(StreamException::class);
         $this->stream->getContents();
     }
+
+    /** @test */
+    public function it_can_get_size()
+    {
+        $this->assertGreaterThan(0, $this->stream->getSize());
+        $this->stream->close();
+        $this->assertNull($this->stream->getSize());
+    }
+
 }
