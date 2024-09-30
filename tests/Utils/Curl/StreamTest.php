@@ -33,4 +33,12 @@ class StreamTest extends TestCase
         $result = (string) $mockStream;
         $this->assertEquals('', $result);
     }
+
+    /** @test */
+    public function it_can_close_resource()
+    {
+        $this->stream->close();
+        $this->expectException(StreamException::class);
+        $this->stream->getContents();
+    }
 }
