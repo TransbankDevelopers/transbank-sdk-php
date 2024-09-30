@@ -59,4 +59,14 @@ class StreamTest extends TestCase
         $this->assertNull($this->stream->getSize());
     }
 
+    /** @test */
+    public function it_can_tell_position()
+    {
+        $this->assertEquals(30, $this->stream->tell());
+        $this->stream->close();
+
+        $this->expectException(StreamException::class);
+        $this->stream->tell();
+    }
+
 }
