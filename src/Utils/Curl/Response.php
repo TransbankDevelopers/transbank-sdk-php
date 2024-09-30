@@ -74,7 +74,7 @@ class Response implements ResponseInterface
 
     public function getHeader($name): array
     {
-        return $this->headers[$name] ?? [];
+        return isset($this->headers[$name]) ? [$this->headers[$name]] : [];
     }
 
     public function getHeaderLine($name): string
