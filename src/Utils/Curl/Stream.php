@@ -33,6 +33,7 @@ class Stream implements StreamInterface
     {
         if ($this->resource) {
             fclose($this->resource);
+            $this->resource = null;
         }
     }
 
