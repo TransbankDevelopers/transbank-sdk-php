@@ -96,7 +96,7 @@ class Request implements RequestInterface
 
     public function getHeader($name): array
     {
-        return $this->headers[$name] ?? [];
+        return isset($this->headers[$name]) ? [$this->headers[$name]] : [];
     }
 
     public function getHeaderLine($name): string
@@ -107,14 +107,12 @@ class Request implements RequestInterface
     public function withHeader($name, $value): RequestInterface
     {
         $new = clone $this;
-        $new->headers[$name] = (array) $value;
         return $new;
     }
 
     public function withAddedHeader($name, $value): RequestInterface
     {
         $new = clone $this;
-        $new->headers[$name][] = $value;
         return $new;
     }
 
