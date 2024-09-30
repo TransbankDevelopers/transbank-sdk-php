@@ -13,7 +13,7 @@ class Request implements RequestInterface
     private UriInterface|string $uri;
     private string $requestTarget = '';
 
-    public function __construct(string $method, UriInterface|string $uri, array $headers = [], StreamInterface|string|null $body = null, string $protocolVersion = '1.1')
+    public function __construct(string $method, UriInterface|string $uri, array $headers = [], StreamInterface|string|null $body = null, string $protocolVersion = '')
     {
         $this->method = $method;
         $this->uri = is_string($uri) ? new Uri($uri) : $uri;
