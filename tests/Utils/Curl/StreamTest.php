@@ -74,4 +74,13 @@ class StreamTest extends TestCase
     {
         $this->assertFalse($this->stream->eof());
     }
+
+    /** @test */
+    public function it_can_get_seek()
+    {
+        $this->stream->close();
+        $this->expectException(StreamException::class);
+        $this->stream->seek(0);
+    }
+
 }
