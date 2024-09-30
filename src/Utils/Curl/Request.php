@@ -72,14 +72,12 @@ class Request implements RequestInterface
 
     public function withHeader($name, $value): RequestInterface
     {
-        $new = clone $this;
-        return $new;
+        return clone $this;
     }
 
     public function withAddedHeader($name, $value): RequestInterface
     {
-        $new = clone $this;
-        return $new;
+        return clone $this;
     }
 
     private function createBody($body = ''): StreamInterface
