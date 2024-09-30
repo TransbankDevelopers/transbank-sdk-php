@@ -21,4 +21,16 @@ class StreamTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         new Stream('no resource data');
     }
+
+    /** @test */
+    public function it_gets_empty_string_on_failure()
+    {
+        $mockStream = $this->getMockBuilder(Stream::class)
+            ->setConstructorArgs([fopen('php://temp', 'r')])
+            ->onlyMethods(['isSeekable'])
+            ->getMock();
+        $mockStream->method('isSeekable')->willThrowException(new Exception('test Exception'));
+        $result = (string) $mockStream;
+        $this->assertEquals('', $result);
+    }
 }
