@@ -29,7 +29,7 @@ class Client implements ClientInterface
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HEADER => true,
             CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_NONE,
+            CURLOPT_HTTP_VERSION => $this->getCurlHttpVersion($request->getProtocolVersion()),
             CURLOPT_TIMEOUT => $this->timeout,
             CURLOPT_CONNECTTIMEOUT => $this->timeout,
         ]);
@@ -78,5 +78,18 @@ class Client implements ClientInterface
         }
 
         return $headers;
+    }
+
+    private function getCurlHttpVersion(string $protocol): int
+    {
+        $protocol = trim($protocol);
+        $curlHttpVersion = [
+            '1.0' => CURL_HTTP_VERSION_1_0,
+            '1.1' => CURL_HTTP_VERSION_1_1,
+            '2.0' => CURL_HTTP_VERSION_2_0,
+            '3.0' => defined('CURL_HTTP_VERSION_3') ? CURL_HTTP_VERSION_3 : CURL_HTTP_VERSION_NONE
+        ];
+
+        return $curlHttpVersion[$protocol] ?? CURL_HTTP_VERSION_NONE;
     }
 }
