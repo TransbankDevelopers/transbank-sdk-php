@@ -81,7 +81,7 @@ class WebpayPlusTransactionTest extends TestCase
         $commerceCode = 'testCommerceCode';
         $apiKey = 'testApiKey';
 
-        $transaction = Transaction::buildForIntegration($commerceCode, $apiKey);
+        $transaction = Transaction::buildForIntegration($apiKey, $commerceCode);
         $transactionOptions = $transaction->getOptions();
 
         $this->assertSame($commerceCode, $transactionOptions->getCommerceCode());
@@ -96,7 +96,7 @@ class WebpayPlusTransactionTest extends TestCase
         $commerceCode = 'testCommerceCode';
         $apiKey = 'testApiKey';
 
-        $transaction = Transaction::buildForProduction($commerceCode, $apiKey);
+        $transaction = Transaction::buildForProduction($apiKey, $commerceCode);
         $transactionOptions = $transaction->getOptions();
 
         $this->assertSame($commerceCode, $transactionOptions->getCommerceCode());
@@ -323,7 +323,7 @@ class WebpayPlusTransactionTest extends TestCase
     /** @test */
     public function it_can_validate_token_input()
     {
-        $transaction = Transaction::buildForIntegration('commerceCode', 'apiKey');
+        $transaction = Transaction::buildForIntegration('apiKey', 'commerceCode');
 
         $this->expectException(InvalidArgumentException::class);
         $transaction->commit('');
