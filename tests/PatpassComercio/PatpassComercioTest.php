@@ -34,7 +34,7 @@ class PatpassComercioTest extends TestCase
         $commerceCode = 'testCommerceCode';
         $apiKey = 'testApiKey';
 
-        $inscription = Inscription::buildForIntegration($commerceCode, $apiKey);
+        $inscription = Inscription::buildForIntegration($apiKey, $commerceCode);
         $options = $inscription->getOptions();
 
         $this->assertSame($commerceCode, $options->getCommerceCode());
@@ -49,7 +49,7 @@ class PatpassComercioTest extends TestCase
         $commerceCode = 'testCommerceCode';
         $apiKey = 'testApiKey';
 
-        $inscription = Inscription::buildForProduction($commerceCode, $apiKey);
+        $inscription = Inscription::buildForProduction($apiKey, $commerceCode);
         $options = $inscription->getOptions();
 
         $this->assertSame($commerceCode, $options->getCommerceCode());
@@ -159,7 +159,8 @@ class PatpassComercioTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_base_url() {
+    public function it_can_get_base_url()
+    {
         $options = new Options('test-api-key', 'test-commerce-code', Options::ENVIRONMENT_INTEGRATION);
         $inscription = new Inscription($options);
 

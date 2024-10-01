@@ -40,8 +40,8 @@ class TransbankOneclickTest extends TestCase
     public function it_creates_an_inscription()
     {
         $response = MallInscription::buildForIntegration(
-            Oneclick::INTEGRATION_COMMERCE_CODE,
-            Oneclick::INTEGRATION_API_KEY
+            Oneclick::INTEGRATION_API_KEY,
+            Oneclick::INTEGRATION_COMMERCE_CODE
         )->start($this->username, $this->email, $this->responseUrl);
 
         $this->assertInstanceOf(InscriptionStartResponse::class, $response);
@@ -58,8 +58,8 @@ class TransbankOneclickTest extends TestCase
         $this->expectExceptionMessage('Invalid value for parameter: email');
 
         MallInscription::buildForIntegration(
-            Oneclick::INTEGRATION_COMMERCE_CODE,
-            Oneclick::INTEGRATION_API_KEY
+            Oneclick::INTEGRATION_API_KEY,
+            Oneclick::INTEGRATION_COMMERCE_CODE
         )->start($this->username, 'not_an_email', $this->responseUrl);
     }
 
@@ -70,8 +70,8 @@ class TransbankOneclickTest extends TestCase
         $this->expectExceptionMessage('username is required');
 
         MallInscription::buildForIntegration(
-            Oneclick::INTEGRATION_COMMERCE_CODE,
-            Oneclick::INTEGRATION_API_KEY
+            Oneclick::INTEGRATION_API_KEY,
+            Oneclick::INTEGRATION_COMMERCE_CODE
         )->start('', $this->email, $this->responseUrl);
     }
 
@@ -81,14 +81,14 @@ class TransbankOneclickTest extends TestCase
         $this->createDemoData();
 
         $startResponse = MallInscription::buildForIntegration(
-            Oneclick::INTEGRATION_COMMERCE_CODE,
-            Oneclick::INTEGRATION_API_KEY
+            Oneclick::INTEGRATION_API_KEY,
+            Oneclick::INTEGRATION_COMMERCE_CODE
         )->start($this->username, $this->email, $this->responseUrl);
         $this->assertInstanceOf(InscriptionStartResponse::class, $startResponse);
         $tokenResponse = $startResponse->getToken();
         $response = MallInscription::buildForIntegration(
-            Oneclick::INTEGRATION_COMMERCE_CODE,
-            Oneclick::INTEGRATION_API_KEY
+            Oneclick::INTEGRATION_API_KEY,
+            Oneclick::INTEGRATION_COMMERCE_CODE
         )->finish($tokenResponse);
         $this->assertInstanceOf(InscriptionFinishResponse::class, $response);
 
@@ -100,8 +100,8 @@ class TransbankOneclickTest extends TestCase
     public function it_fails_authorizing_a_transaction_with_a_fake_token()
     {
         $mallTransaction = MallTransaction::buildForIntegration(
-            Oneclick::INTEGRATION_COMMERCE_CODE,
-            Oneclick::INTEGRATION_API_KEY
+            Oneclick::INTEGRATION_API_KEY,
+            Oneclick::INTEGRATION_COMMERCE_CODE
         );
         $exception = null;
         try {
@@ -142,8 +142,8 @@ class TransbankOneclickTest extends TestCase
     {
         $this->expectException(MallTransactionAuthorizeException::class);
         MallTransaction::buildForIntegration(
-            Oneclick::INTEGRATION_COMMERCE_CODE,
-            Oneclick::INTEGRATION_API_KEY
+            Oneclick::INTEGRATION_API_KEY,
+            Oneclick::INTEGRATION_COMMERCE_CODE
         )->authorize('', 'fakeToken', 'buyOrder2132312', [
             [
                 'commerce_code'       => Oneclick::INTEGRATION_CHILD_COMMERCE_CODE_1,
@@ -167,7 +167,7 @@ class TransbankOneclickTest extends TestCase
         $commerceCode = 'testCommerceCode';
         $apiKey = 'testApiKey';
 
-        $inscription = MallInscription::buildForIntegration($commerceCode, $apiKey);
+        $inscription = MallInscription::buildForIntegration($apiKey, $commerceCode);
         $inscriptionOptions = $inscription->getOptions();
 
         $this->assertSame($commerceCode, $inscriptionOptions->getCommerceCode());
@@ -182,7 +182,7 @@ class TransbankOneclickTest extends TestCase
         $commerceCode = 'testCommerceCode';
         $apiKey = 'testApiKey';
 
-        $inscription = MallInscription::buildForProduction($commerceCode, $apiKey);
+        $inscription = MallInscription::buildForProduction($apiKey, $commerceCode);
         $inscriptionOptions = $inscription->getOptions();
 
         $this->assertSame($commerceCode, $inscriptionOptions->getCommerceCode());
@@ -213,7 +213,7 @@ class TransbankOneclickTest extends TestCase
         $commerceCode = 'testCommerceCode';
         $apiKey = 'testApiKey';
 
-        $transaction = MallTransaction::buildForIntegration($commerceCode, $apiKey);
+        $transaction = MallTransaction::buildForIntegration($apiKey, $commerceCode);
         $transactionOptions = $transaction->getOptions();
 
         $this->assertSame($commerceCode, $transactionOptions->getCommerceCode());
@@ -228,7 +228,7 @@ class TransbankOneclickTest extends TestCase
         $commerceCode = 'testCommerceCode';
         $apiKey = 'testApiKey';
 
-        $transaction = MallTransaction::buildForProduction($commerceCode, $apiKey);
+        $transaction = MallTransaction::buildForProduction($apiKey, $commerceCode);
         $transactionOptions = $transaction->getOptions();
 
         $this->assertSame($commerceCode, $transactionOptions->getCommerceCode());

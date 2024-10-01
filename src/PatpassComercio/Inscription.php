@@ -177,23 +177,23 @@ class Inscription
     }
 
     /**
-     * @param string $commerceCode
      * @param string $apiKey
+     * @param string $commerceCode
      *
      * @return self
      */
-    public static function buildForIntegration(string $commerceCode, string $apiKey): self
+    public static function buildForIntegration(string $apiKey, string $commerceCode): self
     {
         return new self(new Options($apiKey, $commerceCode, Options::ENVIRONMENT_INTEGRATION));
     }
 
     /**
-     * @param string $commerceCode
      * @param string $apiKey
+     * @param string $commerceCode
      *
      * @return self
      */
-    public static function buildForProduction(string $commerceCode, string $apiKey): self
+    public static function buildForProduction(string $apiKey, string $commerceCode): self
     {
         return new self(new Options($apiKey, $commerceCode, Options::ENVIRONMENT_PRODUCTION));
     }

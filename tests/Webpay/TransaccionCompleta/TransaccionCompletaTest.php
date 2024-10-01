@@ -91,7 +91,7 @@ class TransaccionCompletaTest extends TestCase
         $commerceCode = 'testCommerceCode';
         $apiKey = 'testApiKey';
 
-        $transaction = Transaction::buildForIntegration($commerceCode, $apiKey);
+        $transaction = Transaction::buildForIntegration($apiKey, $commerceCode);
         $transactionOptions = $transaction->getOptions();
 
         $this->assertSame($commerceCode, $transactionOptions->getCommerceCode());
@@ -106,7 +106,7 @@ class TransaccionCompletaTest extends TestCase
         $commerceCode = 'testCommerceCode';
         $apiKey = 'testApiKey';
 
-        $transaction = Transaction::buildForProduction($commerceCode, $apiKey);
+        $transaction = Transaction::buildForProduction($apiKey, $commerceCode);
         $transactionOptions = $transaction->getOptions();
 
         $this->assertSame($commerceCode, $transactionOptions->getCommerceCode());
