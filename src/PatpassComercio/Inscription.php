@@ -17,7 +17,7 @@ use Transbank\Utils\HttpClientRequestService;
 use Transbank\Utils\RequestServiceTrait;
 use Transbank\Contracts\RequestService;
 use Transbank\PatpassComercio\Options;
-use GuzzleHttp\Exception\GuzzleException;
+use Transbank\Utils\Curl\Exceptions\CurlRequestException;
 
 class Inscription
 {
@@ -63,7 +63,7 @@ class Inscription
      * @param string $city
      *
      * @throws InscriptionStartException
-     * @throws GuzzleException
+     * @throws CurlRequestException
      *
      * @return InscriptionStartResponse
      */
@@ -123,7 +123,7 @@ class Inscription
      * @param string $token
      *
      * @throws InscriptionStatusException
-     * @throws GuzzleException
+     * @throws CurlRequestException
      *
      * @return InscriptionStatusResponse
      */

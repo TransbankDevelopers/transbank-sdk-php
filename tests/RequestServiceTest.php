@@ -1,8 +1,8 @@
 <?php
 
-use GuzzleHttp\Psr7\Response;
+use Transbank\Utils\Curl\Response;
 use PHPUnit\Framework\TestCase;
-use Transbank\Utils\HttpClient;
+use Transbank\Utils\Curl\HttpCurlClient;
 use Transbank\Utils\HttpClientRequestService;
 use Transbank\Webpay\Options;
 
@@ -23,7 +23,7 @@ class RequestServiceTest extends TestCase
             ->method('getTimeout')
             ->willReturn($timeOut);
 
-        $httpClientMock = $this->createMock(HttpClient::class);
+        $httpClientMock = $this->createMock(HttpCurlClient::class);
         $httpClientMock
             ->expects($this->once())
             ->method('request')
@@ -49,7 +49,7 @@ class RequestServiceTest extends TestCase
             ->method('getApiBaseUrl')
             ->willReturn($expectedBaseUrl);
 
-        $httpClientMock = $this->createMock(HttpClient::class);
+        $httpClientMock = $this->createMock(HttpCurlClient::class);
         $httpClientMock
             ->expects($this->once())
             ->method('request')
@@ -64,7 +64,7 @@ class RequestServiceTest extends TestCase
     public function it_returns_an_empty_array()
     {
         $options = new Options('ApiKey', 'commerceCode', Options::ENVIRONMENT_INTEGRATION);
-        $httpClientMock = $this->createMock(HttpClient::class);
+        $httpClientMock = $this->createMock(HttpCurlClient::class);
         $httpClientMock
             ->expects($this->once())
             ->method('request')
@@ -77,7 +77,7 @@ class RequestServiceTest extends TestCase
     public function it_returns_an_api_request()
     {
         $options = new Options('ApiKey', 'commerceCode', Options::ENVIRONMENT_INTEGRATION);
-        $httpClientMock = $this->createMock(HttpClient::class);
+        $httpClientMock = $this->createMock(HttpCurlClient::class);
         $httpClientMock
             ->expects($this->once())
             ->method('request')
