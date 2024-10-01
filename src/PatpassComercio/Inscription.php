@@ -17,7 +17,6 @@ use Transbank\Utils\HttpClientRequestService;
 use Transbank\Utils\RequestServiceTrait;
 use Transbank\Contracts\RequestService;
 use Transbank\PatpassComercio\Options;
-use Transbank\Utils\Curl\Exceptions\CurlRequestException;
 
 class Inscription
 {
@@ -63,7 +62,7 @@ class Inscription
      * @param string $city
      *
      * @throws InscriptionStartException
-     * @throws CurlRequestException
+     * @throws \Transbank\Utils\Curl\Exceptions\CurlRequestException
      *
      * @return InscriptionStartResponse
      */
@@ -123,7 +122,7 @@ class Inscription
      * @param string $token
      *
      * @throws InscriptionStatusException
-     * @throws CurlRequestException
+     * @throws \Transbank\Utils\Curl\Exceptions\CurlRequestException
      *
      * @return InscriptionStatusResponse
      */
