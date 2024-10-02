@@ -60,14 +60,4 @@ class Response implements ResponseInterface
         $new->headers[$name][] = $value;
         return $new;
     }
-
-    private function createBody($body = ''): StreamInterface
-    {
-        $resource = fopen('php://temp', 'rw+');
-        if (!empty($body)) {
-            fwrite($resource, $body);
-        }
-
-        return new Stream($resource);
-    }
 }
