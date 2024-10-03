@@ -2,7 +2,6 @@
 
 use PHPUnit\Framework\TestCase;
 use Transbank\Utils\Curl\Response;
-use Transbank\Utils\Curl\Stream;
 
 
 class ResponseTest extends TestCase

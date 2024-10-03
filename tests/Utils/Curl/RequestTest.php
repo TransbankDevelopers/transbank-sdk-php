@@ -3,7 +3,6 @@
 use PHPUnit\Framework\TestCase;
 use Transbank\Utils\Curl\Request;
 use Transbank\Utils\Curl\Uri;
-use Transbank\Utils\Curl\Stream;
 
 
 class RequestTest extends TestCase
