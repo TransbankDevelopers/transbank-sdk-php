@@ -46,18 +46,4 @@ class Response implements ResponseInterface
     {
         return $this->reasonPhrase;
     }
-
-    public function withHeader($name, $value): ResponseInterface
-    {
-        $new = clone $this;
-        $new->headers[$name] = (array) $value;
-        return $new;
-    }
-
-    public function withAddedHeader($name, $value): ResponseInterface
-    {
-        $new = clone $this;
-        $new->headers[$name][] = $value;
-        return $new;
-    }
 }
