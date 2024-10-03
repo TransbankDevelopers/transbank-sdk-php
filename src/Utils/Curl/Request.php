@@ -69,14 +69,4 @@ class Request implements RequestInterface
 
         return $new;
     }
-
-    public function withHeader($name, $value): RequestInterface
-    {
-        return clone $this;
-    }
-
-    public function withAddedHeader($name, $value): RequestInterface
-    {
-        return clone $this;
-    }
 }
