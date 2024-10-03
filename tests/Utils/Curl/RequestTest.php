@@ -60,10 +60,12 @@ class RequestTest extends TestCase
         $this->assertEquals([], $newRequest->getHeader('Accept'));
         $this->assertNotSame($newRequest, $this->request);
 
-
-        $resource = fopen('php://temp', 'rw+');
-        fwrite($resource, 'testData');
-        $newRequest = $this->request->withBody(new Stream($resource));
+        $secondRequest =
+            new Request('GET', 'https://www.transbank.cl:443/webpay/1.2/transactions/token?param1=123&param2=222', [
+                'Accept' => 'text/plain',
+                'api_key' => 'fakeApiKey'
+            ], 'this is a new body', '1.2');
+        $newRequest = $this->request->withBody($secondRequest->getBody());
         $this->assertFalse($newRequest->getBody() == $this->request->getBody());
         $this->assertNotSame($newRequest, $this->request);
     }
