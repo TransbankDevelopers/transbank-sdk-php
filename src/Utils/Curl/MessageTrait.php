@@ -62,6 +62,20 @@ trait MessageTrait
         return $new;
     }
 
+    public function withHeader($name, $value): static
+    {
+        $new = clone $this;
+        $new->headers[$name] = (array) $value;
+        return $new;
+    }
+
+    public function withAddedHeader($name, $value): static
+    {
+        $new = clone $this;
+        $new->headers[$name][] = $value;
+        return $new;
+    }
+
     private function createBody($body = ''): StreamInterface
     {
         $resource = fopen('php://temp', 'rw+');
