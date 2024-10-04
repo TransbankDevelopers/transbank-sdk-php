@@ -3,6 +3,7 @@
 namespace Transbank\Utils\Curl;
 
 use Psr\Http\Message\StreamInterface;
+use Transbank\Utils\Curl\Exceptions\CurlRequestException;
 
 trait MessageTrait
 {
@@ -59,5 +60,36 @@ trait MessageTrait
         $new = clone $this;
         $new->body = $body;
         return $new;
+    }
+
+    public function withHeader($name, $value): static
+    {
+        $new = clone $this;
+        $new->headers[$name] = (array) $value;
+        return $new;
+    }
+
+    public function withAddedHeader($name, $value): static
+    {
+        $new = clone $this;
+        $new->headers[$name][] = $value;
+        return $new;
+    }
+
+    private function createBody($body = ''): StreamInterface
+    {
+        $resource = fopen('php://temp', 'rw+');
+        if ($resource === false) {
+            throw new CurlRequestException('Unable to open stream');
+        }
+
+        if (!empty($body)) {
+            $writtenBytes = fwrite($resource, $body);
+            if ($writtenBytes === false) {
+                throw new CurlRequestException('Unable to write to stream');
+            }
+        }
+
+        return new Stream($resource);
     }
 }

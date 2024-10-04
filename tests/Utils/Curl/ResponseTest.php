@@ -2,7 +2,6 @@
 
 use PHPUnit\Framework\TestCase;
 use Transbank\Utils\Curl\Response;
-use Transbank\Utils\Curl\Stream;
 
 
 class ResponseTest extends TestCase
@@ -52,10 +51,11 @@ class ResponseTest extends TestCase
         $this->assertEquals([], $newResponse->getHeader('Accept'));
         $this->assertNotSame($newResponse, $this->response);
 
-
-        $resource = fopen('php://temp', 'rw+');
-        fwrite($resource, 'testData');
-        $newResponse = $this->response->withBody(new Stream($resource));
+        $secondResponse = new Response(200, [
+            'Accept' => 'text/plain',
+            'api_key' => 'fakeApiKey'
+        ], 'a text for body');
+        $newResponse = $this->response->withBody($secondResponse->getBody());
         $this->assertFalse($newResponse->getBody() == $this->response->getBody());
         $this->assertNotSame($newResponse, $this->response);
     }

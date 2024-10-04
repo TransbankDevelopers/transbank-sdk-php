@@ -10,7 +10,6 @@ use Transbank\Webpay\Oneclick\Exceptions\InscriptionStartException;
 use Transbank\Webpay\Oneclick\Responses\InscriptionDeleteResponse;
 use Transbank\Webpay\Oneclick\Responses\InscriptionFinishResponse;
 use Transbank\Webpay\Oneclick\Responses\InscriptionStartResponse;
-use Transbank\Utils\Curl\Exceptions\CurlRequestException;
 
 class MallInscription
 {
@@ -28,7 +27,7 @@ class MallInscription
      * @return InscriptionStartResponse
      *
      * @throws InscriptionStartException
-     * @throws CurlRequestException
+     * @throws \Transbank\Utils\Curl\Exceptions\CurlRequestException
      */
     public function start(string $username, string $email, string $responseUrl): InscriptionStartResponse
     {
@@ -63,7 +62,7 @@ class MallInscription
      * @return InscriptionFinishResponse
      *
      * @throws InscriptionFinishException
-     * @throws CurlRequestException
+     * @throws \Transbank\Utils\Curl\Exceptions\CurlRequestException
      */
     public function finish(string $token): InscriptionFinishResponse
     {
@@ -93,7 +92,7 @@ class MallInscription
      * @return InscriptionDeleteResponse
      *
      * @throws InscriptionDeleteException
-     * @throws CurlRequestException
+     * @throws \Transbank\Utils\Curl\Exceptions\CurlRequestException
      */
     public function delete(string $tbkUser, string $username): InscriptionDeleteResponse
     {
