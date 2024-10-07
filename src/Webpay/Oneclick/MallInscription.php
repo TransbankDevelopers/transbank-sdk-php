@@ -7,7 +7,6 @@ use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Oneclick\Exceptions\InscriptionDeleteException;
 use Transbank\Webpay\Oneclick\Exceptions\InscriptionFinishException;
 use Transbank\Webpay\Oneclick\Exceptions\InscriptionStartException;
-use Transbank\Webpay\Oneclick\Responses\InscriptionDeleteResponse;
 use Transbank\Webpay\Oneclick\Responses\InscriptionFinishResponse;
 use Transbank\Webpay\Oneclick\Responses\InscriptionStartResponse;
 
@@ -89,14 +88,13 @@ class MallInscription
      * @param string $tbkUser
      * @param string $username
      *
-     * @return InscriptionDeleteResponse
+     * @return bool
      *
      * @throws InscriptionDeleteException
      * @throws \Transbank\Utils\Curl\Exceptions\CurlRequestException
      */
-    public function delete(string $tbkUser, string $username): InscriptionDeleteResponse
+    public function delete(string $tbkUser, string $username): bool
     {
-        $successDeletedCode = 204;
         $payload = [
             'tbk_user' => $tbkUser,
             'username' => $username,
@@ -109,9 +107,6 @@ class MallInscription
                 $payload
             );
         } catch (WebpayRequestException $exception) {
-            if ($exception->getHttpCode() !== $successDeletedCode) {
-                return new InscriptionDeleteResponse(false, $exception->getHttpCode());
-            }
 
             throw new InscriptionDeleteException(
                 $exception->getMessage(),
@@ -122,6 +117,6 @@ class MallInscription
             );
         }
 
-        return new InscriptionDeleteResponse(true, $successDeletedCode);
+        return true;
     }
 }
