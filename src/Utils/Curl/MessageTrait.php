@@ -78,6 +78,8 @@ trait MessageTrait
 
     private function createBody($body = ''): StreamInterface
     {
+        $oldErrorReporting = error_reporting();
+        error_reporting(0);
         $resource = fopen('php://temp', 'rw+');
         if ($resource === false) {
             throw new CurlRequestException('Unable to open stream');
@@ -89,6 +91,8 @@ trait MessageTrait
                 throw new CurlRequestException('Unable to write to stream');
             }
         }
+
+        error_reporting($oldErrorReporting);
 
         return new Stream($resource);
     }
