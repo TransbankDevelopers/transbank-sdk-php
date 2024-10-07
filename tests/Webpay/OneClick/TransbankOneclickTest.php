@@ -265,8 +265,7 @@ class TransbankOneclickTest extends TestCase
         $inscription = new MallInscription($options, $requestServiceMock);
         $deleteResponse = $inscription->delete('tbkTestUser', 'useNameTest');
 
-        $this->assertTrue($deleteResponse->wasSuccessfull());
-        $this->assertSame(204, $deleteResponse->getCode());
+        $this->assertTrue($deleteResponse);
     }
 
     /** @test */
