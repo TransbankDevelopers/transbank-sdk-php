@@ -265,8 +265,7 @@ class TransbankOneclickTest extends TestCase
         $inscription = new MallInscription($options, $requestServiceMock);
         $deleteResponse = $inscription->delete('tbkTestUser', 'useNameTest');
 
-        $this->assertTrue($deleteResponse->wasSuccessfull());
-        $this->assertSame(204, $deleteResponse->getCode());
+        $this->assertTrue($deleteResponse);
     }
 
     /** @test */
@@ -279,10 +278,8 @@ class TransbankOneclickTest extends TestCase
             ->willThrowException(new WebpayRequestException("Could not obtain a response from Transbank API", null, 404));
         $options = new Options('apiKey', 'commerceCode', Options::ENVIRONMENT_INTEGRATION);
         $inscription = new MallInscription($options, $requestServiceMock);
-        $deleteResponse = $inscription->delete('tbkTestUser', 'useNameTest');
-
-        $this->assertFalse($deleteResponse->wasSuccessfull());
-        $this->assertSame(404, $deleteResponse->getCode());
+        $this->expectException(InscriptionDeleteException::class);
+        $inscription->delete('tbkTestUser', 'useNameTest');
     }
 
     /** @test */
