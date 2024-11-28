@@ -3,6 +3,7 @@
 namespace Transbank\Contracts;
 
 use Transbank\Webpay\Options;
+use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Psr\Http\Message\ResponseInterface;
 use Transbank\Utils\TransbankApiRequest;
 
@@ -14,7 +15,7 @@ interface RequestService
      * @param array   $payload
      * @param Options $options
      *
-     * @throws \Transbank\Webpay\Exceptions\WebpayRequestException
+     * @throws WebpayRequestException
      *
      * @return array Response from the API as json.
      */

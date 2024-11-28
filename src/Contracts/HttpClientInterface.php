@@ -3,6 +3,7 @@
 namespace Transbank\Contracts;
 
 use Psr\Http\Message\ResponseInterface;
+use Transbank\Utils\Curl\Exceptions\CurlRequestException;
 
 interface HttpClientInterface
 {
@@ -12,7 +13,7 @@ interface HttpClientInterface
      * @param array|null $payload
      * @param array|null $options
      *
-     * @throws \Transbank\Utils\Curl\Exceptions\CurlRequestException
+     * @throws CurlRequestException
      *
      * @return ResponseInterface
      */

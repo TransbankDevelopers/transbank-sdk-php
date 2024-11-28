@@ -2,7 +2,6 @@
 
 use PHPUnit\Framework\TestCase;
 use Transbank\Utils\Curl\Stream;
-use Transbank\Utils\Curl\Response;
 use Transbank\Utils\Curl\Exceptions\StreamException;
 
 class StreamTest extends TestCase
@@ -11,9 +10,9 @@ class StreamTest extends TestCase
 
     public function setUp(): void
     {
-        $response = new Response(200, [], 'this is a test data for stream');
-        $stream = $response->getBody();
-        $this->stream = $stream;
+        $resource = fopen('php://temp', 'rw+');
+        fwrite($resource, 'this is a test data for stream');
+        $this->stream = new Stream($resource);
     }
 
     /** @test */
@@ -27,7 +26,7 @@ class StreamTest extends TestCase
     public function it_gets_empty_string_on_failure()
     {
         $mockStream = $this->getMockBuilder(Stream::class)
-            ->disableOriginalConstructor()
+            ->setConstructorArgs([fopen('php://temp', 'r')])
             ->onlyMethods(['isSeekable'])
             ->getMock();
         $mockStream->method('isSeekable')->willThrowException(new Exception('test Exception'));

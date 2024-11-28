@@ -3,6 +3,7 @@
 namespace Transbank\Webpay\WebpayPlus;
 
 use Transbank\Utils\InteractsWithWebpayApi;
+use Transbank\Utils\Curl\Exceptions\CurlRequestException;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCaptureException;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCommitException;
@@ -42,7 +43,7 @@ class Transaction
      * @param string    $returnUrl
      *
      * @throws TransactionCreateException
-     * @throws \Transbank\Utils\Curl\Exceptions\CurlRequestException
+     * @throws CurlRequestException
      *
      * @return TransactionCreateResponse
      */
@@ -78,7 +79,7 @@ class Transaction
      * @param string $token
      *
      * @throws TransactionCommitException
-     * @throws \Transbank\Utils\Curl\Exceptions\CurlRequestException
+     * @throws CurlRequestException
      *
      * @return TransactionCommitResponse
      */
@@ -112,7 +113,7 @@ class Transaction
      * @param int|float  $amount
      *
      * @throws TransactionRefundException
-     * @throws \Transbank\Utils\Curl\Exceptions\CurlRequestException
+     * @throws CurlRequestException
      *
      * @return TransactionRefundResponse
      */
@@ -141,7 +142,7 @@ class Transaction
      * @param string $token
      *
      * @throws TransactionStatusException
-     * @throws \Transbank\Utils\Curl\Exceptions\CurlRequestException
+     * @throws CurlRequestException
      *
      * @return TransactionStatusResponse
      */
@@ -173,7 +174,7 @@ class Transaction
      * @param int|float  $captureAmount
      *
      * @throws TransactionCaptureException
-     * @throws \Transbank\Utils\Curl\Exceptions\CurlRequestException
+     * @throws CurlRequestException
      *
      * @return TransactionCaptureResponse
      */
