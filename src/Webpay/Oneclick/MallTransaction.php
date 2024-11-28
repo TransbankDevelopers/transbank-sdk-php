@@ -12,6 +12,7 @@ use Transbank\Webpay\Oneclick\Responses\MallTransactionAuthorizeResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionCaptureResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionRefundResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionStatusResponse;
+use Transbank\Utils\Curl\Exceptions\CurlRequestException;
 
 class MallTransaction
 {
@@ -30,7 +31,7 @@ class MallTransaction
      * @return MallTransactionAuthorizeResponse
      *
      * @throws MallTransactionAuthorizeException
-     * @throws \Transbank\Utils\Curl\Exceptions\CurlRequestException
+     * @throws CurlRequestException
      */
     public function authorize(
         string $userName,
@@ -73,7 +74,7 @@ class MallTransaction
      * @return MallTransactionCaptureResponse
      *
      * @throws MallTransactionCaptureException
-     * @throws \Transbank\Utils\Curl\Exceptions\CurlRequestException
+     * @throws CurlRequestException
      */
     public function capture(
         string $childCommerceCode,
@@ -113,7 +114,7 @@ class MallTransaction
      * @return MallTransactionStatusResponse
      *
      * @throws MallTransactionStatusException
-     * @throws \Transbank\Utils\Curl\Exceptions\CurlRequestException
+     * @throws CurlRequestException
      */
     public function status(string $buyOrder): MallTransactionStatusResponse
     {
@@ -145,7 +146,7 @@ class MallTransaction
      * @return MallTransactionRefundResponse
      *
      * @throws MallRefundTransactionException
-     * @throws \Transbank\Utils\Curl\Exceptions\CurlRequestException
+     * @throws CurlRequestException
      */
     public function refund(
         string $buyOrder,

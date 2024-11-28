@@ -8,6 +8,7 @@ use Transbank\Utils\TransbankApiRequest;
 use Transbank\Utils\Curl\HttpCurlClient;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
+use Transbank\Utils\Curl\Exceptions\CurlRequestException;
 use Psr\Http\Message\ResponseInterface;
 
 class HttpClientRequestService implements RequestService
@@ -56,8 +57,7 @@ class HttpClientRequestService implements RequestService
      * @param array   $payload
      * @param Options $options
      *
-     * @throws \Transbank\Utils\Curl\Exceptions\CurlRequestException
-
+     * @throws CurlRequestException
      * @throws WebpayRequestException
      *
      * @return array

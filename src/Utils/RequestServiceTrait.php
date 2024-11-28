@@ -3,6 +3,7 @@
 namespace Transbank\Utils;
 
 use Transbank\Contracts\RequestService;
+use Transbank\Webpay\Exceptions\WebpayRequestException;
 
 /**
  * Trait RequestServiceTrait .
@@ -20,7 +21,7 @@ trait RequestServiceTrait
      * @param string $endpoint
      * @param array  $payload
      *
-     * @throws \Transbank\Webpay\Exceptions\WebpayRequestException
+     * @throws WebpayRequestException
      *
      * @return array
      */

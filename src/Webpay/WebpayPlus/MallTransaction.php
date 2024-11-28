@@ -4,6 +4,8 @@ namespace Transbank\Webpay\WebpayPlus;
 
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
+use Transbank\Webpay\Options;
+use Transbank\Webpay\WebpayPlus;
 use Transbank\Webpay\WebpayPlus\Exceptions\MallTransactionCaptureException;
 use Transbank\Webpay\WebpayPlus\Exceptions\MallTransactionCommitException;
 use Transbank\Webpay\WebpayPlus\Exceptions\MallTransactionCreateException;
@@ -14,6 +16,7 @@ use Transbank\Webpay\WebpayPlus\Responses\MallTransactionCommitResponse;
 use Transbank\Webpay\WebpayPlus\Responses\MallTransactionCreateResponse;
 use Transbank\Webpay\WebpayPlus\Responses\MallTransactionRefundResponse;
 use Transbank\Webpay\WebpayPlus\Responses\MallTransactionStatusResponse;
+use Transbank\Utils\Curl\Exceptions\CurlRequestException;
 
 class MallTransaction
 {
@@ -33,7 +36,7 @@ class MallTransaction
      * @param array $details
      *
      * @throws MallTransactionCreateException
-     * @throws \Transbank\Utils\Curl\Exceptions\CurlRequestException
+     * @throws CurlRequestException
      *
      * @return MallTransactionCreateResponse
      */
@@ -69,7 +72,7 @@ class MallTransaction
      * @param string $token
      *
      * @throws MallTransactionCommitException
-     * @throws \Transbank\Utils\Curl\Exceptions\CurlRequestException
+     * @throws CurlRequestException
      *
      * @return MallTransactionCommitResponse
      */
@@ -105,7 +108,7 @@ class MallTransaction
      * @param int|float $amount
      *
      * @throws MallTransactionRefundException
-     * @throws \Transbank\Utils\Curl\Exceptions\CurlRequestException
+     * @throws CurlRequestException
      *
      * @return MallTransactionRefundResponse
      */
@@ -140,7 +143,7 @@ class MallTransaction
      * @param string $token
      *
      * @throws MallTransactionStatusException
-     * @throws \Transbank\Utils\Curl\Exceptions\CurlRequestException
+     * @throws CurlRequestException
      *
      * @return MallTransactionStatusResponse
      */
@@ -173,7 +176,7 @@ class MallTransaction
      * @param int|float $captureAmount
      *
      * @throws MallTransactionCaptureException
-     * @throws \Transbank\Utils\Curl\Exceptions\CurlRequestException
+     * @throws CurlRequestException
      *
      * @return MallTransactionCaptureResponse
      */
