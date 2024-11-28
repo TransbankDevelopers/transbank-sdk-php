@@ -16,7 +16,7 @@ use Transbank\Webpay\WebpayPlus\Responses\MallTransactionCommitResponse;
 use Transbank\Webpay\WebpayPlus\Responses\MallTransactionCreateResponse;
 use Transbank\Webpay\WebpayPlus\Responses\MallTransactionRefundResponse;
 use Transbank\Webpay\WebpayPlus\Responses\MallTransactionStatusResponse;
-use Transbank\Utils\Curl\Exceptions\CurlRequestException;
+use GuzzleHttp\Exception\GuzzleException;
 
 class MallTransaction
 {
@@ -36,7 +36,7 @@ class MallTransaction
      * @param array $details
      *
      * @throws MallTransactionCreateException
-     * @throws CurlRequestException
+     * @throws GuzzleException
      *
      * @return MallTransactionCreateResponse
      */
@@ -72,7 +72,7 @@ class MallTransaction
      * @param string $token
      *
      * @throws MallTransactionCommitException
-     * @throws CurlRequestException
+     * @throws GuzzleException
      *
      * @return MallTransactionCommitResponse
      */
@@ -108,7 +108,7 @@ class MallTransaction
      * @param int|float $amount
      *
      * @throws MallTransactionRefundException
-     * @throws CurlRequestException
+     * @throws GuzzleException
      *
      * @return MallTransactionRefundResponse
      */
@@ -143,7 +143,7 @@ class MallTransaction
      * @param string $token
      *
      * @throws MallTransactionStatusException
-     * @throws CurlRequestException
+     * @throws GuzzleException
      *
      * @return MallTransactionStatusResponse
      */
@@ -176,7 +176,7 @@ class MallTransaction
      * @param int|float $captureAmount
      *
      * @throws MallTransactionCaptureException
-     * @throws CurlRequestException
+     * @throws GuzzleException
      *
      * @return MallTransactionCaptureResponse
      */

@@ -16,7 +16,7 @@ use Transbank\Webpay\TransaccionCompleta\Responses\TransactionStatusResponse;
 use Transbank\Webpay\TransaccionCompleta\Responses\TransactionCaptureResponse;
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
-use Transbank\Utils\Curl\Exceptions\CurlRequestException;
+use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * Class Transaction.
@@ -42,7 +42,7 @@ class Transaction
      * @param string|null   $cvv
      *
      * @throws TransactionCreateException
-     * @throws CurlRequestException
+     * @throws GuzzleException
      *
      * @return TransactionCreateResponse
      */
@@ -83,7 +83,7 @@ class Transaction
      * @param int    $installmentsNumber
      *
      * @throws TransactionInstallmentsException
-     * @throws CurlRequestException
+     * @throws GuzzleException
      *
      * @return TransactionInstallmentsResponse
      */
@@ -119,7 +119,7 @@ class Transaction
      * @param bool|null     $gracePeriod
      *
      * @throws TransactionCommitException
-     * @throws CurlRequestException
+     * @throws GuzzleException
      *
      * @return TransactionCommitResponse
      */
@@ -157,7 +157,7 @@ class Transaction
      * @param int|float $amount
      *
      * @throws TransactionRefundException
-     * @throws CurlRequestException
+     * @throws GuzzleException
      *
      * @return TransactionRefundResponse
      */
@@ -188,7 +188,7 @@ class Transaction
      * @param string $token
      *
      * @throws TransactionStatusException
-     * @throws CurlRequestException
+     * @throws GuzzleException
      *
      * @return TransactionStatusResponse
      */
@@ -218,7 +218,7 @@ class Transaction
      * @param int|float $captureAmount
      *
      * @throws TransactionCaptureException
-     * @throws CurlRequestException
+     * @throws GuzzleException
      *
      * @return TransactionCaptureResponse
      */
