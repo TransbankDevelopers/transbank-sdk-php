@@ -78,10 +78,7 @@ trait MessageTrait
 
     private function createBody($body = ''): StreamInterface
     {
-        $oldErrorReporting = error_reporting();
-        error_reporting(0);
         $resource = fopen('php://temp', 'rw+');
-        error_reporting($oldErrorReporting);
         if ($resource === false) {
             throw new CurlRequestException('Unable to open stream');
         }
