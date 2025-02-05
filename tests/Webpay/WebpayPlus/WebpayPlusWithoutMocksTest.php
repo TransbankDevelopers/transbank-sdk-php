@@ -3,6 +3,7 @@
 namespace Webpay\WebpayPlus;
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Transbank\Webpay\Options;
 use Transbank\Webpay\WebpayPlus;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCaptureException;
@@ -53,7 +54,7 @@ class WebpayPlusWithoutMocksTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_a_real_transaction_with_options()
     {
         $transaction = (new Transaction($this->options));
@@ -78,7 +79,7 @@ class WebpayPlusWithoutMocksTest extends TestCase
         $transaction->create($this->buyOrder, $this->sessionId, $this->amount, $this->returnUrl);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_the_status_of_a_transaction()
     {
         $jsonResponse = [
@@ -104,7 +105,7 @@ class WebpayPlusWithoutMocksTest extends TestCase
         $this->assertEquals('INITIALIZED', $response->getStatus());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_not_commit_a_recently_created_transaction()
     {
         $response = (new Transaction($this->options))->create(
@@ -119,7 +120,7 @@ class WebpayPlusWithoutMocksTest extends TestCase
         (new Transaction($this->options))->commit($response->getToken());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_not_capture_a_recently_created_transaction()
     {
         $deferredOptions = new Options(
@@ -138,7 +139,7 @@ class WebpayPlusWithoutMocksTest extends TestCase
         (new Transaction($deferredOptions))->capture($response->getToken(), $this->buyOrder, 'authCode', $this->amount);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_not_capture_a_transaction_with_simultaneous_capture_commerce_code()
     {
         $transaction = new Transaction(new Options(
@@ -154,7 +155,7 @@ class WebpayPlusWithoutMocksTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_a_card_number_in_null_when_it_not_exists()
     {
         $transaction = new Transaction($this->options);

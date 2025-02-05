@@ -1,11 +1,12 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Transbank\Webpay\TransaccionCompleta\Responses\TransactionCreateResponse;
 
 class TransactionCompletareateResponseTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_get_token()
     {
         $json = [
@@ -17,7 +18,7 @@ class TransactionCompletareateResponseTest extends TestCase
         $this->assertSame('testToken', $response->getToken());
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_null_when_key_does_not_exist_in_json()
     {
         $json = [];

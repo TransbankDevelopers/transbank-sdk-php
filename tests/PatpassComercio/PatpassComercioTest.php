@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Transbank\PatpassComercio\Options;
 use Transbank\PatpassComercio\Inscription;
 use Transbank\PatpassComercio\Exceptions\InscriptionStartException;
@@ -12,7 +13,7 @@ use Transbank\Webpay\Exceptions\WebpayRequestException;
 
 class PatpassComercioTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_configures_with_options()
     {
         $commerceCode = 'testCommerceCode';
@@ -28,7 +29,7 @@ class PatpassComercioTest extends TestCase
         $this->assertSame(Options::BASE_URL_PRODUCTION, $inscriptionOptions->getApiBaseUrl());
     }
 
-    /** @test */
+    #[Test]
     public function it_configures_for_integration()
     {
         $commerceCode = 'testCommerceCode';
@@ -43,7 +44,7 @@ class PatpassComercioTest extends TestCase
         $this->assertSame(Options::BASE_URL_INTEGRATION, $options->getApiBaseUrl());
     }
 
-    /** @test */
+    #[Test]
     public function it_configures_for_production()
     {
         $commerceCode = 'testCommerceCode';
@@ -58,7 +59,7 @@ class PatpassComercioTest extends TestCase
         $this->assertSame(Options::BASE_URL_PRODUCTION, $options->getApiBaseUrl());
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_inscription_start_response()
     {
         $options = new Options('apiKey', 'commerceCode', Options::ENVIRONMENT_PRODUCTION);
@@ -91,7 +92,7 @@ class PatpassComercioTest extends TestCase
         $this->assertInstanceOf(InscriptionStartResponse::class, $start);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_inscription_start_exception()
     {
         $options = new Options('apiKey', 'commerceCode', Options::ENVIRONMENT_PRODUCTION);
@@ -119,7 +120,7 @@ class PatpassComercioTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_inscription_status_response()
     {
         $options = new Options('apiKey', 'commerceCode', Options::ENVIRONMENT_PRODUCTION);
@@ -136,7 +137,7 @@ class PatpassComercioTest extends TestCase
         $this->assertInstanceOf(InscriptionStatusResponse::class, $start);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_inscription_status_exception()
     {
         $options = new Options('apiKey', 'commerceCode', Options::ENVIRONMENT_PRODUCTION);
@@ -148,7 +149,7 @@ class PatpassComercioTest extends TestCase
         $inscription->status('token');
     }
 
-    /** @test */
+    #[Test]
     public function it_can_set_options()
     {
         $options = new Options('apiKey', 'commerceCode', Options::ENVIRONMENT_PRODUCTION);
@@ -158,7 +159,7 @@ class PatpassComercioTest extends TestCase
         $this->assertEquals(Options::BASE_URL_INTEGRATION, $inscription->getOptions()->getApiBaseUrl());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_base_url()
     {
         $options = new Options('test-api-key', 'test-commerce-code', Options::ENVIRONMENT_INTEGRATION);

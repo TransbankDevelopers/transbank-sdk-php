@@ -2,13 +2,14 @@
 
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Transbank\Utils\HttpClient;
 use Transbank\Utils\HttpClientRequestService;
 use Transbank\Webpay\Options;
 
 class RequestServiceTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_send_the_headers_provided_by_the_given_options()
     {
         $expectedHeaders = ['api_key' => 'commerce_code', 'api_secret' => 'fakeApiKey'];
@@ -37,7 +38,7 @@ class RequestServiceTest extends TestCase
         (new HttpClientRequestService($httpClientMock))->request('POST', '/transactions', [], $optionsMock);
     }
 
-    /** @test */
+    #[Test]
     public function it_uses_the_base_url_provided_by_the_given_options()
     {
         $expectedBaseUrl = 'https://mock.mock/';
@@ -60,7 +61,7 @@ class RequestServiceTest extends TestCase
         (new HttpClientRequestService($httpClientMock))->request('POST', $endpoint, [], $optionsMock);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_an_empty_array()
     {
         $options = new Options('ApiKey', 'commerceCode', Options::ENVIRONMENT_INTEGRATION);
@@ -73,7 +74,7 @@ class RequestServiceTest extends TestCase
         $this->assertSame([], $response);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_an_api_request()
     {
         $options = new Options('ApiKey', 'commerceCode', Options::ENVIRONMENT_INTEGRATION);

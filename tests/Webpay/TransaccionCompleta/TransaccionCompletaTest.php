@@ -3,6 +3,7 @@
 namespace Test\Webpay\TransaccionCompleta;
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Transbank\Webpay\TransaccionCompleta\Exceptions\TransactionCommitException;
 use Transbank\Webpay\TransaccionCompleta\Exceptions\TransactionCreateException;
 use Transbank\Webpay\TransaccionCompleta\Exceptions\TransactionInstallmentsException;
@@ -85,7 +86,7 @@ class TransaccionCompletaTest extends TestCase
         $this->cardExpiration = '12/24';
     }
 
-    /** @test */
+    #[Test]
     public function it_configures_for_integration()
     {
         $commerceCode = 'testCommerceCode';
@@ -100,7 +101,7 @@ class TransaccionCompletaTest extends TestCase
         $this->assertSame(Options::BASE_URL_INTEGRATION, $transactionOptions->getApiBaseUrl());
     }
 
-    /** @test */
+    #[Test]
     public function it_configures_for_production()
     {
         $commerceCode = 'testCommerceCode';
@@ -115,7 +116,7 @@ class TransaccionCompletaTest extends TestCase
         $this->assertSame(Options::BASE_URL_PRODUCTION, $transactionOptions->getApiBaseUrl());
     }
 
-    /** @test */
+    #[Test]
     public function it_configures_with_options()
     {
         $commerceCode = 'testCommerceCode';
@@ -131,7 +132,7 @@ class TransaccionCompletaTest extends TestCase
         $this->assertSame(Options::BASE_URL_PRODUCTION, $transactionOptions->getApiBaseUrl());
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_a_transaction()
     {
         $this->setBaseMocks();
@@ -166,7 +167,7 @@ class TransaccionCompletaTest extends TestCase
         $this->assertEquals($response->getToken(), $tokenMock);
     }
 
-    /** @test */
+    #[Test]
     public function it_gets_installments()
     {
         $this->setBaseMocks();
@@ -191,7 +192,7 @@ class TransaccionCompletaTest extends TestCase
         $this->assertEquals([], $response->getDeferredPeriods());
     }
 
-    /** @test */
+    #[Test]
     public function it_commits_a_transaction()
     {
         $this->setBaseMocks();
@@ -241,7 +242,7 @@ class TransaccionCompletaTest extends TestCase
         $this->assertSame('0329', $response->getAccountingDate());
     }
 
-    /** @test */
+    #[Test]
     public function it_gets_a_transaction_status()
     {
         $this->setBaseMocks();
@@ -291,7 +292,7 @@ class TransaccionCompletaTest extends TestCase
         $this->assertSame('0329', $response->getAccountingDate());
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_capture_response()
     {
         $this->setBaseMocks();
@@ -310,7 +311,7 @@ class TransaccionCompletaTest extends TestCase
         $this->assertInstanceOf(TransactionCaptureResponse::class, $capture);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_refund_response_for_reverse()
     {
         $this->setBaseMocks();
@@ -327,7 +328,7 @@ class TransaccionCompletaTest extends TestCase
         $this->assertSame('REVERSE', $refund->getType());
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_refund_response_for_nullify()
     {
         $this->setBaseMocks();
@@ -360,7 +361,7 @@ class TransaccionCompletaTest extends TestCase
     |--------------------------------------------------------------------------
     */
 
-    /** @test */
+    #[Test]
     public function it_throws_and_exception_if_transaction_creations_fails()
     {
         $this->setBaseMocks();
@@ -374,7 +375,7 @@ class TransaccionCompletaTest extends TestCase
         $transaction->create($this->buyOrder, $this->sessionId, $this->amount, $this->cvv, $this->cardNumber, $this->cardExpiration);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_and_exception_if_transaction_commit_fails()
     {
         $this->setBaseMocks();
@@ -388,7 +389,7 @@ class TransaccionCompletaTest extends TestCase
         $transaction->commit('fakeToken');
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_and_exception_if_transaction_status_fails()
     {
         $this->setBaseMocks();
@@ -402,7 +403,7 @@ class TransaccionCompletaTest extends TestCase
         $transaction->status('fakeToken');
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_and_exception_if_transaction_refund_fails()
     {
         $this->setBaseMocks();
@@ -416,7 +417,7 @@ class TransaccionCompletaTest extends TestCase
         $transaction->refund('fakeToken', 123);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_and_exception_if_transaction_installments_fails()
     {
         $this->setBaseMocks();
@@ -430,7 +431,7 @@ class TransaccionCompletaTest extends TestCase
         $transaction->installments('fakeToken', 2);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_capture_exception()
     {
         $this->setBaseMocks();

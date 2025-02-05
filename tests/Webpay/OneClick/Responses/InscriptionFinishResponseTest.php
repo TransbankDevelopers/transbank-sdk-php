@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Transbank\Webpay\Oneclick\Responses\InscriptionFinishResponse;
 
 class OneClickInscriptionFinishResponseTest extends TestCase
@@ -20,7 +21,7 @@ class OneClickInscriptionFinishResponseTest extends TestCase
         ];
         $this->inscriptionResponse = new InscriptionFinishResponse($this->json);
     }
-    /** @test */
+    #[Test]
     public function it_can_be_initialized_from_json()
     {
         $response = new InscriptionFinishResponse($this->json);
@@ -32,13 +33,13 @@ class OneClickInscriptionFinishResponseTest extends TestCase
         $this->assertSame('**** **** **** 1234', $response->cardNumber);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_true_when_response_code_is_approved()
     {
         $this->assertTrue($this->inscriptionResponse->isApproved());
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_false_when_response_code_is_not_approved()
     {
         $json = $this->json;
@@ -47,31 +48,31 @@ class OneClickInscriptionFinishResponseTest extends TestCase
         $this->assertFalse($response->isApproved());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_response_code()
     {
         $this->assertSame(0, $this->inscriptionResponse->getResponseCode());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_tbk_user()
     {
         $this->assertSame('123456', $this->inscriptionResponse->getTbkUser());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_authorization_code()
     {
         $this->assertSame('7890', $this->inscriptionResponse->getAuthorizationCode());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_card_type()
     {
         $this->assertSame('Visa', $this->inscriptionResponse->getCardType());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_card_number()
     {
         $this->assertSame('**** **** **** 1234', $this->inscriptionResponse->getCardNumber());
