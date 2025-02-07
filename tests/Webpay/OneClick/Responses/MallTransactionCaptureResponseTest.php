@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionCaptureResponse;
 
 class MallTransactionCaptureResponseTest extends TestCase

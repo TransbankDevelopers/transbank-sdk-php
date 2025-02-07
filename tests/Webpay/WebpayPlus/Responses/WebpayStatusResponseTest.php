@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Transbank\Webpay\WebpayPlus\Responses\TransactionStatusResponse;
 
 class WebpayStatusResponseTest extends TestCase
@@ -18,14 +19,14 @@ class WebpayStatusResponseTest extends TestCase
         $this->transaction = new TransactionStatusResponse($data);
     }
 
-    /** @test */
+    #[Test]
     public function it_set_vci()
     {
         $this->transaction->setVci('newVci');
         $this->assertEquals('newVci', $this->transaction->getVci());
     }
 
-    /** @test */
+    #[Test]
     public function it_check_is_approved()
     {
         $this->assertEquals(false, $this->transaction->isApproved());

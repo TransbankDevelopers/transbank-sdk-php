@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Transbank\PatpassComercio\Responses\InscriptionStatusResponse;
 
 class InscriptionStatusResponseTest extends TestCase
@@ -18,7 +19,7 @@ class InscriptionStatusResponseTest extends TestCase
         $this->inscriptionResponse = new InscriptionStatusResponse($this->json);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_be_created_from_json()
     {
         $response = new InscriptionStatusResponse($this->json);
@@ -27,7 +28,7 @@ class InscriptionStatusResponseTest extends TestCase
         $this->assertSame('urlVoucher', $response->urlVoucher);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_null_when_json_key_does_not_exist()
     {
         $json = [];
@@ -38,13 +39,13 @@ class InscriptionStatusResponseTest extends TestCase
         $this->assertNull($response->urlVoucher);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_status()
     {
         $this->assertSame('status', $this->inscriptionResponse->getStatus());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_set_and_get_url_voucher()
     {
         $this->assertSame('urlVoucher', $this->inscriptionResponse->getUrlVoucher());

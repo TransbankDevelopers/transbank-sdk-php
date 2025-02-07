@@ -3,6 +3,7 @@
 namespace Webpay\WebpayPlus;
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Transbank\Utils\HttpClientRequestService;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
@@ -74,7 +75,7 @@ class WebpayMallTransactionTest extends TestCase
         $this->mockBaseUrl = 'https://mockurl.cl';
     }
 
-    /** @test */
+    #[Test]
     public function it_configures_for_integration()
     {
         $commerceCode = 'testCommerceCode';
@@ -89,7 +90,7 @@ class WebpayMallTransactionTest extends TestCase
         $this->assertSame(Options::BASE_URL_INTEGRATION, $transactionOptions->getApiBaseUrl());
     }
 
-    /** @test */
+    #[Test]
     public function it_configures_for_production()
     {
         $commerceCode = 'testCommerceCode';
@@ -104,7 +105,7 @@ class WebpayMallTransactionTest extends TestCase
         $this->assertSame(Options::BASE_URL_PRODUCTION, $transactionOptions->getApiBaseUrl());
     }
 
-    /** @test */
+    #[Test]
     public function it_configures_with_options()
     {
         $commerceCode = 'testCommerceCode';
@@ -120,7 +121,7 @@ class WebpayMallTransactionTest extends TestCase
         $this->assertSame(Options::BASE_URL_PRODUCTION, $transactionOptions->getApiBaseUrl());
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_a_transaction()
     {
         $this->setBaseMocks();
@@ -154,7 +155,7 @@ class WebpayMallTransactionTest extends TestCase
         $this->assertEquals('https://mock.cl/', $response->getUrl());
     }
 
-    /** @test */
+    #[Test]
     public function it_commits_a_transaction()
     {
         $this->setBaseMocks();
@@ -243,7 +244,7 @@ class WebpayMallTransactionTest extends TestCase
     |--------------------------------------------------------------------------
     */
 
-    /** @test */
+    #[Test]
     public function it_throws_and_exception_if_transaction_creations_fails()
     {
         $this->setBaseMocks();
@@ -257,7 +258,7 @@ class WebpayMallTransactionTest extends TestCase
         $transaction->create($this->buyOrder, $this->sessionId, $this->amount, []);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_and_exception_if_transaction_commit_fails()
     {
         $this->setBaseMocks();
@@ -271,7 +272,7 @@ class WebpayMallTransactionTest extends TestCase
         $transaction->commit('fakeToken');
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_and_exception_if_transaction_status_fails()
     {
         $this->setBaseMocks();
@@ -285,7 +286,7 @@ class WebpayMallTransactionTest extends TestCase
         $transaction->status('fakeToken');
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_and_exception_if_transaction_refund_fails()
     {
         $this->setBaseMocks();
@@ -299,7 +300,7 @@ class WebpayMallTransactionTest extends TestCase
         $transaction->refund('fakeToken', 'buyOrder', 'comemrceCode', 1400);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_and_exception_if_transaction_capture_fails()
     {
         $this->setBaseMocks();
@@ -313,7 +314,7 @@ class WebpayMallTransactionTest extends TestCase
         $transaction->capture('fake', 'fake', 'fake', '1203', 1000);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_expiration_date_from_status()
     {
         $this->setBaseMocks();
@@ -328,7 +329,7 @@ class WebpayMallTransactionTest extends TestCase
         $this->assertEquals('2021-02-16', $status->getExpirationDate());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_check_is_approved()
     {
         $this->setBaseMocks();
@@ -342,7 +343,7 @@ class WebpayMallTransactionTest extends TestCase
         $this->assertTrue($status->isApproved());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_check_is_rejected_when_details_not_exists()
     {
         $this->setBaseMocks();
@@ -356,7 +357,7 @@ class WebpayMallTransactionTest extends TestCase
         $this->assertFalse($status->isApproved());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_check_is_rejected_when_details_is_not_approved()
     {
         $this->setBaseMocks();
@@ -370,7 +371,7 @@ class WebpayMallTransactionTest extends TestCase
         $this->assertFalse($status->isApproved());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_validate_token_input()
     {
         $transaction = MallTransaction::buildForIntegration('apiKey', 'commerceCode');
@@ -379,7 +380,7 @@ class WebpayMallTransactionTest extends TestCase
         $transaction->commit('');
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_an_refund_response()
     {
         $this->setBaseMocks();
@@ -394,7 +395,7 @@ class WebpayMallTransactionTest extends TestCase
         $refund = $transaction->refund('token', 'buyord', 'commerceCode', 1990);
         $this->assertInstanceOf(MallTransactionRefundResponse::class, $refund);
     }
-    /** @test */
+    #[Test]
     public function it_can_get_an_capture_response()
     {
         $this->setBaseMocks();

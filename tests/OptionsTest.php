@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Transbank\Webpay\Options;
 
 class OptionsTest extends TestCase
@@ -13,7 +14,7 @@ class OptionsTest extends TestCase
         $this->options = new Options($apiKey, $commerceCode, Options::ENVIRONMENT_INTEGRATION);
     }
 
-    /** @test */
+    #[Test]
     public function it_assign_contructor_params_to_their_corresponding_properties()
     {
         $options = new Options('a', 'b', 'c', 10);
@@ -23,7 +24,7 @@ class OptionsTest extends TestCase
         $this->assertSame(10, $options->getTimeout());
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_the_right_headers_based_on_configuration()
     {
         $options = new Options('ApiKey', 'CommerceCode', 'TEST');
@@ -33,7 +34,7 @@ class OptionsTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_set_properties()
     {
         $this->options->setIntegrationType(Options::ENVIRONMENT_PRODUCTION);
@@ -47,14 +48,14 @@ class OptionsTest extends TestCase
         $this->assertEquals(100, $this->options->getTimeout());
     }
 
-    /** @test */
+    #[Test]
     public function it_check_if_is_production()
     {
         $this->options->setIntegrationType(Options::ENVIRONMENT_PRODUCTION);
         $this->assertEquals(true, $this->options->isProduction());
     }
 
-    /** @test */
+    #[Test]
     public function it_get_base_url()
     {
         $this->options->setIntegrationType(Options::ENVIRONMENT_PRODUCTION);

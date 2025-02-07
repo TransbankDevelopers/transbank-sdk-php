@@ -2,8 +2,8 @@
 
 namespace webpay_rest\OneClick;
 
-use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Transbank\Webpay\Options;
 use Transbank\Webpay\Oneclick;
 use Transbank\Webpay\Oneclick\Exceptions\InscriptionStartException;
@@ -26,7 +26,6 @@ use Transbank\Webpay\Exceptions\WebpayRequestException;
 
 class TransbankOneclickTest extends TestCase
 {
-    use ArraySubsetAsserts;
     public string $username;
     public string $email;
     public string $responseUrl;
@@ -36,7 +35,7 @@ class TransbankOneclickTest extends TestCase
         $this->createDemoData();
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_an_inscription()
     {
         $response = MallInscription::buildForIntegration(
@@ -51,7 +50,7 @@ class TransbankOneclickTest extends TestCase
         $this->assertStringContainsString($response->getUrlWebpay(), $response->getRedirectUrl());
     }
 
-    /** @test */
+    #[Test]
     public function it_fails_creating_an_inscription_with_invalid_email()
     {
         $this->expectException(InscriptionStartException::class);
@@ -63,7 +62,7 @@ class TransbankOneclickTest extends TestCase
         )->start($this->username, 'not_an_email', $this->responseUrl);
     }
 
-    /** @test */
+    #[Test]
     public function it_fails_creating_an_inscription_with_invalid_data()
     {
         $this->expectException(InscriptionStartException::class);
@@ -75,7 +74,7 @@ class TransbankOneclickTest extends TestCase
         )->start('', $this->email, $this->responseUrl);
     }
 
-    /** @test */
+    #[Test]
     public function it_fails_trying_to_finish_inscription()
     {
         $this->createDemoData();
@@ -96,7 +95,7 @@ class TransbankOneclickTest extends TestCase
         $this->assertEquals(-96, $response->getResponseCode());
     }
 
-    /** @test */
+    #[Test]
     public function it_fails_authorizing_a_transaction_with_a_fake_token()
     {
         $mallTransaction = MallTransaction::buildForIntegration(
@@ -123,7 +122,7 @@ class TransbankOneclickTest extends TestCase
         $this->assertEquals($exception->getFailedRequest(), $lastRequest);
         $this->assertEquals(500, $lastResponse->getStatusCode());
 
-        $this->assertArraySubset([
+        $this->assertEqualsCanonicalizing([
             'username'  => $this->username,
             'tbk_user'  => 'fakeToken',
             'buy_order' => 'buyOrder2132312',
@@ -132,12 +131,13 @@ class TransbankOneclickTest extends TestCase
                     'commerce_code' => Oneclick::INTEGRATION_CHILD_COMMERCE_CODE_1,
                     'amount'        => 1000,
                     'buy_order'     => 'buyOrder122412',
+                    'installments_number' => 1
                 ],
             ],
         ], $lastRequest->getPayload());
     }
 
-    /** @test */
+    #[Test]
     public function it_fails_authorizing_a_transaction_with_no_username()
     {
         $this->expectException(MallTransactionAuthorizeException::class);
@@ -161,7 +161,7 @@ class TransbankOneclickTest extends TestCase
         $this->responseUrl = 'http://demo.cl/return';
     }
 
-    /** @test */
+    #[Test]
     public function it_configures_inscription_for_integration()
     {
         $commerceCode = 'testCommerceCode';
@@ -176,7 +176,7 @@ class TransbankOneclickTest extends TestCase
         $this->assertSame(Options::BASE_URL_INTEGRATION, $inscriptionOptions->getApiBaseUrl());
     }
 
-    /** @test */
+    #[Test]
     public function it_configures_inscription_for_production()
     {
         $commerceCode = 'testCommerceCode';
@@ -191,7 +191,7 @@ class TransbankOneclickTest extends TestCase
         $this->assertSame(Options::BASE_URL_PRODUCTION, $inscriptionOptions->getApiBaseUrl());
     }
 
-    /** @test */
+    #[Test]
     public function it_configures_inscription_with_options()
     {
         $commerceCode = 'testCommerceCode';
@@ -207,7 +207,7 @@ class TransbankOneclickTest extends TestCase
         $this->assertSame(Options::BASE_URL_PRODUCTION, $inscriptionOptions->getApiBaseUrl());
     }
 
-    /** @test */
+    #[Test]
     public function it_configures_transaction_for_integration()
     {
         $commerceCode = 'testCommerceCode';
@@ -222,7 +222,7 @@ class TransbankOneclickTest extends TestCase
         $this->assertSame(Options::BASE_URL_INTEGRATION, $transactionOptions->getApiBaseUrl());
     }
 
-    /** @test */
+    #[Test]
     public function it_configures_transaction_for_production()
     {
         $commerceCode = 'testCommerceCode';
@@ -237,7 +237,7 @@ class TransbankOneclickTest extends TestCase
         $this->assertSame(Options::BASE_URL_PRODUCTION, $transactionOptions->getApiBaseUrl());
     }
 
-    /** @test */
+    #[Test]
     public function it_configures_transaction_with_options()
     {
         $commerceCode = 'testCommerceCode';
@@ -253,7 +253,7 @@ class TransbankOneclickTest extends TestCase
         $this->assertSame(Options::BASE_URL_PRODUCTION, $transactionOptions->getApiBaseUrl());
     }
 
-    /** @test */
+    #[Test]
     public function it_deletes_an_existing_inscription()
     {
         $requestServiceMock = $this->createMock(HttpClientRequestService::class);
@@ -268,7 +268,7 @@ class TransbankOneclickTest extends TestCase
         $this->assertTrue($deleteResponse);
     }
 
-    /** @test */
+    #[Test]
     public function it_deletes_an_unexisting_inscription()
     {
         $requestServiceMock = $this->createMock(HttpClientRequestService::class);
@@ -282,7 +282,7 @@ class TransbankOneclickTest extends TestCase
         $inscription->delete('tbkTestUser', 'useNameTest');
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_an_authorize_response()
     {
         $requestServiceMock = $this->createMock(HttpClientRequestService::class);
@@ -321,7 +321,7 @@ class TransbankOneclickTest extends TestCase
         $this->assertInstanceOf(MallTransactionAuthorizeResponse::class, $authorize);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_an_capture_response()
     {
         $requestServiceMock = $this->createMock(HttpClientRequestService::class);
@@ -340,7 +340,7 @@ class TransbankOneclickTest extends TestCase
         $this->assertInstanceOf(MallTransactionCaptureResponse::class, $capture);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_a_capture_exception()
     {
         $requestServiceMock = $this->createMock(HttpClientRequestService::class);
@@ -352,7 +352,7 @@ class TransbankOneclickTest extends TestCase
         $this->expectException(MallTransactionCaptureException::class);
         $mallTransaction->capture('commerceChild', 'buyOrdChild', 'authCode', 10000);
     }
-    /** @test */
+    #[Test]
     public function it_returns_an_status_response()
     {
         $requestServiceMock = $this->createMock(HttpClientRequestService::class);
@@ -385,7 +385,7 @@ class TransbankOneclickTest extends TestCase
         $this->assertInstanceOf(MallTransactionStatusResponse::class, $status);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_a_status_exception()
     {
         $requestServiceMock = $this->createMock(HttpClientRequestService::class);
@@ -397,7 +397,7 @@ class TransbankOneclickTest extends TestCase
         $this->expectException(MallTransactionStatusException::class);
         $mallTransaction->status('buyOrd');
     }
-    /** @test */
+    #[Test]
     public function it_returns_an_refund_response()
     {
         $requestServiceMock = $this->createMock(HttpClientRequestService::class);
@@ -413,7 +413,7 @@ class TransbankOneclickTest extends TestCase
         $this->assertInstanceOf(MallTransactionRefundResponse::class, $refund);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_a_refund_exception()
     {
         $requestServiceMock = $this->createMock(HttpClientRequestService::class);
@@ -426,7 +426,7 @@ class TransbankOneclickTest extends TestCase
         $mallTransaction->refund('buyOrd', 'childCommerce', 'childBuy', 12000);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_a_finish_exception()
     {
         $requestServiceMock = $this->createMock(HttpClientRequestService::class);
@@ -439,7 +439,7 @@ class TransbankOneclickTest extends TestCase
         $inscription->finish('fakeToken');
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_a_delete_exception()
     {
         $requestServiceMock = $this->createMock(HttpClientRequestService::class);
@@ -452,7 +452,7 @@ class TransbankOneclickTest extends TestCase
         $inscription->delete('tbkUser', 'userName');
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_data_from_status_response()
     {
         $requestServiceMock = $this->createMock(HttpClientRequestService::class);
@@ -489,7 +489,7 @@ class TransbankOneclickTest extends TestCase
         $this->assertEquals('415034240', $status->getBuyOrder());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_check_is_approved()
     {
         $requestServiceMock = $this->createMock(HttpClientRequestService::class);
@@ -520,7 +520,7 @@ class TransbankOneclickTest extends TestCase
         $this->assertFalse($status->isApproved());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_data_from_capture_response()
     {
         $requestServiceMock = $this->createMock(HttpClientRequestService::class);
@@ -541,7 +541,7 @@ class TransbankOneclickTest extends TestCase
         $this->assertEquals(0, $capture->getResponseCode());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_data_from_refund_response()
     {
         $requestServiceMock = $this->createMock(HttpClientRequestService::class);

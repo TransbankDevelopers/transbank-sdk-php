@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Transbank\Webpay\WebpayPlus\Responses\TransactionCreateResponse;
 
 class WebpayCreateResponseTest extends TestCase
@@ -16,7 +17,7 @@ class WebpayCreateResponseTest extends TestCase
         $this->create = new TransactionCreateResponse($data);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_set_from_array()
     {
         $this->create->fromJSON([

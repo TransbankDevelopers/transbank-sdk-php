@@ -1,11 +1,12 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Transbank\Webpay\Exceptions\TransbankException;
 
 class TransbankExceptionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_can_instantiate_transbank_exception_with_default_values()
     {
         $exception = new TransbankException();
@@ -15,7 +16,7 @@ class TransbankExceptionTest extends TestCase
         $this->assertNull($exception->getPrevious());
     }
 
-    /** @test */
+    #[Test]
     public function test_it_can_set_custom_message_and_code()
     {
         $customMessage = 'Custom error message';
@@ -28,7 +29,7 @@ class TransbankExceptionTest extends TestCase
         $this->assertEquals($customCode, $exception->getCode());
     }
 
-    /** @test */
+    #[Test]
     public function test_it_can_set_previous_exception()
     {
         $previousException = new \Exception('Previous exception');

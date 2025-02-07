@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Transbank\Webpay\WebpayPlus\Responses\TransactionDetail;
 
 class WebpayDetailResponseTest extends TestCase
@@ -15,7 +16,7 @@ class WebpayDetailResponseTest extends TestCase
         $this->details->balance = 100;
     }
 
-    /** @test */
+    #[Test]
     public function it_checks_is_approved()
     {
         $this->assertFalse($this->details->isApproved());
@@ -25,7 +26,7 @@ class WebpayDetailResponseTest extends TestCase
         $this->assertFalse($this->details->isApproved());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_balance()
     {
         $this->assertEquals(100, $this->details->getBalance());

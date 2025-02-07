@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Transbank\Webpay\TransaccionCompleta\Responses\TransactionStatusResponse;
 
 class TransactionStatusResponseTest extends TestCase
@@ -18,13 +19,13 @@ class TransactionStatusResponseTest extends TestCase
             ->onlyMethods(['setTransactionStatusFields'])
             ->getMock();
     }
-    /** @test */
+    #[Test]
     public function it_can_get_prepaid_balance()
     {
         $this->assertSame(100, $this->response->getPrepaidBalance());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_vci()
     {
         $this->assertSame('Some VCI', $this->response->getVci());

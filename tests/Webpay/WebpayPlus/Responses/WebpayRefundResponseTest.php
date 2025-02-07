@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Transbank\Webpay\WebpayPlus\Responses\TransactionRefundResponse;
 
 class WebpayRefundResponseTest extends TestCase
@@ -20,7 +21,7 @@ class WebpayRefundResponseTest extends TestCase
         $this->refund = new TransactionRefundResponse($data);
     }
 
-    /** @test */
+    #[Test]
     public function it_get_data()
     {
         $this->assertEquals(true, $this->refund->success());

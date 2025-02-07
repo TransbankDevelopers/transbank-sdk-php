@@ -3,6 +3,7 @@
 namespace Test\Webpay\TransaccionCompleta;
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Transbank\Utils\HttpClientRequestService;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
@@ -56,7 +57,7 @@ class TransaccionCompletaMallTest extends TestCase
         $this->cardExpiration = '12/24';
     }
 
-    /** @test */
+    #[Test]
     public function it_creates_mall_transaction()
     {
         $this->setBaseMocks();
@@ -85,7 +86,7 @@ class TransaccionCompletaMallTest extends TestCase
         $this->assertInstanceOf(MallTransactionCreateResponse::class, $create);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_create_exception()
     {
         $this->setBaseMocks();
@@ -106,7 +107,7 @@ class TransaccionCompletaMallTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_installments_response()
     {
         $this->setBaseMocks();
@@ -136,7 +137,7 @@ class TransaccionCompletaMallTest extends TestCase
         $this->assertInstanceOf(MallTransactionInstallmentsResponse::class, $installments[0]);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_installments_exception()
     {
         $this->setBaseMocks();
@@ -150,7 +151,7 @@ class TransaccionCompletaMallTest extends TestCase
         ]]);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_commit_response()
     {
         $this->setBaseMocks();
@@ -190,7 +191,7 @@ class TransaccionCompletaMallTest extends TestCase
 
         $this->assertInstanceOf(MallTransactionCommitResponse::class, $commit);
     }
-    /** @test */
+    #[Test]
     public function it_throws_commit_exception()
     {
         $this->setBaseMocks();
@@ -208,7 +209,7 @@ class TransaccionCompletaMallTest extends TestCase
         ]]);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_refund_response()
     {
         $this->setBaseMocks();
@@ -230,7 +231,7 @@ class TransaccionCompletaMallTest extends TestCase
         $this->assertInstanceOf(MallTransactionRefundResponse::class, $refund);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_refund_exception()
     {
         $this->setBaseMocks();
@@ -242,7 +243,7 @@ class TransaccionCompletaMallTest extends TestCase
         $this->mallTransaction->refund($tokenMock, 'buyOrder', 'commerceChild', 1990);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_status_response()
     {
         $this->setBaseMocks();
@@ -275,7 +276,7 @@ class TransaccionCompletaMallTest extends TestCase
         $this->assertInstanceOf(MallTransactionStatusResponse::class, $status);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_status_exception()
     {
         $this->setBaseMocks();
@@ -287,7 +288,7 @@ class TransaccionCompletaMallTest extends TestCase
         $this->mallTransaction->status($tokenMock);
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_capture_response()
     {
         $this->setBaseMocks();
@@ -307,7 +308,7 @@ class TransaccionCompletaMallTest extends TestCase
         $this->assertInstanceOf(MallTransactionCaptureResponse::class, $capture);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_capture_exception()
     {
         $this->setBaseMocks();
