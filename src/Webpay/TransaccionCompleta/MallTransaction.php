@@ -224,7 +224,7 @@ class MallTransaction
      * @param int|float  $captureAmount
      *
      * @throws MallTransactionCaptureException
-     * @throws GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return MallTransactionCaptureResponse
      */
