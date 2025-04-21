@@ -1,7 +1,6 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Attributes\Test;
 use Transbank\Utils\HttpClientRequestService;
 use Transbank\Contracts\HttpClientInterface;
 use Transbank\Webpay\Exceptions\WebpayRequestException;

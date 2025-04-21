@@ -1,7 +1,6 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Attributes\Test;
 use Transbank\Webpay\TransaccionCompleta\Responses\MallTransactionStatusResponse;
 use Transbank\Utils\Utils;
 

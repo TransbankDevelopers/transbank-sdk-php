@@ -1,7 +1,6 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Attributes\Test;
 use Transbank\Utils\HasTransactionStatus;
 
 class DummyClass
