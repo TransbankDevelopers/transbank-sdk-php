@@ -12,7 +12,6 @@ use Transbank\Webpay\Oneclick\Responses\MallTransactionAuthorizeResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionCaptureResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionRefundResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionStatusResponse;
-use GuzzleHttp\Exception\GuzzleException;
 
 class MallTransaction
 {

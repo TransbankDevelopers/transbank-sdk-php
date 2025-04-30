@@ -21,7 +21,6 @@ use Transbank\Webpay\TransaccionCompleta\Responses\MallTransactionRefundResponse
 use Transbank\Webpay\TransaccionCompleta\Responses\MallTransactionStatusResponse;
 use Transbank\Webpay\TransaccionCompleta\Responses\MallTransactionCaptureResponse;
 use Transbank\Utils\InteractsWithWebpayApi;
-use GuzzleHttp\Exception\GuzzleException;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 
 class MallTransaction
