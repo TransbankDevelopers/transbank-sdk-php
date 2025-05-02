@@ -12,7 +12,6 @@ use Transbank\Webpay\Oneclick\Responses\MallTransactionAuthorizeResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionCaptureResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionRefundResponse;
 use Transbank\Webpay\Oneclick\Responses\MallTransactionStatusResponse;
-use GuzzleHttp\Exception\GuzzleException;
 
 class MallTransaction
 {
@@ -31,7 +30,7 @@ class MallTransaction
      * @return MallTransactionAuthorizeResponse
      *
      * @throws MallTransactionAuthorizeException
-     * @throws GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function authorize(
         string $userName,
@@ -74,7 +73,7 @@ class MallTransaction
      * @return MallTransactionCaptureResponse
      *
      * @throws MallTransactionCaptureException
-     * @throws GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function capture(
         string $childCommerceCode,
@@ -114,7 +113,7 @@ class MallTransaction
      * @return MallTransactionStatusResponse
      *
      * @throws MallTransactionStatusException
-     * @throws GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function status(string $buyOrder): MallTransactionStatusResponse
     {
@@ -146,7 +145,7 @@ class MallTransaction
      * @return MallTransactionRefundResponse
      *
      * @throws MallRefundTransactionException
-     * @throws GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function refund(
         string $buyOrder,

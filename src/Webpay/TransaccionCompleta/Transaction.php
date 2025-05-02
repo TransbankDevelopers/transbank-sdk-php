@@ -16,7 +16,6 @@ use Transbank\Webpay\TransaccionCompleta\Responses\TransactionStatusResponse;
 use Transbank\Webpay\TransaccionCompleta\Responses\TransactionCaptureResponse;
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
-use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * Class Transaction.
@@ -42,7 +41,7 @@ class Transaction
      * @param string|null   $cvv
      *
      * @throws TransactionCreateException
-     * @throws GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return TransactionCreateResponse
      */
@@ -83,7 +82,7 @@ class Transaction
      * @param int    $installmentsNumber
      *
      * @throws TransactionInstallmentsException
-     * @throws GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return TransactionInstallmentsResponse
      */
@@ -119,7 +118,7 @@ class Transaction
      * @param bool|null     $gracePeriod
      *
      * @throws TransactionCommitException
-     * @throws GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return TransactionCommitResponse
      */
@@ -157,7 +156,7 @@ class Transaction
      * @param int|float $amount
      *
      * @throws TransactionRefundException
-     * @throws GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return TransactionRefundResponse
      */
@@ -188,7 +187,7 @@ class Transaction
      * @param string $token
      *
      * @throws TransactionStatusException
-     * @throws GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return TransactionStatusResponse
      */
@@ -218,7 +217,7 @@ class Transaction
      * @param int|float $captureAmount
      *
      * @throws TransactionCaptureException
-     * @throws GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return TransactionCaptureResponse
      */
