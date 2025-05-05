@@ -9,12 +9,12 @@ class TransactionCreateResponse
     /**
      * @var string|null
      */
-    public $token;
+    public string|null $token;
 
     /**
      * @var string|null
      */
-    public $url;
+    public string|null $url;
 
     /**
      * TransactionCreateResponse constructor.
@@ -25,7 +25,7 @@ class TransactionCreateResponse
      *                    + url (string, required) - the url returned from a successful call to
      *                    'create'
      */
-    public function __construct($json)
+    public function __construct(array $json)
     {
         $this->token = Utils::returnValueIfExists($json, 'token');
         $this->url = Utils::returnValueIfExists($json, 'url');
@@ -40,7 +40,7 @@ class TransactionCreateResponse
      *
      * @return $this
      */
-    public function fromJSON($json)
+    public function fromJSON(array $json)
     {
         $this->token = Utils::returnValueIfExists($json, 'token');
         $this->url = Utils::returnValueIfExists($json, 'url');
@@ -51,40 +51,16 @@ class TransactionCreateResponse
     /**
      * @return string|null
      */
-    public function getToken()
+    public function getToken(): string|null
     {
         return $this->token;
     }
 
     /**
-     * @param string|null $token
-     *
-     * @return TransactionCreateResponse
-     */
-    public function setToken($token)
-    {
-        $this->token = $token;
-
-        return $this;
-    }
-
-    /**
      * @return string|null
      */
-    public function getUrl()
+    public function getUrl(): string|null
     {
         return $this->url;
-    }
-
-    /**
-     * @param string|null $url
-     *
-     * @return TransactionCreateResponse
-     */
-    public function setUrl($url)
-    {
-        $this->url = $url;
-
-        return $this;
     }
 }

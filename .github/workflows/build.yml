@@ -3,53 +3,35 @@ name: Build
 on:
   pull_request:
     branches:
-      - '**'
+      - "**"
   push:
     branches:
       - master
+      - develop
     tags:
-      - '*'
+      - "*"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: [7.4]
+        php-versions: [8.2]
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-    - name: Setup cache environment
-      id: extcache
-      uses: shivammathur/cache-extensions@v1
-      with:
-        php-version: ${{ matrix.php-versions }}
-        extensions: mbstring, xml, ctype, iconv, pcov
-        key: cache-v1
-    - name: Set up PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ matrix.php-versions }}
-        extensions: mbstring, xml, ctype, iconv, pcov
-        coverage: pcov        
-    - name: Get composer cache directory
-      id: composer-cache
-      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-    - name: Validate composer.json and composer.lock
-      run: composer validate
-    - name: Cache dependencies
-      uses: actions/cache@v2
-      with:
-        path: ${{ steps.composer-cache.outputs.dir }}
-        key: composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: composer-
-    - name: Install dependencies
-      run: composer install --no-interaction --no-progress --prefer-dist
-    - name: Run PHPUnit tests
-      run: vendor/bin/phpunit --coverage-clover build/logs/clover.xml
-    - name: SonarCloud Scan
-      uses: sonarsource/sonarcloud-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.7
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          extensions: mbstring, json, curl, pcov
+          coverage: pcov
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+      - name: Run PHPUnit tests
+        run: vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

@@ -4,8 +4,6 @@ namespace Transbank\Webpay\WebpayPlus;
 
 use Transbank\Utils\InteractsWithWebpayApi;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
-use Transbank\Webpay\Options;
-use Transbank\Webpay\WebpayPlus;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCaptureException;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCommitException;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCreateException;
@@ -19,6 +17,12 @@ use Transbank\Webpay\WebpayPlus\Responses\TransactionStatusResponse;
 
 /**
  * Class Transaction.
+ * @var string ENDPOINT_CREATE
+ * @var string ENDPOINT_COMMIT
+ * @var string ENDPOINT_REFUND
+ * @var string ENDPOINT_STATUS
+ * @var string ENDPOINT_CAPTURE
+ * @var string SEARCH_STRING
  */
 class Transaction
 {
@@ -29,20 +33,25 @@ class Transaction
     const ENDPOINT_REFUND = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/refunds';
     const ENDPOINT_STATUS = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}';
     const ENDPOINT_CAPTURE = 'rswebpaytransaction/api/webpay/v1.2/transactions/{token}/capture';
+    const SEARCH_STRING = '{token}';
 
     /**
-     * @param string $buyOrder
-     * @param string $sessionId
-     * @param int    $amount
-     * @param string $returnUrl
+     * @param string    $buyOrder
+     * @param string    $sessionId
+     * @param int|float     $amount
+     * @param string    $returnUrl
      *
      * @throws TransactionCreateException
-     * @throws GuzzleHttp\Exception\GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return TransactionCreateResponse
      */
-    public function create($buyOrder, $sessionId, $amount, $returnUrl)
-    {
+    public function create(
+        string $buyOrder,
+        string $sessionId,
+        int|float $amount,
+        string $returnUrl
+    ): TransactionCreateResponse {
         $payload = [
             'buy_order'  => $buyOrder,
             'session_id' => $sessionId,
@@ -53,7 +62,8 @@ class Transaction
         try {
             $response = $this->sendRequest('POST', static::ENDPOINT_CREATE, $payload);
         } catch (WebpayRequestException $exception) {
-            throw new TransactionCreateException($exception->getMessage(),
+            throw new TransactionCreateException(
+                $exception->getMessage(),
                 $exception->getTransbankErrorMessage(),
                 $exception->getHttpCode(),
                 $exception->getFailedRequest(),
@@ -65,18 +75,15 @@ class Transaction
     }
 
     /**
-     * @param $token
+     * @param string $token
      *
      * @throws TransactionCommitException
-     * @throws GuzzleHttp\Exception\GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return TransactionCommitResponse
      */
-    public function commit($token)
+    public function commit(string $token): TransactionCommitResponse
     {
-        if (!is_string($token)) {
-            throw new \InvalidArgumentException('Token parameter given is not string.');
-        }
         if (!isset($token) || trim($token) === '') {
             throw new \InvalidArgumentException('Token parameter given is empty.');
         }
@@ -84,11 +91,12 @@ class Transaction
         try {
             $response = $this->sendRequest(
                 'PUT',
-                str_replace('{token}', $token, static::ENDPOINT_COMMIT),
-                null
+                str_replace(self::SEARCH_STRING, $token, static::ENDPOINT_COMMIT),
+                []
             );
         } catch (WebpayRequestException $exception) {
-            throw new TransactionCommitException($exception->getMessage(),
+            throw new TransactionCommitException(
+                $exception->getMessage(),
                 $exception->getTransbankErrorMessage(),
                 $exception->getHttpCode(),
                 $exception->getFailedRequest(),
@@ -100,24 +108,25 @@ class Transaction
     }
 
     /**
-     * @param $token
-     * @param $amount
+     * @param string $token
+     * @param int|float  $amount
      *
      * @throws TransactionRefundException
-     * @throws GuzzleHttp\Exception\GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return TransactionRefundResponse
      */
-    public function refund($token, $amount)
+    public function refund(string $token, int|float $amount): TransactionRefundResponse
     {
         try {
             $response = $this->sendRequest(
                 'POST',
-                str_replace('{token}', $token, static::ENDPOINT_REFUND),
+                str_replace(self::SEARCH_STRING, $token, static::ENDPOINT_REFUND),
                 ['amount' => $amount]
             );
         } catch (WebpayRequestException $exception) {
-            throw new TransactionRefundException($exception->getMessage(),
+            throw new TransactionRefundException(
+                $exception->getMessage(),
                 $exception->getTransbankErrorMessage(),
                 $exception->getHttpCode(),
                 $exception->getFailedRequest(),
@@ -129,23 +138,24 @@ class Transaction
     }
 
     /**
-     * @param $token
+     * @param string $token
      *
      * @throws TransactionStatusException
-     * @throws GuzzleHttp\Exception\GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return TransactionStatusResponse
      */
-    public function status($token)
+    public function status(string $token): TransactionStatusResponse
     {
         try {
             $response = $this->sendRequest(
                 'GET',
-                str_replace('{token}', $token, static::ENDPOINT_STATUS),
-                null
+                str_replace(self::SEARCH_STRING, $token, static::ENDPOINT_STATUS),
+                []
             );
         } catch (WebpayRequestException $exception) {
-            throw new TransactionStatusException($exception->getMessage(),
+            throw new TransactionStatusException(
+                $exception->getMessage(),
                 $exception->getTransbankErrorMessage(),
                 $exception->getHttpCode(),
                 $exception->getFailedRequest(),
@@ -157,18 +167,22 @@ class Transaction
     }
 
     /**
-     * @param $token
-     * @param $buyOrder
-     * @param $authorizationCode
-     * @param $captureAmount
+     * @param string $token
+     * @param string $buyOrder
+     * @param string $authorizationCode
+     * @param int|float  $captureAmount
      *
      * @throws TransactionCaptureException
-     * @throws GuzzleHttp\Exception\GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
      * @return TransactionCaptureResponse
      */
-    public function capture($token, $buyOrder, $authorizationCode, $captureAmount)
-    {
+    public function capture(
+        string $token,
+        string $buyOrder,
+        string $authorizationCode,
+        int|float $captureAmount
+    ): TransactionCaptureResponse {
         $payload = [
             'buy_order'          => $buyOrder,
             'authorization_code' => $authorizationCode,
@@ -178,11 +192,12 @@ class Transaction
         try {
             $response = $this->sendRequest(
                 'PUT',
-                str_replace('{token}', $token, static::ENDPOINT_CAPTURE),
+                str_replace(self::SEARCH_STRING, $token, static::ENDPOINT_CAPTURE),
                 $payload
             );
         } catch (WebpayRequestException $exception) {
-            throw new TransactionCaptureException($exception->getMessage(),
+            throw new TransactionCaptureException(
+                $exception->getMessage(),
                 $exception->getTransbankErrorMessage(),
                 $exception->getHttpCode(),
                 $exception->getFailedRequest(),
@@ -191,25 +206,5 @@ class Transaction
         }
 
         return new TransactionCaptureResponse($response);
-    }
-
-    /**
-     * Get the default options if none are given.
-     *
-     * @return Options
-     */
-    public static function getDefaultOptions()
-    {
-        return Options::forIntegration(WebpayPlus::DEFAULT_COMMERCE_CODE);
-    }
-
-    /**
-     * Get the default options if none are given.
-     *
-     * @return Options|null
-     */
-    public static function getGlobalOptions()
-    {
-        return WebpayPlus::getOptions();
     }
 }

@@ -6,37 +6,39 @@ use Composer\InstalledVersions;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use Transbank\Contracts\HttpClientInterface;
+use Psr\Http\Message\ResponseInterface;
+
 
 class HttpClient implements HttpClientInterface
 {
     /**
-     * @param $url
-     * @param $path
-     * @param $options
-     * @param $method
-     * @param $payload
+     * @param string $method
+     * @param string $url
+     * @param array|null $payload
+     * @param array|null $options
      *
-     *@throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
      */
-    public function request($method, $url, $payload = [], $options = null)
-    {
+    public function request(
+        string $method,
+        string $url,
+        array|null $payload = [],
+        array|null $options = null
+    ): ResponseInterface {
         $installedVersion = 'unknown';
 
-        if (class_exists('\Composer\InstalledVersions')) {
-            try {
-                $installedVersion = InstalledVersions::getVersion('transbank/transbank-sdk');
-            } catch (\Exception $e) {
-            }
+        if (class_exists('\Composer\InstalledVersions') && InstalledVersions::isInstalled('transbank/transbank-sdk')) {
+            $installedVersion = InstalledVersions::getVersion('transbank/transbank-sdk') ?? 'unknown';
         }
 
         $baseHeaders = [
             'Content-Type' => 'application/json',
-            'User-Agent'   => 'SDK-PHP/'.$installedVersion,
+            'User-Agent'   => 'SDK-PHP/' . $installedVersion,
         ];
 
-        $givenHeaders = isset($options['headers']) ? $options['headers'] : [];
+        $givenHeaders = $options['headers'] ?? [];
         $headers = array_merge($baseHeaders, $givenHeaders);
         if (!$payload) {
             $payload = null;
@@ -45,50 +47,39 @@ class HttpClient implements HttpClientInterface
             $payload = json_encode($payload);
         }
 
-        if (defined('\GuzzleHttp\Client::VERSION') && version_compare(Client::VERSION, '6', '<')) {
-            return $this->sendGuzzle5Request($method, $url, $headers, $payload);
-        }
+        $requestTimeout = $options['timeout'] ?? 0;
 
-        return $this->sendGuzzleRequest($method, $url, $headers, $payload);
+        return $this->sendGuzzleRequest($method, $url, $headers, $payload, $requestTimeout);
     }
 
     /**
-     * @param $method
-     * @param $url
-     * @param array $headers
-     * @param array $payload
+     * Sends a Guzzle request.
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     *
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    protected function sendGuzzle5Request($method, $url, array $headers, $payload)
-    {
-        $client = new Client();
-
-        $request = $client->createRequest($method, $url, [
-            'headers' => $headers,
-            'body'    => $payload,
-        ]);
-
-        return $client->send($request);
-    }
-
-    /**
-     * @param $method
-     * @param $url
-     * @param array       $headers
+     * @param string  $method
+     * @param string  $url
+     * @param array   $headers
      * @param string|null $payload
+     * @param int     $timeout
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
      */
-    protected function sendGuzzleRequest($method, $url, array $headers, $payload)
-    {
+    protected function sendGuzzleRequest(
+        string $method,
+        string $url,
+        array $headers,
+        string|null $payload,
+        int $timeout
+    ): ResponseInterface {
         $request = new Request($method, $url, $headers, $payload);
 
-        $client = new Client(['http_errors' => false]);
+        $client = new Client([
+            'http_errors' => false,
+            'timeout' => $timeout,
+            'read_timeout' => $timeout,
+            'connect_timeout' => $timeout,
+        ]);
 
         return $client->send($request);
     }

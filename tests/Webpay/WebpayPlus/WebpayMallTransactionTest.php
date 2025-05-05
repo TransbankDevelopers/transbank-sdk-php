@@ -3,6 +3,7 @@
 namespace Webpay\WebpayPlus;
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Transbank\Utils\HttpClientRequestService;
 use Transbank\Webpay\Exceptions\WebpayRequestException;
 use Transbank\Webpay\Options;
@@ -15,10 +16,13 @@ use Transbank\Webpay\WebpayPlus\Exceptions\MallTransactionStatusException;
 use Transbank\Webpay\WebpayPlus\MallTransaction;
 use Transbank\Webpay\WebpayPlus\Responses\MallTransactionCommitResponse;
 use Transbank\Webpay\WebpayPlus\Responses\MallTransactionCreateResponse;
-use Transbank\Webpay\WebpayPlus\Transaction;
+use InvalidArgumentException;
+use Transbank\Webpay\WebpayPlus\Responses\MallTransactionCaptureResponse;
+use Transbank\Webpay\WebpayPlus\Responses\MallTransactionRefundResponse;
 
 class WebpayMallTransactionTest extends TestCase
 {
+    const MOCK_ERROR_MESSAGE = 'error message';
     /**
      * @var int
      */
@@ -71,45 +75,53 @@ class WebpayMallTransactionTest extends TestCase
         $this->mockBaseUrl = 'https://mockurl.cl';
     }
 
-    /** @test */
-    public function it_uses_the_default_configuration_if_none_given()
+    #[Test]
+    public function it_configures_for_integration()
     {
-        WebpayPlus::reset();
-        $transaction = (new MallTransaction());
-        $this->assertEquals($transaction->getOptions(), $transaction->getDefaultOptions());
+        $commerceCode = 'testCommerceCode';
+        $apiKey = 'testApiKey';
+
+        $transaction = MallTransaction::buildForIntegration($apiKey, $commerceCode);
+        $transactionOptions = $transaction->getOptions();
+
+        $this->assertSame($commerceCode, $transactionOptions->getCommerceCode());
+        $this->assertSame($apiKey, $transactionOptions->getApiKey());
+        $this->assertSame(Options::ENVIRONMENT_INTEGRATION, $transactionOptions->getIntegrationType());
+        $this->assertSame(Options::BASE_URL_INTEGRATION, $transactionOptions->getApiBaseUrl());
     }
 
-    /** @test */
-    public function it_returns_the_default_options()
+    #[Test]
+    public function it_configures_for_production()
     {
-        $options = MallTransaction::getDefaultOptions();
-        $this->assertSame($options->getCommerceCode(), WebpayPlus::DEFAULT_MALL_COMMERCE_CODE);
-        $this->assertSame($options->getApiKey(), WebpayPlus::DEFAULT_API_KEY);
-        $this->assertSame($options->getIntegrationType(), Options::ENVIRONMENT_INTEGRATION);
+        $commerceCode = 'testCommerceCode';
+        $apiKey = 'testApiKey';
+
+        $transaction = MallTransaction::buildForProduction($apiKey, $commerceCode);
+        $transactionOptions = $transaction->getOptions();
+
+        $this->assertSame($commerceCode, $transactionOptions->getCommerceCode());
+        $this->assertSame($apiKey, $transactionOptions->getApiKey());
+        $this->assertSame(Options::ENVIRONMENT_PRODUCTION, $transactionOptions->getIntegrationType());
+        $this->assertSame(Options::BASE_URL_PRODUCTION, $transactionOptions->getApiBaseUrl());
     }
 
-    /** @test */
-    public function it_can_set_a_specific_option()
+    #[Test]
+    public function it_configures_with_options()
     {
-        $options = Options::forProduction('597012345678', 'fakeApiKey');
+        $commerceCode = 'testCommerceCode';
+        $apiKey = 'testApiKey';
 
-        $transaction = (new MallTransaction($options));
-        $this->assertSame($transaction->getOptions(), $options);
+        $options = new Options($apiKey, $commerceCode, Options::ENVIRONMENT_PRODUCTION);
+        $transaction = new MallTransaction($options);
+        $transactionOptions = $transaction->getOptions();
+
+        $this->assertSame($commerceCode, $transactionOptions->getCommerceCode());
+        $this->assertSame($apiKey, $transactionOptions->getApiKey());
+        $this->assertSame(Options::ENVIRONMENT_PRODUCTION, $transactionOptions->getIntegrationType());
+        $this->assertSame(Options::BASE_URL_PRODUCTION, $transactionOptions->getApiBaseUrl());
     }
 
-    /** @test */
-    public function it_can_set_a_specific_option_globally()
-    {
-        WebpayPlus::configureForProduction('597012345678', 'fakeApiKey');
-        $options = WebpayPlus::getOptions();
-
-        $transaction = (new MallTransaction());
-        $this->assertSame($transaction->getOptions(), $options);
-
-        WebpayPlus::setOptions(null);
-    }
-
-    /** @test */
+    #[Test]
     public function it_creates_a_transaction()
     {
         $this->setBaseMocks();
@@ -118,7 +130,7 @@ class WebpayMallTransactionTest extends TestCase
 
         $details = [
             'amount'        => $this->amount,
-            'commerce_code' => WebpayPlus::DEFAULT_MALL_CHILD_COMMERCE_CODE_1,
+            'commerce_code' => WebpayPlus::INTEGRATION_MALL_CHILD_COMMERCE_CODE_1,
             'buy_order'     => 'BuyOrderChild',
         ];
 
@@ -143,7 +155,7 @@ class WebpayMallTransactionTest extends TestCase
         $this->assertEquals('https://mock.cl/', $response->getUrl());
     }
 
-    /** @test */
+    #[Test]
     public function it_commits_a_transaction()
     {
         $this->setBaseMocks();
@@ -153,11 +165,11 @@ class WebpayMallTransactionTest extends TestCase
         $expectedUrl = str_replace(
             '{token}',
             $tokenMock,
-            Transaction::ENDPOINT_COMMIT
+            MallTransaction::ENDPOINT_COMMIT
         );
 
         $this->requestServiceMock->method('request')
-            ->with('PUT', $expectedUrl, null)
+            ->with('PUT', $expectedUrl, [])
             ->willReturn([
                 'vci'     => 'TSY',
                 'details' => [
@@ -232,73 +244,173 @@ class WebpayMallTransactionTest extends TestCase
     |--------------------------------------------------------------------------
     */
 
-    /** @test */
+    #[Test]
     public function it_throws_and_exception_if_transaction_creations_fails()
     {
         $this->setBaseMocks();
 
         $this->requestServiceMock->method('request')
-            ->willThrowException(new WebpayRequestException('error message'));
+            ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(MallTransactionCreateException::class);
-        $this->expectExceptionMessage('error message');
+        $this->expectExceptionMessage(self::MOCK_ERROR_MESSAGE);
         $transaction = new MallTransaction($this->optionsMock, $this->requestServiceMock);
-        $transaction->create($this->buyOrder, $this->sessionId, $this->amount, null);
+        $transaction->create($this->buyOrder, $this->sessionId, $this->amount, []);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_and_exception_if_transaction_commit_fails()
     {
         $this->setBaseMocks();
 
         $this->requestServiceMock->method('request')
-            ->willThrowException(new WebpayRequestException('error message'));
+            ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(MallTransactionCommitException::class);
-        $this->expectExceptionMessage('error message');
+        $this->expectExceptionMessage(self::MOCK_ERROR_MESSAGE);
         $transaction = new MallTransaction($this->optionsMock, $this->requestServiceMock);
         $transaction->commit('fakeToken');
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_and_exception_if_transaction_status_fails()
     {
         $this->setBaseMocks();
 
         $this->requestServiceMock->method('request')
-            ->willThrowException(new WebpayRequestException('error message'));
+            ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(MallTransactionStatusException::class);
-        $this->expectExceptionMessage('error message');
+        $this->expectExceptionMessage(self::MOCK_ERROR_MESSAGE);
         $transaction = new MallTransaction($this->optionsMock, $this->requestServiceMock);
         $transaction->status('fakeToken');
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_and_exception_if_transaction_refund_fails()
     {
         $this->setBaseMocks();
 
         $this->requestServiceMock->method('request')
-            ->willThrowException(new WebpayRequestException('error message'));
+            ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(MallTransactionRefundException::class);
-        $this->expectExceptionMessage('error message');
+        $this->expectExceptionMessage(self::MOCK_ERROR_MESSAGE);
         $transaction = new MallTransaction($this->optionsMock, $this->requestServiceMock);
         $transaction->refund('fakeToken', 'buyOrder', 'comemrceCode', 1400);
     }
 
-    /** @test */
+    #[Test]
     public function it_throws_and_exception_if_transaction_capture_fails()
     {
         $this->setBaseMocks();
 
         $this->requestServiceMock->method('request')
-            ->willThrowException(new WebpayRequestException('error message'));
+            ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(MallTransactionCaptureException::class);
-        $this->expectExceptionMessage('error message');
+        $this->expectExceptionMessage(self::MOCK_ERROR_MESSAGE);
         $transaction = new MallTransaction($this->optionsMock, $this->requestServiceMock);
         $transaction->capture('fake', 'fake', 'fake', '1203', 1000);
+    }
+
+    #[Test]
+    public function it_can_get_expiration_date_from_status()
+    {
+        $this->setBaseMocks();
+        $this->requestServiceMock->method('request')
+            ->willReturn([
+                'expiration_date' => '2021-02-16',
+                'details' => [['response_code' => -1, 'status' => 'FAILED']]
+            ]);
+
+        $transaction = new MallTransaction($this->optionsMock, $this->requestServiceMock);
+        $status = $transaction->status('fakeToken');
+        $this->assertEquals('2021-02-16', $status->getExpirationDate());
+    }
+
+    #[Test]
+    public function it_can_check_is_approved()
+    {
+        $this->setBaseMocks();
+        $this->requestServiceMock->method('request')
+            ->willReturn([
+                'expiration_date' => '2021-02-18',
+                'details' => [['response_code' => 0, 'status' => 'AUTHORIZED']]
+            ]);
+        $transaction = new MallTransaction($this->optionsMock, $this->requestServiceMock);
+        $status = $transaction->status('fakeToken');
+        $this->assertTrue($status->isApproved());
+    }
+
+    #[Test]
+    public function it_can_check_is_rejected_when_details_not_exists()
+    {
+        $this->setBaseMocks();
+        $this->requestServiceMock->method('request')
+            ->willReturn([
+                'expiration_date' => '2021-02-18',
+                'details' => []
+            ]);
+        $transaction = new MallTransaction($this->optionsMock, $this->requestServiceMock);
+        $status = $transaction->status('fakeToken');
+        $this->assertFalse($status->isApproved());
+    }
+
+    #[Test]
+    public function it_can_check_is_rejected_when_details_is_not_approved()
+    {
+        $this->setBaseMocks();
+        $this->requestServiceMock->method('request')
+            ->willReturn([
+                'expiration_date' => '2021-02-18',
+                'details' => [['response_code' => -96, 'status' => 'AUTHORIZED']]
+            ]);
+        $transaction = new MallTransaction($this->optionsMock, $this->requestServiceMock);
+        $status = $transaction->status('fakeToken');
+        $this->assertFalse($status->isApproved());
+    }
+
+    #[Test]
+    public function it_can_validate_token_input()
+    {
+        $transaction = MallTransaction::buildForIntegration('apiKey', 'commerceCode');
+
+        $this->expectException(InvalidArgumentException::class);
+        $transaction->commit('');
+    }
+
+    #[Test]
+    public function it_can_get_an_refund_response()
+    {
+        $this->setBaseMocks();
+        $this->requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn([
+                'type' => 'REVERSED'
+            ]);
+        $options = new Options('apiKey', 'commerceCode', Options::ENVIRONMENT_INTEGRATION);
+        $transaction = new MallTransaction($options, $this->requestServiceMock);
+        $refund = $transaction->refund('token', 'buyord', 'commerceCode', 1990);
+        $this->assertInstanceOf(MallTransactionRefundResponse::class, $refund);
+    }
+    #[Test]
+    public function it_can_get_an_capture_response()
+    {
+        $this->setBaseMocks();
+        $this->requestServiceMock
+            ->expects($this->once())
+            ->method('request')
+            ->willReturn([
+                'authorization_code' => '1234',
+                'authorization_date' => '2022-12-12',
+                'captured_amount' => 2000,
+                'response_code' => 0
+            ]);
+        $options = new Options('apiKey', 'commerceCode', Options::ENVIRONMENT_INTEGRATION);
+        $transaction = new MallTransaction($options, $this->requestServiceMock);
+        $refund = $transaction->capture('Commerce', 'token', 'buyOrd', 'auth', 2000);
+        $this->assertInstanceOf(MallTransactionCaptureResponse::class, $refund);
     }
 }

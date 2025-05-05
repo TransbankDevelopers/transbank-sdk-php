@@ -4,196 +4,88 @@ namespace Transbank\Utils;
 
 trait HasTransactionStatus
 {
-    public $status;
-    public $responseCode;
-    public $amount;
-    public $authorizationCode;
-    public $paymentTypeCode;
-    public $accountingDate;
-    public $installmentsNumber;
-    public $installmentsAmount;
-    public $sessionId;
-    public $buyOrder;
-    public $cardNumber;
-    public $cardDetail;
-    public $transactionDate;
-    public $balance;
+    public string|null $status;
+    public int|null $responseCode;
+    public int|float|null $amount;
+    public string|null $authorizationCode;
+    public string|null $paymentTypeCode;
+    public string|null $accountingDate;
+    public int|null $installmentsNumber;
+    public int|float|null $installmentsAmount;
+    public string|null $sessionId;
+    public string|null $buyOrder;
+    public string|null $cardNumber;
+    public array|null $cardDetail;
+    public string|null $transactionDate;
+    public int|float|null $balance;
 
     /**
-     * @param mixed $amount
-     *
-     * @return static
+     * @return int|float|null
      */
-    public function setAmount($amount)
-    {
-        $this->amount = $amount;
-
-        return $this;
-    }
-
-    /**
-     * @param mixed $buyOrder
-     *
-     * @return static
-     */
-    public function setBuyOrder($buyOrder)
-    {
-        $this->buyOrder = $buyOrder;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getBalance()
+    public function getBalance(): int|float|null
     {
         return $this->balance;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getStatus()
+    public function getStatus(): string|null
     {
         return $this->status;
     }
 
     /**
-     * @param mixed $cardNumber
-     *
-     * @return static
+     * @return string|null
      */
-    public function setCardNumber($cardNumber)
-    {
-        $this->cardNumber = $cardNumber;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAuthorizationCode()
+    public function getAuthorizationCode(): string|null
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @return mixed
+     * @return int|null
      */
-    public function getInstallmentsNumber()
+    public function getInstallmentsNumber(): int|null
     {
         return $this->installmentsNumber;
     }
 
     /**
-     * @return mixed
+     * @return int|null
      */
-    public function getResponseCode()
+    public function getResponseCode(): int|null
     {
         return $this->responseCode;
     }
 
     /**
-     * @param mixed $status
-     *
-     * @return static
+     * @return string|null
      */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * @param mixed $sessionId
-     *
-     * @return static
-     */
-    public function setSessionId($sessionId)
-    {
-        $this->sessionId = $sessionId;
-
-        return $this;
-    }
-
-    /**
-     * @param mixed $paymentTypeCode
-     *
-     * @return static
-     */
-    public function setPaymentTypeCode($paymentTypeCode)
-    {
-        $this->paymentTypeCode = $paymentTypeCode;
-
-        return $this;
-    }
-
-    /**
-     * @param mixed $installmentsAmount
-     *
-     * @return static
-     */
-    public function setInstallmentsAmount($installmentsAmount)
-    {
-        $this->installmentsAmount = $installmentsAmount;
-
-        return $this;
-    }
-
-    /**
-     * @param mixed $accountingDate
-     *
-     * @return static
-     */
-    public function setAccountingDate($accountingDate)
-    {
-        $this->accountingDate = $accountingDate;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getBuyOrder()
+    public function getBuyOrder(): string|null
     {
         return $this->buyOrder;
     }
 
     /**
-     * @param mixed $responseCode
-     *
-     * @return static
+     * @return string|null
      */
-    public function setResponseCode($responseCode)
-    {
-        $this->responseCode = $responseCode;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAccountingDate()
+    public function getAccountingDate(): string|null
     {
         return $this->accountingDate;
     }
 
     /**
-     * @param $json
+     * @param array $json
      */
-    public function setTransactionStatusFields($json)
+    public function setTransactionStatusFields(array $json): void
     {
         $this->amount =  Utils::returnValueIfExists($json, 'amount');
         $this->status = Utils::returnValueIfExists($json, 'status');
         $this->buyOrder = Utils::returnValueIfExists($json, 'buy_order');
         $this->sessionId = Utils::returnValueIfExists($json, 'session_id');
         $this->cardDetail = Utils::returnValueIfExists($json, 'card_detail');
-        $this->cardNumber = Utils::returnValueIfExists($this->cardDetail, 'card_number');
+        $this->cardNumber = Utils::returnValueIfExists($this->cardDetail ?? [], 'card_number');
         $this->accountingDate = Utils::returnValueIfExists($json, 'accounting_date');
         $this->transactionDate = Utils::returnValueIfExists($json, 'transaction_date');
         $this->authorizationCode = Utils::returnValueIfExists($json, 'authorization_code');
@@ -202,118 +94,61 @@ trait HasTransactionStatus
         $this->installmentsAmount = Utils::returnValueIfExists($json, 'installments_amount');
         $this->installmentsNumber = Utils::returnValueIfExists($json, 'installments_number');
         $this->balance = Utils::returnValueIfExists($json, 'balance');
-
     }
 
     /**
-     * @return mixed|null
+     * @return array|null
      */
-    public function getCardDetail()
+    public function getCardDetail(): array|null
     {
         return $this->cardDetail;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getCardNumber()
+    public function getCardNumber(): string|null
     {
         return $this->cardNumber;
     }
 
     /**
-     * @param mixed $transactionDate
-     *
-     * @return static
+     * @return string|null
      */
-    public function setTransactionDate($transactionDate)
-    {
-        $this->transactionDate = $transactionDate;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPaymentTypeCode()
+    public function getPaymentTypeCode(): string|null
     {
         return $this->paymentTypeCode;
     }
 
     /**
-     * @return mixed
+     * @return int|float|null
      */
-    public function getInstallmentsAmount()
+    public function getInstallmentsAmount(): int|float|null
     {
         return $this->installmentsAmount;
     }
 
     /**
-     * @param mixed|null $cardDetail
+     * @return string|null
      */
-    public function setCardDetail($cardDetail)
-    {
-        $this->cardDetail = $cardDetail;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSessionId()
+    public function getSessionId(): string|null
     {
         return $this->sessionId;
     }
 
     /**
-     * @return mixed
+     * @return int|float|null
      */
-    public function getAmount()
+    public function getAmount(): int|float|null
     {
         return $this->amount;
     }
 
     /**
-     * @param mixed $installmentsNumber
-     *
-     * @return static
+     * @return string|null
      */
-    public function setInstallmentsNumber($installmentsNumber)
-    {
-        $this->installmentsNumber = $installmentsNumber;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTransactionDate()
+    public function getTransactionDate(): string|null
     {
         return $this->transactionDate;
-    }
-
-    /**
-     * @param mixed $balance
-     *
-     * @return static
-     */
-    public function setBalance($balance)
-    {
-        $this->balance = $balance;
-
-        return $this;
-    }
-
-    /**
-     * @param mixed $authorizationCode
-     *
-     * @return static
-     */
-    public function setAuthorizationCode($authorizationCode)
-    {
-        $this->authorizationCode = $authorizationCode;
-
-        return $this;
     }
 }

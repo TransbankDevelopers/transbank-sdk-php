@@ -1,20 +1,30 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Transbank\Webpay\Options;
 
 class OptionsTest extends TestCase
 {
-    /** @test */
+    private Options $options;
+    public function setUp(): void
+    {
+        $apiKey = 'testApiKey';
+        $commerceCode = 'testCommerceCode';
+        $this->options = new Options($apiKey, $commerceCode, Options::ENVIRONMENT_INTEGRATION);
+    }
+
+    #[Test]
     public function it_assign_contructor_params_to_their_corresponding_properties()
     {
-        $options = new Options('a', 'b', 'c');
+        $options = new Options('a', 'b', 'c', 10);
         $this->assertSame('a', $options->getApiKey());
         $this->assertSame('b', $options->getCommerceCode());
         $this->assertSame('c', $options->getIntegrationType());
+        $this->assertSame(10, $options->getTimeout());
     }
 
-    /** @test */
+    #[Test]
     public function it_returns_the_right_headers_based_on_configuration()
     {
         $options = new Options('ApiKey', 'CommerceCode', 'TEST');
@@ -24,40 +34,33 @@ class OptionsTest extends TestCase
         ]);
     }
 
-    public function it_creates_an_option_using_static_factory_method_for_integration_credentials()
+    #[Test]
+    public function it_set_properties()
     {
-        $options = Options::forIntegration('commerceCode', 'ApiKey');
-        $this->assertSame($options->getCommerceCode(), 'commerceCode');
-        $this->assertSame($options->getApiKey(), 'ApiKey');
-        $this->assertSame($options->getIntegrationType(), Options::ENVIRONMENT_INTEGRATION);
+        $this->options->setIntegrationType(Options::ENVIRONMENT_PRODUCTION);
+        $this->options->setApiKey('newApiKey');
+        $this->options->setCommerceCode('newCommerceCode');
+        $this->options->setTimeout(100);
+
+        $this->assertEquals(Options::ENVIRONMENT_PRODUCTION, $this->options->integrationType);
+        $this->assertEquals('newApiKey', $this->options->apiKey);
+        $this->assertEquals('newCommerceCode', $this->options->commerceCode);
+        $this->assertEquals(100, $this->options->getTimeout());
     }
 
-    public function it_creates_an_option_using_static_factory_method_for_production_credentials()
+    #[Test]
+    public function it_check_if_is_production()
     {
-        $options = Options::forProduction('commerceCode', 'ApiKey');
-        $this->assertSame($options->getCommerceCode(), 'commerceCode');
-        $this->assertSame($options->getApiKey(), 'ApiKey');
-        $this->assertSame($options->getIntegrationType(), Options::ENVIRONMENT_PRODUCTION);
+        $this->options->setIntegrationType(Options::ENVIRONMENT_PRODUCTION);
+        $this->assertEquals(true, $this->options->isProduction());
     }
 
-    /** @test */
-    public function it_check_if_the_current_object_represent_production_credentials()
+    #[Test]
+    public function it_get_base_url()
     {
-        $options = Options::forProduction('CommerceCode', 'ApiKey');
-        $this->assertTrue($options->isProduction());
-    }
-
-    /** @test */
-    public function it_return_the_correct_base_url_for_production_credentials()
-    {
-        $options = Options::forProduction('CommerceCode', 'ApiKey');
-        $this->assertSame(Options::BASE_URL_PRODUCTION, $options->getApiBaseUrl());
-    }
-
-    /** @test */
-    public function it_return_the_correct_base_url_for_integration_credentials()
-    {
-        $options = Options::forIntegration('CommerceCode', 'ApiKey');
-        $this->assertSame(Options::BASE_URL_INTEGRATION, $options->getApiBaseUrl());
+        $this->options->setIntegrationType(Options::ENVIRONMENT_PRODUCTION);
+        $this->assertEquals(Options::BASE_URL_PRODUCTION, $this->options->getApiBaseUrl());
+        $this->options->setIntegrationType(Options::ENVIRONMENT_INTEGRATION);
+        $this->assertEquals(Options::BASE_URL_INTEGRATION, $this->options->getApiBaseUrl());
     }
 }

@@ -10,14 +10,14 @@ class TransactionCaptureResponse
     /**
      * TransactionCaptureResponse constructor.
      *
-     * @param mixed $responseJson
+     * @param array $json
      */
-    public $authorizationCode;
-    public $authorizationDate;
-    public $capturedAmount;
-    public $responseCode;
+    public string|null $authorizationCode;
+    public string|null $authorizationDate;
+    public int|float|null $capturedAmount;
+    public int|null $responseCode;
 
-    public function __construct($json)
+    public function __construct(array $json)
     {
         $this->authorizationCode = Utils::returnValueIfExists($json, 'authorization_code');
         $this->authorizationDate = Utils::returnValueIfExists($json, 'authorization_date');
@@ -25,88 +25,43 @@ class TransactionCaptureResponse
         $this->responseCode = Utils::returnValueIfExists($json, 'response_code');
     }
 
-    public function isApproved()
+    /**
+     * @return bool
+     */
+    public function isApproved(): bool
     {
         return $this->responseCode === ResponseCodesEnum::RESPONSE_CODE_APPROVED;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getAuthorizationCode()
+    public function getAuthorizationCode(): string|null
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @param mixed $authorizationCode
-     *
-     * @return TransactionCaptureResponse
+     * @return string|null
      */
-    public function setAuthorizationCode($authorizationCode)
-    {
-        $this->authorizationCode = $authorizationCode;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAuthorizationDate()
+    public function getAuthorizationDate(): string|null
     {
         return $this->authorizationDate;
     }
 
     /**
-     * @param mixed $authorizationDate
-     *
-     * @return TransactionCaptureResponse
+     * @return int|float|null
      */
-    public function setAuthorizationDate($authorizationDate)
-    {
-        $this->authorizationDate = $authorizationDate;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCapturedAmount()
+    public function getCapturedAmount(): int|float|null
     {
         return $this->capturedAmount;
     }
 
     /**
-     * @param mixed $capturedAmount
-     *
-     * @return TransactionCaptureResponse
+     * @return int|null
      */
-    public function setCapturedAmount($capturedAmount)
-    {
-        $this->capturedAmount = $capturedAmount;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getResponseCode()
+    public function getResponseCode(): int|null
     {
         return $this->responseCode;
-    }
-
-    /**
-     * @param mixed $responseCode
-     *
-     * @return TransactionCaptureResponse
-     */
-    public function setResponseCode($responseCode)
-    {
-        $this->responseCode = $responseCode;
-
-        return $this;
     }
 }

@@ -6,14 +6,14 @@ use Transbank\Utils\Utils;
 
 class MallTransactionRefundResponse
 {
-    public $type;
-    public $authorizationCode;
-    public $authorizationDate;
-    public $nullifiedAmount;
-    public $balance;
-    public $responseCode;
+    public string|null $type;
+    public string|null $authorizationCode;
+    public string|null $authorizationDate;
+    public int|float|null $nullifiedAmount;
+    public int|float|null $balance;
+    public int|null $responseCode;
 
-    public function __construct($json)
+    public function __construct(array $json)
     {
         $this->type = Utils::returnValueIfExists($json, 'type');
         $this->authorizationCode = Utils::returnValueIfExists($json, 'authorization_code');
@@ -24,122 +24,50 @@ class MallTransactionRefundResponse
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getType()
+    public function getType(): string|null
     {
         return $this->type;
     }
 
     /**
-     * @param mixed $type
-     *
-     * @return MallTransactionRefundResponse
+     * @return string|null
      */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAuthorizationCode()
+    public function getAuthorizationCode(): string|null
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @param mixed $authorizationCode
-     *
-     * @return MallTransactionRefundResponse
+     * @return string|null
      */
-    public function setAuthorizationCode($authorizationCode)
-    {
-        $this->authorizationCode = $authorizationCode;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAuthorizationDate()
+    public function getAuthorizationDate(): string|null
     {
         return $this->authorizationDate;
     }
 
     /**
-     * @param mixed $authorizationDate
-     *
-     * @return MallTransactionRefundResponse
+     * @return int|float|null
      */
-    public function setAuthorizationDate($authorizationDate)
-    {
-        $this->authorizationDate = $authorizationDate;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getNullifiedAmount()
+    public function getNullifiedAmount(): int|float|null
     {
         return $this->nullifiedAmount;
     }
 
     /**
-     * @param mixed $nullifiedAmount
-     *
-     * @return MallTransactionRefundResponse
+     * @return int|float|null
      */
-    public function setNullifiedAmount($nullifiedAmount)
-    {
-        $this->nullifiedAmount = $nullifiedAmount;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getBalance()
+    public function getBalance(): int|float|null
     {
         return $this->balance;
     }
 
     /**
-     * @param mixed $balance
-     *
-     * @return MallTransactionRefundResponse
+     * @return int|null
      */
-    public function setBalance($balance)
-    {
-        $this->balance = $balance;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getResponseCode()
+    public function getResponseCode(): int|null
     {
         return $this->responseCode;
-    }
-
-    /**
-     * @param mixed $responseCode
-     *
-     * @return MallTransactionRefundResponse
-     */
-    public function setResponseCode($responseCode)
-    {
-        $this->responseCode = $responseCode;
-
-        return $this;
     }
 }

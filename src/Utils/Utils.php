@@ -10,7 +10,12 @@ namespace Transbank\Utils;
 
 class Utils
 {
-    public static function returnValueIfExists($json, $key)
+    /**
+     * @param array $json
+     * @param string $key
+     * @return mixed
+     */
+    public static function returnValueIfExists(array $json, string $key): mixed
     {
         return isset($json[$key]) ? $json[$key] : null;
     }

@@ -7,13 +7,13 @@ use Transbank\Utils\Utils;
 
 class InscriptionFinishResponse
 {
-    public $responseCode;
-    public $tbkUser;
-    public $authorizationCode;
-    public $cardType;
-    public $cardNumber;
+    public int|null $responseCode;
+    public string|null $tbkUser;
+    public string|null $authorizationCode;
+    public string|null $cardType;
+    public string|null $cardNumber;
 
-    public function __construct($json)
+    public function __construct(array $json)
     {
         $this->responseCode = Utils::returnValueIfExists($json, 'response_code');
         $this->tbkUser = Utils::returnValueIfExists($json, 'tbk_user');
@@ -22,108 +22,48 @@ class InscriptionFinishResponse
         $this->cardNumber = Utils::returnValueIfExists($json, 'card_number');
     }
 
-    public function isApproved()
+    public function isApproved(): bool
     {
         return $this->getResponseCode() === ResponseCodesEnum::RESPONSE_CODE_APPROVED;
     }
 
     /**
-     * @return mixed
+     * @return int|null
      */
-    public function getResponseCode()
+    public function getResponseCode(): int|null
     {
-        return (int) $this->responseCode;
+        return $this->responseCode;
     }
 
     /**
-     * @param mixed $responseCode
-     *
-     * @return InscriptionFinishResponse
+     * @return string|null
      */
-    public function setResponseCode($responseCode)
-    {
-        $this->responseCode = $responseCode;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTbkUser()
+    public function getTbkUser(): string|null
     {
         return $this->tbkUser;
     }
 
     /**
-     * @param mixed $tbkUser
-     *
-     * @return InscriptionFinishResponse
+     * @return string|null
      */
-    public function setTbkUser($tbkUser)
-    {
-        $this->tbkUser = $tbkUser;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAuthorizationCode()
+    public function getAuthorizationCode(): string|null
     {
         return $this->authorizationCode;
     }
 
     /**
-     * @param mixed $authorizationCode
-     *
-     * @return InscriptionFinishResponse
+     * @return string|null
      */
-    public function setAuthorizationCode($authorizationCode)
-    {
-        $this->authorizationCode = $authorizationCode;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCardType()
+    public function getCardType(): string|null
     {
         return $this->cardType;
     }
 
     /**
-     * @param mixed $cardType
-     *
-     * @return InscriptionFinishResponse
+     * @return string|null
      */
-    public function setCardType($cardType)
-    {
-        $this->cardType = $cardType;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCardNumber()
+    public function getCardNumber(): string|null
     {
         return $this->cardNumber;
-    }
-
-    /**
-     * @param mixed $cardNumber
-     *
-     * @return InscriptionFinishResponse
-     */
-    public function setCardNumber($cardNumber)
-    {
-        $this->cardNumber = $cardNumber;
-
-        return $this;
     }
 }

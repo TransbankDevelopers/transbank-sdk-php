@@ -7,7 +7,7 @@
 
 ## Requisitos:
 
-- PHP 7.0+
+- PHP 8.2+
 
 ## Dependencias
 Para utilizar este SDK, debes tener las siguientes extensiones de PHP instaladas: 
@@ -23,7 +23,7 @@ Para usar el SDK en tu proyecto **debes** usar Composer (si no lo tienes instala
 ```json
     "require": {
         ...
-        "transbank/transbank-sdk": "~2.0"
+        "transbank/transbank-sdk": "~5.0"
     }
 ```
 
@@ -34,7 +34,7 @@ composer update
 
 También puedes instalarlo directamente desde la consola:
 ```bash
-composer require transbank/transbank-sdk:~2.0
+composer require transbank/transbank-sdk:~5.0
 ```
 
 #### Despues de instalar... 

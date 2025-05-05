@@ -6,5 +6,5 @@ use Transbank\Webpay\Exceptions\WebpayRequestException;
 
 class TransactionCreateException extends WebpayRequestException
 {
-    protected static $defaultMessage = 'The transaction could not be created.';
+    protected static string $defaultMessage = 'The transaction could not be created.';
 }

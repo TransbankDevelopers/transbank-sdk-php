@@ -4,6 +4,34 @@ Todos los cambios notables a este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 y este proyecto adhiere a [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [5.0.0] - 2025-05-05
+
+Esta versión no tiene cambios en el comportamiento de las funcionalidades de la API.
+
+¡Importante!
+El SDK ya no apunta por defecto al ambiente de integración. Ahora es necesario configurar de forma explícita las credenciales. Para esto se debe inicializar explícitamente los objetos de los distintos productos, ya sea utilizando la clase Options o a través de los nuevos métodos buildForIntegration y buildForProduction. Además, notar que ahora la versión mínima de PHP soportada es 8.2.
+
+### Agrega
+- Se agrega el parámetro timeout para las peticiones a la API, para que pueda modificarse en todos los productos.
+- Se agregan los métodos buildForIntegration y buildForProduction a todos los productos.
+
+### Actualiza
+- Se configura por defecto el timeout a 600 segundos para todas las peticiones.
+- Se refina las respuestas de Oneclick y Transacción completa.
+- Se actualizan los test.
+- Se actualiza el valor de la constante STATUS_CAPTURED.
+- La versión mínima de PHP soportada ahora es 8.2.
+- Se actualiza la dependencia de guzzle a versión 7.
+- Se actualiza el tipo de excepción lanzada por el método installments de Transacción completa mall.
+- Se actualiza la respuesta de Oneclick al eliminar una inscripción. Cuando es exitosa retorna un booleano en true, de lo contrario lanza una excepción.
+
+### Elimina
+- Se remueve código sin uso.
+- Se elimina el código que hace referencia al producto Webpay Modal.
+- Se elimina el código que hace referencia al producto PatPass by Webpay.
+- Se eliminan los métodos configureForTesting, configureForTestingNoCVV, configureForTestingDeferred, configureForTestingDeferredNoCVV, configureForTestingMallNoCVV, configureForTestingMall, configureForTestingMallDeferred, configureForTestingMallDeferredNoCVV, configureForIntegration, configureForProduction y getDefaultOptions, de todos los productos que los utilizaban.
+- Se eliminan los métodos forProduction y forIntegration de la clase Options.
+
 ## [4.0.0] - 2023-12-12
 
 ### Changed

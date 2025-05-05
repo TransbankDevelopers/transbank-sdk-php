@@ -1,0 +1,29 @@
+name: Publish release to packagist
+
+on:
+  release:
+    types:
+      - published
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          tools: composer
+
+      - name: Verify Composer installation
+        run: composer --version
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Publish release to Packagist
+        run: |
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -d '{"repository":{"url":"https://github.com/TransbankDevelopers/transbank-sdk-php"}}' \
+            "https://packagist.org/api/update-package?username=${{ secrets.PACKAGIST_USERNAME }}&apiToken=${{ secrets.PACKAGIST_API_KEY }}"

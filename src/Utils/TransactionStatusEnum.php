@@ -2,12 +2,17 @@
 
 namespace Transbank\Utils;
 
+/**
+ * Class TransactionStatusEnum
+ *
+ * @package Transbank\Utils
+ */
 class TransactionStatusEnum
 {
-    const STATUS_AUTHORIZED = 'AUTHORIZED';
-    const STATUS_NULLIFIED = 'NULLIFIED';
-    const STATUS_REVERSED = 'REVERSED';
-    const STATUS_PARTIALLY_NULLIFIED = 'PARTIALLY_NULLIFIED';
-    const STATUS_CAPTURED = 'PARTIALLY_NULLIFIED';
-    const STATUS_FAILED = 'FAILED';
+    public const STATUS_AUTHORIZED = 'AUTHORIZED';
+    public const STATUS_NULLIFIED = 'NULLIFIED';
+    public const STATUS_REVERSED = 'REVERSED';
+    public const STATUS_PARTIALLY_NULLIFIED = 'PARTIALLY_NULLIFIED';
+    public const STATUS_CAPTURED = 'CAPTURED';
+    public const STATUS_FAILED = 'FAILED';
 }

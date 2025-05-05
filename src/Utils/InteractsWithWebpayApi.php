@@ -10,72 +10,33 @@ use Transbank\Webpay\Options;
  */
 trait InteractsWithWebpayApi
 {
+    use RequestServiceTrait;
+
     /**
      * @var Options
      */
-    protected $options;
-    /**
-     * @var RequestService |null
-     */
-    protected $requestService;
+    protected Options $options;
 
     /**
      * Transaction constructor.
      *
-     * @param Options              $options
-     * @param RequestService |null $requestService
+     * @param Options         $options
+     * @param RequestService|null $requestService
      */
     public function __construct(
-        Options $options = null,
-        RequestService $requestService = null
+        Options $options,
+        RequestService|null $requestService = null
     ) {
-        $this->loadOptions($options);
+        $this->options = $options;
 
         $this->setRequestService($requestService !== null ? $requestService :
             new HttpClientRequestService());
     }
 
     /**
-     * @param $method
-     * @param $endpoint
-     * @param array|null $payload
-     *
-     * @throws Transbank\Webpay\Exceptions\WebpayRequestException
-     *
-     * @return mixed
-     */
-    public function sendRequest($method, $endpoint, $payload = [])
-    {
-        return $this->getRequestService()->request(
-            $method,
-            $endpoint,
-            $payload,
-            $this->getOptions()
-        );
-    }
-
-    /**
-     * @param Options $options
-     */
-    public function loadOptions(Options $options = null)
-    {
-        $defaultOptions = method_exists($this, 'getGlobalOptions') && $this::getGlobalOptions() !== null ?
-            $this::getGlobalOptions() : $this->getDefaultOptions();
-        if (!$options) {
-            $options = $defaultOptions;
-        }
-
-        if ($options === null) {
-            throw new \InvalidArgumentException('No options configuration given');
-        }
-
-        $this->setOptions($options);
-    }
-
-    /**
      * @return Options
      */
-    public function getOptions()
+    public function getOptions(): Options
     {
         return $this->options;
     }
@@ -83,69 +44,40 @@ trait InteractsWithWebpayApi
     /**
      * @param Options $options
      */
-    public function setOptions(Options $options)
+    public function setOptions(Options $options): void
     {
         $this->options = $options;
     }
 
     /**
-     * @return RequestService |null
-     */
-    public function getRequestService()
-    {
-        return $this->requestService;
-    }
-
-    /**
-     * @param RequestService |null $requestService
-     */
-    public function setRequestService(RequestService $requestService = null)
-    {
-        $this->requestService = $requestService;
-    }
-
-    /**
-     * @param Options|null        $options
-     * @param RequestService|null $requestService
-     *
-     * @return static
-     */
-    public static function build(Options $options = null, RequestService $requestService = null)
-    {
-        return new static($options, $requestService);
-    }
-
-    /**
      * @return string
      */
-    protected function getBaseUrl()
+    protected function getBaseUrl(): string
     {
         return $this->getOptions()->getApiBaseUrl();
     }
 
     /**
-     * @param $commerceCode
-     * @param $apiKey
+     * Build an instance configured for integration environment.
+     * @param string $apiKey
+     * @param string $commerceCode
      *
-     * @return $this
+     * @return static
      */
-    public function configureForIntegration($commerceCode, $apiKey)
+    public static function buildForIntegration(string $apiKey, string $commerceCode): self
     {
-        $this->setOptions(Options::forIntegration($commerceCode, $apiKey));
-
-        return $this;
+        return new static(new Options($apiKey, $commerceCode, Options::ENVIRONMENT_INTEGRATION));
     }
 
     /**
-     * @param $commerceCode
-     * @param $apiKey
+     * Build an instance configured for production environment.
+     * @param string $apiKey
+     * @param string $commerceCode
      *
-     * @return $this
+     * @return static
      */
-    public function configureForProduction($commerceCode, $apiKey)
+    public static function buildForProduction(string $apiKey, string $commerceCode): self
     {
-        $this->setOptions(Options::forProduction($commerceCode, $apiKey));
-
-        return $this;
+        return new static(new Options($apiKey, $commerceCode, Options::ENVIRONMENT_PRODUCTION));
     }
 }

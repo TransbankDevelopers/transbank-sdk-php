@@ -2,6 +2,8 @@
 
 namespace Transbank\Webpay\Exceptions;
 
+use Transbank\Utils\TransbankApiRequest;
+
 /**
  * Class WebpayRequestException.
  */
@@ -10,43 +12,45 @@ class WebpayRequestException extends WebpayException
     /**
      * @var string
      */
-    protected static $defaultMessage = 'An error has happened on the request';
+    protected static string $defaultMessage = 'An error has happened on the request';
 
     /**
-     * @var mixed
+     * @var string|null
      */
-    protected $transbankErrorMessage;
+    protected string|null $transbankErrorMessage;
     /**
-     * @var int
+     * @var int|null
      */
     protected $httpCode;
 
     /**
-     * @var
+     * @var mixed
      */
     protected $response;
 
     /**
      * @var TransbankApiRequest|null
      */
-    protected $failedRequest;
+    protected TransbankApiRequest|null $failedRequest;
 
     /**
      * WebpayRequestException constructor.
      *
-     * @param string                   $message
-     * @param mixed|string             $tbkErrorMessage
-     * @param int                      $httpCode
-     * @param TransbankApiRequest|null $failedRequest
+     * @param string                    $message
+     * @param string|null               $tbkErrorMessage
+     * @param int|null                  $httpCode
+     * @param TransbankApiRequest|null  $failedRequest
+     * @param \Exception|null           $previous
      */
     public function __construct(
-        $message,
-        $tbkErrorMessage = null,
-        $httpCode = null,
-        TransbankApiRequest $failedRequest = null,
-        \Exception $previous = null
+        string $message,
+        string|null $tbkErrorMessage = null,
+        int|null $httpCode = null,
+        TransbankApiRequest|null $failedRequest = null,
+        \Exception|null $previous = null
     ) {
-        $theMessage = isset($tbkErrorMessage) ? $tbkErrorMessage : $message;
+        $theMessage = $tbkErrorMessage ?? $message;
+
         if ($failedRequest !== null) {
             $theMessage = $this->getExceptionMessage($message, $tbkErrorMessage, $httpCode);
         }
@@ -56,13 +60,13 @@ class WebpayRequestException extends WebpayException
         $this->httpCode = $httpCode;
         $this->failedRequest = $failedRequest;
 
-        parent::__construct($theMessage, $httpCode, $previous);
+        parent::__construct($theMessage, $httpCode ?? 0, $previous);
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getTransbankErrorMessage()
+    public function getTransbankErrorMessage(): string|null
     {
         return $this->transbankErrorMessage;
     }
@@ -72,47 +76,54 @@ class WebpayRequestException extends WebpayException
      *
      * @return static
      */
-    public static function raise(WebpayRequestException $exception)
+    public static function raise(WebpayRequestException $exception): self
     {
-        return new static($exception->getMessage(), $exception->getTransbankErrorMessage(), $exception->getHttpCode(),
-            $exception->getFailedRequest(), $exception);
+        return new static(
+            $exception->getMessage(),
+            $exception->getTransbankErrorMessage(),
+            $exception->getHttpCode(),
+            $exception->getFailedRequest(),
+            $exception
+        );
     }
 
     /**
      * @return int
      */
-    public function getHttpCode()
+    public function getHttpCode(): int
     {
-        return $this->httpCode;
+        return $this->httpCode ?? 0;
     }
 
     /**
      * @return TransbankApiRequest|null
      */
-    public function getFailedRequest()
+    public function getFailedRequest(): TransbankApiRequest|null
     {
         return $this->failedRequest;
     }
 
     /**
-     * @param $message
-     * @param $tbkErrorMessage
-     * @param $httpCode
+     * @param string    $message
+     * @param string|null   $tbkErrorMessage
+     * @param int|null      $httpCode
      *
      * @return string
      */
     protected function getExceptionMessage(
-        $message,
-        $tbkErrorMessage,
-        $httpCode
-    ) {
+        string $message,
+        string|null $tbkErrorMessage,
+        int|null $httpCode
+    ): string {
         if (!$tbkErrorMessage) {
-            $theMessage = $message;
-        } else {
-            $theMessage = 'API Response: "'.$tbkErrorMessage.'" ['.$httpCode.'] - '.static::$defaultMessage;
+            return $message;
         }
 
-        return $theMessage;
+        return sprintf(
+            'API Response: "%s" [%d] - %s',
+            $tbkErrorMessage,
+            $httpCode ?? 0,
+            static::$defaultMessage
+        );
     }
-
 }

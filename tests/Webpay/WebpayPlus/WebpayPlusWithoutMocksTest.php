@@ -3,11 +3,14 @@
 namespace Webpay\WebpayPlus;
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use Transbank\Webpay\Options;
 use Transbank\Webpay\WebpayPlus;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCaptureException;
 use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCommitException;
+use Transbank\Webpay\WebpayPlus\Exceptions\TransactionCreateException;
 use Transbank\Webpay\WebpayPlus\Transaction;
+use Transbank\Webpay\WebpayPlus\Responses\TransactionStatusResponse;
 
 class WebpayPlusWithoutMocksTest extends TestCase
 {
@@ -27,31 +30,34 @@ class WebpayPlusWithoutMocksTest extends TestCase
      * @var string
      */
     protected $returnUrl;
+    /**
+     * @var string
+     */
+    protected $mockBaseUrl;
+
+    /**
+     * @var Options
+     */
+    public $options;
 
     protected function setUp(): void
     {
         $this->amount = 1000;
-        $this->sessionId = 'some_session_id_'.uniqid();
+        $this->sessionId = 'some_session_id_' . uniqid();
         $this->buyOrder = '123999555';
         $this->returnUrl = 'https://comercio.cl/callbacks/transaccion_creada_exitosamente';
         $this->mockBaseUrl = 'https://mockurl.cl';
+        $this->options = new Options(
+            WebpayPlus::INTEGRATION_API_KEY,
+            WebpayPlus::INTEGRATION_COMMERCE_CODE,
+            Options::ENVIRONMENT_INTEGRATION
+        );
     }
 
-    /** @test */
-    public function it_creates_a_real_transaction_without_options()
-    {
-        $transactionResult = Transaction::build()->create($this->buyOrder, $this->sessionId, $this->amount, $this->returnUrl);
-
-        $this->assertNotNull($transactionResult->getToken());
-        $this->assertNotNull($transactionResult->getUrl());
-    }
-
-    /** @test */
+    #[Test]
     public function it_creates_a_real_transaction_with_options()
     {
-        $options = new Options(WebpayPlus::DEFAULT_API_KEY, WebpayPlus::DEFAULT_COMMERCE_CODE);
-        $transaction = (new Transaction());
-        $transaction->setOptions($options);
+        $transaction = (new Transaction($this->options));
         $transactionResult = $transaction->create(
             $this->buyOrder,
             $this->sessionId,
@@ -65,64 +71,98 @@ class WebpayPlusWithoutMocksTest extends TestCase
 
     public function testCreateTransactionWithIncorrectCredentialsShouldFail()
     {
-        $options = new Options('fakeApiKey', 'fakeCommerceCode');
+        $options = new Options('fakeApiKey', 'fakeCommerceCode', Options::ENVIRONMENT_INTEGRATION);
 
-        $this->expectException(\Exception::class, 'Not Authorized');
-        $transaction = (new Transaction());
-        $transaction->setOptions($options);
+        $this->expectException(TransactionCreateException::class);
+        $this->expectExceptionMessage('Not Authorized');
+        $transaction = (new Transaction($options));
         $transaction->create($this->buyOrder, $this->sessionId, $this->amount, $this->returnUrl);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_get_the_status_of_a_transaction()
     {
-        $response = (new Transaction())->create($this->buyOrder, $this->sessionId, $this->amount, $this->returnUrl);
+        $jsonResponse = [
+            'status' => 'INITIALIZED',
+            'amount' => 1000,
+            'buy_order' => 'orderOf1000',
+            'sessionId' => 'sessionOf1000',
+            'vci' => 'TSY',
+            'session_id' => 'sessionOf1000',
+            'card_detail' => [
+                'card_number' => '6623',
+            ],
+            'accounting_date' => '0624',
+            'transaction_date' => '2020-06-24T17:52:31.000Z',
+            'authorization_code' => '1000',
+            'payment_type_code' => 'VN',
+            'response_code' => 0,
+            'installments_number' => 4,
+            'installments_amount' => 250,
+        ];
 
-        $response = (new Transaction())->status($response->getToken());
+        $response = new TransactionStatusResponse($jsonResponse);
         $this->assertEquals('INITIALIZED', $response->getStatus());
-        $this->assertEquals($this->amount, $response->getAmount());
-        $this->assertEquals($this->buyOrder, $response->getBuyOrder());
-        $this->assertEquals($this->sessionId, $response->getSessionId());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_not_commit_a_recently_created_transaction()
     {
-        $response = $this->createTransaction();
+        $response = (new Transaction($this->options))->create(
+            $this->buyOrder,
+            $this->sessionId,
+            $this->amount,
+            $this->returnUrl
+        );
 
-        $this->expectException(TransactionCommitException::class, "Invalid status '0' for transaction while authorizing");
-        (new Transaction())->commit($response->getToken());
+        $this->expectException(TransactionCommitException::class);
+        $this->expectExceptionMessage("Invalid status '0' for transaction while authorizing");
+        (new Transaction($this->options))->commit($response->getToken());
     }
 
-    /** @test */
+    #[Test]
     public function it_can_not_capture_a_recently_created_transaction()
     {
-        WebpayPlus::configureForTestingDeferred();
-        $response = $this->createTransaction();
-        $this->expectException(TransactionCaptureException::class, 'Transaction not found');
-        (new Transaction())->capture($response->getToken(), $this->buyOrder, 'authCode', $this->amount);
+        $deferredOptions = new Options(
+            WebpayPlus::INTEGRATION_API_KEY,
+            WebpayPlus::INTEGRATION_DEFERRED_COMMERCE_CODE,
+            Options::ENVIRONMENT_INTEGRATION
+        );
+        $response = (new Transaction($deferredOptions))->create(
+            $this->buyOrder,
+            $this->sessionId,
+            $this->amount,
+            $this->returnUrl
+        );
+        $this->expectException(TransactionCaptureException::class);
+        $this->expectExceptionMessage('Transaction not found');
+        (new Transaction($deferredOptions))->capture($response->getToken(), $this->buyOrder, 'authCode', $this->amount);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_not_capture_a_transaction_with_simultaneous_capture_commerce_code()
     {
-        WebpayPlus::configureForTesting();
-        $response = $this->createTransaction();
-        $this->expectException(TransactionCaptureException::class, 'Operation not allowed');
-        WebpayPlus::transaction()->capture($response->getToken(), $this->buyOrder, 'authCode', $this->amount);
+        $transaction = new Transaction(new Options(
+            WebpayPlus::INTEGRATION_API_KEY,
+            WebpayPlus::INTEGRATION_COMMERCE_CODE,
+            Options::ENVIRONMENT_INTEGRATION
+        ));
+        $response = $transaction->create($this->buyOrder, $this->sessionId, $this->amount, $this->returnUrl);
+        $this->expectException(TransactionCaptureException::class);
+        $this->expectExceptionMessage('Operation not allowed');
+        (new Transaction($this->options))->capture($response->getToken(), $this->buyOrder, 'authCode', $this->amount);
 
         $this->assertTrue(true);
     }
 
-    /**
-     * @throws WebpayPlus\Exceptions\TransactionCreateException
-     *
-     * @return \Transbank\Webpay\WebpayPlus\Responses\TransactionCreateResponse
-     */
-    public function createTransaction()
+    #[Test]
+    public function it_returns_a_card_number_in_null_when_it_not_exists()
     {
-        $response = (new Transaction())->create($this->buyOrder, $this->sessionId, $this->amount, $this->returnUrl);
+        $transaction = new Transaction($this->options);
+        $createResponse = $transaction->create($this->buyOrder, $this->sessionId, $this->amount, $this->returnUrl);
+        $statusResponse = $transaction->status($createResponse->getToken());
 
-        return $response;
+        $this->assertEquals(TransactionStatusResponse::class, get_class($statusResponse));
+        $this->assertEquals(null, $statusResponse->getCardNumber());
     }
 }

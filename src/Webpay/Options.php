@@ -4,60 +4,69 @@ namespace Transbank\Webpay;
 
 /**
  * Class Options.
+ * @var string ENVIRONMENT_PRODUCTION
+ * @var string ENVIRONMENT_INTEGRATION
+ * @var string BASE_URL_PRODUCTION
+ * @var string BASE_URL_INTEGRATION
+ * @var string INTEGRATION_API_KEY
+ * @var int DEFAULT_TIMEOUT
  */
 class Options
 {
     const ENVIRONMENT_PRODUCTION = 'LIVE';
     const ENVIRONMENT_INTEGRATION = 'TEST';
-    const DEFAULT_INTEGRATION_TYPE = self::ENVIRONMENT_INTEGRATION;
-
     const BASE_URL_PRODUCTION = 'https://webpay3g.transbank.cl/';
     const BASE_URL_INTEGRATION = 'https://webpay3gint.transbank.cl/';
 
-    const DEFAULT_API_KEY = '579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C';
+    const INTEGRATION_API_KEY = '579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C';
+
+    const DEFAULT_TIMEOUT = 60 * 10;
 
     /**
-     * @var string Your api key, given by Transbank.Sent as a header when
+     * @var int Timeout for requests in seconds
+     */
+    protected int $timeout;
+
+    /**
+     * @var string|null Your api key, given by Transbank.Sent as a header when
      *             making requests to Transbank on a field called "Tbk-Api-Key-Secret"
      */
-    public $apiKey = null;
+    public string|null $apiKey = null;
     /**
-     * @var string Your commerce code, given by Transbank. Sent as
+     * @var string|null Your commerce code, given by Transbank. Sent as
      *             a header when making requests to Transbank on a field called "Tbk-Api-Key-Id"
      */
-    public $commerceCode = null;
+    public string|null $commerceCode = null;
     /**
      * @var string Sets the environment that the SDK is going
      *             to point to (eg. TEST, LIVE, etc).
      */
-    public $integrationType = self::ENVIRONMENT_INTEGRATION;
+    public string|null $integrationType = null;
 
-    public function __construct($apiKey, $commerceCode, $integrationType = self::ENVIRONMENT_INTEGRATION)
-    {
+    public function __construct(
+        string $apiKey,
+        string $commerceCode,
+        string $integrationType,
+        int $timeout = self::DEFAULT_TIMEOUT
+    ) {
         $this->apiKey = $apiKey;
         $this->commerceCode = $commerceCode;
         $this->integrationType = $integrationType;
+        $this->timeout = $timeout;
     }
 
-    public static function forProduction($commerceCode, $apiKey)
-    {
-        return new static($apiKey, $commerceCode, static::ENVIRONMENT_PRODUCTION);
-    }
-
-    public static function forIntegration($commerceCode, $apiKey = Options::DEFAULT_API_KEY)
-    {
-        return new static($apiKey, $commerceCode, static::ENVIRONMENT_INTEGRATION);
-    }
-
-    public function isProduction()
+    /**
+     * @return bool
+     */
+    public function isProduction(): bool
     {
         return $this->getIntegrationType() === static::ENVIRONMENT_PRODUCTION;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getIntegrationType()
+    public function getIntegrationType(): string|null
     {
         return $this->integrationType;
     }
@@ -67,7 +76,7 @@ class Options
      *
      * @return Options
      */
-    public function setIntegrationType($integrationType)
+    public function setIntegrationType($integrationType): Options
     {
         $this->integrationType = $integrationType;
 
@@ -75,9 +84,9 @@ class Options
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getApiKey()
+    public function getApiKey(): string|null
     {
         return $this->apiKey;
     }
@@ -87,7 +96,7 @@ class Options
      *
      * @return Options
      */
-    public function setApiKey($apiKey)
+    public function setApiKey(string $apiKey): Options
     {
         $this->apiKey = $apiKey;
 
@@ -95,19 +104,19 @@ class Options
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getCommerceCode()
+    public function getCommerceCode(): string|null
     {
         return $this->commerceCode;
     }
 
     /**
-     * @param mixed $commerceCode
+     * @param string $commerceCode
      *
      * @return Options
      */
-    public function setCommerceCode($commerceCode)
+    public function setCommerceCode(string $commerceCode): Options
     {
         $this->commerceCode = $commerceCode;
 
@@ -118,23 +127,42 @@ class Options
      * @return string Returns the base URL used for making requests, depending on which
      *                integration types
      */
-    public function getApiBaseUrl()
+    public function getApiBaseUrl(): string
     {
         if ($this->isProduction()) {
             return static::BASE_URL_PRODUCTION;
         }
-
         return static::BASE_URL_INTEGRATION;
     }
 
     /**
      * @return array
      */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return [
             'Tbk-Api-Key-Id'     => $this->getCommerceCode(),
             'Tbk-Api-Key-Secret' => $this->getApiKey(),
         ];
+    }
+
+    /**
+     * @return int
+     */
+    public function getTimeout(): int
+    {
+        return $this->timeout;
+    }
+
+    /**
+     * @param int $timeout
+     *
+     * @return Options
+     */
+    public function setTimeout($timeout): Options
+    {
+        $this->timeout = $timeout;
+
+        return $this;
     }
 }

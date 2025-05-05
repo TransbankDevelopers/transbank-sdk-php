@@ -1,0 +1,9 @@
+<?php
+
+namespace Transbank\Webpay\TransaccionCompleta\Exceptions;
+
+use Transbank\Webpay\Exceptions\WebpayRequestException;
+
+class TransaccionCompletaException extends WebpayRequestException
+{
+}

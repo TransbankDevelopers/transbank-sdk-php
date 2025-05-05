@@ -9,36 +9,33 @@ use Transbank\Utils\Utils;
  */
 class MallTransactionStatusResponse
 {
-    public $vci;
-    public $buyOrder;
-    public $sessionId;
-    public $cardNumber;
-    public $cardDetail;
-    public $expirationDate;
-    public $accountingDate;
-    public $transactionDate;
+    public string|null $vci;
+    public string|null $buyOrder;
+    public string|null $sessionId;
+    public string|null $cardNumber;
+    public array|null $cardDetail;
+    public string|null $expirationDate;
+    public string|null $accountingDate;
+    public string|null $transactionDate;
+    public array|null $details;
 
     /**
      * @var TransactionDetail[]
      */
-    public $details;
-
-    public function __construct($json)
+    public function __construct(array $json)
     {
         $this->vci = Utils::returnValueIfExists($json, 'vci');
         $this->buyOrder = Utils::returnValueIfExists($json, 'buy_order');
         $this->sessionId = Utils::returnValueIfExists($json, 'session_id');
         $this->cardDetail = Utils::returnValueIfExists($json, 'card_detail');
-        $this->cardNumber = Utils::returnValueIfExists($this->cardDetail, 'card_number');
+        $this->cardNumber = Utils::returnValueIfExists($this->cardDetail ?? [], 'card_number');
         $this->expirationDate = Utils::returnValueIfExists($json, 'expiration_date');
         $this->accountingDate = Utils::returnValueIfExists($json, 'accounting_date');
         $this->transactionDate = Utils::returnValueIfExists($json, 'transaction_date');
-        $details = Utils::returnValueIfExists($json, 'details');
-        $this->details = null;
 
-        if (is_array($details)) {
-            $this->details = [];
-            foreach ($details as $detail) {
+        $this->details = [];
+        if (is_array($json['details'])) {
+            foreach ($json['details'] as $detail) {
                 $this->details[] = TransactionDetail::createFromArray($detail);
             }
         }
@@ -49,7 +46,7 @@ class MallTransactionStatusResponse
      *
      * @return bool
      */
-    public function isApproved()
+    public function isApproved(): bool
     {
         if (!$details = $this->getDetails()) {
             return false;
@@ -65,174 +62,74 @@ class MallTransactionStatusResponse
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getBuyOrder()
+    public function getBuyOrder(): string|null
     {
         return $this->buyOrder;
     }
 
     /**
-     * @param mixed $buyOrder
-     *
-     * @return MallTransactionStatusResponse
+     * @return string|null
      */
-    public function setBuyOrder($buyOrder)
-    {
-        $this->buyOrder = $buyOrder;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSessionId()
+    public function getSessionId(): string|null
     {
         return $this->sessionId;
     }
 
     /**
-     * @param mixed $sessionId
-     *
-     * @return MallTransactionStatusResponse
+     * @return string|null
      */
-    public function setSessionId($sessionId)
-    {
-        $this->sessionId = $sessionId;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCardNumber()
+    public function getCardNumber(): string|null
     {
         return $this->cardNumber;
     }
 
     /**
-     * @param mixed $cardNumber
-     *
-     * @return MallTransactionStatusResponse
+     * @return string|null
      */
-    public function setCardNumber($cardNumber)
-    {
-        $this->cardNumber = $cardNumber;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getExpirationDate()
+    public function getExpirationDate(): string|null
     {
         return $this->expirationDate;
     }
 
     /**
-     * @param mixed $expirationDate
-     *
-     * @return MallTransactionStatusResponse
+     * @return string|null
      */
-    public function setExpirationDate($expirationDate)
-    {
-        $this->expirationDate = $expirationDate;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAccountingDate()
+    public function getAccountingDate(): string|null
     {
         return $this->accountingDate;
     }
 
     /**
-     * @param mixed $accountingDate
-     *
-     * @return MallTransactionStatusResponse
+     * @return string|null
      */
-    public function setAccountingDate($accountingDate)
-    {
-        $this->accountingDate = $accountingDate;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTransactionDate()
+    public function getTransactionDate(): string|null
     {
         return $this->transactionDate;
     }
 
     /**
-     * @param mixed $transactionDate
-     *
-     * @return MallTransactionStatusResponse
-     */
-    public function setTransactionDate($transactionDate)
-    {
-        $this->transactionDate = $transactionDate;
-
-        return $this;
-    }
-
-    /**
      * @return TransactionDetail[]|null
      */
-    public function getDetails()
+    public function getDetails(): array|null
     {
         return $this->details;
     }
 
     /**
-     * @param $details
-     *
-     * @return MallTransactionStatusResponse
+     * @return string|null
      */
-    public function setDetails($details)
-    {
-        $this->details = $details;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getVci()
+    public function getVci(): string|null
     {
         return $this->vci;
     }
 
     /**
-     * @param mixed $vci
+     * @return array|null
      */
-    public function setVci($vci)
-    {
-        $this->vci = $vci;
-    }
-
-    /**
-     * @return mixed|null
-     */
-    public function getCardDetail()
+    public function getCardDetail(): array|null
     {
         return $this->cardDetail;
-    }
-
-    /**
-     * @param mixed|null $cardDetail
-     */
-    public function setCardDetail($cardDetail)
-    {
-        $this->cardDetail = $cardDetail;
     }
 }
