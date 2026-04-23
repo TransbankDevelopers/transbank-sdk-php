@@ -1,0 +1,19 @@
+name: Kiuwan
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  scan:
+    uses: TransbankDevelopers/transbank-github-actions-templates/.github/workflows/kiuwan-pr-scan.yml@2a2837602d7636c5f31f97209ae60a0fe74c2c94
+    with:
+      project_name: td-webpay-sdk-php
+      source_path: .
+      fail_on_audit: true
+    secrets:
+      VPN_CONFIG_B64: ${{ secrets.VPN_CONFIG_B64 }}
+      VPN_USER: ${{ secrets.VPN_USER }}
+      VPN_PASS: ${{ secrets.VPN_PASS }}
+      KIUWAN_USER: ${{ secrets.KIUWAN_USER }}
+      KIUWAN_PASS: ${{ secrets.KIUWAN_PASS }}
