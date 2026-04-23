@@ -104,11 +104,11 @@ class TransbankOneclickTest extends TestCase
         );
         $exception = null;
         try {
-            $mallTransaction->authorize($this->username, 'fakeToken', 'buyOrder2132312', [
+            $mallTransaction->authorize($this->username, 'fakeTbkUser', 'buyOrder2132312', [
                 [
-                    'commerce_code'       => Oneclick::INTEGRATION_CHILD_COMMERCE_CODE_1,
-                    'buy_order'           => 'buyOrder122412',
-                    'amount'              => 1000,
+                    'commerce_code' => Oneclick::INTEGRATION_CHILD_COMMERCE_CODE_1,
+                    'buy_order' => 'buyOrder122412',
+                    'amount' => 1000,
                     'installments_number' => 1,
                 ],
             ]);
@@ -120,17 +120,17 @@ class TransbankOneclickTest extends TestCase
         $lastRequest = $mallTransaction->getRequestService()->getLastRequest();
         $this->assertNotNull($lastResponse);
         $this->assertEquals($exception->getFailedRequest(), $lastRequest);
-        $this->assertEquals(500, $lastResponse->getStatusCode());
+        $this->assertEquals(422, $lastResponse->getStatusCode());
 
         $this->assertEqualsCanonicalizing([
-            'username'  => $this->username,
-            'tbk_user'  => 'fakeToken',
+            'username' => $this->username,
+            'tbk_user' => 'fakeTbkUser',
             'buy_order' => 'buyOrder2132312',
-            'details'   => [
+            'details' => [
                 [
                     'commerce_code' => Oneclick::INTEGRATION_CHILD_COMMERCE_CODE_1,
-                    'amount'        => 1000,
-                    'buy_order'     => 'buyOrder122412',
+                    'amount' => 1000,
+                    'buy_order' => 'buyOrder122412',
                     'installments_number' => 1
                 ],
             ],
@@ -145,13 +145,13 @@ class TransbankOneclickTest extends TestCase
             Oneclick::INTEGRATION_API_KEY,
             Oneclick::INTEGRATION_COMMERCE_CODE
         )->authorize('', 'fakeToken', 'buyOrder2132312', [
-            [
-                'commerce_code'       => Oneclick::INTEGRATION_CHILD_COMMERCE_CODE_1,
-                'buy_order'           => 'buyOrder122412',
-                'amount'              => 1000,
-                'installments_number' => 1,
-            ],
-        ]);
+                    [
+                        'commerce_code' => Oneclick::INTEGRATION_CHILD_COMMERCE_CODE_1,
+                        'buy_order' => 'buyOrder122412',
+                        'amount' => 1000,
+                        'installments_number' => 1,
+                    ],
+                ]);
     }
 
     protected function createDemoData()
@@ -292,7 +292,7 @@ class TransbankOneclickTest extends TestCase
             ->willReturn([
                 "buy_order" => "415034240",
                 "card_detail" =>
-                ["card_number" => "6623"],
+                    ["card_number" => "6623"],
                 "accounting_date" => "0321",
                 "transaction_date" => "2019-03-21T15:43:48.523Z",
                 "details" => [
@@ -311,9 +311,9 @@ class TransbankOneclickTest extends TestCase
         $mallTransaction = new MallTransaction(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
         $authorize = $mallTransaction->authorize($this->username, 'fakeToken', 'buyOrder2132312', [
             [
-                'commerce_code'       => Oneclick::INTEGRATION_CHILD_COMMERCE_CODE_1,
-                'buy_order'           => 'buyOrder122412',
-                'amount'              => 1000,
+                'commerce_code' => Oneclick::INTEGRATION_CHILD_COMMERCE_CODE_1,
+                'buy_order' => 'buyOrder122412',
+                'amount' => 1000,
                 'installments_number' => 1,
             ],
         ]);
@@ -362,7 +362,7 @@ class TransbankOneclickTest extends TestCase
             ->willReturn([
                 "buy_order" => "415034240",
                 "card_detail" =>
-                ["card_number" => "6623"],
+                    ["card_number" => "6623"],
                 "accounting_date" => "0321",
                 "transaction_date" => "2019-03-21T15:43:48.523Z",
                 "details" => [
@@ -462,7 +462,7 @@ class TransbankOneclickTest extends TestCase
             ->willReturn([
                 "buy_order" => "415034240",
                 "card_detail" =>
-                ["card_number" => "6623"],
+                    ["card_number" => "6623"],
                 "accounting_date" => "0321",
                 "transaction_date" => "2019-03-21T15:43:48.523Z",
                 "details" => [
@@ -496,19 +496,21 @@ class TransbankOneclickTest extends TestCase
         $requestServiceMock
             ->expects($this->once())
             ->method('request')
-            ->willReturn(["details" => [
+            ->willReturn([
+                "details" => [
 
-                [
-                    "amount" => 500,
-                    "status" => "AUTHORIZED",
-                    "authorization_code" => "1213",
-                    "payment_type_code" => "VN",
-                    "response_code" => 0,
-                    "installments_number" => 0,
-                    "commerce_code" => "597055555542",
-                    "buy_order" => "505479072"
+                    [
+                        "amount" => 500,
+                        "status" => "AUTHORIZED",
+                        "authorization_code" => "1213",
+                        "payment_type_code" => "VN",
+                        "response_code" => 0,
+                        "installments_number" => 0,
+                        "commerce_code" => "597055555542",
+                        "buy_order" => "505479072"
+                    ]
                 ]
-            ]]);
+            ]);
         $mallTransaction = new MallTransaction(new Options('apiKey', 'commerce', Options::ENVIRONMENT_INTEGRATION), $requestServiceMock);
         $status = $mallTransaction->status('buyOrd');
         $this->assertTrue($status->isApproved());
