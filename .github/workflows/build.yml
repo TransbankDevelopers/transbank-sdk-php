@@ -19,7 +19,7 @@ jobs:
         php-versions: [8.2]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v6
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -31,7 +31,7 @@ jobs:
       - name: Run PHPUnit tests
         run: vendor/bin/phpunit --coverage-clover build/logs/clover.xml
       - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
+        uses: sonarsource/sonarqube-scan-action@7006c4492b2e0ee0f816d36501671557c97f5995
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
