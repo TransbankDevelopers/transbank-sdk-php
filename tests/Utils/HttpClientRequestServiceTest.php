@@ -18,9 +18,9 @@ class HttpClientRequestServiceTest extends TestCase
         $timeOut = 10;
 
         $httpClientMock = $this->createMock(HttpClientInterface::class);
-        $responseMock = $this->createMock(ResponseInterface::class);
-        $streamMock = $this->createMock(StreamInterface::class);
-        $optionsMock = $this->createMock(Options::class);
+        $responseMock = $this->createStub(ResponseInterface::class);
+        $streamMock = $this->createStub(StreamInterface::class);
+        $optionsMock = $this->createStub(Options::class);
 
         $responseMock->method('getStatusCode')->willReturn(200);
         $responseMock->method('getBody')->willReturn($streamMock);
@@ -54,9 +54,9 @@ class HttpClientRequestServiceTest extends TestCase
         $expectedResponse = ['error_message' => 'Internal Server Error'];
 
         $httpClientMock = $this->createMock(HttpClientInterface::class);
-        $responseMock = $this->createMock(ResponseInterface::class);
-        $streamMock = $this->createMock(StreamInterface::class);
-        $optionsMock = $this->createMock(Options::class);
+        $responseMock = $this->createStub(ResponseInterface::class);
+        $streamMock = $this->createStub(StreamInterface::class);
+        $optionsMock = $this->createStub(Options::class);
 
         $responseMock->method('getStatusCode')->willReturn(500);
         $responseMock->method('getBody')->willReturn($streamMock);
@@ -81,11 +81,10 @@ class HttpClientRequestServiceTest extends TestCase
     public function test_set_and_get_last_response()
     {
         $service = new HttpClientRequestService();
-        $responseMock = $this->createMock(ResponseInterface::class);
+        $responseMock = $this->createStub(ResponseInterface::class);
 
         $reflection = new \ReflectionClass($service);
         $method = $reflection->getMethod('setLastResponse');
-        $method->setAccessible(true);
         $method->invoke($service, $responseMock);
 
         $this->assertSame($responseMock, $service->getLastResponse());
@@ -94,11 +93,10 @@ class HttpClientRequestServiceTest extends TestCase
     public function test_set_and_get_last_request()
     {
         $service = new HttpClientRequestService();
-        $requestMock = $this->createMock(TransbankApiRequest::class);
+        $requestMock = $this->createStub(TransbankApiRequest::class);
 
         $reflection = new \ReflectionClass($service);
         $method = $reflection->getMethod('setLastRequest');
-        $method->setAccessible(true);
         $method->invoke($service, $requestMock);
 
         $this->assertSame($requestMock, $service->getLastRequest());

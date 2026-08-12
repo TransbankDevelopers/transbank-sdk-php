@@ -63,7 +63,7 @@ class PatpassComercioTest extends TestCase
     public function it_returns_inscription_start_response()
     {
         $options = new Options('apiKey', 'commerceCode', Options::ENVIRONMENT_PRODUCTION);
-        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock = $this->createStub(HttpClientRequestService::class);
         $requestServiceMock->method('request')
             ->willReturn(
                 [
@@ -96,7 +96,7 @@ class PatpassComercioTest extends TestCase
     public function it_throws_inscription_start_exception()
     {
         $options = new Options('apiKey', 'commerceCode', Options::ENVIRONMENT_PRODUCTION);
-        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock = $this->createStub(HttpClientRequestService::class);
         $requestServiceMock->method('request')
             ->willThrowException(new WebpayRequestException('fake exception'));
         $inscription = new Inscription($options, $requestServiceMock);
@@ -124,7 +124,7 @@ class PatpassComercioTest extends TestCase
     public function it_returns_inscription_status_response()
     {
         $options = new Options('apiKey', 'commerceCode', Options::ENVIRONMENT_PRODUCTION);
-        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock = $this->createStub(HttpClientRequestService::class);
         $requestServiceMock->method('request')
             ->willReturn(
                 [
@@ -141,7 +141,7 @@ class PatpassComercioTest extends TestCase
     public function it_throws_inscription_status_exception()
     {
         $options = new Options('apiKey', 'commerceCode', Options::ENVIRONMENT_PRODUCTION);
-        $requestServiceMock = $this->createMock(HttpClientRequestService::class);
+        $requestServiceMock = $this->createStub(HttpClientRequestService::class);
         $requestServiceMock->method('request')
             ->willThrowException(new WebpayRequestException('fake exception'));
         $inscription = new Inscription($options, $requestServiceMock);
@@ -167,7 +167,6 @@ class PatpassComercioTest extends TestCase
 
         $reflection = new \ReflectionClass(Inscription::class);
         $method = $reflection->getMethod('getBaseUrl');
-        $method->setAccessible(true);
         $baseUrl = $method->invoke($inscription);
 
         $this->assertEquals(Options::BASE_URL_INTEGRATION, $baseUrl);

@@ -14,10 +14,7 @@ class TransactionStatusResponseTest extends TestCase
             'vci' => 'Some VCI',
             'prepaid_balance' => 100,
         ];
-        $this->response = $this->getMockBuilder(TransactionStatusResponse::class)
-            ->setConstructorArgs([$this->json])
-            ->onlyMethods(['setTransactionStatusFields'])
-            ->getMock();
+        $this->response = new TransactionStatusResponse($this->json);
     }
     #[Test]
     public function it_can_get_prepaid_balance()

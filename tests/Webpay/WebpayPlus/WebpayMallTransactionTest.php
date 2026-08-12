@@ -48,7 +48,7 @@ class WebpayMallTransactionTest extends TestCase
      */
     protected $requestServiceMock;
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|Options
+     * @var \PHPUnit\Framework\MockObject\Stub|Options
      */
     protected $optionsMock;
     /**
@@ -59,7 +59,7 @@ class WebpayMallTransactionTest extends TestCase
     public function setBaseMocks()
     {
         $this->requestServiceMock = $this->createMock(HttpClientRequestService::class);
-        $this->optionsMock = $this->createMock(Options::class);
+        $this->optionsMock = $this->createStub(Options::class);
 
         $this->headersMock = ['header_1' => uniqid()];
         $this->optionsMock->method('getApiBaseUrl')->willReturn($this->mockBaseUrl);
@@ -134,7 +134,8 @@ class WebpayMallTransactionTest extends TestCase
             'buy_order'     => 'BuyOrderChild',
         ];
 
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())
+            ->method('request')
             ->with('POST', MallTransaction::ENDPOINT_CREATE, [
                 'buy_order'  => $this->buyOrder,
                 'session_id' => $this->sessionId,
@@ -168,7 +169,8 @@ class WebpayMallTransactionTest extends TestCase
             MallTransaction::ENDPOINT_COMMIT
         );
 
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())
+            ->method('request')
             ->with('PUT', $expectedUrl, [])
             ->willReturn([
                 'vci'     => 'TSY',
@@ -249,7 +251,7 @@ class WebpayMallTransactionTest extends TestCase
     {
         $this->setBaseMocks();
 
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(MallTransactionCreateException::class);
@@ -263,7 +265,7 @@ class WebpayMallTransactionTest extends TestCase
     {
         $this->setBaseMocks();
 
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(MallTransactionCommitException::class);
@@ -277,7 +279,7 @@ class WebpayMallTransactionTest extends TestCase
     {
         $this->setBaseMocks();
 
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(MallTransactionStatusException::class);
@@ -291,7 +293,7 @@ class WebpayMallTransactionTest extends TestCase
     {
         $this->setBaseMocks();
 
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(MallTransactionRefundException::class);
@@ -305,7 +307,7 @@ class WebpayMallTransactionTest extends TestCase
     {
         $this->setBaseMocks();
 
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(MallTransactionCaptureException::class);
@@ -318,7 +320,7 @@ class WebpayMallTransactionTest extends TestCase
     public function it_can_get_expiration_date_from_status()
     {
         $this->setBaseMocks();
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willReturn([
                 'expiration_date' => '2021-02-16',
                 'details' => [['response_code' => -1, 'status' => 'FAILED']]
@@ -333,7 +335,7 @@ class WebpayMallTransactionTest extends TestCase
     public function it_can_check_is_approved()
     {
         $this->setBaseMocks();
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willReturn([
                 'expiration_date' => '2021-02-18',
                 'details' => [['response_code' => 0, 'status' => 'AUTHORIZED']]
@@ -347,7 +349,7 @@ class WebpayMallTransactionTest extends TestCase
     public function it_can_check_is_rejected_when_details_not_exists()
     {
         $this->setBaseMocks();
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willReturn([
                 'expiration_date' => '2021-02-18',
                 'details' => []
@@ -361,7 +363,7 @@ class WebpayMallTransactionTest extends TestCase
     public function it_can_check_is_rejected_when_details_is_not_approved()
     {
         $this->setBaseMocks();
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willReturn([
                 'expiration_date' => '2021-02-18',
                 'details' => [['response_code' => -96, 'status' => 'AUTHORIZED']]
