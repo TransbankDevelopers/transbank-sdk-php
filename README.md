@@ -49,10 +49,16 @@ proyecto. En Visual Studio Code, abre la paleta de comandos y selecciona
 `Dev Containers: Reopen in Container`. Al crear el contenedor se ejecuta
 `composer install` automáticamente mediante `postCreateCommand`.
 
-Con el contenedor abierto, ejecuta PHPUnit directamente desde la raíz del proyecto:
+Con el contenedor abierto, ejecuta los tests desde la raíz del proyecto:
 
 ```bash
-vendor/bin/phpunit --no-coverage
+composer test
+```
+
+Para ejecutar los tests con reporte de coverage:
+
+```bash
+composer run test:coverage
 ```
 
 También puedes instalar las dependencias manualmente cuando sea necesario:
