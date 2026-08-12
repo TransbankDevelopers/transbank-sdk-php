@@ -16,14 +16,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: [8.2]
+        php-versions: [8.4, 8.5]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2
+          php-version: ${{ matrix.php-versions }}
           extensions: mbstring, json, curl, pcov
           coverage: pcov
       - name: Install dependencies
