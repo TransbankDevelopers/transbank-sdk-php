@@ -7,7 +7,7 @@
 
 ## Requisitos:
 
-- PHP 8.2+
+- PHP 8.5+
 
 ## Dependencias
 Para utilizar este SDK, debes tener las siguientes extensiones de PHP instaladas: 
@@ -104,17 +104,23 @@ También puedes encontrar:
 
 ### Todas las mezclas a master se hacen mediante Pull Request.
 
-### Test
-Para ejecutar los test localmente debes ejecutar los siguientes comandos en una terminal.
+### Tests y desarrollo
+
+El entorno recomendado para desarrollar y ejecutar los tests es el devcontainer del
+proyecto. En Visual Studio Code, abre la paleta de comandos y selecciona
+`Dev Containers: Reopen in Container`. Al crear el contenedor se ejecuta
+`composer install` automáticamente mediante `postCreateCommand`.
+
+Con el contenedor abierto, ejecuta PHPUnit directamente desde la raíz del proyecto:
 
 ```bash
-make
+vendor/bin/phpunit --no-coverage
 ```
 
-Y luego ejecutar los test
+También puedes instalar las dependencias manualmente cuando sea necesario:
 
 ```bash
-make test
+composer install --no-interaction --prefer-dist
 ```
 
 ### Deploy de una nueva versión.
