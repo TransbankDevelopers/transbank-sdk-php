@@ -14,9 +14,7 @@ class TransactionStatusResponseTest extends TestCase
             'vci' => 'Some VCI',
             'prepaid_balance' => 100,
         ];
-        $this->response = $this->createStub(TransactionStatusResponse::class);
-        $this->response->method('getVci')->willReturn($this->json['vci']);
-        $this->response->method('getPrepaidBalance')->willReturn($this->json['prepaid_balance']);
+        $this->response = new TransactionStatusResponse($this->json);
     }
     #[Test]
     public function it_can_get_prepaid_balance()
