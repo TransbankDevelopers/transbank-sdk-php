@@ -33,7 +33,8 @@
     }
   },
   "scripts": {
-    "test": "phpunit"
+    "test": "phpunit --no-coverage",
+    "test:coverage": "XDEBUG_MODE=coverage phpunit --coverage-text"
   },
   "license": "BSD-3-Clause"
 }
