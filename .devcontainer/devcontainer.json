@@ -53,11 +53,6 @@
         "php.executablePath": "/usr/local/bin/php",
         "php.validate.executablePath": "/usr/local/bin/php",
         "intelephense.files.maxSize": 5000000,
-        "intelephense.environment.includePaths": [
-          "/var/www/html",
-          "/workspace/plugin/vendor/php-stubs/wordpress-stubs",
-          "/workspace/plugin/vendor/php-stubs/woocommerce-stubs"
-        ],
         "[php]": {
           "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
         },
