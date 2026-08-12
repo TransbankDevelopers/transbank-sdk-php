@@ -143,7 +143,7 @@ La documentación relevante para usar este SDK es:
 
 El trabajo debe seguir un flujo ordenado de ramas: feature branch desde `develop`, PR hacia `develop`, y release cuando corresponda. La rama release debe nacer desde `develop` y apuntar a `main`.
 
-!gitflow
+![gitflow](https://wac-cdn.atlassian.com/dam/jcr:cc0b526e-adb7-4d45-874e-9bcea9898b4a/04%20Hotfix%20branches.svg?cdnVersion=1324)
 
 ## Generar una nueva versión
 
