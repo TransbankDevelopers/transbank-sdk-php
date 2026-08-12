@@ -7,19 +7,22 @@
 
 ## Requisitos:
 
-- PHP 8.5+
+- PHP 8.4+
 
 ## Dependencias
-Para utilizar este SDK, debes tener las siguientes extensiones de PHP instaladas: 
+
+Para utilizar este SDK, debes tener las siguientes extensiones de PHP instaladas:
+
 - ext-curl
 - ext-json
 - ext-mbstring
 
-# Instalación
+## Instalación
 
 ### Instalar con Composer
 
 Para usar el SDK en tu proyecto **debes** usar Composer (si no lo tienes instalado, puedes instalarlo [acá](https://getcomposer.org/)), añadiendo el SDK como dependencia a tu proyecto:
+
 ```json
     "require": {
         ...
@@ -27,82 +30,17 @@ Para usar el SDK en tu proyecto **debes** usar Composer (si no lo tienes instala
     }
 ```
 
-Luego debes correr 
-```
+Luego debes correr
+
+```bash
 composer update
 ```
 
 También puedes instalarlo directamente desde la consola:
+
 ```bash
 composer require transbank/transbank-sdk:~5.0
 ```
-
-#### Despues de instalar... 
-Si es primera vez que usas composer en tu proyecto, se creará una carpeta `vendor/` con el SDK y todo lo necesario.
-Te recomendamos leer como funciona Composer, pero para comentar un punto importante, ahora asegúrate de que se incluye 
-el archivo `vendor/autoload.php` en tu proyecto, idealmente al inicio de todo tu código. 
-
-Si tu proyecto ya usa composer, la librería ya estará disponible para ser usaada sin que tengas que hacer nada 
-adicional. 
-
-#### Hosting compartido (no recomendado)
-Si usas un hosting compartido o un ambiente donde no tienes acceso para instalar Composer, no te preocupes: Puedes 
-instalar composer en tu propio computador, instalar el paquete como se indica anteriormente, y luego subir por FTP, SSH 
-o como sea, todos los archivos del proyecto. No es necesario tener instalado composer en el servidor. Solo es necesario 
-que los archivos generados tras la instalación de composer si estén. 
-De todas formas, te recomendamos usar algún servidor VPS o dedicado, donde tendrás mas control de tu sistema.
-
-## Ejemplos de código básicos
-Dejamos **algunos** ejemplos básicos de código en la carpeta `examples` de este repositorio que te recomendamos revisar. 
-Puedes ejecutar este ejemplo entrando a esta carpeta en tu terminal y ejecutando un servidor de PHP: 
-```bash 
-cd /path/to/this/sdk
-cd examples
-php -S 127.0.0.1:8000
-```
-Luego, solo abre [http://127.0.0.1:8000] en tu navegador web. 
-
-## Proyecto de ejemplo completo
-Adicionalmente, creamos un proyecto de ejemplo donde se implementan todos los productos y modalidades acá: https://github.com/TransbankDevelopers/transbank-sdk-php-webpay-rest-example/
-
-## Documentación Transbank Developers
-Puedes encontrar toda la documentación de cómo usar este SDK en el sitio https://www.transbankdevelopers.cl.
-
-La documentación relevante para usar este SDK es:
-
-- Primeros pasos con [Webpay](https://www.transbankdevelopers.cl/documentacion/webpay)
-- Documentación sobre [ambientes, deberes del comercio, puesta en producción,
-  etc](https://www.transbankdevelopers.cl/documentacion/como_empezar#ambientes).
-  
-También puedes encontrar: 
-- Documentación general sobre los productos y sus diferencias:
-  [Webpay](https://www.transbankdevelopers.cl/producto/webpay) y
-  [Onepay](https://www.transbankdevelopers.cl/producto/onepay).
-- Referencia detallada sobre [Webpay](https://www.transbankdevelopers.cl/referencia/webpay) y [Onepay](https://www.transbankdevelopers.cl/referencia/onepay).
-
-## Información para contribuir y desarrollar este SDK
-
-### Estándares
-
-- Para los commits respetamos las siguientes normas: https://chris.beams.io/posts/git-commit/
-- Usamos ingles, para los mensajes de commit.
-- Se pueden usar tokens como WIP, en el subject de un commit, separando el token con `:`, por ejemplo:
-`WIP: This is a useful commit message`
-- Para los nombres de ramas también usamos ingles.
-- Se asume, que una rama de feature no mezclada, es un feature no terminado.
-- El nombre de las ramas va en minúsculas.
-- Las palabras se separan con `-`.
-- Las ramas comienzan con alguno de los short lead tokens definidos, por ejemplo: `feat/tokens-configuration`
-
-#### Short lead tokens
-##### Commits
-- WIP = Trabajo en progreso.
-##### Ramas
-- feat = Nuevos features
-- chore = Tareas, que no son visibles al usuario.
-- bug = Resolución de bugs.
-
-### Todas las mezclas a master se hacen mediante Pull Request.
 
 ### Tests y desarrollo
 
@@ -123,8 +61,87 @@ También puedes instalar las dependencias manualmente cuando sea necesario:
 composer install --no-interaction --prefer-dist
 ```
 
-### Deploy de una nueva versión.
-Para generar una nueva versión, se debe crear un PR (con un título "Prepare release X.Y.Z" con los valores que correspondan para `X`, `Y` y `Z`). Se debe seguir el estándar semver para determinar si se incrementa el valor de `X` (si hay cambios no retrocompatibles), `Y` (para mejoras retrocompatibles) o `Z` (si sólo hubo correcciones a bugs).
+## Proyecto de ejemplo completo
+
+Adicionalmente, creamos un proyecto de ejemplo donde se implementan todos los productos y modalidades acá: https://github.com/TransbankDevelopers/transbank-sdk-php-example
+
+## Documentación Transbank Developers
+
+Puedes encontrar toda la documentación de cómo usar este SDK en el sitio https://www.transbankdevelopers.cl.
+
+La documentación relevante para usar este SDK es:
+
+- Documentación general sobre el producto [Webpay](https://www.transbankdevelopers.cl/producto/webpay)
+- Primeros pasos con [Webpay](https://www.transbankdevelopers.cl/documentacion/webpay)
+- Documentación sobre [ambientes, deberes del comercio, puesta en producción,
+  etc](https://www.transbankdevelopers.cl/documentacion/como_empezar#ambientes).
+- Referencia detallada sobre [Webpay](https://www.transbankdevelopers.cl/referencia/webpay?l=php#)
+
+## Información para contribuir a este proyecto
+
+### Forma de trabajo
+
+- Para los mensajes de commits, nos basamos en las Git Commit Guidelines de Angular.
+- Usamos inglés para los nombres de ramas y mensajes de commit.
+- Los mensajes de commit no deben llevar punto final.
+- Los mensajes de commit deben usar un lenguaje imperativo y estar en tiempo presente, por ejemplo, usar "change" en lugar de "changed" o "changes".
+- Los nombres de las ramas deben estar en minúsculas y las palabras deben separarse con guiones (-).
+- Todas las fusiones a la rama principal se deben realizar mediante solicitudes de Pull Request(PR). ⬇️
+- Se debe emplear tokens como "WIP" en el encabezado de un commit, separados por dos puntos (:), por ejemplo, "WIP: this is a useful commit message".
+- Una rama con nuevas funcionalidades que no tenga un PR, se considera que está en desarrollo.
+- Los nombres de las ramas deben comenzar con uno de los tokens definidos. Por ejemplo: "feat/tokens-configurations".
+
+### Short lead tokens permitidos
+
+`WIP` = En progreso.
+
+`feat` = Nuevos features.
+
+`fix` = Corrección de un bug.
+
+`docs` = Cambios solo de documentación.
+
+`style` = Cambios que no afectan el significado del código. (espaciado, formateo de código, comillas faltantes, etc)
+
+`refactor` = Un cambio en el código que no arregla un bug ni agrega una funcionalidad.
+
+`perf` = Cambio que mejora el rendimiento.
+
+`test` = Agregar test faltantes o los corrige.
+
+`chore` = Cambios en el build o herramientas auxiliares y librerías.
+
+`revert` = Revierte un commit.
+
+`release` = Para liberar una nueva versión.
+
+### Creación de un Pull Request
+
+- El PR debe estar enfocado en un cambio en concreto, por ejemplo, agregar una nueva funcionalidad o solucionar un error, pero un solo PR no puede agregar una nueva funcionalidad y arreglar un error.
+- El título del los PR y mensajes de commit no debe comenzar con una letra mayúscula.
+- No se debe usar punto final en los títulos.
+- El título del PR debe comenzar con el short lead token definido para la rama, seguido de ":"" y una breve descripción del cambio.
+- La descripción del PR debe detallar los cambios que se están incorporando.
+- La descripción del PR debe incluir evidencias de que los test se ejecutan de forma correcta o incluir evidencias de que los cambios funcionan y no afectan la funcionalidad previa del proyecto.
+- Se pueden agregar capturas, gif o videos para complementar la descripción o demostrar el funcionamiento del PR.
+
+#### Flujo de trabajo
+
+1. Crea tu rama desde develop.
+2. Haz un push de los commits y publica la nueva rama.
+3. Abre un Pull Request apuntando tus cambios a develop.
+4. Espera a la revisión de los demás integrantes del equipo.
+5. Para poder mezclar los cambios se debe contar con 2 aprobaciones de los revisores y no tener alertas por parte de las herramientas de inspección.
+
+### Esquema de flujo con git
+
+El trabajo debe seguir un flujo ordenado de ramas: feature branch desde `develop`, PR hacia `develop`, y release cuando corresponda. La rama release debe nacer desde `develop` y apuntar a `main`.
+
+!gitflow
+
+## Generar una nueva versión
+
+Para generar una nueva versión, se debe crear un PR (con un título "release: prepare release X.Y.Z" con los valores que correspondan para `X`, `Y` y `Z`). Se debe seguir el estándar SemVer para determinar si se incrementa el valor de `X` (si hay cambios no retrocompatibles), `Y` (para mejoras retrocompatibles) o `Z` (si sólo hubo correcciones a bugs).
 
 En ese PR deben incluirse los siguientes cambios:
 
@@ -133,7 +150,8 @@ En ese PR deben incluirse los siguientes cambios:
 
 Luego de obtener aprobación del pull request, debe mezclarse a master e inmediatamente generar un release en GitHub con el tag `X.Y.Z`. En la descripción del release debes poner lo mismo que agregaste al changelog.
 
-Con eso Travis CI generará automáticamente una nueva versión de la librería y la publicará en Packagist.
+Con eso la CI generará automáticamente una nueva versión de la librería y la publicará en Packagist.
 
 ### Vulnerabilidades de seguridad
-Si descubres una falla de seguridad dentro de este proyecto, por favor, notifícanos por correo electrónico a transbankdevelopers@continuum.cl. Tomaremos el caso con la mayor celeridad. 
+
+Si descubres una falla de seguridad dentro de este proyecto, por favor, notifícanos por correo electrónico a transbankdevelopers@continuum.cl. Tomaremos el caso con la mayor celeridad.
