@@ -39,7 +39,7 @@ class TransaccionCompletaMallTest extends TestCase
     public function setBaseMocks()
     {
         $this->requestServiceMock = $this->createMock(HttpClientRequestService::class);
-        $this->optionsMock = $this->createMock(Options::class);
+        $this->optionsMock = $this->createStub(Options::class);
         $this->headersMock = ['header_1' => uniqid()];
         $this->optionsMock->method('getApiBaseUrl')->willReturn($this->mockBaseUrl);
         $this->optionsMock->method('getHeaders')->willReturn($this->headersMock);
@@ -63,7 +63,7 @@ class TransaccionCompletaMallTest extends TestCase
         $this->setBaseMocks();
 
         $tokenMock = uniqid();
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willReturn(
                 [
                     'token' => $tokenMock,
@@ -90,7 +90,7 @@ class TransaccionCompletaMallTest extends TestCase
     public function it_throws_create_exception()
     {
         $this->setBaseMocks();
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willThrowException(new WebpayRequestException('Error on request', null, 404));
         $this->expectException(MallTransactionCreateException::class);
         $this->mallTransaction->create(
@@ -113,7 +113,7 @@ class TransaccionCompletaMallTest extends TestCase
         $this->setBaseMocks();
 
         $tokenMock = uniqid();
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willReturn(
                 [
                     "installments_amount" => 3334,
@@ -141,7 +141,7 @@ class TransaccionCompletaMallTest extends TestCase
     public function it_throws_installments_exception()
     {
         $this->setBaseMocks();
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willThrowException(new WebpayRequestException('Error on request', null, 404));
         $this->expectException(MallTransactionInstallmentsException::class);
         $this->mallTransaction->installments('token', [[
@@ -157,7 +157,7 @@ class TransaccionCompletaMallTest extends TestCase
         $this->setBaseMocks();
 
         $tokenMock = uniqid();
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willReturn(
                 [
                     "buy_order" => "415034240",
@@ -197,7 +197,7 @@ class TransaccionCompletaMallTest extends TestCase
         $this->setBaseMocks();
 
         $tokenMock = uniqid();
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willThrowException(new WebpayRequestException('Error on request', null, 404));
         $this->expectException(MallTransactionCommitException::class);
         $this->mallTransaction->commit($tokenMock, [[
@@ -215,7 +215,7 @@ class TransaccionCompletaMallTest extends TestCase
         $this->setBaseMocks();
 
         $tokenMock = uniqid();
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willReturn(
                 [
                     "type" => "NULLIFY",
@@ -237,7 +237,7 @@ class TransaccionCompletaMallTest extends TestCase
         $this->setBaseMocks();
 
         $tokenMock = uniqid();
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willThrowException(new WebpayRequestException('Error on request', null, 404));
         $this->expectException(MallTransactionRefundException::class);
         $this->mallTransaction->refund($tokenMock, 'buyOrder', 'commerceChild', 1990);
@@ -249,7 +249,7 @@ class TransaccionCompletaMallTest extends TestCase
         $this->setBaseMocks();
 
         $tokenMock = uniqid();
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willReturn(
                 [
                     "buy_order" => "415034240",
@@ -282,7 +282,7 @@ class TransaccionCompletaMallTest extends TestCase
         $this->setBaseMocks();
 
         $tokenMock = uniqid();
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willThrowException(new WebpayRequestException('Error on request', null, 404));
         $this->expectException(MallTransactionStatusException::class);
         $this->mallTransaction->status($tokenMock);
@@ -294,7 +294,7 @@ class TransaccionCompletaMallTest extends TestCase
         $this->setBaseMocks();
 
         $tokenMock = uniqid();
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willReturn(
                 [
                     "token" => "e074d38c628122c63e5c0986368ece22974d6fee1440617d85873b7b4efa48a3",
@@ -314,7 +314,7 @@ class TransaccionCompletaMallTest extends TestCase
         $this->setBaseMocks();
 
         $tokenMock = uniqid();
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willThrowException(new WebpayRequestException('Error on request', null, 404));
         $this->expectException(MallTransactionCaptureException::class);
         $this->mallTransaction->capture($tokenMock, 'commerceCode', 'buyOrder', 'authCode', 9800);

@@ -49,7 +49,7 @@ class WebpayPlusTransactionTest extends TestCase
      */
     protected $requestServiceMock;
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|Options
+     * @var \PHPUnit\Framework\MockObject\Stub|Options
      */
     protected $optionsMock;
     /**
@@ -60,7 +60,7 @@ class WebpayPlusTransactionTest extends TestCase
     public function setBaseMocks()
     {
         $this->requestServiceMock = $this->createMock(HttpClientRequestService::class);
-        $this->optionsMock = $this->createMock(Options::class);
+        $this->optionsMock = $this->createStub(Options::class);
 
         $this->headersMock = ['header_1' => uniqid()];
         $this->optionsMock->method('getApiBaseUrl')->willReturn($this->mockBaseUrl);
@@ -142,7 +142,7 @@ class WebpayPlusTransactionTest extends TestCase
     public function it_creates_a_transaction()
     {
         $requestServiceMock = $this->createMock(HttpClientRequestService::class);
-        $optionsMock = $this->createMock(Options::class);
+        $optionsMock = $this->createStub(Options::class);
 
         $tokenMock = uniqid();
 
@@ -150,9 +150,9 @@ class WebpayPlusTransactionTest extends TestCase
 
         $reflection = new \ReflectionClass(Transaction::class);
         $method = $reflection->getMethod('getBaseUrl');
-        $method->setAccessible(true);
 
-        $requestServiceMock->method('request')
+        $requestServiceMock->expects($this->once())
+            ->method('request')
             ->with('POST', Transaction::ENDPOINT_CREATE, [
                 'buy_order'  => $this->buyOrder,
                 'session_id' => $this->sessionId,
@@ -189,7 +189,8 @@ class WebpayPlusTransactionTest extends TestCase
             Transaction::ENDPOINT_COMMIT
         );
 
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())
+            ->method('request')
             ->with('PUT', $expectedUrl, [])
             ->willReturn([
                 'vci'         => 'TSY',
@@ -232,7 +233,7 @@ class WebpayPlusTransactionTest extends TestCase
     {
         $this->setBaseMocks();
 
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(TransactionCreateException::class);
@@ -246,7 +247,7 @@ class WebpayPlusTransactionTest extends TestCase
     {
         $this->setBaseMocks();
 
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(TransactionCommitException::class);
@@ -260,7 +261,7 @@ class WebpayPlusTransactionTest extends TestCase
     {
         $this->setBaseMocks();
 
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(TransactionStatusException::class);
@@ -274,7 +275,7 @@ class WebpayPlusTransactionTest extends TestCase
     {
         $this->setBaseMocks();
 
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(TransactionRefundException::class);
@@ -288,7 +289,7 @@ class WebpayPlusTransactionTest extends TestCase
     {
         $this->setBaseMocks();
 
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(TransactionCaptureException::class);
