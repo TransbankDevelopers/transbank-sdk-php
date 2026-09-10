@@ -26,7 +26,7 @@ Para usar el SDK en tu proyecto **debes** usar Composer (si no lo tienes instala
 ```json
     "require": {
         ...
-        "transbank/transbank-sdk": "~5.0"
+        "transbank/transbank-sdk": "~6.0"
     }
 ```
 
@@ -39,7 +39,7 @@ composer update
 También puedes instalarlo directamente desde la consola:
 
 ```bash
-composer require transbank/transbank-sdk:~5.0
+composer require transbank/transbank-sdk:~6.0
 ```
 
 ### Tests y desarrollo
