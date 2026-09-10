@@ -1,0 +1,78 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/php
+{
+  "name": "PHP",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "postCreateCommand": "composer install --no-interaction --prefer-dist",
+  "mounts": [
+    "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
+  ],
+  "features": {
+    "ghcr.io/devcontainers-extra/features/zsh-plugins:0": {
+      "plugins": "git zsh-autosuggestions zsh-syntax-highlighting",
+      "omzPlugins": "https://github.com/zsh-users/zsh-autosuggestions https://github.com/zsh-users/zsh-syntax-highlighting"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "todo-tree.ripgrep.ripgrep": "/usr/bin/rg",
+        "explorer.confirmDelete": false,
+        "editor.bracketPairColorization.enabled": true,
+        "editor.guides.bracketPairs": true,
+        "editor.autoClosingBrackets": "always",
+        "editor.linkedEditing": true,
+        "editor.fontLigatures": true,
+        "editor.suggestSelection": "first",
+        "editor.inlineSuggest.enabled": true,
+        "editor.guides.bracketPairsHorizontal": true,
+        "editor.unicodeHighlight.invisibleCharacters": false,
+        "editor.codeLens": true,
+        "editor.formatOnSave": true,
+        "editor.rulers": [120],
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "files.insertFinalNewline": true,
+        "github.copilot.nextEditSuggestions.enabled": true,
+        "git.enableCommitSigning": false,
+        "extensions.autoUpdate": false,
+        "extensions.autoCheckUpdates": false,
+        "extensions.ignoreRecommendations": true,
+        "remote.containers.installRecommendedExtensions": false,
+        "settingsSync.enabled": false,
+        "remote.extensionKind": {
+          "github.copilot": ["ui"],
+          "github.copilot-chat": ["ui"]
+        },
+        "files.watcherExclude": {
+          "**/vendor/**": true,
+          "**/var/cache/**": true,
+          "**/node_modules/**": true
+        },
+        "php.executablePath": "/usr/local/bin/php",
+        "php.validate.executablePath": "/usr/local/bin/php",
+        "intelephense.files.maxSize": 5000000,
+        "[php]": {
+          "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
+        },
+        "prettier.trailingComma": "none"
+      },
+      "extensions": [
+        "ms-vsliveshare.vsliveshare", // Live Share
+        "ms-vscode.vscode-json", // JSON Support
+        "github.vscode-github-actions", // GitHub Actions
+        "fill-labs.dependi", // Dependi
+        "usernamehw.errorlens", // Error Lens
+        "esbenp.prettier-vscode", // Prettier
+        "editorconfig.editorconfig", // EditorConfig
+        "kisstkondoros.vscode-gutter-preview", // Gutter Preview
+        "gruntfuggly.todo-tree", // TODO Tree
+        "DEVSENSE.phptools-vscode", // PHP Tools
+        "bmewburn.vscode-intelephense-client", // Intelephense
+        "hakcorp.php-awesome-snippets", // PHP Awesome Snippets
+        "adpyke.codesnap" // CodeSnap
+      ]
+    }
+  }
+}

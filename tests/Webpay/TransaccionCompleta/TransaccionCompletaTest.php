@@ -54,7 +54,7 @@ class TransaccionCompletaTest extends TestCase
      */
     protected $requestServiceMock;
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|Options
+     * @var \PHPUnit\Framework\MockObject\Stub|Options
      */
     protected $optionsMock;
     /**
@@ -69,7 +69,7 @@ class TransaccionCompletaTest extends TestCase
     public function setBaseMocks()
     {
         $this->requestServiceMock = $this->createMock(HttpClientRequestService::class);
-        $this->optionsMock = $this->createMock(Options::class);
+        $this->optionsMock = $this->createStub(Options::class);
         $this->headersMock = ['header_1' => uniqid()];
         $this->optionsMock->method('getApiBaseUrl')->willReturn($this->mockBaseUrl);
         $this->optionsMock->method('getHeaders')->willReturn($this->headersMock);
@@ -139,7 +139,8 @@ class TransaccionCompletaTest extends TestCase
 
         $tokenMock = uniqid();
 
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())
+            ->method('request')
             ->with('POST', Transaction::ENDPOINT_CREATE, [
                 'buy_order'            => $this->buyOrder,
                 'session_id'           => $this->sessionId,
@@ -174,7 +175,8 @@ class TransaccionCompletaTest extends TestCase
 
         $tokenMock = uniqid();
 
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())
+            ->method('request')
             ->with('POST', str_replace(self::MOCK_SEARCH_STRING, $tokenMock, Transaction::ENDPOINT_INSTALLMENTS), [
                 'installments_number' => 2,
             ])
@@ -205,7 +207,8 @@ class TransaccionCompletaTest extends TestCase
             Transaction::ENDPOINT_COMMIT
         );
 
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())
+            ->method('request')
             ->with('PUT', $expectedUrl, $this->anything())
             ->willReturn([
                 'amount'      => 10000,
@@ -255,7 +258,8 @@ class TransaccionCompletaTest extends TestCase
             Transaction::ENDPOINT_STATUS
         );
 
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())
+            ->method('request')
             ->with('GET', $expectedUrl, $this->anything())
             ->willReturn([
                 'amount'      => 10000,
@@ -296,7 +300,7 @@ class TransaccionCompletaTest extends TestCase
     public function it_returns_capture_response()
     {
         $this->setBaseMocks();
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willReturn(
                 [
                     "token" => "e074d38c628122c63e5c0986368ece22974d6fee1440617d85873b7b4efa48a3",
@@ -315,7 +319,7 @@ class TransaccionCompletaTest extends TestCase
     public function it_returns_refund_response_for_reverse()
     {
         $this->setBaseMocks();
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willReturn(
                 [
                     "type" => "REVERSE",
@@ -332,7 +336,7 @@ class TransaccionCompletaTest extends TestCase
     public function it_returns_refund_response_for_nullify()
     {
         $this->setBaseMocks();
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willReturn(
                 [
                     "type" => "NULLIFY",
@@ -366,7 +370,7 @@ class TransaccionCompletaTest extends TestCase
     {
         $this->setBaseMocks();
 
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(TransactionCreateException::class);
@@ -380,7 +384,7 @@ class TransaccionCompletaTest extends TestCase
     {
         $this->setBaseMocks();
 
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(TransactionCommitException::class);
@@ -394,7 +398,7 @@ class TransaccionCompletaTest extends TestCase
     {
         $this->setBaseMocks();
 
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(TransactionStatusException::class);
@@ -408,7 +412,7 @@ class TransaccionCompletaTest extends TestCase
     {
         $this->setBaseMocks();
 
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(TransactionRefundException::class);
@@ -422,7 +426,7 @@ class TransaccionCompletaTest extends TestCase
     {
         $this->setBaseMocks();
 
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willThrowException(new WebpayRequestException(self::MOCK_ERROR_MESSAGE));
 
         $this->expectException(TransactionInstallmentsException::class);
@@ -435,7 +439,7 @@ class TransaccionCompletaTest extends TestCase
     public function it_throws_capture_exception()
     {
         $this->setBaseMocks();
-        $this->requestServiceMock->method('request')
+        $this->requestServiceMock->expects($this->once())->method('request')
             ->willThrowException(new WebpayRequestException('fake request exception'));
         $transaction = new Transaction($this->optionsMock, $this->requestServiceMock);
         $this->expectException(TransactionCaptureException::class);
